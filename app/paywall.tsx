@@ -14,7 +14,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, scale } from '../src/constants';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import { useSettingsStore } from '../src/store';
 import {
   getOfferings,
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
+    fontFamily: FONTS.heavy,
     textAlign: 'center',
     marginBottom: SPACING.xs,
   },
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   },
   featureText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
     flex: 1,
   },
 
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
   },
   planName: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
   },
   planTrial: {
     fontSize: FONT_SIZE.sm,
@@ -392,15 +392,15 @@ const styles = StyleSheet.create({
   },
   planPrice: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
   },
   planPriceMain: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
   },
   planPriceTotal: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
     marginTop: 2,
   },
   planNameRow: {
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
   },
   saveBadgeText: {
     fontSize: 10,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     letterSpacing: 0.3,
   },
 
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
   },
   trialToggleText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
   },
 
   // CTA
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
   ctaButtonText: {
     color: COLORS.white,
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     letterSpacing: 0.5,
   },
 
@@ -486,7 +486,7 @@ const styles = StyleSheet.create({
   },
   noPaymentText: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
   },
 
   // Legal

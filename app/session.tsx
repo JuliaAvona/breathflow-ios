@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTimerStore, useSettingsStore, useSessionsStore } from '../src/store';
 import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
-import { COLORS, SPACING, BORDER_RADIUS, scale } from '../src/constants';
+import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../src/types';
 
 // ─── Phase Color Mapping ────────────────────────────────────────────────────
@@ -477,7 +477,7 @@ export default function SessionScreen() {
         {/* Phase countdown */}
         {phaseCountdown !== null && (
           <Text style={[styles.phaseCountdown, { color: theme.primary }]}>
-            {phaseCountdown}
+            {Math.ceil(phaseCountdown)}
           </Text>
         )}
 
@@ -544,7 +544,7 @@ const styles = StyleSheet.create({
   },
   timerSmall: {
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
     fontVariant: ['tabular-nums'],
   },
   stopBtn: {
@@ -563,20 +563,20 @@ const styles = StyleSheet.create({
   },
   phaseText: {
     fontSize: scale(52),
-    fontWeight: '800',
+    fontFamily: FONTS.heavy,
     letterSpacing: -1.5,
     lineHeight: scale(58),
   },
   phaseCountdown: {
     fontSize: scale(64),
-    fontWeight: '300',
+    fontFamily: FONTS.regular,
     fontVariant: ['tabular-nums'],
     letterSpacing: -2,
     marginTop: SPACING.sm,
   },
   subInfo: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
     marginTop: SPACING.sm,
     letterSpacing: 0.2,
   },
@@ -592,13 +592,13 @@ const styles = StyleSheet.create({
   },
   resultLabel: {
     fontSize: 12,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
     letterSpacing: 0.3,
     marginBottom: 2,
   },
   resultValue: {
     fontSize: 28,
-    fontWeight: '300',
+    fontFamily: FONTS.regular,
     fontVariant: ['tabular-nums'],
     letterSpacing: -0.5,
   },
@@ -616,7 +616,7 @@ const styles = StyleSheet.create({
   },
   swipeHintText: {
     fontSize: 13,
-    fontWeight: '400',
+    fontFamily: FONTS.regular,
   },
 
   // Bottom half — breathing circle
@@ -655,7 +655,7 @@ const styles = StyleSheet.create({
   },
   notFoundText: {
     fontSize: 16,
-    fontWeight: '400',
+    fontFamily: FONTS.regular,
     textAlign: 'center',
     marginBottom: SPACING.lg,
   },
@@ -667,6 +667,6 @@ const styles = StyleSheet.create({
   },
   ghostBtnText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
   },
 });

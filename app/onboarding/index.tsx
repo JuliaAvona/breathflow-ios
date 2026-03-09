@@ -14,7 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from '../../src/store';
 import { TechniqueCategory } from '../../src/types';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, scale } from '../../src/constants';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 
 const { width } = Dimensions.get('window');
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     textAlign: 'center',
     marginBottom: SPACING.md,
   },
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     color: COLORS.white,
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
   },
 
   // Goal
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   goalLabel: {
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
   },
 
   // Safety
@@ -416,7 +416,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.xs,
   },
   checkboxLabel: {
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
   },
 
   // Ready

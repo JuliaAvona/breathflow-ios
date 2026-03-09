@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,28 +7,31 @@ import {
   StyleSheet,
   Dimensions,
   FlatList,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
+  Animated,
+  Easing,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
+import Svg, { Path } from 'react-native-svg';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { useSettingsStore, useSessionsStore } from '../../src/store';
 import { TECHNIQUES } from '../../src/constants/techniques';
-import { SPACING, BORDER_RADIUS, scale } from '../../src/constants';
+import { SPACING, BORDER_RADIUS, FONTS } from '../../src/constants';
 import type { BreathingTechnique } from '../../src/types';
 
 // ─── Layout constants ────────────────────────────────────────────────────────
 
 const DURATION_OPTIONS = [1, 2, 3, 5, 10, 15, 20];
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CARD_H_PADDING = SPACING.lg;
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const CARD_H_PADDING = 20;
+const CARD_GAP = 12;
 const CARD_WIDTH = SCREEN_WIDTH - CARD_H_PADDING * 2;
-const CARD_HEIGHT = CARD_WIDTH * 0.65;
-const SNAP_WIDTH = CARD_WIDTH + 16; // card + gap
+const CARD_ART_HEIGHT = CARD_WIDTH * 0.38;
+const CARD_HEIGHT = CARD_ART_HEIGHT + 130; // art + content area
+const SNAP_WIDTH = CARD_WIDTH + CARD_GAP;
 
 // ─── Abstract art configs ────────────────────────────────────────────────────
 
@@ -228,20 +231,20 @@ function TechniqueCard({ technique, isPro, t }: TechniqueCardProps) {
     <TouchableOpacity
       style={styles.card}
       onPress={handlePress}
-      activeOpacity={0.9}
+      activeOpacity={0.92}
       accessibilityLabel={t(technique.nameKey)}
       accessibilityRole="button"
     >
+      {/* ── Art zone (top) ── */}
       <LinearGradient
         colors={art.bg}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={styles.cardGradient}
+        style={styles.cardArtZone}
       >
-        {/* Abstract shapes */}
         {art.shapes.map((shape, i) => {
           const sw = CARD_WIDTH * shape.w;
-          const sh = CARD_HEIGHT * shape.h;
+          const sh = CARD_ART_HEIGHT * shape.h;
           const radii = parseBorderRadius(shape.borderRadius, sw, sh);
           return (
             <View
@@ -253,66 +256,157 @@ function TechniqueCard({ technique, isPro, t }: TechniqueCardProps) {
                 backgroundColor: shape.color,
                 opacity: shape.opacity ?? 0.3,
                 left: CARD_WIDTH * shape.x,
-                top: CARD_HEIGHT * shape.y,
+                top: CARD_ART_HEIGHT * shape.y,
                 transform: shape.rotate ? [{ rotate: shape.rotate }] : [],
               }}
             />
           );
         })}
 
-        {/* Content overlay */}
-        <View style={styles.cardContent}>
-          {/* Left side: name + description + phases */}
-          <View style={styles.cardLeft}>
-            <Text style={styles.cardName} numberOfLines={1}>
-              {t(technique.nameKey)}
-            </Text>
-            <Text style={styles.cardDescription} numberOfLines={2}>
-              {t(technique.descriptionKey)}
-            </Text>
-
-            <View style={styles.phaseSteps}>
-              {getPhaseSteps(technique).map((step, i) => (
-                <View key={i} style={styles.phaseStepRow}>
-                  <Ionicons name={step.icon} size={13} color="rgba(0,0,0,0.35)" />
-                  <Text style={styles.phaseStepLabel}>{step.label}:</Text>
-                  <Text style={styles.phaseStepValue}>{step.duration}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
-
-          {/* Right side: duration */}
-          <View style={styles.cardRight}>
-            <View style={styles.durationPillCard}>
-              <Text style={styles.durationPillCardText}>
-                {getDurationLabel(technique)}
-              </Text>
-            </View>
-          </View>
+        {/* Duration pill overlaying art */}
+        <View style={styles.durationPillCard}>
+          <Text style={styles.durationPillCardText}>
+            {getDurationLabel(technique)}
+          </Text>
         </View>
 
         {/* PRO lock */}
         {locked && (
           <View style={styles.proBadge}>
-            <Ionicons name="lock-closed" size={12} color="rgba(255,255,255,0.9)" />
+            <Ionicons name="lock-closed" size={11} color="rgba(255,255,255,0.9)" />
           </View>
         )}
       </LinearGradient>
+
+      {/* ── Content zone (bottom) ── */}
+      <View style={styles.cardContent}>
+        <Text style={styles.cardName} numberOfLines={1}>
+          {t(technique.nameKey)}
+        </Text>
+        <Text style={styles.cardDescription} numberOfLines={2}>
+          {t(technique.descriptionKey)}
+        </Text>
+
+        <View style={styles.phaseSteps}>
+          {getPhaseSteps(technique).map((step, i) => (
+            <View key={i} style={styles.phaseStepRow}>
+              <Ionicons name={step.icon} size={14} color="rgba(0,0,0,0.3)" />
+              <Text style={styles.phaseStepLabel}>{step.label}:</Text>
+              <Text style={styles.phaseStepValue}>{step.duration}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
     </TouchableOpacity>
   );
 }
 
+// ─── Breathing Sphere (single orb with icon) ─────────────────────────────────
+
+const SPHERE_SIZE = SCREEN_WIDTH * 0.36;
+
+function BreathingSphere({ onPress }: { onPress: () => void }) {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const glowAnim = useRef(new Animated.Value(0.15)).current;
+
+  useEffect(() => {
+    // Gentle breathing pulse
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scaleAnim, { toValue: 1.06, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(scaleAnim, { toValue: 1, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      ]),
+    ).start();
+
+    // Glow pulse
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(glowAnim, { toValue: 0.3, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(glowAnim, { toValue: 0.15, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      ]),
+    ).start();
+  }, [scaleAnim, glowAnim]);
+
+  return (
+    <TouchableOpacity onPress={onPress} activeOpacity={0.9} style={sphereStyles.wrapper}>
+      {/* Outer glow */}
+      <Animated.View style={[sphereStyles.glow, { opacity: glowAnim, transform: [{ scale: scaleAnim }] }]} />
+      {/* Main sphere */}
+      <Animated.View style={[sphereStyles.sphere, { transform: [{ scale: scaleAnim }] }]}>
+        <LinearGradient
+          colors={['#A8D8F0', '#4A90D9', '#3A73B0']}
+          start={{ x: 0.3, y: 0 }}
+          end={{ x: 0.7, y: 1 }}
+          style={sphereStyles.gradient}
+        >
+          {/* Highlight */}
+          <View style={sphereStyles.highlight} />
+          {/* Breeze icon */}
+          <Svg width={40} height={40} viewBox="0 0 24 24" fill="none">
+            <Path d="M3 8H16C17.6569 8 19 6.65685 19 5C19 3.34315 17.6569 2 16 2C14.3431 2 13 3.34315 13 5" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+            <Path d="M3 12H20C21.1046 12 22 11.1046 22 10C22 8.89543 21.1046 8 20 8" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+            <Path d="M3 16H14C15.6569 16 17 17.3431 17 19C17 20.6569 15.6569 22 14 22C12.3431 22 11 20.6569 11 19" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          </Svg>
+        </LinearGradient>
+      </Animated.View>
+    </TouchableOpacity>
+  );
+}
+
+const sphereStyles = StyleSheet.create({
+  wrapper: {
+    width: SPHERE_SIZE * 1.4,
+    height: SPHERE_SIZE * 1.4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  glow: {
+    position: 'absolute',
+    width: SPHERE_SIZE * 1.3,
+    height: SPHERE_SIZE * 1.3,
+    borderRadius: SPHERE_SIZE * 0.65,
+    backgroundColor: '#4A90D9',
+  },
+  sphere: {
+    width: SPHERE_SIZE,
+    height: SPHERE_SIZE,
+    borderRadius: SPHERE_SIZE / 2,
+    overflow: 'hidden',
+    shadowColor: '#4A90D9',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.35,
+    shadowRadius: 24,
+    elevation: 12,
+  },
+  gradient: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  highlight: {
+    position: 'absolute',
+    top: SPHERE_SIZE * 0.08,
+    left: SPHERE_SIZE * 0.15,
+    width: SPHERE_SIZE * 0.35,
+    height: SPHERE_SIZE * 0.2,
+    borderRadius: SPHERE_SIZE * 0.15,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    transform: [{ rotate: '-15deg' }],
+  },
+});
+
 // ─── HomeScreen ──────────────────────────────────────────────────────────────
+
+const HERO_HEIGHT = SCREEN_HEIGHT * 0.52;
 
 export default function HomeScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
+  const insets = useSafeAreaInsets();
   const isPro = useSettingsStore((s) => s.isPro);
   const stats = useSessionsStore((s) => s.stats);
 
   const [selectedMinutes, setSelectedMinutes] = useState(5);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleQuickStart = () => {
     router.push({
@@ -324,87 +418,78 @@ export default function HomeScreen() {
     });
   };
 
-  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const idx = Math.round(e.nativeEvent.contentOffset.x / SNAP_WIDTH);
-    setActiveIndex(idx);
-  };
-
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Header ── */}
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.text }]}>
-            {t('home.title')}
-          </Text>
+        {/* ── Hero area ── */}
+        <View style={[styles.heroArea, { paddingTop: insets.top + 16 }]}>
+          {/* Top bar: streak */}
           {stats.currentStreak > 0 && (
-            <View style={[styles.streakPill, { backgroundColor: theme.primary + '15' }]}>
-              <Ionicons name="flame" size={14} color={theme.primary} />
-              <Text style={[styles.streakText, { color: theme.primary }]}>
-                {stats.currentStreak}
-              </Text>
+            <View style={styles.heroTopBar}>
+              <View />
+              <View style={[styles.streakBadge, { backgroundColor: theme.surface }]}>
+                <Ionicons name="flame" size={13} color="#FF9500" />
+                <Text style={[styles.streakText, { color: theme.text }]}>
+                  {stats.currentStreak}
+                </Text>
+              </View>
             </View>
           )}
-        </View>
 
-        {/* ── Quick Start section ── */}
-        <View style={styles.quickStartSection}>
-          <TouchableOpacity
-            style={[styles.breatheButton, { backgroundColor: theme.primary }]}
-            onPress={handleQuickStart}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.breatheButtonText}>
-              Breathe {selectedMinutes} min
-            </Text>
-            <Ionicons name="play" size={18} color="#FFFFFF" style={{ marginLeft: 6 }} />
-          </TouchableOpacity>
+          {/* Sphere */}
+          <View style={styles.orbWrapper}>
+            <BreathingSphere onPress={handleQuickStart} />
+          </View>
 
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.durationRow}
-          >
-            {DURATION_OPTIONS.map((min) => {
-              const isActive = min === selectedMinutes;
-              return (
-                <TouchableOpacity
-                  key={min}
-                  style={[
-                    styles.durationPill,
-                    {
-                      backgroundColor: isActive ? theme.primary + '18' : 'transparent',
-                      borderColor: isActive ? theme.primary + '40' : theme.border,
-                    },
-                  ]}
-                  onPress={() => setSelectedMinutes(min)}
-                  activeOpacity={0.7}
-                >
-                  <Text
+          {/* Quick start controls */}
+          <View style={styles.heroControls}>
+            <TouchableOpacity
+              style={[styles.breatheButton, { shadowColor: '#4A90D9' }]}
+              onPress={handleQuickStart}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.breatheButtonText}>
+                {t('home.breathe')} · {selectedMinutes} min
+              </Text>
+            </TouchableOpacity>
+
+            <View style={styles.durationRow}>
+              {DURATION_OPTIONS.map((min) => {
+                const isActive = min === selectedMinutes;
+                return (
+                  <TouchableOpacity
+                    key={min}
                     style={[
-                      styles.durationPillText,
-                      { color: isActive ? theme.primary : theme.textSecondary },
+                      styles.durationPill,
+                      isActive && [styles.durationPillActive, { backgroundColor: theme.text + '0F', borderColor: theme.text + '20' }],
+                      !isActive && { borderColor: 'transparent' },
                     ]}
+                    onPress={() => setSelectedMinutes(min)}
+                    activeOpacity={0.7}
                   >
-                    {min}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
+                    <Text
+                      style={[
+                        styles.durationPillText,
+                        { color: isActive ? theme.text : theme.textSecondary + '90' },
+                        isActive && { fontFamily: FONTS.bold },
+                      ]}
+                    >
+                      {min}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
         </View>
 
-        {/* ── Divider ── */}
-        <View style={styles.dividerRow}>
-          <View style={[styles.dividerLine, { backgroundColor: theme.border }]} />
-          <Text style={[styles.dividerLabel, { color: theme.textSecondary }]}>
-            PROGRAMS
-          </Text>
-          <View style={[styles.dividerLine, { backgroundColor: theme.border }]} />
-        </View>
+        {/* ── Section label ── */}
+        <Text style={[styles.sectionLabel, { color: theme.text }]}>
+          {t('home.programs')}
+        </Text>
 
         {/* ── Horizontal carousel ── */}
         <FlatList
@@ -417,7 +502,6 @@ export default function HomeScreen() {
           decelerationRate="fast"
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.carousel}
-          onScroll={onScroll}
           scrollEventThrottle={16}
           renderItem={({ item }) => (
             <TechniqueCard
@@ -427,26 +511,8 @@ export default function HomeScreen() {
             />
           )}
         />
-
-        {/* ── Page dots ── */}
-        <View style={styles.dots}>
-          {TECHNIQUES.map((_, i) => (
-            <View
-              key={i}
-              style={[
-                styles.dot,
-                {
-                  backgroundColor: i === activeIndex
-                    ? theme.primary
-                    : theme.textSecondary + '30',
-                },
-                i === activeIndex && styles.dotActive,
-              ]}
-            />
-          ))}
-        </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -456,180 +522,185 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   scrollContent: { paddingBottom: SPACING.xxl + SPACING.lg },
 
-  // Header
-  header: {
+  // Hero area — edge-to-edge, no rounded corners
+  heroArea: {
+    height: HERO_HEIGHT,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 28,
+  },
+  heroTopBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.sm,
-    paddingBottom: SPACING.md,
+    width: '100%',
+    paddingHorizontal: 24,
   },
-  title: {
-    fontSize: scale(34),
-    fontWeight: '800',
-    letterSpacing: -1,
-  },
-  streakPill: {
+  streakBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     borderRadius: BORDER_RADIUS.full,
   },
-  streakText: { fontSize: 14, fontWeight: '700' },
+  streakText: { fontSize: 14, fontFamily: FONTS.bold },
 
-  // Quick start
-  quickStartSection: {
-    paddingHorizontal: SPACING.lg,
-    marginBottom: SPACING.lg,
+  // Orb wrapper — vertically centered in hero
+  orbWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  // Quick start controls
+  heroControls: {
+    width: '100%',
+    paddingHorizontal: 24,
+    alignItems: 'center',
+    paddingBottom: 8,
   },
   breatheButton: {
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 18,
+    paddingVertical: 15,
     borderRadius: BORDER_RADIUS.full,
-    marginBottom: SPACING.md,
+    backgroundColor: '#4A90D9',
+    width: '100%',
+    marginBottom: 14,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 6,
   },
   breatheButtonText: {
-    fontSize: 20,
-    fontWeight: '600',
+    fontSize: 18,
+    fontFamily: FONTS.heavy,
     color: '#FFFFFF',
-    letterSpacing: -0.3,
+    letterSpacing: 0.2,
   },
   durationRow: {
     flexDirection: 'row',
-    gap: SPACING.sm,
+    gap: 4,
     justifyContent: 'center',
-    paddingHorizontal: 2,
   },
   durationPill: {
-    width: 44, height: 44, borderRadius: 22,
-    borderWidth: 1,
+    width: 38,
+    height: 34,
+    borderRadius: 17,
+    borderWidth: 1.5,
+    borderColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  durationPillText: { fontSize: 15, fontWeight: '600' },
-
-  // Divider
-  dividerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: SPACING.lg,
-    marginTop: SPACING.sm,
-    marginBottom: SPACING.lg,
-    gap: 12,
+  durationPillActive: {
+    borderWidth: 1.5,
   },
-  dividerLine: { flex: 1, height: StyleSheet.hairlineWidth },
-  dividerLabel: { fontSize: 10, fontWeight: '500', letterSpacing: 2 },
+  durationPillText: { fontSize: 14, fontFamily: FONTS.bold },
+
+  // Section label
+  sectionLabel: {
+    fontSize: 16,
+    fontFamily: FONTS.heavy,
+    letterSpacing: -0.2,
+    paddingHorizontal: CARD_H_PADDING,
+    marginBottom: 14,
+  },
 
   // Carousel
   carousel: {
     paddingLeft: CARD_H_PADDING,
     paddingRight: CARD_H_PADDING,
-    gap: 16,
+    gap: CARD_GAP,
   },
 
   // Card
   card: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    borderRadius: 24,
+    borderRadius: 20,
     overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  cardGradient: {
-    flex: 1,
+  cardArtZone: {
+    height: CARD_ART_HEIGHT,
     overflow: 'hidden',
   },
   cardContent: {
     flex: 1,
-    flexDirection: 'row',
-    padding: 20,
-    justifyContent: 'space-between',
-  },
-  cardLeft: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    paddingRight: 12,
-  },
-  cardRight: {
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    padding: 16,
+    paddingTop: 14,
   },
   cardName: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: 'rgba(0,0,0,0.7)',
-    letterSpacing: -0.5,
-    marginBottom: 4,
+    fontSize: 19,
+    fontFamily: FONTS.heavy,
+    color: '#1A1A1A',
+    letterSpacing: -0.3,
+    marginBottom: 3,
   },
   cardDescription: {
     fontSize: 13,
-    fontWeight: '400',
-    color: 'rgba(0,0,0,0.4)',
+    fontFamily: FONTS.medium,
+    color: '#8E8E93',
     lineHeight: 18,
-    marginBottom: 12,
+    marginBottom: 10,
   },
-  phaseSteps: { gap: 4 },
+  phaseSteps: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4,
+  },
   phaseStepRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 4,
+    backgroundColor: '#F2F2F7',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
   },
   phaseStepLabel: {
     fontSize: 13,
-    fontWeight: '600',
-    color: 'rgba(0,0,0,0.45)',
+    fontFamily: FONTS.semibold,
+    color: '#636366',
   },
   phaseStepValue: {
     fontSize: 13,
-    fontWeight: '700',
-    color: 'rgba(0,0,0,0.6)',
+    fontFamily: FONTS.heavy,
+    color: '#3A3A3C',
   },
 
-  // Duration pill on card
+  // Duration pill on card (overlays art zone)
   durationPillCard: {
-    backgroundColor: 'rgba(255,255,255,0.45)',
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 14,
+    position: 'absolute',
+    bottom: 10,
+    right: 12,
+    backgroundColor: 'rgba(255,255,255,0.75)',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 12,
   },
   durationPillCardText: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: 'rgba(0,0,0,0.5)',
+    fontSize: 12,
+    fontFamily: FONTS.bold,
+    color: 'rgba(0,0,0,0.6)',
   },
 
   // PRO badge
   proBadge: {
     position: 'absolute',
-    top: 16,
-    right: 16,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: 'rgba(0,0,0,0.12)',
+    top: 10,
+    right: 12,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: 'rgba(0,0,0,0.15)',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  // Page dots
-  dots: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
-    gap: 6,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-  },
-  dotActive: {
-    width: 20,
-    borderRadius: 4,
   },
 });

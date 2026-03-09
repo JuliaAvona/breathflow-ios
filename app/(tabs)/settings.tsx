@@ -22,7 +22,7 @@ import { performAppleSignIn } from '../../src/utils/appleAuth';
 import { pushAll, pullAndMerge } from '../../src/services/syncService';
 import { COLOR_THEMES } from '../../src/constants/colorThemes';
 import { useHaptics } from '../../src/hooks/useHaptics';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '../../src/constants';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
 import { PickerModal } from '../../src/components/PickerModal';
 import { WheelPickerModal, WheelColumn } from '../../src/components/WheelPickerModal';
 
@@ -815,7 +815,7 @@ const styles = StyleSheet.create({
   },
   screenTitle: {
     fontSize: 30,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     letterSpacing: -0.5,
   },
   titleRow: {
@@ -836,7 +836,7 @@ const styles = StyleSheet.create({
   },
   proStatusText: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.white,
   },
   proCard: {
@@ -853,7 +853,7 @@ const styles = StyleSheet.create({
   },
   proTitle: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.white,
   },
   proSubtitle: {
@@ -873,7 +873,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
     letterSpacing: 1,
     paddingHorizontal: SPACING.md,
     paddingTop: SPACING.md,
@@ -917,7 +917,7 @@ const styles = StyleSheet.create({
   },
   pickerValueText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
   },
   appleButtonContainer: {
     paddingHorizontal: SPACING.md,
@@ -1007,6 +1007,6 @@ const styles = StyleSheet.create({
   },
   dayChipText: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
   },
 });

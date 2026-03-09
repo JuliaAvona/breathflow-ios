@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useThemeColors } from '../src/hooks/useColorScheme';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '../src/constants';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../src/constants';
 
 export default function PrivacyScreen() {
   const { t } = useTranslation();
@@ -145,11 +145,11 @@ const styles = StyleSheet.create({
   },
   backButton: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
   },
   headerTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
   },
   headerSpacer: {
     width: FONT_SIZE.xl,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     marginTop: SPACING.lg,
     marginBottom: SPACING.sm,
   },

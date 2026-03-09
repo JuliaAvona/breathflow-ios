@@ -18,7 +18,7 @@ import { useSessionsStore, useSettingsStore, useBadgesStore, useAuthStore } from
 import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
 import { formatTotalTime } from '../src/utils/time';
 import { writeMindfulSession, isHealthKitAvailable } from '../src/utils/healthKit';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, scale } from '../src/constants';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, FONTS, scale } from '../src/constants';
 import { getTechniqueById } from '../src/constants/techniques';
 import { BadgeUnlockModal } from '../src/components/BadgeUnlockModal';
 import { getRandomQuoteKey } from '../src/constants/motivationalQuotes';
@@ -656,7 +656,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     marginBottom: 4,
     textAlign: 'center',
   },
@@ -695,7 +695,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
+    fontFamily: FONTS.heavy,
     marginBottom: 2,
   },
   statLabel: {
@@ -716,7 +716,7 @@ const styles = StyleSheet.create({
   },
   retentionTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     marginBottom: SPACING.sm,
   },
   retentionRow: {
@@ -744,7 +744,7 @@ const styles = StyleSheet.create({
   retentionTimeText: {
     width: scale(48),
     textAlign: 'right',
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
     fontSize: FONT_SIZE.sm,
   },
   retentionSummary: {
@@ -764,11 +764,11 @@ const styles = StyleSheet.create({
   },
   retentionSummaryValue: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '800',
+    fontFamily: FONTS.heavy,
   },
   personalBestBadge: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     marginTop: 2,
   },
 
@@ -780,7 +780,7 @@ const styles = StyleSheet.create({
   },
   moodTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
     marginBottom: SPACING.sm,
   },
   moodRow: {
@@ -801,7 +801,7 @@ const styles = StyleSheet.create({
   },
   moodLabel: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
   },
 
   // Badges
@@ -819,7 +819,7 @@ const styles = StyleSheet.create({
   },
   newBadgeTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     marginBottom: SPACING.sm,
     textAlign: 'center',
   },
@@ -856,13 +856,13 @@ const styles = StyleSheet.create({
   },
   badgeRevealName: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     textAlign: 'center',
     marginBottom: 2,
   },
   badgeRevealDesc: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '400',
+    fontFamily: FONTS.regular,
     textAlign: 'center',
     lineHeight: 16,
   },
@@ -913,7 +913,7 @@ const styles = StyleSheet.create({
   },
   repeatButtonText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
   },
   doneButton: {
     paddingVertical: SPACING.md,
@@ -923,6 +923,6 @@ const styles = StyleSheet.create({
   doneButtonText: {
     color: COLORS.white,
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
   },
 });

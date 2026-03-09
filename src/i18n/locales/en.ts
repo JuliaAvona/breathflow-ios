@@ -11,6 +11,9 @@ export default {
   'home.goodMorning': 'Good morning',
   'home.goodAfternoon': 'Good afternoon',
   'home.goodEvening': 'Good evening',
+  'home.goodNight': 'Good night',
+  'home.breathe': 'Breathe',
+  'home.programs': 'PROGRAMS',
 
   // Categories
   'category.calm': 'Calm',

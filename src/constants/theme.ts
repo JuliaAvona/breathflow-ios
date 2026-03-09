@@ -89,6 +89,14 @@ export const FONT_WEIGHT = {
   heavy: '800' as const,
 };
 
+export const FONTS = {
+  regular: 'Inter_400Regular',
+  medium: 'Inter_500Medium',
+  semibold: 'Inter_600SemiBold',
+  bold: 'Inter_700Bold',
+  heavy: 'Inter_800ExtraBold',
+} as const;
+
 export const BORDER_RADIUS = {
   sm: 8,
   md: 12,

@@ -9,7 +9,7 @@ import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 import { CalendarHeatmap } from '../../src/components/CalendarHeatmap';
 import { getTechniqueById } from '../../src/constants/techniques';
 import { formatTime, formatTotalTime, getToday } from '../../src/utils/time';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '../../src/constants';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
 import type { BreathingSession } from '../../src/types';
 
 const MOOD_EMOJI: Record<string, string> = {
@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
   },
   screenTitle: {
     fontSize: 30,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     letterSpacing: -0.5,
   },
   streakPill: {
@@ -445,7 +445,7 @@ const styles = StyleSheet.create({
   },
   streakPillText: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.white,
   },
 
@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 4,
   },
-  emptyTitle: { fontSize: FONT_SIZE.xl, fontWeight: '700', marginBottom: SPACING.sm },
+  emptyTitle: { fontSize: FONT_SIZE.xl, fontFamily: FONTS.bold, marginBottom: SPACING.sm },
   emptySubtitle: { fontSize: FONT_SIZE.md, textAlign: 'center', lineHeight: 22 },
 
   // CTA
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
   ctaTextContainer: { flex: 1 },
   ctaTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: COLORS.white,
   },
   ctaSubtitle: {
@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.lg,
     marginBottom: SPACING.sm,
   },
-  sectionTitle: { fontSize: FONT_SIZE.lg, fontWeight: '700' },
+  sectionTitle: { fontSize: FONT_SIZE.lg, fontFamily: FONTS.bold },
 
   // Today stats row
   todayStatsRow: {
@@ -529,11 +529,11 @@ const styles = StyleSheet.create({
   },
   todayStatValue: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '800',
+    fontFamily: FONTS.heavy,
   },
   todayStatLabel: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
     textAlign: 'center',
   },
 
@@ -593,12 +593,12 @@ const styles = StyleSheet.create({
   },
   techniqueName: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
     flex: 1,
   },
   sessionTime: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
     marginLeft: SPACING.sm,
   },
   sessionDetails: {
@@ -614,7 +614,7 @@ const styles = StyleSheet.create({
   },
   sessionStatText: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
   },
   moodEmoji: {
     fontSize: FONT_SIZE.md,
@@ -628,7 +628,7 @@ const styles = StyleSheet.create({
   },
   incompleteBadgeText: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
   },
 
   // All-time stats
@@ -655,11 +655,11 @@ const styles = StyleSheet.create({
   },
   allTimeValue: {
     fontSize: FONT_SIZE.xl,
-    fontWeight: '800',
+    fontFamily: FONTS.heavy,
   },
   allTimeLabel: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '500',
+    fontFamily: FONTS.medium,
     textAlign: 'center',
   },
 });

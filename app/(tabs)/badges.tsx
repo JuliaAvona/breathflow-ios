@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useBadgesStore, useSessionsStore } from '../../src/store';
 import { BadgeGrid } from '../../src/components/BadgeGrid';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
-import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS, BADGE_DEFINITIONS, scale } from '../../src/constants';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS, BADGE_DEFINITIONS, FONTS, scale } from '../../src/constants';
 import type { BadgeCategory } from '../../src/constants';
 
 const CATEGORIES: {
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     letterSpacing: -0.5,
   },
   countPill: {
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   },
   countPillText: {
     fontSize: 14,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     color: '#FFFFFF',
   },
   section: {
@@ -194,11 +194,11 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
   },
   sectionCount: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
   },
   progressBar: {
     height: 4,
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
   milestoneHint: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
     textAlign: 'center',
     marginTop: SPACING.sm,
   },
