@@ -99,9 +99,9 @@ export function CalendarHeatmap({
             {monthName} {year}
           </Text>
           {activeDaysCount > 0 && (
-            <View style={[styles.walksBadge, { backgroundColor: `${theme.primary}15` }]}>
+            <View style={[styles.sessionsBadge, { backgroundColor: `${theme.primary}15` }]}>
               <Text style={[styles.activeDaysCount, { color: theme.primary }]}>
-                {t('calendar.walk', { count: activeDaysCount })}
+                {t('calendar.sessions', { count: activeDaysCount })}
               </Text>
             </View>
           )}
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: '700',
   },
-  walksBadge: {
+  sessionsBadge: {
     paddingHorizontal: SPACING.sm,
     paddingVertical: 2,
     borderRadius: BORDER_RADIUS.full,

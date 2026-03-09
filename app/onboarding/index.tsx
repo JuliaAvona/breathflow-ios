@@ -31,11 +31,11 @@ const pages: OnboardingPage[] = [
   { id: '4', type: 'ready' },
 ];
 
-const GOAL_OPTIONS: { category: TechniqueCategory; emoji: string; labelKey: string }[] = [
-  { category: 'calm', emoji: '\u{1F60C}', labelKey: 'category.calm' },
-  { category: 'sleep', emoji: '\u{1F634}', labelKey: 'category.sleep' },
-  { category: 'focus', emoji: '\u{1F3AF}', labelKey: 'category.focus' },
-  { category: 'energy', emoji: '\u{26A1}', labelKey: 'category.energy' },
+const GOAL_OPTIONS: { category: TechniqueCategory; icon: keyof typeof Ionicons.glyphMap; color: string; labelKey: string }[] = [
+  { category: 'calm', icon: 'leaf-outline', color: '#7BC4A8', labelKey: 'category.calm' },
+  { category: 'sleep', icon: 'moon-outline', color: '#7B68AE', labelKey: 'category.sleep' },
+  { category: 'focus', icon: 'eye-outline', color: '#4A90D9', labelKey: 'category.focus' },
+  { category: 'energy', icon: 'flash-outline', color: '#F5A623', labelKey: 'category.energy' },
 ];
 
 const GOAL_RECOMMENDATIONS: Record<string, string> = {
@@ -141,7 +141,7 @@ export default function OnboardingScreen() {
               onPress={() => handleGoalSelect(goal.category)}
               activeOpacity={0.7}
             >
-              <Text style={styles.goalEmoji}>{goal.emoji}</Text>
+              <Ionicons name={goal.icon} size={40} color={goal.color} />
               <Text
                 style={[
                   styles.goalLabel,
@@ -379,8 +379,7 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.lg,
     borderRadius: BORDER_RADIUS.lg,
   },
-  goalEmoji: {
-    fontSize: 32,
+  goalIcon: {
     marginBottom: SPACING.sm,
   },
   goalLabel: {
