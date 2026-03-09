@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -15,12 +15,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTimerStore, useSettingsStore, useSessionsStore } from '../src/store';
 import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, SCREEN, scale } from '../src/constants';
+import { COLORS, SPACING, BORDER_RADIUS, scale } from '../src/constants';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../src/types';
 
 // ─── Phase Color Mapping ────────────────────────────────────────────────────
 
-const PHASE_BG: Record<string, string> = {
+const PHASE_COLOR: Record<string, string> = {
   INHALE: '#4A90D9',
   HOLD_IN: '#7B68AE',
   EXHALE: '#7BC4A8',
@@ -40,7 +40,13 @@ const PHASE_BG: Record<string, string> = {
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
-  return `${m} : ${s.toString().padStart(2, '0')}`;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+function formatTimeMin(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, '0')} min`;
 }
 
 function getPhaseLabel(phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhase): string {
@@ -60,24 +66,45 @@ function getPhaseLabel(phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhas
   }
 }
 
-// ─── Breathing Circle ───────────────────────────────────────────────────────
+// ─── Breathing Circle (bottom visual) ───────────────────────────────────────
 
-const CIRCLE_SIZE = scale(160);
+const CIRCLE_SIZE = scale(180);
 
 function BreathingCircle({
   phase,
   mode,
   color,
-  label,
 }: {
   phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhase;
   mode: string;
   color: string;
-  label: string;
 }) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const ringScale = useRef(new Animated.Value(1)).current;
-  const ringOpacity = useRef(new Animated.Value(0.1)).current;
+  const ringOpacity = useRef(new Animated.Value(0.15)).current;
+  const circleFade = useRef(new Animated.Value(1)).current;
+
+  // Smooth color transition via fade
+  const [displayColor, setDisplayColor] = useState(color);
+  const prevColorRef = useRef(color);
+
+  useEffect(() => {
+    if (color === prevColorRef.current) return;
+    prevColorRef.current = color;
+
+    Animated.timing(circleFade, {
+      toValue: 0.3,
+      duration: 150,
+      useNativeDriver: true,
+    }).start(() => {
+      setDisplayColor(color);
+      Animated.timing(circleFade, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+  }, [color, circleFade]);
 
   useEffect(() => {
     scaleAnim.stopAnimation();
@@ -98,11 +125,11 @@ function BreathingCircle({
       Animated.sequence([
         Animated.parallel([
           Animated.timing(ringScale, { toValue: 1.3, duration: 2000, useNativeDriver: true }),
-          Animated.timing(ringOpacity, { toValue: 0.02, duration: 2000, useNativeDriver: true }),
+          Animated.timing(ringOpacity, { toValue: 0.04, duration: 2000, useNativeDriver: true }),
         ]),
         Animated.parallel([
           Animated.timing(ringScale, { toValue: 1.0, duration: 2000, useNativeDriver: true }),
-          Animated.timing(ringOpacity, { toValue: 0.1, duration: 2000, useNativeDriver: true }),
+          Animated.timing(ringOpacity, { toValue: 0.15, duration: 2000, useNativeDriver: true }),
         ]),
       ]),
     );
@@ -158,57 +185,56 @@ function BreathingCircle({
         style={[
           styles.outerRing,
           {
-            backgroundColor: color,
+            backgroundColor: displayColor,
             opacity: ringOpacity,
             transform: [{ scale: ringScale }],
           },
         ]}
       />
-
       {/* Main circle */}
       <Animated.View
         style={[
           styles.circle,
           {
-            backgroundColor: color,
+            backgroundColor: displayColor,
+            opacity: circleFade,
             transform: [{ scale: scaleAnim }],
           },
         ]}
-      >
-        <Text style={styles.circleLabel}>{label}</Text>
-      </Animated.View>
+      />
     </View>
   );
 }
 
-// ─── Round Dots ─────────────────────────────────────────────────────────────
+// ─── Animated Phase Label ────────────────────────────────────────────────────
 
-function RoundDots({
-  total,
-  current,
-  theme,
-}: {
-  total: number;
-  current: number;
-  theme: ReturnType<typeof useThemeColors>;
-}) {
-  if (total <= 1) return null;
+function AnimatedPhaseLabel({ text, color }: { text: string; color: string }) {
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const [displayText, setDisplayText] = useState(text);
+  const prevText = useRef(text);
+
+  useEffect(() => {
+    if (text === prevText.current) return;
+    prevText.current = text;
+
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 150,
+      useNativeDriver: true,
+    }).start(() => {
+      setDisplayText(text);
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 250,
+        useNativeDriver: true,
+      }).start();
+    });
+  }, [text, fadeAnim]);
+
   return (
-    <View style={styles.dotsRow}>
-      {Array.from({ length: total }, (_, i) => (
-        <View
-          key={i}
-          style={[
-            styles.dot,
-            i < current - 1
-              ? { backgroundColor: theme.primary }
-              : i === current - 1
-                ? { backgroundColor: theme.primary, opacity: 0.5 }
-                : { backgroundColor: 'rgba(255,255,255,0.2)' },
-          ]}
-        />
-      ))}
-    </View>
+    <Animated.Text style={[styles.phaseText, { color, opacity: fadeAnim }]}>
+      {displayText}
+    </Animated.Text>
   );
 }
 
@@ -315,11 +341,6 @@ export default function SessionScreen() {
     [],
   );
 
-  const handlePauseResume = useCallback(() => {
-    const state = useTimerStore.getState();
-    state.isRunning ? state.pause() : state.resume();
-  }, []);
-
   const handleStop = useCallback(() => {
     Alert.alert(t('session.stopTitle'), t('session.stopMessage'), [
       { text: t('session.cancel'), style: 'cancel' },
@@ -341,8 +362,7 @@ export default function SessionScreen() {
     return timerStore.kapalabhatiPhase;
   }, [timerStore.mode, timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase]);
 
-  const phaseColor = PHASE_BG[currentPhase] ?? '#4A90D9';
-  const isPaused = currentPhase === 'PAUSED';
+  const phaseColor = PHASE_COLOR[currentPhase] ?? '#4A90D9';
   const isRetention = timerStore.mode === 'power' &&
     (timerStore.powerPhase === 'RETENTION' || (timerStore.powerPhase === 'PAUSED' && timerStore.retentionTime > 0 && timerStore.breathCount >= timerStore.targetBreaths));
 
@@ -350,7 +370,7 @@ export default function SessionScreen() {
   if (!technique) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-        <View style={styles.center}>
+        <View style={styles.centerFull}>
           <Text style={[styles.notFoundText, { color: theme.text }]}>
             {t('session.techniqueNotFound')}
           </Text>
@@ -362,187 +382,158 @@ export default function SessionScreen() {
     );
   }
 
-  // ── Standard mode content ──
-  const renderStandard = () => (
-    <>
-      <BreathingCircle
-        phase={timerStore.phase}
-        mode="standard"
-        color={phaseColor}
-        label={t(getPhaseLabel(timerStore.phase)).toUpperCase()}
-      />
+  // ── Phase label (big text) ──
+  const phaseLabel = t(getPhaseLabel(currentPhase));
 
-      <Text style={styles.bigTimer}>
-        {timerStore.phaseTimeRemaining}
-      </Text>
-
-      {timerStore.totalCycles > 0 && (
-        <Text style={styles.counter}>
-          {t('session.cycleOf', { current: timerStore.currentCycle, total: timerStore.totalCycles })}
-        </Text>
-      )}
-    </>
-  );
-
-  // ── Power breathing content ──
-  const renderPower = () => {
-    const { powerPhase } = timerStore;
-
-    // Breathing phase
-    if (powerPhase === 'BREATHING' || (powerPhase === 'PAUSED' && timerStore.breathCount < timerStore.targetBreaths && timerStore.recoveryTimeRemaining <= 0)) {
-      return (
-        <>
-          <BreathingCircle phase="BREATHING" mode="power" color={phaseColor} label="INHALE" />
-          <Text style={styles.counter}>
-            {Math.floor(timerStore.breathCount)} / {timerStore.targetBreaths}
-          </Text>
-          <Text style={styles.elapsed}>
-            {formatTime(timerStore.totalElapsed)}
-          </Text>
-        </>
-      );
+  // ── Sub-info line ──
+  const getSubInfo = (): string | null => {
+    if (timerStore.mode === 'standard' && timerStore.totalCycles > 0) {
+      return t('session.cycleOf', { current: timerStore.currentCycle, total: timerStore.totalCycles });
     }
-
-    // Retention phase (big timer like HTML kit)
-    if (isRetention) {
-      return (
-        <View {...panResponder.panHandlers} style={styles.retentionWrap}>
-          <Text style={styles.timerLabel}>{t('session.holdYourBreath').toUpperCase()}</Text>
-          <Text style={styles.retentionBigTimer}>{formatTime(timerStore.retentionTime)}</Text>
-          <View style={styles.swipeHint}>
-            <Ionicons name="arrow-up" size={14} color="rgba(255,255,255,0.5)" />
-            <Text style={styles.swipeHintText}>{t('session.swipeToExhale')}</Text>
-          </View>
-        </View>
-      );
+    if (timerStore.mode === 'power') {
+      const { powerPhase } = timerStore;
+      if (powerPhase === 'BREATHING' || (powerPhase === 'PAUSED' && timerStore.breathCount < timerStore.targetBreaths)) {
+        return `${Math.floor(timerStore.breathCount)} / ${timerStore.targetBreaths}`;
+      }
+      if (timerStore.totalRounds > 0) {
+        return t('session.roundOf', { current: timerStore.currentRound, total: timerStore.totalRounds });
+      }
     }
-
-    // Recovery phase
-    if (powerPhase === 'RECOVERY' || (powerPhase === 'PAUSED' && timerStore.recoveryTimeRemaining > 0)) {
-      return (
-        <>
-          {/* Show last retention result */}
-          {timerStore.retentionTimes.length > 0 && (
-            <View style={styles.resultCard}>
-              <Text style={styles.resultLabel}>
-                {t('summary.round', { number: timerStore.retentionTimes.length })}
-              </Text>
-              <Text style={styles.resultValue}>
-                {formatTime(timerStore.retentionTimes[timerStore.retentionTimes.length - 1])}
-              </Text>
-            </View>
-          )}
-
-          <Text style={styles.recoveryLabel}>{t('session.recoveryBreath')}</Text>
-          <Text style={styles.recoveryTimer}>{timerStore.recoveryTimeRemaining}</Text>
-        </>
-      );
+    if (timerStore.mode === 'kapalabhati') {
+      const { kapalabhatiPhase } = timerStore;
+      if (kapalabhatiPhase === 'RAPID_SET' || (kapalabhatiPhase === 'PAUSED' && timerStore.restTimeRemaining <= 0)) {
+        return t('session.setOf', { current: timerStore.currentSet, total: timerStore.totalSets });
+      }
     }
-
     return null;
   };
 
-  // ── Kapalabhati content ──
-  const renderKapalabhati = () => {
-    const { kapalabhatiPhase } = timerStore;
-
-    if (kapalabhatiPhase === 'RAPID_SET' || (kapalabhatiPhase === 'PAUSED' && timerStore.restTimeRemaining <= 0)) {
-      return (
-        <>
-          <BreathingCircle phase="RAPID_SET" mode="kapalabhati" color={phaseColor} label="EXHALE" />
-          <Text style={styles.bigTimer}>{timerStore.setTimeRemaining}</Text>
-          <Text style={styles.counter}>
-            {t('session.setOf', { current: timerStore.currentSet, total: timerStore.totalSets })}
-          </Text>
-          <Text style={styles.breathCountText}>
-            {t('session.breaths', { count: timerStore.breathsInSet })}
-          </Text>
-        </>
-      );
+  // ── Phase time (countdown for current phase) ──
+  const getPhaseCountdown = (): number | null => {
+    if (timerStore.mode === 'standard') {
+      return timerStore.phaseTimeRemaining;
     }
-
-    if (kapalabhatiPhase === 'REST' || (kapalabhatiPhase === 'PAUSED' && timerStore.restTimeRemaining > 0)) {
-      return (
-        <>
-          <Text style={styles.recoveryLabel}>{t('session.rest')}</Text>
-          <Text style={styles.recoveryTimer}>{timerStore.restTimeRemaining}</Text>
-        </>
-      );
+    if (timerStore.mode === 'power') {
+      if (isRetention) return timerStore.retentionTime;
+      if (timerStore.powerPhase === 'RECOVERY') return timerStore.recoveryTimeRemaining;
     }
-
+    if (timerStore.mode === 'kapalabhati') {
+      if (timerStore.kapalabhatiPhase === 'RAPID_SET') return timerStore.setTimeRemaining;
+      if (timerStore.kapalabhatiPhase === 'REST') return timerStore.restTimeRemaining;
+    }
     return null;
   };
 
-  // ── Background ──
-  const bgColor = isRetention ? COLORS.retention : phaseColor + '20';
+  // ── Total session remaining ──
+  const getTotalRemaining = (): number => {
+    if (!technique) return 0;
+    if (timerStore.mode === 'standard') {
+      const cycleDur = technique.phases.reduce((sum, p) => sum + p.duration, 0);
+      const totalCycles = timerStore.totalCycles || (technique.defaultDuration ? Math.ceil(technique.defaultDuration / cycleDur) : technique.defaultCycles || 6);
+      const totalSec = technique.defaultDuration ?? cycleDur * totalCycles;
+      return Math.max(0, totalSec - timerStore.totalElapsed);
+    }
+    if (timerStore.mode === 'power') {
+      const estTotal = (technique.breathCount! * 2 * technique.roundCount! + technique.roundCount! * 90);
+      return Math.max(0, estTotal - timerStore.totalElapsed);
+    }
+    if (timerStore.mode === 'kapalabhati') {
+      const estTotal = technique.setCount! * technique.setDuration! + (technique.setCount! - 1) * technique.restDuration!;
+      return Math.max(0, estTotal - timerStore.totalElapsed);
+    }
+    return 0;
+  };
 
-  // ── Round dots ──
-  const totalRounds =
-    timerStore.mode === 'power' ? timerStore.totalRounds :
-    timerStore.mode === 'kapalabhati' ? timerStore.totalSets :
-    timerStore.totalCycles;
-  const currentRound =
-    timerStore.mode === 'power' ? timerStore.currentRound :
-    timerStore.mode === 'kapalabhati' ? timerStore.currentSet :
-    timerStore.currentCycle;
+  const subInfo = getSubInfo();
+  const phaseCountdown = getPhaseCountdown();
+  const totalRemaining = getTotalRemaining();
+  const bgColor = isRetention ? COLORS.retention : theme.background;
+
+  // ── Retention extra: last round result ──
+  const showRetentionResult = timerStore.mode === 'power' &&
+    (timerStore.powerPhase === 'RECOVERY' || (timerStore.powerPhase === 'PAUSED' && timerStore.recoveryTimeRemaining > 0)) &&
+    timerStore.retentionTimes.length > 0;
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: bgColor }]}>
-      {/* Top bar */}
+      {/* ── Top bar: timer left, stop right ── */}
       <View style={styles.topBar}>
-        <Text style={styles.screenNum}>
-          {t(technique.nameKey)}
+        <Text style={[styles.timerSmall, { color: theme.primary }]}>
+          {formatTimeMin(totalRemaining)}
         </Text>
-        <Text style={styles.elapsedSmall}>
-          {formatTime(timerStore.totalElapsed)}
-        </Text>
-      </View>
-
-      {/* Round dots */}
-      <RoundDots total={totalRounds} current={currentRound} theme={theme} />
-
-      {/* Center content */}
-      <View style={styles.center}>
-        {timerStore.mode === 'standard' && renderStandard()}
-        {timerStore.mode === 'power' && renderPower()}
-        {timerStore.mode === 'kapalabhati' && renderKapalabhati()}
-      </View>
-
-      {/* Bottom controls */}
-      <View style={styles.controls}>
         <TouchableOpacity
-          style={styles.controlBtn}
-          onPress={handlePauseResume}
-          activeOpacity={0.7}
-        >
-          <Ionicons
-            name={isPaused ? 'play' : 'pause'}
-            size={24}
-            color="rgba(255,255,255,0.9)"
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.controlBtn, styles.stopBtn]}
+          style={[styles.stopBtn, { backgroundColor: theme.primary + '18' }]}
           onPress={handleStop}
           activeOpacity={0.7}
         >
-          <Ionicons name="stop" size={20} color="rgba(255,255,255,0.9)" />
-          <Text style={styles.stopLabel}>{t('session.stop')}</Text>
+          <Ionicons name="stop" size={18} color={theme.primary} />
         </TouchableOpacity>
+      </View>
+
+      {/* ── Top half: big phase text ── */}
+      <View style={styles.topContent}>
+        <AnimatedPhaseLabel text={phaseLabel} color={theme.text} />
+
+        {/* Phase countdown */}
+        {phaseCountdown !== null && (
+          <Text style={[styles.phaseCountdown, { color: theme.primary }]}>
+            {phaseCountdown}
+          </Text>
+        )}
+
+        {/* Sub info */}
+        {subInfo && (
+          <Text style={[styles.subInfo, { color: theme.textSecondary }]}>
+            {subInfo}
+          </Text>
+        )}
+
+        {/* Retention result card */}
+        {showRetentionResult && (
+          <View style={[styles.resultCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <Text style={[styles.resultLabel, { color: theme.textSecondary }]}>
+              {t('summary.round', { number: timerStore.retentionTimes.length })}
+            </Text>
+            <Text style={[styles.resultValue, { color: theme.text }]}>
+              {formatTime(timerStore.retentionTimes[timerStore.retentionTimes.length - 1])}
+            </Text>
+          </View>
+        )}
+
+        {/* Swipe hint for retention */}
+        {isRetention && (
+          <View style={[styles.swipeHint, { backgroundColor: theme.text + '08' }]}>
+            <Ionicons name="arrow-up" size={14} color={theme.textSecondary} />
+            <Text style={[styles.swipeHintText, { color: theme.textSecondary }]}>
+              {t('session.swipeToExhale')}
+            </Text>
+          </View>
+        )}
+      </View>
+
+      {/* ── Bottom half: animated circle ── */}
+      <View
+        style={styles.bottomContent}
+        {...(isRetention ? panResponder.panHandlers : {})}
+      >
+        <BreathingCircle
+          phase={currentPhase as TimerPhase}
+          mode={timerStore.mode}
+          color={phaseColor}
+        />
       </View>
     </SafeAreaView>
   );
 }
 
-// ─── Styles (minimal kit) ───────────────────────────────────────────────────
+// ─── Styles ─────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
 
-  // Top bar
+  // Top bar — timer + stop
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -551,39 +542,89 @@ const styles = StyleSheet.create({
     paddingTop: SPACING.sm,
     paddingBottom: SPACING.xs,
   },
-  screenNum: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: 'rgba(255,255,255,0.8)',
-    letterSpacing: -0.2,
-  },
-  elapsedSmall: {
-    fontSize: 12,
-    fontWeight: '300',
-    color: 'rgba(255,255,255,0.5)',
+  timerSmall: {
+    fontSize: 18,
+    fontWeight: '600',
     fontVariant: ['tabular-nums'],
-    letterSpacing: 0.5,
   },
-
-  // Round dots
-  dotsRow: {
-    flexDirection: 'row',
+  stopBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     justifyContent: 'center',
-    gap: 5,
-    paddingVertical: SPACING.sm,
-  },
-  dot: {
-    width: 22,
-    height: 3,
-    borderRadius: 2,
+    alignItems: 'center',
   },
 
-  // Center
-  center: {
+  // Top half — big phase label
+  topContent: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: SPACING.lg,
+  },
+  phaseText: {
+    fontSize: scale(52),
+    fontWeight: '800',
+    letterSpacing: -1.5,
+    lineHeight: scale(58),
+  },
+  phaseCountdown: {
+    fontSize: scale(64),
+    fontWeight: '300',
+    fontVariant: ['tabular-nums'],
+    letterSpacing: -2,
+    marginTop: SPACING.sm,
+  },
+  subInfo: {
+    fontSize: 16,
+    fontWeight: '500',
+    marginTop: SPACING.sm,
+    letterSpacing: 0.2,
+  },
+
+  // Retention result
+  resultCard: {
+    alignSelf: 'flex-start',
+    borderRadius: BORDER_RADIUS.md,
+    borderWidth: 1,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    marginTop: SPACING.md,
+  },
+  resultLabel: {
+    fontSize: 12,
+    fontWeight: '500',
+    letterSpacing: 0.3,
+    marginBottom: 2,
+  },
+  resultValue: {
+    fontSize: 28,
+    fontWeight: '300',
+    fontVariant: ['tabular-nums'],
+    letterSpacing: -0.5,
+  },
+
+  // Swipe hint
+  swipeHint: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 6,
+    marginTop: SPACING.lg,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 50,
+  },
+  swipeHintText: {
+    fontSize: 13,
+    fontWeight: '400',
+  },
+
+  // Bottom half — breathing circle
+  bottomContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: SPACING.lg,
+    overflow: 'hidden',
   },
 
   // Breathing circle
@@ -603,153 +644,18 @@ const styles = StyleSheet.create({
     width: CIRCLE_SIZE,
     height: CIRCLE_SIZE,
     borderRadius: CIRCLE_SIZE / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  circleLabel: {
-    fontSize: 10,
-    fontWeight: '400',
-    color: 'rgba(255,255,255,0.9)',
-    letterSpacing: 1.5,
-  },
-
-  // Standard mode
-  bigTimer: {
-    fontSize: 28,
-    fontWeight: '200',
-    color: 'rgba(255,255,255,0.9)',
-    letterSpacing: -0.5,
-    marginTop: SPACING.md,
-    fontVariant: ['tabular-nums'],
-  },
-  counter: {
-    fontSize: 11,
-    fontWeight: '300',
-    color: 'rgba(255,255,255,0.5)',
-    marginTop: SPACING.xs,
-    letterSpacing: 0.3,
-  },
-  elapsed: {
-    fontSize: 20,
-    fontWeight: '200',
-    color: 'rgba(255,255,255,0.7)',
-    marginTop: SPACING.md,
-    fontVariant: ['tabular-nums'],
-  },
-  breathCountText: {
-    fontSize: 10,
-    fontWeight: '300',
-    color: 'rgba(255,255,255,0.4)',
-    marginTop: SPACING.xs,
-  },
-
-  // Retention (big timer mode)
-  retentionWrap: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  timerLabel: {
-    fontSize: 9,
-    fontWeight: '400',
-    color: 'rgba(255,255,255,0.5)',
-    letterSpacing: 2,
-    marginBottom: SPACING.sm,
-  },
-  retentionBigTimer: {
-    fontSize: scale(56),
-    fontWeight: '200',
-    color: '#FFFFFF',
-    fontVariant: ['tabular-nums'],
-    letterSpacing: -1,
-  },
-  swipeHint: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    marginTop: SPACING.xl,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 50,
-  },
-  swipeHintText: {
-    fontSize: 11,
-    fontWeight: '300',
-    color: 'rgba(255,255,255,0.5)',
-  },
-
-  // Recovery
-  resultCard: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius: BORDER_RADIUS.md,
-    paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.md,
-    alignItems: 'center',
-    marginBottom: SPACING.lg,
-  },
-  resultLabel: {
-    fontSize: 9,
-    fontWeight: '400',
-    color: 'rgba(255,255,255,0.5)',
-    letterSpacing: 0.5,
-    marginBottom: 2,
-  },
-  resultValue: {
-    fontSize: 28,
-    fontWeight: '200',
-    color: 'rgba(255,255,255,0.9)',
-    letterSpacing: -0.5,
-  },
-  recoveryLabel: {
-    fontSize: 11,
-    fontWeight: '400',
-    color: 'rgba(255,255,255,0.5)',
-    letterSpacing: 0.5,
-    marginTop: SPACING.md,
-  },
-  recoveryTimer: {
-    fontSize: 24,
-    fontWeight: '200',
-    color: 'rgba(255,255,255,0.8)',
-    fontVariant: ['tabular-nums'],
-    marginTop: SPACING.xs,
-  },
-
-  // Controls (minimal)
-  controls: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: SPACING.lg,
-    paddingBottom: SPACING.xxl,
-    paddingHorizontal: SPACING.lg,
-  },
-  controlBtn: {
-    width: scale(56),
-    height: scale(56),
-    borderRadius: scale(28),
-    backgroundColor: 'rgba(255,255,255,0.12)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  stopBtn: {
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-  },
-  stopLabel: {
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 8,
-    fontWeight: '400',
-    marginTop: 2,
-    letterSpacing: 0.3,
   },
 
   // Not found
+  centerFull: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.lg,
+  },
   notFoundText: {
-    fontSize: 14,
-    fontWeight: '300',
+    fontSize: 16,
+    fontWeight: '400',
     textAlign: 'center',
     marginBottom: SPACING.lg,
   },
@@ -760,7 +666,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   ghostBtnText: {
-    fontSize: 12,
-    fontWeight: '400',
+    fontSize: 14,
+    fontWeight: '500',
   },
 });

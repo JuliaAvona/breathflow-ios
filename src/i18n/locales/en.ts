@@ -2,7 +2,7 @@ export default {
   // Tabs
   'tabs.home': 'Home',
   'tabs.breathe': 'Breathe',
-  'tabs.history': 'History',
+  'tabs.history': 'Progress',
   'tabs.badges': 'Badges',
   'tabs.settings': 'Settings',
 
@@ -52,6 +52,15 @@ export default {
   'phase.holdBreath': 'Hold Your Breath',
   'phase.recovery': 'Recovery Breath',
   'phase.swipeToExhale': 'Swipe up to exhale',
+
+  // Session screen — phase labels
+  'session.breatheIn': 'Breathe in',
+  'session.breatheOut': 'Breathe out',
+  'session.hold': 'Hold',
+  'session.holdOut': 'Hold',
+  'session.paused': 'Paused',
+  'session.done': 'Done',
+  'session.getReady': 'Get Ready',
 
   // Session screen
   'session.cycle': 'Cycle',
