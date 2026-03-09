@@ -11,9 +11,9 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
-import { useSettingsStore } from '../../src/store';
+import { useSettingsStore, useSessionsStore } from '../../src/store';
 import { TECHNIQUES, getTechniquesByCategory } from '../../src/constants/techniques';
-import { SPACING, FONT_SIZE, FONT_WEIGHT, BORDER_RADIUS, COLORS } from '../../src/constants';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, scale } from '../../src/constants';
 import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
 
 // ─── Category metadata ──────────────────────────────────────────────────────
@@ -34,11 +34,10 @@ const CATEGORIES: CategoryInfo[] = [
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function getGreetingKey(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return 'home.goodMorning';
-  if (hour < 18) return 'home.goodAfternoon';
-  return 'home.goodEvening';
+function formatRetention(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
 function getPatternSummary(technique: BreathingTechnique): string {
@@ -50,20 +49,33 @@ function getPatternSummary(technique: BreathingTechnique): string {
   }
   return technique.phases
     .map((p) => (p.duration % 1 === 0 ? String(p.duration) : p.duration.toFixed(1)))
-    .join('-');
+    .join(' – ');
 }
 
-// ─── TechniqueCard ───────────────────────────────────────────────────────────
+function getDurationLabel(technique: BreathingTechnique): string {
+  if (technique.mode === 'power') {
+    const mins = Math.round((technique.breathCount! * 2 * technique.roundCount! + technique.roundCount! * 90) / 60);
+    return `~${mins} min`;
+  }
+  if (technique.mode === 'kapalabhati') {
+    const total = technique.setCount! * technique.setDuration! + (technique.setCount! - 1) * technique.restDuration!;
+    return `${Math.round(total / 60)} min`;
+  }
+  const cycleDur = technique.phases.reduce((sum, p) => sum + p.duration, 0);
+  const totalSec = technique.defaultDuration ?? cycleDur * (technique.defaultCycles || 6);
+  return `${Math.round(totalSec / 60)} min`;
+}
+
+// ─── TechniqueCard (minimal style) ──────────────────────────────────────────
 
 interface TechniqueCardProps {
   technique: BreathingTechnique;
   isPro: boolean;
   theme: ReturnType<typeof useThemeColors>;
-  fontSize: ReturnType<typeof useFontSize>;
   t: (key: string) => string;
 }
 
-function TechniqueCard({ technique, isPro, theme, fontSize, t }: TechniqueCardProps) {
+function TechniqueCard({ technique, isPro, theme, t }: TechniqueCardProps) {
   const locked = technique.isPro && !isPro;
 
   const handlePress = () => {
@@ -72,42 +84,46 @@ function TechniqueCard({ technique, isPro, theme, fontSize, t }: TechniqueCardPr
 
   return (
     <TouchableOpacity
-      style={[
-        styles.card,
-        {
-          backgroundColor: technique.color + '18',
-          borderColor: technique.color + '30',
-        },
-      ]}
+      style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}
       onPress={handlePress}
       activeOpacity={0.7}
       accessibilityLabel={t(technique.nameKey)}
       accessibilityRole="button"
     >
-      {locked && (
-        <View style={styles.lockBadge}>
-          <Ionicons name="lock-closed" size={12} color={COLORS.proGradientEnd} />
+      {/* Color accent bar */}
+      <View style={[styles.cardAccent, { backgroundColor: technique.color }]} />
+
+      <View style={styles.cardContent}>
+        <View style={styles.cardTop}>
+          <View style={[styles.cardIcon, { backgroundColor: technique.color + '12' }]}>
+            <Ionicons
+              name={technique.icon as keyof typeof Ionicons.glyphMap}
+              size={20}
+              color={technique.color}
+            />
+          </View>
+          {locked && (
+            <View style={[styles.proPill, { backgroundColor: '#F5A62318' }]}>
+              <Text style={styles.proPillText}>PRO</Text>
+            </View>
+          )}
         </View>
-      )}
 
-      <View style={[styles.cardIconCircle, { backgroundColor: technique.color + '25' }]}>
-        <Ionicons
-          name={technique.icon as keyof typeof Ionicons.glyphMap}
-          size={28}
-          color={technique.color}
-        />
+        <Text
+          style={[styles.cardName, { color: theme.text }]}
+          numberOfLines={2}
+        >
+          {t(technique.nameKey)}
+        </Text>
+
+        <Text style={[styles.cardPattern, { color: theme.textSecondary }]}>
+          {getPatternSummary(technique)}
+        </Text>
+
+        <Text style={[styles.cardDuration, { color: technique.color }]}>
+          {getDurationLabel(technique)}
+        </Text>
       </View>
-
-      <Text
-        style={[styles.cardName, { color: theme.text, fontSize: fontSize.md }]}
-        numberOfLines={2}
-      >
-        {t(technique.nameKey)}
-      </Text>
-
-      <Text style={[styles.cardPattern, { color: technique.color }]}>
-        {getPatternSummary(technique)}
-      </Text>
     </TouchableOpacity>
   );
 }
@@ -119,24 +135,20 @@ interface CategorySectionProps {
   techniques: BreathingTechnique[];
   isPro: boolean;
   theme: ReturnType<typeof useThemeColors>;
-  fontSize: ReturnType<typeof useFontSize>;
   t: (key: string) => string;
 }
 
-function CategorySection({ category, techniques, isPro, theme, fontSize, t }: CategorySectionProps) {
+function CategorySection({ category, techniques, isPro, theme, t }: CategorySectionProps) {
   if (techniques.length === 0) return null;
 
   return (
     <View style={styles.categorySection}>
-      <View style={styles.categoryHeader}>
-        <Ionicons
-          name={category.icon as keyof typeof Ionicons.glyphMap}
-          size={20}
-          color={theme.primary}
-        />
-        <Text style={[styles.categoryTitle, { color: theme.text, fontSize: fontSize.lg }]}>
+      {/* Section label with line */}
+      <View style={styles.sectionLabelRow}>
+        <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>
           {t(category.labelKey)}
         </Text>
+        <View style={[styles.sectionLine, { backgroundColor: theme.border }]} />
       </View>
 
       <ScrollView
@@ -150,7 +162,6 @@ function CategorySection({ category, techniques, isPro, theme, fontSize, t }: Ca
             technique={technique}
             isPro={isPro}
             theme={theme}
-            fontSize={fontSize}
             t={t}
           />
         ))}
@@ -164,8 +175,8 @@ function CategorySection({ category, techniques, isPro, theme, fontSize, t }: Ca
 export default function HomeScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
-  const fontSize = useFontSize();
   const isPro = useSettingsStore((s) => s.isPro);
+  const stats = useSessionsStore((s) => s.stats);
 
   const categorizedTechniques = useMemo(() => {
     return CATEGORIES.map((cat) => ({
@@ -180,15 +191,44 @@ export default function HomeScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
+        {/* Minimal header */}
         <View style={styles.header}>
-          <Text style={[styles.appTitle, { color: theme.primary }]}>
+          <Text style={[styles.appTitle, { color: theme.text }]}>
             BreathFlow
           </Text>
-          <Text style={[styles.greeting, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-            {t(getGreetingKey())}
-          </Text>
         </View>
+
+        {/* Stats row — only show if user has sessions */}
+        {stats.totalSessions > 0 && (
+          <View style={styles.statsRow}>
+            {/* Best hold */}
+            {stats.bestRetention > 0 && (
+              <View style={[styles.statCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
+                <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
+                  {t('history.bestRetention')}
+                </Text>
+                <Text style={[styles.statValue, { color: theme.primary }]}>
+                  {formatRetention(stats.bestRetention)}
+                </Text>
+              </View>
+            )}
+
+            {/* Streak */}
+            {stats.currentStreak > 0 && (
+              <View style={[styles.statCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
+                <View style={styles.streakRow}>
+                  <Ionicons name="flame-outline" size={16} color="#F5A623" />
+                  <Text style={[styles.statValueSmall, { color: theme.text }]}>
+                    {stats.currentStreak} {t('history.days')}
+                  </Text>
+                </View>
+                <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
+                  {t('history.currentStreak').toLowerCase()}
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
 
         {/* Category sections */}
         {categorizedTechniques.map(({ category, techniques }) => (
@@ -198,7 +238,6 @@ export default function HomeScreen() {
             techniques={techniques}
             isPro={isPro}
             theme={theme}
-            fontSize={fontSize}
             t={t}
           />
         ))}
@@ -207,88 +246,143 @@ export default function HomeScreen() {
   );
 }
 
-// ─── Styles ──────────────────────────────────────────────────────────────────
+// ─── Styles (minimal kit) ───────────────────────────────────────────────────
 
-const CARD_WIDTH = 150;
-const CARD_HEIGHT = 180;
+const CARD_WIDTH = scale(148);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: SPACING.xxl,
-  },
-  header: {
-    paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.md,
-    paddingBottom: SPACING.lg,
-  },
-  appTitle: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: FONT_WEIGHT.bold,
-    letterSpacing: 1,
-  },
-  greeting: {
-    fontSize: FONT_SIZE.md,
-    marginTop: SPACING.xs,
+    paddingBottom: SPACING.xxl + SPACING.lg,
   },
 
-  // Category
+  // Header — light, airy
+  header: {
+    paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.xl,
+    paddingBottom: SPACING.md,
+  },
+  appTitle: {
+    fontSize: 28,
+    fontWeight: '300',
+    letterSpacing: -0.5,
+  },
+
+  // Stats
+  statsRow: {
+    flexDirection: 'row',
+    paddingHorizontal: SPACING.lg,
+    gap: SPACING.sm,
+    marginBottom: SPACING.lg,
+  },
+  statCard: {
+    flex: 1,
+    borderRadius: BORDER_RADIUS.md,
+    borderWidth: 1,
+    padding: SPACING.md,
+  },
+  statLabel: {
+    fontSize: 10,
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    marginBottom: 2,
+  },
+  statValue: {
+    fontSize: 22,
+    fontWeight: '200',
+    letterSpacing: -0.5,
+  },
+  statValueSmall: {
+    fontSize: 16,
+    fontWeight: '300',
+  },
+  streakRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 2,
+  },
+
+  // Category section
   categorySection: {
     marginBottom: SPACING.lg,
   },
-  categoryHeader: {
+  sectionLabelRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: SPACING.sm,
     paddingHorizontal: SPACING.lg,
     marginBottom: SPACING.md,
+    gap: 12,
   },
-  categoryTitle: {
-    fontSize: FONT_SIZE.lg,
-    fontWeight: FONT_WEIGHT.semibold,
+  sectionLabel: {
+    fontSize: 9,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+    fontWeight: '400',
+  },
+  sectionLine: {
+    flex: 1,
+    height: 1,
   },
   horizontalList: {
     paddingHorizontal: SPACING.lg,
-    gap: SPACING.md,
+    gap: SPACING.sm,
   },
 
-  // Card
+  // Card — clean, minimal
   card: {
     width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    borderRadius: BORDER_RADIUS.lg,
+    borderRadius: 20,
     borderWidth: 1,
-    padding: SPACING.md,
+    overflow: 'hidden',
+  },
+  cardAccent: {
+    height: 3,
+    borderRadius: 2,
+  },
+  cardContent: {
+    padding: 14,
+  },
+  cardTop: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
   },
-  lockBadge: {
-    position: 'absolute',
-    top: SPACING.sm,
-    right: SPACING.sm,
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: COLORS.proGradientStart + '30',
+  cardIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cardIconCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
+  proPill: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 20,
+  },
+  proPillText: {
+    fontSize: 8,
+    fontWeight: '500',
+    color: '#B06030',
+    letterSpacing: 0.5,
   },
   cardName: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: FONT_WEIGHT.semibold,
-    marginTop: SPACING.sm,
+    fontSize: 13,
+    fontWeight: '500',
+    letterSpacing: -0.2,
+    marginBottom: 4,
   },
   cardPattern: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: FONT_WEIGHT.medium,
-    marginTop: SPACING.xs,
+    fontSize: 11,
+    fontWeight: '300',
+    marginBottom: 6,
+  },
+  cardDuration: {
+    fontSize: 10,
+    fontWeight: '400',
+    letterSpacing: 0.3,
   },
 });
