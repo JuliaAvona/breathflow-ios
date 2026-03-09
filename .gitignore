@@ -1,0 +1,21 @@
+node_modules/
+.expo/
+dist/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Rendered docs (regenerate via `make docs`)
+docs/rendered/*.svg
+docs/rendered/*.png
+
+# Coverage
+coverage/

@@ -1,0 +1,35 @@
+@startuml C4_Containers
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Container Diagram — WalkPace
+
+Person(walker, "Walker", "Uses interval walking timer daily")
+
+System_Boundary(walkpace, "WalkPace Mobile App") {
+  Container(screens, "Screens", "Expo Router v6", "File-based routing: Timer, History, Settings, Onboarding, Summary, Paywall")
+  Container(components, "UI Components", "React Native + SVG", "ProgressRing, CalendarHeatmap, BadgeGrid, SessionCard")
+  Container(stores, "State Layer", "Zustand 5", "6 stores: timer, sessions, settings, badges, profile, auth")
+  Container(persistence, "Local Persistence", "AsyncStorage + SecureStore", "Offline-first data storage, auth tokens in iOS Keychain")
+  Container(sync, "Sync Engine", "syncService.ts", "Push-on-write, pull-on-foreground, merge strategies per entity")
+  Container(hooks, "Hooks & Services", "React Hooks", "useIntervalFeedback (audio+haptic), useSync, useColorScheme")
+  Container(i18n, "i18n", "i18next", "53 locales with auto-detection")
+}
+
+System_Ext(supabase, "Supabase", "Auth + PostgreSQL + RLS")
+System_Ext(healthkit, "Apple HealthKit", "Health data")
+System_Ext(sentry, "Sentry", "Crash reporting")
+
+Rel(walker, screens, "Interacts with", "Touch / Gestures")
+Rel(screens, components, "Renders")
+Rel(screens, stores, "Reads / dispatches actions")
+Rel(screens, hooks, "Uses feedback & sync")
+Rel(stores, persistence, "Persists state")
+Rel(sync, stores, "Reads local state")
+Rel(sync, supabase, "Push / pull data", "HTTPS")
+Rel(hooks, healthkit, "Writes workouts")
+Rel(screens, i18n, "Translates UI strings")
+
+Rel_L(stores, sentry, "Reports errors")
+
+SHOW_LEGEND()
+@enduml

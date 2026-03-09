@@ -1,0 +1,43 @@
+@startuml C4_Components
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Component Diagram — State & Sync Layer
+
+Container_Boundary(stores, "Zustand State Layer") {
+  Component(timer, "timerStore", "Zustand", "Timer state machine: READY→WARM_UP→FAST↔SLOW→COOL_DOWN→DONE. Phase, round, time remaining, elapsed counters.")
+  Component(sessions, "sessionsStore", "Zustand + AsyncStorage", "Completed walks, streak calculation, stats aggregation. Append-only sessions array.")
+  Component(settings, "settingsStore", "Zustand + AsyncStorage", "Sound, vibration, warm-up/cool-down, accessibility, PRO settings.")
+  Component(badges, "badgesStore", "Zustand + AsyncStorage", "25 achievement badges. Checks unlock conditions after each session.")
+  Component(profile, "profileStore", "Zustand + AsyncStorage", "User weight, age, height, walking frequency.")
+  Component(auth, "authStore", "Zustand + SecureStore", "Supabase user, session, anonymous/Apple state.")
+}
+
+Container_Boundary(syncengine, "Sync Engine") {
+  Component(pushAll, "pushAll()", "syncService", "Pushes sessions, stats, settings, profile, badges to Supabase")
+  Component(pullMerge, "pullAndMerge()", "syncService", "Pulls from Supabase, merges: sessions=union, stats=max, settings=remote-wins, badges=union-earliest")
+}
+
+Container_Boundary(services, "External Integrations") {
+  Component(supabaseClient, "supabase", "supabase-js", "Supabase client with SecureStore for tokens, AsyncStorage fallback")
+  Component(healthKit, "healthKit", "expo-healthkit", "Write workout sessions to Apple Health")
+  Component(sentryClient, "sentry", "@sentry/react-native", "Crash reporting")
+}
+
+Rel(timer, sessions, "DONE → addSession()")
+Rel(sessions, badges, "After addSession → checkBadges()")
+Rel(sessions, pushAll, "After write → push")
+Rel(settings, pushAll, "After update → push")
+Rel(profile, pushAll, "After update → push")
+Rel(badges, pushAll, "After unlock → push")
+
+Rel(pushAll, supabaseClient, "Upsert data")
+Rel(pullMerge, supabaseClient, "Select data")
+Rel(pullMerge, sessions, "Merge sessions + stats")
+Rel(pullMerge, settings, "Merge settings")
+Rel(pullMerge, profile, "Merge profile")
+Rel(pullMerge, badges, "Merge badges")
+
+Rel(auth, supabaseClient, "Auth operations")
+
+SHOW_LEGEND()
+@enduml
