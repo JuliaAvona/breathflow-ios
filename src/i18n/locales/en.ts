@@ -1,12 +1,13 @@
 export default {
   // Tabs
   'tabs.home': 'Home',
+  'tabs.breathe': 'Breathe',
   'tabs.history': 'History',
   'tabs.badges': 'Badges',
   'tabs.settings': 'Settings',
 
   // Home screen
-  'home.title': 'BreathFlow',
+  'home.title': 'Exercises',
   'home.goodMorning': 'Good morning',
   'home.goodAfternoon': 'Good afternoon',
   'home.goodEvening': 'Good evening',

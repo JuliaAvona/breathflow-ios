@@ -814,16 +814,17 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.xxl,
   },
   screenTitle: {
-    fontSize: FONT_SIZE.xxl,
+    fontSize: 30,
     fontWeight: '700',
+    letterSpacing: -0.5,
   },
   titleRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: SPACING.sm,
     paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.md,
-    paddingBottom: SPACING.md,
+    paddingTop: SPACING.sm,
+    paddingBottom: SPACING.lg,
   },
   proStatusBadge: {
     flexDirection: 'row',

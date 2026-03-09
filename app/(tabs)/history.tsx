@@ -234,7 +234,7 @@ export default function HistoryScreen() {
       >
         {/* Header */}
         <View style={styles.headerRow}>
-          <Text style={[styles.screenTitle, { color: theme.text, fontSize: 34 * (fontSize.md / FONT_SIZE.md) }]}>
+          <Text style={[styles.screenTitle, { color: theme.text }]}>
             {t('history.title')}
           </Text>
           {stats.currentStreak > 0 && (
@@ -431,8 +431,8 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.lg,
   },
   screenTitle: {
-    fontSize: 34,
-    fontWeight: '800',
+    fontSize: 30,
+    fontWeight: '700',
     letterSpacing: -0.5,
   },
   streakPill: {

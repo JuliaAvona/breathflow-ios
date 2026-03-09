@@ -5,25 +5,29 @@ import { useSettingsStore } from '../../src/store';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import Svg, { Path } from 'react-native-svg';
 
-function HomeIcon({ color, size }: { color: string; size: number }) {
+function BreezeIcon({ color, size }: { color: string; size: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
-        d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"
+        d="M3 8H16C17.6569 8 19 6.65685 19 5C19 3.34315 17.6569 2 16 2C14.3431 2 13 3.34315 13 5"
         stroke={color}
         strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <Path
-        d="M12 6C9 6 7 9 7 12C7 15 9 18 12 18C15 18 17 15 17 12C17 9 15 6 12 6Z"
+        d="M3 12H20C21.1046 12 22 11.1046 22 10C22 8.89543 21.1046 8 20 8"
         stroke={color}
-        strokeWidth={1.5}
+        strokeWidth={2}
         strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <Path
-        d="M12 6V18"
+        d="M3 16H14C15.6569 16 17 17.3431 17 19C17 20.6569 15.6569 22 14 22C12.3431 22 11 20.6569 11 19"
         stroke={color}
-        strokeWidth={1.5}
+        strokeWidth={2}
         strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Svg>
   );
@@ -45,30 +49,25 @@ function HistoryIcon({ color, size }: { color: string; size: number }) {
 function BadgesIcon({ color, size }: { color: string; size: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      {/* Medal ribbon */}
       <Path
-        d="M6 9H4.5C3.67 9 3 8.33 3 7.5V4C3 3.45 3.45 3 4 3H8"
+        d="M8 2L12 10L16 2"
         stroke={color}
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+      {/* Medal circle */}
       <Path
-        d="M18 9H19.5C20.33 9 21 8.33 21 7.5V4C21 3.45 20.55 3 20 3H16"
-        stroke={color}
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <Path
-        d="M12 15C15.866 15 19 11.866 19 8V3H5V8C5 11.866 8.13401 15 12 15Z"
+        d="M12 22C15.866 22 19 18.866 19 15C19 11.134 15.866 8 12 8C8.13401 8 5 11.134 5 15C5 18.866 8.13401 22 12 22Z"
         stroke={color}
         strokeWidth={2}
       />
-      <Path d="M12 15V18" stroke={color} strokeWidth={2} />
+      {/* Star */}
       <Path
-        d="M8 21H16L15 18H9L8 21Z"
+        d="M12 11.5L13.09 13.71L15.5 14.06L13.75 15.77L14.18 18.17L12 17.01L9.82 18.17L10.25 15.77L8.5 14.06L10.91 13.71L12 11.5Z"
         stroke={color}
-        strokeWidth={2}
+        strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -122,8 +121,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: t('tabs.home'),
-          tabBarIcon: ({ color }) => <HomeIcon color={color} size={24} />,
+          title: t('tabs.breathe'),
+          tabBarIcon: ({ color }) => <BreezeIcon color={color} size={24} />,
         }}
       />
       <Tabs.Screen

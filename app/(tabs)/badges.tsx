@@ -69,20 +69,13 @@ export default function AwardsScreen() {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Header with progress ring */}
+        {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
-            {t('history.badges')}
+          <Text style={[styles.title, { color: theme.text }]}>
+            {t('badges.title')}
           </Text>
-          <View style={styles.progressContainer}>
-            <View style={[styles.progressRing, { borderColor: theme.primary }]}>
-              <Text style={[styles.progressCount, { color: theme.text }]}>
-                {unlockedCount}
-              </Text>
-              <Text style={[styles.progressTotal, { color: theme.textSecondary }]}>
-                / {totalCount}
-              </Text>
-            </View>
+          <View style={[styles.countPill, { backgroundColor: theme.primary }]}>
+            <Text style={styles.countPillText}>{unlockedCount}/{totalCount}</Text>
           </View>
         </View>
 
@@ -153,35 +146,29 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   scrollContent: { paddingBottom: SPACING.xxl + SPACING.lg },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: SPACING.lg,
-    paddingBottom: SPACING.md,
+    paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.sm,
+    paddingBottom: SPACING.lg,
   },
   title: {
-    fontSize: FONT_SIZE.xxl,
+    fontSize: 30,
     fontWeight: '700',
-    marginBottom: SPACING.md,
+    letterSpacing: -0.5,
   },
-  progressContainer: {
+  countPill: {
+    flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xs,
+    borderRadius: BORDER_RADIUS.full,
   },
-  progressRing: {
-    width: scale(100),
-    height: scale(100),
-    borderRadius: scale(50),
-    borderWidth: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  progressCount: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
-    lineHeight: 34,
-  },
-  progressTotal: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '500',
-    marginTop: -4,
+  countPillText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#FFFFFF',
   },
   section: {
     marginBottom: SPACING.lg,

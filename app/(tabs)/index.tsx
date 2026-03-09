@@ -10,10 +10,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
+import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { useSettingsStore, useSessionsStore } from '../../src/store';
-import { TECHNIQUES, getTechniquesByCategory } from '../../src/constants/techniques';
-import { SPACING, FONT_SIZE, BORDER_RADIUS, scale } from '../../src/constants';
+import { getTechniquesByCategory } from '../../src/constants/techniques';
+import { SPACING, BORDER_RADIUS, scale } from '../../src/constants';
 import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
 
 // ─── Category metadata ──────────────────────────────────────────────────────
@@ -33,12 +33,6 @@ const CATEGORIES: CategoryInfo[] = [
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function formatRetention(seconds: number): string {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m}:${s.toString().padStart(2, '0')}`;
-}
 
 function getPatternSummary(technique: BreathingTechnique): string {
   if (technique.mode === 'power') {
@@ -191,44 +185,18 @@ export default function HomeScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Minimal header */}
+        {/* Header with streak pill */}
         <View style={styles.header}>
           <Text style={[styles.appTitle, { color: theme.text }]}>
-            BreathFlow
+            {t('home.title')}
           </Text>
+          {stats.currentStreak > 0 && (
+            <View style={[styles.streakPill, { backgroundColor: theme.primary }]}>
+              <Ionicons name="flame" size={16} color="#FFFFFF" />
+              <Text style={styles.streakPillText}>{stats.currentStreak}</Text>
+            </View>
+          )}
         </View>
-
-        {/* Stats row — only show if user has sessions */}
-        {stats.totalSessions > 0 && (
-          <View style={styles.statsRow}>
-            {/* Best hold */}
-            {stats.bestRetention > 0 && (
-              <View style={[styles.statCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
-                <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
-                  {t('history.bestRetention')}
-                </Text>
-                <Text style={[styles.statValue, { color: theme.primary }]}>
-                  {formatRetention(stats.bestRetention)}
-                </Text>
-              </View>
-            )}
-
-            {/* Streak */}
-            {stats.currentStreak > 0 && (
-              <View style={[styles.statCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
-                <View style={styles.streakRow}>
-                  <Ionicons name="flame-outline" size={16} color="#F5A623" />
-                  <Text style={[styles.statValueSmall, { color: theme.text }]}>
-                    {stats.currentStreak} {t('history.days')}
-                  </Text>
-                </View>
-                <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
-                  {t('history.currentStreak').toLowerCase()}
-                </Text>
-              </View>
-            )}
-          </View>
-        )}
 
         {/* Category sections */}
         {categorizedTechniques.map(({ category, techniques }) => (
@@ -260,49 +228,30 @@ const styles = StyleSheet.create({
 
   // Header — light, airy
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.xl,
-    paddingBottom: SPACING.md,
+    paddingTop: SPACING.sm,
+    paddingBottom: SPACING.lg,
   },
   appTitle: {
-    fontSize: 28,
-    fontWeight: '300',
+    fontSize: 30,
+    fontWeight: '700',
     letterSpacing: -0.5,
   },
-
-  // Stats
-  statsRow: {
-    flexDirection: 'row',
-    paddingHorizontal: SPACING.lg,
-    gap: SPACING.sm,
-    marginBottom: SPACING.lg,
-  },
-  statCard: {
-    flex: 1,
-    borderRadius: BORDER_RADIUS.md,
-    borderWidth: 1,
-    padding: SPACING.md,
-  },
-  statLabel: {
-    fontSize: 10,
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
-    marginBottom: 2,
-  },
-  statValue: {
-    fontSize: 22,
-    fontWeight: '200',
-    letterSpacing: -0.5,
-  },
-  statValueSmall: {
-    fontSize: 16,
-    fontWeight: '300',
-  },
-  streakRow: {
+  streakPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    marginBottom: 2,
+    gap: 4,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xs,
+    borderRadius: BORDER_RADIUS.full,
+  },
+  streakPillText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#FFFFFF',
   },
 
   // Category section
