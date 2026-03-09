@@ -1,4 +1,97 @@
-# WalkPace — Japanese Interval Walking Timer
+# BreathFlow — Breathing Exercises & Breathwork Timer
+
+## Project Context
+
+This project is scaffolded from WalkPace (Japanese interval walking timer). The codebase contains WalkPace code that must be **transformed** into BreathFlow — a breathing exercises app with 10 science-backed techniques.
+
+**Read `MVP.md` first** — it contains the full product specification, all 10 techniques with patterns, data models, screen designs, competitive analysis, and architecture decisions.
+
+## What Needs to Be Done
+
+### Phase 1: Clean & Rename (scaffold to BreathFlow)
+
+1. **Rename the app** everywhere:
+   - `app.config.ts`: name to "BreathFlow", slug to "breathflow", bundleIdentifier to "com.breathflow.app", buildNumber to "1"
+   - Update iOS project files (Xcode project name, schemes, Info.plist display name)
+   - Update `package.json` name field
+
+2. **Remove WalkPace-specific code:**
+   - Delete walking-specific components: `ProgressRing.tsx` (replace with breathing shapes), `SessionCard.tsx` (rewrite for breathing sessions), `WeeklyBarChart.tsx` (adapt for retention times)
+   - Delete walking-specific utils: `calories.ts`, `foodEquivalents.ts`, `healthKit.ts` (rewrite for Mindful Minutes only), `liveActivity.ts`
+   - Delete walking-specific hooks: `useIntervalFeedback.ts` (replace with breathing feedback), `useStepCount.ts`
+   - Delete walking-specific assets: `badge_cal_*`, `badge_walks_*`, `badge_streak_*` (replace with breathing badges)
+   - Clean `src/constants/theme.ts` — remove walking timer defaults, add breathing defaults
+   - Clean `src/constants/motivationalQuotes.ts` — replace with breathing/mindfulness quotes
+   - Remove `app/summary.tsx` sakura confetti and walking-specific summary — rewrite for breathing session summary
+
+3. **Keep and adapt:**
+   - Zustand store pattern (rewrite stores for breathing data models from MVP.md)
+   - Supabase client + auth flow (100% reuse, new Supabase project later)
+   - Sync service structure (adapt table names)
+   - i18n setup + 53 locale file structure (replace all translation keys)
+   - Color theme system (new default palette from MVP.md Design System)
+   - Badge system structure (new badge definitions from MVP.md)
+   - RevenueCat integration (change to one-time purchase instead of subscription)
+   - Background audio keepalive (reuse for breathing sounds)
+   - Notification system (adapt content)
+   - Onboarding flow structure (new screens)
+
+### Phase 2: Core — Technique Engine
+
+1. **Create `src/constants/techniques.ts`** — define all 10 techniques using the `BreathingTechnique` interface from MVP.md. Each technique has phases (inhale/exhale/holdIn/holdOut), durations, shape, category, and color.
+
+2. **Create `src/store/timerStore.ts`** — universal breathing timer state machine:
+   - Standard techniques: `READY -> INHALE -> [HOLD_IN ->] EXHALE -> [HOLD_OUT ->] -> repeat cycles -> DONE`
+   - Power Breathing: `READY -> BREATHING (rapid) -> RETENTION (user-controlled) -> RECOVERY -> repeat rounds -> DONE`
+   - Kapalabhati: `READY -> RAPID_SET -> REST -> repeat sets -> DONE`
+   - Support pause/resume/stop in all modes
+
+3. **Create `src/store/sessionsStore.ts`** — save completed sessions with technique ID, cycles/rounds, retention times (for Power Breathing), optional mood rating.
+
+4. **Create `src/store/settingsStore.ts`** — per-technique overrides, custom techniques, sound/haptics/appearance settings.
+
+### Phase 3: UI — Screens
+
+1. **Home screen (`app/(tabs)/index.tsx`)** — technique cards grouped by category (calm/sleep/focus/energy/advanced). Tap card opens technique detail then start session.
+
+2. **Active session screen** — the main breathing UI:
+   - Animated breathing shapes: square (box), triangle, circle (coherence), wave (sigh), burst (power/kapalabhati), oval
+   - Phase label ("Breathe In" / "Hold" / "Breathe Out")
+   - Phase countdown timer
+   - Cycle/round counter
+   - Pause/Stop buttons
+   - Power Breathing special: retention timer with swipe-to-exhale, recovery countdown
+
+3. **Summary screen (`app/summary.tsx`)** — technique used, duration, cycles completed, retention times chart (Power Breathing), mood check, personal best celebration.
+
+4. **History screen (`app/(tabs)/history.tsx`)** — calendar view (reuse CalendarHeatmap), daily sessions with technique colored dots, streaks, progress charts.
+
+5. **Settings screen (`app/(tabs)/settings.tsx`)** — sound style, haptics, voice guidance, appearance, reminders, Apple Health toggle, language.
+
+6. **Onboarding (`app/onboarding/`)** — welcome, goal selection (calm/sleep/focus/energy), safety warning, quick first session.
+
+### Phase 4: Visual — Breathing Animations
+
+Create animated breathing shape components in `src/components/`:
+- `BreathingSquare.tsx` — 4 sides expand sequentially for box breathing
+- `BreathingTriangle.tsx` — 3 sides for triangle/4-7-8
+- `BreathingCircle.tsx` — smooth expand/contract for coherence
+- `BreathingWave.tsx` — sine wave for physiological sigh / cyclic sighing
+- `BreathingBurst.tsx` — rapid pulse for power breathing / kapalabhati
+- `BreathingOval.tsx` — asymmetric for 2-to-1, 4-4-6-2
+
+All shapes use React Native Animated API with `useNativeDriver: true`.
+
+### Phase 5: Polish
+
+- Sound assets for inhale/exhale/hold cues (tone, bell, nature, tibetan bowl)
+- Apple Health: write Mindful Minutes after each session
+- RevenueCat: one-time purchase ($3.99) for Pro techniques + custom builder + full history
+- i18n: translate all 53 locale files
+- Badges: implement all badge definitions from MVP.md
+- Lock screen widget for quick technique launch
+
+---
 
 ## Quick Reference
 
@@ -6,26 +99,20 @@
 - **State**: Zustand 5 + AsyncStorage (offline-first)
 - **Backend**: Supabase (Auth + PostgreSQL with RLS)
 - **Routing**: Expo Router v6 (file-based, `app/` directory)
-- **Bundle ID**: `com.walkpace.app`
+- **Bundle ID**: `com.breathflow.app`
 - **Min iOS**: 15.1
 - **Node**: >= 18 (recommended 22)
+- **Full spec**: See `MVP.md`
 
 ## Environment Variables
 
-Config is loaded via `.env` → `app.config.ts` → `Constants.expoConfig.extra`.
-
-```bash
-cp .env.example .env       # Create local env file
-# Edit .env with your actual values
-```
+Config is loaded via `.env` -> `app.config.ts` -> `Constants.expoConfig.extra`.
 
 | Variable | Where | Purpose |
 |----------|-------|---------|
 | `EXPO_PUBLIC_SUPABASE_URL` | `.env` | Supabase project URL |
 | `EXPO_PUBLIC_SUPABASE_ANON_KEY` | `.env` | Supabase publishable anon key |
 | `EXPO_PUBLIC_SENTRY_DSN` | `.env` | Sentry crash reporting DSN |
-
-Access in code: `Constants.expoConfig?.extra?.supabaseUrl`
 
 ## Commands
 
@@ -37,7 +124,6 @@ npm run test:watch         # Jest watch mode
 npm run test:coverage      # Coverage report
 npx tsc --noEmit           # TypeScript type check
 make check                 # typecheck + test (CI equivalent)
-make docs                  # Regenerate architecture diagrams
 ```
 
 ## Architecture
@@ -47,15 +133,30 @@ make docs                  # Regenerate architecture diagrams
 Local state (Zustand + AsyncStorage) is the **source of truth**. Supabase is a cloud backup.
 All features must work without internet. Sync is push-on-write + pull-on-foreground.
 
-### Timer State Machine
+### Timer State Machines
 
+**Standard techniques (Box, 4-7-8, Coherence, etc.):**
 ```
-READY → [WARM_UP →] FAST ↔ SLOW (×5 rounds) [→ COOL_DOWN] → DONE
-                     PAUSE / RESUME available in active states
-                     STOP → READY
+READY -> INHALE -> [HOLD_IN ->] EXHALE -> [HOLD_OUT ->] -> repeat cycles -> DONE
+          PAUSE / RESUME available
+          STOP -> READY
 ```
 
-### State Management (6 Zustand stores)
+**Power Breathing:**
+```
+READY -> BREATHING (rapid) -> RETENTION (user-controlled) -> RECOVERY -> repeat rounds -> DONE
+          PAUSE                 swipe to end
+          STOP -> READY
+```
+
+**Kapalabhati:**
+```
+READY -> RAPID_SET -> REST -> repeat sets -> DONE
+          PAUSE
+          STOP -> READY
+```
+
+### State Management (Zustand stores)
 
 | Store | File | Persisted | Synced |
 |-------|------|-----------|--------|
@@ -63,43 +164,122 @@ READY → [WARM_UP →] FAST ↔ SLOW (×5 rounds) [→ COOL_DOWN] → DONE
 | sessionsStore | `src/store/sessionsStore.ts` | AsyncStorage | Yes |
 | settingsStore | `src/store/settingsStore.ts` | AsyncStorage | Yes |
 | badgesStore | `src/store/badgesStore.ts` | AsyncStorage | Yes |
-| profileStore | `src/store/profileStore.ts` | AsyncStorage | Yes |
 | authStore | `src/store/authStore.ts` | SecureStore | No |
 
 ### Auth Flow
 
-1. App launch → restore session from SecureStore
-2. No session → `signInAnonymously()` (invisible to user)
-3. User can optionally "Sign in with Apple" → links to anonymous account
+1. App launch -> restore session from SecureStore
+2. No session -> `signInAnonymously()` (invisible to user)
+3. User can optionally "Sign in with Apple" -> links to anonymous account
 4. All data preserved across auth upgrade
 
-### Sync Merge Strategies
+### 10 Breathing Techniques
 
-- **Sessions**: union by ID (append-only)
-- **Stats**: `max()` of each numeric field
-- **Settings**: remote wins (`isPro` is authoritative from RevenueCat on app launch)
-- **Badges**: union, keep earliest `unlockedAt`
-- **Profile**: remote wins
+| # | Technique | Pattern | Category | Shape | Free |
+|---|-----------|---------|----------|-------|------|
+| 1 | Box Breathing | 4-4-4-4 | focus | square | Yes |
+| 2 | 4-7-8 Relaxing | 4-7-8 | sleep | triangle | Yes |
+| 3 | Physiological Sigh | 2+1-6 | calm | wave | Yes |
+| 4 | Coherence Breathing | 5.5-5.5 | calm | circle | Yes |
+| 5 | Triangle Breathing | 4-4-4 | calm | triangle | Yes |
+| 6 | Power Breathing | 30 breaths + hold | advanced | burst | Pro |
+| 7 | 4-4-6-2 Calm | 4-4-6-2 | calm | oval | Pro |
+| 8 | Energizing (Kapalabhati) | rapid exhales | energy | burst | Pro |
+| 9 | 2-to-1 Relaxing | 4-8 | sleep | oval | Pro |
+| 10 | Cyclic Sighing | 3+1.5-8 | calm | wave | Pro |
 
 ## Project Structure
 
 ```
 app/                       # Screens (Expo Router file-based routing)
-  (tabs)/                  # Bottom tab navigator (Timer, History, Settings)
-  onboarding/              # Onboarding flow
+  (tabs)/                  # Bottom tab navigator (Home, History, Settings)
+    index.tsx              # Home: technique cards by category
+    history.tsx            # Session history + calendar + stats
+    settings.tsx           # App settings
+  onboarding/              # Onboarding flow (welcome, goal, safety, first session)
+  session.tsx              # Active breathing session screen
+  summary.tsx              # Post-session summary
+  paywall.tsx              # Pro purchase screen
 src/
   components/              # Reusable React components
-  constants/theme.ts       # Design tokens, timer defaults, badge definitions
-  hooks/                   # Custom hooks (useIntervalFeedback, useSync, useColorScheme)
-  services/syncService.ts  # Push/pull sync engine
-  store/                   # 6 Zustand stores
-  utils/                   # Helpers (time, calories, healthKit, supabase, sentry)
+    BreathingSquare.tsx    # Animated square shape (box breathing)
+    BreathingTriangle.tsx  # Animated triangle shape
+    BreathingCircle.tsx    # Animated circle shape (coherence)
+    BreathingWave.tsx      # Animated wave shape (sighing)
+    BreathingBurst.tsx     # Animated burst shape (power/kapalabhati)
+    BreathingOval.tsx      # Animated oval shape (2-to-1)
+    TechniqueCard.tsx      # Technique card for home screen
+    RetentionTimer.tsx     # Power Breathing retention with swipe-to-exhale
+    BadgeGrid.tsx          # Badge display (adapt from WalkPace)
+    CalendarHeatmap.tsx    # Calendar view (reuse from WalkPace)
+  constants/
+    techniques.ts          # 10 technique definitions (BreathingTechnique[])
+    theme.ts               # Design tokens, defaults
+    colorThemes.ts         # Color theme palettes
+  hooks/
+    useBreathingEngine.ts  # Universal breathing timer hook
+    useHaptics.ts          # Haptic feedback (reuse)
+    useSync.ts             # Sync hook (reuse)
+    useColorScheme.ts      # Color scheme hook (reuse)
+  services/
+    syncService.ts         # Push/pull sync engine (adapt)
+  store/                   # Zustand stores
+    timerStore.ts          # Breathing timer state machine
+    sessionsStore.ts       # Session history
+    settingsStore.ts       # User settings + custom techniques
+    badgesStore.ts         # Achievements
+    authStore.ts           # Auth state (reuse)
+  utils/
+    time.ts                # Time formatting (reuse)
+    supabase.ts            # Supabase client (reuse)
+    sentry.ts              # Sentry setup (reuse)
+    revenueCat.ts          # RevenueCat — one-time purchase (adapt)
+    appleAuth.ts           # Apple Sign-In (reuse)
+    backgroundAudio.ts     # Background audio keepalive (reuse)
+    notifications.ts       # Notifications (adapt)
+    healthKit.ts           # Apple Health — Mindful Minutes only
   i18n/locales/            # 53 language files
   types.ts                 # TypeScript interfaces
-docs/                      # Architecture as Code
-  architecture/            # C4 PlantUML diagrams
-  decisions/               # ADR (Architecture Decision Records)
 ```
+
+## Design System
+
+| Token | Light | Dark |
+|-------|-------|------|
+| Primary | `#4A90D9` (calm blue) | same |
+| Accent | `#7BC4A8` (soft green) | same |
+| Background | `#F0F4F8` (cool gray) | `#0F1419` |
+| Surface | `#FFFFFF` | `#1A2332` |
+| Card | `#F8FAFC` | `#243040` |
+| Text | `#1A2332` (dark navy) | `#F0F4F8` |
+| TextSecondary | `#64748B` | `#94A3B8` |
+
+### Phase Colors
+
+| Phase | Color |
+|-------|-------|
+| Inhale | `#4A90D9` (blue) |
+| Hold In | `#7B68AE` (purple) |
+| Exhale | `#7BC4A8` (green) |
+| Hold Out | `#F5A623` (amber) |
+| Retention | `#1A2332` (near black) |
+
+## Supabase Tables
+
+| Table | PK | Purpose |
+|-------|-----|---------|
+| `user_sessions` | `(user_id, id)` | Breathing sessions |
+| `user_stats` | `user_id` | Aggregated stats |
+| `user_settings` | `user_id` | Settings + custom techniques |
+| `user_badges` | `(user_id, badge_id)` | Badge unlock tracking |
+
+All tables have RLS: `auth.uid() = user_id`.
+
+## Monetization
+
+**Free (no ads):** 5 techniques (Box, 4-7-8, Physiological Sigh, Coherence, Triangle), unlimited sessions, 7-day history, streaks, Apple Health.
+
+**Pro (one-time $3.99):** All 10 techniques, custom technique builder, full history + charts, all color themes, all badges, mood tracking, data export.
 
 ## Conventions
 
@@ -115,45 +295,23 @@ docs/                      # Architecture as Code
 - Framework: Jest + React Native Testing Library
 - Test location: `__tests__/` directories next to source
 - Naming: `*.test.ts(x)`
-- Mock setup: `jest.setup.js` (expo-audio, haptics, notifications, AsyncStorage)
 - Coverage goals: 80% line, 70% branch
 
 ### Git
-- Branch: `release/1.0.0` (current), `main` (production)
+- Branch: `main`
 - Conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`
 - Always run `make check` before committing
-
-## Supabase Tables
-
-| Table | PK | Purpose |
-|-------|-----|---------|
-| `user_sessions` | `(user_id, id)` | Walking sessions |
-| `user_stats` | `user_id` | Aggregated stats |
-| `user_settings` | `user_id` | All settings fields |
-| `user_profile` | `user_id` | Weight/age/height |
-| `user_badges` | `(user_id, badge_id)` | Badge unlock tracking |
-
-All tables have RLS: `auth.uid() = user_id`.
-
-## Design System
-
-| Token | Light | Dark |
-|-------|-------|------|
-| Primary | `#D85E43` (terracotta) | same |
-| Accent | `#5BA4C8` (soft blue) | same |
-| Background | `#EDE5DD` (warm beige) | `#1A1512` |
-| Surface | `#F5F0EA` (cream) | `#2A2421` |
-| Text | `#2A2421` (warm brown) | `#F5F0EA` |
-| Fast phase | `#D85E43` → `#E88B73` | same |
-| Slow phase | `#5BA4C8` → `#6BB9D3` | same |
 
 ## Do NOT
 
 - Do not use Redux, MobX or other state managers — Zustand only
 - Do not add class components
 - Do not write to Supabase without checking `userId` first
-- Do not set `isPro` without checking RevenueCat — it is the source of truth for subscriptions
+- Do not set `isPro` without checking RevenueCat — it is the source of truth
 - Do not import from `react-native` for audio/haptics — use expo-* packages
 - Do not hardcode strings — use i18next translation keys
 - Do not modify `ios/Pods/` or `ios/build/` — these are generated
 - Do not commit `.env` or Supabase keys to git
+- Do not use subscriptions — this app uses one-time purchase only
+- Do not add ads — the app is ad-free by design
+- Do not keep WalkPace-specific code — remove all walking references
