@@ -5,22 +5,21 @@ import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useBadgesStore, useSessionsStore } from '../../src/store';
 import { BadgeGrid } from '../../src/components/BadgeGrid';
-import { ProgressRing } from '../../src/components/ProgressRing';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
-import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS, scale } from '../../src/constants';
-
-type CategoryKey = 'sessions' | 'streak' | 'minutes' | 'calories';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS, BADGE_DEFINITIONS, scale } from '../../src/constants';
+import type { BadgeCategory } from '../../src/constants';
 
 const CATEGORIES: {
-  key: CategoryKey;
+  key: BadgeCategory;
   labelKey: string;
   icon: keyof typeof Ionicons.glyphMap;
-  statField: 'totalSessions' | 'currentStreak' | 'totalMinutes' | 'totalCalories';
 }[] = [
-  { key: 'sessions', labelKey: 'badges.categoryWalks', icon: 'walk-outline', statField: 'totalSessions' },
-  { key: 'streak', labelKey: 'badges.categoryStreaks', icon: 'flame-outline', statField: 'currentStreak' },
-  { key: 'minutes', labelKey: 'badges.categoryMinutes', icon: 'time-outline', statField: 'totalMinutes' },
-  { key: 'calories', labelKey: 'badges.categoryCalories', icon: 'flash-outline', statField: 'totalCalories' },
+  { key: 'sessions', labelKey: 'badges.categorySessions', icon: 'leaf-outline' },
+  { key: 'streak', labelKey: 'badges.categoryStreaks', icon: 'flame-outline' },
+  { key: 'minutes', labelKey: 'badges.categoryMinutes', icon: 'time-outline' },
+  { key: 'retention', labelKey: 'badges.categoryRetention', icon: 'fitness-outline' },
+  { key: 'exploration', labelKey: 'badges.categoryExploration', icon: 'compass-outline' },
+  { key: 'special', labelKey: 'badges.categorySpecial', icon: 'star-outline' },
 ];
 
 export default function AwardsScreen() {
@@ -29,34 +28,43 @@ export default function AwardsScreen() {
   const fontSize = useFontSize();
 
   const stats = useSessionsStore((s) => s.stats);
-  const allBadges = useBadgesStore((s) => s.getAllBadges)();
+  const unlockedBadges = useBadgesStore((s) => s.unlockedBadges);
 
-  const mappedBadges = useMemo(
+  const allBadges = useMemo(
     () =>
-      allBadges.map((b) => ({
-        ...b,
-        category: b.condition.type as CategoryKey,
+      BADGE_DEFINITIONS.map((def) => ({
+        id: def.id,
+        nameKey: def.nameKey,
+        descriptionKey: def.descriptionKey,
+        icon: def.icon,
+        category: def.category as BadgeCategory,
+        isPro: def.isPro,
       })),
-    [allBadges],
+    [],
   );
 
-  const unlockedCount = allBadges.filter((b) => b.unlockedAt).length;
+  const isUnlocked = (badgeId: string) =>
+    unlockedBadges.some((u) => u.badgeId === badgeId);
+
+  const unlockedCount = allBadges.filter((b) => isUnlocked(b.id)).length;
   const totalCount = allBadges.length;
   const progress = totalCount > 0 ? unlockedCount / totalCount : 0;
 
   // Group badges by category
   const grouped = useMemo(() => {
-    const map: Record<CategoryKey, typeof mappedBadges> = {
+    const map: Record<BadgeCategory, typeof allBadges> = {
       sessions: [],
       streak: [],
       minutes: [],
-      calories: [],
+      retention: [],
+      exploration: [],
+      special: [],
     };
-    for (const b of mappedBadges) {
+    for (const b of allBadges) {
       map[b.category]?.push(b);
     }
     return map;
-  }, [mappedBadges]);
+  }, [allBadges]);
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
@@ -67,20 +75,14 @@ export default function AwardsScreen() {
             {t('history.badges')}
           </Text>
           <View style={styles.progressContainer}>
-            <ProgressRing
-              progress={progress}
-              size={scale(100)}
-              strokeWidth={8}
-              color={theme.primary}
-              bgColor={theme.isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}
-            >
+            <View style={[styles.progressRing, { borderColor: theme.primary }]}>
               <Text style={[styles.progressCount, { color: theme.text }]}>
                 {unlockedCount}
               </Text>
               <Text style={[styles.progressTotal, { color: theme.textSecondary }]}>
                 / {totalCount}
               </Text>
-            </ProgressRing>
+            </View>
           </View>
         </View>
 
@@ -90,14 +92,13 @@ export default function AwardsScreen() {
           if (!badges || badges.length === 0) return null;
 
           const catColors = BADGE_CATEGORY_COLORS[cat.key];
-          const catUnlocked = badges.filter((b) => b.unlockedAt).length;
+          const catUnlocked = badges.filter((b) => isUnlocked(b.id)).length;
           const catTotal = badges.length;
           const catProgress = catTotal > 0 ? catUnlocked / catTotal : 0;
 
           // Find next locked badge for milestone hint
-          const currentStat = stats[cat.statField];
-          const nextLocked = badges.find((b) => !b.unlockedAt);
-          const remaining = nextLocked ? nextLocked.condition.value - currentStat : 0;
+          const nextLocked = badges.find((b) => !isUnlocked(b.id));
+          const remaining = 0; // Condition functions don't expose numeric thresholds
 
           return (
             <View key={cat.key} style={styles.section}>
@@ -131,7 +132,7 @@ export default function AwardsScreen() {
 
               {/* Badge grid */}
               <View style={[styles.badgesCard, { backgroundColor: theme.card }]}>
-                <BadgeGrid badges={badges} />
+                <BadgeGrid badges={badges} unlockedBadges={unlockedBadges} />
               </View>
 
               {/* Next milestone hint */}
@@ -163,6 +164,14 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     alignItems: 'center',
+  },
+  progressRing: {
+    width: scale(100),
+    height: scale(100),
+    borderRadius: scale(50),
+    borderWidth: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   progressCount: {
     fontSize: FONT_SIZE.xxl,

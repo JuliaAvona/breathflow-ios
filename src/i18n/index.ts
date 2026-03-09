@@ -55,11 +55,9 @@ import vi from './locales/vi';
 import zhCN from './locales/zh_CN';
 import zhTW from './locales/zh_TW';
 
-// Non-English locales may have partial translations; i18next falls back to English
-type DeepPartial<T> = { [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P] };
-type Translation = typeof en | DeepPartial<typeof en>;
-
-const resources: Record<string, { translation: Translation }> = {
+// Non-English locales still use nested format; cast loosely until migrated
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const resources: Record<string, { translation: any }> = {
   en: { translation: en },
   ar: { translation: ar },
   am: { translation: am },

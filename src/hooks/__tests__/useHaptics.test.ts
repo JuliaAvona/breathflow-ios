@@ -6,8 +6,8 @@ import { useSettingsStore } from '../../store';
 describe('useHaptics', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    // Enable vibration by default
-    useSettingsStore.setState({ vibrationEnabled: true });
+    // Enable haptics by default
+    useSettingsStore.setState({ hapticsEnabled: true });
   });
 
   it('calls impactAsync(Light) on light()', () => {
@@ -80,8 +80,8 @@ describe('useHaptics', () => {
     expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Error);
   });
 
-  it('does not call haptics when vibrationEnabled is false', () => {
-    useSettingsStore.setState({ vibrationEnabled: false });
+  it('does not call haptics when hapticsEnabled is false', () => {
+    useSettingsStore.setState({ hapticsEnabled: false });
 
     const { result } = renderHook(() => useHaptics());
 
@@ -103,15 +103,15 @@ describe('useHaptics', () => {
   it('respects setting changes', () => {
     const { result } = renderHook(() => useHaptics());
 
-    // Vibration enabled — should fire
+    // Haptics enabled — should fire
     act(() => {
       result.current.light();
     });
     expect(Haptics.impactAsync).toHaveBeenCalledTimes(1);
 
-    // Disable vibration
+    // Disable haptics
     act(() => {
-      useSettingsStore.setState({ vibrationEnabled: false });
+      useSettingsStore.setState({ hapticsEnabled: false });
     });
 
     // Re-render hook to pick up new state

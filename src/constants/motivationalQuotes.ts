@@ -19,6 +19,16 @@ const MOTIVATIONAL_QUOTE_KEYS = [
   'summary.quote18',
   'summary.quote19',
   'summary.quote20',
+  'summary.quote21',
+  'summary.quote22',
+  'summary.quote23',
+  'summary.quote24',
+  'summary.quote25',
+  'summary.quote26',
+  'summary.quote27',
+  'summary.quote28',
+  'summary.quote29',
+  'summary.quote30',
 ] as const;
 
 export function getRandomQuoteKey(): string {

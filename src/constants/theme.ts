@@ -2,64 +2,64 @@ import { Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
+// ─── Color Palette ─────────────────────────────────────────────────────────
+
 export const COLORS = {
-  // Primary - Japanese terracotta/burnt orange inspired by reference
-  primary: '#D85E43',
-  primaryLight: '#E88B73',
-  primaryDark: '#B84E36',
+  // Primary - Calm blue
+  primary: '#4A90D9',
+  primaryLight: '#6BA8E8',
+  primaryDark: '#3A73B0',
 
-  // Accent - Soft blue inspired by reference
-  accent: '#5BA4C8',
-  accentLight: '#89BFDA',
-  accentDark: '#4487A8',
+  // Accent - Soft green
+  accent: '#7BC4A8',
+  accentLight: '#9AD6BE',
+  accentDark: '#5BAD8A',
 
-  // Fast interval - Keep terracotta tones
-  fastStart: '#D85E43',
-  fastEnd: '#E88B73',
+  // Breathing phase colors
+  inhale: '#4A90D9',     // blue — breathe in
+  holdIn: '#7B68AE',     // purple — hold after inhale
+  exhale: '#7BC4A8',     // green — breathe out
+  holdOut: '#F5A623',    // amber — hold after exhale
+  retention: '#1A2332',  // near-black — Power Breathing retention
+  recovery: '#5BAD7A',   // sage — Power Breathing recovery breath
 
-  // Slow interval - Soft blue/teal tones
-  slowStart: '#5BA4C8',
-  slowEnd: '#6BB9D3',
-
-  // Warm-up / Cool-down
-  warmUp: '#89BFDA',
-  coolDown: '#9DC8D9',
-
-  // Neutrals - Warm beige/cream inspired by reference
+  // Neutrals
   white: '#FFFFFF',
-  black: '#2A2421',
-  background: '#EDE5DD',  // Warm beige background like reference
-  backgroundDark: '#1A1512',
-  surface: '#F5F0EA',  // Warmer cream surface
-  surfaceDark: '#2A2421',
-  card: '#F8F4EE',  // Warm card background
-  cardDark: '#3A342F',
+  black: '#1A2332',
+  background: '#F0F4F8',
+  backgroundDark: '#0F1419',
+  surface: '#FFFFFF',
+  surfaceDark: '#1A2332',
+  card: '#F8FAFC',
+  cardDark: '#243040',
 
-  // Text - Warmer dark tones
-  text: '#2A2421',  // Warm dark brown instead of pure black
-  textDark: '#F5F0EA',
-  textSecondary: '#8B7F73',  // Warm gray-brown
-  textSecondaryDark: '#B8AEA5',
+  // Text
+  text: '#1A2332',
+  textDark: '#F0F4F8',
+  textSecondary: '#64748B',
+  textSecondaryDark: '#94A3B8',
 
   // High contrast overrides
   textHighContrast: '#000000',
   textSecondaryHighContrast: '#333333',
   backgroundHighContrast: '#FFFFFF',
 
-  // Status - Japanese-inspired colors
-  success: '#6BB9D3',  // Soft blue for success
-  warning: '#E88B73',  // Soft terracotta for warning
-  error: '#D85E43',  // Terracotta for error
+  // Status
+  success: '#7BC4A8',
+  warning: '#F5A623',
+  error: '#E85D4A',
 
   // PRO / Paywall
   proGradientStart: '#FFD700',
   proGradientEnd: '#FF8C00',
   proBadge: '#FFD700',
 
-  // Border - Subtle warm borders
-  border: '#D8CEC2',  // Warm border matching the aesthetic
-  borderDark: '#4A433D',
+  // Border
+  border: '#E2E8F0',
+  borderDark: '#334155',
 } as const;
+
+// ─── Spacing & Typography ──────────────────────────────────────────────────
 
 export const SPACING = {
   xs: 4,
@@ -107,97 +107,206 @@ const BASE_WIDTH = 393;
 export const scale = (size: number): number =>
   Math.round((width / BASE_WIDTH) * size);
 
-// Timer defaults
-export const TIMER_DEFAULTS = {
-  fastDuration: 180, // 3 minutes in seconds
-  slowDuration: 180, // 3 minutes in seconds
-  totalRounds: 5,
-  warmUpDuration: 120, // 2 minutes
-  coolDownDuration: 120, // 2 minutes
+// ─── Breathing Defaults ────────────────────────────────────────────────────
+
+export const BREATHING_DEFAULTS = {
+  defaultCycles: 6,
+  defaultDuration: 300,       // 5 minutes in seconds
+  minPhaseDuration: 1,        // seconds
+  maxPhaseDuration: 15,       // seconds
+  minCycles: 1,
+  maxCycles: 20,
+  minRounds: 1,               // Power Breathing rounds
+  maxRounds: 10,
+  minBreathsPerRound: 20,     // Power Breathing breaths
+  maxBreathsPerRound: 50,
   countdownBeepSeconds: 3,
-  caloriesPerMinuteFast: 6.5,
-  caloriesPerMinuteSlow: 3.5,
-  caloriesPerMinuteWarmUp: 2.5,
 } as const;
 
-// MET values for calorie calculation
-export const MET_VALUES = {
-  fastWalking: 4.3,
-  slowWalking: 2.5,
-  warmUpCoolDown: 2.0,
-  defaultWeightKg: 65,
-} as const;
+// ─── Badge Categories & Colors ─────────────────────────────────────────────
 
-// Badge category colors - Japanese-inspired palette
-export const BADGE_CATEGORY_COLORS = {
+export type BadgeCategory =
+  | 'sessions'
+  | 'streak'
+  | 'minutes'
+  | 'retention'
+  | 'exploration'
+  | 'special';
+
+export const BADGE_CATEGORY_COLORS: Record<
+  BadgeCategory,
+  {
+    color: string;
+    iconBg: string;
+    iconBgDark: string;
+    cardTint: string;
+    cardTintDark: string;
+  }
+> = {
   sessions: {
-    color: '#D85E43',  // Terracotta
-    iconBg: '#D85E4330',
-    iconBgDark: '#D85E4340',
-    cardTint: '#D85E4310',
-    cardTintDark: '#D85E4318',
+    color: '#4A90D9',
+    iconBg: '#4A90D930',
+    iconBgDark: '#4A90D940',
+    cardTint: '#4A90D910',
+    cardTintDark: '#4A90D918',
   },
   streak: {
-    color: '#E88B73',  // Light terracotta
-    iconBg: '#E88B7330',
-    iconBgDark: '#E88B7340',
-    cardTint: '#E88B7310',
-    cardTintDark: '#E88B7318',
+    color: '#F5A623',
+    iconBg: '#F5A62330',
+    iconBgDark: '#F5A62340',
+    cardTint: '#F5A62310',
+    cardTintDark: '#F5A62318',
   },
   minutes: {
-    color: '#5BA4C8',  // Soft blue
+    color: '#7BC4A8',
+    iconBg: '#7BC4A830',
+    iconBgDark: '#7BC4A840',
+    cardTint: '#7BC4A810',
+    cardTintDark: '#7BC4A818',
+  },
+  retention: {
+    color: '#7B68AE',
+    iconBg: '#7B68AE30',
+    iconBgDark: '#7B68AE40',
+    cardTint: '#7B68AE10',
+    cardTintDark: '#7B68AE18',
+  },
+  exploration: {
+    color: '#5BA4C8',
     iconBg: '#5BA4C830',
     iconBgDark: '#5BA4C840',
     cardTint: '#5BA4C810',
     cardTintDark: '#5BA4C818',
   },
-  calories: {
-    color: '#D85E43',  // Terracotta
-    iconBg: '#D85E4330',
-    iconBgDark: '#D85E4340',
-    cardTint: '#D85E4310',
-    cardTintDark: '#D85E4318',
-  },
   special: {
-    color: '#6BB9D3',  // Lighter blue
-    iconBg: '#6BB9D330',
-    iconBgDark: '#6BB9D340',
-    cardTint: '#6BB9D310',
-    cardTintDark: '#6BB9D318',
+    color: '#5BAD7A',
+    iconBg: '#5BAD7A30',
+    iconBgDark: '#5BAD7A40',
+    cardTint: '#5BAD7A10',
+    cardTintDark: '#5BAD7A18',
   },
 } as const;
 
-// Badge definitions - PNG images
+// ─── Badge Definitions ─────────────────────────────────────────────────────
+
 export const BADGE_DEFINITIONS = [
-  // Sessions (walks) badges - Progressive journey through Japan
-  { id: 'first_walk', condition: { type: 'sessions' as const, value: 1 }, icon: require('../../assets/badge_walks_first.png') },
-  { id: 'walks_10', condition: { type: 'sessions' as const, value: 10 }, icon: require('../../assets/badge_walks_10.png') },
-  { id: 'walks_25', condition: { type: 'sessions' as const, value: 25 }, icon: require('../../assets/badge_walks_25.png') },
-  { id: 'walks_50', condition: { type: 'sessions' as const, value: 50 }, icon: require('../../assets/badge_walks_50.png') },
-  { id: 'walks_75', condition: { type: 'sessions' as const, value: 75 }, icon: require('../../assets/badge_walks_75.png') },
-  { id: 'walks_100', condition: { type: 'sessions' as const, value: 100 }, icon: require('../../assets/badge_walks_100.png') },
-  { id: 'walks_250', condition: { type: 'sessions' as const, value: 250 }, icon: require('../../assets/badge_walks_250.png') },
-  { id: 'walks_500', condition: { type: 'sessions' as const, value: 500 }, icon: require('../../assets/badge_walks_500.png') },
+  // Sessions — first steps in breathwork
+  {
+    id: 'first_breath',
+    nameKey: 'badges.first_breath.name',
+    descriptionKey: 'badges.first_breath.description',
+    icon: 'leaf-outline',
+    category: 'sessions' as BadgeCategory,
+    isPro: false,
+  },
+  {
+    id: 'explorer',
+    nameKey: 'badges.explorer.name',
+    descriptionKey: 'badges.explorer.description',
+    icon: 'compass-outline',
+    category: 'exploration' as BadgeCategory,
+    isPro: false,
+  },
+  {
+    id: 'technique_master',
+    nameKey: 'badges.technique_master.name',
+    descriptionKey: 'badges.technique_master.description',
+    icon: 'school-outline',
+    category: 'exploration' as BadgeCategory,
+    isPro: false,
+  },
 
-  // Streak badges - Elements of nature and perseverance
-  { id: 'streak_3', condition: { type: 'streak' as const, value: 3 }, icon: require('../../assets/badge_streak_3.png') },
-  { id: 'streak_7', condition: { type: 'streak' as const, value: 7 }, icon: require('../../assets/badge_streak_7.png') },
-  { id: 'streak_14', condition: { type: 'streak' as const, value: 14 }, icon: require('../../assets/badge_streak_14.png') },
-  { id: 'streak_30', condition: { type: 'streak' as const, value: 30 }, icon: require('../../assets/badge_streak_30.png') },
-  { id: 'streak_45', condition: { type: 'streak' as const, value: 45 }, icon: require('../../assets/badge_streak_45.png') },
-  { id: 'streak_60', condition: { type: 'streak' as const, value: 60 }, icon: require('../../assets/badge_streak_60.png') },
-  { id: 'streak_90', condition: { type: 'streak' as const, value: 90 }, icon: require('../../assets/badge_streak_90.png') },
-  { id: 'streak_365', condition: { type: 'streak' as const, value: 365 }, icon: require('../../assets/badge_streak_365.png') },
+  // Minutes / retention progress
+  {
+    id: 'breathe_easy',
+    nameKey: 'badges.breathe_easy.name',
+    descriptionKey: 'badges.breathe_easy.description',
+    icon: 'cloud-outline',
+    category: 'minutes' as BadgeCategory,
+    isPro: false,
+  },
+  {
+    id: 'iron_lungs',
+    nameKey: 'badges.iron_lungs.name',
+    descriptionKey: 'badges.iron_lungs.description',
+    icon: 'fitness-outline',
+    category: 'retention' as BadgeCategory,
+    isPro: false,
+  },
+  {
+    id: 'superhuman',
+    nameKey: 'badges.superhuman.name',
+    descriptionKey: 'badges.superhuman.description',
+    icon: 'flash-outline',
+    category: 'retention' as BadgeCategory,
+    isPro: false,
+  },
 
-  // Minutes badges - Time and meditation
-  { id: 'minutes_60', condition: { type: 'minutes' as const, value: 60 }, icon: require('../../assets/badge_minutes_60.png') },
-  { id: 'minutes_300', condition: { type: 'minutes' as const, value: 300 }, icon: require('../../assets/badge_minutes_300.png') },
-  { id: 'minutes_600', condition: { type: 'minutes' as const, value: 600 }, icon: require('../../assets/badge_minutes_600.png') },
-  { id: 'minutes_1200', condition: { type: 'minutes' as const, value: 1200 }, icon: require('../../assets/badge_minutes_1200.png') },
-  { id: 'minutes_3000', condition: { type: 'minutes' as const, value: 3000 }, icon: require('../../assets/badge_minutes_3000.png') },
+  // Streaks
+  {
+    id: 'week_warrior',
+    nameKey: 'badges.week_warrior.name',
+    descriptionKey: 'badges.week_warrior.description',
+    icon: 'flame-outline',
+    category: 'streak' as BadgeCategory,
+    isPro: false,
+  },
+  {
+    id: 'month_master',
+    nameKey: 'badges.month_master.name',
+    descriptionKey: 'badges.month_master.description',
+    icon: 'calendar-outline',
+    category: 'streak' as BadgeCategory,
+    isPro: false,
+  },
+  {
+    id: 'century',
+    nameKey: 'badges.century.name',
+    descriptionKey: 'badges.century.description',
+    icon: 'trophy-outline',
+    category: 'sessions' as BadgeCategory,
+    isPro: false,
+  },
+  {
+    id: 'zen_master',
+    nameKey: 'badges.zen_master.name',
+    descriptionKey: 'badges.zen_master.description',
+    icon: 'flower-outline',
+    category: 'minutes' as BadgeCategory,
+    isPro: false,
+  },
 
-  // Calories badges - Energy and movement
-  { id: 'cal_1000', condition: { type: 'calories' as const, value: 1000 }, icon: require('../../assets/badge_cal_1000.png') },
-  { id: 'cal_5000', condition: { type: 'calories' as const, value: 5000 }, icon: require('../../assets/badge_cal_5000.png') },
-  { id: 'cal_10000', condition: { type: 'calories' as const, value: 10000 }, icon: require('../../assets/badge_cal_10000.png') },
+  // Special — time-of-day & features
+  {
+    id: 'early_bird',
+    nameKey: 'badges.early_bird.name',
+    descriptionKey: 'badges.early_bird.description',
+    icon: 'sunny-outline',
+    category: 'special' as BadgeCategory,
+    isPro: false,
+  },
+  {
+    id: 'night_owl',
+    nameKey: 'badges.night_owl.name',
+    descriptionKey: 'badges.night_owl.description',
+    icon: 'moon-outline',
+    category: 'special' as BadgeCategory,
+    isPro: false,
+  },
+  {
+    id: 'custom_creator',
+    nameKey: 'badges.custom_creator.name',
+    descriptionKey: 'badges.custom_creator.description',
+    icon: 'construct-outline',
+    category: 'exploration' as BadgeCategory,
+    isPro: true,
+  },
+  {
+    id: 'mood_tracker',
+    nameKey: 'badges.mood_tracker.name',
+    descriptionKey: 'badges.mood_tracker.description',
+    icon: 'happy-outline',
+    category: 'special' as BadgeCategory,
+    isPro: false,
+  },
 ] as const;

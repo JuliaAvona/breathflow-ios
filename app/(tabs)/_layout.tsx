@@ -5,7 +5,31 @@ import { useSettingsStore } from '../../src/store';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import Svg, { Path } from 'react-native-svg';
 
-function TimerIcon({ color, size }: { color: string; size: number }) {
+function HomeIcon({ color, size }: { color: string; size: number }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"
+        stroke={color}
+        strokeWidth={2}
+      />
+      <Path
+        d="M12 6C9 6 7 9 7 12C7 15 9 18 12 18C15 18 17 15 17 12C17 9 15 6 12 6Z"
+        stroke={color}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+      />
+      <Path
+        d="M12 6V18"
+        stroke={color}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+      />
+    </Svg>
+  );
+}
+
+function HistoryIcon({ color, size }: { color: string; size: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
@@ -18,29 +42,7 @@ function TimerIcon({ color, size }: { color: string; size: number }) {
   );
 }
 
-function HistoryIcon({ color, size }: { color: string; size: number }) {
-  return (
-    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <Path
-        d="M3 3V8H8"
-        stroke={color}
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <Path
-        d="M3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C9.34784 3 6.97833 4.21785 5.41421 6.10008L3 8"
-        stroke={color}
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <Path d="M12 7V12L15 15" stroke={color} strokeWidth={2} strokeLinecap="round" />
-    </Svg>
-  );
-}
-
-function AwardsIcon({ color, size }: { color: string; size: number }) {
+function BadgesIcon({ color, size }: { color: string; size: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
@@ -96,7 +98,7 @@ function SettingsIcon({ color, size }: { color: string; size: number }) {
 export default function TabLayout() {
   const { t } = useTranslation();
   const theme = useThemeColors();
-  const vibrationEnabled = useSettingsStore((s) => s.vibrationEnabled);
+  const vibrationEnabled = useSettingsStore((s) => s.hapticsEnabled);
 
   return (
     <Tabs
@@ -120,8 +122,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: t('tabs.timer'),
-          tabBarIcon: ({ color }) => <TimerIcon color={color} size={24} />,
+          title: t('tabs.home'),
+          tabBarIcon: ({ color }) => <HomeIcon color={color} size={24} />,
         }}
       />
       <Tabs.Screen
@@ -132,10 +134,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="awards"
+        name="badges"
         options={{
-          title: t('tabs.awards'),
-          tabBarIcon: ({ color }) => <AwardsIcon color={color} size={24} />,
+          title: t('tabs.badges'),
+          tabBarIcon: ({ color }) => <BadgesIcon color={color} size={24} />,
         }}
       />
       <Tabs.Screen

@@ -1,23 +1,23 @@
 import { Share } from 'react-native';
-import { Session } from '../types';
+import { BreathingSession } from '../types';
 
-export async function exportSessionsAsCSV(sessions: Session[]): Promise<void> {
-  const header = 'Date,Started At,Completed At,Rounds,Total Rounds,Fast Duration (s),Slow Duration (s),Total Duration (s),Calories,Completed,Steps,Distance (m)';
+export async function exportSessionsAsCSV(sessions: BreathingSession[]): Promise<void> {
+  const header = 'Date,Started At,Completed At,Technique,Cycles Completed,Total Duration (s),Rounds Completed,Retention Times,Best Retention (s),Avg Retention (s),Mood,Completed';
 
   const rows = sessions.map((s) => {
     return [
       s.date,
       new Date(s.startedAt).toISOString(),
       new Date(s.completedAt).toISOString(),
-      s.rounds,
-      s.totalRounds,
-      s.fastDuration,
-      s.slowDuration,
+      s.techniqueId,
+      s.cyclesCompleted,
       s.totalDuration,
-      s.estimatedCalories,
+      s.roundsCompleted ?? '',
+      s.retentionTimes ? s.retentionTimes.join(';') : '',
+      s.bestRetention ?? '',
+      s.avgRetention ?? '',
+      s.moodAfter ?? '',
       s.completed ? 'Yes' : 'No',
-      s.steps ?? '',
-      s.distance ?? '',
     ].join(',');
   });
 
@@ -25,6 +25,6 @@ export async function exportSessionsAsCSV(sessions: Session[]): Promise<void> {
 
   await Share.share({
     message: csv,
-    title: 'WalkPace Sessions Export',
+    title: 'BreathFlow Sessions Export',
   });
 }

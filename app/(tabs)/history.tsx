@@ -4,15 +4,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
-import { useSessionsStore, useSettingsStore } from '../../src/store';
-import { ProgressRing } from '../../src/components/ProgressRing';
+import { useSessionsStore } from '../../src/store';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
-import { useStepCount } from '../../src/hooks/useStepCount';
 import { CalendarHeatmap } from '../../src/components/CalendarHeatmap';
-import { SessionCard } from '../../src/components/SessionCard';
-import { isHealthKitAvailable } from '../../src/utils/healthKit';
-import { formatTotalTime, getToday } from '../../src/utils/time';
+import { getTechniqueById } from '../../src/constants/techniques';
+import { formatTime, formatTotalTime, getToday } from '../../src/utils/time';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '../../src/constants';
+import type { BreathingSession } from '../../src/types';
+
+const MOOD_EMOJI: Record<string, string> = {
+  calm: '\u{1F60C}',
+  energized: '\u{26A1}',
+  focused: '\u{1F3AF}',
+  sleepy: '\u{1F634}',
+};
 
 function useStaggeredEntrance(count: number, delay = 80) {
   const anims = useRef(Array.from({ length: count }, () => new Animated.Value(0))).current;
@@ -32,47 +37,57 @@ function useStaggeredEntrance(count: number, delay = 80) {
   return anims;
 }
 
+function formatTimeOfDay(isoString: string): string {
+  const d = new Date(isoString);
+  return d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+}
+
 export default function HistoryScreen() {
   const { t, i18n } = useTranslation();
   const theme = useThemeColors();
   const fontSize = useFontSize();
   const stats = useSessionsStore((s) => s.stats);
   const sessions = useSessionsStore((s) => s.sessions);
-  const getActiveDays = useSessionsStore((s) => s.getActiveDays);
+  const deleteSession = useSessionsStore((s) => s.deleteSession);
   const hydrate = useSessionsStore((s) => s.hydrate);
-
-  const settings = useSettingsStore();
-
-  // Step count
-  const healthEnabled = settings.healthIntegration && isHealthKitAvailable();
-  const todaySteps = useStepCount(healthEnabled);
-  const dailyStepGoal = settings.dailyStepGoal;
-  const stepProgress = dailyStepGoal > 0 ? Math.min(todaySteps / dailyStepGoal, 1) : 0;
 
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth());
   const [selectedDate, setSelectedDate] = useState<string | null>(getToday());
   const [refreshing, setRefreshing] = useState(false);
-  // Entrance animations for 6 sections
-  const entranceAnims = useStaggeredEntrance(6);
 
-  // Calendar month transition
+  const entranceAnims = useStaggeredEntrance(5);
   const calendarOpacity = useRef(new Animated.Value(1)).current;
 
-  const activeDays = useMemo(() => getActiveDays(), [getActiveDays, sessions]);
+  // Compute active days set from sessions
+  const activeDays = useMemo(() => {
+    const days = new Set<string>();
+    for (const s of sessions) {
+      days.add(s.date);
+    }
+    return days;
+  }, [sessions]);
 
-  // Today's sessions
-  const todayStr = useMemo(() => {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  }, []);
+  // Today's data
+  const todayStr = useMemo(() => getToday(), []);
   const todaySessions = useMemo(() => sessions.filter((s) => s.date === todayStr), [sessions, todayStr]);
-  const todayCalories = useMemo(() => todaySessions.reduce((sum, s) => sum + s.estimatedCalories, 0), [todaySessions]);
-  const todayMinutes = useMemo(() => todaySessions.reduce((sum, s) => sum + Math.round(s.totalDuration / 60), 0), [todaySessions]);
+  const todayMinutes = useMemo(
+    () => todaySessions.reduce((sum, s) => sum + Math.round(s.totalDuration / 60), 0),
+    [todaySessions],
+  );
 
-  // Last workout
-  const lastWorkout = sessions.length > 0 ? sessions[0] : null;
+  // Selected day sessions
+  const selectedDaySessions = useMemo(() => {
+    if (!selectedDate) return [];
+    return sessions.filter((s) => s.date === selectedDate);
+  }, [sessions, selectedDate]);
+
+  // All-time favorite technique
+  const favoriteTechnique = useMemo(() => {
+    if (!stats.favoriteTechniqueId) return null;
+    return getTechniqueById(stats.favoriteTechniqueId) ?? null;
+  }, [stats.favoriteTechniqueId]);
 
   const animateMonthChange = useCallback((changeFn: () => void) => {
     Animated.timing(calendarOpacity, {
@@ -129,42 +144,6 @@ export default function HistoryScreen() {
     setRefreshing(false);
   }, [hydrate]);
 
-  const selectedDaySessions = useMemo(() => {
-    if (!selectedDate) return [];
-    return sessions.filter((s) => s.date === selectedDate);
-  }, [sessions, selectedDate]);
-
-  const dayLabels = useMemo(() => {
-    const formatter = new Intl.DateTimeFormat(i18n.language, { weekday: 'narrow' });
-    // Generate labels starting from Monday (Jan 1 2024 is a Monday)
-    return Array.from({ length: 7 }, (_, i) => {
-      const date = new Date(2024, 0, i + 1);
-      return formatter.format(date);
-    });
-  }, [i18n.language]);
-
-  // Last 7 days activity (Mon–Sun)
-  const last7Days = useMemo(() => {
-    const today = new Date();
-    const dayOfWeek = today.getDay(); // 0=Sun
-    const mondayOffset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - mondayOffset);
-    monday.setHours(0, 0, 0, 0);
-
-    const todayDateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-
-    return dayLabels.map((label, i) => {
-      const d = new Date(monday);
-      d.setDate(monday.getDate() + i);
-      const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-      const hasActivity = sessions.some((s) => s.date === dateStr);
-      const isToday = dateStr === todayDateStr;
-      const isPast = dateStr < todayDateStr;
-      return { label, hasActivity, isToday, isPast };
-    });
-  }, [sessions, dayLabels]);
-
   const isEmpty = stats.totalSessions === 0;
 
   const getEntranceStyle = (index: number) => ({
@@ -177,11 +156,67 @@ export default function HistoryScreen() {
     }],
   });
 
-  const handleLastWorkoutPress = useCallback(() => {
-    if (lastWorkout) {
-      setSelectedDate(lastWorkout.date);
-    }
-  }, [lastWorkout]);
+  const renderSessionCard = (session: BreathingSession) => {
+    const technique = getTechniqueById(session.techniqueId);
+    const techniqueName = technique ? t(technique.nameKey) : session.techniqueId;
+    const techniqueColor = technique?.color ?? theme.primary;
+    const techniqueIcon = (technique?.icon ?? 'ellipse-outline') as keyof typeof Ionicons.glyphMap;
+
+    const durationStr = formatTime(session.totalDuration);
+    const cyclesLabel = session.roundsCompleted != null
+      ? `${session.roundsCompleted} ${t('history.rounds')}`
+      : `${session.cyclesCompleted} ${t('history.cycles')}`;
+    const timeOfDay = formatTimeOfDay(session.startedAt);
+    const moodEmoji = session.moodAfter ? MOOD_EMOJI[session.moodAfter] : null;
+
+    return (
+      <View
+        key={session.id}
+        style={[styles.sessionCard, { backgroundColor: theme.card }]}
+      >
+        <View style={styles.sessionCardHeader}>
+          <View style={styles.sessionTechniqueRow}>
+            <View style={[styles.techniqueDot, { backgroundColor: techniqueColor }]} />
+            <Ionicons name={techniqueIcon} size={18} color={techniqueColor} style={styles.techniqueIcon} />
+            <Text style={[styles.techniqueName, { color: theme.text }]} numberOfLines={1}>
+              {techniqueName}
+            </Text>
+          </View>
+          <Text style={[styles.sessionTime, { color: theme.textSecondary }]}>{timeOfDay}</Text>
+        </View>
+
+        <View style={styles.sessionDetails}>
+          <View style={styles.sessionStat}>
+            <Ionicons name="timer-outline" size={14} color={theme.textSecondary} />
+            <Text style={[styles.sessionStatText, { color: theme.textSecondary }]}>{durationStr}</Text>
+          </View>
+          <View style={styles.sessionStat}>
+            <Ionicons name="repeat-outline" size={14} color={theme.textSecondary} />
+            <Text style={[styles.sessionStatText, { color: theme.textSecondary }]}>{cyclesLabel}</Text>
+          </View>
+          {session.bestRetention != null && session.bestRetention > 0 && (
+            <View style={styles.sessionStat}>
+              <Ionicons name="stopwatch-outline" size={14} color={theme.textSecondary} />
+              <Text style={[styles.sessionStatText, { color: theme.textSecondary }]}>
+                {formatTime(session.bestRetention)}
+              </Text>
+            </View>
+          )}
+          {moodEmoji && (
+            <Text style={styles.moodEmoji}>{moodEmoji}</Text>
+          )}
+        </View>
+
+        {!session.completed && (
+          <View style={[styles.incompleteBadge, { backgroundColor: `${theme.textSecondary}18` }]}>
+            <Text style={[styles.incompleteBadgeText, { color: theme.textSecondary }]}>
+              {t('history.incomplete')}
+            </Text>
+          </View>
+        )}
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
@@ -197,7 +232,7 @@ export default function HistoryScreen() {
           />
         }
       >
-        {/* Header with streak pill */}
+        {/* Header */}
         <View style={styles.headerRow}>
           <Text style={[styles.screenTitle, { color: theme.text, fontSize: 34 * (fontSize.md / FONT_SIZE.md) }]}>
             {t('history.title')}
@@ -213,24 +248,24 @@ export default function HistoryScreen() {
         {isEmpty ? (
           <View style={styles.emptyContainer}>
             <View style={[styles.emptyIconCircle, { backgroundColor: theme.card }]}>
-              <Ionicons name="walk-outline" size={48} color={theme.primary} />
+              <Ionicons name="leaf-outline" size={48} color={theme.primary} />
             </View>
             <Text style={[styles.emptyTitle, { color: theme.text }]} numberOfLines={1} adjustsFontSizeToFit>
-              {t('history.noWalksYet')}
+              {t('history.noSessionsYet')}
             </Text>
             <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]} numberOfLines={2} adjustsFontSizeToFit>
-              {t('history.noWalksSubtitle')}
+              {t('history.noSessionsSubtitle')}
             </Text>
             <TouchableOpacity
               style={[styles.ctaCard, { backgroundColor: theme.primary, shadowColor: theme.primary, marginTop: SPACING.xl }]}
               activeOpacity={0.8}
               onPress={() => router.push('/(tabs)')}
-              accessibilityLabel={t('history.startWorkout')}
+              accessibilityLabel={t('history.startSession')}
               accessibilityRole="button"
             >
               <Ionicons name="play-circle" size={28} color={COLORS.white} />
               <View style={styles.ctaTextContainer}>
-                <Text style={styles.ctaTitle} numberOfLines={1} adjustsFontSizeToFit>{t('history.startWorkout')}</Text>
+                <Text style={styles.ctaTitle} numberOfLines={1} adjustsFontSizeToFit>{t('history.startSession')}</Text>
                 <Text style={styles.ctaSubtitle} numberOfLines={2}>{t('history.ctaSubtitle')}</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color="rgba(255,255,255,0.7)" />
@@ -238,178 +273,38 @@ export default function HistoryScreen() {
           </View>
         ) : (
           <>
-            {/* Start Workout CTA */}
+            {/* Today Stats Row */}
             <Animated.View style={getEntranceStyle(0)}>
-              <TouchableOpacity
-                style={[styles.ctaCard, { backgroundColor: theme.primary, shadowColor: theme.primary }]}
-                activeOpacity={0.8}
-                onPress={() => router.push('/(tabs)')}
-                accessibilityLabel={t('history.startWorkout')}
-                accessibilityRole="button"
-              >
-                <Ionicons name="play-circle" size={28} color={COLORS.white} />
-                <View style={styles.ctaTextContainer}>
-                  <Text style={styles.ctaTitle}>{t('history.startWorkout')}</Text>
-                  <Text style={styles.ctaSubtitle}>{t('history.ctaSubtitle')}</Text>
-                </View>
-                <Ionicons name="chevron-forward" size={20} color="rgba(255,255,255,0.7)" />
-              </TouchableOpacity>
-            </Animated.View>
-
-            {/* Today section */}
-            <Animated.View style={getEntranceStyle(1)}>
               <View style={styles.sectionHeader}>
                 <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.today')}</Text>
               </View>
-              <View style={[styles.todayCard, { backgroundColor: theme.card }]}>
-                <ProgressRing
-                  progress={stepProgress}
-                  size={130}
-                  strokeWidth={10}
-                  color={theme.primary}
-                  bgColor={`${theme.primary}20`}
-                >
-                  <Text style={[styles.ringSteps, { color: theme.text }]}>
-                    {todaySteps >= 1000 ? `${(todaySteps / 1000).toFixed(1)}k` : todaySteps}
-                  </Text>
-                  <Text style={[styles.ringGoal, { color: theme.textSecondary }]}>
-                    / {dailyStepGoal >= 1000 ? `${(dailyStepGoal / 1000).toFixed(0)}k` : dailyStepGoal}
-                  </Text>
-                  <Text style={[styles.ringLabel, { color: theme.textSecondary }]}>
-                    {t('history.stepsProgress')}
-                  </Text>
-                </ProgressRing>
-                <View style={styles.todayStats}>
-                  <View style={styles.todayStatsGrid}>
-                    <View style={styles.todayStatCell}>
-                      <Ionicons name="footsteps-outline" size={18} color={theme.accent} />
-                      <Text style={[styles.todayStatValue, { color: theme.text }]}>
-                        {todaySteps >= 1000 ? `${(todaySteps / 1000).toFixed(1)}k` : todaySteps}
-                      </Text>
-                      <Text style={[styles.todayStatLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>{t('history.stepsProgress')}</Text>
-                    </View>
-                    <View style={styles.todayStatCell}>
-                      <Ionicons name="flame" size={18} color={theme.primary} />
-                      <Text style={[styles.todayStatValue, { color: theme.text }]}>{todayCalories}</Text>
-                      <Text style={[styles.todayStatLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>{t('history.todayCalories')}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.todayStatsGrid}>
-                    <View style={styles.todayStatCell}>
-                      <Ionicons name="timer-outline" size={18} color={theme.primary} />
-                      <Text style={[styles.todayStatValue, { color: theme.text }]}>{todayMinutes}m</Text>
-                      <Text style={[styles.todayStatLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>{t('history.time')}</Text>
-                    </View>
-                    <View style={styles.todayStatCell}>
-                      <Ionicons name="walk-outline" size={18} color={theme.accent} />
-                      <Text style={[styles.todayStatValue, { color: theme.text }]}>{todaySessions.length}</Text>
-                      <Text style={[styles.todayStatLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>{t('history.todayWalks')}</Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-              {healthEnabled ? (
-                <View style={styles.healthSource}>
-                  <Ionicons name="heart" size={11} color={theme.textSecondary} />
-                  <Text style={[styles.healthSourceText, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>{t('history.stepsViaHealth')}</Text>
-                </View>
-              ) : (
-                <View style={[styles.healthSource, { marginTop: SPACING.xs, marginBottom: SPACING.md }]}>
-                  <Ionicons name="heart-outline" size={11} color={theme.textSecondary} />
-                  <Text style={[styles.healthSourceText, { color: theme.textSecondary }]} numberOfLines={2} adjustsFontSizeToFit>
-                    {t('history.connectHealthForSteps')}
+              <View style={styles.todayStatsRow}>
+                <View style={[styles.todayStatCard, { backgroundColor: theme.card }]}>
+                  <Ionicons name="timer-outline" size={20} color={theme.primary} />
+                  <Text style={[styles.todayStatValue, { color: theme.text }]}>{todayMinutes}</Text>
+                  <Text style={[styles.todayStatLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>
+                    {t('history.minutesToday')}
                   </Text>
                 </View>
-              )}
-            </Animated.View>
-
-            {/* Last 7 Days */}
-            <Animated.View style={getEntranceStyle(2)}>
-              <View style={styles.sectionHeader}>
-                <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.last7Days')}</Text>
-              </View>
-              <View style={[styles.weekCard, { backgroundColor: theme.card }]}>
-                <View style={styles.weekDotsRow}>
-                  {last7Days.map((day, i) => (
-                    <View key={i} style={styles.dayColumn}>
-                      <View style={[
-                        styles.dayCircle,
-                        { backgroundColor: day.isToday ? `${theme.primary}15` : 'transparent' },
-                        day.isToday && { borderColor: theme.primary, borderWidth: 1.5 },
-                      ]}>
-                        <Text style={[
-                          styles.dayLetter,
-                          { color: day.isToday ? theme.primary : theme.textSecondary },
-                        ]}>
-                          {day.label}
-                        </Text>
-                      </View>
-                      {day.hasActivity ? (
-                        <Ionicons name="flame" size={14} color={theme.primary} />
-                      ) : (
-                        <View style={[styles.dayDot, { backgroundColor: `${theme.textSecondary}30` }]} />
-                      )}
-                    </View>
-                  ))}
+                <View style={[styles.todayStatCard, { backgroundColor: theme.card }]}>
+                  <Ionicons name="leaf-outline" size={20} color={theme.accent} />
+                  <Text style={[styles.todayStatValue, { color: theme.text }]}>{todaySessions.length}</Text>
+                  <Text style={[styles.todayStatLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>
+                    {t('history.sessionsToday')}
+                  </Text>
+                </View>
+                <View style={[styles.todayStatCard, { backgroundColor: theme.card }]}>
+                  <Ionicons name="flame" size={20} color={theme.primary} />
+                  <Text style={[styles.todayStatValue, { color: theme.text }]}>{stats.currentStreak}</Text>
+                  <Text style={[styles.todayStatLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>
+                    {t('history.streakDays')}
+                  </Text>
                 </View>
               </View>
             </Animated.View>
 
-            {/* Last Workout */}
-            {lastWorkout && (
-              <Animated.View style={getEntranceStyle(3)}>
-                <View style={styles.sectionHeader}>
-                  <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.lastWorkout')}</Text>
-                </View>
-                <TouchableOpacity
-                  style={[styles.lastWorkoutCard, { backgroundColor: theme.card }]}
-                  activeOpacity={0.7}
-                  onPress={handleLastWorkoutPress}
-                >
-                  <View style={styles.lastWorkoutMain}>
-                    <View style={styles.lastWorkoutInfo}>
-                      <Text style={[styles.lastWorkoutDate, { color: theme.text }]}>
-                        {new Date(lastWorkout.date + 'T00:00:00').toLocaleDateString(i18n.language, { month: 'short', day: 'numeric' })}
-                      </Text>
-                      <View style={styles.lastWorkoutStats}>
-                        <View style={styles.lastWorkoutStat}>
-                          <Ionicons name="timer-outline" size={14} color={theme.textSecondary} />
-                          <Text style={[styles.lastWorkoutStatText, { color: theme.textSecondary }]}>
-                            {formatTotalTime(lastWorkout.totalDuration)}
-                          </Text>
-                        </View>
-                        <View style={styles.lastWorkoutStat}>
-                          <Ionicons name="repeat" size={14} color={theme.textSecondary} />
-                          <Text style={[styles.lastWorkoutStatText, { color: theme.textSecondary }]}>
-                            {lastWorkout.rounds}/{lastWorkout.totalRounds}
-                          </Text>
-                        </View>
-                        <View style={styles.lastWorkoutStat}>
-                          <Ionicons name="flame" size={14} color={theme.textSecondary} />
-                          <Text style={[styles.lastWorkoutStatText, { color: theme.textSecondary }]}>
-                            {lastWorkout.estimatedCalories}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                    <View style={[
-                      styles.completedBadge,
-                      { backgroundColor: lastWorkout.completed ? `${theme.primary}18` : `${theme.textSecondary}18` },
-                    ]}>
-                      <Text style={[
-                        styles.completedBadgeText,
-                        { color: lastWorkout.completed ? theme.primary : theme.textSecondary },
-                      ]}>
-                        {lastWorkout.completed ? t('history.completed') : t('history.incomplete')}
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </Animated.View>
-            )}
-
-            {/* Calendar */}
-            <Animated.View style={[{ opacity: calendarOpacity }, getEntranceStyle(4)]}>
+            {/* Calendar Heatmap */}
+            <Animated.View style={[{ opacity: calendarOpacity }, getEntranceStyle(1)]}>
               <View style={[styles.calendarCard, { backgroundColor: theme.card }]}>
                 <CalendarHeatmap
                   activeDays={activeDays}
@@ -423,26 +318,98 @@ export default function HistoryScreen() {
               </View>
             </Animated.View>
 
-            {/* Selected day sessions */}
+            {/* Selected Day Sessions */}
             {selectedDate && (
-              <View style={styles.sessionsSection}>
+              <Animated.View style={[styles.sessionsSection, getEntranceStyle(2)]}>
                 <View style={styles.sectionHeader}>
                   <Text style={[styles.sectionTitle, { color: theme.text }]}>
-                    {new Date(selectedDate + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                    {new Date(selectedDate + 'T00:00:00').toLocaleDateString(i18n.language, {
+                      month: 'short',
+                      day: 'numeric',
+                    })}
                   </Text>
                 </View>
                 {selectedDaySessions.length > 0 ? (
-                  selectedDaySessions.map((session) => (
-                    <SessionCard key={session.id} session={session} />
-                  ))
+                  selectedDaySessions.map(renderSessionCard)
                 ) : (
-                  <Text style={[styles.noWalksOnDay, { color: theme.textSecondary }]}>
-                    {t('history.noWalksOnDay')}
+                  <Text style={[styles.noSessionsOnDay, { color: theme.textSecondary }]}>
+                    {t('history.noSessionsOnDay')}
                   </Text>
                 )}
-              </View>
+              </Animated.View>
             )}
 
+            {/* All-Time Stats */}
+            <Animated.View style={getEntranceStyle(3)}>
+              <View style={styles.sectionHeader}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.allTimeStats')}</Text>
+              </View>
+              <View style={[styles.allTimeCard, { backgroundColor: theme.card }]}>
+                <View style={styles.allTimeRow}>
+                  <View style={styles.allTimeStat}>
+                    <Text style={[styles.allTimeValue, { color: theme.text }]}>{stats.totalSessions}</Text>
+                    <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>
+                      {t('history.totalSessions')}
+                    </Text>
+                  </View>
+                  <View style={styles.allTimeStat}>
+                    <Text style={[styles.allTimeValue, { color: theme.text }]}>{stats.totalMinutes}</Text>
+                    <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>
+                      {t('history.totalMinutes')}
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.allTimeRow}>
+                  <View style={styles.allTimeStat}>
+                    <Text style={[styles.allTimeValue, { color: theme.text }]}>{stats.longestStreak}</Text>
+                    <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>
+                      {t('history.longestStreak')}
+                    </Text>
+                  </View>
+                  <View style={styles.allTimeStat}>
+                    {favoriteTechnique ? (
+                      <>
+                        <Ionicons
+                          name={favoriteTechnique.icon as keyof typeof Ionicons.glyphMap}
+                          size={22}
+                          color={favoriteTechnique.color}
+                        />
+                        <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]} numberOfLines={1}>
+                          {t(favoriteTechnique.nameKey)}
+                        </Text>
+                      </>
+                    ) : (
+                      <>
+                        <Text style={[styles.allTimeValue, { color: theme.text }]}>-</Text>
+                        <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>
+                          {t('history.favoriteTechnique')}
+                        </Text>
+                      </>
+                    )}
+                  </View>
+                </View>
+                {stats.bestRetention > 0 && (
+                  <View style={styles.allTimeRow}>
+                    <View style={styles.allTimeStat}>
+                      <Text style={[styles.allTimeValue, { color: theme.text }]}>
+                        {formatTime(stats.bestRetention)}
+                      </Text>
+                      <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>
+                        {t('history.bestRetention')}
+                      </Text>
+                    </View>
+                    <View style={styles.allTimeStat}>
+                      <Text style={[styles.allTimeValue, { color: theme.text }]}>
+                        {formatTime(stats.avgRetention)}
+                      </Text>
+                      <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>
+                        {t('history.avgRetention')}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+              </View>
+            </Animated.View>
           </>
         )}
       </ScrollView>
@@ -483,8 +450,25 @@ const styles = StyleSheet.create({
   },
 
   // Empty state
-  emptyContainer: { alignItems: 'center', justifyContent: 'center', paddingTop: 100, paddingHorizontal: SPACING.xl },
-  emptyIconCircle: { width: 100, height: 100, borderRadius: 50, alignItems: 'center', justifyContent: 'center', marginBottom: SPACING.lg, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.08, shadowRadius: 12, elevation: 4 },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 100,
+    paddingHorizontal: SPACING.xl,
+  },
+  emptyIconCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: SPACING.lg,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 4,
+  },
   emptyTitle: { fontSize: FONT_SIZE.xl, fontWeight: '700', marginBottom: SPACING.sm },
   emptySubtitle: { fontSize: FONT_SIZE.md, textAlign: 'center', lineHeight: 22 },
 
@@ -524,142 +508,33 @@ const styles = StyleSheet.create({
   },
   sectionTitle: { fontSize: FONT_SIZE.lg, fontWeight: '700' },
 
-  // Today card
-  todayCard: {
+  // Today stats row
+  todayStatsRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: SPACING.lg,
-    padding: SPACING.lg,
-    borderRadius: BORDER_RADIUS.xl,
-    gap: SPACING.lg,
+    paddingHorizontal: SPACING.lg,
+    gap: SPACING.sm,
     marginBottom: SPACING.lg,
+  },
+  todayStatCard: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: SPACING.md,
+    borderRadius: BORDER_RADIUS.xl,
+    gap: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 8,
     elevation: 2,
   },
-  ringSteps: {
+  todayStatValue: {
     fontSize: FONT_SIZE.xl,
     fontWeight: '800',
-  },
-  ringGoal: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '500',
-    marginTop: -2,
-  },
-  ringLabel: {
-    fontSize: FONT_SIZE.xs,
-    fontWeight: '500',
-    marginTop: 2,
-  },
-  todayStats: {
-    flex: 1,
-    gap: SPACING.sm,
-  },
-  todayStatsGrid: {
-    flexDirection: 'row',
-    gap: SPACING.sm,
-  },
-  todayStatCell: {
-    flex: 1,
-    alignItems: 'center',
-    gap: 3,
-    paddingVertical: SPACING.sm,
-  },
-  todayStatValue: {
-    fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
   },
   todayStatLabel: {
     fontSize: FONT_SIZE.xs,
     fontWeight: '500',
-  },
-
-  // Week dots
-  weekCard: {
-    marginHorizontal: SPACING.lg,
-    paddingVertical: SPACING.md,
-    paddingHorizontal: SPACING.sm,
-    borderRadius: BORDER_RADIUS.xl,
-    marginBottom: SPACING.lg,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  weekDotsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  dayColumn: {
-    alignItems: 'center',
-    gap: 6,
-  },
-  dayCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  dayLetter: {
-    fontSize: FONT_SIZE.xs,
-    fontWeight: '600',
-  },
-  dayDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-  },
-
-  // Last workout
-  lastWorkoutCard: {
-    marginHorizontal: SPACING.lg,
-    padding: SPACING.md,
-    borderRadius: BORDER_RADIUS.xl,
-    marginBottom: SPACING.lg,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  lastWorkoutMain: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  lastWorkoutInfo: {
-    flex: 1,
-    gap: SPACING.xs,
-  },
-  lastWorkoutDate: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '700',
-  },
-  lastWorkoutStats: {
-    flexDirection: 'row',
-    gap: SPACING.md,
-  },
-  lastWorkoutStat: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  lastWorkoutStatText: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '500',
-  },
-  completedBadge: {
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: SPACING.xs,
-    borderRadius: BORDER_RADIUS.full,
-  },
-  completedBadgeText: {
-    fontSize: FONT_SIZE.xs,
-    fontWeight: '600',
+    textAlign: 'center',
   },
 
   // Calendar
@@ -675,20 +550,116 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.lg,
   },
 
-  // Sessions
-  sessionsSection: { paddingHorizontal: SPACING.lg },
-  noWalksOnDay: { fontSize: FONT_SIZE.sm, textAlign: 'center', paddingVertical: SPACING.lg },
+  // Sessions list
+  sessionsSection: { marginBottom: SPACING.lg },
+  noSessionsOnDay: {
+    fontSize: FONT_SIZE.sm,
+    textAlign: 'center',
+    paddingVertical: SPACING.lg,
+    paddingHorizontal: SPACING.lg,
+  },
 
-  // Health attribution
-  healthSource: {
+  // Session card
+  sessionCard: {
+    marginHorizontal: SPACING.lg,
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.xl,
+    marginBottom: SPACING.sm,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  sessionCardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: SPACING.xs,
+  },
+  sessionTechniqueRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    marginTop: SPACING.xs,
-    paddingBottom: SPACING.sm,
+    flex: 1,
   },
-  healthSourceText: {
+  techniqueDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginRight: 6,
+  },
+  techniqueIcon: {
+    marginRight: 6,
+  },
+  techniqueName: {
+    fontSize: FONT_SIZE.md,
+    fontWeight: '600',
+    flex: 1,
+  },
+  sessionTime: {
+    fontSize: FONT_SIZE.sm,
+    fontWeight: '500',
+    marginLeft: SPACING.sm,
+  },
+  sessionDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.md,
+    marginTop: SPACING.xs,
+  },
+  sessionStat: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  sessionStatText: {
+    fontSize: FONT_SIZE.sm,
+    fontWeight: '500',
+  },
+  moodEmoji: {
+    fontSize: FONT_SIZE.md,
+  },
+  incompleteBadge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: 2,
+    borderRadius: BORDER_RADIUS.full,
+    marginTop: SPACING.xs,
+  },
+  incompleteBadgeText: {
     fontSize: FONT_SIZE.xs,
+    fontWeight: '600',
+  },
+
+  // All-time stats
+  allTimeCard: {
+    marginHorizontal: SPACING.lg,
+    padding: SPACING.lg,
+    borderRadius: BORDER_RADIUS.xl,
+    gap: SPACING.md,
+    marginBottom: SPACING.lg,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  allTimeRow: {
+    flexDirection: 'row',
+    gap: SPACING.md,
+  },
+  allTimeStat: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 4,
+  },
+  allTimeValue: {
+    fontSize: FONT_SIZE.xl,
+    fontWeight: '800',
+  },
+  allTimeLabel: {
+    fontSize: FONT_SIZE.xs,
+    fontWeight: '500',
+    textAlign: 'center',
   },
 });

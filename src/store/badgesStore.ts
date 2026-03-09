@@ -1,31 +1,72 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Badge, UserStats } from '../types';
+import { UnlockedBadge, UserStats, UserSettings, BreathingSession } from '../types';
 import { BADGE_DEFINITIONS } from '../constants';
 
-const STORAGE_KEY = '@walkpace_badges';
-
-interface BadgeState {
-  id: string;
-  unlockedAt: number | null;
-}
+const STORAGE_KEY = '@breathflow_badges';
 
 interface BadgesStore {
-  badges: BadgeState[];
+  unlockedBadges: UnlockedBadge[];
   _hydrated: boolean;
   onBadgeUnlocked: ((badgeId: string, titleKey: string, descKey: string) => void) | null;
   setOnBadgeUnlocked: (cb: BadgesStore['onBadgeUnlocked']) => void;
   hydrate: () => Promise<void>;
-  checkAndUnlock: (stats: UserStats) => string[];
-  getBadge: (id: string) => Badge | undefined;
-  getAllBadges: () => Badge[];
+  checkAndUnlock: (stats: UserStats, settings: UserSettings, sessions: BreathingSession[]) => string[];
+  unlockBadge: (badgeId: string) => void;
+  isUnlocked: (badgeId: string) => boolean;
 }
 
-const createDefaultBadges = (): BadgeState[] =>
-  BADGE_DEFINITIONS.map((def) => ({ id: def.id, unlockedAt: null }));
+/**
+ * Evaluate whether a badge should be unlocked based on its ID.
+ */
+function evaluateCondition(
+  badgeId: string,
+  stats: UserStats,
+  settings: UserSettings,
+  sessions: BreathingSession[],
+): boolean {
+  switch (badgeId) {
+    case 'first_breath':
+      return stats.totalSessions >= 1;
+    case 'explorer':
+      return Object.keys(stats.sessionsPerTechnique).length >= 5;
+    case 'technique_master':
+      return Object.keys(stats.sessionsPerTechnique).length >= 10;
+    case 'breathe_easy':
+      return stats.bestRetention >= 60;
+    case 'iron_lungs':
+      return stats.bestRetention >= 120;
+    case 'superhuman':
+      return stats.bestRetention >= 180;
+    case 'week_warrior':
+      return stats.currentStreak >= 7;
+    case 'month_master':
+      return stats.currentStreak >= 30;
+    case 'century':
+      return stats.totalSessions >= 100;
+    case 'zen_master':
+      return stats.totalMinutes >= 1000;
+    case 'early_bird':
+      return sessions.some((s) => {
+        const hour = new Date(s.startedAt).getHours();
+        return hour < 7;
+      });
+    case 'night_owl':
+      return sessions.some((s) => {
+        const hour = new Date(s.startedAt).getHours();
+        return hour >= 22;
+      });
+    case 'custom_creator':
+      return settings.customTechniques.length >= 1;
+    case 'mood_tracker':
+      return sessions.filter((s) => s.moodAfter != null).length >= 7;
+    default:
+      return false;
+  }
+}
 
 export const useBadgesStore = create<BadgesStore>((set, get) => ({
-  badges: createDefaultBadges(),
+  unlockedBadges: [],
   _hydrated: false,
   onBadgeUnlocked: null,
   setOnBadgeUnlocked: (cb) => set({ onBadgeUnlocked: cb }),
@@ -34,57 +75,38 @@ export const useBadgesStore = create<BadgesStore>((set, get) => ({
     try {
       const json = await AsyncStorage.getItem(STORAGE_KEY);
       if (json) {
-        const stored: BadgeState[] = JSON.parse(json);
-        // Merge with definitions to handle newly added badges
-        const merged = BADGE_DEFINITIONS.map((def) => {
-          const existing = stored.find((b) => b.id === def.id);
-          return existing ?? { id: def.id, unlockedAt: null };
-        });
-        set({ badges: merged, _hydrated: true });
+        const stored: UnlockedBadge[] = JSON.parse(json);
+        set({ unlockedBadges: stored, _hydrated: true });
       } else {
-        set({ badges: createDefaultBadges(), _hydrated: true });
+        set({ unlockedBadges: [], _hydrated: true });
       }
     } catch {
       set({ _hydrated: true });
     }
   },
 
-  checkAndUnlock: (stats: UserStats) => {
-    const { badges } = get();
+  checkAndUnlock: (stats: UserStats, settings: UserSettings, sessions: BreathingSession[]) => {
+    const { unlockedBadges } = get();
+    const unlockedIds = new Set(unlockedBadges.map((b) => b.badgeId));
     const newlyUnlocked: string[] = [];
-    const now = Date.now();
+    const now = new Date().toISOString();
 
-    const updated = badges.map((badge) => {
-      if (badge.unlockedAt !== null) return badge;
+    for (const def of BADGE_DEFINITIONS) {
+      if (unlockedIds.has(def.id)) continue;
 
-      const def = BADGE_DEFINITIONS.find((d) => d.id === badge.id);
-      if (!def) return badge;
-
-      let earned = false;
-      switch (def.condition.type) {
-        case 'sessions':
-          earned = stats.totalSessions >= def.condition.value;
-          break;
-        case 'streak':
-          earned = stats.currentStreak >= def.condition.value;
-          break;
-        case 'minutes':
-          earned = stats.totalMinutes >= def.condition.value;
-          break;
-        case 'calories':
-          earned = stats.totalCalories >= def.condition.value;
-          break;
-      }
-
+      const earned = evaluateCondition(def.id, stats, settings, sessions);
       if (earned) {
-        newlyUnlocked.push(badge.id);
-        return { ...badge, unlockedAt: now };
+        newlyUnlocked.push(def.id);
       }
-      return badge;
-    });
+    }
 
     if (newlyUnlocked.length > 0) {
-      set({ badges: updated });
+      const newEntries: UnlockedBadge[] = newlyUnlocked.map((id) => ({
+        badgeId: id,
+        unlockedAt: now,
+      }));
+      const updated = [...unlockedBadges, ...newEntries];
+      set({ unlockedBadges: updated });
       AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       try { require('../services/syncService').pushBadges().catch(() => {}); } catch {}
 
@@ -93,7 +115,7 @@ export const useBadgesStore = create<BadgesStore>((set, get) => ({
         for (const id of newlyUnlocked) {
           const def = BADGE_DEFINITIONS.find((d) => d.id === id);
           if (def) {
-            onBadgeUnlocked(id, `badges.badge_${id}_title`, `badges.badge_${id}_desc`);
+            onBadgeUnlocked(id, def.nameKey, def.descriptionKey);
           }
         }
       }
@@ -102,34 +124,19 @@ export const useBadgesStore = create<BadgesStore>((set, get) => ({
     return newlyUnlocked;
   },
 
-  getBadge: (id: string) => {
-    const { badges } = get();
-    const def = BADGE_DEFINITIONS.find((d) => d.id === id);
-    const state = badges.find((b) => b.id === id);
-    if (!def || !state) return undefined;
+  unlockBadge: (badgeId: string) => {
+    const { unlockedBadges } = get();
+    if (unlockedBadges.some((b) => b.badgeId === badgeId)) return;
 
-    return {
-      id: def.id,
-      titleKey: `badges.badge_${def.id}_title`,
-      descriptionKey: `badges.badge_${def.id}_desc`,
-      icon: def.icon,
-      condition: { ...def.condition },
-      unlockedAt: state.unlockedAt,
-    };
+    const updated: UnlockedBadge[] = [
+      ...unlockedBadges,
+      { badgeId, unlockedAt: new Date().toISOString() },
+    ];
+    set({ unlockedBadges: updated });
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   },
 
-  getAllBadges: () => {
-    const { badges } = get();
-    return BADGE_DEFINITIONS.map((def) => {
-      const state = badges.find((b) => b.id === def.id);
-      return {
-        id: def.id,
-        titleKey: `badges.badge_${def.id}_title`,
-        descriptionKey: `badges.badge_${def.id}_desc`,
-        icon: def.icon,
-        condition: { ...def.condition },
-        unlockedAt: state?.unlockedAt ?? null,
-      };
-    });
+  isUnlocked: (badgeId: string) => {
+    return get().unlockedBadges.some((b) => b.badgeId === badgeId);
   },
 }));

@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useBadgesStore } from '../badgesStore';
-import { UserStats } from '../../types';
+import { UserStats, UserSettings, BreathingSession } from '../../types';
 
 jest.mock('../../services/syncService', () => ({
   pushBadges: jest.fn().mockResolvedValue(undefined),
@@ -12,28 +12,52 @@ const mockStats: UserStats = {
   longestStreak: 15,
   totalSessions: 50,
   totalMinutes: 1500,
-  totalCalories: 7500,
+  totalBreaths: 3000,
+  bestRetention: 90,
+  avgRetention: 60,
   lastSessionDate: '2026-02-14',
+  favoriteTechniqueId: 'box_breathing',
+  sessionsPerTechnique: { box_breathing: 30, wim_hof: 20 },
 };
+
+const mockSettings: UserSettings = {
+  techniqueOverrides: {},
+  customTechniques: [],
+  soundEnabled: true,
+  soundStyle: 'tone',
+  hapticsEnabled: true,
+  voiceGuidance: 'off',
+  colorThemeId: 'ocean',
+  darkMode: 'system',
+  textSize: 'default',
+  healthSyncEnabled: false,
+  reminderEnabled: false,
+  reminderTime: '08:00',
+  reminderDays: [0, 1, 2, 3, 4, 5, 6],
+  onboardingCompleted: true,
+  safetyAccepted: true,
+  isPro: false,
+};
+
+const mockSessions: BreathingSession[] = [];
 
 describe('badgesStore', () => {
   beforeEach(async () => {
     // Clear persisted state and reset store
-    await AsyncStorage.removeItem('@walkpace_badges');
+    await AsyncStorage.removeItem('@breathflow_badges');
     const { result } = renderHook(() => useBadgesStore());
     await act(async () => {
       await result.current.hydrate();
     });
   });
 
-  it('initializes with default badges', () => {
+  it('initializes with empty unlocked badges', () => {
     const { result } = renderHook(() => useBadgesStore());
 
-    expect(result.current.badges.length).toBeGreaterThan(0);
-    expect(result.current.badges.every(b => b.unlockedAt === null)).toBe(true);
+    expect(result.current.unlockedBadges).toHaveLength(0);
   });
 
-  it('unlocks first_walk badge with 1 session', () => {
+  it('unlocks first_breath badge with 1 session', () => {
     const { result } = renderHook(() => useBadgesStore());
 
     const stats: UserStats = {
@@ -43,29 +67,35 @@ describe('badgesStore', () => {
 
     let unlocked: string[] = [];
     act(() => {
-      unlocked = result.current.checkAndUnlock(stats);
+      unlocked = result.current.checkAndUnlock(stats, mockSettings, mockSessions);
     });
 
-    expect(unlocked).toContain('first_walk');
+    expect(unlocked).toContain('first_breath');
   });
 
-  it('unlocks walks_10 badge with 10 sessions', () => {
+  it('unlocks explorer badge with 5 techniques used', () => {
     const { result } = renderHook(() => useBadgesStore());
 
     const stats: UserStats = {
       ...mockStats,
-      totalSessions: 10,
+      sessionsPerTechnique: {
+        box: 1,
+        '478': 1,
+        wim: 1,
+        coherent: 1,
+        alternate: 1,
+      },
     };
 
     let unlocked: string[] = [];
     act(() => {
-      unlocked = result.current.checkAndUnlock(stats);
+      unlocked = result.current.checkAndUnlock(stats, mockSettings, mockSessions);
     });
 
-    expect(unlocked).toContain('walks_10');
+    expect(unlocked).toContain('explorer');
   });
 
-  it('unlocks streak_7 badge with 7-day streak', () => {
+  it('unlocks week_warrior badge with 7-day streak', () => {
     const { result } = renderHook(() => useBadgesStore());
 
     const stats: UserStats = {
@@ -75,42 +105,42 @@ describe('badgesStore', () => {
 
     let unlocked: string[] = [];
     act(() => {
-      unlocked = result.current.checkAndUnlock(stats);
+      unlocked = result.current.checkAndUnlock(stats, mockSettings, mockSessions);
     });
 
-    expect(unlocked).toContain('streak_7');
+    expect(unlocked).toContain('week_warrior');
   });
 
-  it('unlocks minutes_60 badge with 60 minutes', () => {
+  it('unlocks zen_master badge with 1000 minutes', () => {
     const { result } = renderHook(() => useBadgesStore());
 
     const stats: UserStats = {
       ...mockStats,
-      totalMinutes: 60,
+      totalMinutes: 1000,
     };
 
     let unlocked: string[] = [];
     act(() => {
-      unlocked = result.current.checkAndUnlock(stats);
+      unlocked = result.current.checkAndUnlock(stats, mockSettings, mockSessions);
     });
 
-    expect(unlocked).toContain('minutes_60');
+    expect(unlocked).toContain('zen_master');
   });
 
-  it('unlocks cal_1000 badge with 1000 calories', () => {
+  it('unlocks breathe_easy badge with 60s best retention', () => {
     const { result } = renderHook(() => useBadgesStore());
 
     const stats: UserStats = {
       ...mockStats,
-      totalCalories: 1000,
+      bestRetention: 60,
     };
 
     let unlocked: string[] = [];
     act(() => {
-      unlocked = result.current.checkAndUnlock(stats);
+      unlocked = result.current.checkAndUnlock(stats, mockSettings, mockSessions);
     });
 
-    expect(unlocked).toContain('cal_1000');
+    expect(unlocked).toContain('breathe_easy');
   });
 
   it('unlocks multiple badges at once', () => {
@@ -120,23 +150,30 @@ describe('badgesStore', () => {
       currentStreak: 30,
       longestStreak: 30,
       totalSessions: 100,
-      totalMinutes: 3000,
-      totalCalories: 10000,
+      totalMinutes: 1000,
+      totalBreaths: 10000,
+      bestRetention: 180,
+      avgRetention: 120,
       lastSessionDate: '2026-02-14',
+      favoriteTechniqueId: 'box',
+      sessionsPerTechnique: {
+        box: 10, '478': 10, wim: 10, coherent: 10, alternate: 10,
+        kapalabhati: 10, ujjayi: 10, bhastrika: 10, nadi: 10, lion: 10,
+      },
     };
 
     let unlocked: string[] = [];
     act(() => {
-      unlocked = result.current.checkAndUnlock(stats);
+      unlocked = result.current.checkAndUnlock(stats, mockSettings, mockSessions);
     });
 
     // Should unlock many badges
     expect(unlocked.length).toBeGreaterThan(5);
-    expect(unlocked).toContain('first_walk');
-    expect(unlocked).toContain('walks_100');
-    expect(unlocked).toContain('streak_30');
-    expect(unlocked).toContain('minutes_3000');
-    expect(unlocked).toContain('cal_10000');
+    expect(unlocked).toContain('first_breath');
+    expect(unlocked).toContain('century');
+    expect(unlocked).toContain('month_master');
+    expect(unlocked).toContain('zen_master');
+    expect(unlocked).toContain('superhuman');
   });
 
   it('does not re-unlock already unlocked badges', () => {
@@ -144,44 +181,46 @@ describe('badgesStore', () => {
 
     const stats: UserStats = {
       ...mockStats,
-      totalSessions: 10,
+      totalSessions: 1,
     };
 
     // First unlock
     let unlocked: string[] = [];
     act(() => {
-      unlocked = result.current.checkAndUnlock(stats);
+      unlocked = result.current.checkAndUnlock(stats, mockSettings, mockSessions);
     });
 
-    expect(unlocked).toContain('walks_10');
+    expect(unlocked).toContain('first_breath');
 
     // Second check with same stats
     act(() => {
-      unlocked = result.current.checkAndUnlock(stats);
+      unlocked = result.current.checkAndUnlock(stats, mockSettings, mockSessions);
     });
 
-    expect(unlocked).not.toContain('walks_10');
+    expect(unlocked).not.toContain('first_breath');
   });
 
-  it('getBadge returns badge with correct structure', () => {
+  it('isUnlocked returns correct value', () => {
     const { result } = renderHook(() => useBadgesStore());
 
-    const badge = result.current.getBadge('first_walk');
+    expect(result.current.isUnlocked('first_breath')).toBe(false);
 
-    expect(badge).toBeDefined();
-    expect(badge?.id).toBe('first_walk');
-    expect(badge?.titleKey).toBe('badges.badge_first_walk_title');
-    expect(badge?.descriptionKey).toBe('badges.badge_first_walk_desc');
-    expect(badge?.condition.type).toBe('sessions');
-    expect(badge?.condition.value).toBe(1);
+    act(() => {
+      result.current.unlockBadge('first_breath');
+    });
+
+    expect(result.current.isUnlocked('first_breath')).toBe(true);
   });
 
-  it('getAllBadges returns all badge definitions', () => {
+  it('unlockBadge adds badge to unlockedBadges', () => {
     const { result } = renderHook(() => useBadgesStore());
 
-    const allBadges = result.current.getAllBadges();
+    act(() => {
+      result.current.unlockBadge('first_breath');
+    });
 
-    expect(allBadges.length).toBeGreaterThan(20); // We have 24+ badges
-    expect(allBadges.every(b => b.titleKey && b.descriptionKey)).toBe(true);
+    expect(result.current.unlockedBadges).toHaveLength(1);
+    expect(result.current.unlockedBadges[0].badgeId).toBe('first_breath');
+    expect(result.current.unlockedBadges[0].unlockedAt).toBeTruthy();
   });
 });

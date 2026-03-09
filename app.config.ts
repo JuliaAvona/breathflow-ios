@@ -2,8 +2,8 @@ import { ExpoConfig, ConfigContext } from 'expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: 'Japanese Walking - WalkPace',
-  slug: 'walkpace',
+  name: 'BreathFlow — Breathing Exercises',
+  slug: 'breathflow',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -14,12 +14,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   ios: {
     supportsTablet: false,
-    bundleIdentifier: 'com.walkpace.app',
+    bundleIdentifier: 'com.breathflow.app',
     buildNumber: '13',
     usesAppleSignIn: true,
     infoPlist: {
       UIBackgroundModes: ['audio'],
-      CFBundleDisplayName: 'WalkPace',
+      CFBundleDisplayName: 'BreathFlow',
       NSSupportsLiveActivities: true,
     },
   },
@@ -28,10 +28,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#ffffff',
     },
-    package: 'com.walkpace.app',
+    package: 'com.breathflow.app',
     edgeToEdgeEnabled: true,
   },
-  scheme: 'walkpace',
+  scheme: 'breathflow',
   plugins: [
     'expo-router',
     'expo-apple-authentication',
@@ -39,17 +39,25 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       '@sentry/react-native/expo',
       {
-        organization: 'walkpace',
-        project: 'walkpace-ios',
+        organization: 'breathflow',
+        project: 'breathflow-ios',
       },
     ],
     [
       'react-native-health',
       {
         healthSharePermission:
-          'WalkPace reads your steps, distance, weight, and height to track walking progress and provide accurate calorie estimates.',
+          'BreathFlow reads your weight and height to personalize your breathing exercises and provide accurate session insights.',
         healthUpdatePermission:
-          'WalkPace saves your walking workouts and active energy burned to Apple Health.',
+          'BreathFlow saves your mindfulness sessions to Apple Health.',
+        healthClinicalPermission: '',
+        readPermissions: [
+          'Weight',
+          'Height',
+        ],
+        writePermissions: [
+          'MindfulSession',
+        ],
       },
     ],
   ],

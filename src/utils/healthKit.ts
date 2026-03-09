@@ -1,5 +1,4 @@
 import { Platform, Alert, NativeModules } from 'react-native';
-import { Session } from '../types';
 
 // Apple HealthKit integration via react-native-health.
 // Gracefully degrades when native module is unavailable (Expo Go).
@@ -41,14 +40,11 @@ export async function requestHealthPermissions(): Promise<boolean> {
     const permissions = {
       permissions: {
         read: [
-          HealthConstants.Permissions.StepCount,
-          HealthConstants.Permissions.ActiveEnergyBurned,
           HealthConstants.Permissions.Weight,
           HealthConstants.Permissions.Height,
         ],
         write: [
-          HealthConstants.Permissions.ActiveEnergyBurned,
-          HealthConstants.Permissions.Workout,
+          HealthConstants.Permissions.MindfulSession,
         ],
       },
     };
@@ -66,21 +62,19 @@ export async function requestHealthPermissions(): Promise<boolean> {
   }
 }
 
-export async function saveSessionToHealth(session: Session): Promise<boolean> {
+export async function writeMindfulSession(
+  startDate: Date,
+  endDate: Date,
+  _durationInMinutes: number,
+): Promise<boolean> {
   if (!isHealthKitAvailable()) return false;
 
   try {
-    const startDate = new Date(session.startedAt).toISOString();
-    const endDate = new Date(session.completedAt).toISOString();
-
     return new Promise((resolve) => {
-      AppleHealthKit.saveWorkout(
+      AppleHealthKit.saveMindfulSession(
         {
-          type: 'Walking',
-          startDate,
-          endDate,
-          energyBurned: session.estimatedCalories,
-          energyBurnedUnit: 'calorie',
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
         },
         (err: string) => {
           if (err) {
@@ -93,85 +87,6 @@ export async function saveSessionToHealth(session: Session): Promise<boolean> {
     });
   } catch {
     return false;
-  }
-}
-
-export async function getTodayStepCount(): Promise<number> {
-  if (!isHealthKitAvailable()) return 0;
-
-  try {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    return new Promise((resolve) => {
-      AppleHealthKit.getStepCount(
-        { date: today.toISOString() },
-        (err: string, results: { value: number }) => {
-          if (err || !results) {
-            resolve(0);
-          } else {
-            resolve(Math.round(results.value));
-          }
-        },
-      );
-    });
-  } catch {
-    return 0;
-  }
-}
-
-export async function getStepCountBetween(
-  startDate: Date,
-  endDate: Date,
-): Promise<number> {
-  if (!isHealthKitAvailable()) return 0;
-
-  try {
-    return new Promise((resolve) => {
-      AppleHealthKit.getStepCount(
-        {
-          startDate: startDate.toISOString(),
-          endDate: endDate.toISOString(),
-        },
-        (err: string, results: { value: number }) => {
-          if (err || !results) {
-            resolve(0);
-          } else {
-            resolve(Math.round(results.value));
-          }
-        },
-      );
-    });
-  } catch {
-    return 0;
-  }
-}
-
-export async function getDistanceBetween(
-  startDate: Date,
-  endDate: Date,
-): Promise<number> {
-  if (!isHealthKitAvailable()) return 0;
-
-  try {
-    return new Promise((resolve) => {
-      AppleHealthKit.getDistanceWalkingRunning(
-        {
-          startDate: startDate.toISOString(),
-          endDate: endDate.toISOString(),
-          unit: 'meter',
-        },
-        (err: string, results: { value: number }) => {
-          if (err || !results) {
-            resolve(0);
-          } else {
-            resolve(Math.round(results.value));
-          }
-        },
-      );
-    });
-  } catch {
-    return 0;
   }
 }
 

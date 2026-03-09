@@ -1,342 +1,551 @@
 import { create } from 'zustand';
-import { TimerPhase } from '../types';
-import { TIMER_DEFAULTS } from '../constants';
+import type {
+  BreathingTechnique,
+  TimerMode,
+  TimerPhase,
+  PowerBreathingPhase,
+  KapalabhatiPhase,
+} from '../types';
+
+// ─── Constants ──────────────────────────────────────────────────────────────
+
+const RECOVERY_DURATION = 15; // seconds
+
+// ─── Phase mapping from PhaseType to TimerPhase ─────────────────────────────
+
+const PHASE_TYPE_TO_TIMER_PHASE: Record<string, TimerPhase> = {
+  inhale: 'INHALE',
+  holdIn: 'HOLD_IN',
+  exhale: 'EXHALE',
+  holdOut: 'HOLD_OUT',
+};
+
+// ─── Store Interface ────────────────────────────────────────────────────────
 
 interface TimerStore {
+  // Current state
+  mode: TimerMode;
+  technique: BreathingTechnique | null;
+
+  // Standard mode
   phase: TimerPhase;
-  phaseBeforePause: TimerPhase | null;
+  currentPhaseIndex: number;
+  phaseTimeRemaining: number;
+  currentCycle: number;
+  totalCycles: number;
+
+  // Power Breathing mode
+  powerPhase: PowerBreathingPhase;
+  breathCount: number;
+  targetBreaths: number;
+  retentionTime: number;
+  retentionTimes: number[];
   currentRound: number;
   totalRounds: number;
-  fastDuration: number;
-  slowDuration: number;
-  timeRemaining: number;
+  recoveryTimeRemaining: number;
+
+  // Kapalabhati mode
+  kapalabhatiPhase: KapalabhatiPhase;
+  currentSet: number;
+  totalSets: number;
+  setTimeRemaining: number;
+  restTimeRemaining: number;
+  breathsInSet: number;
+
+  // Common
   totalElapsed: number;
-  fastElapsed: number;
-  slowElapsed: number;
-  warmUpElapsed: number;
-  coolDownElapsed: number;
-  startedAt: number | null;
-  warmUpEnabled: boolean;
-  coolDownEnabled: boolean;
-  warmUpDuration: number;
-  coolDownDuration: number;
-  countdownActive: boolean;
-  startingPhaseConfig: 'fast' | 'slow';
+  isRunning: boolean;
+  startedAt: string | null;
 
-  // Notification callbacks (set from component layer)
-  onScheduleNotifications: ((config: {
-    fastDuration: number;
-    slowDuration: number;
-    rounds: number;
-    currentRound: number;
-    timeRemaining: number;
-    phase: TimerPhase;
-    warmUp: boolean;
-    coolDown: boolean;
-    warmUpDuration: number;
-    coolDownDuration: number;
-  }) => void) | null;
-  onCancelNotifications: (() => void) | null;
-  setNotificationCallbacks: (
-    onSchedule: TimerStore['onScheduleNotifications'],
-    onCancel: TimerStore['onCancelNotifications'],
+  // Actions
+  startSession: (
+    technique: BreathingTechnique,
+    overrides?: {
+      cycles?: number;
+      phaseDurations?: number[];
+      rounds?: number;
+      breathsPerRound?: number;
+    },
   ) => void;
-
-  start: (options: {
-    fastDuration?: number;
-    slowDuration?: number;
-    rounds?: number;
-    warmUp?: boolean;
-    coolDown?: boolean;
-    warmUpDuration?: number;
-    coolDownDuration?: number;
-    startingPhase?: 'fast' | 'slow';
-  }) => void;
+  tick: () => void;
   pause: () => void;
   resume: () => void;
   stop: () => void;
-  tick: () => { phaseChanged: boolean; countdown: boolean; timeRemaining: number };
+  endRetention: () => void;
   reset: () => void;
 }
 
-export const useTimerStore = create<TimerStore>((set, get) => ({
-  phase: 'READY',
-  phaseBeforePause: null,
-  currentRound: 1,
-  totalRounds: TIMER_DEFAULTS.totalRounds,
-  fastDuration: TIMER_DEFAULTS.fastDuration,
-  slowDuration: TIMER_DEFAULTS.slowDuration,
-  timeRemaining: TIMER_DEFAULTS.fastDuration,
+// ─── Initial State ──────────────────────────────────────────────────────────
+
+const initialState = {
+  mode: 'standard' as TimerMode,
+  technique: null as BreathingTechnique | null,
+
+  phase: 'READY' as TimerPhase,
+  currentPhaseIndex: 0,
+  phaseTimeRemaining: 0,
+  currentCycle: 0,
+  totalCycles: 0,
+
+  powerPhase: 'READY' as PowerBreathingPhase,
+  breathCount: 0,
+  targetBreaths: 30,
+  retentionTime: 0,
+  retentionTimes: [] as number[],
+  currentRound: 0,
+  totalRounds: 3,
+  recoveryTimeRemaining: 0,
+
+  kapalabhatiPhase: 'READY' as KapalabhatiPhase,
+  currentSet: 0,
+  totalSets: 3,
+  setTimeRemaining: 0,
+  restTimeRemaining: 0,
+  breathsInSet: 0,
+
   totalElapsed: 0,
-  fastElapsed: 0,
-  slowElapsed: 0,
-  warmUpElapsed: 0,
-  coolDownElapsed: 0,
-  startedAt: null,
-  warmUpEnabled: false,
-  coolDownEnabled: false,
-  warmUpDuration: TIMER_DEFAULTS.warmUpDuration,
-  coolDownDuration: TIMER_DEFAULTS.coolDownDuration,
-  countdownActive: false,
-  startingPhaseConfig: 'fast',
+  isRunning: false,
+  startedAt: null as string | null,
+};
 
-  onScheduleNotifications: null,
-  onCancelNotifications: null,
-  setNotificationCallbacks: (onSchedule, onCancel) => {
-    set({ onScheduleNotifications: onSchedule, onCancelNotifications: onCancel });
-  },
+// ─── Store ──────────────────────────────────────────────────────────────────
 
-  start: ({
-    fastDuration = TIMER_DEFAULTS.fastDuration,
-    slowDuration = TIMER_DEFAULTS.slowDuration,
-    rounds = TIMER_DEFAULTS.totalRounds,
-    warmUp = false,
-    coolDown = false,
-    warmUpDuration = TIMER_DEFAULTS.warmUpDuration,
-    coolDownDuration = TIMER_DEFAULTS.coolDownDuration,
-    startingPhase = 'fast',
-  }) => {
-    const firstActivePhase: TimerPhase = startingPhase === 'slow' ? 'SLOW' : 'FAST';
-    const startPhase: TimerPhase = warmUp ? 'WARM_UP' : firstActivePhase;
-    const startTime = warmUp ? warmUpDuration : (startingPhase === 'slow' ? slowDuration : fastDuration);
+export const useTimerStore = create<TimerStore>()((set, get) => ({
+  ...initialState,
 
-    set({
-      phase: startPhase,
-      phaseBeforePause: null,
-      currentRound: 1,
-      totalRounds: rounds,
-      fastDuration,
-      slowDuration,
-      timeRemaining: startTime,
-      totalElapsed: 0,
-      fastElapsed: 0,
-      slowElapsed: 0,
-      warmUpElapsed: 0,
-      coolDownElapsed: 0,
-      startedAt: Date.now(),
-      warmUpEnabled: warmUp,
-      coolDownEnabled: coolDown,
-      warmUpDuration,
-      coolDownDuration,
-      countdownActive: false,
-      startingPhaseConfig: startingPhase,
-    });
+  // ─── Start Session ──────────────────────────────────────────────────────
 
-    // Schedule phase transition notifications
-    const state = get();
-    state.onScheduleNotifications?.({
-      fastDuration,
-      slowDuration,
-      rounds,
-      currentRound: 1,
-      timeRemaining: state.timeRemaining,
-      phase: state.phase,
-      warmUp,
-      coolDown,
-      warmUpDuration,
-      coolDownDuration,
-    });
-  },
+  startSession: (technique, overrides) => {
+    const mode = technique.mode;
 
-  pause: () => {
-    const { phase, onCancelNotifications } = get();
-    if (phase === 'FAST' || phase === 'SLOW' || phase === 'WARM_UP' || phase === 'COOL_DOWN') {
-      set({ phase: 'PAUSED', phaseBeforePause: phase, countdownActive: false });
-      onCancelNotifications?.();
-    }
-  },
+    if (mode === 'standard') {
+      const phaseDurations = overrides?.phaseDurations;
 
-  resume: () => {
-    const state = get();
-    if (state.phaseBeforePause) {
-      set({ phase: state.phaseBeforePause, phaseBeforePause: null });
+      // If phase durations are overridden, create a modified copy of the technique
+      const effectiveTechnique = phaseDurations
+        ? {
+            ...technique,
+            phases: technique.phases.map((p, i) => ({
+              ...p,
+              duration: phaseDurations[i] ?? p.duration,
+            })),
+          }
+        : technique;
 
-      // Reschedule notifications for remaining time
-      const resumed = get();
-      state.onScheduleNotifications?.({
-        fastDuration: resumed.fastDuration,
-        slowDuration: resumed.slowDuration,
-        rounds: resumed.totalRounds,
-        currentRound: resumed.currentRound,
-        timeRemaining: resumed.timeRemaining,
-        phase: resumed.phase,
-        warmUp: false,
-        coolDown: resumed.coolDownEnabled,
-        warmUpDuration: 0,
-        coolDownDuration: resumed.coolDownDuration,
+      const phases = effectiveTechnique.phases;
+      const firstPhaseDuration = phases[0].duration;
+
+      const totalCycles =
+        overrides?.cycles ??
+        (technique.defaultCycles > 0 ? technique.defaultCycles : 0);
+
+      set({
+        ...initialState,
+        mode: 'standard',
+        technique: effectiveTechnique,
+        phase: PHASE_TYPE_TO_TIMER_PHASE[phases[0].type] ?? 'INHALE',
+        currentPhaseIndex: 0,
+        phaseTimeRemaining: firstPhaseDuration,
+        currentCycle: 1,
+        totalCycles,
+        totalElapsed: 0,
+        isRunning: true,
+        startedAt: new Date().toISOString(),
+      });
+    } else if (mode === 'power') {
+      const targetBreaths = overrides?.breathsPerRound ?? technique.breathCount ?? 30;
+      const totalRounds = overrides?.rounds ?? technique.roundCount ?? 3;
+
+      set({
+        ...initialState,
+        mode: 'power',
+        technique,
+        powerPhase: 'BREATHING',
+        breathCount: 0,
+        targetBreaths,
+        retentionTime: 0,
+        retentionTimes: [],
+        currentRound: 1,
+        totalRounds,
+        recoveryTimeRemaining: 0,
+        totalElapsed: 0,
+        isRunning: true,
+        startedAt: new Date().toISOString(),
+      });
+    } else if (mode === 'kapalabhati') {
+      const totalSets = technique.setCount ?? 3;
+      const setDuration = technique.setDuration ?? 30;
+
+      set({
+        ...initialState,
+        mode: 'kapalabhati',
+        technique,
+        kapalabhatiPhase: 'RAPID_SET',
+        currentSet: 1,
+        totalSets,
+        setTimeRemaining: setDuration,
+        restTimeRemaining: 0,
+        breathsInSet: 0,
+        totalElapsed: 0,
+        isRunning: true,
+        startedAt: new Date().toISOString(),
       });
     }
   },
 
-  stop: () => {
-    const { onCancelNotifications } = get();
-    onCancelNotifications?.();
-    set({
-      phase: 'READY',
-      phaseBeforePause: null,
-      currentRound: 1,
-      timeRemaining: get().fastDuration,
-      totalElapsed: 0,
-      fastElapsed: 0,
-      slowElapsed: 0,
-      warmUpElapsed: 0,
-      coolDownElapsed: 0,
-      startedAt: null,
-      countdownActive: false,
-    });
-  },
+  // ─── Tick ───────────────────────────────────────────────────────────────
 
   tick: () => {
     const state = get();
-    const activePhases: TimerPhase[] = ['FAST', 'SLOW', 'WARM_UP', 'COOL_DOWN'];
-    if (!activePhases.includes(state.phase)) return { phaseChanged: false, countdown: false, timeRemaining: state.timeRemaining };
+    if (!state.isRunning) return;
 
-    const newTimeRemaining = state.timeRemaining - 1;
-    const newTotalElapsed = state.totalElapsed + 1;
-    const newFastElapsed =
-      state.phase === 'FAST' ? state.fastElapsed + 1 : state.fastElapsed;
-    const newSlowElapsed =
-      state.phase === 'SLOW' ? state.slowElapsed + 1 : state.slowElapsed;
-    const newWarmUpElapsed =
-      state.phase === 'WARM_UP' ? state.warmUpElapsed + 1 : state.warmUpElapsed;
-    const newCoolDownElapsed =
-      state.phase === 'COOL_DOWN' ? state.coolDownElapsed + 1 : state.coolDownElapsed;
+    const { mode } = state;
 
-    // Check countdown (last 5 seconds)
-    const isCountdown =
-      newTimeRemaining > 0 &&
-      newTimeRemaining <= TIMER_DEFAULTS.countdownBeepSeconds &&
-      (state.phase === 'FAST' || state.phase === 'SLOW' || state.phase === 'WARM_UP' || state.phase === 'COOL_DOWN');
-
-    if (newTimeRemaining <= 0) {
-      // Phase completed
-      if (state.phase === 'WARM_UP') {
-        // Warm-up done → start first active phase
-        const firstPhase: TimerPhase = state.startingPhaseConfig === 'slow' ? 'SLOW' : 'FAST';
-        const firstTime = state.startingPhaseConfig === 'slow' ? state.slowDuration : state.fastDuration;
-        set({
-          phase: firstPhase,
-          timeRemaining: firstTime,
-          totalElapsed: newTotalElapsed,
-          fastElapsed: newFastElapsed,
-          slowElapsed: newSlowElapsed,
-          warmUpElapsed: newWarmUpElapsed,
-          coolDownElapsed: newCoolDownElapsed,
-          countdownActive: false,
-        });
-        return { phaseChanged: true, countdown: false, timeRemaining: newTimeRemaining };
-      }
-
-      // Determine phase order based on startingPhaseConfig
-      const isSlowStart = state.startingPhaseConfig === 'slow';
-      const phaseA: TimerPhase = isSlowStart ? 'SLOW' : 'FAST'; // first in round
-      const phaseB: TimerPhase = isSlowStart ? 'FAST' : 'SLOW'; // second in round
-      const durationA = isSlowStart ? state.slowDuration : state.fastDuration;
-      const durationB = isSlowStart ? state.fastDuration : state.slowDuration;
-
-      if (state.phase === phaseA) {
-        // Switch to second phase of round
-        set({
-          phase: phaseB,
-          timeRemaining: durationB,
-          totalElapsed: newTotalElapsed,
-          fastElapsed: newFastElapsed,
-          slowElapsed: newSlowElapsed,
-          warmUpElapsed: newWarmUpElapsed,
-          coolDownElapsed: newCoolDownElapsed,
-          countdownActive: false,
-        });
-        return { phaseChanged: true, countdown: false, timeRemaining: newTimeRemaining };
-      }
-
-      if (state.phase === phaseB) {
-        if (state.currentRound < state.totalRounds) {
-          // Next round — back to first phase
-          set({
-            phase: phaseA,
-            currentRound: state.currentRound + 1,
-            timeRemaining: durationA,
-            totalElapsed: newTotalElapsed,
-            fastElapsed: newFastElapsed,
-            slowElapsed: newSlowElapsed,
-            warmUpElapsed: newWarmUpElapsed,
-            coolDownElapsed: newCoolDownElapsed,
-            countdownActive: false,
-          });
-          return { phaseChanged: true, countdown: false, timeRemaining: newTimeRemaining };
-        } else if (state.coolDownEnabled) {
-          // All rounds done, start cool-down
-          set({
-            phase: 'COOL_DOWN',
-            timeRemaining: state.coolDownDuration,
-            totalElapsed: newTotalElapsed,
-            fastElapsed: newFastElapsed,
-            slowElapsed: newSlowElapsed,
-            warmUpElapsed: newWarmUpElapsed,
-            coolDownElapsed: newCoolDownElapsed,
-            countdownActive: false,
-          });
-          return { phaseChanged: true, countdown: false, timeRemaining: newTimeRemaining };
-        } else {
-          // All done
-          set({
-            phase: 'DONE',
-            timeRemaining: 0,
-            totalElapsed: newTotalElapsed,
-            fastElapsed: newFastElapsed,
-            slowElapsed: newSlowElapsed,
-            warmUpElapsed: newWarmUpElapsed,
-            coolDownElapsed: newCoolDownElapsed,
-            countdownActive: false,
-          });
-          return { phaseChanged: true, countdown: false, timeRemaining: newTimeRemaining };
-        }
-      }
-
-      if (state.phase === 'COOL_DOWN') {
-        // Cool-down done → DONE
-        set({
-          phase: 'DONE',
-          timeRemaining: 0,
-          totalElapsed: newTotalElapsed,
-          fastElapsed: newFastElapsed,
-          slowElapsed: newSlowElapsed,
-          warmUpElapsed: newWarmUpElapsed,
-          coolDownElapsed: newCoolDownElapsed,
-          countdownActive: false,
-        });
-        return { phaseChanged: true, countdown: false, timeRemaining: newTimeRemaining };
-      }
+    if (mode === 'standard') {
+      tickStandard(state, set);
+    } else if (mode === 'power') {
+      tickPower(state, set);
+    } else if (mode === 'kapalabhati') {
+      tickKapalabhati(state, set);
     }
-
-    set({
-      timeRemaining: newTimeRemaining,
-      totalElapsed: newTotalElapsed,
-      fastElapsed: newFastElapsed,
-      slowElapsed: newSlowElapsed,
-      warmUpElapsed: newWarmUpElapsed,
-      coolDownElapsed: newCoolDownElapsed,
-      countdownActive: isCountdown,
-    });
-
-    return { phaseChanged: false, countdown: isCountdown, timeRemaining: newTimeRemaining };
   },
 
-  reset: () => {
-    const { onCancelNotifications } = get();
-    onCancelNotifications?.();
+  // ─── Pause ──────────────────────────────────────────────────────────────
+
+  pause: () => {
+    const state = get();
+    if (!state.isRunning) return;
+
+    // Don't pause if already done
+    if (state.mode === 'standard' && state.phase === 'DONE') return;
+    if (state.mode === 'power' && state.powerPhase === 'DONE') return;
+    if (state.mode === 'kapalabhati' && state.kapalabhatiPhase === 'DONE') return;
+
+    if (state.mode === 'standard') {
+      set({ isRunning: false, phase: 'PAUSED' });
+    } else if (state.mode === 'power') {
+      set({ isRunning: false, powerPhase: 'PAUSED' });
+    } else if (state.mode === 'kapalabhati') {
+      set({ isRunning: false, kapalabhatiPhase: 'PAUSED' });
+    }
+  },
+
+  // ─── Resume ─────────────────────────────────────────────────────────────
+
+  resume: () => {
+    const state = get();
+    if (state.isRunning) return;
+
+    // Restore the correct phase based on what was happening before pause.
+    // We need to figure out which phase to restore. Since we store the
+    // phase index and other state, we can reconstruct.
+    if (state.mode === 'standard' && state.phase === 'PAUSED') {
+      const technique = state.technique;
+      if (!technique) return;
+      const phases = technique.phases;
+      const phaseIndex = state.currentPhaseIndex;
+      const phaseType = phases[phaseIndex]?.type;
+      const restoredPhase = phaseType
+        ? (PHASE_TYPE_TO_TIMER_PHASE[phaseType] ?? 'INHALE')
+        : 'INHALE';
+      set({ isRunning: true, phase: restoredPhase });
+    } else if (state.mode === 'power' && state.powerPhase === 'PAUSED') {
+      // Determine what power phase to restore based on state
+      let restoredPhase: PowerBreathingPhase = 'BREATHING';
+      if (state.recoveryTimeRemaining > 0) {
+        restoredPhase = 'RECOVERY';
+      } else if (state.retentionTime > 0 && state.breathCount >= state.targetBreaths) {
+        restoredPhase = 'RETENTION';
+      }
+      set({ isRunning: true, powerPhase: restoredPhase });
+    } else if (state.mode === 'kapalabhati' && state.kapalabhatiPhase === 'PAUSED') {
+      const restoredPhase: KapalabhatiPhase =
+        state.restTimeRemaining > 0 ? 'REST' : 'RAPID_SET';
+      set({ isRunning: true, kapalabhatiPhase: restoredPhase });
+    }
+  },
+
+  // ─── Stop ───────────────────────────────────────────────────────────────
+
+  stop: () => {
     set({
-      phase: 'READY',
-      phaseBeforePause: null,
-      currentRound: 1,
-      timeRemaining: get().fastDuration,
-      totalElapsed: 0,
-      fastElapsed: 0,
-      slowElapsed: 0,
-      warmUpElapsed: 0,
-      coolDownElapsed: 0,
-      startedAt: null,
-      countdownActive: false,
+      ...initialState,
+    });
+  },
+
+  // ─── End Retention (Power Breathing) ────────────────────────────────────
+
+  endRetention: () => {
+    const state = get();
+    if (state.mode !== 'power' || state.powerPhase !== 'RETENTION') return;
+
+    const newRetentionTimes = [...state.retentionTimes, state.retentionTime];
+
+    if (state.currentRound >= state.totalRounds) {
+      // Last round — go to DONE
+      set({
+        powerPhase: 'DONE',
+        retentionTimes: newRetentionTimes,
+        isRunning: false,
+      });
+    } else {
+      // Start recovery breath
+      set({
+        powerPhase: 'RECOVERY',
+        retentionTimes: newRetentionTimes,
+        recoveryTimeRemaining: RECOVERY_DURATION,
+      });
+    }
+  },
+
+  // ─── Reset ──────────────────────────────────────────────────────────────
+
+  reset: () => {
+    set({
+      ...initialState,
     });
   },
 }));
+
+// ─── Standard Mode Tick ─────────────────────────────────────────────────────
+
+function tickStandard(
+  state: TimerStore,
+  set: (partial: Partial<TimerStore>) => void,
+): void {
+  const { technique, currentPhaseIndex, phaseTimeRemaining, currentCycle, totalCycles, totalElapsed } = state;
+  if (!technique) return;
+
+  const phases = technique.phases;
+  const newTimeRemaining = phaseTimeRemaining - 1;
+  const newTotalElapsed = totalElapsed + 1;
+
+  // Check duration-based completion (coherence, cyclic sigh)
+  if (technique.defaultDuration && technique.defaultDuration > 0 && totalCycles === 0) {
+    if (newTotalElapsed >= technique.defaultDuration) {
+      set({
+        phase: 'DONE',
+        phaseTimeRemaining: 0,
+        totalElapsed: newTotalElapsed,
+        isRunning: false,
+      });
+      return;
+    }
+  }
+
+  if (newTimeRemaining > 0) {
+    // Phase still in progress
+    set({
+      phaseTimeRemaining: newTimeRemaining,
+      totalElapsed: newTotalElapsed,
+    });
+    return;
+  }
+
+  // Phase completed (newTimeRemaining <= 0)
+  const nextPhaseIndex = currentPhaseIndex + 1;
+
+  if (nextPhaseIndex < phases.length) {
+    // Move to next phase within the same cycle
+    const overrideDurations = getPhaseDuration(state, nextPhaseIndex);
+    set({
+      phase: PHASE_TYPE_TO_TIMER_PHASE[phases[nextPhaseIndex].type] ?? 'INHALE',
+      currentPhaseIndex: nextPhaseIndex,
+      phaseTimeRemaining: overrideDurations,
+      totalElapsed: newTotalElapsed,
+    });
+  } else {
+    // All phases in this cycle are done
+    if (totalCycles > 0 && currentCycle >= totalCycles) {
+      // All cycles complete
+      set({
+        phase: 'DONE',
+        phaseTimeRemaining: 0,
+        totalElapsed: newTotalElapsed,
+        isRunning: false,
+      });
+    } else {
+      // Start next cycle (loop back to first phase)
+      const overrideDurations = getPhaseDuration(state, 0);
+      set({
+        phase: PHASE_TYPE_TO_TIMER_PHASE[phases[0].type] ?? 'INHALE',
+        currentPhaseIndex: 0,
+        phaseTimeRemaining: overrideDurations,
+        currentCycle: currentCycle + 1,
+        totalElapsed: newTotalElapsed,
+      });
+    }
+  }
+}
+
+// ─── Power Breathing Tick ───────────────────────────────────────────────────
+
+function tickPower(
+  state: TimerStore,
+  set: (partial: Partial<TimerStore>) => void,
+): void {
+  const {
+    powerPhase,
+    breathCount,
+    targetBreaths,
+    retentionTime,
+    currentRound,
+    totalRounds,
+    recoveryTimeRemaining,
+    totalElapsed,
+  } = state;
+
+  const newTotalElapsed = totalElapsed + 1;
+
+  if (powerPhase === 'BREATHING') {
+    // Each tick represents ~1 second, and each breath is ~2 seconds
+    // We increment breath count every 2 ticks (1s inhale + 1s exhale)
+    const newBreathCount = breathCount + 0.5;
+
+    if (newBreathCount >= targetBreaths) {
+      // Breathing phase done — move to retention
+      set({
+        powerPhase: 'RETENTION',
+        breathCount: targetBreaths,
+        retentionTime: 0,
+        totalElapsed: newTotalElapsed,
+      });
+    } else {
+      set({
+        breathCount: newBreathCount,
+        totalElapsed: newTotalElapsed,
+      });
+    }
+    return;
+  }
+
+  if (powerPhase === 'RETENTION') {
+    // Timer counts UP — user ends it with endRetention()
+    set({
+      retentionTime: retentionTime + 1,
+      totalElapsed: newTotalElapsed,
+    });
+    return;
+  }
+
+  if (powerPhase === 'RECOVERY') {
+    const newRecoveryTime = recoveryTimeRemaining - 1;
+
+    if (newRecoveryTime <= 0) {
+      // Recovery done — start next round
+      const nextRound = currentRound + 1;
+
+      if (nextRound > totalRounds) {
+        // All rounds complete
+        set({
+          powerPhase: 'DONE',
+          recoveryTimeRemaining: 0,
+          totalElapsed: newTotalElapsed,
+          isRunning: false,
+        });
+      } else {
+        set({
+          powerPhase: 'BREATHING',
+          breathCount: 0,
+          retentionTime: 0,
+          recoveryTimeRemaining: 0,
+          currentRound: nextRound,
+          totalElapsed: newTotalElapsed,
+        });
+      }
+    } else {
+      set({
+        recoveryTimeRemaining: newRecoveryTime,
+        totalElapsed: newTotalElapsed,
+      });
+    }
+    return;
+  }
+}
+
+// ─── Kapalabhati Tick ───────────────────────────────────────────────────────
+
+function tickKapalabhati(
+  state: TimerStore,
+  set: (partial: Partial<TimerStore>) => void,
+): void {
+  const {
+    kapalabhatiPhase,
+    currentSet,
+    totalSets,
+    setTimeRemaining,
+    restTimeRemaining,
+    breathsInSet,
+    totalElapsed,
+    technique,
+  } = state;
+
+  const newTotalElapsed = totalElapsed + 1;
+  const restDuration = technique?.restDuration ?? 30;
+
+  if (kapalabhatiPhase === 'RAPID_SET') {
+    const newSetTime = setTimeRemaining - 1;
+    // Each breath cycle is 1s (0.5s exhale + 0.5s inhale), so 1 breath per second
+    const newBreathsInSet = breathsInSet + 1;
+
+    if (newSetTime <= 0) {
+      // Set complete
+      if (currentSet >= totalSets) {
+        // All sets done
+        set({
+          kapalabhatiPhase: 'DONE',
+          setTimeRemaining: 0,
+          breathsInSet: newBreathsInSet,
+          totalElapsed: newTotalElapsed,
+          isRunning: false,
+        });
+      } else {
+        // Start rest period
+        set({
+          kapalabhatiPhase: 'REST',
+          setTimeRemaining: 0,
+          restTimeRemaining: restDuration,
+          breathsInSet: newBreathsInSet,
+          totalElapsed: newTotalElapsed,
+        });
+      }
+    } else {
+      set({
+        setTimeRemaining: newSetTime,
+        breathsInSet: newBreathsInSet,
+        totalElapsed: newTotalElapsed,
+      });
+    }
+    return;
+  }
+
+  if (kapalabhatiPhase === 'REST') {
+    const newRestTime = restTimeRemaining - 1;
+
+    if (newRestTime <= 0) {
+      // Rest done — start next set
+      const setDuration = technique?.setDuration ?? 30;
+      set({
+        kapalabhatiPhase: 'RAPID_SET',
+        currentSet: currentSet + 1,
+        setTimeRemaining: setDuration,
+        restTimeRemaining: 0,
+        breathsInSet: 0,
+        totalElapsed: newTotalElapsed,
+      });
+    } else {
+      set({
+        restTimeRemaining: newRestTime,
+        totalElapsed: newTotalElapsed,
+      });
+    }
+    return;
+  }
+}
+
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
+function getPhaseDuration(state: TimerStore, phaseIndex: number): number {
+  // The technique already has override durations baked in from startSession
+  return state.technique?.phases[phaseIndex]?.duration ?? 0;
+}

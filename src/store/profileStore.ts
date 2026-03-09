@@ -2,10 +2,12 @@ import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserProfile } from '../types';
 
-const STORAGE_KEY = '@walkpace_profile';
+const STORAGE_KEY = '@breathflow_profile';
 
 const defaultProfile: UserProfile = {
-  walkingFrequency: 'never',
+  weight: 70,
+  age: 30,
+  height: 170,
 };
 
 interface ProfileStore extends UserProfile {
@@ -39,7 +41,6 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
       weight: state.weight,
       age: state.age,
       height: state.height,
-      walkingFrequency: state.walkingFrequency,
     };
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(profileOnly));
     import('../services/syncService').then(m => m.pushProfile().catch(() => {}));

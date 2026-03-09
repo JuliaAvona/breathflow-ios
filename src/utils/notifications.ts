@@ -83,16 +83,16 @@ export async function scheduleWeeklySummary(
   });
 }
 
-export async function scheduleWalkReminder(
+export async function scheduleBreatheReminder(
   hour: number,
   minute: number,
   title: string,
   body: string,
 ): Promise<void> {
-  await cancelNotification('walk-reminder');
+  await cancelNotification('breathe-reminder');
 
   await Notifications.scheduleNotificationAsync({
-    identifier: 'walk-reminder',
+    identifier: 'breathe-reminder',
     content: {
       title,
       body,
