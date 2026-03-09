@@ -12,28 +12,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { useTimerStore, useSettingsStore, useSessionsStore } from '../src/store';
 import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../src/types';
 
-// ─── Phase Color Mapping ────────────────────────────────────────────────────
+// ─── Default circle color (fallback) ─────────────────────────────────────────
 
-const PHASE_COLOR: Record<string, string> = {
-  INHALE: '#4A90D9',
-  HOLD_IN: '#7B68AE',
-  EXHALE: '#7BC4A8',
-  HOLD_OUT: '#F5A623',
-  BREATHING: '#4A90D9',
-  RETENTION: '#1A2332',
-  RECOVERY: '#5BAD7A',
-  RAPID_SET: '#F5A623',
-  REST: '#5BA4C8',
-  READY: '#4A90D9',
-  PAUSED: '#64748B',
-  DONE: '#7BC4A8',
-};
+const DEFAULT_CIRCLE_COLOR = '#4A90D9';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -68,20 +56,20 @@ function getPhaseLabel(phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhas
 
 // ─── Breathing Circle (bottom visual) ───────────────────────────────────────
 
-const CIRCLE_SIZE = scale(180);
+const CIRCLE_SIZE = scale(240);
 
 function BreathingCircle({
   phase,
   mode,
   color,
+  phaseDuration,
 }: {
   phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhase;
   mode: string;
   color: string;
+  phaseDuration?: number;
 }) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
-  const ringScale = useRef(new Animated.Value(1)).current;
-  const ringOpacity = useRef(new Animated.Value(0.15)).current;
   const circleFade = useRef(new Animated.Value(1)).current;
 
   // Smooth color transition via fade
@@ -108,8 +96,6 @@ function BreathingCircle({
 
   useEffect(() => {
     scaleAnim.stopAnimation();
-    ringScale.stopAnimation();
-    ringOpacity.stopAnimation();
 
     if (phase === 'PAUSED' || phase === 'DONE' || phase === 'READY') {
       Animated.timing(scaleAnim, {
@@ -120,28 +106,14 @@ function BreathingCircle({
       return;
     }
 
-    // Outer ring pulse
-    const ringPulse = Animated.loop(
-      Animated.sequence([
-        Animated.parallel([
-          Animated.timing(ringScale, { toValue: 1.3, duration: 2000, useNativeDriver: true }),
-          Animated.timing(ringOpacity, { toValue: 0.04, duration: 2000, useNativeDriver: true }),
-        ]),
-        Animated.parallel([
-          Animated.timing(ringScale, { toValue: 1.0, duration: 2000, useNativeDriver: true }),
-          Animated.timing(ringOpacity, { toValue: 0.15, duration: 2000, useNativeDriver: true }),
-        ]),
-      ]),
-    );
-    ringPulse.start();
-
     if (mode === 'standard') {
+      const dur = (phaseDuration ?? 3) * 1000;
       if (phase === 'INHALE') {
-        Animated.timing(scaleAnim, { toValue: 1.35, duration: 3000, useNativeDriver: true }).start();
+        Animated.timing(scaleAnim, { toValue: 1.35, duration: dur, useNativeDriver: true }).start();
       } else if (phase === 'HOLD_IN') {
         scaleAnim.setValue(1.35);
       } else if (phase === 'EXHALE') {
-        Animated.timing(scaleAnim, { toValue: 1.0, duration: 3000, useNativeDriver: true }).start();
+        Animated.timing(scaleAnim, { toValue: 1.0, duration: dur, useNativeDriver: true }).start();
       } else if (phase === 'HOLD_OUT') {
         scaleAnim.setValue(1.0);
       }
@@ -154,7 +126,7 @@ function BreathingCircle({
           ]),
         );
         pulse.start();
-        return () => { pulse.stop(); ringPulse.stop(); };
+        return () => pulse.stop();
       } else if (phase === 'RETENTION') {
         Animated.timing(scaleAnim, { toValue: 0.85, duration: 800, useNativeDriver: true }).start();
       } else if (phase === 'RECOVERY') {
@@ -169,29 +141,15 @@ function BreathingCircle({
           ]),
         );
         pulse.start();
-        return () => { pulse.stop(); ringPulse.stop(); };
+        return () => pulse.stop();
       } else if (phase === 'REST') {
         Animated.timing(scaleAnim, { toValue: 1.0, duration: 500, useNativeDriver: true }).start();
       }
     }
-
-    return () => ringPulse.stop();
-  }, [phase, mode, scaleAnim, ringScale, ringOpacity]);
+  }, [phase, mode, phaseDuration, scaleAnim]);
 
   return (
     <View style={styles.circleContainer}>
-      {/* Outer ring */}
-      <Animated.View
-        style={[
-          styles.outerRing,
-          {
-            backgroundColor: displayColor,
-            opacity: ringOpacity,
-            transform: [{ scale: ringScale }],
-          },
-        ]}
-      />
-      {/* Main circle */}
       <Animated.View
         style={[
           styles.circle,
@@ -261,13 +219,59 @@ export default function SessionScreen() {
   }, [techniqueId, settingsStore.techniqueOverrides]);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [countdown, setCountdown] = useState<number | null>(3);
+  const countdownScale = useRef(new Animated.Value(1)).current;
+  const countdownOpacity = useRef(new Animated.Value(1)).current;
+  const hapticsEnabled = settingsStore.hapticsEnabled;
 
-  // Start session
+  // 3-2-1 countdown before session starts
   useEffect(() => {
-    if (!technique) return;
-    timerStore.startSession(technique, overrides);
+    if (!technique || countdown === null) return;
+
+    if (countdown <= 0) {
+      setCountdown(null);
+      timerStore.startSession(technique, overrides);
+      return;
+    }
+
+    // Animate: scale up + fade out each number
+    countdownScale.setValue(1);
+    countdownOpacity.setValue(1);
+    Animated.parallel([
+      Animated.timing(countdownScale, { toValue: 1.5, duration: 800, useNativeDriver: true }),
+      Animated.sequence([
+        Animated.delay(600),
+        Animated.timing(countdownOpacity, { toValue: 0, duration: 200, useNativeDriver: true }),
+      ]),
+    ]).start();
+
+    if (hapticsEnabled) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+
+    const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [technique]);
+  }, [technique, countdown]);
+
+  // Haptic feedback on phase transitions (inhale & exhale only)
+  const prevPhaseRef = useRef<string | null>(null);
+  useEffect(() => {
+    const currentPhaseVal = timerStore.mode === 'standard'
+      ? timerStore.phase
+      : timerStore.mode === 'power'
+        ? timerStore.powerPhase
+        : timerStore.kapalabhatiPhase;
+
+    if (prevPhaseRef.current === currentPhaseVal) return;
+    prevPhaseRef.current = currentPhaseVal;
+
+    if (!hapticsEnabled) return;
+
+    if (currentPhaseVal === 'INHALE' || currentPhaseVal === 'EXHALE') {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+  }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled]);
 
   // Tick
   useEffect(() => {
@@ -362,7 +366,7 @@ export default function SessionScreen() {
     return timerStore.kapalabhatiPhase;
   }, [timerStore.mode, timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase]);
 
-  const phaseColor = PHASE_COLOR[currentPhase] ?? '#4A90D9';
+  const phaseColor = technique?.color ?? DEFAULT_CIRCLE_COLOR;
   const isRetention = timerStore.mode === 'power' &&
     (timerStore.powerPhase === 'RETENTION' || (timerStore.powerPhase === 'PAUSED' && timerStore.retentionTime > 0 && timerStore.breathCount >= timerStore.targetBreaths));
 
@@ -449,18 +453,52 @@ export default function SessionScreen() {
   const totalRemaining = getTotalRemaining();
   const bgColor = isRetention ? COLORS.retention : theme.background;
 
+  // Get current phase duration for circle animation
+  const currentPhaseDuration = useMemo(() => {
+    if (timerStore.mode !== 'standard' || !technique) return undefined;
+    const phaseIndex = timerStore.currentPhaseIndex;
+    return technique.phases[phaseIndex]?.duration;
+  }, [timerStore.mode, timerStore.currentPhaseIndex, technique]);
+
   // ── Retention extra: last round result ──
   const showRetentionResult = timerStore.mode === 'power' &&
     (timerStore.powerPhase === 'RECOVERY' || (timerStore.powerPhase === 'PAUSED' && timerStore.recoveryTimeRemaining > 0)) &&
     timerStore.retentionTimes.length > 0;
 
+  // Show countdown overlay
+  if (countdown !== null && countdown > 0) {
+    return (
+      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+        <View style={styles.countdownContainer}>
+          <Animated.Text
+            style={[
+              styles.countdownText,
+              {
+                color: theme.primary,
+                opacity: countdownOpacity,
+                transform: [{ scale: countdownScale }],
+              },
+            ]}
+          >
+            {countdown}
+          </Animated.Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: bgColor }]}>
-      {/* ── Top bar: timer left, stop right ── */}
+      {/* ── Top bar: technique name, timer, stop ── */}
       <View style={styles.topBar}>
-        <Text style={[styles.timerSmall, { color: theme.primary }]}>
-          {formatTimeMin(totalRemaining)}
-        </Text>
+        <View style={styles.topBarLeft}>
+          <Text style={[styles.techniqueName, { color: theme.text }]} numberOfLines={1}>
+            {t(technique.nameKey)}
+          </Text>
+          <Text style={[styles.timerSmall, { color: theme.textSecondary }]}>
+            {formatTimeMin(totalRemaining)}
+          </Text>
+        </View>
         <TouchableOpacity
           style={[styles.stopBtn, { backgroundColor: theme.primary + '18' }]}
           onPress={handleStop}
@@ -520,6 +558,7 @@ export default function SessionScreen() {
           phase={currentPhase as TimerPhase}
           mode={timerStore.mode}
           color={phaseColor}
+          phaseDuration={currentPhaseDuration}
         />
       </View>
     </SafeAreaView>
@@ -542,9 +581,17 @@ const styles = StyleSheet.create({
     paddingTop: SPACING.sm,
     paddingBottom: SPACING.xs,
   },
-  timerSmall: {
-    fontSize: 18,
+  topBarLeft: {
+    flexDirection: 'column' as const,
+    gap: 2,
+  },
+  techniqueName: {
+    fontSize: 16,
     fontFamily: FONTS.semibold,
+  },
+  timerSmall: {
+    fontSize: 14,
+    fontFamily: FONTS.medium,
     fontVariant: ['tabular-nums'],
   },
   stopBtn: {
@@ -634,12 +681,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  outerRing: {
-    position: 'absolute',
-    width: CIRCLE_SIZE * 1.4,
-    height: CIRCLE_SIZE * 1.4,
-    borderRadius: CIRCLE_SIZE * 0.7,
-  },
   circle: {
     width: CIRCLE_SIZE,
     height: CIRCLE_SIZE,
@@ -668,5 +709,17 @@ const styles = StyleSheet.create({
   ghostBtnText: {
     fontSize: 14,
     fontFamily: FONTS.medium,
+  },
+
+  // Countdown
+  countdownContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  countdownText: {
+    fontSize: scale(120),
+    fontFamily: FONTS.heavy,
+    letterSpacing: -2,
   },
 });
