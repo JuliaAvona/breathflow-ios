@@ -7,7 +7,7 @@ export default {
   'tabs.settings': 'Settings',
 
   // Home screen
-  'home.title': 'Exercises',
+  'home.title': 'Practice',
   'home.goodMorning': 'Good morning',
   'home.goodAfternoon': 'Good afternoon',
   'home.goodEvening': 'Good evening',
@@ -135,7 +135,7 @@ export default {
   'summary.quote30': '"Nothing can bring you peace but yourself." \u2014 Ralph Waldo Emerson',
 
   // History screen
-  'history.title': 'History',
+  'history.title': 'Progress',
   'history.today': 'Today',
   'history.minutesToday': 'Minutes',
   'history.sessionsToday': 'Sessions',
