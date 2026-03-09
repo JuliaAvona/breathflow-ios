@@ -30,161 +30,61 @@ const CARD_H_PADDING = 20;
 const CARD_GAP = 12;
 const CARD_WIDTH = SCREEN_WIDTH - CARD_H_PADDING * 2;
 const CARD_ART_HEIGHT = CARD_WIDTH * 0.38;
-const CARD_HEIGHT = CARD_ART_HEIGHT + 130; // art + content area
 const SNAP_WIDTH = CARD_WIDTH + CARD_GAP;
 
-// ─── Abstract art configs ────────────────────────────────────────────────────
+// ─── Card gradient configs ───────────────────────────────────────────────────
 
-interface BlobShape {
-  color: string;
-  w: number; h: number; x: number; y: number;
-  borderRadius: string;
-  rotate?: string;
-  opacity?: number;
-}
-
-interface CardArt {
+interface CardTheme {
   bg: [string, string];
-  shapes: BlobShape[];
+  icon: keyof typeof Ionicons.glyphMap;
 }
 
-function parseBorderRadius(br: string, w: number, h: number) {
-  const parts = br.split(' ').map((p) => {
-    const pct = parseFloat(p) / 100;
-    return Math.round(Math.max(w, h) * pct);
-  });
-  if (parts.length === 1) {
-    return {
-      borderTopLeftRadius: parts[0], borderTopRightRadius: parts[0],
-      borderBottomLeftRadius: parts[0], borderBottomRightRadius: parts[0],
-    };
-  }
-  return {
-    borderTopLeftRadius: parts[0],
-    borderTopRightRadius: parts[1] ?? parts[0],
-    borderBottomRightRadius: parts[2] ?? parts[0],
-    borderBottomLeftRadius: parts[3] ?? parts[1] ?? parts[0],
-  };
-}
-
-const CARD_ARTS: Record<string, CardArt> = {
-  box: {
-    bg: ['#D6E8FF', '#A3C4F3'],
-    shapes: [
-      { color: '#4A90D9', w: 0.55, h: 0.55, x: -0.08, y: -0.1, borderRadius: '18%', rotate: '15deg', opacity: 0.35 },
-      { color: '#7EB3F4', w: 0.45, h: 0.45, x: 0.5, y: 0.05, borderRadius: '18%', rotate: '-10deg', opacity: 0.3 },
-      { color: '#3A73B0', w: 0.35, h: 0.35, x: 0.25, y: 0.45, borderRadius: '18%', rotate: '30deg', opacity: 0.25 },
-      { color: '#B8D6F8', w: 0.5, h: 0.5, x: 0.45, y: 0.4, borderRadius: '18%', rotate: '5deg', opacity: 0.3 },
-    ],
-  },
-  fourSevenEight: {
-    bg: ['#E4D6F5', '#C5A8E3'],
-    shapes: [
-      { color: '#7B68AE', w: 0.8, h: 0.8, x: 0.3, y: -0.25, borderRadius: '50%', opacity: 0.25 },
-      { color: '#C5A8E3', w: 0.7, h: 0.7, x: 0.45, y: -0.2, borderRadius: '50%', opacity: 0.4 },
-      { color: '#A57DD1', w: 0.4, h: 0.4, x: -0.05, y: 0.55, borderRadius: '50%', opacity: 0.3 },
-      { color: '#D4BFE8', w: 0.25, h: 0.25, x: 0.15, y: 0.35, borderRadius: '50%', opacity: 0.35 },
-    ],
-  },
-  physioSigh: {
-    bg: ['#D0F0E0', '#A3DFC0'],
-    shapes: [
-      { color: '#7BC4A8', w: 1.3, h: 0.25, x: -0.15, y: 0.05, borderRadius: '50%', rotate: '-8deg', opacity: 0.3 },
-      { color: '#5DAF90', w: 1.2, h: 0.22, x: -0.1, y: 0.28, borderRadius: '50%', rotate: '5deg', opacity: 0.25 },
-      { color: '#B5E8D0', w: 1.3, h: 0.28, x: -0.15, y: 0.5, borderRadius: '50%', rotate: '-3deg', opacity: 0.35 },
-      { color: '#3D9B78', w: 1.1, h: 0.2, x: -0.05, y: 0.72, borderRadius: '50%', rotate: '6deg', opacity: 0.2 },
-    ],
-  },
-  coherence: {
-    bg: ['#CCE6F4', '#8FC5DF'],
-    shapes: [
-      { color: '#5BA4C8', w: 1.0, h: 1.0, x: 0.0, y: -0.1, borderRadius: '50%', opacity: 0.15 },
-      { color: '#5BA4C8', w: 0.75, h: 0.75, x: 0.12, y: 0.02, borderRadius: '50%', opacity: 0.18 },
-      { color: '#5BA4C8', w: 0.5, h: 0.5, x: 0.25, y: 0.15, borderRadius: '50%', opacity: 0.22 },
-      { color: '#A8D8EC', w: 0.28, h: 0.28, x: 0.36, y: 0.26, borderRadius: '50%', opacity: 0.3 },
-    ],
-  },
-  triangle: {
-    bg: ['#C8F5F0', '#8AE6DC'],
-    shapes: [
-      { color: '#4ECDC4', w: 0.5, h: 1.2, x: -0.15, y: -0.1, borderRadius: '10%', rotate: '25deg', opacity: 0.25 },
-      { color: '#3AB8AE', w: 0.35, h: 1.0, x: 0.3, y: -0.05, borderRadius: '10%', rotate: '25deg', opacity: 0.2 },
-      { color: '#9AEDE6', w: 0.3, h: 0.9, x: 0.65, y: 0.0, borderRadius: '10%', rotate: '25deg', opacity: 0.25 },
-    ],
-  },
-  power: {
-    bg: ['#FDDCD6', '#F5A99C'],
-    shapes: [
-      { color: '#E85D4A', w: 0.5, h: 0.5, x: 0.25, y: 0.15, borderRadius: '50%', opacity: 0.35 },
-      { color: '#F08070', w: 0.3, h: 0.7, x: 0.35, y: -0.15, borderRadius: '40%', opacity: 0.2 },
-      { color: '#F08070', w: 0.7, h: 0.3, x: 0.15, y: 0.25, borderRadius: '40%', opacity: 0.2 },
-      { color: '#F08070', w: 0.35, h: 0.6, x: 0.08, y: 0.0, borderRadius: '40%', rotate: '45deg', opacity: 0.15 },
-      { color: '#F08070', w: 0.35, h: 0.6, x: 0.48, y: 0.1, borderRadius: '40%', rotate: '-45deg', opacity: 0.15 },
-    ],
-  },
-  fourFourSixTwo: {
-    bg: ['#D6E4F5', '#A3C0E3'],
-    shapes: [
-      { color: '#6B9BD2', w: 1.4, h: 0.4, x: -0.2, y: -0.05, borderRadius: '50%', rotate: '12deg', opacity: 0.25 },
-      { color: '#89B3E0', w: 1.3, h: 0.35, x: -0.15, y: 0.25, borderRadius: '50%', rotate: '-8deg', opacity: 0.2 },
-      { color: '#B8D3F0', w: 1.2, h: 0.3, x: -0.1, y: 0.55, borderRadius: '50%', rotate: '5deg', opacity: 0.3 },
-    ],
-  },
-  kapalabhati: {
-    bg: ['#FEF0D0', '#F5D58A'],
-    shapes: [
-      { color: '#F5A623', w: 0.22, h: 0.22, x: 0.1, y: 0.1, borderRadius: '50%', opacity: 0.4 },
-      { color: '#E8B84A', w: 0.15, h: 0.15, x: 0.55, y: 0.05, borderRadius: '50%', opacity: 0.35 },
-      { color: '#F5A623', w: 0.3, h: 0.3, x: 0.6, y: 0.35, borderRadius: '50%', opacity: 0.3 },
-      { color: '#D4900A', w: 0.18, h: 0.18, x: 0.35, y: 0.55, borderRadius: '50%', opacity: 0.3 },
-      { color: '#FBD98C', w: 0.12, h: 0.12, x: 0.08, y: 0.6, borderRadius: '50%', opacity: 0.45 },
-      { color: '#F5A623', w: 0.25, h: 0.25, x: 0.3, y: 0.2, borderRadius: '50%', opacity: 0.2 },
-      { color: '#E8B84A', w: 0.1, h: 0.1, x: 0.78, y: 0.65, borderRadius: '50%', opacity: 0.35 },
-    ],
-  },
-  twoToOne: {
-    bg: ['#E8D8F0', '#C9A8DF'],
-    shapes: [
-      { color: '#9B7FBD', w: 0.25, h: 0.9, x: -0.05, y: 0.05, borderRadius: '50%', opacity: 0.25 },
-      { color: '#B498D0', w: 0.2, h: 0.75, x: 0.22, y: -0.1, borderRadius: '50%', opacity: 0.2 },
-      { color: '#D8C4EA', w: 0.28, h: 0.85, x: 0.45, y: 0.1, borderRadius: '50%', opacity: 0.25 },
-      { color: '#7B5AA0', w: 0.2, h: 0.7, x: 0.72, y: -0.05, borderRadius: '50%', opacity: 0.18 },
-    ],
-  },
-  cyclicSigh: {
-    bg: ['#D0EEDC', '#96D6AC'],
-    shapes: [
-      { color: '#5BAD7A', w: 0.7, h: 0.5, x: -0.15, y: 0.55, borderRadius: '50% 50% 0 0', opacity: 0.3 },
-      { color: '#78C494', w: 0.6, h: 0.45, x: 0.25, y: 0.6, borderRadius: '50% 50% 0 0', opacity: 0.25 },
-      { color: '#A8E0BC', w: 0.65, h: 0.4, x: 0.5, y: 0.65, borderRadius: '50% 50% 0 0', opacity: 0.3 },
-      { color: '#3D8A58', w: 0.5, h: 0.3, x: 0.05, y: 0.15, borderRadius: '50%', opacity: 0.12 },
-    ],
-  },
+const CARD_THEMES: Record<string, CardTheme> = {
+  box:            { bg: ['#C2DEFF', '#8BB8F5'], icon: 'grid-outline' },
+  fourSevenEight: { bg: ['#D8C4F0', '#B896E0'], icon: 'moon-outline' },
+  physioSigh:     { bg: ['#B8E8D0', '#8AD4B0'], icon: 'leaf-outline' },
+  coherence:      { bg: ['#B8DAF0', '#7FBFDF'], icon: 'radio-outline' },
+  triangle:       { bg: ['#A8F0E8', '#70E0D4'], icon: 'triangle-outline' },
+  power:          { bg: ['#F5C4BC', '#F09888'], icon: 'flash-outline' },
+  fourFourSixTwo: { bg: ['#B8D0F0', '#88B0E0'], icon: 'water-outline' },
+  kapalabhati:    { bg: ['#FCE4A8', '#F5C85A'], icon: 'sunny-outline' },
+  twoToOne:       { bg: ['#D8C0F0', '#B890E0'], icon: 'cloudy-night-outline' },
+  cyclicSigh:     { bg: ['#B0E8C8', '#78D4A0'], icon: 'pulse-outline' },
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function getDurationLabel(t: BreathingTechnique): string {
-  if (t.mode === 'power') {
-    return `~${Math.round((t.breathCount! * 2 * t.roundCount! + t.roundCount! * 90) / 60)} min`;
-  }
-  if (t.mode === 'kapalabhati') {
-    return `${Math.round((t.setCount! * t.setDuration! + (t.setCount! - 1) * t.restDuration!) / 60)} min`;
-  }
-  const cycleDur = t.phases.reduce((s, p) => s + p.duration, 0);
-  return `${Math.round((t.defaultDuration ?? cycleDur * (t.defaultCycles || 6)) / 60)} min`;
+function formatDuration(totalSeconds: number): string {
+  const mins = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  if (mins === 0) return `${secs}s`;
+  if (secs === 0) return `${mins} min`;
+  return `${mins}:${String(secs).padStart(2, '0')}`;
 }
 
-const PHASE_META: Record<string, { label: string; icon: keyof typeof Ionicons.glyphMap }> = {
-  breatheIn: { label: 'Breathe in', icon: 'arrow-down-circle-outline' },
-  breatheOut: { label: 'Breathe out', icon: 'arrow-up-circle-outline' },
-  hold: { label: 'Hold', icon: 'ellipse-outline' },
-  holdOut: { label: 'Hold', icon: 'ellipse-outline' },
-  topUpInhale: { label: 'Top-up', icon: 'arrow-down-circle-outline' },
+function getDurationLabel(t: BreathingTechnique): string {
+  if (t.mode === 'power') {
+    const total = t.breathCount! * 2 * t.roundCount! + t.roundCount! * 90;
+    return `~${Math.round(total / 60)} min`;
+  }
+  if (t.mode === 'kapalabhati') {
+    const total = t.setCount! * t.setDuration! + (t.setCount! - 1) * t.restDuration!;
+    return formatDuration(total);
+  }
+  const cycleDur = t.phases.reduce((s, p) => s + p.duration, 0);
+  const total = t.defaultDuration ?? cycleDur * (t.defaultCycles || 6);
+  return formatDuration(total);
+}
+
+const PHASE_LABELS: Record<string, string> = {
+  breatheIn: 'In',
+  breatheOut: 'Out',
+  hold: 'Hold',
+  holdOut: 'Hold',
+  topUpInhale: 'Top-up',
 };
 
 interface PhaseStep {
-  icon: keyof typeof Ionicons.glyphMap;
   label: string;
   duration: string;
 }
@@ -192,20 +92,19 @@ interface PhaseStep {
 function getPhaseSteps(technique: BreathingTechnique): PhaseStep[] {
   if (technique.mode === 'power') {
     return [
-      { icon: 'sync-outline', label: 'Breaths', duration: `${technique.breathCount}` },
-      { icon: 'repeat-outline', label: 'Rounds', duration: `${technique.roundCount}` },
+      { label: 'Breaths', duration: `${technique.breathCount}` },
+      { label: 'Rounds', duration: `${technique.roundCount}` },
     ];
   }
   if (technique.mode === 'kapalabhati') {
     return [
-      { icon: 'flash-outline', label: 'Rapid sets', duration: `${technique.setCount} × ${technique.setDuration}s` },
+      { label: 'Rapid sets', duration: `${technique.setCount} × ${technique.setDuration}s` },
     ];
   }
   return technique.phases.map((p) => {
-    const meta = PHASE_META[p.instructionKey] ?? { label: p.instructionKey, icon: 'radio-button-off-outline' as keyof typeof Ionicons.glyphMap };
+    const label = PHASE_LABELS[p.instructionKey] ?? p.instructionKey;
     return {
-      icon: meta.icon,
-      label: meta.label,
+      label,
       duration: p.duration % 1 === 0 ? `${p.duration}s` : `${p.duration.toFixed(1)}s`,
     };
   });
@@ -221,7 +120,7 @@ interface TechniqueCardProps {
 
 function TechniqueCard({ technique, isPro, t }: TechniqueCardProps) {
   const locked = technique.isPro && !isPro;
-  const art = CARD_ARTS[technique.id] ?? { bg: [technique.color + '40', technique.color], shapes: [] };
+  const theme = CARD_THEMES[technique.id] ?? { bg: [technique.color + '40', technique.color], icon: 'ellipse-outline' as keyof typeof Ionicons.glyphMap };
 
   const handlePress = () => {
     router.push({ pathname: '/session', params: { techniqueId: technique.id } });
@@ -235,35 +134,16 @@ function TechniqueCard({ technique, isPro, t }: TechniqueCardProps) {
       accessibilityLabel={t(technique.nameKey)}
       accessibilityRole="button"
     >
-      {/* ── Art zone (top) ── */}
+      {/* ── Art zone (top) — clean gradient + centered icon ── */}
       <LinearGradient
-        colors={art.bg}
+        colors={theme.bg}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.cardArtZone}
       >
-        {art.shapes.map((shape, i) => {
-          const sw = CARD_WIDTH * shape.w;
-          const sh = CARD_ART_HEIGHT * shape.h;
-          const radii = parseBorderRadius(shape.borderRadius, sw, sh);
-          return (
-            <View
-              key={i}
-              style={{
-                position: 'absolute',
-                width: sw, height: sh,
-                ...radii,
-                backgroundColor: shape.color,
-                opacity: shape.opacity ?? 0.3,
-                left: CARD_WIDTH * shape.x,
-                top: CARD_ART_HEIGHT * shape.y,
-                transform: shape.rotate ? [{ rotate: shape.rotate }] : [],
-              }}
-            />
-          );
-        })}
+        <Ionicons name={theme.icon} size={52} color="rgba(255,255,255,0.35)" />
 
-        {/* Duration pill overlaying art */}
+        {/* Duration pill */}
         <View style={styles.durationPillCard}>
           <Text style={styles.durationPillCardText}>
             {getDurationLabel(technique)}
@@ -290,8 +170,7 @@ function TechniqueCard({ technique, isPro, t }: TechniqueCardProps) {
         <View style={styles.phaseSteps}>
           {getPhaseSteps(technique).map((step, i) => (
             <View key={i} style={styles.phaseStepRow}>
-              <Ionicons name={step.icon} size={14} color="rgba(0,0,0,0.3)" />
-              <Text style={styles.phaseStepLabel}>{step.label}:</Text>
+              <Text style={styles.phaseStepLabel}>{step.label}</Text>
               <Text style={styles.phaseStepValue}>{step.duration}</Text>
             </View>
           ))}
@@ -305,7 +184,7 @@ function TechniqueCard({ technique, isPro, t }: TechniqueCardProps) {
 
 const SPHERE_SIZE = SCREEN_WIDTH * 0.36;
 
-function BreathingSphere({ onPress }: { onPress: () => void }) {
+function BreathingSphere({ onPress, label }: { onPress: () => void; label: string }) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const glowAnim = useRef(new Animated.Value(0.15)).current;
 
@@ -333,21 +212,15 @@ function BreathingSphere({ onPress }: { onPress: () => void }) {
       <Animated.View style={[sphereStyles.glow, { opacity: glowAnim, transform: [{ scale: scaleAnim }] }]} />
       {/* Main sphere */}
       <Animated.View style={[sphereStyles.sphere, { transform: [{ scale: scaleAnim }] }]}>
-        <LinearGradient
-          colors={['#A8D8F0', '#4A90D9', '#3A73B0']}
-          start={{ x: 0.3, y: 0 }}
-          end={{ x: 0.7, y: 1 }}
-          style={sphereStyles.gradient}
-        >
-          {/* Highlight */}
-          <View style={sphereStyles.highlight} />
+        <View style={sphereStyles.solidBg}>
           {/* Breeze icon */}
-          <Svg width={40} height={40} viewBox="0 0 24 24" fill="none">
+          <Svg width={32} height={32} viewBox="0 0 24 24" fill="none">
             <Path d="M3 8H16C17.6569 8 19 6.65685 19 5C19 3.34315 17.6569 2 16 2C14.3431 2 13 3.34315 13 5" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
             <Path d="M3 12H20C21.1046 12 22 11.1046 22 10C22 8.89543 21.1046 8 20 8" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
             <Path d="M3 16H14C15.6569 16 17 17.3431 17 19C17 20.6569 15.6569 22 14 22C12.3431 22 11 20.6569 11 19" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
           </Svg>
-        </LinearGradient>
+          <Text style={sphereStyles.label}>{label}</Text>
+        </View>
       </Animated.View>
     </TouchableOpacity>
   );
@@ -378,20 +251,18 @@ const sphereStyles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 12,
   },
-  gradient: {
+  solidBg: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#4A90D9',
   },
-  highlight: {
-    position: 'absolute',
-    top: SPHERE_SIZE * 0.08,
-    left: SPHERE_SIZE * 0.15,
-    width: SPHERE_SIZE * 0.35,
-    height: SPHERE_SIZE * 0.2,
-    borderRadius: SPHERE_SIZE * 0.15,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    transform: [{ rotate: '-15deg' }],
+  label: {
+    fontSize: 13,
+    fontFamily: FONTS.bold,
+    color: 'rgba(255,255,255,0.9)',
+    marginTop: 4,
+    letterSpacing: 0.2,
   },
 });
 
@@ -430,9 +301,9 @@ export default function HomeScreen() {
           {stats.currentStreak > 0 && (
             <View style={styles.heroTopBar}>
               <View />
-              <View style={[styles.streakBadge, { backgroundColor: theme.surface }]}>
-                <Ionicons name="flame" size={13} color="#FF9500" />
-                <Text style={[styles.streakText, { color: theme.text }]}>
+              <View style={styles.streakBadge}>
+                <Ionicons name="flame" size={14} color="#FFFFFF" />
+                <Text style={styles.streakText}>
                   {stats.currentStreak}
                 </Text>
               </View>
@@ -441,21 +312,11 @@ export default function HomeScreen() {
 
           {/* Sphere */}
           <View style={styles.orbWrapper}>
-            <BreathingSphere onPress={handleQuickStart} />
+            <BreathingSphere onPress={handleQuickStart} label={`${selectedMinutes} min`} />
           </View>
 
-          {/* Quick start controls */}
+          {/* Duration selector */}
           <View style={styles.heroControls}>
-            <TouchableOpacity
-              style={[styles.breatheButton, { shadowColor: '#4A90D9' }]}
-              onPress={handleQuickStart}
-              activeOpacity={0.85}
-            >
-              <Text style={styles.breatheButtonText}>
-                {t('home.breathe')} · {selectedMinutes} min
-              </Text>
-            </TouchableOpacity>
-
             <View style={styles.durationRow}>
               {DURATION_OPTIONS.map((min) => {
                 const isActive = min === selectedMinutes;
@@ -473,8 +334,8 @@ export default function HomeScreen() {
                     <Text
                       style={[
                         styles.durationPillText,
-                        { color: isActive ? theme.text : theme.textSecondary + '90' },
-                        isActive && { fontFamily: FONTS.bold },
+                        { color: isActive ? theme.text : theme.textSecondary },
+                        isActive && { fontFamily: FONTS.heavy },
                       ]}
                     >
                       {min}
@@ -543,8 +404,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: BORDER_RADIUS.full,
+    backgroundColor: '#4A90D9',
   },
-  streakText: { fontSize: 14, fontFamily: FONTS.bold },
+  streakText: { fontSize: 14, fontFamily: FONTS.bold, color: '#FFFFFF' },
 
   // Orb wrapper — vertically centered in hero
   orbWrapper: {
@@ -559,35 +421,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     alignItems: 'center',
     paddingBottom: 8,
-  },
-  breatheButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 15,
-    borderRadius: BORDER_RADIUS.full,
-    backgroundColor: '#4A90D9',
-    width: '100%',
-    marginBottom: 14,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 12,
-    elevation: 6,
-  },
-  breatheButtonText: {
-    fontSize: 18,
-    fontFamily: FONTS.heavy,
-    color: '#FFFFFF',
-    letterSpacing: 0.2,
+    marginTop: -8,
   },
   durationRow: {
     flexDirection: 'row',
-    gap: 4,
+    gap: 6,
     justifyContent: 'center',
   },
   durationPill: {
-    width: 38,
-    height: 34,
-    borderRadius: 17,
+    width: 40,
+    height: 36,
+    borderRadius: 18,
     borderWidth: 1.5,
     borderColor: 'transparent',
     justifyContent: 'center',
@@ -596,7 +440,7 @@ const styles = StyleSheet.create({
   durationPillActive: {
     borderWidth: 1.5,
   },
-  durationPillText: { fontSize: 14, fontFamily: FONTS.bold },
+  durationPillText: { fontSize: 15, fontFamily: FONTS.semibold },
 
   // Section label
   sectionLabel: {
@@ -617,7 +461,6 @@ const styles = StyleSheet.create({
   // Card
   card: {
     width: CARD_WIDTH,
-    height: CARD_HEIGHT,
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: '#FFFFFF',
@@ -630,6 +473,8 @@ const styles = StyleSheet.create({
   cardArtZone: {
     height: CARD_ART_HEIGHT,
     overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cardContent: {
     flex: 1,
@@ -658,21 +503,21 @@ const styles = StyleSheet.create({
   phaseStepRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: 3,
     backgroundColor: '#F2F2F7',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
   },
   phaseStepLabel: {
-    fontSize: 13,
-    fontFamily: FONTS.semibold,
-    color: '#636366',
+    fontSize: 12,
+    fontFamily: FONTS.medium,
+    color: '#8E8E93',
   },
   phaseStepValue: {
-    fontSize: 13,
-    fontFamily: FONTS.heavy,
-    color: '#3A3A3C',
+    fontSize: 12,
+    fontFamily: FONTS.bold,
+    color: '#48484A',
   },
 
   // Duration pill on card (overlays art zone)
