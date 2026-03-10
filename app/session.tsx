@@ -19,7 +19,13 @@ import { useTimerStore, useSettingsStore, useSessionsStore } from '../src/store'
 import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
-import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../src/types';
+import { playPhaseTransition, playSessionComplete, playCountdownTick, playVoicePhase, playVoiceStart, releaseAllSessionAudio } from '../src/utils/sessionAudio';
+import { BreathingSquare } from '../src/components/BreathingSquare';
+import { BreathingTriangle } from '../src/components/BreathingTriangle';
+import { BreathingWave } from '../src/components/BreathingWave';
+import { BreathingBurst } from '../src/components/BreathingBurst';
+import { BreathingOval } from '../src/components/BreathingOval';
+import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase, BreathingShape as ShapeType } from '../src/types';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -128,6 +134,38 @@ function BreathingCircle({
   );
 }
 
+// ─── Shape Switcher ─────────────────────────────────────────────────────────
+
+function BreathingShape({
+  shape,
+  phase,
+  mode,
+  color,
+  phaseDuration,
+}: {
+  shape: ShapeType;
+  phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhase;
+  mode: string;
+  color: string;
+  phaseDuration?: number;
+}) {
+  const props = { phase, mode, color, phaseDuration };
+  switch (shape) {
+    case 'square':
+      return <BreathingSquare {...props} />;
+    case 'triangle':
+      return <BreathingTriangle {...props} />;
+    case 'wave':
+      return <BreathingWave {...props} />;
+    case 'burst':
+      return <BreathingBurst {...props} />;
+    case 'oval':
+      return <BreathingOval {...props} />;
+    default:
+      return <BreathingCircle {...props} />;
+  }
+}
+
 // ─── Session Screen ─────────────────────────────────────────────────────────
 
 export default function SessionScreen() {
@@ -181,6 +219,9 @@ export default function SessionScreen() {
     if (hapticsEnabled) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
+    if (settingsStore.soundEnabled) {
+      playCountdownTick();
+    }
 
     const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
     return () => clearTimeout(timer);
@@ -198,11 +239,20 @@ export default function SessionScreen() {
 
     if (prevPhaseRef.current === currentPhaseVal) return;
     prevPhaseRef.current = currentPhaseVal;
+
+    // Sound on phase transitions
+    if (settingsStore.soundEnabled && currentPhaseVal !== 'READY' && currentPhaseVal !== 'DONE' && currentPhaseVal !== 'PAUSED') {
+      playPhaseTransition(settingsStore.soundStyle);
+      if (settingsStore.voiceGuidance === 'phases') {
+        playVoicePhase();
+      }
+    }
+
     if (!hapticsEnabled) return;
     if (currentPhaseVal === 'INHALE' || currentPhaseVal === 'EXHALE') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-  }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled]);
+  }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, settingsStore.soundEnabled, settingsStore.soundStyle, settingsStore.voiceGuidance]);
 
   // Tick
   useEffect(() => {
@@ -233,6 +283,11 @@ export default function SessionScreen() {
       (timerStore.mode === 'kapalabhati' && timerStore.kapalabhatiPhase === 'DONE');
 
     if (!isDone || !technique) return;
+
+    // Play completion sound
+    if (settingsStore.soundEnabled) {
+      playSessionComplete(settingsStore.soundStyle);
+    }
 
     const session: BreathingSession = {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
@@ -283,6 +338,7 @@ export default function SessionScreen() {
         text: t('session.stop'),
         style: 'destructive',
         onPress: () => {
+          releaseAllSessionAudio();
           useTimerStore.getState().stop();
           router.back();
         },
@@ -458,9 +514,10 @@ export default function SessionScreen() {
         style={styles.centerContent}
         {...(isRetention ? panResponder.panHandlers : {})}
       >
-        {/* Circle with countdown inside */}
+        {/* Breathing shape with countdown inside */}
         <View style={styles.circleArea}>
-          <BreathingCircle
+          <BreathingShape
+            shape={technique?.shape ?? 'circle'}
             phase={currentPhase as TimerPhase}
             mode={timerStore.mode}
             color="rgba(255,255,255,0.2)"

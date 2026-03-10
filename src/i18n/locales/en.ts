@@ -228,6 +228,7 @@ export default {
   'settings.rate': 'Rate App',
   'settings.contact': 'Contact Support',
   'settings.version': 'Version',
+  'settings.exportData': 'Export Sessions (CSV)',
   'settings.pro': 'Pro',
 
   // Onboarding
@@ -320,6 +321,7 @@ export default {
   'paywall.feature6': 'All badges',
   'paywall.purchase': 'Purchase for {{price}}',
   'paywall.restore': 'Restore Purchase',
+  'paywall.unlockPro': 'Unlock Pro',
 
   // History screen (additional keys)
   'history.noSessionsYet': 'No sessions yet',
@@ -331,7 +333,28 @@ export default {
   'history.streakDays': 'Day Streak',
   'history.noSessionsOnDay': 'No sessions on this day',
   'history.allTimeStats': 'All-Time Stats',
+  'history.unlockFullHistory': 'Unlock full history with Pro',
+  'history.weeklyActivity': 'Weekly Activity',
   'history.badges': 'Badges',
+
+  // Custom Technique Builder
+  'customTechnique.title': 'Create Technique',
+  'customTechnique.name': 'Name',
+  'customTechnique.namePlaceholder': 'My breathing pattern',
+  'customTechnique.phases': 'Breathing Pattern',
+  'customTechnique.inhale': 'Inhale',
+  'customTechnique.holdIn': 'Hold In',
+  'customTechnique.exhale': 'Exhale',
+  'customTechnique.holdOut': 'Hold Out',
+  'customTechnique.addPhase': 'Add Phase',
+  'customTechnique.cycles': 'Cycles',
+  'customTechnique.shape': 'Visual Shape',
+  'customTechnique.color': 'Color',
+  'customTechnique.save': 'Save Technique',
+  'customTechnique.error': 'Error',
+  'customTechnique.nameRequired': 'Please enter a technique name.',
+  'customTechnique.customDescription': 'Your custom breathing pattern',
+  'home.createCustom': 'Create Custom',
 
   // Session screen (additional keys)
   'session.techniqueNotFound': 'Technique not found',
@@ -407,20 +430,10 @@ export default {
   'paywall.restoreSuccessMessage': 'Your purchases have been restored.',
   'paywall.restoreTitle': 'Restore',
   'paywall.restoreNoPurchases': 'No purchases found to restore.',
-  'paywall.annualPrice': '$29.99/year',
-  'paywall.weeklyPrice': '$1.99/week',
-  'paywall.weeklyPlan': 'Weekly',
-  'paywall.weeklyTrial': '3-day free trial',
-  'paywall.annualPlan': 'Annual',
-  'paywall.annualSave': 'Save 70%',
-  'paywall.annualTrial': '7-day free trial',
-  'paywall.freeTrialEnabled': 'Free trial enabled',
-  'paywall.tryForFree': 'Try for Free',
-  'paywall.subscribe': 'Subscribe',
-  'paywall.noPaymentNow': 'No payment now',
+  'paywall.oneTimePayment': 'One-time payment',
+  'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
-  'paywall.disclaimer': 'Payment will be charged to your Apple ID account at the confirmation of purchase. Subscription automatically renews unless it is canceled at least 24 hours before the end of the current period.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

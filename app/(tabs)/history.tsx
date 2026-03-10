@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
-import { useSessionsStore } from '../../src/store';
+import { useSessionsStore, useSettingsStore } from '../../src/store';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { CalendarHeatmap } from '../../src/components/CalendarHeatmap';
 import { getTechniqueById } from '../../src/constants/techniques';
@@ -30,8 +30,18 @@ export default function HistoryScreen() {
   const theme = useThemeColors();
   const insets = useSafeAreaInsets();
   const stats = useSessionsStore((s) => s.stats);
-  const sessions = useSessionsStore((s) => s.sessions);
+  const allSessions = useSessionsStore((s) => s.sessions);
   const hydrate = useSessionsStore((s) => s.hydrate);
+  const isPro = useSettingsStore((s) => s.isPro);
+
+  // Free users see last 7 days only
+  const sessions = useMemo(() => {
+    if (isPro) return allSessions;
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 7);
+    const cutoffStr = cutoff.toISOString().split('T')[0];
+    return allSessions.filter((s) => s.date >= cutoffStr);
+  }, [allSessions, isPro]);
 
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
@@ -63,6 +73,24 @@ export default function HistoryScreen() {
     if (!stats.favoriteTechniqueId) return null;
     return getTechniqueById(stats.favoriteTechniqueId) ?? null;
   }, [stats.favoriteTechniqueId]);
+
+  // Weekly sessions data for bar chart (last 7 weeks)
+  const weeklyData = useMemo(() => {
+    const weeks: { label: string; count: number }[] = [];
+    const today = new Date();
+    for (let w = 6; w >= 0; w--) {
+      const weekStart = new Date(today);
+      weekStart.setDate(today.getDate() - (w * 7 + today.getDay()));
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+      const startStr = weekStart.toISOString().split('T')[0];
+      const endStr = weekEnd.toISOString().split('T')[0];
+      const count = sessions.filter((s) => s.date >= startStr && s.date <= endStr).length;
+      const label = `${weekStart.getMonth() + 1}/${weekStart.getDate()}`;
+      weeks.push({ label, count });
+    }
+    return weeks;
+  }, [sessions]);
 
   const animateMonthChange = useCallback((changeFn: () => void) => {
     Animated.timing(calendarOpacity, { toValue: 0.3, duration: 120, useNativeDriver: true }).start(() => {
@@ -253,6 +281,57 @@ export default function HistoryScreen() {
                   </Text>
                 )}
               </View>
+            )}
+
+            {/* Weekly sessions chart (Pro) */}
+            {isPro && sessions.length > 0 && (
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.weeklyActivity')}</Text>
+                <View style={[styles.chartCard, { backgroundColor: theme.card }]}>
+                  <View style={styles.barChartRow}>
+                    {weeklyData.map((week, idx) => {
+                      const maxCount = Math.max(...weeklyData.map((w) => w.count), 1);
+                      const barHeight = Math.max(4, (week.count / maxCount) * 80);
+                      return (
+                        <View key={idx} style={styles.barCol}>
+                          <View
+                            style={[
+                              styles.bar,
+                              {
+                                height: barHeight,
+                                backgroundColor: week.count > 0 ? COLORS.primary : (theme.isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'),
+                              },
+                            ]}
+                          />
+                          <Text style={[styles.barLabel, { color: theme.textSecondary }]}>
+                            {week.label}
+                          </Text>
+                          {week.count > 0 && (
+                            <Text style={[styles.barValue, { color: theme.text }]}>
+                              {week.count}
+                            </Text>
+                          )}
+                        </View>
+                      );
+                    })}
+                  </View>
+                </View>
+              </View>
+            )}
+
+            {/* Pro upsell for full history */}
+            {!isPro && (
+              <TouchableOpacity
+                style={[styles.proUpsell, { backgroundColor: COLORS.primary + '12' }]}
+                onPress={() => router.push('/paywall')}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="lock-closed" size={16} color={COLORS.primary} />
+                <Text style={[styles.proUpsellText, { color: COLORS.primary }]}>
+                  {t('history.unlockFullHistory')}
+                </Text>
+                <Ionicons name="chevron-forward" size={16} color={COLORS.primary} />
+              </TouchableOpacity>
             )}
 
             {/* All-time stats */}
@@ -528,5 +607,60 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontFamily: FONTS.medium,
     textAlign: 'center',
+  },
+  // Charts
+  chartCard: {
+    marginHorizontal: SPACING.lg,
+    padding: SPACING.md,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  barChartRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    height: 110,
+    gap: 4,
+  },
+  barCol: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  bar: {
+    width: '70%',
+    borderRadius: 4,
+    minHeight: 4,
+    marginBottom: 4,
+  },
+  barLabel: {
+    fontSize: 9,
+    fontFamily: FONTS.medium,
+  },
+  barValue: {
+    fontSize: 10,
+    fontFamily: FONTS.bold,
+    position: 'absolute',
+    top: -2,
+  },
+
+  proUpsell: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: SPACING.lg,
+    marginBottom: SPACING.md,
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.sm + 2,
+    borderRadius: BORDER_RADIUS.lg,
+    gap: 8,
+  },
+  proUpsellText: {
+    flex: 1,
+    fontSize: FONT_SIZE.sm,
+    fontFamily: FONTS.semibold,
   },
 });

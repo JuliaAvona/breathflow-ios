@@ -15,7 +15,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { useSettingsStore, useAuthStore } from '../../src/store';
+import { useSettingsStore, useAuthStore, useSessionsStore } from '../../src/store';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 import { requestHealthPermissions, isHealthKitAvailable } from '../../src/utils/healthKit';
 import { performAppleSignIn } from '../../src/utils/appleAuth';
@@ -23,6 +23,7 @@ import { pushAll, pullAndMerge } from '../../src/services/syncService';
 import { COLOR_THEMES } from '../../src/constants/colorThemes';
 import { useHaptics } from '../../src/hooks/useHaptics';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
+import { exportSessionsAsCSV } from '../../src/utils/csvExport';
 import { PickerModal } from '../../src/components/PickerModal';
 import { WheelPickerModal, WheelColumn } from '../../src/components/WheelPickerModal';
 
@@ -127,6 +128,7 @@ export default function SettingsScreen() {
   const [activePicker, setActivePicker] = useState<PickerType>(null);
   const user = useAuthStore((s) => s.user);
   const isAnonymous = useAuthStore((s) => s.isAnonymous);
+  const sessions = useSessionsStore((s) => s.sessions);
 
   // ── Handlers ───────────────────────────────────────────────────────────
 
@@ -668,6 +670,18 @@ export default function SettingsScreen() {
               {t('settings.language')}
             </Text>
             <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+          </TouchableOpacity>
+
+          {/* Export data */}
+          <TouchableOpacity
+            style={[styles.settingRow, { borderBottomColor: theme.border }]}
+            onPress={() => exportSessionsAsCSV(sessions)}
+            accessibilityRole="button"
+          >
+            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+              {t('settings.exportData')}
+            </Text>
+            <Ionicons name="download-outline" size={18} color={theme.textSecondary} />
           </TouchableOpacity>
 
           {/* About */}

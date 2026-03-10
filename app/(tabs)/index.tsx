@@ -21,7 +21,7 @@ import Svg, { Path } from 'react-native-svg';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { useSettingsStore, useSessionsStore } from '../../src/store';
 import { TECHNIQUES } from '../../src/constants/techniques';
-import { SPACING, BORDER_RADIUS, FONTS } from '../../src/constants';
+import { SPACING, BORDER_RADIUS, FONTS, COLORS } from '../../src/constants';
 import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
 
 // ─── Layout constants ────────────────────────────────────────────────────────
@@ -305,17 +305,30 @@ function TechniqueDetailSheet({ technique, visible, onClose, onStart, isPro, t, 
               {t(detailKey)}
             </Text>
 
-            {/* Start button */}
-            <TouchableOpacity
-              style={[sheetStyles.startBtn, { backgroundColor: technique.color }]}
-              onPress={() => onStart(technique)}
-              activeOpacity={0.85}
-            >
-              <Ionicons name="play" size={20} color="#FFFFFF" />
-              <Text style={sheetStyles.startBtnText}>
-                {t('techniqueDetail.start')}
-              </Text>
-            </TouchableOpacity>
+            {/* Start / Unlock button */}
+            {locked ? (
+              <TouchableOpacity
+                style={[sheetStyles.startBtn, { backgroundColor: '#F5A623' }]}
+                onPress={() => { onClose(); router.push('/paywall'); }}
+                activeOpacity={0.85}
+              >
+                <Ionicons name="lock-open-outline" size={20} color="#FFFFFF" />
+                <Text style={sheetStyles.startBtnText}>
+                  {t('paywall.unlockPro')}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[sheetStyles.startBtn, { backgroundColor: technique.color }]}
+                onPress={() => onStart(technique)}
+                activeOpacity={0.85}
+              >
+                <Ionicons name="play" size={20} color="#FFFFFF" />
+                <Text style={sheetStyles.startBtnText}>
+                  {t('techniqueDetail.start')}
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </Animated.View>
       </View>
@@ -676,6 +689,29 @@ export default function HomeScreen() {
               {row.length === 1 && <View style={{ width: CARD_WIDTH }} />}
             </View>
           ))}
+
+          {/* Create custom technique button */}
+          <TouchableOpacity
+            style={[styles.createCustomBtn, { borderColor: theme.border }]}
+            onPress={() => {
+              if (!isPro) {
+                router.push('/paywall');
+              } else {
+                router.push('/custom-technique');
+              }
+            }}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="add-circle-outline" size={22} color={COLORS.primary} />
+            <Text style={[styles.createCustomText, { color: COLORS.primary }]}>
+              {t('home.createCustom')}
+            </Text>
+            {!isPro && (
+              <View style={styles.createCustomProBadge}>
+                <Text style={styles.createCustomProText}>PRO</Text>
+              </View>
+            )}
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -862,5 +898,34 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.15)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  // Create custom button
+  createCustomBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: SPACING.sm + 4,
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    marginTop: SPACING.xs,
+  },
+  createCustomText: {
+    fontSize: 15,
+    fontFamily: FONTS.semibold,
+  },
+  createCustomProBadge: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  createCustomProText: {
+    fontSize: 10,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+    letterSpacing: 0.5,
   },
 });

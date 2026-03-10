@@ -7,9 +7,9 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
-  Switch,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -20,44 +20,34 @@ import {
   getOfferings,
   purchasePackage,
   restorePurchases,
-  type PurchasesPackage,
   type PurchasesOffering,
 } from '../src/utils/revenueCat';
-
-type Plan = 'annual' | 'weekly';
 
 export default function PaywallScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
   const fontSize = useFontSize();
+  const insets = useSafeAreaInsets();
   const setSetting = useSettingsStore((s) => s.setSetting);
-  const [selectedPlan, setSelectedPlan] = useState<Plan>('weekly');
   const [loading, setLoading] = useState(false);
   const [offering, setOffering] = useState<PurchasesOffering | null>(null);
-  const [trialEnabled, setTrialEnabled] = useState(true);
 
   useEffect(() => {
     getOfferings().then(setOffering);
   }, []);
 
-  const getPackage = (): PurchasesPackage | undefined => {
-    if (!offering) return undefined;
-    if (selectedPlan === 'annual') return offering.annual ?? undefined;
-    return offering.weekly ?? undefined;
-  };
-
   const features = [
-    { emoji: '\u{1F3AF}', text: t('paywall.feature1') },
-    { emoji: '\u{1F504}', text: t('paywall.feature2') },
-    { emoji: '\u{1F4E4}', text: t('paywall.feature3') },
-    { emoji: '\u{1F514}', text: t('paywall.feature4') },
-    { emoji: '\u{1F525}', text: t('paywall.feature5') },
-    { emoji: '\u{1F3A8}', text: t('paywall.feature6') },
+    { icon: 'flash-outline' as const, text: t('paywall.feature1') },
+    { icon: 'construct-outline' as const, text: t('paywall.feature2') },
+    { icon: 'bar-chart-outline' as const, text: t('paywall.feature3') },
+    { icon: 'color-palette-outline' as const, text: t('paywall.feature4') },
+    { icon: 'happy-outline' as const, text: t('paywall.feature5') },
+    { icon: 'trophy-outline' as const, text: t('paywall.feature6') },
   ];
 
-
-  const onSubscribe = async () => {
-    const pkg = getPackage();
+  const onPurchase = async () => {
+    // Try lifetime package first, then fall back to annual
+    const pkg = offering?.lifetime ?? offering?.annual ?? undefined;
     if (!pkg) {
       Alert.alert(t('paywall.errorTitle'), t('paywall.errorNoProduct'));
       return;
@@ -96,263 +86,198 @@ export default function PaywallScreen() {
     }
   };
 
-  // Dynamic prices from RevenueCat (fallback to translation keys)
-  const annualPrice = offering?.annual?.product.priceString ?? t('paywall.annualPrice');
-  const weeklyPrice = offering?.weekly?.product.priceString ?? t('paywall.weeklyPrice');
-
-  // Calculate per-week cost from annual price, preserving locale currency symbol
-  const annualPerWeek = (() => {
-    const product = offering?.annual?.product;
-    if (!product) return '';
-    const perWeek = (product.price / 52).toFixed(2);
-    // Extract currency symbol from priceString (e.g. "$24.99" → "$", "₹299" → "₹")
-    const symbol = product.priceString.replace(/[\d.,\s]/g, '').trim();
-    return `${symbol}${perWeek}/wk`;
-  })();
-
-  const RadioCircle = ({ selected }: { selected: boolean }) => (
-    <View style={[styles.radio, { borderColor: selected ? theme.primary : theme.border }]}>
-      {selected && <View style={[styles.radioInner, { backgroundColor: theme.primary }]} />}
-    </View>
-  );
+  const priceStr = offering?.lifetime?.product.priceString
+    ?? offering?.annual?.product.priceString
+    ?? '$3.99';
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-      {/* Header row: close + restore */}
-      <View style={styles.headerRow}>
-        <TouchableOpacity
-          onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')}
-          activeOpacity={0.7}
-          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-        >
-          <Ionicons name="close" size={28} color={theme.textSecondary} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onRestore}
-          activeOpacity={0.7}
-          disabled={loading}
-        >
-          <Ionicons name="refresh" size={24} color={theme.textSecondary} />
-        </TouchableOpacity>
-      </View>
-
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Icon */}
-        <View style={[styles.iconCircle, { backgroundColor: theme.primary + '15' }]}>
-          <Ionicons name="diamond" size={scale(36)} color={theme.primary} />
-        </View>
+        {/* Gradient hero */}
+        <LinearGradient
+          colors={[COLORS.primary, '#5BA0E8', theme.background]}
+          locations={[0, 0.65, 1]}
+          style={[styles.hero, { paddingTop: insets.top + 12 }]}
+        >
+          {/* Close / Restore row */}
+          <View style={styles.headerRow}>
+            <TouchableOpacity
+              onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')}
+              activeOpacity={0.7}
+              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            >
+              <View style={styles.headerBtn}>
+                <Ionicons name="close" size={22} color="#FFFFFF" />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onRestore} activeOpacity={0.7} disabled={loading}>
+              <Text style={styles.restoreText}>{t('paywall.restore')}</Text>
+            </TouchableOpacity>
+          </View>
 
-        {/* Title */}
-        <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl + 4 }]} numberOfLines={2} adjustsFontSizeToFit>
-          {t('paywall.title')}
-        </Text>
-        <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-          {t('paywall.subtitle')}
-        </Text>
+          {/* Diamond icon */}
+          <View style={styles.diamondCircle}>
+            <Ionicons name="diamond" size={scale(40)} color="#FFFFFF" />
+          </View>
 
-        {/* Feature list */}
-        <View style={styles.featureList}>
+          {/* Title */}
+          <Text style={styles.heroTitle}>{t('paywall.title')}</Text>
+          <Text style={styles.heroSubtitle}>{t('paywall.subtitle')}</Text>
+        </LinearGradient>
+
+        {/* Feature list card */}
+        <View style={[styles.featureCard, { backgroundColor: theme.card }]}>
           {features.map((feature, index) => (
             <View key={index} style={styles.featureRow}>
-              <Text style={styles.featureEmoji}>{feature.emoji}</Text>
-              <Text style={[styles.featureText, { color: theme.text, fontSize: fontSize.md }]} numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.8}>
+              <View style={[styles.featureIconBg, { backgroundColor: COLORS.primary + '15' }]}>
+                <Ionicons name={feature.icon} size={18} color={COLORS.primary} />
+              </View>
+              <Text style={[styles.featureText, { color: theme.text, fontSize: fontSize.md }]} numberOfLines={2}>
                 {feature.text}
               </Text>
             </View>
           ))}
         </View>
 
-        {/* Plan cards */}
-        <View style={styles.plansColumn}>
-          {/* Weekly plan */}
-          <TouchableOpacity
-            style={[
-              styles.planCard,
-              {
-                backgroundColor: selectedPlan === 'weekly' ? theme.primary + '10' : theme.card,
-                borderColor: selectedPlan === 'weekly' ? theme.primary : theme.border,
-                borderWidth: selectedPlan === 'weekly' ? 2 : 1,
-              },
-            ]}
-            onPress={() => setSelectedPlan('weekly')}
-            activeOpacity={0.8}
-          >
-            <RadioCircle selected={selectedPlan === 'weekly'} />
-            <View style={styles.planInfo}>
-              <Text style={[styles.planName, { color: theme.text, fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('paywall.weeklyPlan')}
-              </Text>
-              <Text style={[styles.planTrial, { color: theme.textSecondary, fontSize: fontSize.sm }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('paywall.weeklyTrial')}
-              </Text>
-            </View>
-            <View style={styles.planPriceBlock}>
-              <Text style={[styles.planPriceMain, { color: theme.text, fontSize: fontSize.md }]}>
-                {weeklyPrice}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          {/* Annual plan */}
-          <TouchableOpacity
-            style={[
-              styles.planCard,
-              {
-                backgroundColor: selectedPlan === 'annual' ? theme.primary + '10' : theme.card,
-                borderColor: selectedPlan === 'annual' ? theme.primary : theme.border,
-                borderWidth: selectedPlan === 'annual' ? 2 : 1,
-              },
-            ]}
-            onPress={() => setSelectedPlan('annual')}
-            activeOpacity={0.8}
-          >
-            <RadioCircle selected={selectedPlan === 'annual'} />
-            <View style={styles.planInfo}>
-              <View style={styles.planNameRow}>
-                <Text style={[styles.planName, { color: theme.text, fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>
-                  {t('paywall.annualPlan')}
-                </Text>
-                <View style={[styles.saveBadge, { backgroundColor: theme.primary + '15' }]}>
-                  <Text style={[styles.saveBadgeText, { color: theme.primary }]} numberOfLines={1}>{t('paywall.annualSave')}</Text>
-                </View>
-              </View>
-              <Text style={[styles.planTrial, { color: theme.textSecondary, fontSize: fontSize.sm }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('paywall.annualTrial')}
-              </Text>
-            </View>
-            <View style={styles.planPriceBlock}>
-              <Text style={[styles.planPriceMain, { color: theme.text, fontSize: fontSize.md }]}>
-                {annualPerWeek}
-              </Text>
-              <Text style={[styles.planPriceTotal, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-                {annualPrice}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        {/* Free trial toggle */}
-        <View style={[styles.trialToggleRow, { borderColor: theme.border }]}>
-            <Text style={[styles.trialToggleText, { color: theme.text, fontSize: fontSize.md }]}>
-              {t('paywall.freeTrialEnabled')}
-            </Text>
-            <Switch
-              value={trialEnabled}
-              onValueChange={setTrialEnabled}
-              trackColor={{ false: theme.border, true: theme.primary }}
-              thumbColor={COLORS.white}
-            />
+        {/* Price highlight */}
+        <View style={[styles.priceCard, { backgroundColor: theme.card }]}>
+          <Text style={[styles.priceLabel, { color: theme.textSecondary }]}>
+            {t('paywall.oneTimePayment')}
+          </Text>
+          <Text style={[styles.priceValue, { color: theme.text }]}>
+            {priceStr}
+          </Text>
+          <Text style={[styles.priceNote, { color: theme.textSecondary }]}>
+            {t('paywall.foreverAccess')}
+          </Text>
         </View>
 
         {/* CTA Button */}
         <TouchableOpacity
-          style={[styles.ctaButton, { backgroundColor: theme.primary }, loading && styles.ctaButtonDisabled]}
-          onPress={onSubscribe}
-          activeOpacity={0.8}
+          style={[styles.ctaButton, loading && styles.ctaDisabled]}
+          onPress={onPurchase}
+          activeOpacity={0.85}
           disabled={loading}
         >
-          {loading ? (
-            <ActivityIndicator color={COLORS.white} />
-          ) : (
-            <Text style={[styles.ctaButtonText, { fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>
-              {trialEnabled
-                ? t('paywall.tryForFree')
-                : t('paywall.subscribe')}
-            </Text>
-          )}
+          <LinearGradient
+            colors={[COLORS.primary, '#3A7BC8']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.ctaGradient}
+          >
+            {loading ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <>
+                <Ionicons name="lock-open-outline" size={20} color="#FFFFFF" />
+                <Text style={styles.ctaText}>
+                  {t('paywall.purchase', { price: priceStr })}
+                </Text>
+              </>
+            )}
+          </LinearGradient>
         </TouchableOpacity>
-
-        {/* No payment now */}
-        {trialEnabled && (
-          <View style={styles.noPaymentRow}>
-            <Ionicons name="shield-checkmark" size={16} color={theme.textSecondary} />
-            <Text style={[styles.noPaymentText, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-              {t('paywall.noPaymentNow')}
-            </Text>
-          </View>
-        )}
 
         {/* Legal links */}
         <View style={styles.legalLinks}>
           <TouchableOpacity onPress={() => router.push('/terms')} activeOpacity={0.7}>
-            <Text style={[styles.legalLinkText, { color: theme.textSecondary }]}>
+            <Text style={[styles.legalText, { color: theme.textSecondary }]}>
               {t('paywall.terms')}
             </Text>
           </TouchableOpacity>
-          <Text style={[styles.legalSeparator, { color: theme.textSecondary }]}>{'  \u2022  '}</Text>
+          <Text style={[styles.legalSep, { color: theme.textSecondary }]}>{' \u2022 '}</Text>
           <TouchableOpacity onPress={() => router.push('/privacy')} activeOpacity={0.7}>
-            <Text style={[styles.legalLinkText, { color: theme.textSecondary }]}>
+            <Text style={[styles.legalText, { color: theme.textSecondary }]}>
               {t('paywall.privacy')}
             </Text>
           </TouchableOpacity>
         </View>
-
-        {/* Disclaimer */}
-        <Text style={[styles.disclaimer, { color: theme.textSecondary + '80', fontSize: fontSize.xs }]}>
-          {t('paywall.disclaimer')}
-        </Text>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
-const RADIO_SIZE = 24;
-const RADIO_INNER = 14;
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  container: { flex: 1 },
+  scrollContent: { flexGrow: 1 },
+
+  // Hero
+  hero: {
+    paddingHorizontal: SPACING.lg,
+    paddingBottom: SPACING.xl + SPACING.md,
+    alignItems: 'center',
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.sm,
-    paddingBottom: SPACING.xs,
+    alignSelf: 'stretch',
+    marginBottom: SPACING.lg,
   },
-  scrollContent: {
-    paddingHorizontal: SPACING.lg,
-    paddingBottom: SPACING.xl,
+  headerBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  iconCircle: {
-    width: scale(72),
-    height: scale(72),
-    borderRadius: scale(36),
+  restoreText: {
+    fontSize: FONT_SIZE.sm,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.85)',
+  },
+  diamondCircle: {
+    width: scale(80),
+    height: scale(80),
+    borderRadius: scale(40),
+    backgroundColor: 'rgba(255,255,255,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.md,
-    marginTop: SPACING.sm,
   },
-  title: {
-    fontSize: FONT_SIZE.xxl,
+  heroTitle: {
+    fontSize: 28,
     fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
     textAlign: 'center',
-    marginBottom: SPACING.xs,
+    letterSpacing: -0.5,
   },
-  subtitle: {
+  heroSubtitle: {
     fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.8)',
     textAlign: 'center',
-    marginBottom: SPACING.xl,
+    marginTop: 4,
   },
-  featureList: {
-    alignSelf: 'stretch',
-    marginBottom: SPACING.xl,
+
+  // Feature card
+  featureCard: {
+    marginHorizontal: SPACING.lg,
+    padding: SPACING.lg,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+    marginBottom: SPACING.md,
   },
   featureRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.sm + 2,
+    marginBottom: 14,
   },
-  featureEmoji: {
-    fontSize: FONT_SIZE.lg,
-    marginRight: SPACING.sm + 2,
-    width: 28,
-    textAlign: 'center',
+  featureIconBg: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
   },
   featureText: {
     fontSize: FONT_SIZE.md,
@@ -360,151 +285,74 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // Plans
-  plansColumn: {
-    alignSelf: 'stretch',
-    gap: SPACING.sm,
+  // Price card
+  priceCard: {
+    marginHorizontal: SPACING.lg,
+    padding: SPACING.lg,
+    borderRadius: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
     marginBottom: SPACING.lg,
   },
-  planCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: SPACING.md,
-    paddingVertical: SPACING.md + 4,
-    borderRadius: BORDER_RADIUS.lg,
-    overflow: 'hidden',
-  },
-  planInfo: {
-    flex: 1,
-    marginLeft: SPACING.sm + 2,
-  },
-  planName: {
-    fontSize: FONT_SIZE.lg,
-    fontFamily: FONTS.bold,
-  },
-  planTrial: {
+  priceLabel: {
     fontSize: FONT_SIZE.sm,
+    fontFamily: FONTS.medium,
+    marginBottom: 4,
   },
-  planPriceBlock: {
-    alignItems: 'flex-end',
-    marginLeft: SPACING.xs,
-    flexShrink: 0,
+  priceValue: {
+    fontSize: 36,
+    fontFamily: FONTS.heavy,
+    letterSpacing: -1,
   },
-  planPrice: {
-    fontSize: FONT_SIZE.md,
-    fontFamily: FONTS.bold,
-  },
-  planPriceMain: {
-    fontSize: FONT_SIZE.md,
-    fontFamily: FONTS.semibold,
-  },
-  planPriceTotal: {
+  priceNote: {
     fontSize: FONT_SIZE.sm,
     fontFamily: FONTS.medium,
     marginTop: 2,
   },
-  planNameRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: SPACING.xs,
-    marginBottom: 2,
-  },
-  saveBadge: {
-    paddingHorizontal: SPACING.xs + 2,
-    paddingVertical: 2,
-    borderRadius: BORDER_RADIUS.sm,
-  },
-  saveBadgeText: {
-    fontSize: 10,
-    fontFamily: FONTS.bold,
-    letterSpacing: 0.3,
-  },
-
-  // Radio
-  radio: {
-    width: RADIO_SIZE,
-    height: RADIO_SIZE,
-    borderRadius: RADIO_SIZE / 2,
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  radioInner: {
-    width: RADIO_INNER,
-    height: RADIO_INNER,
-    borderRadius: RADIO_INNER / 2,
-  },
-
-  // Trial toggle
-  trialToggleRow: {
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderRadius: BORDER_RADIUS.md,
-    borderWidth: 1,
-    marginBottom: SPACING.lg,
-  },
-  trialToggleText: {
-    fontSize: FONT_SIZE.md,
-    fontFamily: FONTS.medium,
-  },
 
   // CTA
   ctaButton: {
-    alignSelf: 'stretch',
-    paddingVertical: SPACING.md + 2,
+    marginHorizontal: SPACING.lg,
     borderRadius: BORDER_RADIUS.xl,
-    alignItems: 'center',
-    marginBottom: SPACING.sm,
-    shadowColor: '#000',
+    overflow: 'hidden',
+    marginBottom: SPACING.md,
+    shadowColor: COLORS.primary,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 4,
   },
-  ctaButtonDisabled: {
-    opacity: 0.7,
-  },
-  ctaButtonText: {
-    color: COLORS.white,
-    fontSize: FONT_SIZE.lg,
-    fontFamily: FONTS.bold,
-    letterSpacing: 0.5,
-  },
-
-  // No payment
-  noPaymentRow: {
+  ctaDisabled: { opacity: 0.7 },
+  ctaGradient: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: SPACING.xs,
-    marginBottom: SPACING.lg,
-    marginTop: SPACING.xs,
+    justifyContent: 'center',
+    paddingVertical: SPACING.md + 2,
+    gap: 8,
   },
-  noPaymentText: {
-    fontSize: FONT_SIZE.sm,
-    fontFamily: FONTS.medium,
+  ctaText: {
+    color: '#FFFFFF',
+    fontSize: FONT_SIZE.lg,
+    fontFamily: FONTS.bold,
+    letterSpacing: 0.3,
   },
 
   // Legal
   legalLinks: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: SPACING.md,
   },
-  legalLinkText: {
+  legalText: {
     fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.medium,
   },
-  legalSeparator: {
+  legalSep: {
     fontSize: FONT_SIZE.xs,
-  },
-  disclaimer: {
-    fontSize: FONT_SIZE.xs,
-    textAlign: 'center',
-    lineHeight: 16,
-    paddingHorizontal: SPACING.sm,
   },
 });
