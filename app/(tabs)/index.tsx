@@ -577,10 +577,10 @@ export default function HomeScreen() {
             </View>
           )}
 
-          {/* Sphere */}
-          <View style={styles.orbWrapper}>
+          {/* Sphere — tap to start quick session */}
+          <TouchableOpacity style={styles.orbWrapper} onPress={handleQuickStart} activeOpacity={0.85}>
             <BreathingSphere />
-          </View>
+          </TouchableOpacity>
 
           {/* Start button */}
           <TouchableOpacity
