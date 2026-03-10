@@ -278,9 +278,10 @@ export default function HistoryScreen() {
                     {favoriteTechnique ? (
                       <>
                         <Ionicons name={favoriteTechnique.icon as keyof typeof Ionicons.glyphMap} size={22} color={favoriteTechnique.color} />
-                        <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]} numberOfLines={1}>
+                        <Text style={[styles.allTimeValue, { color: theme.text, fontSize: 15 }]} numberOfLines={1}>
                           {t(favoriteTechnique.nameKey)}
                         </Text>
+                        <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>{t('history.favoriteTechnique')}</Text>
                       </>
                     ) : (
                       <>
