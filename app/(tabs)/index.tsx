@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  FlatList,
   Animated,
   Easing,
+  Modal,
+  Pressable,
+  PanResponder,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -20,17 +22,15 @@ import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { useSettingsStore, useSessionsStore } from '../../src/store';
 import { TECHNIQUES } from '../../src/constants/techniques';
 import { SPACING, BORDER_RADIUS, FONTS } from '../../src/constants';
-import type { BreathingTechnique } from '../../src/types';
+import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
 
 // ─── Layout constants ────────────────────────────────────────────────────────
 
 const DURATION_OPTIONS = [1, 2, 3, 5, 10, 15, 20];
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
-const CARD_H_PADDING = 20;
-const CARD_GAP = 12;
-const CARD_WIDTH = SCREEN_WIDTH - CARD_H_PADDING * 2;
-const CARD_ART_HEIGHT = CARD_WIDTH * 0.38;
-const SNAP_WIDTH = CARD_WIDTH + CARD_GAP;
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const GRID_H_PADDING = 20;
+const GRID_GAP = 12;
+const CARD_WIDTH = (SCREEN_WIDTH - GRID_H_PADDING * 2 - GRID_GAP) / 2;
 
 // ─── Card gradient configs ───────────────────────────────────────────────────
 
@@ -52,7 +52,28 @@ const CARD_THEMES: Record<string, CardTheme> = {
   cyclicSigh:     { bg: ['#B0E8C8', '#78D4A0'], icon: 'pulse-outline' },
 };
 
+// ─── Category tabs ──────────────────────────────────────────────────────────
+
+type FilterCategory = 'all' | TechniqueCategory;
+
+const CATEGORY_FILTERS: { key: FilterCategory; labelKey: string }[] = [
+  { key: 'all', labelKey: 'home.categoryAll' },
+  { key: 'calm', labelKey: 'home.categoryCalm' },
+  { key: 'sleep', labelKey: 'home.categorySleep' },
+  { key: 'focus', labelKey: 'home.categoryFocus' },
+  { key: 'energy', labelKey: 'home.categoryEnergy' },
+  { key: 'advanced', labelKey: 'home.categoryAdvanced' },
+];
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
+
+const PHASE_LABELS: Record<string, string> = {
+  breatheIn: 'In',
+  breatheOut: 'Out',
+  hold: 'Hold',
+  holdOut: 'Hold',
+  topUpInhale: 'Sip',
+};
 
 function formatDuration(totalSeconds: number): string {
   const mins = Math.floor(totalSeconds / 60);
@@ -76,120 +97,356 @@ function getDurationLabel(t: BreathingTechnique): string {
   return formatDuration(total);
 }
 
-const PHASE_LABELS: Record<string, string> = {
-  breatheIn: 'In',
-  breatheOut: 'Out',
-  hold: 'Hold',
-  holdOut: 'Hold',
-  topUpInhale: 'Top-up',
-};
-
-interface PhaseStep {
-  label: string;
-  duration: string;
-}
-
-function getPhaseSteps(technique: BreathingTechnique): PhaseStep[] {
+function getPatternString(technique: BreathingTechnique): string {
   if (technique.mode === 'power') {
-    return [
-      { label: 'Breaths', duration: `${technique.breathCount}` },
-      { label: 'Rounds', duration: `${technique.roundCount}` },
-    ];
+    return `${technique.breathCount} breaths + hold × ${technique.roundCount} rounds`;
   }
   if (technique.mode === 'kapalabhati') {
-    return [
-      { label: 'Rapid sets', duration: `${technique.setCount} × ${technique.setDuration}s` },
-    ];
+    return `${technique.setCount} × ${technique.setDuration}s rapid sets`;
   }
-  return technique.phases.map((p) => {
-    const label = PHASE_LABELS[p.instructionKey] ?? p.instructionKey;
-    return {
-      label,
-      duration: p.duration % 1 === 0 ? `${p.duration}s` : `${p.duration.toFixed(1)}s`,
-    };
-  });
+  return technique.phases
+    .map((p) => {
+      const label = PHASE_LABELS[p.instructionKey] ?? p.instructionKey;
+      const dur = p.duration % 1 === 0 ? `${p.duration}` : `${p.duration.toFixed(1)}`;
+      return `${label} ${dur}s`;
+    })
+    .join('  ·  ');
 }
 
-// ─── TechniqueCard (full-width carousel card) ────────────────────────────────
+// ─── TechniqueCard (grid card) ──────────────────────────────────────────────
 
 interface TechniqueCardProps {
   technique: BreathingTechnique;
   isPro: boolean;
   t: (key: string) => string;
+  theme: ReturnType<typeof useThemeColors>;
+  onPress: (technique: BreathingTechnique) => void;
 }
 
-function TechniqueCard({ technique, isPro, t }: TechniqueCardProps) {
+function TechniqueCard({ technique, isPro, t, theme, onPress }: TechniqueCardProps) {
   const locked = technique.isPro && !isPro;
-  const theme = CARD_THEMES[technique.id] ?? { bg: [technique.color + '40', technique.color], icon: 'ellipse-outline' as keyof typeof Ionicons.glyphMap };
-
-  const handlePress = () => {
-    router.push({ pathname: '/session', params: { techniqueId: technique.id } });
+  const cardTheme = CARD_THEMES[technique.id] ?? {
+    bg: [technique.color + '40', technique.color] as [string, string],
+    icon: 'ellipse-outline' as keyof typeof Ionicons.glyphMap,
   };
 
   return (
     <TouchableOpacity
-      style={styles.card}
-      onPress={handlePress}
-      activeOpacity={0.92}
+      style={[styles.gridCard, { backgroundColor: theme.card }]}
+      onPress={() => onPress(technique)}
+      activeOpacity={0.85}
       accessibilityLabel={t(technique.nameKey)}
       accessibilityRole="button"
     >
-      {/* ── Art zone (top) — clean gradient + centered icon ── */}
+      {/* Gradient art area */}
       <LinearGradient
-        colors={theme.bg}
+        colors={cardTheme.bg}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={styles.cardArtZone}
+        style={styles.gridCardArt}
       >
-        <Ionicons name={theme.icon} size={52} color="rgba(255,255,255,0.35)" />
-
-        {/* Duration pill */}
-        <View style={styles.durationPillCard}>
-          <Text style={styles.durationPillCardText}>
-            {getDurationLabel(technique)}
-          </Text>
-        </View>
+        <Ionicons name={cardTheme.icon} size={36} color="rgba(255,255,255,0.4)" />
 
         {/* PRO lock */}
         {locked && (
           <View style={styles.proBadge}>
-            <Ionicons name="lock-closed" size={11} color="rgba(255,255,255,0.9)" />
+            <Ionicons name="lock-closed" size={10} color="rgba(255,255,255,0.9)" />
           </View>
         )}
       </LinearGradient>
 
-      {/* ── Content zone (bottom) ── */}
-      <View style={styles.cardContent}>
-        <Text style={styles.cardName} numberOfLines={1}>
+      {/* Info */}
+      <View style={styles.gridCardInfo}>
+        <Text style={[styles.gridCardName, { color: theme.text }]} numberOfLines={1}>
           {t(technique.nameKey)}
         </Text>
-        <Text style={styles.cardDescription} numberOfLines={2}>
-          {t(technique.descriptionKey)}
+        <Text style={[styles.gridCardDuration, { color: theme.textSecondary }]}>
+          {getDurationLabel(technique)}
         </Text>
-
-        <View style={styles.phaseSteps}>
-          {getPhaseSteps(technique).map((step, i) => (
-            <View key={i} style={styles.phaseStepRow}>
-              <Text style={styles.phaseStepLabel}>{step.label}</Text>
-              <Text style={styles.phaseStepValue}>{step.duration}</Text>
-            </View>
-          ))}
-        </View>
       </View>
     </TouchableOpacity>
   );
 }
 
-// ─── Breathing Sphere (single orb with icon) ─────────────────────────────────
+// ─── Technique Detail Sheet ─────────────────────────────────────────────────
 
-const SPHERE_SIZE = SCREEN_WIDTH * 0.36;
+interface DetailSheetProps {
+  technique: BreathingTechnique | null;
+  visible: boolean;
+  onClose: () => void;
+  onStart: (technique: BreathingTechnique) => void;
+  isPro: boolean;
+  t: (key: string) => string;
+  theme: ReturnType<typeof useThemeColors>;
+}
 
-function BreathingSphere({ onPress, label }: { onPress: () => void; label: string }) {
+const DISMISS_THRESHOLD = 120;
+
+function TechniqueDetailSheet({ technique, visible, onClose, onStart, isPro, t, theme }: DetailSheetProps) {
+  const insets = useSafeAreaInsets();
+  const dragY = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (visible) {
+      dragY.setValue(0);
+      Animated.spring(slideAnim, { toValue: 1, useNativeDriver: true, damping: 20, stiffness: 200 }).start();
+    } else {
+      slideAnim.setValue(0);
+    }
+  }, [visible, slideAnim, dragY]);
+
+  const dismissSheet = useCallback(() => {
+    Animated.timing(dragY, { toValue: 600, duration: 250, useNativeDriver: true }).start(() => {
+      onClose();
+    });
+  }, [dragY, onClose]);
+
+  const panResponder = useMemo(() =>
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, g) => g.dy > 8,
+      onPanResponderMove: (_, g) => {
+        if (g.dy > 0) dragY.setValue(g.dy);
+      },
+      onPanResponderRelease: (_, g) => {
+        if (g.dy > DISMISS_THRESHOLD || g.vy > 0.5) {
+          dismissSheet();
+        } else {
+          Animated.spring(dragY, { toValue: 0, useNativeDriver: true, damping: 20, stiffness: 300 }).start();
+        }
+      },
+    }),
+  [dragY, dismissSheet]);
+
+  if (!technique) return null;
+
+  const cardTheme = CARD_THEMES[technique.id] ?? {
+    bg: [technique.color + '40', technique.color] as [string, string],
+    icon: 'ellipse-outline' as keyof typeof Ionicons.glyphMap,
+  };
+  const locked = technique.isPro && !isPro;
+  const detailKey = `techniques.${technique.id}.detail`;
+  const categoryLabel = t(`home.category${technique.category.charAt(0).toUpperCase() + technique.category.slice(1)}`);
+
+  const translateY = Animated.add(
+    slideAnim.interpolate({ inputRange: [0, 1], outputRange: [600, 0] }),
+    dragY,
+  );
+
+  return (
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+      <View style={sheetStyles.overlay}>
+        {/* Tapping the backdrop closes the sheet */}
+        <Pressable style={StyleSheet.absoluteFill} onPress={dismissSheet} />
+        <Animated.View
+          {...panResponder.panHandlers}
+          style={[
+            sheetStyles.sheet,
+            { backgroundColor: theme.surface, paddingBottom: insets.bottom + 16, transform: [{ translateY }] },
+          ]}
+        >
+          {/* Handle bar */}
+          <View style={sheetStyles.handleBar} />
+
+          {/* Header with gradient */}
+          <LinearGradient
+            colors={cardTheme.bg}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={sheetStyles.headerGradient}
+          >
+            <Ionicons name={cardTheme.icon} size={48} color="rgba(255,255,255,0.35)" />
+            {locked && (
+              <View style={sheetStyles.proBadgeSheet}>
+                <Ionicons name="lock-closed" size={12} color="rgba(255,255,255,0.9)" />
+                <Text style={sheetStyles.proBadgeText}>{t('techniqueDetail.pro')}</Text>
+              </View>
+            )}
+          </LinearGradient>
+
+          {/* Content */}
+          <View style={sheetStyles.content}>
+            <Text style={[sheetStyles.name, { color: theme.text }]}>
+              {t(technique.nameKey)}
+            </Text>
+            <Text style={[sheetStyles.description, { color: theme.textSecondary }]}>
+              {t(technique.descriptionKey)}
+            </Text>
+
+            {/* Info pills */}
+            <View style={sheetStyles.pillsRow}>
+              <View style={[sheetStyles.infoPill, { backgroundColor: theme.background }]}>
+                <Ionicons name="time-outline" size={14} color={theme.textSecondary} />
+                <Text style={[sheetStyles.infoPillText, { color: theme.text }]}>
+                  {getDurationLabel(technique)}
+                </Text>
+              </View>
+              <View style={[sheetStyles.infoPill, { backgroundColor: theme.background }]}>
+                <Ionicons name="apps-outline" size={14} color={theme.textSecondary} />
+                <Text style={[sheetStyles.infoPillText, { color: theme.text }]}>
+                  {categoryLabel}
+                </Text>
+              </View>
+            </View>
+
+            {/* Pattern */}
+            <View style={[sheetStyles.patternBox, { backgroundColor: theme.background }]}>
+              <Text style={[sheetStyles.patternLabel, { color: theme.textSecondary }]}>
+                {t('techniqueDetail.pattern')}
+              </Text>
+              <Text style={[sheetStyles.patternValue, { color: theme.text }]}>
+                {getPatternString(technique)}
+              </Text>
+            </View>
+
+            {/* Detailed description */}
+            <Text style={[sheetStyles.detail, { color: theme.textSecondary }]}>
+              {t(detailKey)}
+            </Text>
+
+            {/* Start button */}
+            <TouchableOpacity
+              style={[sheetStyles.startBtn, { backgroundColor: technique.color }]}
+              onPress={() => onStart(technique)}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="play" size={20} color="#FFFFFF" />
+              <Text style={sheetStyles.startBtnText}>
+                {t('techniqueDetail.start')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </View>
+    </Modal>
+  );
+}
+
+const sheetStyles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'flex-end',
+  },
+  sheet: {
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    overflow: 'hidden',
+  },
+  handleBar: {
+    width: 36,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: 'rgba(128,128,128,0.3)',
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 8,
+  },
+  headerGradient: {
+    height: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    borderRadius: 16,
+  },
+  proBadgeSheet: {
+    position: 'absolute',
+    top: 10,
+    right: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  proBadgeText: {
+    fontSize: 11,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+  content: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+  },
+  name: {
+    fontSize: 22,
+    fontFamily: FONTS.heavy,
+    letterSpacing: -0.4,
+    marginBottom: 4,
+  },
+  description: {
+    fontSize: 15,
+    fontFamily: FONTS.medium,
+    lineHeight: 21,
+    marginBottom: 14,
+  },
+  pillsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 14,
+  },
+  infoPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+  },
+  infoPillText: {
+    fontSize: 13,
+    fontFamily: FONTS.semibold,
+  },
+  patternBox: {
+    padding: 14,
+    borderRadius: 12,
+    marginBottom: 14,
+  },
+  patternLabel: {
+    fontSize: 11,
+    fontFamily: FONTS.bold,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 6,
+  },
+  patternValue: {
+    fontSize: 15,
+    fontFamily: FONTS.semibold,
+    letterSpacing: -0.2,
+  },
+  detail: {
+    fontSize: 14,
+    fontFamily: FONTS.regular,
+    lineHeight: 21,
+    marginBottom: 20,
+  },
+  startBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 16,
+    borderRadius: 16,
+  },
+  startBtnText: {
+    fontSize: 17,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+});
+
+// ─── Breathing Sphere ───────────────────────────────────────────────────────
+
+const SPHERE_SIZE = SCREEN_WIDTH * 0.32;
+
+function BreathingSphere() {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const glowAnim = useRef(new Animated.Value(0.15)).current;
 
   useEffect(() => {
-    // Gentle breathing pulse
     Animated.loop(
       Animated.sequence([
         Animated.timing(scaleAnim, { toValue: 1.06, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
@@ -197,7 +454,6 @@ function BreathingSphere({ onPress, label }: { onPress: () => void; label: strin
       ]),
     ).start();
 
-    // Glow pulse
     Animated.loop(
       Animated.sequence([
         Animated.timing(glowAnim, { toValue: 0.3, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
@@ -207,22 +463,18 @@ function BreathingSphere({ onPress, label }: { onPress: () => void; label: strin
   }, [scaleAnim, glowAnim]);
 
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.9} style={sphereStyles.wrapper}>
-      {/* Outer glow */}
+    <View style={sphereStyles.wrapper}>
       <Animated.View style={[sphereStyles.glow, { opacity: glowAnim, transform: [{ scale: scaleAnim }] }]} />
-      {/* Main sphere */}
       <Animated.View style={[sphereStyles.sphere, { transform: [{ scale: scaleAnim }] }]}>
         <View style={sphereStyles.solidBg}>
-          {/* Breeze icon */}
-          <Svg width={32} height={32} viewBox="0 0 24 24" fill="none">
+          <Svg width={28} height={28} viewBox="0 0 24 24" fill="none">
             <Path d="M3 8H16C17.6569 8 19 6.65685 19 5C19 3.34315 17.6569 2 16 2C14.3431 2 13 3.34315 13 5" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
             <Path d="M3 12H20C21.1046 12 22 11.1046 22 10C22 8.89543 21.1046 8 20 8" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
             <Path d="M3 16H14C15.6569 16 17 17.3431 17 19C17 20.6569 15.6569 22 14 22C12.3431 22 11 20.6569 11 19" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
           </Svg>
-          <Text style={sphereStyles.label}>{label}</Text>
         </View>
       </Animated.View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -257,18 +509,9 @@ const sphereStyles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#4A90D9',
   },
-  label: {
-    fontSize: 13,
-    fontFamily: FONTS.bold,
-    color: 'rgba(255,255,255,0.9)',
-    marginTop: 4,
-    letterSpacing: 0.2,
-  },
 });
 
 // ─── HomeScreen ──────────────────────────────────────────────────────────────
-
-const HERO_HEIGHT = SCREEN_HEIGHT * 0.52;
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -278,6 +521,12 @@ export default function HomeScreen() {
   const stats = useSessionsStore((s) => s.stats);
 
   const [selectedMinutes, setSelectedMinutes] = useState(5);
+  const [activeCategory, setActiveCategory] = useState<FilterCategory>('all');
+  const [selectedTechnique, setSelectedTechnique] = useState<BreathingTechnique | null>(null);
+
+  const filteredTechniques = activeCategory === 'all'
+    ? TECHNIQUES
+    : TECHNIQUES.filter((tech) => tech.category === activeCategory);
 
   const handleQuickStart = () => {
     router.push({
@@ -289,90 +538,157 @@ export default function HomeScreen() {
     });
   };
 
+  const handleCardPress = useCallback((technique: BreathingTechnique) => {
+    setSelectedTechnique(technique);
+  }, []);
+
+  const handleStartFromSheet = useCallback((technique: BreathingTechnique) => {
+    setSelectedTechnique(null);
+    router.push({ pathname: '/session', params: { techniqueId: technique.id } });
+  }, []);
+
+  // Build grid rows (pairs)
+  const gridRows: BreathingTechnique[][] = [];
+  for (let i = 0; i < filteredTechniques.length; i += 2) {
+    gridRows.push(filteredTechniques.slice(i, i + 2));
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Hero area ── */}
-        <View style={[styles.heroArea, { paddingTop: insets.top + 16 }]}>
-          {/* Top bar: streak */}
+        {/* ── Hero area with gradient ── */}
+        <LinearGradient
+          colors={['#4A90D9', '#7FBFDF', theme.background]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={[styles.heroArea, { paddingTop: insets.top + 12 }]}
+        >
+          {/* Streak badge (top right) */}
           {stats.currentStreak > 0 && (
             <View style={styles.heroTopBar}>
               <View />
               <View style={styles.streakBadge}>
                 <Ionicons name="flame" size={14} color="#FFFFFF" />
-                <Text style={styles.streakText}>
-                  {stats.currentStreak}
-                </Text>
+                <Text style={styles.streakText}>{stats.currentStreak}</Text>
               </View>
             </View>
           )}
 
           {/* Sphere */}
           <View style={styles.orbWrapper}>
-            <BreathingSphere onPress={handleQuickStart} label={`${selectedMinutes} min`} />
+            <BreathingSphere />
           </View>
 
-          {/* Duration selector */}
-          <View style={styles.heroControls}>
-            <View style={styles.durationRow}>
-              {DURATION_OPTIONS.map((min) => {
-                const isActive = min === selectedMinutes;
-                return (
-                  <TouchableOpacity
-                    key={min}
-                    style={[
-                      styles.durationPill,
-                      isActive && [styles.durationPillActive, { backgroundColor: theme.text + '0F', borderColor: theme.text + '20' }],
-                      !isActive && { borderColor: 'transparent' },
-                    ]}
-                    onPress={() => setSelectedMinutes(min)}
-                    activeOpacity={0.7}
-                  >
-                    <Text
-                      style={[
-                        styles.durationPillText,
-                        { color: isActive ? theme.text : theme.textSecondary },
-                        isActive && { fontFamily: FONTS.heavy },
-                      ]}
-                    >
-                      {min}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+          {/* Start button */}
+          <TouchableOpacity
+            style={styles.startButton}
+            onPress={handleQuickStart}
+            activeOpacity={0.85}
+          >
+            <View style={styles.startButtonMinutes}>
+              <Text style={styles.startButtonMinutesText}>{selectedMinutes}</Text>
             </View>
+            <Text style={styles.startButtonLabel}>
+              {t('home.breathe')} {selectedMinutes} min
+            </Text>
+          </TouchableOpacity>
+
+          {/* Duration pills */}
+          <View style={styles.durationRow}>
+            {DURATION_OPTIONS.map((min) => {
+              const isActive = min === selectedMinutes;
+              return (
+                <TouchableOpacity
+                  key={min}
+                  style={[
+                    styles.durationPill,
+                    isActive && styles.durationPillActive,
+                  ]}
+                  onPress={() => setSelectedMinutes(min)}
+                  activeOpacity={0.7}
+                >
+                  <Text
+                    style={[
+                      styles.durationPillText,
+                      isActive && styles.durationPillTextActive,
+                    ]}
+                  >
+                    {min}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
-        </View>
+        </LinearGradient>
 
-        {/* ── Section label ── */}
-        <Text style={[styles.sectionLabel, { color: theme.text }]}>
-          {t('home.programs')}
-        </Text>
-
-        {/* ── Horizontal carousel ── */}
-        <FlatList
-          data={TECHNIQUES}
-          keyExtractor={(item) => item.id}
+        {/* ── Category filter tabs ── */}
+        <ScrollView
           horizontal
-          pagingEnabled={false}
-          snapToInterval={SNAP_WIDTH}
-          snapToAlignment="start"
-          decelerationRate="fast"
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.carousel}
-          scrollEventThrottle={16}
-          renderItem={({ item }) => (
-            <TechniqueCard
-              technique={item}
-              isPro={isPro}
-              t={t}
-            />
-          )}
-        />
+          contentContainerStyle={styles.categoryRow}
+          style={styles.categoryScroll}
+        >
+          {CATEGORY_FILTERS.map((cat) => {
+            const isActive = cat.key === activeCategory;
+            return (
+              <TouchableOpacity
+                key={cat.key}
+                style={[
+                  styles.categoryPill,
+                  isActive && { backgroundColor: theme.primary },
+                  !isActive && { backgroundColor: theme.card },
+                ]}
+                onPress={() => setActiveCategory(cat.key)}
+                activeOpacity={0.7}
+              >
+                <Text
+                  style={[
+                    styles.categoryPillText,
+                    { color: isActive ? '#FFFFFF' : theme.textSecondary },
+                    isActive && { fontFamily: FONTS.bold },
+                  ]}
+                >
+                  {t(cat.labelKey)}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+
+        {/* ── Technique grid ── */}
+        <View style={styles.grid}>
+          {gridRows.map((row, rowIndex) => (
+            <View key={rowIndex} style={styles.gridRow}>
+              {row.map((tech) => (
+                <TechniqueCard
+                  key={tech.id}
+                  technique={tech}
+                  isPro={isPro}
+                  t={t}
+                  theme={theme}
+                  onPress={handleCardPress}
+                />
+              ))}
+              {/* Spacer if odd number of cards */}
+              {row.length === 1 && <View style={{ width: CARD_WIDTH }} />}
+            </View>
+          ))}
+        </View>
       </ScrollView>
+
+      {/* ── Technique detail bottom sheet ── */}
+      <TechniqueDetailSheet
+        technique={selectedTechnique}
+        visible={selectedTechnique !== null}
+        onClose={() => setSelectedTechnique(null)}
+        onStart={handleStartFromSheet}
+        isPro={isPro}
+        t={t}
+        theme={theme}
+      />
     </View>
   );
 }
@@ -383,12 +699,10 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   scrollContent: { paddingBottom: SPACING.xxl + SPACING.lg },
 
-  // Hero area — edge-to-edge, no rounded corners
+  // Hero
   heroArea: {
-    height: HERO_HEIGHT,
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 28,
+    paddingBottom: 24,
   },
   heroTopBar: {
     flexDirection: 'row',
@@ -396,6 +710,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 24,
+    marginBottom: 4,
   },
   streakBadge: {
     flexDirection: 'row',
@@ -404,146 +719,146 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: '#4A90D9',
+    backgroundColor: 'rgba(255,255,255,0.25)',
   },
   streakText: { fontSize: 14, fontFamily: FONTS.bold, color: '#FFFFFF' },
 
-  // Orb wrapper — vertically centered in hero
   orbWrapper: {
-    flex: 1,
+    marginVertical: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
-  // Quick start controls
-  heroControls: {
-    width: '100%',
-    paddingHorizontal: 24,
+  // Start button
+  startButton: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 8,
-    marginTop: -8,
+    backgroundColor: 'rgba(255,255,255,0.25)',
+    borderRadius: BORDER_RADIUS.full,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    paddingLeft: 14,
+    gap: 10,
+    marginBottom: 16,
+    minWidth: SCREEN_WIDTH * 0.6,
+    justifyContent: 'center',
   },
+  startButtonMinutes: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+    backgroundColor: 'rgba(255,255,255,0.25)',
+    borderRadius: BORDER_RADIUS.full,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  startButtonMinutesText: {
+    fontSize: 14,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+  startButtonLabel: {
+    fontSize: 18,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+    letterSpacing: -0.3,
+  },
+
+  // Duration row
   durationRow: {
     flexDirection: 'row',
     gap: 6,
     justifyContent: 'center',
   },
   durationPill: {
-    width: 40,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 1.5,
-    borderColor: 'transparent',
+    width: 38,
+    height: 32,
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   durationPillActive: {
-    borderWidth: 1.5,
+    backgroundColor: 'rgba(255,255,255,0.3)',
   },
-  durationPillText: { fontSize: 15, fontFamily: FONTS.semibold },
-
-  // Section label
-  sectionLabel: {
-    fontSize: 16,
+  durationPillText: {
+    fontSize: 14,
+    fontFamily: FONTS.semibold,
+    color: 'rgba(255,255,255,0.6)',
+  },
+  durationPillTextActive: {
+    color: '#FFFFFF',
     fontFamily: FONTS.heavy,
-    letterSpacing: -0.2,
-    paddingHorizontal: CARD_H_PADDING,
-    marginBottom: 14,
   },
 
-  // Carousel
-  carousel: {
-    paddingLeft: CARD_H_PADDING,
-    paddingRight: CARD_H_PADDING,
-    gap: CARD_GAP,
+  // Category filter
+  categoryScroll: {
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  categoryRow: {
+    paddingHorizontal: GRID_H_PADDING,
+    gap: 8,
+  },
+  categoryPill: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: BORDER_RADIUS.full,
+  },
+  categoryPillText: {
+    fontSize: 14,
+    fontFamily: FONTS.semibold,
   },
 
-  // Card
-  card: {
+  // Grid
+  grid: {
+    paddingHorizontal: GRID_H_PADDING,
+    gap: GRID_GAP,
+  },
+  gridRow: {
+    flexDirection: 'row',
+    gap: GRID_GAP,
+  },
+
+  // Grid card
+  gridCard: {
     width: CARD_WIDTH,
-    borderRadius: 20,
+    borderRadius: 16,
     overflow: 'hidden',
-    backgroundColor: '#FFFFFF',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 8,
     elevation: 3,
   },
-  cardArtZone: {
-    height: CARD_ART_HEIGHT,
-    overflow: 'hidden',
+  gridCardArt: {
+    height: CARD_WIDTH * 0.65,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  cardContent: {
-    flex: 1,
-    padding: 16,
-    paddingTop: 14,
+  gridCardInfo: {
+    padding: 12,
+    paddingTop: 10,
   },
-  cardName: {
-    fontSize: 19,
-    fontFamily: FONTS.heavy,
-    color: '#1A1A1A',
-    letterSpacing: -0.3,
-    marginBottom: 3,
+  gridCardName: {
+    fontSize: 14,
+    fontFamily: FONTS.bold,
+    letterSpacing: -0.2,
+    marginBottom: 2,
   },
-  cardDescription: {
-    fontSize: 13,
-    fontFamily: FONTS.medium,
-    color: '#8E8E93',
-    lineHeight: 18,
-    marginBottom: 10,
-  },
-  phaseSteps: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 4,
-  },
-  phaseStepRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 3,
-    backgroundColor: '#F2F2F7',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  phaseStepLabel: {
+  gridCardDuration: {
     fontSize: 12,
     fontFamily: FONTS.medium,
-    color: '#8E8E93',
-  },
-  phaseStepValue: {
-    fontSize: 12,
-    fontFamily: FONTS.bold,
-    color: '#48484A',
-  },
-
-  // Duration pill on card (overlays art zone)
-  durationPillCard: {
-    position: 'absolute',
-    bottom: 10,
-    right: 12,
-    backgroundColor: 'rgba(255,255,255,0.75)',
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 12,
-  },
-  durationPillCardText: {
-    fontSize: 12,
-    fontFamily: FONTS.bold,
-    color: 'rgba(0,0,0,0.6)',
   },
 
   // PRO badge
   proBadge: {
     position: 'absolute',
-    top: 10,
-    right: 12,
-    width: 26,
-    height: 26,
-    borderRadius: 13,
+    top: 8,
+    right: 8,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     backgroundColor: 'rgba(0,0,0,0.15)',
     justifyContent: 'center',
     alignItems: 'center',

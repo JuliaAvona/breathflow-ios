@@ -14,6 +14,12 @@ export default {
   'home.goodNight': 'Good night',
   'home.breathe': 'Breathe',
   'home.programs': 'PROGRAMS',
+  'home.categoryAll': 'All',
+  'home.categoryCalm': 'Calm',
+  'home.categorySleep': 'Sleep',
+  'home.categoryFocus': 'Focus',
+  'home.categoryEnergy': 'Energy',
+  'home.categoryAdvanced': 'Advanced',
 
   // Categories
   'category.calm': 'Calm',
@@ -43,6 +49,25 @@ export default {
   'techniques.twoToOne.description': 'Double exhale for deep relaxation',
   'techniques.cyclicSigh.name': 'Cyclic Sighing',
   'techniques.cyclicSigh.description': 'Best mood boost backed by Stanford research',
+
+  // Technique detail info
+  'techniques.box.detail': 'Used by Navy SEALs for stress management. Equal inhale, hold, exhale, and hold phases create a calming rhythm that reduces cortisol and improves focus.',
+  'techniques.fourSevenEight.detail': 'Developed by Dr. Andrew Weil. The extended exhale activates the parasympathetic nervous system, making it ideal for falling asleep within minutes.',
+  'techniques.physioSigh.detail': 'Discovered by Stanford neuroscientist Dr. Andrew Huberman. A double inhale followed by a long exhale is the fastest way to reduce stress in real-time.',
+  'techniques.coherence.detail': 'Breathing at 5.5 breaths per minute synchronizes heart rate, blood pressure, and nervous system — achieving a state called "coherence" for optimal HRV.',
+  'techniques.triangle.detail': 'A gentle 3-phase pattern perfect for beginners. Balances the nervous system without breath holds, making it easy and accessible for everyone.',
+  'techniques.power.detail': 'Inspired by Wim Hof Method. Rapid breathing followed by breath retention increases energy, alkalizes the blood, and boosts the immune response.',
+  'techniques.fourFourSixTwo.detail': 'The extended exhale (6s) relative to inhale (4s) shifts the body into deep relaxation. The short pause between cycles resets the breathing rhythm.',
+  'techniques.kapalabhati.detail': 'Ancient yogic technique meaning "skull-shining breath." Rapid forceful exhales energize the body, clear the mind, and strengthen the diaphragm.',
+  'techniques.twoToOne.detail': 'Exhale is twice the inhale length, maximizing CO₂ release and activating the vagus nerve. One of the most effective patterns for deep relaxation.',
+  'techniques.cyclicSigh.detail': 'Stanford study showed 5 minutes of cyclic sighing is more effective at reducing stress than meditation. Double inhale + extended exhale resets the nervous system.',
+
+  // Technique detail labels
+  'techniqueDetail.pattern': 'Pattern',
+  'techniqueDetail.duration': 'Duration',
+  'techniqueDetail.category': 'Category',
+  'techniqueDetail.start': 'Start Session',
+  'techniqueDetail.pro': 'Pro',
 
   // Phase instructions
   'phase.breatheIn': 'Breathe In',
@@ -287,10 +312,6 @@ export default {
   'paywall.feature6': 'All badges',
   'paywall.purchase': 'Purchase for {{price}}',
   'paywall.restore': 'Restore Purchase',
-
-  // Notifications
-  'notification.reminder': 'Time to breathe \u{1F32C}\uFE0F',
-  'notification.reminderBody': 'Take a moment for your breathing practice.',
 
   // History screen (additional keys)
   'history.noSessionsYet': 'No sessions yet',

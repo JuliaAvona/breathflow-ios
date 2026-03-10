@@ -233,7 +233,7 @@ export default function SettingsScreen() {
       await scheduleBreatheReminder(h, m, t('notifications.reminderTitle'), t('notifications.reminderBody'));
     } else {
       settings.setSetting('reminderEnabled', false);
-      await cancelNotification('walk-reminder');
+      await cancelNotification('breathe-reminder');
     }
   };
 
