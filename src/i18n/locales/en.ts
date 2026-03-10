@@ -280,6 +280,14 @@ export default {
   'badges.custom_creator.description': 'Create a custom technique',
   'badges.mood_tracker.name': 'Mood Tracker',
   'badges.mood_tracker.description': 'Log mood for 7 sessions',
+  'badges.dedicated_breather.name': 'Dedicated Breather',
+  'badges.dedicated_breather.description': 'Complete 10 sessions',
+  'badges.hour_power.name': 'Hour Power',
+  'badges.hour_power.description': '60 total minutes of breathwork',
+  'badges.deep_diver.name': 'Deep Diver',
+  'badges.deep_diver.description': '90 second breath retention',
+  'badges.year_legend.name': 'Year Legend',
+  'badges.year_legend.description': '365-day streak',
 
   // Badges screen
   'badges.title': 'Badges',

@@ -28,20 +28,28 @@ function evaluateCondition(
   switch (badgeId) {
     case 'first_breath':
       return stats.totalSessions >= 1;
+    case 'dedicated_breather':
+      return stats.totalSessions >= 10;
     case 'explorer':
       return Object.keys(stats.sessionsPerTechnique).length >= 5;
     case 'technique_master':
       return Object.keys(stats.sessionsPerTechnique).length >= 10;
     case 'breathe_easy':
       return stats.bestRetention >= 60;
+    case 'hour_power':
+      return stats.totalMinutes >= 60;
     case 'iron_lungs':
       return stats.bestRetention >= 120;
+    case 'deep_diver':
+      return stats.bestRetention >= 90;
     case 'superhuman':
       return stats.bestRetention >= 180;
     case 'week_warrior':
       return stats.currentStreak >= 7;
     case 'month_master':
       return stats.currentStreak >= 30;
+    case 'year_legend':
+      return stats.currentStreak >= 365;
     case 'century':
       return stats.totalSessions >= 100;
     case 'zen_master':

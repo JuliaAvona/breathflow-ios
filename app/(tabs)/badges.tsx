@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useBadgesStore, useSessionsStore } from '../../src/store';
 import { BadgeGrid } from '../../src/components/BadgeGrid';
-import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
-import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS, BADGE_DEFINITIONS, FONTS, scale } from '../../src/constants';
+import { useThemeColors } from '../../src/hooks/useColorScheme';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS, BADGE_DEFINITIONS, FONTS, scale, COLORS } from '../../src/constants';
 import type { BadgeCategory } from '../../src/constants';
 
 const CATEGORIES: {
@@ -25,7 +26,7 @@ const CATEGORIES: {
 export default function AwardsScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
-  const fontSize = useFontSize();
+  const insets = useSafeAreaInsets();
 
   const stats = useSessionsStore((s) => s.stats);
   const unlockedBadges = useBadgesStore((s) => s.unlockedBadges);
@@ -49,6 +50,7 @@ export default function AwardsScreen() {
   const unlockedCount = allBadges.filter((b) => isUnlocked(b.id)).length;
   const totalCount = allBadges.length;
   const progress = totalCount > 0 ? unlockedCount / totalCount : 0;
+  const progressPercent = Math.round(progress * 100);
 
   // Group badges by category
   const grouped = useMemo(() => {
@@ -67,17 +69,63 @@ export default function AwardsScreen() {
   }, [allBadges]);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.text }]}>
-            {t('badges.title')}
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+        {/* Gradient Hero */}
+        <LinearGradient
+          colors={[COLORS.primary, '#5BA0E8', theme.background]}
+          locations={[0, 0.6, 1]}
+          style={[styles.hero, { paddingTop: insets.top + SPACING.sm }]}
+        >
+          <Text style={styles.heroTitle}>{t('badges.title')}</Text>
+          <Text style={styles.heroSubtitle}>
+            {unlockedCount} / {totalCount} {t('badges.unlocked')}
           </Text>
-          <View style={[styles.countPill, { backgroundColor: theme.primary }]}>
-            <Text style={styles.countPillText}>{unlockedCount}/{totalCount}</Text>
+
+          {/* Progress ring area */}
+          <View style={styles.progressRingContainer}>
+            <View style={styles.progressRingOuter}>
+              <View style={[styles.progressRingTrack, { borderColor: 'rgba(255,255,255,0.2)' }]}>
+                <View style={styles.progressRingInner}>
+                  <Text style={styles.progressPercent}>{progressPercent}%</Text>
+                </View>
+              </View>
+              {/* Filled arc overlay — simplified as a filled border segment */}
+              <View
+                style={[
+                  styles.progressArc,
+                  {
+                    borderColor: '#FFFFFF',
+                    borderTopColor: progress >= 0.25 ? '#FFFFFF' : 'transparent',
+                    borderRightColor: progress >= 0.5 ? '#FFFFFF' : 'transparent',
+                    borderBottomColor: progress >= 0.75 ? '#FFFFFF' : 'transparent',
+                    borderLeftColor: progress >= 1 ? '#FFFFFF' : 'transparent',
+                    transform: [{ rotate: '-90deg' }],
+                  },
+                ]}
+              />
+            </View>
           </View>
-        </View>
+
+          {/* Stats row */}
+          <View style={styles.heroStatsRow}>
+            {CATEGORIES.slice(0, 3).map((cat, idx) => {
+              const badges = grouped[cat.key];
+              const catUnlocked = badges?.filter((b) => isUnlocked(b.id)).length ?? 0;
+              const catTotal = badges?.length ?? 0;
+              return (
+                <React.Fragment key={cat.key}>
+                  {idx > 0 && <View style={styles.statDivider} />}
+                  <View style={styles.heroStat}>
+                    <Ionicons name={cat.icon} size={scale(16)} color="rgba(255,255,255,0.8)" />
+                    <Text style={styles.heroStatValue}>{catUnlocked}/{catTotal}</Text>
+                    <Text style={styles.heroStatLabel}>{t(cat.labelKey)}</Text>
+                  </View>
+                </React.Fragment>
+              );
+            })}
+          </View>
+        </LinearGradient>
 
         {/* Category sections */}
         {CATEGORIES.map((cat) => {
@@ -88,10 +136,6 @@ export default function AwardsScreen() {
           const catUnlocked = badges.filter((b) => isUnlocked(b.id)).length;
           const catTotal = badges.length;
           const catProgress = catTotal > 0 ? catUnlocked / catTotal : 0;
-
-          // Find next locked badge for milestone hint
-          const nextLocked = badges.find((b) => !isUnlocked(b.id));
-          const remaining = 0; // Condition functions don't expose numeric thresholds
 
           return (
             <View key={cat.key} style={styles.section}>
@@ -123,53 +167,110 @@ export default function AwardsScreen() {
                 />
               </View>
 
-              {/* Badge grid */}
+              {/* Badge grid card */}
               <View style={[styles.badgesCard, { backgroundColor: theme.card }]}>
                 <BadgeGrid badges={badges} unlockedBadges={unlockedBadges} />
               </View>
-
-              {/* Next milestone hint */}
-              {nextLocked && remaining > 0 && (
-                <Text style={[styles.milestoneHint, { color: catColors.color }]}>
-                  {t('badges.nextMilestone', { count: remaining })}
-                </Text>
-              )}
             </View>
           );
         })}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
   scrollContent: { paddingBottom: SPACING.xxl + SPACING.lg },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+
+  // Hero
+  hero: {
     paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.sm,
-    paddingBottom: SPACING.lg,
+    paddingBottom: SPACING.xl,
+    marginBottom: SPACING.md,
   },
-  title: {
+  heroTitle: {
     fontSize: 30,
     fontFamily: FONTS.bold,
+    color: '#FFFFFF',
     letterSpacing: -0.5,
   },
-  countPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: SPACING.xs,
-    borderRadius: BORDER_RADIUS.full,
+  heroSubtitle: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.8)',
+    marginTop: 2,
   },
-  countPillText: {
-    fontSize: 14,
+
+  // Progress ring
+  progressRingContainer: {
+    alignItems: 'center',
+    marginTop: SPACING.lg,
+    marginBottom: SPACING.lg,
+  },
+  progressRingOuter: {
+    width: scale(100),
+    height: scale(100),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  progressRingTrack: {
+    width: scale(100),
+    height: scale(100),
+    borderRadius: scale(50),
+    borderWidth: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  progressRingInner: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  progressPercent: {
+    fontSize: 28,
     fontFamily: FONTS.bold,
     color: '#FFFFFF',
   },
+  progressArc: {
+    position: 'absolute',
+    width: scale(100),
+    height: scale(100),
+    borderRadius: scale(50),
+    borderWidth: 4,
+  },
+
+  // Hero stats
+  heroStatsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderRadius: BORDER_RADIUS.xl,
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.md,
+  },
+  heroStat: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 2,
+  },
+  heroStatValue: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+  heroStatLabel: {
+    fontSize: 11,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.7)',
+  },
+  statDivider: {
+    width: 1,
+    height: scale(30),
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+
+  // Category sections
   section: {
     marginBottom: SPACING.lg,
   },
@@ -215,17 +316,11 @@ const styles = StyleSheet.create({
     marginHorizontal: SPACING.lg,
     paddingTop: SPACING.sm,
     paddingBottom: SPACING.xs,
-    borderRadius: BORDER_RADIUS.xl,
+    borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 8,
     elevation: 2,
-  },
-  milestoneHint: {
-    fontSize: FONT_SIZE.xs,
-    fontFamily: FONTS.semibold,
-    textAlign: 'center',
-    marginTop: SPACING.sm,
   },
 });
