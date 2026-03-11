@@ -422,6 +422,15 @@ export default {
   'notifications.badgeUnlocked': 'Badge Unlocked!',
   'notifications.reminderTitle': 'Time to Breathe',
   'notifications.reminderBody': 'Take a moment for your breathing practice.',
+  'notifications.sessionCompleteTitle': 'Session Complete',
+  'notifications.sessionCompleteBody': 'Great {{technique}} session! Your mind and body thank you.',
+  'notifications.tip1': 'Box breathing can lower cortisol in just 4 minutes.',
+  'notifications.tip2': 'A 5-minute breathing session improves focus for hours.',
+  'notifications.tip3': 'Deep breathing activates your parasympathetic nervous system.',
+  'notifications.tip4': 'Try a physiological sigh for instant stress relief.',
+  'notifications.tip5': 'Breathing at 5.5 breaths/min optimizes heart rate variability.',
+  'notifications.tip6': 'Even 1 minute of conscious breathing makes a difference.',
+  'notifications.tip7': 'Extended exhales tell your body it\'s safe to relax.',
 
   // Paywall (additional keys)
   'paywall.errorTitle': 'Error',

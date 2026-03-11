@@ -1,5 +1,27 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+import i18n from '../i18n';
+
+// ─── Breathing-specific reminder tips (rotated daily) ────────────────────────
+
+const REMINDER_TIPS = [
+  'notifications.tip1',
+  'notifications.tip2',
+  'notifications.tip3',
+  'notifications.tip4',
+  'notifications.tip5',
+  'notifications.tip6',
+  'notifications.tip7',
+];
+
+function getDailyTip(): string {
+  const dayOfYear = Math.floor(
+    (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000,
+  );
+  return i18n.t(REMINDER_TIPS[dayOfYear % REMINDER_TIPS.length]);
+}
+
+// ─── Permissions ─────────────────────────────────────────────────────────────
 
 /** Check if notifications are already granted (does NOT prompt the user) */
 export async function checkNotificationPermissions(): Promise<boolean> {
@@ -41,18 +63,16 @@ export async function requestNotificationPermissions(): Promise<boolean> {
   }
 }
 
-export async function scheduleStreakProtection(
-  _streak: number,
-  title: string,
-  body: string,
-): Promise<void> {
+// ─── Scheduled notifications ─────────────────────────────────────────────────
+
+export async function scheduleStreakProtection(streak: number): Promise<void> {
   await cancelNotification('streak-protection');
 
   await Notifications.scheduleNotificationAsync({
     identifier: 'streak-protection',
     content: {
-      title,
-      body,
+      title: i18n.t('notifications.streakProtectionTitle'),
+      body: i18n.t('notifications.streakProtectionBody', { streak }),
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DAILY,
@@ -63,16 +83,16 @@ export async function scheduleStreakProtection(
 }
 
 export async function scheduleWeeklySummary(
-  title: string,
-  body: string,
+  sessions: number,
+  minutes: number,
 ): Promise<void> {
   await cancelNotification('weekly-summary');
 
   await Notifications.scheduleNotificationAsync({
     identifier: 'weekly-summary',
     content: {
-      title,
-      body,
+      title: i18n.t('notifications.weeklySummaryTitle'),
+      body: i18n.t('notifications.weeklySummaryBody', { sessions, minutes }),
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
@@ -86,22 +106,31 @@ export async function scheduleWeeklySummary(
 export async function scheduleBreatheReminder(
   hour: number,
   minute: number,
-  title: string,
-  body: string,
 ): Promise<void> {
   await cancelNotification('breathe-reminder');
 
   await Notifications.scheduleNotificationAsync({
     identifier: 'breathe-reminder',
     content: {
-      title,
-      body,
+      title: i18n.t('notifications.reminderTitle'),
+      body: getDailyTip(),
     },
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.DAILY,
       hour,
       minute,
     },
+  });
+}
+
+export async function scheduleSessionComplete(techniqueName: string): Promise<void> {
+  await Notifications.scheduleNotificationAsync({
+    identifier: 'session-complete',
+    content: {
+      title: i18n.t('notifications.sessionCompleteTitle'),
+      body: i18n.t('notifications.sessionCompleteBody', { technique: techniqueName }),
+    },
+    trigger: null,
   });
 }
 

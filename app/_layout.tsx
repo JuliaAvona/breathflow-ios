@@ -88,18 +88,11 @@ export default function RootLayout() {
       // Get stats for streak
       const stats = useSessionsStore.getState().stats;
       if (stats.currentStreak > 0) {
-        scheduleStreakProtection(
-          stats.currentStreak,
-          t('notifications.streakProtectionTitle'),
-          t('notifications.streakProtectionBody', { streak: stats.currentStreak }),
-        );
+        scheduleStreakProtection(stats.currentStreak);
       }
 
       // Schedule weekly summary
-      scheduleWeeklySummary(
-        t('notifications.weeklySummaryTitle'),
-        t('notifications.weeklySummaryBody', { sessions: stats.totalSessions, minutes: stats.totalMinutes }),
-      );
+      scheduleWeeklySummary(stats.totalSessions, stats.totalMinutes);
     };
 
     setupNotifications().catch(() => {});

@@ -19,15 +19,17 @@ import { useTimerStore, useSettingsStore, useSessionsStore } from '../src/store'
 import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
-import { playPhaseTransition, playSessionComplete, playCountdownTick, playVoicePhase, playVoiceStart, releaseAllSessionAudio } from '../src/utils/sessionAudio';
+import { playPhaseTransition, playSessionComplete, playCountdownTick, playVoicePhase, playVoiceStart, playVoiceComplete, releaseAllSessionAudio } from '../src/utils/sessionAudio';
 import { BreathingSquare } from '../src/components/BreathingSquare';
 import { BreathingTriangle } from '../src/components/BreathingTriangle';
+import { BreathingCircle } from '../src/components/BreathingCircle';
 import { BreathingWave } from '../src/components/BreathingWave';
 import { BreathingBurst } from '../src/components/BreathingBurst';
 import { BreathingOval } from '../src/components/BreathingOval';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase, BreathingShape as ShapeType } from '../src/types';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const CIRCLE_SIZE = scale(220);
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -52,86 +54,6 @@ function getPhaseLabel(phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhas
     case 'DONE': return 'session.done';
     default: return 'session.getReady';
   }
-}
-
-// ─── Breathing Circle ────────────────────────────────────────────────────────
-
-const CIRCLE_SIZE = scale(220);
-
-function BreathingCircle({
-  phase,
-  mode,
-  color,
-  phaseDuration,
-}: {
-  phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhase;
-  mode: string;
-  color: string;
-  phaseDuration?: number;
-}) {
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-
-  useEffect(() => {
-    scaleAnim.stopAnimation();
-
-    if (phase === 'PAUSED' || phase === 'DONE' || phase === 'READY') {
-      Animated.timing(scaleAnim, { toValue: 1, duration: 300, useNativeDriver: true }).start();
-      return;
-    }
-
-    if (mode === 'standard') {
-      const dur = (phaseDuration ?? 3) * 1000;
-      if (phase === 'INHALE') {
-        Animated.timing(scaleAnim, { toValue: 1.35, duration: dur, useNativeDriver: true }).start();
-      } else if (phase === 'HOLD_IN') {
-        scaleAnim.setValue(1.35);
-      } else if (phase === 'EXHALE') {
-        Animated.timing(scaleAnim, { toValue: 1.0, duration: dur, useNativeDriver: true }).start();
-      } else if (phase === 'HOLD_OUT') {
-        scaleAnim.setValue(1.0);
-      }
-    } else if (mode === 'power') {
-      if (phase === 'BREATHING') {
-        const pulse = Animated.loop(
-          Animated.sequence([
-            Animated.timing(scaleAnim, { toValue: 1.25, duration: 400, useNativeDriver: true }),
-            Animated.timing(scaleAnim, { toValue: 1.0, duration: 400, useNativeDriver: true }),
-          ]),
-        );
-        pulse.start();
-        return () => pulse.stop();
-      } else if (phase === 'RETENTION') {
-        Animated.timing(scaleAnim, { toValue: 0.85, duration: 800, useNativeDriver: true }).start();
-      } else if (phase === 'RECOVERY') {
-        Animated.timing(scaleAnim, { toValue: 1.3, duration: 1500, useNativeDriver: true }).start();
-      }
-    } else if (mode === 'kapalabhati') {
-      if (phase === 'RAPID_SET') {
-        const pulse = Animated.loop(
-          Animated.sequence([
-            Animated.timing(scaleAnim, { toValue: 1.15, duration: 250, useNativeDriver: true }),
-            Animated.timing(scaleAnim, { toValue: 1.0, duration: 250, useNativeDriver: true }),
-          ]),
-        );
-        pulse.start();
-        return () => pulse.stop();
-      } else if (phase === 'REST') {
-        Animated.timing(scaleAnim, { toValue: 1.0, duration: 500, useNativeDriver: true }).start();
-      }
-    }
-  }, [phase, mode, phaseDuration, scaleAnim]);
-
-  return (
-    <Animated.View
-      style={[
-        styles.circle,
-        {
-          backgroundColor: color,
-          transform: [{ scale: scaleAnim }],
-        },
-      ]}
-    />
-  );
 }
 
 // ─── Shape Switcher ─────────────────────────────────────────────────────────
@@ -203,6 +125,9 @@ export default function SessionScreen() {
     if (countdown <= 0) {
       setCountdown(null);
       timerStore.startSession(technique, overrides);
+      if (settingsStore.soundEnabled && settingsStore.voiceGuidance !== 'off') {
+        playVoiceStart();
+      }
       return;
     }
 
@@ -284,9 +209,12 @@ export default function SessionScreen() {
 
     if (!isDone || !technique) return;
 
-    // Play completion sound
+    // Play completion sound + voice
     if (settingsStore.soundEnabled) {
       playSessionComplete(settingsStore.soundStyle);
+      if (settingsStore.voiceGuidance !== 'off') {
+        playVoiceComplete();
+      }
     }
 
     const session: BreathingSession = {

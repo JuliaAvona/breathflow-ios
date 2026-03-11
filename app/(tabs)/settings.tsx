@@ -232,7 +232,7 @@ export default function SettingsScreen() {
       if (!granted) return;
       settings.setSetting('reminderEnabled', true);
       const [h, m] = settings.reminderTime.split(':').map(Number);
-      await scheduleBreatheReminder(h, m, t('notifications.reminderTitle'), t('notifications.reminderBody'));
+      await scheduleBreatheReminder(h, m);
     } else {
       settings.setSetting('reminderEnabled', false);
       await cancelNotification('breathe-reminder');
@@ -809,7 +809,7 @@ export default function SettingsScreen() {
           settings.setSetting('reminderTime', time);
           if (settings.reminderEnabled) {
             const { scheduleBreatheReminder } = await import('../../src/utils/notifications');
-            await scheduleBreatheReminder(h, m, t('notifications.reminderTitle'), t('notifications.reminderBody'));
+            await scheduleBreatheReminder(h, m);
           }
         }}
         onClose={() => setActivePicker(null)}
