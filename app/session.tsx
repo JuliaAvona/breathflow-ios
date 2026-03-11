@@ -22,12 +22,7 @@ import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import { playPhaseTransition, playSessionComplete, playCountdownTick, playVoicePhase, playVoiceStart, playVoiceComplete, releaseAllSessionAudio } from '../src/utils/sessionAudio';
 import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
-import { BreathingSquare } from '../src/components/BreathingSquare';
-import { BreathingTriangle } from '../src/components/BreathingTriangle';
 import { BreathingCircle } from '../src/components/BreathingCircle';
-import { BreathingWave } from '../src/components/BreathingWave';
-import { BreathingBurst } from '../src/components/BreathingBurst';
-import { BreathingOval } from '../src/components/BreathingOval';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase, BreathingShape as ShapeType } from '../src/types';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -61,33 +56,18 @@ function getPhaseLabel(phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhas
 // ─── Shape Switcher ─────────────────────────────────────────────────────────
 
 function BreathingShape({
-  shape,
   phase,
   mode,
   color,
   phaseDuration,
 }: {
-  shape: ShapeType;
+  shape?: ShapeType;
   phase: TimerPhase | PowerBreathingPhase | KapalabhatiPhase;
   mode: string;
   color: string;
   phaseDuration?: number;
 }) {
-  const props = { phase, mode, color, phaseDuration };
-  switch (shape) {
-    case 'square':
-      return <BreathingSquare {...props} />;
-    case 'triangle':
-      return <BreathingTriangle {...props} />;
-    case 'wave':
-      return <BreathingWave {...props} />;
-    case 'burst':
-      return <BreathingBurst {...props} />;
-    case 'oval':
-      return <BreathingOval {...props} />;
-    default:
-      return <BreathingCircle {...props} />;
-  }
+  return <BreathingCircle phase={phase} mode={mode} color={color} phaseDuration={phaseDuration} />;
 }
 
 // ─── Session Screen ─────────────────────────────────────────────────────────
@@ -188,7 +168,7 @@ export default function SessionScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
     if (settingsStore.soundEnabled) {
-      playCountdownTick();
+      playCountdownTick(countdown);
     }
 
     const timer = setTimeout(() => setCountdown(countdown - 1), 1000);

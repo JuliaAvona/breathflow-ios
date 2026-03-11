@@ -5,31 +5,36 @@ import { createAudioPlayer, AudioPlayer } from 'expo-audio';
  * Plays cue sounds on phase transitions during breathing sessions.
  *
  * Sound styles map to different audio files:
- * - tone: beep.mp3 (default)
- * - bell: chime.mp3
- * - nature: chime.mp3 (reuse until proper nature sounds added)
- * - bowl: complete.mp3 (tibetan bowl-like)
+ * - tone: percussion wood hit (default)
+ * - bell: japan cowbell
+ * - nature: smooth vocal chant
+ * - bowl: complete bowl sound
  *
- * Voice guidance uses voice_*.mp3 assets.
+ * Voice guidance uses british girl voice assets.
+ * Countdown uses three/two/one voice files.
  */
 
 // ─── Sound asset sources ────────────────────────────────────────────────────
 
 const SOUNDS = {
-  beep: require('../../assets/beep.mp3'),
-  chime: require('../../assets/chime.mp3'),
-  complete: require('../../assets/complete.mp3'),
-  voiceStart: require('../../assets/voice_start.mp3'),
-  voiceSwitch: require('../../assets/voice_switch.mp3'),
-  voiceBeep: require('../../assets/voice_beep.mp3'),
-  voiceComplete: require('../../assets/voice_complete.mp3'),
+  beep: require('../../assets/percussion-hit-dry-wood.wav'),
+  chime: require('../../assets/japan-cowbell_120bpm_A_minor.wav'),
+  chant: require('../../assets/breath-chant-vocal-smooth.wav'),
+  complete: require('../../assets/complete.wav'),
+  voiceStart: require('../../assets/ready-british-girl-voice.wav'),
+  voiceSwitch: require('../../assets/percussion-hit-wood-rim.wav'),
+  voiceBeep: require('../../assets/percussion-hit-rim-3_E_minor.wav'),
+  voiceComplete: require('../../assets/complete.wav'),
+  countdown3: require('../../assets/three-british-girl-voice.wav'),
+  countdown2: require('../../assets/two-british-girl-voice.wav'),
+  countdown1: require('../../assets/one-british-girl-voice.wav'),
 };
 
 // Map sound styles to phase transition sounds
 const STYLE_MAP: Record<string, { transition: keyof typeof SOUNDS; complete: keyof typeof SOUNDS }> = {
   tone: { transition: 'beep', complete: 'complete' },
   bell: { transition: 'chime', complete: 'complete' },
-  nature: { transition: 'chime', complete: 'complete' },
+  nature: { transition: 'chant', complete: 'complete' },
   bowl: { transition: 'complete', complete: 'complete' },
 };
 
@@ -85,10 +90,13 @@ export function playSessionComplete(soundStyle: string = 'tone'): void {
 }
 
 /**
- * Play countdown tick (3-2-1 before session).
+ * Play countdown voice (3, 2, or 1 before session).
  */
-export function playCountdownTick(): void {
-  playSound('beep', 0.3);
+export function playCountdownTick(count?: number): void {
+  if (count === 3) playSound('countdown3', 0.8);
+  else if (count === 2) playSound('countdown2', 0.8);
+  else if (count === 1) playSound('countdown1', 0.8);
+  else playSound('beep', 0.3);
 }
 
 /**
