@@ -140,7 +140,6 @@ export interface UserSettings {
   voiceGuidance: 'off' | 'phases' | 'countdown';
 
   // Appearance
-  colorThemeId: string;
   darkMode: 'system' | 'light' | 'dark';
   textSize: 'default' | 'large';
 

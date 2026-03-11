@@ -20,7 +20,6 @@ import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 import { requestHealthPermissions, isHealthKitAvailable } from '../../src/utils/healthKit';
 import { performAppleSignIn } from '../../src/utils/appleAuth';
 import { pushAll, pullAndMerge } from '../../src/services/syncService';
-import { COLOR_THEMES } from '../../src/constants/colorThemes';
 import { useHaptics } from '../../src/hooks/useHaptics';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
 import { exportSessionsAsCSV } from '../../src/utils/csvExport';
@@ -403,60 +402,6 @@ export default function SettingsScreen() {
             {t('settings.appearance')}
           </Text>
 
-          {/* Color theme grid */}
-          <View style={styles.settingLabelRow}>
-            <Text style={[styles.themeGridLabel, { color: theme.text, fontSize: fontSize.md }]}>
-              {t('settings.colorTheme')}
-            </Text>
-          </View>
-          <View style={styles.themeGrid}>
-            {COLOR_THEMES.map((ct) => {
-              const isSelected = settings.colorThemeId === ct.id;
-              const preview = theme.isDark ? ct.dark : ct.light;
-              const isLocked = ct.isPro && !settings.isPro;
-              return (
-                <TouchableOpacity
-                  key={ct.id}
-                  style={[
-                    styles.themePreviewCard,
-                    {
-                      backgroundColor: preview.card,
-                      borderWidth: isSelected ? 2.5 : 1,
-                      borderColor: isSelected ? ct.primary : preview.border,
-                      opacity: isLocked ? 0.6 : 1,
-                    },
-                  ]}
-                  onPress={() => {
-                    haptics.selection();
-                    if (isLocked) {
-                      handleProFeatureTap();
-                      return;
-                    }
-                    settings.setSetting('colorThemeId', ct.id);
-                  }}
-                  activeOpacity={0.7}
-                >
-                  <View style={[styles.themePreviewStripe, { backgroundColor: ct.primary }]} />
-                  <View style={styles.themePreviewBody}>
-                    <View style={[styles.themePreviewDot, { backgroundColor: ct.accent }]} />
-                    <View style={[styles.themePreviewLine, { backgroundColor: preview.textSecondary + '40' }]} />
-                    <View style={[styles.themePreviewLine, styles.themePreviewLineShort, { backgroundColor: preview.textSecondary + '25' }]} />
-                  </View>
-                  {isLocked && (
-                    <View style={[styles.themeLockBadge, { backgroundColor: COLORS.proBadge }]}>
-                      <Ionicons name="lock-closed" size={8} color={COLORS.white} />
-                    </View>
-                  )}
-                  {isSelected && !isLocked && (
-                    <View style={[styles.themeCheckmark, { backgroundColor: ct.primary }]}>
-                      <Ionicons name="checkmark" size={8} color={COLORS.white} />
-                    </View>
-                  )}
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-
           {/* Dark mode picker */}
           <TouchableOpacity
             style={[styles.settingRow, { borderBottomColor: theme.border }]}
@@ -744,7 +689,7 @@ export default function SettingsScreen() {
 
           {/* Contact support */}
           <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+            style={[styles.settingRow, { borderBottomColor: theme.border }]}
             onPress={handleContactSupport}
             accessibilityRole="link"
           >
@@ -752,6 +697,22 @@ export default function SettingsScreen() {
               {t('settings.contactSupport')}
             </Text>
             <Ionicons name="mail-outline" size={18} color={theme.textSecondary} />
+          </TouchableOpacity>
+
+          {/* Reset onboarding (dev/testing) */}
+          <TouchableOpacity
+            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+            onPress={() => {
+              settings.setSetting('onboardingCompleted', false);
+              settings.setSetting('selectedGoal', undefined);
+              router.replace('/onboarding');
+            }}
+            accessibilityRole="button"
+          >
+            <Text style={[styles.settingLabel, { color: theme.textSecondary, fontSize: fontSize.md }]}>
+              View Onboarding
+            </Text>
+            <Ionicons name="play-outline" size={18} color={theme.textSecondary} />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -941,67 +902,6 @@ const styles = StyleSheet.create({
   appleButton: {
     width: '100%' as unknown as number,
     height: 44,
-  },
-  // Color theme grid
-  themeGridLabel: {
-    paddingHorizontal: SPACING.md,
-    paddingTop: SPACING.sm,
-    fontSize: FONT_SIZE.md,
-  },
-  themeGrid: {
-    flexDirection: 'row',
-    gap: 3,
-    paddingHorizontal: SPACING.xs,
-    paddingVertical: SPACING.md,
-  },
-  themePreviewCard: {
-    flex: 1,
-    flexShrink: 1,
-    height: 52,
-    borderRadius: 8,
-    overflow: 'hidden' as const,
-    position: 'relative' as const,
-  },
-  themePreviewStripe: {
-    height: 5,
-  },
-  themePreviewBody: {
-    flex: 1,
-    padding: 3,
-    gap: 3,
-  },
-  themePreviewDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 3.5,
-  },
-  themePreviewLine: {
-    height: 2,
-    borderRadius: 1,
-    width: '75%' as unknown as number,
-  },
-  themePreviewLineShort: {
-    width: '45%' as unknown as number,
-  },
-  themeCheckmark: {
-    position: 'absolute' as const,
-    top: 1,
-    right: 1,
-    width: 13,
-    height: 13,
-    borderRadius: 6.5,
-    alignItems: 'center' as const,
-    justifyContent: 'center' as const,
-  },
-  themeLockBadge: {
-    position: 'absolute' as const,
-    top: 1,
-    right: 1,
-    width: 13,
-    height: 13,
-    borderRadius: 6.5,
-    alignItems: 'center' as const,
-    justifyContent: 'center' as const,
   },
   // Day-of-week selector
   daysRow: {

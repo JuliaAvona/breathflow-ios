@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useThemeColors } from '../src/hooks/useColorScheme';
@@ -18,13 +18,14 @@ import { useSettingsStore } from '../src/store';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import type { BreathingTechnique, BreathPhase, BreathingShape, PhaseType } from '../src/types';
 
+// Each entry drives both the card icon on the Breathe screen and the hero preview
 const SHAPES: { value: BreathingShape; icon: string; label: string }[] = [
-  { value: 'circle', icon: 'ellipse-outline', label: 'Circle' },
-  { value: 'square', icon: 'square-outline', label: 'Square' },
-  { value: 'triangle', icon: 'triangle-outline', label: 'Triangle' },
-  { value: 'wave', icon: 'water-outline', label: 'Wave' },
-  { value: 'oval', icon: 'ellipse-outline', label: 'Oval' },
-  { value: 'burst', icon: 'flash-outline', label: 'Burst' },
+  { value: 'circle',   icon: 'ellipse-outline',   label: 'Circle' },
+  { value: 'square',   icon: 'square-outline',     label: 'Square' },
+  { value: 'triangle', icon: 'triangle-outline',   label: 'Triangle' },
+  { value: 'wave',     icon: 'water-outline',       label: 'Wave' },
+  { value: 'oval',     icon: 'radio-button-off',    label: 'Oval' },
+  { value: 'burst',    icon: 'flash-outline',       label: 'Burst' },
 ];
 
 const TECHNIQUE_COLORS = [
@@ -51,15 +52,26 @@ export default function CustomTechniqueScreen() {
   const theme = useThemeColors();
   const insets = useSafeAreaInsets();
   const addCustomTechnique = useSettingsStore((s) => s.addCustomTechnique);
+  const updateCustomTechnique = useSettingsStore((s) => s.updateCustomTechnique);
+  const { editId } = useLocalSearchParams<{ editId?: string }>();
+  const existingTechnique = useSettingsStore((s) =>
+    s.customTechniques?.find((ct) => ct.id === editId),
+  );
+  const isEditing = !!editId && !!existingTechnique;
 
-  const [name, setName] = useState('');
-  const [selectedShape, setSelectedShape] = useState<BreathingShape>('circle');
-  const [selectedColor, setSelectedColor] = useState(TECHNIQUE_COLORS[0]);
-  const [cycles, setCycles] = useState(6);
-  const [phases, setPhases] = useState<{ type: PhaseType; duration: number }[]>([
-    { type: 'inhale', duration: 4 },
-    { type: 'exhale', duration: 4 },
-  ]);
+  const [name, setName] = useState(existingTechnique?.nameKey ?? '');
+  const [selectedShape, setSelectedShape] = useState<BreathingShape>(existingTechnique?.shape ?? 'circle');
+  const [selectedColor, setSelectedColor] = useState(existingTechnique?.color ?? TECHNIQUE_COLORS[0]);
+  const [cycles, setCycles] = useState(existingTechnique?.defaultCycles ?? 6);
+  const [phases, setPhases] = useState<{ type: PhaseType; duration: number }[]>(
+    existingTechnique?.phases.map((p) => ({
+      type: (p.type ?? 'inhale') as PhaseType,
+      duration: p.duration,
+    })) ?? [
+      { type: 'inhale', duration: 4 },
+      { type: 'exhale', duration: 4 },
+    ],
+  );
 
   const patternStr = useMemo(() => {
     return phases.map((p) => `${p.duration}s`).join(' - ');
@@ -99,10 +111,9 @@ export default function CustomTechniqueScreen() {
       return;
     }
 
-    const id = `custom_${Date.now()}`;
     const technique: BreathingTechnique = {
-      id,
-      nameKey: name.trim(), // Custom techniques use raw name, not i18n key
+      id: isEditing ? editId! : `custom_${Date.now()}`,
+      nameKey: name.trim(),
       descriptionKey: t('customTechnique.customDescription'),
       category: 'calm',
       phases: phases.map((p) => ({
@@ -114,12 +125,16 @@ export default function CustomTechniqueScreen() {
       adjustable: true,
       shape: selectedShape,
       color: selectedColor,
-      icon: 'create-outline',
+      icon: SHAPES.find((s) => s.value === selectedShape)?.icon ?? 'ellipse-outline',
       mode: 'standard',
       isPro: false,
     };
 
-    addCustomTechnique(technique);
+    if (isEditing) {
+      updateCustomTechnique(editId!, technique);
+    } else {
+      addCustomTechnique(technique);
+    }
     router.back();
   };
 
@@ -145,21 +160,33 @@ export default function CustomTechniqueScreen() {
                 <Ionicons name="close" size={22} color="#FFFFFF" />
               </View>
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>{t('customTechnique.title')}</Text>
+            <Text style={styles.headerTitle}>{isEditing ? 'Edit Technique' : t('customTechnique.title')}</Text>
             <View style={{ width: 36 }} />
           </View>
 
-          {/* Shape preview */}
-          <View style={styles.shapePreview}>
-            <Ionicons
-              name={SHAPES.find((s) => s.value === selectedShape)?.icon as any ?? 'ellipse-outline'}
-              size={64}
-              color="rgba(255,255,255,0.5)"
-            />
+          {/* Card preview — shows exactly how the card looks on Breathe screen */}
+          <View style={styles.cardPreview}>
+            <LinearGradient
+              colors={[selectedColor + '55', selectedColor] as [string, string]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.cardPreviewArt}
+            >
+              <Ionicons
+                name={SHAPES.find((s) => s.value === selectedShape)?.icon as any ?? 'ellipse-outline'}
+                size={36}
+                color="rgba(255,255,255,0.7)"
+              />
+            </LinearGradient>
+            <View style={styles.cardPreviewInfo}>
+              <Text style={[styles.cardPreviewName, { color: theme.text }]} numberOfLines={1}>
+                {name.trim() || t('customTechnique.namePlaceholder')}
+              </Text>
+              <Text style={[styles.cardPreviewDuration, { color: theme.textSecondary }]}>
+                {patternStr}
+              </Text>
+            </View>
           </View>
-
-          {/* Pattern preview */}
-          <Text style={styles.patternPreview}>{patternStr}</Text>
         </LinearGradient>
 
         {/* Name input */}
@@ -267,10 +294,10 @@ export default function CustomTechniqueScreen() {
           </View>
         </View>
 
-        {/* Shape picker */}
+        {/* Icon picker — determines the icon shown on the card */}
         <View style={styles.section}>
           <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-            {t('customTechnique.shape')}
+            Icon
           </Text>
           <View style={styles.shapeGrid}>
             {SHAPES.map((shape) => (
@@ -332,7 +359,7 @@ export default function CustomTechniqueScreen() {
           activeOpacity={0.85}
         >
           <Ionicons name="checkmark-circle" size={22} color="#FFFFFF" />
-          <Text style={styles.saveBtnText}>{t('customTechnique.save')}</Text>
+          <Text style={styles.saveBtnText}>{isEditing ? 'Save Changes' : t('customTechnique.save')}</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -369,18 +396,36 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.bold,
     color: '#FFFFFF',
   },
-  shapePreview: {
-    width: scale(100),
-    height: scale(100),
-    alignItems: 'center',
-    justifyContent: 'center',
+  cardPreview: {
+    width: scale(140),
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
     marginBottom: SPACING.sm,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 6,
   },
-  patternPreview: {
-    fontSize: FONT_SIZE.lg,
+  cardPreviewArt: {
+    height: scale(90),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardPreviewInfo: {
+    padding: 10,
+    backgroundColor: '#FFFFFF',
+  },
+  cardPreviewName: {
+    fontSize: 13,
     fontFamily: FONTS.bold,
-    color: 'rgba(255,255,255,0.9)',
-    letterSpacing: 1,
+    marginBottom: 2,
+    letterSpacing: -0.2,
+  },
+  cardPreviewDuration: {
+    fontSize: 11,
+    fontFamily: FONTS.medium,
   },
 
   // Sections

@@ -41,12 +41,12 @@ export const COLOR_THEMES: ColorTheme[] = [
       border: '#D6DEE8',
     },
     dark: {
-      background: '#0F1419',
-      surface: '#1A2332',
-      card: '#243044',
-      text: '#F0F4F8',
-      textSecondary: '#94A3B8',
-      border: '#2E3D52',
+      background: '#0a0f1a',
+      surface: '#111827',
+      card: '#161e2e',
+      text: '#FFFFFF',
+      textSecondary: 'rgba(255,255,255,0.5)',
+      border: 'rgba(255,255,255,0.08)',
     },
   },
   {

@@ -13,8 +13,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   hapticsEnabled: true,
   voiceGuidance: 'off',
 
-  colorThemeId: 'ocean',
-  darkMode: 'system',
+  darkMode: 'dark',
   textSize: 'default',
 
   healthSyncEnabled: false,
@@ -62,7 +61,6 @@ function extractSettings(state: SettingsStore): UserSettings {
     soundStyle: state.soundStyle,
     hapticsEnabled: state.hapticsEnabled,
     voiceGuidance: state.voiceGuidance,
-    colorThemeId: state.colorThemeId,
     darkMode: state.darkMode,
     textSize: state.textSize,
     healthSyncEnabled: state.healthSyncEnabled,

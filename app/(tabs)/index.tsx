@@ -7,21 +7,21 @@ import {
   StyleSheet,
   Dimensions,
   Animated,
-  Easing,
   Modal,
   Pressable,
   PanResponder,
+  Alert,
+  ImageBackground,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import Svg, { Path } from 'react-native-svg';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { useSettingsStore, useSessionsStore } from '../../src/store';
 import { TECHNIQUES } from '../../src/constants/techniques';
-import { SPACING, BORDER_RADIUS, FONTS, COLORS } from '../../src/constants';
+import { SPACING, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
 import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
 import { BreathingCircle } from '../../src/components/BreathingCircle';
 import { BreathingSquare } from '../../src/components/BreathingSquare';
@@ -29,6 +29,17 @@ import { BreathingTriangle } from '../../src/components/BreathingTriangle';
 import { BreathingWave } from '../../src/components/BreathingWave';
 import { BreathingBurst } from '../../src/components/BreathingBurst';
 import { BreathingOval } from '../../src/components/BreathingOval';
+import { BreathingMandala } from '../../src/components/BreathingMandala';
+
+const BG_IMAGES: Record<TechniqueCategory | 'custom' | 'all', ReturnType<typeof require>> = {
+  all:      require('../../assets/bg_focus.jpg'),
+  calm:     require('../../assets/bg_focus.jpg'),
+  sleep:    require('../../assets/bg_sleep.jpg'),
+  focus:    require('../../assets/bg_focus.jpg'),
+  energy:   require('../../assets/bg_energy.jpg'),
+  advanced: require('../../assets/bg_advanced.jpg'),
+  custom:   require('../../assets/bg_focus.jpg'),
+};
 
 // ─── Layout constants ────────────────────────────────────────────────────────
 
@@ -60,7 +71,7 @@ const CARD_THEMES: Record<string, CardTheme> = {
 
 // ─── Category tabs ──────────────────────────────────────────────────────────
 
-type FilterCategory = 'all' | TechniqueCategory;
+type FilterCategory = 'all' | TechniqueCategory | 'custom';
 
 const CATEGORY_FILTERS: { key: FilterCategory; labelKey: string }[] = [
   { key: 'all', labelKey: 'home.categoryAll' },
@@ -69,16 +80,28 @@ const CATEGORY_FILTERS: { key: FilterCategory; labelKey: string }[] = [
   { key: 'focus', labelKey: 'home.categoryFocus' },
   { key: 'energy', labelKey: 'home.categoryEnergy' },
   { key: 'advanced', labelKey: 'home.categoryAdvanced' },
+  { key: 'custom', labelKey: 'home.categoryCustom' },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+// Maps instructionKey (short or full i18n key) to a display label
 const PHASE_LABELS: Record<string, string> = {
-  breatheIn: 'In',
-  breatheOut: 'Out',
-  hold: 'Hold',
-  holdOut: 'Hold',
+  breatheIn: 'In',            'session.breatheIn': 'In',
+  breatheOut: 'Out',          'session.breatheOut': 'Out',
+  hold: 'Hold',               'session.hold': 'Hold',
+  holdOut: 'Hold',            'session.holdOut': 'Hold',
   topUpInhale: 'Sip',
+};
+
+// Maps shape to a fallback icon for custom technique cards
+const SHAPE_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
+  circle:   'ellipse-outline',
+  square:   'square-outline',
+  triangle: 'triangle-outline',
+  wave:     'water-outline',
+  oval:     'ellipse-outline',
+  burst:    'flash-outline',
 };
 
 function formatDuration(totalSeconds: number): string {
@@ -125,20 +148,22 @@ interface TechniqueCardProps {
   technique: BreathingTechnique;
   isPro: boolean;
   t: (key: string) => string;
-  theme: ReturnType<typeof useThemeColors>;
   onPress: (technique: BreathingTechnique) => void;
+  onEdit?: (technique: BreathingTechnique) => void;
+  onDelete?: (technique: BreathingTechnique) => void;
 }
 
-function TechniqueCard({ technique, isPro, t, theme, onPress }: TechniqueCardProps) {
+function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: TechniqueCardProps) {
   const locked = technique.isPro && !isPro;
+  const isCustom = !!onEdit;
   const cardTheme = CARD_THEMES[technique.id] ?? {
     bg: [technique.color + '40', technique.color] as [string, string],
-    icon: 'ellipse-outline' as keyof typeof Ionicons.glyphMap,
+    icon: (technique.icon ?? SHAPE_ICONS[technique.shape] ?? 'ellipse-outline') as keyof typeof Ionicons.glyphMap,
   };
 
   return (
     <TouchableOpacity
-      style={[styles.gridCard, { backgroundColor: theme.card }]}
+      style={[styles.gridCard, { backgroundColor: '#161e2e' }]}
       onPress={() => onPress(technique)}
       activeOpacity={0.85}
       accessibilityLabel={t(technique.nameKey)}
@@ -159,14 +184,34 @@ function TechniqueCard({ technique, isPro, t, theme, onPress }: TechniqueCardPro
             <Ionicons name="lock-closed" size={10} color="rgba(255,255,255,0.9)" />
           </View>
         )}
+
+        {/* Edit / Delete buttons for custom cards */}
+        {isCustom && (
+          <View style={styles.cardActions}>
+            <TouchableOpacity
+              style={styles.cardActionBtn}
+              onPress={(e) => { e.stopPropagation(); onEdit!(technique); }}
+              hitSlop={6}
+            >
+              <Ionicons name="pencil" size={13} color="rgba(255,255,255,0.9)" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.cardActionBtn, styles.cardActionBtnDelete]}
+              onPress={(e) => { e.stopPropagation(); onDelete!(technique); }}
+              hitSlop={6}
+            >
+              <Ionicons name="trash" size={13} color="rgba(255,255,255,0.9)" />
+            </TouchableOpacity>
+          </View>
+        )}
       </LinearGradient>
 
       {/* Info */}
       <View style={styles.gridCardInfo}>
-        <Text style={[styles.gridCardName, { color: theme.text }]} numberOfLines={1}>
+        <Text style={[styles.gridCardName, { color: '#FFFFFF' }]} numberOfLines={1}>
           {t(technique.nameKey)}
         </Text>
-        <Text style={[styles.gridCardDuration, { color: theme.textSecondary }]}>
+        <Text style={[styles.gridCardDuration, { color: 'rgba(255,255,255,0.5)' }]}>
           {getDurationLabel(technique)}
         </Text>
       </View>
@@ -291,11 +336,12 @@ function TechniqueDetailSheet({ technique, visible, onClose, onStart, isPro, t, 
   if (!technique) return null;
 
   const cardTheme = CARD_THEMES[technique.id] ?? {
-    bg: [technique.color + '40', technique.color] as [string, string],
-    icon: 'ellipse-outline' as keyof typeof Ionicons.glyphMap,
+    bg: [technique.color + '55', technique.color] as [string, string],
+    icon: (SHAPE_ICONS[technique.shape] ?? 'ellipse-outline') as keyof typeof Ionicons.glyphMap,
   };
   const locked = technique.isPro && !isPro;
   const detailKey = `techniques.${technique.id}.detail`;
+  const hasDetail = !technique.id.startsWith('custom_');
   const categoryLabel = t(`home.category${technique.category.charAt(0).toUpperCase() + technique.category.slice(1)}`);
 
   const translateY = Animated.add(
@@ -369,10 +415,12 @@ function TechniqueDetailSheet({ technique, visible, onClose, onStart, isPro, t, 
               </Text>
             </View>
 
-            {/* Detailed description */}
-            <Text style={[sheetStyles.detail, { color: theme.textSecondary }]}>
-              {t(detailKey)}
-            </Text>
+            {/* Detailed description — only for built-in techniques */}
+            {hasDetail && (
+              <Text style={[sheetStyles.detail, { color: theme.textSecondary }]}>
+                {t(detailKey)}
+              </Text>
+            )}
 
             {/* Start / Unlock button */}
             {locked ? (
@@ -521,78 +569,7 @@ const sheetStyles = StyleSheet.create({
   },
 });
 
-// ─── Breathing Sphere ───────────────────────────────────────────────────────
-
-const SPHERE_SIZE = SCREEN_WIDTH * 0.32;
-
-function BreathingSphere() {
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const glowAnim = useRef(new Animated.Value(0.15)).current;
-
-  useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(scaleAnim, { toValue: 1.06, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-        Animated.timing(scaleAnim, { toValue: 1, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-      ]),
-    ).start();
-
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(glowAnim, { toValue: 0.3, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-        Animated.timing(glowAnim, { toValue: 0.15, duration: 3500, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-      ]),
-    ).start();
-  }, [scaleAnim, glowAnim]);
-
-  return (
-    <View style={sphereStyles.wrapper}>
-      <Animated.View style={[sphereStyles.glow, { opacity: glowAnim, transform: [{ scale: scaleAnim }] }]} />
-      <Animated.View style={[sphereStyles.sphere, { transform: [{ scale: scaleAnim }] }]}>
-        <View style={sphereStyles.solidBg}>
-          <Svg width={28} height={28} viewBox="0 0 24 24" fill="none">
-            <Path d="M3 8H16C17.6569 8 19 6.65685 19 5C19 3.34315 17.6569 2 16 2C14.3431 2 13 3.34315 13 5" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-            <Path d="M3 12H20C21.1046 12 22 11.1046 22 10C22 8.89543 21.1046 8 20 8" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-            <Path d="M3 16H14C15.6569 16 17 17.3431 17 19C17 20.6569 15.6569 22 14 22C12.3431 22 11 20.6569 11 19" stroke="rgba(255,255,255,0.85)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-          </Svg>
-        </View>
-      </Animated.View>
-    </View>
-  );
-}
-
-const sphereStyles = StyleSheet.create({
-  wrapper: {
-    width: SPHERE_SIZE * 1.4,
-    height: SPHERE_SIZE * 1.4,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  glow: {
-    position: 'absolute',
-    width: SPHERE_SIZE * 1.3,
-    height: SPHERE_SIZE * 1.3,
-    borderRadius: SPHERE_SIZE * 0.65,
-    backgroundColor: '#4A90D9',
-  },
-  sphere: {
-    width: SPHERE_SIZE,
-    height: SPHERE_SIZE,
-    borderRadius: SPHERE_SIZE / 2,
-    overflow: 'hidden',
-    shadowColor: '#4A90D9',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 24,
-    elevation: 12,
-  },
-  solidBg: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#4A90D9',
-  },
-});
+// ─── (BreathingSphere removed — replaced by BreathingMandala in hero) ───────
 
 // ─── HomeScreen ──────────────────────────────────────────────────────────────
 
@@ -601,15 +578,22 @@ export default function HomeScreen() {
   const theme = useThemeColors();
   const insets = useSafeAreaInsets();
   const isPro = useSettingsStore((s) => s.isPro);
+  const customTechniques = useSettingsStore((s) => s.customTechniques);
+  const deleteCustomTechnique = useSettingsStore((s) => s.deleteCustomTechnique);
+  const selectedGoal = useSettingsStore((s) => s.selectedGoal);
   const stats = useSessionsStore((s) => s.stats);
 
   const [selectedMinutes, setSelectedMinutes] = useState(5);
-  const [activeCategory, setActiveCategory] = useState<FilterCategory>('all');
+  const [activeCategory, setActiveCategory] = useState<FilterCategory>(
+    selectedGoal ?? 'all',
+  );
   const [selectedTechnique, setSelectedTechnique] = useState<BreathingTechnique | null>(null);
 
-  const filteredTechniques = activeCategory === 'all'
-    ? TECHNIQUES
-    : TECHNIQUES.filter((tech) => tech.category === activeCategory);
+  const filteredTechniques = useMemo(() => {
+    if (activeCategory === 'custom') return customTechniques ?? [];
+    if (activeCategory === 'all') return TECHNIQUES;
+    return TECHNIQUES.filter((tech) => tech.category === activeCategory);
+  }, [activeCategory, customTechniques]);
 
   const handleQuickStart = () => {
     router.push({
@@ -622,7 +606,7 @@ export default function HomeScreen() {
   };
 
   const handleCardPress = useCallback((technique: BreathingTechnique) => {
-    setSelectedTechnique(technique);
+    router.push({ pathname: '/technique-detail', params: { techniqueId: technique.id } });
   }, []);
 
   const handleStartFromSheet = useCallback((technique: BreathingTechnique) => {
@@ -630,25 +614,47 @@ export default function HomeScreen() {
     router.push({ pathname: '/session', params: { techniqueId: technique.id } });
   }, []);
 
-  // Build grid rows (pairs)
-  const gridRows: BreathingTechnique[][] = [];
-  for (let i = 0; i < filteredTechniques.length; i += 2) {
-    gridRows.push(filteredTechniques.slice(i, i + 2));
+  const handleCustomEdit = useCallback((technique: BreathingTechnique) => {
+    router.push({ pathname: '/custom-technique', params: { editId: technique.id } });
+  }, []);
+
+  const handleCustomDelete = useCallback((technique: BreathingTechnique) => {
+    Alert.alert('Delete technique?', technique.nameKey, [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Delete', style: 'destructive', onPress: () => deleteCustomTechnique(technique.id) },
+    ]);
+  }, [deleteCustomTechnique]);
+
+  // Build grid rows (pairs). In Custom tab append null sentinel = Create Custom card.
+  const gridItems: (BreathingTechnique | null)[] = activeCategory === 'custom'
+    ? [...filteredTechniques, null]
+    : filteredTechniques;
+  const gridRows: (BreathingTechnique | null)[][] = [];
+  for (let i = 0; i < gridItems.length; i += 2) {
+    gridRows.push(gridItems.slice(i, i + 2));
   }
 
+  const heroBg = BG_IMAGES[activeCategory];
+
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container, { backgroundColor: '#0a0f1a' }]}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Hero area with gradient ── */}
-        <LinearGradient
-          colors={['#4A90D9', '#7FBFDF', theme.background]}
-          start={{ x: 0.5, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
+        {/* ── Hero area with image background ── */}
+        <ImageBackground
+          source={heroBg}
+          resizeMode="cover"
           style={[styles.heroArea, { paddingTop: insets.top + 12 }]}
         >
+          <LinearGradient
+            colors={['#000000AA', '#00000055', '#0a0f1aFF']}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+
           {/* Streak badge (top right) */}
           {stats.currentStreak > 0 && (
             <View style={styles.heroTopBar}>
@@ -660,9 +666,9 @@ export default function HomeScreen() {
             </View>
           )}
 
-          {/* Sphere — tap to start quick session */}
+          {/* Mandala — tap to start quick session */}
           <TouchableOpacity style={styles.orbWrapper} onPress={handleQuickStart} activeOpacity={0.85}>
-            <BreathingSphere />
+            <BreathingMandala phase="IDLE" color="#4A90D9" size={scale(220)} />
           </TouchableOpacity>
 
           {/* Start button */}
@@ -705,7 +711,7 @@ export default function HomeScreen() {
               );
             })}
           </View>
-        </LinearGradient>
+        </ImageBackground>
 
         {/* ── Category filter tabs ── */}
         <ScrollView
@@ -721,8 +727,9 @@ export default function HomeScreen() {
                 key={cat.key}
                 style={[
                   styles.categoryPill,
-                  isActive && { backgroundColor: theme.primary },
-                  !isActive && { backgroundColor: theme.card },
+                  isActive
+                    ? { backgroundColor: theme.primary, borderColor: theme.primary }
+                    : { backgroundColor: 'rgba(255,255,255,0.08)' },
                 ]}
                 onPress={() => setActiveCategory(cat.key)}
                 activeOpacity={0.7}
@@ -730,7 +737,7 @@ export default function HomeScreen() {
                 <Text
                   style={[
                     styles.categoryPillText,
-                    { color: isActive ? '#FFFFFF' : theme.textSecondary },
+                    { color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.6)' },
                     isActive && { fontFamily: FONTS.bold },
                   ]}
                 >
@@ -745,43 +752,44 @@ export default function HomeScreen() {
         <View style={styles.grid}>
           {gridRows.map((row, rowIndex) => (
             <View key={rowIndex} style={styles.gridRow}>
-              {row.map((tech) => (
-                <TechniqueCard
-                  key={tech.id}
-                  technique={tech}
-                  isPro={isPro}
-                  t={t}
-                  theme={theme}
-                  onPress={handleCardPress}
-                />
-              ))}
+              {row.map((tech, _colIndex) =>
+                tech === null ? (
+                  <TouchableOpacity
+                    key="create"
+                    style={[styles.gridCard, { backgroundColor: '#161e2e' }]}
+                    onPress={() => router.push('/custom-technique')}
+                    activeOpacity={0.85}
+                  >
+                    <LinearGradient
+                      colors={['#C8D8F0', '#A0B8E0']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                      style={styles.gridCardArt}
+                    >
+                      <Ionicons name="add" size={36} color="rgba(255,255,255,0.6)" />
+                    </LinearGradient>
+                    <View style={styles.gridCardInfo}>
+                      <Text style={[styles.gridCardName, { color: '#FFFFFF' }]} numberOfLines={1}>
+                        {t('home.createCustom')}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                ) : (
+                  <TechniqueCard
+                    key={tech.id}
+                    technique={tech}
+                    isPro={isPro}
+                    t={t}
+                    onPress={handleCardPress}
+                    onEdit={tech.id.startsWith('custom_') ? handleCustomEdit : undefined}
+                    onDelete={tech.id.startsWith('custom_') ? handleCustomDelete : undefined}
+                  />
+                )
+              )}
               {/* Spacer if odd number of cards */}
               {row.length === 1 && <View style={{ width: CARD_WIDTH }} />}
             </View>
           ))}
-
-          {/* Create custom technique button */}
-          <TouchableOpacity
-            style={[styles.createCustomBtn, { borderColor: theme.border }]}
-            onPress={() => {
-              if (!isPro) {
-                router.push('/paywall');
-              } else {
-                router.push('/custom-technique');
-              }
-            }}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="add-circle-outline" size={22} color={COLORS.primary} />
-            <Text style={[styles.createCustomText, { color: COLORS.primary }]}>
-              {t('home.createCustom')}
-            </Text>
-            {!isPro && (
-              <View style={styles.createCustomProBadge}>
-                <Text style={styles.createCustomProText}>PRO</Text>
-              </View>
-            )}
-          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -904,15 +912,17 @@ const styles = StyleSheet.create({
   },
   categoryRow: {
     paddingHorizontal: GRID_H_PADDING,
-    gap: 8,
+    gap: 6,
   },
   categoryPill: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
     borderRadius: BORDER_RADIUS.full,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
   },
   categoryPillText: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: FONTS.semibold,
   },
 
@@ -932,10 +942,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: 'hidden',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
   },
   gridCardArt: {
     height: CARD_WIDTH * 0.65,
@@ -970,32 +980,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // Create custom button
-  createCustomBtn: {
+  // Custom card action buttons (edit / delete)
+  cardActions: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
     flexDirection: 'row',
-    alignItems: 'center',
+    gap: 4,
+  },
+  cardActionBtn: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: 'rgba(0,0,0,0.2)',
     justifyContent: 'center',
-    gap: 8,
-    paddingVertical: SPACING.sm + 4,
-    borderRadius: BORDER_RADIUS.lg,
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    marginTop: SPACING.xs,
+    alignItems: 'center',
   },
-  createCustomText: {
-    fontSize: 15,
-    fontFamily: FONTS.semibold,
+  cardActionBtnDelete: {
+    backgroundColor: 'rgba(200,40,40,0.45)',
   },
-  createCustomProBadge: {
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 6,
-  },
-  createCustomProText: {
-    fontSize: 10,
-    fontFamily: FONTS.bold,
-    color: '#FFFFFF',
-    letterSpacing: 0.5,
-  },
+
 });

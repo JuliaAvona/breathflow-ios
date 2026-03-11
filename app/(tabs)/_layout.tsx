@@ -106,8 +106,9 @@ export default function TabLayout() {
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.textSecondary,
         tabBarStyle: {
-          backgroundColor: theme.surface,
+          backgroundColor: theme.background,
           borderTopColor: theme.border,
+          borderTopWidth: 0.5,
         },
       }}
       screenListeners={{

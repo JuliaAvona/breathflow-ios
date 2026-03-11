@@ -11,6 +11,7 @@ import {
   Share,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
@@ -293,79 +294,65 @@ export default function SummaryScreen() {
     );
   }
 
+  const gradientTop: [string, string] = [
+    (technique?.color ?? COLORS.primary),
+    (technique?.color ?? COLORS.primary) + 'BB',
+  ];
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       {(isPersonalBest || completed) && <ConfettiAnimation key={confettiKey} />}
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View style={styles.headerSection}>
+        {/* Gradient header */}
+        <LinearGradient
+          colors={[gradientTop[0], gradientTop[1], theme.background]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={styles.headerGradient}
+        >
           {technique && (
-            <View style={[styles.techniqueIconCircle, { backgroundColor: technique.color + '20' }]}>
-              <Ionicons name={technique.icon as never} size={32} color={technique.color} />
+            <View style={styles.techniqueIconCircle}>
+              <Ionicons name={technique.icon as never} size={32} color="#FFFFFF" />
             </View>
           )}
-          <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
+          <Text style={styles.headerTitle}>
             {completed ? t('summary.sessionComplete') : t('summary.sessionEnded')}
           </Text>
-          <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-            {completed
-              ? t('summary.greatJob')
-              : t('summary.partialComplete', {
-                  cycles: isPowerBreathing ? roundsCompleted : cyclesCompleted,
-                })}
+          <Text style={styles.headerSubtitle}>
+            {technique ? t(technique.nameKey) : techniqueId}
           </Text>
-        </View>
+        </LinearGradient>
 
-        {/* Stats cards */}
-        <View style={styles.statsGrid}>
-          {/* Technique */}
-          <View style={[styles.statCard, styles.statCardWide, { backgroundColor: theme.card }]}>
-            {technique && (
-              <Ionicons name={technique.icon as never} size={18} color={technique.color} style={styles.statIcon} />
-            )}
-            <Text style={[styles.statValue, { color: technique?.color ?? theme.primary, fontSize: fontSize.lg }]} numberOfLines={1}>
-              {technique ? t(technique.nameKey) : techniqueId}
-            </Text>
-            <Text style={[styles.statLabel, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-              {t('summary.technique')}
-            </Text>
-          </View>
-
-          {/* Duration */}
-          <View style={[styles.statCard, { backgroundColor: theme.card }]}>
-            <Ionicons name="time-outline" size={18} color={theme.primary} style={styles.statIcon} />
-            <Text style={[styles.statValue, { color: theme.primary, fontSize: fontSize.xl }]}>
+        {/* Stats row */}
+        <View style={[styles.statsRow, { backgroundColor: theme.card }]}>
+          <View style={styles.statItem}>
+            <Text style={[styles.statValue, { color: theme.primary }]}>
               {formatTotalTime(totalDuration)}
             </Text>
-            <Text style={[styles.statLabel, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
               {t('summary.duration')}
             </Text>
           </View>
 
-          {/* Cycles or Rounds */}
-          <View style={[styles.statCard, { backgroundColor: theme.card }]}>
-            <Ionicons
-              name={isPowerBreathing ? 'layers-outline' : 'repeat-outline'}
-              size={18}
-              color={theme.accent}
-              style={styles.statIcon}
-            />
-            <Text style={[styles.statValue, { color: theme.accent, fontSize: fontSize.xl }]}>
+          <View style={[styles.statDivider, { backgroundColor: theme.border }]} />
+
+          <View style={styles.statItem}>
+            <Text style={[styles.statValue, { color: theme.accent }]}>
               {isPowerBreathing ? roundsCompleted : cyclesCompleted}
             </Text>
-            <Text style={[styles.statLabel, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
               {isPowerBreathing ? t('summary.rounds') : t('summary.cycles')}
             </Text>
           </View>
 
-          {/* Streak */}
-          <View style={[styles.statCard, { backgroundColor: theme.card }]}>
-            <Ionicons name="trending-up-outline" size={18} color={COLORS.warning} style={styles.statIcon} />
-            <Text style={[styles.statValue, { color: COLORS.warning, fontSize: fontSize.xl }]}>
+          <View style={[styles.statDivider, { backgroundColor: theme.border }]} />
+
+          <View style={styles.statItem}>
+            <Text style={[styles.statValue, { color: COLORS.warning }]}>
               {stats.currentStreak}
             </Text>
-            <Text style={[styles.statLabel, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
               {t('summary.dayStreak')}
             </Text>
           </View>
@@ -508,13 +495,13 @@ export default function SummaryScreen() {
                       style={[styles.badgeRevealName, { color: theme.text }]}
                       numberOfLines={2}
                     >
-                      {t(`badges.badge_${id}_title`)}
+                      {t(def.nameKey)}
                     </Text>
                     <Text
                       style={[styles.badgeRevealDesc, { color: theme.textSecondary }]}
                       numberOfLines={3}
                     >
-                      {t(`badges.badge_${id}_desc`)}
+                      {t(def.descriptionKey)}
                     </Text>
                   </View>
                 );
@@ -534,35 +521,35 @@ export default function SummaryScreen() {
         <Text style={[styles.motivationalQuote, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
           {t(quoteKey)}
         </Text>
-      </ScrollView>
 
-      {/* Bottom buttons */}
-      <View style={styles.bottomButtons}>
-        <View style={styles.bottomRow}>
-          <TouchableOpacity style={styles.shareButton} onPress={handleShare} activeOpacity={0.7}>
-            <Ionicons name="share-outline" size={20} color={theme.primary} />
-          </TouchableOpacity>
+        {/* Bottom buttons — inside ScrollView so they're always reachable */}
+        <View style={styles.bottomButtons}>
+          <View style={styles.bottomRow}>
+            <TouchableOpacity style={styles.shareButton} onPress={handleShare} activeOpacity={0.7}>
+              <Ionicons name="share-outline" size={20} color={theme.primary} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.repeatButton, { borderColor: theme.primary }]}
+              onPress={handleRepeat}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="repeat-outline" size={18} color={theme.primary} />
+              <Text style={[styles.repeatButtonText, { color: theme.primary, fontSize: fontSize.md }]}>
+                {t('summary.repeat')}
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           <TouchableOpacity
-            style={[styles.repeatButton, { borderColor: theme.primary }]}
-            onPress={handleRepeat}
-            activeOpacity={0.7}
+            style={[styles.doneButton, { backgroundColor: theme.primary }]}
+            onPress={handleDone}
+            activeOpacity={0.8}
           >
-            <Ionicons name="repeat-outline" size={18} color={theme.primary} />
-            <Text style={[styles.repeatButtonText, { color: theme.primary, fontSize: fontSize.md }]}>
-              {t('summary.repeat')}
-            </Text>
+            <Text style={[styles.doneButtonText, { fontSize: fontSize.lg }]}>{t('summary.done')}</Text>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          style={[styles.doneButton, { backgroundColor: theme.primary }]}
-          onPress={handleDone}
-          activeOpacity={0.8}
-        >
-          <Text style={[styles.doneButtonText, { fontSize: fontSize.lg }]}>{t('summary.done')}</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
 
       <BadgeUnlockModal
         badge={currentBadge}
@@ -584,19 +571,39 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.lg,
   },
 
-  // Header
-  headerSection: {
+  // Gradient header
+  headerGradient: {
+    width: SCREEN_WIDTH,
+    alignSelf: 'center',
     alignItems: 'center',
-    marginBottom: SPACING.lg,
+    paddingTop: SPACING.xl,
+    paddingBottom: SPACING.xxl,
+    marginBottom: SPACING.md,
+    marginHorizontal: -SPACING.lg,
   },
   techniqueIconCircle: {
     width: scale(64),
     height: scale(64),
     borderRadius: scale(32),
+    backgroundColor: 'rgba(255,255,255,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.sm,
   },
+  headerTitle: {
+    fontSize: FONT_SIZE.xxl,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  headerSubtitle: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.8)',
+    textAlign: 'center',
+  },
+  // Legacy aliases kept to avoid removing used refs
   title: {
     fontSize: FONT_SIZE.xxl,
     fontFamily: FONTS.bold,
@@ -610,34 +617,27 @@ const styles = StyleSheet.create({
   },
 
   // Stats grid
-  statsGrid: {
+  statsRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: SPACING.sm,
-    justifyContent: 'center',
     width: '100%',
-  },
-  statCard: {
-    width: '45%',
-    paddingVertical: SPACING.md,
-    paddingHorizontal: SPACING.sm,
     borderRadius: BORDER_RADIUS.lg,
-    alignItems: 'center',
+    paddingVertical: SPACING.md,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 8,
     elevation: 2,
   },
-  statCardWide: {
-    width: '94%',
-    paddingVertical: SPACING.sm,
+  statItem: {
+    flex: 1,
+    alignItems: 'center',
   },
-  statIcon: {
-    marginBottom: 2,
+  statDivider: {
+    width: 1,
+    marginVertical: 4,
   },
   statValue: {
-    fontSize: FONT_SIZE.xxl,
+    fontSize: FONT_SIZE.xl,
     fontFamily: FONTS.heavy,
     marginBottom: 2,
   },
@@ -827,15 +827,17 @@ const styles = StyleSheet.create({
 
   // Bottom buttons
   bottomButtons: {
+    width: '100%',
     paddingHorizontal: SPACING.lg,
-    paddingBottom: SPACING.md,
+    paddingTop: SPACING.lg,
+    paddingBottom: SPACING.xl,
   },
   bottomRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: SPACING.md,
-    marginBottom: SPACING.sm,
+    marginBottom: SPACING.lg,
   },
   shareButton: {
     width: scale(44),

@@ -9,6 +9,7 @@ import {
   ViewToken,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -21,29 +22,68 @@ const { width } = Dimensions.get('window');
 
 interface OnboardingPage {
   id: string;
-  type: 'welcome' | 'goal' | 'safety' | 'ready';
+  type: 'hook' | 'goal' | 'value' | 'safety';
 }
 
 const pages: OnboardingPage[] = [
-  { id: '1', type: 'welcome' },
+  { id: '1', type: 'hook' },
   { id: '2', type: 'goal' },
-  { id: '3', type: 'safety' },
-  { id: '4', type: 'ready' },
+  { id: '3', type: 'value' },
+  { id: '4', type: 'safety' },
 ];
 
-const GOAL_OPTIONS: { category: TechniqueCategory; icon: keyof typeof Ionicons.glyphMap; color: string; labelKey: string }[] = [
-  { category: 'calm', icon: 'leaf-outline', color: '#7BC4A8', labelKey: 'category.calm' },
-  { category: 'sleep', icon: 'moon-outline', color: '#7B68AE', labelKey: 'category.sleep' },
-  { category: 'focus', icon: 'eye-outline', color: '#4A90D9', labelKey: 'category.focus' },
-  { category: 'energy', icon: 'flash-outline', color: '#F5A623', labelKey: 'category.energy' },
+const GOAL_OPTIONS: {
+  category: TechniqueCategory;
+  icon: keyof typeof Ionicons.glyphMap;
+  color: string;
+  labelKey: string;
+  subKey: string;
+}[] = [
+  { category: 'calm',   icon: 'leaf-outline',  color: '#7BC4A8', labelKey: 'onboarding.goalCalmLabel',   subKey: 'onboarding.goalCalmSub' },
+  { category: 'sleep',  icon: 'moon-outline',  color: '#7B68AE', labelKey: 'onboarding.goalSleepLabel',  subKey: 'onboarding.goalSleepSub' },
+  { category: 'focus',  icon: 'eye-outline',   color: '#4A90D9', labelKey: 'onboarding.goalFocusLabel',  subKey: 'onboarding.goalFocusSub' },
+  { category: 'energy', icon: 'flash-outline', color: '#F5A623', labelKey: 'onboarding.goalEnergyLabel', subKey: 'onboarding.goalEnergySub' },
 ];
 
-const GOAL_RECOMMENDATIONS: Record<string, string> = {
-  calm: 'onboarding.recommendCalm',
-  sleep: 'onboarding.recommendSleep',
-  focus: 'onboarding.recommendFocus',
-  energy: 'onboarding.recommendEnergy',
+// Personalized value page content per goal
+const PLAN_CONTENT: Record<string, {
+  titleKey: string;
+  benefits: string[];
+  techniqueId: string;
+  techniqueName: string;
+  color: string;
+}> = {
+  calm: {
+    titleKey: 'onboarding.planTitleCalm',
+    benefits: ['onboarding.planCalmB1', 'onboarding.planCalmB2', 'onboarding.planCalmB3'],
+    techniqueId: 'coherence',
+    techniqueName: 'Coherence Breathing',
+    color: '#7FBFDF',
+  },
+  sleep: {
+    titleKey: 'onboarding.planTitleSleep',
+    benefits: ['onboarding.planSleepB1', 'onboarding.planSleepB2', 'onboarding.planSleepB3'],
+    techniqueId: 'fourSevenEight',
+    techniqueName: '4-7-8 Breathing',
+    color: '#7B68AE',
+  },
+  focus: {
+    titleKey: 'onboarding.planTitleFocus',
+    benefits: ['onboarding.planFocusB1', 'onboarding.planFocusB2', 'onboarding.planFocusB3'],
+    techniqueId: 'box',
+    techniqueName: 'Box Breathing',
+    color: '#4A90D9',
+  },
+  energy: {
+    titleKey: 'onboarding.planTitleEnergy',
+    benefits: ['onboarding.planEnergyB1', 'onboarding.planEnergyB2', 'onboarding.planEnergyB3'],
+    techniqueId: 'box',
+    techniqueName: 'Box Breathing',
+    color: '#F5A623',
+  },
 };
+
+const DEFAULT_PLAN = PLAN_CONTENT.focus;
 
 const SAFETY_ITEMS = [
   'onboarding.safety1',
@@ -79,10 +119,26 @@ export default function OnboardingScreen() {
     }
   }, [currentIndex]);
 
-  const finishOnboarding = useCallback(() => {
+  // After onboarding complete → paywall with goal context, then session
+  const finishOnboarding = useCallback((showPaywall = true) => {
     setSetting('onboardingCompleted', true);
-    router.replace('/(tabs)');
-  }, [setSetting]);
+    const plan = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
+    if (showPaywall) {
+      router.replace({
+        pathname: '/paywall',
+        params: {
+          fromOnboarding: '1',
+          goal: selectedGoal ?? 'focus',
+          techniqueId: plan.techniqueId,
+        },
+      });
+    } else {
+      router.replace({
+        pathname: '/session',
+        params: { techniqueId: plan.techniqueId, duration: '120', fromOnboarding: '1' },
+      });
+    }
+  }, [setSetting, selectedGoal]);
 
   const handleGoalSelect = useCallback((category: TechniqueCategory) => {
     setSelectedGoal(category);
@@ -91,21 +147,44 @@ export default function OnboardingScreen() {
 
   const handleSafetyContinue = useCallback(() => {
     setSetting('safetyAccepted', true);
-    goToNext();
-  }, [setSetting, goToNext]);
+    finishOnboarding(true);
+  }, [setSetting, finishOnboarding]);
 
-  // Page 1 — Welcome
-  const renderWelcome = () => (
+  // ─── Page 1 — Hook ────────────────────────────────────────────────────────
+
+  const renderHook = () => (
     <View style={[styles.page, { width }]}>
-      <View style={[styles.iconCircle, { backgroundColor: theme.primary + '15' }]}>
-        <Ionicons name="fitness-outline" size={scale(64)} color={theme.primary} />
-      </View>
-      <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl + 4 }]}>
-        BreathFlow
+      {/* Animated-looking hero gradient circle */}
+      <LinearGradient
+        colors={['#4A90D9', '#7BC4A8']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.heroCircle}
+      >
+        <Ionicons name="body-outline" size={scale(52)} color="rgba(255,255,255,0.9)" />
+      </LinearGradient>
+
+      <Text style={[styles.hookTitle, { color: theme.text, fontSize: fontSize.xxl + 6 }]}>
+        {t('onboarding.hookTitle')}
       </Text>
       <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-        {t('onboarding.welcome')}
+        {t('onboarding.hookSub')}
       </Text>
+
+      {/* Benefit pills */}
+      <View style={styles.benefitRow}>
+        {([
+          { icon: 'leaf-outline' as const, key: 'onboarding.benefitStress', color: '#7BC4A8' },
+          { icon: 'moon-outline' as const, key: 'onboarding.benefitSleep', color: '#7B68AE' },
+          { icon: 'flash-outline' as const, key: 'onboarding.benefitFocus', color: '#4A90D9' },
+        ] as const).map((b) => (
+          <View key={b.key} style={[styles.benefitPill, { backgroundColor: b.color + '18' }]}>
+            <Ionicons name={b.icon} size={16} color={b.color} />
+            <Text style={[styles.benefitPillText, { color: b.color }]}>{t(b.key)}</Text>
+          </View>
+        ))}
+      </View>
+
       <TouchableOpacity
         style={[styles.primaryButton, { backgroundColor: theme.primary }]}
         onPress={goToNext}
@@ -118,12 +197,17 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  // Page 2 — Choose Your Goal
+  // ─── Page 2 — Goal selection ──────────────────────────────────────────────
+
   const renderGoal = () => (
     <View style={[styles.page, { width }]}>
       <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
         {t('onboarding.chooseGoal')}
       </Text>
+      <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.md }]}>
+        {t('onboarding.chooseGoalSub')}
+      </Text>
+
       <View style={styles.goalGrid}>
         {GOAL_OPTIONS.map((goal) => {
           const isSelected = selectedGoal === goal.category;
@@ -133,27 +217,28 @@ export default function OnboardingScreen() {
               style={[
                 styles.goalCard,
                 {
-                  backgroundColor: theme.surface,
-                  borderColor: isSelected ? theme.primary : theme.border,
-                  borderWidth: isSelected ? 2.5 : 1.5,
+                  backgroundColor: isSelected ? goal.color + '18' : theme.surface,
+                  borderColor: isSelected ? goal.color : theme.border,
+                  borderWidth: isSelected ? 2 : 1.5,
                 },
               ]}
               onPress={() => handleGoalSelect(goal.category)}
               activeOpacity={0.7}
             >
-              <Ionicons name={goal.icon} size={40} color={goal.color} />
-              <Text
-                style={[
-                  styles.goalLabel,
-                  { color: isSelected ? theme.primary : theme.text, fontSize: fontSize.md },
-                ]}
-              >
+              <View style={[styles.goalIconCircle, { backgroundColor: goal.color + '20' }]}>
+                <Ionicons name={goal.icon} size={28} color={goal.color} />
+              </View>
+              <Text style={[styles.goalLabel, { color: isSelected ? goal.color : theme.text, fontSize: fontSize.md }]}>
                 {t(goal.labelKey)}
+              </Text>
+              <Text style={[styles.goalSub, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
+                {t(goal.subKey)}
               </Text>
             </TouchableOpacity>
           );
         })}
       </View>
+
       <TouchableOpacity
         style={[styles.primaryButton, { backgroundColor: theme.primary }]}
         onPress={goToNext}
@@ -171,31 +256,94 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  // Page 3 — Safety Warning
+  // ─── Page 3 — Value Proof (personalized) ──────────────────────────────────
+
+  const renderValue = () => {
+    const plan = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
+
+    return (
+      <View style={[styles.page, { width }]}>
+        {/* Personalized badge */}
+        <View style={[styles.planBadge, { backgroundColor: plan.color + '18' }]}>
+          <Ionicons name="checkmark-circle" size={14} color={plan.color} />
+          <Text style={[styles.planBadgeText, { color: plan.color }]}>
+            {t('onboarding.planBadge')}
+          </Text>
+        </View>
+
+        <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
+          {t(plan.titleKey)}
+        </Text>
+
+        {/* Benefit list */}
+        <View style={styles.benefitList}>
+          {plan.benefits.map((key) => (
+            <View key={key} style={[styles.benefitListRow, { backgroundColor: theme.surface }]}>
+              <View style={[styles.benefitDot, { backgroundColor: plan.color }]} />
+              <Text style={[styles.benefitListText, { color: theme.text, fontSize: fontSize.sm }]}>
+                {t(key)}
+              </Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Technique preview card */}
+        <View style={[styles.techniquePreview, { backgroundColor: theme.surface, borderColor: plan.color + '40' }]}>
+          <Text style={[styles.techniquePreviewLabel, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
+            {t('onboarding.yourTechnique')}
+          </Text>
+          <View style={styles.techniquePreviewRow}>
+            <LinearGradient
+              colors={[plan.color + '60', plan.color]}
+              style={styles.techniquePreviewIcon}
+            >
+              <Ionicons name="radio-outline" size={20} color="#FFFFFF" />
+            </LinearGradient>
+            <Text style={[styles.techniquePreviewName, { color: theme.text, fontSize: fontSize.md }]}>
+              {plan.techniqueName}
+            </Text>
+          </View>
+        </View>
+
+        <Text style={[styles.scienceBadge, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
+          {t('onboarding.scienceBacked')}
+        </Text>
+
+        <TouchableOpacity
+          style={[styles.primaryButton, { backgroundColor: theme.primary }]}
+          onPress={goToNext}
+          activeOpacity={0.8}
+        >
+          <Text style={[styles.primaryButtonText, { fontSize: fontSize.lg }]}>
+            {t('onboarding.continue')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  // ─── Page 4 — Safety ──────────────────────────────────────────────────────
+
   const renderSafety = () => (
     <View style={[styles.page, { width }]}>
-      <Ionicons
-        name="warning-outline"
-        size={scale(48)}
-        color={theme.primary}
-        style={styles.safetyIcon}
-      />
+      <View style={[styles.safetyIconCircle, { backgroundColor: COLORS.accent + '20' }]}>
+        <Ionicons name="shield-checkmark-outline" size={scale(44)} color={COLORS.accent} />
+      </View>
       <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
         {t('onboarding.safety')}
       </Text>
+
       <View style={styles.safetyList}>
         {SAFETY_ITEMS.map((key, i) => (
           <View key={i} style={[styles.safetyRow, { backgroundColor: theme.surface }]}>
-            <Ionicons name="alert-circle-outline" size={20} color={theme.primary} />
-            <Text
-              style={[styles.safetyText, { color: theme.text, fontSize: fontSize.sm }]}
-              numberOfLines={2}
-            >
+            <Ionicons name="checkmark-circle-outline" size={18} color={COLORS.accent} />
+            <Text style={[styles.safetyText, { color: theme.text, fontSize: fontSize.sm }]} numberOfLines={2}>
               {t(key)}
             </Text>
           </View>
         ))}
       </View>
+
       <TouchableOpacity
         style={styles.checkboxRow}
         onPress={() => setSafetyChecked((prev) => !prev)}
@@ -210,6 +358,7 @@ export default function OnboardingScreen() {
           {t('onboarding.understand')}
         </Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={[
           styles.primaryButton,
@@ -219,70 +368,26 @@ export default function OnboardingScreen() {
         activeOpacity={0.8}
         disabled={!safetyChecked}
       >
-        <Text
-          style={[
-            styles.primaryButtonText,
-            { fontSize: fontSize.lg, opacity: safetyChecked ? 1 : 0.5 },
-          ]}
-        >
-          {t('onboarding.continue')}
+        <Text style={[styles.primaryButtonText, { fontSize: fontSize.lg, opacity: safetyChecked ? 1 : 0.5 }]}>
+          {t('onboarding.startBreathing')}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.skipLink} onPress={() => finishOnboarding(false)}>
+        <Text style={[styles.skipLinkText, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
+          {t('onboarding.skipToApp')}
         </Text>
       </TouchableOpacity>
     </View>
   );
 
-  // Page 4 — Ready!
-  const renderReady = () => {
-    const recommendKey = selectedGoal
-      ? GOAL_RECOMMENDATIONS[selectedGoal]
-      : 'onboarding.recommendDefault';
-
-    return (
-      <View style={[styles.page, { width }]}>
-        <Ionicons
-          name="checkmark-circle-outline"
-          size={scale(72)}
-          color={theme.primary}
-          style={styles.readyIcon}
-        />
-        <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl + 2 }]}>
-          {t('onboarding.ready')}
-        </Text>
-        <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-          {t(recommendKey)}
-        </Text>
-        <TouchableOpacity
-          style={[styles.primaryButton, { backgroundColor: theme.primary }]}
-          onPress={finishOnboarding}
-          activeOpacity={0.8}
-        >
-          <Text style={[styles.primaryButtonText, { fontSize: fontSize.lg }]}>
-            {t('onboarding.startBreathing')}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.skipLink} onPress={finishOnboarding}>
-          <Text
-            style={[styles.skipLinkText, { color: theme.textSecondary, fontSize: fontSize.sm }]}
-          >
-            {t('onboarding.skipToApp')}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
   const renderItem = ({ item }: { item: OnboardingPage }) => {
     switch (item.type) {
-      case 'welcome':
-        return renderWelcome();
-      case 'goal':
-        return renderGoal();
-      case 'safety':
-        return renderSafety();
-      case 'ready':
-        return renderReady();
-      default:
-        return null;
+      case 'hook':   return renderHook();
+      case 'goal':   return renderGoal();
+      case 'value':  return renderValue();
+      case 'safety': return renderSafety();
+      default:       return null;
     }
   };
 
@@ -301,15 +406,16 @@ export default function OnboardingScreen() {
         scrollEnabled={false}
       />
 
+      {/* Dot indicator */}
       <View style={styles.dotsContainer}>
         {pages.map((_, i) => (
           <View
             key={i}
             style={[
               styles.dot,
-              {
-                backgroundColor: i === currentIndex ? theme.primary : theme.border,
-              },
+              i === currentIndex
+                ? { backgroundColor: theme.primary, width: 20 }
+                : { backgroundColor: theme.border },
             ]}
           />
         ))}
@@ -319,9 +425,7 @@ export default function OnboardingScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
   page: {
     flex: 1,
     justifyContent: 'center',
@@ -329,27 +433,53 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.xl,
   },
 
-  // Welcome
-  iconCircle: {
-    width: scale(120),
-    height: scale(120),
-    borderRadius: scale(60),
+  // Hook page
+  heroCircle: {
+    width: scale(110),
+    height: scale(110),
+    borderRadius: scale(55),
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.xl,
   },
+  hookTitle: {
+    fontFamily: FONTS.heavy,
+    textAlign: 'center',
+    marginBottom: SPACING.sm,
+    letterSpacing: -0.5,
+  },
+  benefitRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: SPACING.xl,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  benefitPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: BORDER_RADIUS.full,
+  },
+  benefitPillText: {
+    fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.bold,
+  },
+
+  // Shared
   title: {
     fontSize: FONT_SIZE.xxl,
     fontFamily: FONTS.bold,
     textAlign: 'center',
-    marginBottom: SPACING.md,
+    marginBottom: SPACING.sm,
   },
   subtitle: {
-    fontSize: FONT_SIZE.md,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 22,
     marginBottom: SPACING.xl,
-    paddingHorizontal: SPACING.md,
+    paddingHorizontal: SPACING.xs,
   },
   primaryButton: {
     width: '100%',
@@ -359,12 +489,19 @@ const styles = StyleSheet.create({
     marginTop: SPACING.md,
   },
   primaryButtonText: {
-    color: COLORS.white,
+    color: '#FFFFFF',
     fontSize: FONT_SIZE.lg,
     fontFamily: FONTS.bold,
   },
+  skipLink: {
+    marginTop: SPACING.md,
+    paddingVertical: SPACING.sm,
+  },
+  skipLinkText: {
+    textDecorationLine: 'underline',
+  },
 
-  // Goal
+  // Goal page
   goalGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -376,23 +513,114 @@ const styles = StyleSheet.create({
   goalCard: {
     width: '46%',
     alignItems: 'center',
-    paddingVertical: SPACING.lg,
+    paddingVertical: SPACING.md,
+    paddingHorizontal: SPACING.sm,
     borderRadius: BORDER_RADIUS.lg,
   },
-  goalIcon: {
+  goalIconCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: SPACING.sm,
   },
   goalLabel: {
-    fontFamily: FONTS.semibold,
+    fontFamily: FONTS.bold,
+    textAlign: 'center',
+    marginBottom: 2,
+  },
+  goalSub: {
+    fontFamily: FONTS.regular,
+    textAlign: 'center',
   },
 
-  // Safety
-  safetyIcon: {
+  // Value proof page
+  planBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: BORDER_RADIUS.full,
+    marginBottom: SPACING.md,
+  },
+  planBadgeText: {
+    fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.bold,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  benefitList: {
+    width: '100%',
+    gap: SPACING.xs + 2,
+    marginBottom: SPACING.md,
+  },
+  benefitListRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.md,
+    borderRadius: BORDER_RADIUS.md,
+  },
+  benefitDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginTop: 5,
+  },
+  benefitListText: {
+    flex: 1,
+    lineHeight: 20,
+    fontFamily: FONTS.medium,
+  },
+  techniquePreview: {
+    width: '100%',
+    padding: SPACING.md,
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1.5,
+    marginBottom: SPACING.sm,
+  },
+  techniquePreviewLabel: {
+    fontFamily: FONTS.semibold,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 8,
+  },
+  techniquePreviewRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  techniquePreviewIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  techniquePreviewName: {
+    fontFamily: FONTS.bold,
+  },
+  scienceBadge: {
+    fontFamily: FONTS.medium,
+    marginBottom: SPACING.sm,
+    textAlign: 'center',
+  },
+
+  // Safety page
+  safetyIconCircle: {
+    width: scale(90),
+    height: scale(90),
+    borderRadius: scale(45),
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: SPACING.lg,
   },
   safetyList: {
     width: '100%',
-    gap: SPACING.sm,
+    gap: SPACING.xs + 2,
     marginBottom: SPACING.lg,
   },
   safetyRow: {
@@ -406,6 +634,7 @@ const styles = StyleSheet.create({
   safetyText: {
     flex: 1,
     lineHeight: 20,
+    fontFamily: FONTS.medium,
   },
   checkboxRow: {
     flexDirection: 'row',
@@ -416,33 +645,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.xs,
   },
   checkboxLabel: {
-    fontFamily: FONTS.medium,
-  },
-
-  // Ready
-  readyIcon: {
-    marginBottom: SPACING.lg,
-  },
-
-  // Skip link
-  skipLink: {
-    marginTop: SPACING.md,
-    paddingVertical: SPACING.sm,
-  },
-  skipLinkText: {
-    textDecorationLine: 'underline',
+    fontFamily: FONTS.semibold,
   },
 
   // Dots
   dotsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: SPACING.sm,
+    alignItems: 'center',
+    gap: 6,
     paddingBottom: SPACING.xl,
   },
   dot: {
-    width: 8,
     height: 8,
+    width: 8,
     borderRadius: 4,
   },
 });

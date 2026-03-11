@@ -8,7 +8,7 @@ import {
   Animated,
   Alert,
   PanResponder,
-  Dimensions,
+  ImageBackground,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -22,11 +22,21 @@ import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import { playPhaseTransition, playSessionComplete, playCountdownTick, playVoicePhase, playVoiceStart, playVoiceComplete, releaseAllSessionAudio } from '../src/utils/sessionAudio';
 import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
-import { BreathingCircle } from '../src/components/BreathingCircle';
+import { BreathingMandala } from '../src/components/BreathingMandala';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase, BreathingShape as ShapeType } from '../src/types';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CIRCLE_SIZE = scale(220);
+import type { TechniqueCategory } from '../src/types';
+
+const CIRCLE_SIZE = scale(300);
+
+const BG_IMAGES: Record<TechniqueCategory | 'custom', ReturnType<typeof require>> = {
+  calm:     require('../assets/bg_focus.jpg'),
+  sleep:    require('../assets/bg_sleep.jpg'),
+  focus:    require('../assets/bg_focus.jpg'),
+  energy:   require('../assets/bg_energy.jpg'),
+  advanced: require('../assets/bg_advanced.jpg'),
+  custom:   require('../assets/bg_focus.jpg'),
+};
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -67,7 +77,7 @@ function BreathingShape({
   color: string;
   phaseDuration?: number;
 }) {
-  return <BreathingCircle phase={phase} mode={mode} color={color} phaseDuration={phaseDuration} />;
+  return <BreathingMandala phase={phase} mode={mode} color={color} size={CIRCLE_SIZE} phaseDuration={phaseDuration} />;
 }
 
 // ─── Session Screen ─────────────────────────────────────────────────────────
@@ -188,8 +198,9 @@ export default function SessionScreen() {
     if (prevPhaseRef.current === currentPhaseVal) return;
     prevPhaseRef.current = currentPhaseVal;
 
-    // Sound on phase transitions
-    if (settingsStore.soundEnabled && currentPhaseVal !== 'READY' && currentPhaseVal !== 'DONE' && currentPhaseVal !== 'PAUSED') {
+    // Sound on phase transitions (skip Hold phases)
+    const isHold = currentPhaseVal === 'HOLD_IN' || currentPhaseVal === 'HOLD_OUT';
+    if (settingsStore.soundEnabled && !isHold && currentPhaseVal !== 'READY' && currentPhaseVal !== 'DONE' && currentPhaseVal !== 'PAUSED') {
       playPhaseTransition(settingsStore.soundStyle);
       if (settingsStore.voiceGuidance === 'phases') {
         playVoicePhase();
@@ -422,20 +433,20 @@ export default function SessionScreen() {
     (timerStore.powerPhase === 'RECOVERY' || (timerStore.powerPhase === 'PAUSED' && timerStore.recoveryTimeRemaining > 0)) &&
     timerStore.retentionTimes.length > 0;
 
-  // Gradient colors derived from technique
-  const gradientColors: [string, string, string] = isRetention
-    ? [COLORS.retention, COLORS.retention, COLORS.retention]
-    : [techniqueColor, techniqueColor + 'AA', theme.background];
+  const category = (technique.category ?? 'focus') as TechniqueCategory | 'custom';
+  const bgImage = BG_IMAGES[category];
+  const overlayColor = isRetention ? COLORS.retention : techniqueColor;
 
   // Show countdown overlay
   if (countdown !== null && countdown > 0) {
     return (
-      <LinearGradient
-        colors={[techniqueColor, techniqueColor + 'AA', theme.background]}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={[styles.container, { paddingTop: insets.top }]}
-      >
+      <ImageBackground source={bgImage} style={[styles.container, { paddingTop: insets.top }]} resizeMode="cover">
+        <LinearGradient
+          colors={[overlayColor + 'DD', overlayColor + '99', '#00000088']}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
         <View style={styles.countdownContainer}>
           <Text style={[styles.countdownTechnique, { color: 'rgba(255,255,255,0.8)' }]}>
             {t(technique.nameKey)}
@@ -453,17 +464,22 @@ export default function SessionScreen() {
             {countdown}
           </Animated.Text>
         </View>
-      </LinearGradient>
+      </ImageBackground>
     );
   }
 
   return (
-    <LinearGradient
-      colors={gradientColors}
-      start={{ x: 0.5, y: 0 }}
-      end={{ x: 0.5, y: 1 }}
+    <ImageBackground
+      source={bgImage}
       style={[styles.container, { paddingTop: insets.top + 8, paddingBottom: insets.bottom + 16 }]}
+      resizeMode="cover"
     >
+      <LinearGradient
+        colors={[overlayColor + 'CC', '#00000099', '#000000BB']}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+        style={StyleSheet.absoluteFill}
+      />
       {/* ── Top bar ── */}
       <View style={styles.topBar}>
         <TouchableOpacity
@@ -566,7 +582,7 @@ export default function SessionScreen() {
           </TouchableOpacity>
         ) : null}
       </View>
-    </LinearGradient>
+    </ImageBackground>
   );
 }
 
