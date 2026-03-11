@@ -36,6 +36,10 @@ interface SettingsStore extends UserSettings {
   // Generic setter for any setting
   setSetting: <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => void;
 
+  // Pro access — must be set via these dedicated methods (not setSetting)
+  grantPro: () => void;
+  revokePro: () => void;
+
   // Technique overrides
   setTechniqueOverride: (techniqueId: string, overrides: UserSettings['techniqueOverrides'][string]) => void;
   clearTechniqueOverride: (techniqueId: string) => void;
@@ -97,10 +101,19 @@ export const useSettingsStore = create<SettingsStore>()((set, get) => ({
   },
 
   setSetting: (key, value) => {
-    // isPro should only be set via RevenueCat, not directly
-    if (key === 'isPro') return;
-
     set({ [key]: value } as Partial<SettingsStore>);
+    persist(get());
+    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
+  },
+
+  grantPro: () => {
+    set({ isPro: true });
+    persist(get());
+    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
+  },
+
+  revokePro: () => {
+    set({ isPro: false });
     persist(get());
     import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
   },

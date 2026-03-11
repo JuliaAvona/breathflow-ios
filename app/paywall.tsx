@@ -28,7 +28,7 @@ export default function PaywallScreen() {
   const theme = useThemeColors();
   const fontSize = useFontSize();
   const insets = useSafeAreaInsets();
-  const setSetting = useSettingsStore((s) => s.setSetting);
+  const grantPro = useSettingsStore((s) => s.grantPro);
   const [loading, setLoading] = useState(false);
   const [offering, setOffering] = useState<PurchasesOffering | null>(null);
 
@@ -57,7 +57,7 @@ export default function PaywallScreen() {
     try {
       const { isPro } = await purchasePackage(pkg);
       if (isPro) {
-        setSetting('isPro', true);
+        grantPro();
         router.canGoBack() ? router.back() : router.replace('/(tabs)');
       }
     } catch (e: any) {
@@ -73,7 +73,7 @@ export default function PaywallScreen() {
     try {
       const { isPro } = await restorePurchases();
       if (isPro) {
-        setSetting('isPro', true);
+        grantPro();
         Alert.alert(t('paywall.restoreSuccessTitle'), t('paywall.restoreSuccessMessage'));
         router.canGoBack() ? router.back() : router.replace('/(tabs)');
       } else {

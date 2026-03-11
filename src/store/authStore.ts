@@ -7,7 +7,6 @@ import { logOutRevenueCat } from '../utils/revenueCat';
 import { useSessionsStore } from './sessionsStore';
 import { useSettingsStore } from './settingsStore';
 import { useBadgesStore } from './badgesStore';
-import { useProfileStore } from './profileStore';
 
 const APPLE_REFRESH_TOKEN_KEY = 'breathflow_apple_refresh_token';
 
@@ -240,7 +239,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     // Reset all in-memory Zustand stores
     useSessionsStore.setState({ sessions: [], stats: { totalSessions: 0, totalMinutes: 0, totalBreaths: 0, currentStreak: 0, longestStreak: 0, bestRetention: 0, avgRetention: 0, lastSessionDate: '', favoriteTechniqueId: '', sessionsPerTechnique: {} } });
     useBadgesStore.setState({ unlockedBadges: [] });
-    useProfileStore.getState().update({ weight: 70, age: 30, height: 170 });
 
     // Sign out from Supabase (deletes session from SecureStore)
     try {

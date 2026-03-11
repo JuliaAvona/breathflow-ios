@@ -23,6 +23,12 @@ import { useSettingsStore, useSessionsStore } from '../../src/store';
 import { TECHNIQUES } from '../../src/constants/techniques';
 import { SPACING, BORDER_RADIUS, FONTS, COLORS } from '../../src/constants';
 import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
+import { BreathingCircle } from '../../src/components/BreathingCircle';
+import { BreathingSquare } from '../../src/components/BreathingSquare';
+import { BreathingTriangle } from '../../src/components/BreathingTriangle';
+import { BreathingWave } from '../../src/components/BreathingWave';
+import { BreathingBurst } from '../../src/components/BreathingBurst';
+import { BreathingOval } from '../../src/components/BreathingOval';
 
 // ─── Layout constants ────────────────────────────────────────────────────────
 
@@ -168,6 +174,69 @@ function TechniqueCard({ technique, isPro, t, theme, onPress }: TechniqueCardPro
   );
 }
 
+// ─── Shape preview helper ────────────────────────────────────────────────────
+
+/**
+ * Renders the technique's breathing shape as a live animated preview inside
+ * the detail sheet header gradient.
+ *
+ * Design notes:
+ * - Always uses mode='standard' + phase='INHALE' so every shape component
+ *   runs its expand animation regardless of the technique's real timer mode.
+ *   (Power/Kapalabhati shapes only animate on BREATHING/RAPID_SET in their
+ *   own mode, so passing 'standard' ensures a visible preview for all shapes.)
+ * - The outer View is fixed at PREVIEW_BOX × PREVIEW_BOX with overflow hidden
+ *   so the inner shape (which may be 180–220px) is clipped and scaled without
+ *   affecting the header's layout height.
+ */
+const PREVIEW_BOX = 100;
+
+function TechniqueShapePreview({ technique }: { technique: BreathingTechnique }) {
+  const shapeProps = {
+    phase: 'INHALE' as const,
+    mode: 'standard',           // always standard so INHALE path runs in every component
+    color: 'rgba(255,255,255,0.75)',
+    phaseDuration: 3,
+  };
+
+  let shape: React.ReactElement;
+  switch (technique.shape) {
+    case 'square':   shape = <BreathingSquare   {...shapeProps} />; break;
+    case 'triangle': shape = <BreathingTriangle  {...shapeProps} />; break;
+    case 'wave':     shape = <BreathingWave      {...shapeProps} />; break;
+    case 'burst':    shape = <BreathingBurst     {...shapeProps} />; break;
+    case 'oval':     shape = <BreathingOval      {...shapeProps} />; break;
+    case 'circle':
+    default:         shape = <BreathingCircle    {...shapeProps} />; break;
+  }
+
+  return (
+    // Fixed-size clipping box — prevents the shape's layout dimensions from
+    // expanding the header gradient height.
+    <View style={shapePreviewBoxStyle}>
+      {/* Scale down and center the shape absolutely so it doesn't affect layout */}
+      <View style={shapePreviewInnerStyle} pointerEvents="none">
+        {shape}
+      </View>
+    </View>
+  );
+}
+
+const shapePreviewBoxStyle: import('react-native').ViewStyle = {
+  width: PREVIEW_BOX,
+  height: PREVIEW_BOX,
+  overflow: 'hidden',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const shapePreviewInnerStyle: import('react-native').ViewStyle = {
+  position: 'absolute',
+  transform: [{ scale: 0.42 }],
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 // ─── Technique Detail Sheet ─────────────────────────────────────────────────
 
 interface DetailSheetProps {
@@ -256,7 +325,7 @@ function TechniqueDetailSheet({ technique, visible, onClose, onStart, isPro, t, 
             end={{ x: 1, y: 1 }}
             style={sheetStyles.headerGradient}
           >
-            <Ionicons name={cardTheme.icon} size={48} color="rgba(255,255,255,0.35)" />
+            <TechniqueShapePreview technique={technique} />
             {locked && (
               <View style={sheetStyles.proBadgeSheet}>
                 <Ionicons name="lock-closed" size={12} color="rgba(255,255,255,0.9)" />
@@ -357,11 +426,12 @@ const sheetStyles = StyleSheet.create({
     marginBottom: 8,
   },
   headerGradient: {
-    height: 120,
+    height: 140,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 16,
     borderRadius: 16,
+    overflow: 'hidden',
   },
   proBadgeSheet: {
     position: 'absolute',

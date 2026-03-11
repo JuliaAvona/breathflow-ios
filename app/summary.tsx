@@ -14,7 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import { useSessionsStore, useSettingsStore, useBadgesStore, useAuthStore } from '../src/store';
+import { useSessionsStore, useSettingsStore, useBadgesStore } from '../src/store';
 import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
 import { formatTotalTime } from '../src/utils/time';
 import { writeMindfulSession, isHealthKitAvailable } from '../src/utils/healthKit';
@@ -22,7 +22,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CAT
 import { getTechniqueById } from '../src/constants/techniques';
 import { BadgeUnlockModal } from '../src/components/BadgeUnlockModal';
 import { getRandomQuoteKey } from '../src/constants/motivationalQuotes';
-import { BreathingSession, Mood } from '../src/types';
+import { Mood } from '../src/types';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -119,28 +119,17 @@ export default function SummaryScreen() {
   const theme = useThemeColors();
   const fontSize = useFontSize();
 
-  const params = useLocalSearchParams<{
-    techniqueId: string;
-    totalDuration: string;
-    cyclesCompleted: string;
-    roundsCompleted: string;
-    retentionTimes: string;
-    bestRetention: string;
-    startedAt: string;
-    completed: string;
-    breathsPerRound: string;
-  }>();
+  const params = useLocalSearchParams<{ sessionId: string }>();
 
-  const addSession = useSessionsStore((s) => s.addSession);
   const sessions = useSessionsStore((s) => s.sessions);
   const stats = useSessionsStore((s) => s.stats);
   const healthSyncEnabled = useSettingsStore((s) => s.healthSyncEnabled);
   const settings = useSettingsStore.getState();
   const checkAndUnlock = useBadgesStore((s) => s.checkAndUnlock);
 
-  const sessionCreated = useRef(false);
   const healthSaved = useRef(false);
-  const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`);
+  const sessionId = params.sessionId ?? '';
+  const session = sessions.find((s) => s.id === sessionId);
   const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
   const [newBadgeIds, setNewBadgeIds] = useState<string[]>([]);
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
@@ -150,27 +139,14 @@ export default function SummaryScreen() {
   const [quoteKey] = useState(getRandomQuoteKey);
   const [confettiKey, setConfettiKey] = useState(0);
 
-  const techniqueId = params.techniqueId ?? '';
+  const techniqueId = session?.techniqueId ?? '';
   const technique = getTechniqueById(techniqueId);
-  const totalDuration = Number(params.totalDuration) || 0;
-  const cyclesCompleted = Number(params.cyclesCompleted) || 0;
-  const roundsCompleted = Number(params.roundsCompleted) || 0;
-  const completed = params.completed === 'true' || params.completed === '1';
-  const startedAt = params.startedAt || new Date().toISOString();
-  const breathsPerRound = Number(params.breathsPerRound) || technique?.breathCount || 0;
-
-  const retentionTimes: number[] = (() => {
-    try {
-      if (params.retentionTimes) {
-        return JSON.parse(params.retentionTimes);
-      }
-    } catch {
-      // ignore parse errors
-    }
-    return [];
-  })();
-
-  const bestRetention = Number(params.bestRetention) || (retentionTimes.length > 0 ? Math.max(...retentionTimes) : 0);
+  const totalDuration = session?.totalDuration ?? 0;
+  const cyclesCompleted = session?.cyclesCompleted ?? 0;
+  const roundsCompleted = session?.roundsCompleted ?? 0;
+  const completed = session?.completed ?? false;
+  const retentionTimes = session?.retentionTimes ?? [];
+  const bestRetention = session?.bestRetention ?? (retentionTimes.length > 0 ? Math.max(...retentionTimes) : 0);
   const avgRetention = retentionTimes.length > 0
     ? Math.round(retentionTimes.reduce((a, b) => a + b, 0) / retentionTimes.length)
     : 0;
@@ -178,52 +154,19 @@ export default function SummaryScreen() {
   const isPowerBreathing = technique?.mode === 'power';
   const isPersonalBest = isPowerBreathing && bestRetention > 0 && bestRetention > stats.bestRetention;
 
-  // Create session on mount
-  useEffect(() => {
-    if (sessionCreated.current || !techniqueId) return;
-    sessionCreated.current = true;
-
-    const now = new Date();
-    const session: BreathingSession = {
-      id: sessionId,
-      userId: useAuthStore.getState().user?.id ?? '',
-      date: now.toISOString().split('T')[0],
-      startedAt,
-      completedAt: now.toISOString(),
-      completed,
-      techniqueId,
-      cyclesCompleted,
-      totalDuration,
-      ...(isPowerBreathing && {
-        roundsCompleted,
-        retentionTimes,
-        bestRetention,
-        avgRetention,
-        breathsPerRound,
-      }),
-      moodAfter: null,
-    };
-
-    addSession(session);
-  }, []);
-
   // Save to Apple Health (Mindful Minutes)
   useEffect(() => {
-    if (healthSaved.current || !healthSyncEnabled || !isHealthKitAvailable()) return;
+    if (healthSaved.current || !healthSyncEnabled || !isHealthKitAvailable() || !session) return;
     healthSaved.current = true;
 
-    const session = sessions.find((s) => s.id === sessionId);
-    if (session) {
-      const startDate = new Date(session.startedAt);
-      const endDate = new Date(session.completedAt);
-      const durationMinutes = Math.ceil(session.totalDuration / 60);
-      writeMindfulSession(startDate, endDate, durationMinutes);
-    }
-  }, [sessions, healthSyncEnabled, sessionId]);
+    const startDate = new Date(session.startedAt);
+    const endDate = new Date(session.completedAt);
+    const durationMinutes = Math.ceil(session.totalDuration / 60);
+    writeMindfulSession(startDate, endDate, durationMinutes);
+  }, [healthSyncEnabled, session]);
 
   // Check badges after session is added
   useEffect(() => {
-    const session = sessions.find((s) => s.id === sessionId);
     if (!session) return;
 
     const unlocked = checkAndUnlock(stats, settings, sessions);
@@ -339,7 +282,7 @@ export default function SummaryScreen() {
   // Max retention bar width calculation
   const maxRetention = retentionTimes.length > 0 ? Math.max(...retentionTimes) : 1;
 
-  if (!techniqueId) {
+  if (!session) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
         <Text style={[styles.title, { color: theme.text }]}>{t('summary.sessionNotFound')}</Text>

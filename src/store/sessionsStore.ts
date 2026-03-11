@@ -216,6 +216,17 @@ export const useSessionsStore = create<SessionsStore>((set, get) => ({
     import('../services/syncService').then((m) =>
       m.pushSessions().catch(() => {})
     );
+    // Re-schedule streak protection with the updated streak count
+    import('../utils/notifications').then(async ({ checkNotificationPermissions, scheduleStreakProtection }) => {
+      try {
+        const granted = await checkNotificationPermissions();
+        if (granted && newStats.currentStreak > 0) {
+          await scheduleStreakProtection(newStats.currentStreak);
+        }
+      } catch {
+        // Notification scheduling is best-effort
+      }
+    });
   },
 
   deleteSession: (id) => {

@@ -70,7 +70,11 @@ export default function RootLayout() {
         await identifyUser(authState.user.id).catch(() => {});
       }
       const isProFromRC = await checkSubscriptionStatus().catch(() => false);
-      useSettingsStore.getState().setSetting('isPro', isProFromRC);
+      if (isProFromRC) {
+        useSettingsStore.getState().grantPro();
+      } else {
+        useSettingsStore.getState().revokePro();
+      }
 
       setReady(true);
     };

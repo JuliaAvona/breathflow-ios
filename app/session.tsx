@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useKeepAwake } from 'expo-keep-awake';
 import {
   View,
   Text,
@@ -20,6 +21,7 @@ import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import { playPhaseTransition, playSessionComplete, playCountdownTick, playVoicePhase, playVoiceStart, playVoiceComplete, releaseAllSessionAudio } from '../src/utils/sessionAudio';
+import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
 import { BreathingSquare } from '../src/components/BreathingSquare';
 import { BreathingTriangle } from '../src/components/BreathingTriangle';
 import { BreathingCircle } from '../src/components/BreathingCircle';
@@ -91,10 +93,15 @@ function BreathingShape({
 // ─── Session Screen ─────────────────────────────────────────────────────────
 
 export default function SessionScreen() {
+  useKeepAwake();
   const { t } = useTranslation();
   const theme = useThemeColors();
   const insets = useSafeAreaInsets();
-  const { techniqueId } = useLocalSearchParams<{ techniqueId: string }>();
+  const { techniqueId, duration: durationParam } = useLocalSearchParams<{ techniqueId: string; duration?: string }>();
+
+  // Parse the optional duration param passed by the quick-start hero (in seconds).
+  // Falls back to undefined when not provided, preserving the technique's default behaviour.
+  const requestedDuration = durationParam ? parseInt(durationParam, 10) : undefined;
 
   const timerStore = useTimerStore();
   const settingsStore = useSettingsStore();
@@ -111,6 +118,33 @@ export default function SessionScreen() {
     return settingsStore.techniqueOverrides?.[techniqueId];
   }, [techniqueId, settingsStore.techniqueOverrides]);
 
+  // Compute the technique to actually pass to startSession, incorporating the
+  // optional `duration` navigation param from the quick-start hero.
+  // For duration-based techniques (defaultCycles === 0) we override defaultDuration.
+  // For cycle-based techniques we compute a cycle count from the requested duration.
+  // When no duration param is present nothing changes — both paths are no-ops.
+  const effectiveTechnique = useMemo(() => {
+    if (!technique || !requestedDuration || requestedDuration <= 0) return technique;
+    if (technique.mode !== 'standard') return technique;
+
+    if (technique.defaultCycles === 0) {
+      // Duration-based (e.g. coherence): replace defaultDuration with the user selection
+      return { ...technique, defaultDuration: requestedDuration };
+    }
+
+    // Cycle-based: technique object is unchanged; cycle count is derived below
+    return technique;
+  }, [technique, requestedDuration]);
+
+  // For cycle-based standard techniques, derive a cycle override from the requested duration.
+  const durationDerivedCycles = useMemo(() => {
+    if (!technique || !requestedDuration || requestedDuration <= 0) return undefined;
+    if (technique.mode !== 'standard' || technique.defaultCycles === 0) return undefined;
+    const cycleDur = technique.phases.reduce((sum, p) => sum + p.duration, 0);
+    if (cycleDur <= 0) return undefined;
+    return Math.max(1, Math.round(requestedDuration / cycleDur));
+  }, [technique, requestedDuration]);
+
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [countdown, setCountdown] = useState<number | null>(3);
   const countdownScale = useRef(new Animated.Value(1)).current;
@@ -124,7 +158,16 @@ export default function SessionScreen() {
     if (!technique || countdown === null) return;
     if (countdown <= 0) {
       setCountdown(null);
-      timerStore.startSession(technique, overrides);
+      timerStore.startSession(
+        effectiveTechnique ?? technique,
+        {
+          ...overrides,
+          // For cycle-based techniques pass the cycles derived from the requested duration.
+          // undefined here means startSession keeps its own default — safe for all other paths.
+          cycles: durationDerivedCycles ?? overrides?.cycles,
+        },
+      );
+      startBackgroundAudio();
       if (settingsStore.soundEnabled && settingsStore.voiceGuidance !== 'off') {
         playVoiceStart();
       }
@@ -178,6 +221,13 @@ export default function SessionScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
   }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, settingsStore.soundEnabled, settingsStore.soundStyle, settingsStore.voiceGuidance]);
+
+  // Stop background audio on unmount (safety net for unexpected exits)
+  useEffect(() => {
+    return () => {
+      stopBackgroundAudio();
+    };
+  }, []);
 
   // Tick
   useEffect(() => {
@@ -240,6 +290,7 @@ export default function SessionScreen() {
       breathsPerRound: timerStore.mode === 'power' ? timerStore.targetBreaths : undefined,
     };
 
+    stopBackgroundAudio();
     addSession(session);
     timerStore.reset();
     router.replace({ pathname: '/summary', params: { sessionId: session.id } });
@@ -267,6 +318,7 @@ export default function SessionScreen() {
         style: 'destructive',
         onPress: () => {
           releaseAllSessionAudio();
+          stopBackgroundAudio();
           useTimerStore.getState().stop();
           router.back();
         },
@@ -325,42 +377,60 @@ export default function SessionScreen() {
     return null;
   };
 
-  // Phase countdown
-  const getPhaseCountdown = (): number | null => {
-    if (timerStore.mode === 'standard') return timerStore.phaseTimeRemaining;
+  // Phase elapsed (counts up: 1, 2, 3…)
+  const getPhaseElapsed = (): number | null => {
+    if (timerStore.mode === 'standard') {
+      const dur = technique?.phases[timerStore.currentPhaseIndex]?.duration ?? 0;
+      return dur - timerStore.phaseTimeRemaining;
+    }
     if (timerStore.mode === 'power') {
       if (isRetention) return timerStore.retentionTime;
-      if (timerStore.powerPhase === 'RECOVERY') return timerStore.recoveryTimeRemaining;
+      if (timerStore.powerPhase === 'RECOVERY') {
+        return 15 - timerStore.recoveryTimeRemaining;
+      }
     }
     if (timerStore.mode === 'kapalabhati') {
-      if (timerStore.kapalabhatiPhase === 'RAPID_SET') return timerStore.setTimeRemaining;
-      if (timerStore.kapalabhatiPhase === 'REST') return timerStore.restTimeRemaining;
+      if (timerStore.kapalabhatiPhase === 'RAPID_SET') {
+        const setDur = technique?.setDuration ?? 30;
+        return setDur - timerStore.setTimeRemaining;
+      }
+      if (timerStore.kapalabhatiPhase === 'REST') {
+        const restDur = technique?.restDuration ?? 15;
+        return restDur - timerStore.restTimeRemaining;
+      }
     }
     return null;
   };
 
   // Total remaining
   const getTotalRemaining = (): number => {
-    if (!technique) return 0;
+    if (!effectiveTechnique) return 0;
     if (timerStore.mode === 'standard') {
-      const cycleDur = technique.phases.reduce((sum, p) => sum + p.duration, 0);
-      const totalCycles = timerStore.totalCycles || (technique.defaultDuration ? Math.ceil(technique.defaultDuration / cycleDur) : technique.defaultCycles || 6);
-      const totalSec = technique.defaultDuration ?? cycleDur * totalCycles;
+      const cycleDur = effectiveTechnique.phases.reduce((sum, p) => sum + p.duration, 0);
+      // Prefer the live totalCycles from the store (set by startSession) so that
+      // durationDerivedCycles is reflected once the session has started.
+      const totalCycles =
+        timerStore.totalCycles ||
+        durationDerivedCycles ||
+        (effectiveTechnique.defaultDuration
+          ? Math.ceil(effectiveTechnique.defaultDuration / cycleDur)
+          : effectiveTechnique.defaultCycles || 6);
+      const totalSec = effectiveTechnique.defaultDuration ?? cycleDur * totalCycles;
       return Math.max(0, totalSec - timerStore.totalElapsed);
     }
     if (timerStore.mode === 'power') {
-      const estTotal = (technique.breathCount! * 2 * technique.roundCount! + technique.roundCount! * 90);
+      const estTotal = (effectiveTechnique.breathCount! * 2 * effectiveTechnique.roundCount! + effectiveTechnique.roundCount! * 90);
       return Math.max(0, estTotal - timerStore.totalElapsed);
     }
     if (timerStore.mode === 'kapalabhati') {
-      const estTotal = technique.setCount! * technique.setDuration! + (technique.setCount! - 1) * technique.restDuration!;
+      const estTotal = effectiveTechnique.setCount! * effectiveTechnique.setDuration! + (effectiveTechnique.setCount! - 1) * effectiveTechnique.restDuration!;
       return Math.max(0, estTotal - timerStore.totalElapsed);
     }
     return 0;
   };
 
   const subInfo = getSubInfo();
-  const phaseCountdown = getPhaseCountdown();
+  const phaseCountdown = getPhaseElapsed();
   const totalRemaining = getTotalRemaining();
 
   const currentPhaseDuration = (() => {

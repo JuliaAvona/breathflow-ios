@@ -2,10 +2,9 @@ import { supabase } from '../utils/supabase';
 import { useAuthStore } from '../store/authStore';
 import { useSessionsStore } from '../store/sessionsStore';
 import { useSettingsStore } from '../store/settingsStore';
-import { useProfileStore } from '../store/profileStore';
 import { useBadgesStore } from '../store/badgesStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BreathingSession, UserStats, UserSettings, UserProfile } from '../types';
+import { BreathingSession, UserStats, UserSettings } from '../types';
 
 const LAST_SYNC_KEY = '@breathflow_last_sync';
 
@@ -93,20 +92,6 @@ export async function pushSettings(): Promise<void> {
   });
 }
 
-export async function pushProfile(): Promise<void> {
-  const userId = useAuthStore.getState().user?.id;
-  if (!userId) return;
-
-  const state = useProfileStore.getState();
-  await supabase.from('user_profile').upsert({
-    user_id: userId,
-    weight: state.weight ?? null,
-    age: state.age ?? null,
-    height: state.height ?? null,
-    updated_at: new Date().toISOString(),
-  });
-}
-
 export async function pushBadges(): Promise<void> {
   const userId = useAuthStore.getState().user?.id;
   if (!userId) return;
@@ -130,7 +115,6 @@ export async function pushAll(): Promise<void> {
   await Promise.allSettled([
     pushSessions(),
     pushSettings(),
-    pushProfile(),
     pushBadges(),
   ]);
   await AsyncStorage.setItem(LAST_SYNC_KEY, new Date().toISOString());
@@ -145,7 +129,6 @@ export async function pullAndMerge(): Promise<void> {
   await Promise.allSettled([
     pullSessions(userId),
     pullSettings(userId),
-    pullProfile(userId),
     pullBadges(userId),
   ]);
   await AsyncStorage.setItem(LAST_SYNC_KEY, new Date().toISOString());
@@ -281,22 +264,6 @@ async function pullSettings(userId: string): Promise<void> {
   };
 
   useSettingsStore.setState(mergedSettings);
-}
-
-async function pullProfile(userId: string): Promise<void> {
-  const { data: remote } = await supabase
-    .from('user_profile')
-    .select('*')
-    .eq('user_id', userId)
-    .single();
-
-  if (!remote) return;
-
-  useProfileStore.getState().update({
-    weight: remote.weight ?? undefined,
-    age: remote.age ?? undefined,
-    height: remote.height ?? undefined,
-  });
 }
 
 async function pullBadges(userId: string): Promise<void> {

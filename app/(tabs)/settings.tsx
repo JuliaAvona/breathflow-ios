@@ -91,7 +91,7 @@ const SOUND_STYLE_OPTIONS = [
 const VOICE_GUIDANCE_OPTIONS = [
   { labelKey: 'settings.voiceOff', value: 'off' as const },
   { labelKey: 'settings.voicePhases', value: 'phases' as const },
-  { labelKey: 'settings.voiceCountdown', value: 'countdown' as const },
+  // 'countdown' is not yet implemented (requires numbered voice MP3s / TTS) — hidden until ready
 ];
 
 const DARK_MODE_OPTIONS = [
@@ -253,7 +253,7 @@ export default function SettingsScreen() {
       const { restorePurchases } = await import('../../src/utils/revenueCat');
       const { isPro } = await restorePurchases();
       if (isPro) {
-        settings.setSetting('isPro', true);
+        settings.grantPro();
         Alert.alert(t('common.ok'), t('settings.restoreSuccess'));
       } else {
         Alert.alert(t('common.ok'), t('settings.restoreNone'));
@@ -768,7 +768,7 @@ export default function SettingsScreen() {
         onClose={() => setActivePicker(null)}
       />
 
-      {/* Voice guidance */}
+      {/* Voice guidance — 'countdown' option hidden until TTS/numbered-MP3 support is implemented */}
       <PickerModal<'off' | 'phases' | 'countdown'>
         visible={activePicker === 'voiceGuidance'}
         title={t('settings.voiceGuidance')}
