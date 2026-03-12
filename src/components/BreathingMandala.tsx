@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, View } from 'react-native';
-import Svg, { Circle } from 'react-native-svg';
 import type { TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../types';
 
 // ─── Geometry ───────────────────────────────────────────────────────────────
@@ -17,6 +16,18 @@ const CIRCLES = Array.from({ length: N }, (_, i) => {
 
 const BREATH_EASING = Easing.inOut(Easing.sin);
 
+// ─── Cosine lookup for perfectly smooth IDLE loop ───────────────────────────
+// A linear 0→1 animation fed through these tables creates a cosine wave:
+// derivative is 0 at both t=0 and t=1, so the loop restart is invisible.
+const COS_STEPS = 32;
+const COS_INPUT = Array.from({ length: COS_STEPS + 1 }, (_, i) => i / COS_STEPS);
+function cosineRange(from: number, to: number) {
+  return COS_INPUT.map(t => from + (to - from) * (1 - Math.cos(2 * Math.PI * t)) / 2);
+}
+const IDLE_SCALE_OUT   = cosineRange(0.72, 0.90);
+const IDLE_OPACITY_OUT = cosineRange(0.65, 0.90);
+const IDLE_ORBIT_OUT   = cosineRange(0.60, 0.80);
+
 type AnyPhase = TimerPhase | PowerBreathingPhase | KapalabhatiPhase | 'IDLE';
 
 interface Props {
@@ -30,7 +41,6 @@ interface Props {
 export function BreathingMandala({
   phase = 'IDLE',
   mode = 'standard',
-  color,
   size = 240,
   phaseDuration,
 }: Props) {
@@ -44,6 +54,8 @@ export function BreathingMandala({
   const orbitSpread = useRef(new Animated.Value(0.72)).current;
   // --- Opacity ---
   const opacityAnim = useRef(new Animated.Value(0.82)).current;
+  // --- Single linear value for smooth cosine IDLE loop ---
+  const breathCycle = useRef(new Animated.Value(0)).current;
 
   const rotateStr = rotateAnim.interpolate({
     inputRange: [0, 1],
@@ -78,20 +90,17 @@ export function BreathingMandala({
 
     if (phase === 'IDLE' || phase === 'READY') {
       startRotation(14000);
-      // Gentle idle pulse
+      // Cosine-wave idle pulse — single linear 0→1 loop so the restart is seamless:
+      // cosine derivative is 0 at both t=0 and t=1, meaning zero velocity AND zero
+      // acceleration at the loop boundary → no snap.
+      breathCycle.setValue(0);
       const loop = Animated.loop(
-        Animated.sequence([
-          Animated.parallel([
-            Animated.timing(outerScale,  { toValue: 0.90, duration: 2800, easing: BREATH_EASING, useNativeDriver: true }),
-            Animated.timing(orbitSpread, { toValue: 0.80, duration: 2800, easing: BREATH_EASING, useNativeDriver: false }),
-            Animated.timing(opacityAnim, { toValue: 0.90, duration: 2800, useNativeDriver: true }),
-          ]),
-          Animated.parallel([
-            Animated.timing(outerScale,  { toValue: 0.72, duration: 2800, easing: BREATH_EASING, useNativeDriver: true }),
-            Animated.timing(orbitSpread, { toValue: 0.60, duration: 2800, easing: BREATH_EASING, useNativeDriver: false }),
-            Animated.timing(opacityAnim, { toValue: 0.65, duration: 2800, useNativeDriver: true }),
-          ]),
-        ]),
+        Animated.timing(breathCycle, {
+          toValue: 1,
+          duration: 5600,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
       );
       loop.start();
       return () => loop.stop();
@@ -101,7 +110,7 @@ export function BreathingMandala({
       startRotation(18000);
       Animated.parallel([
         Animated.timing(outerScale,  { toValue: 0.82, duration: 600, easing: BREATH_EASING, useNativeDriver: true }),
-        Animated.timing(orbitSpread, { toValue: 0.70, duration: 600, easing: BREATH_EASING, useNativeDriver: false }),
+        Animated.timing(orbitSpread, { toValue: 0.70, duration: 600, easing: BREATH_EASING, useNativeDriver: true }),
         Animated.timing(opacityAnim, { toValue: 0.75, duration: 600, useNativeDriver: true }),
       ]).start();
       return;
@@ -112,7 +121,7 @@ export function BreathingMandala({
         startRotation(9000); // faster on inhale
         Animated.parallel([
           Animated.timing(outerScale,  { toValue: 1.06, duration: dur, easing: BREATH_EASING, useNativeDriver: true }),
-          Animated.timing(orbitSpread, { toValue: 1.0,  duration: dur, easing: BREATH_EASING, useNativeDriver: false }),
+          Animated.timing(orbitSpread, { toValue: 1.0,  duration: dur, easing: BREATH_EASING, useNativeDriver: true }),
           Animated.timing(opacityAnim, { toValue: 1.0,  duration: dur, useNativeDriver: true }),
         ]).start();
       } else if (phase === 'HOLD_IN') {
@@ -126,7 +135,7 @@ export function BreathingMandala({
           // scale only slightly (shape stays visible)
           Animated.timing(outerScale,  { toValue: 0.80, duration: dur, easing: BREATH_EASING, useNativeDriver: true }),
           // orbit collapses to 0 → all circles merge into one
-          Animated.timing(orbitSpread, { toValue: 0.0,  duration: dur, easing: BREATH_EASING, useNativeDriver: false }),
+          Animated.timing(orbitSpread, { toValue: 0.0,  duration: dur, easing: BREATH_EASING, useNativeDriver: true }),
           Animated.timing(opacityAnim, { toValue: 0.70, duration: dur, useNativeDriver: true }),
         ]).start();
       } else if (phase === 'HOLD_OUT') {
@@ -142,12 +151,12 @@ export function BreathingMandala({
           Animated.sequence([
             Animated.parallel([
               Animated.timing(outerScale,  { toValue: 1.1,  duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
-              Animated.timing(orbitSpread, { toValue: 1.0,  duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: false }),
+              Animated.timing(orbitSpread, { toValue: 1.0,  duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
               Animated.timing(opacityAnim, { toValue: 1.0,  duration: 320, useNativeDriver: true }),
             ]),
             Animated.parallel([
               Animated.timing(outerScale,  { toValue: 0.70, duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
-              Animated.timing(orbitSpread, { toValue: 0.0,  duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: false }),
+              Animated.timing(orbitSpread, { toValue: 0.0,  duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
               Animated.timing(opacityAnim, { toValue: 0.55, duration: 320, useNativeDriver: true }),
             ]),
           ]),
@@ -158,14 +167,14 @@ export function BreathingMandala({
         startRotation(22000);
         Animated.parallel([
           Animated.timing(outerScale,  { toValue: 0.65, duration: 900, easing: BREATH_EASING, useNativeDriver: true }),
-          Animated.timing(orbitSpread, { toValue: 0.0,  duration: 900, easing: BREATH_EASING, useNativeDriver: false }),
+          Animated.timing(orbitSpread, { toValue: 0.0,  duration: 900, easing: BREATH_EASING, useNativeDriver: true }),
           Animated.timing(opacityAnim, { toValue: 0.48, duration: 900, useNativeDriver: true }),
         ]).start();
       } else if (phase === 'RECOVERY') {
         startRotation(9000);
         Animated.parallel([
           Animated.timing(outerScale,  { toValue: 1.1,  duration: 1600, easing: BREATH_EASING, useNativeDriver: true }),
-          Animated.timing(orbitSpread, { toValue: 1.0,  duration: 1600, easing: BREATH_EASING, useNativeDriver: false }),
+          Animated.timing(orbitSpread, { toValue: 1.0,  duration: 1600, easing: BREATH_EASING, useNativeDriver: true }),
           Animated.timing(opacityAnim, { toValue: 1.0,  duration: 1600, useNativeDriver: true }),
         ]).start();
       }
@@ -176,11 +185,11 @@ export function BreathingMandala({
           Animated.sequence([
             Animated.parallel([
               Animated.timing(outerScale,  { toValue: 1.05, duration: 160, easing: Easing.out(Easing.quad), useNativeDriver: true }),
-              Animated.timing(orbitSpread, { toValue: 1.0,  duration: 160, easing: Easing.out(Easing.quad), useNativeDriver: false }),
+              Animated.timing(orbitSpread, { toValue: 1.0,  duration: 160, easing: Easing.out(Easing.quad), useNativeDriver: true }),
             ]),
             Animated.parallel([
               Animated.timing(outerScale,  { toValue: 0.75, duration: 160, easing: Easing.in(Easing.quad), useNativeDriver: true }),
-              Animated.timing(orbitSpread, { toValue: 0.0,  duration: 160, easing: Easing.in(Easing.quad), useNativeDriver: false }),
+              Animated.timing(orbitSpread, { toValue: 0.0,  duration: 160, easing: Easing.in(Easing.quad), useNativeDriver: true }),
             ]),
           ]),
         );
@@ -190,7 +199,7 @@ export function BreathingMandala({
         startRotation(16000);
         Animated.parallel([
           Animated.timing(outerScale,  { toValue: 0.82, duration: 600, easing: BREATH_EASING, useNativeDriver: true }),
-          Animated.timing(orbitSpread, { toValue: 0.65, duration: 600, easing: BREATH_EASING, useNativeDriver: false }),
+          Animated.timing(orbitSpread, { toValue: 0.65, duration: 600, easing: BREATH_EASING, useNativeDriver: true }),
           Animated.timing(opacityAnim, { toValue: 0.75, duration: 600, useNativeDriver: true }),
         ]).start();
       }
@@ -201,35 +210,33 @@ export function BreathingMandala({
   // ── Render ─────────────────────────────────────────────────────────────────
   const cx = size / 2;
   const cy = size / 2;
-  // Circle radius: each petal = ~30% of half-size
   const R = size * 0.30;
-  // Orbit distance animated: 0 = at center, full = R (circles touch center)
   const orbitFull = size * 0.30;
 
-  // We need orbitSpread as a JS value to pass to SVG cx/cy.
-  // Since orbitSpread is JS-driven (useNativeDriver: false), we can use
-  // Animated.View children with translateX/translateY instead of SVG.
-  // Each petal is an Animated.View circle absolutely positioned.
+  const isIdle = phase === 'IDLE' || phase === 'READY';
+
+  // For IDLE: derive all values from the single cosine-wave breathCycle.
+  // For active phases: use the per-phase outerScale/orbitSpread/opacityAnim.
+  const renderScale   = isIdle ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: IDLE_SCALE_OUT })   : outerScale;
+  const renderOpacity = isIdle ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: IDLE_OPACITY_OUT }) : opacityAnim;
 
   return (
     <Animated.View
       style={{
         width: size,
         height: size,
-        transform: [{ scale: outerScale }, { rotate: rotateStr }],
-        opacity: opacityAnim,
+        transform: [{ scale: renderScale }, { rotate: rotateStr }],
+        opacity: renderOpacity,
       }}
     >
-      {/* Orbit petals — JS-driven position via translateX/translateY */}
+      {/* Orbit petals */}
       {CIRCLES.map((c, i) => {
-        const tx = orbitSpread.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, c.cos * orbitFull],
-        });
-        const ty = orbitSpread.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, c.sin * orbitFull],
-        });
+        const tx = isIdle
+          ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: IDLE_ORBIT_OUT.map(v => v * c.cos * orbitFull) })
+          : orbitSpread.interpolate({ inputRange: [0, 1], outputRange: [0, c.cos * orbitFull] });
+        const ty = isIdle
+          ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: IDLE_ORBIT_OUT.map(v => v * c.sin * orbitFull) })
+          : orbitSpread.interpolate({ inputRange: [0, 1], outputRange: [0, c.sin * orbitFull] });
         return (
           <Animated.View
             key={i}
@@ -238,10 +245,10 @@ export function BreathingMandala({
               width: R * 2,
               height: R * 2,
               borderRadius: R,
-              backgroundColor: color,
-              opacity: 0.38,
-              borderWidth: 1.5,
-              borderColor: color,
+              backgroundColor: 'rgba(255, 255, 255, 0.25)',
+              opacity: 0.6,
+              borderWidth: 0.2,
+              borderColor: 'rgba(255,255,255,0.55)',
               left: cx - R,
               top: cy - R,
               transform: [{ translateX: tx }, { translateY: ty }],
@@ -250,15 +257,14 @@ export function BreathingMandala({
         );
       })}
 
-      {/* Center circle — always visible, slightly brighter */}
+      {/* Center circle */}
       <View
         style={{
           position: 'absolute',
           width: R * 1.4,
           height: R * 1.4,
           borderRadius: R * 0.7,
-          backgroundColor: color,
-          opacity: 0.62,
+          backgroundColor: 'rgba(255,255,255,0.28)',
           left: cx - R * 0.7,
           top: cy - R * 0.7,
         }}
@@ -270,8 +276,7 @@ export function BreathingMandala({
           width: R * 0.6,
           height: R * 0.6,
           borderRadius: R * 0.3,
-          backgroundColor: color,
-          opacity: 0.90,
+          backgroundColor: 'rgba(255,255,255,0.70)',
           left: cx - R * 0.3,
           top: cy - R * 0.3,
         }}

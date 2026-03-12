@@ -29,13 +29,26 @@ import type { TechniqueCategory } from '../src/types';
 
 const CIRCLE_SIZE = scale(300);
 
+const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
+  box:            require('../assets/bg_box.jpg'),
+  fourSevenEight: require('../assets/bg_478.jpg'),
+  physioSigh:     require('../assets/bg_physio_sigh.jpg'),
+  coherence:      require('../assets/bg_coherence.jpg'),
+  triangle:       require('../assets/bg_triangle.jpg'),
+  power:          require('../assets/bg_power.jpg'),
+  fourFourSixTwo: require('../assets/bg_four_four_six_two.jpg'),
+  kapalabhati:    require('../assets/bg_kapalabhati.jpg'),
+  twoToOne:       require('../assets/bg_two_to_one.jpg'),
+  cyclicSigh:     require('../assets/bg_cyclic_sigh.jpg'),
+};
+
 const BG_IMAGES: Record<TechniqueCategory | 'custom', ReturnType<typeof require>> = {
-  calm:     require('../assets/bg_focus.jpg'),
+  calm:     require('../assets/bg_calm.jpg'),
   sleep:    require('../assets/bg_sleep.jpg'),
   focus:    require('../assets/bg_focus.jpg'),
   energy:   require('../assets/bg_energy.jpg'),
   advanced: require('../assets/bg_advanced.jpg'),
-  custom:   require('../assets/bg_focus.jpg'),
+  custom:   require('../assets/bg_custom.jpg'),
 };
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -434,7 +447,7 @@ export default function SessionScreen() {
     timerStore.retentionTimes.length > 0;
 
   const category = (technique.category ?? 'focus') as TechniqueCategory | 'custom';
-  const bgImage = BG_IMAGES[category];
+  const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[category];
   const overlayColor = isRetention ? COLORS.retention : techniqueColor;
 
   // Show countdown overlay

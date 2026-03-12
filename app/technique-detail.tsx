@@ -19,35 +19,38 @@ import { BreathingMandala } from '../src/components/BreathingMandala';
 import { FONTS, BORDER_RADIUS, scale } from '../src/constants';
 import type { TechniqueCategory } from '../src/types';
 
+const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
+  box:            require('../assets/bg_box.jpg'),
+  fourSevenEight: require('../assets/bg_478.jpg'),
+  physioSigh:     require('../assets/bg_physio_sigh.jpg'),
+  coherence:      require('../assets/bg_coherence.jpg'),
+  triangle:       require('../assets/bg_triangle.jpg'),
+  power:          require('../assets/bg_power.jpg'),
+  fourFourSixTwo: require('../assets/bg_four_four_six_two.jpg'),
+  kapalabhati:    require('../assets/bg_kapalabhati.jpg'),
+  twoToOne:       require('../assets/bg_two_to_one.jpg'),
+  cyclicSigh:     require('../assets/bg_cyclic_sigh.jpg'),
+};
+
 const BG_IMAGES: Record<TechniqueCategory | 'custom', ReturnType<typeof require>> = {
-  calm:     require('../assets/bg_focus.jpg'),  // fallback — bg_calm not available
+  calm:     require('../assets/bg_calm.jpg'),
   sleep:    require('../assets/bg_sleep.jpg'),
   focus:    require('../assets/bg_focus.jpg'),
   energy:   require('../assets/bg_energy.jpg'),
   advanced: require('../assets/bg_advanced.jpg'),
-  custom:   require('../assets/bg_focus.jpg'),
+  custom:   require('../assets/bg_custom.jpg'),
 };
 
 // ─── Duration options ──────────────────────────────────────────────────────
 
 const DURATION_OPTIONS = [
   { label: '1 min', value: 60 },
-  { label: '2 min', value: 120 },
   { label: '3 min', value: 180 },
   { label: '5 min', value: 300 },
+  { label: '7 min', value: 420 },
   { label: '10 min', value: 600 },
 ];
 
-// ─── Category background gradients ────────────────────────────────────────
-
-const CATEGORY_GRADIENT: Record<TechniqueCategory | 'custom', [string, string, string]> = {
-  calm:     ['#082010', '#0d3320', '#1a5c3a'],
-  sleep:    ['#07101e', '#0d1a3a', '#1a2d5c'],
-  focus:    ['#071018', '#0d1a30', '#1a3060'],
-  energy:   ['#1e0e05', '#3a1800', '#5c2e00'],
-  advanced: ['#0f0a1e', '#1a0d3a', '#2d1a5c'],
-  custom:   ['#0a0a14', '#141428', '#1e1e3c'],
-};
 
 const CATEGORY_ACCENT: Record<TechniqueCategory | 'custom', string> = {
   calm:     '#7BC4A8',
@@ -61,11 +64,11 @@ const CATEGORY_ACCENT: Record<TechniqueCategory | 'custom', string> = {
 // ─── Category chips (use-cases shown in the detail screen) ────────────────
 
 const CATEGORY_CHIPS: Record<TechniqueCategory | 'custom', string[]> = {
-  calm:     ['Stress', 'Anxiety', 'Tension', 'Worry', 'Overwhelm'],
-  sleep:    ['Insomnia', 'Restlessness', 'Mind Racing', 'Tension', 'Fatigue'],
-  focus:    ['Distraction', 'Brain Fog', 'Fatigue', 'Stress', 'Anxiety'],
-  energy:   ['Low Energy', 'Brain Fog', 'Fatigue', 'Sluggishness', 'Sleepiness'],
-  advanced: ['Stress', 'Low Energy', 'Anxiety', 'Fatigue', 'Tension'],
+  calm:     ['Stress', 'Anxiety', 'Tension'],
+  sleep:    ['Insomnia', 'Mind Racing', 'Restlessness'],
+  focus:    ['Distraction', 'Brain Fog', 'Fatigue'],
+  energy:   ['Low Energy', 'Brain Fog', 'Fatigue'],
+  advanced: ['Stress', 'Low Energy', 'Anxiety'],
   custom:   ['Stress', 'Anxiety', 'Fatigue'],
 };
 
@@ -84,7 +87,7 @@ export default function TechniqueDetailScreen() {
   }, [techniqueId, settingsStore.customTechniques]);
 
   const category = (technique?.category ?? 'calm') as TechniqueCategory | 'custom';
-  const gradientColors = CATEGORY_GRADIENT[category];
+
   const accentColor = technique?.color ?? CATEGORY_ACCENT[category];
   const chips = CATEGORY_CHIPS[category];
 
@@ -125,13 +128,14 @@ export default function TechniqueDetailScreen() {
   }
 
   const isPro = technique.isPro && !settingsStore.isPro;
-  const bgImage = BG_IMAGES[category];
+  const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[category];
 
   return (
     <ImageBackground source={bgImage} style={styles.container} resizeMode="cover">
-      {/* Dark gradient overlay — keeps text readable */}
+      {/* Vignette overlay: dark at top/bottom, transparent in mandala zone */}
       <LinearGradient
-        colors={[gradientColors[0] + 'E6', gradientColors[1] + 'CC', gradientColors[2] + '99']}
+        colors={['#000000DD', '#00000055', '#00000022', '#000000BB', '#000000EE']}
+        locations={[0, 0.2, 0.45, 0.72, 1]}
         style={StyleSheet.absoluteFill}
       />
       <StatusBar barStyle="light-content" />
@@ -163,21 +167,8 @@ export default function TechniqueDetailScreen() {
         />
       </View>
 
-      {/* ── "Breathe to reduce" ── */}
-      <View style={styles.subtitleRow}>
-        <Text style={styles.breatheLabel}>Breathe to reduce</Text>
-        <Text style={[styles.breatheTarget, { color: accentColor }]}>
-          {chips[selectedChip]}
-        </Text>
-      </View>
-
       {/* ── Use-case chips ── */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.chipsContent}
-        style={styles.chipsScroll}
-      >
+      <View style={styles.chipsRow}>
         {chips.map((chip, i) => (
           <TouchableOpacity
             key={chip}
@@ -186,10 +177,10 @@ export default function TechniqueDetailScreen() {
               {
                 backgroundColor: i === selectedChip
                   ? 'rgba(255,255,255,0.95)'
-                  : 'rgba(255,255,255,0.12)',
+                  : 'rgba(255,255,255,0.18)',
                 borderColor: i === selectedChip
                   ? 'rgba(255,255,255,0.95)'
-                  : 'rgba(255,255,255,0.2)',
+                  : 'rgba(255,255,255,0.35)',
               },
             ]}
             onPress={() => setSelectedChip(i)}
@@ -198,14 +189,14 @@ export default function TechniqueDetailScreen() {
             <Text
               style={[
                 styles.chipText,
-                { color: i === selectedChip ? '#000' : 'rgba(255,255,255,0.8)' },
+                { color: i === selectedChip ? '#000' : 'rgba(255,255,255,0.95)' },
               ]}
             >
               {chip}
             </Text>
           </TouchableOpacity>
         ))}
-      </ScrollView>
+      </View>
 
       {/* ── Duration picker ── */}
       <ScrollView
@@ -234,7 +225,7 @@ export default function TechniqueDetailScreen() {
 
       {/* ── Description ── */}
       <View style={styles.descRow}>
-        <Text style={styles.descText} numberOfLines={2}>
+        <Text style={styles.descText}>
           {t(`techniques.${technique.id.replace('fourSevenEight', 'fourSevenEight').replace('physioSigh', 'physioSigh').replace('fourFourSixTwo', 'fourFourSixTwo').replace('cyclicSigh', 'cyclicSigh').replace('twoToOne', 'twoToOne').replace('kapalabhati', 'kapalabhati')}.detail` as never, { defaultValue: t(technique.descriptionKey) })}
         </Text>
       </View>
@@ -313,29 +304,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 8,
   },
-  subtitleRow: {
-    alignItems: 'center',
-    marginBottom: 18,
-    gap: 4,
-  },
-  breatheLabel: {
-    fontSize: 15,
-    fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.6)',
-  },
-  breatheTarget: {
-    fontSize: 22,
-    fontFamily: FONTS.heavy,
-    letterSpacing: -0.5,
-  },
-  chipsScroll: {
-    flexGrow: 0,
-    marginBottom: 20,
-  },
-  chipsContent: {
-    paddingHorizontal: 20,
-    gap: 8,
+  chipsRow: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+    marginBottom: 20,
+    paddingHorizontal: 20,
   },
   chip: {
     paddingHorizontal: 16,
@@ -373,7 +347,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   durationLabelInactive: {
-    color: 'rgba(255,255,255,0.4)',
+    color: 'rgba(255,255,255,0.65)',
   },
   durationDot: {
     width: 5,
@@ -387,7 +361,7 @@ const styles = StyleSheet.create({
   descText: {
     fontSize: 13,
     fontFamily: FONTS.regular,
-    color: 'rgba(255,255,255,0.45)',
+    color: 'rgba(255,255,255,0.70)',
     textAlign: 'center',
     lineHeight: 19,
   },

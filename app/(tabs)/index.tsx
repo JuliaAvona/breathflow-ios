@@ -31,14 +31,29 @@ import { BreathingBurst } from '../../src/components/BreathingBurst';
 import { BreathingOval } from '../../src/components/BreathingOval';
 import { BreathingMandala } from '../../src/components/BreathingMandala';
 
+// Per-technique images (most specific)
+const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
+  box:            require('../../assets/bg_box.jpg'),
+  fourSevenEight: require('../../assets/bg_478.jpg'),
+  physioSigh:     require('../../assets/bg_physio_sigh.jpg'),
+  coherence:      require('../../assets/bg_coherence.jpg'),
+  triangle:       require('../../assets/bg_triangle.jpg'),
+  power:          require('../../assets/bg_power.jpg'),
+  fourFourSixTwo: require('../../assets/bg_four_four_six_two.jpg'),
+  kapalabhati:    require('../../assets/bg_kapalabhati.jpg'),
+  twoToOne:       require('../../assets/bg_two_to_one.jpg'),
+  cyclicSigh:     require('../../assets/bg_cyclic_sigh.jpg'),
+};
+
+// Category fallbacks
 const BG_IMAGES: Record<TechniqueCategory | 'custom' | 'all', ReturnType<typeof require>> = {
   all:      require('../../assets/bg_focus.jpg'),
-  calm:     require('../../assets/bg_focus.jpg'),
+  calm:     require('../../assets/bg_calm.jpg'),
   sleep:    require('../../assets/bg_sleep.jpg'),
   focus:    require('../../assets/bg_focus.jpg'),
   energy:   require('../../assets/bg_energy.jpg'),
   advanced: require('../../assets/bg_advanced.jpg'),
-  custom:   require('../../assets/bg_focus.jpg'),
+  custom:   require('../../assets/bg_custom.jpg'),
 };
 
 // ─── Layout constants ────────────────────────────────────────────────────────
@@ -161,6 +176,8 @@ function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: Techn
     icon: (technique.icon ?? SHAPE_ICONS[technique.shape] ?? 'ellipse-outline') as keyof typeof Ionicons.glyphMap,
   };
 
+  const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[(technique.category ?? 'calm') as TechniqueCategory | 'custom' | 'all'];
+
   return (
     <TouchableOpacity
       style={[styles.gridCard, { backgroundColor: '#161e2e' }]}
@@ -169,14 +186,13 @@ function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: Techn
       accessibilityLabel={t(technique.nameKey)}
       accessibilityRole="button"
     >
-      {/* Gradient art area */}
-      <LinearGradient
-        colors={cardTheme.bg}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.gridCardArt}
-      >
-        <Ionicons name={cardTheme.icon} size={36} color="rgba(255,255,255,0.4)" />
+      {/* Nature photo art area */}
+      <ImageBackground source={bgImage} style={styles.gridCardArt} resizeMode="cover">
+        <LinearGradient
+          colors={['rgba(0,0,0,0.40)', 'rgba(0,0,0,0.72)']}
+          style={StyleSheet.absoluteFill}
+        />
+        <Ionicons name={cardTheme.icon} size={36} color="rgba(255,255,255,0.75)" />
 
         {/* PRO lock */}
         {locked && (
@@ -204,7 +220,7 @@ function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: Techn
             </TouchableOpacity>
           </View>
         )}
-      </LinearGradient>
+      </ImageBackground>
 
       {/* Info */}
       <View style={styles.gridCardInfo}>
@@ -212,7 +228,7 @@ function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: Techn
           {t(technique.nameKey)}
         </Text>
         <Text style={[styles.gridCardDuration, { color: 'rgba(255,255,255,0.5)' }]}>
-          {getDurationLabel(technique)}
+          {getPatternString(technique)}
         </Text>
       </View>
     </TouchableOpacity>
