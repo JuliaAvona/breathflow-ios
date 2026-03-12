@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from '../src/store';
-import { getTechniqueById } from '../src/constants/techniques';
+import { getTechniqueById, TECHNIQUES } from '../src/constants/techniques';
 import { BreathingMandala } from '../src/components/BreathingMandala';
 import { FONTS, BORDER_RADIUS, scale } from '../src/constants';
 import type { TechniqueCategory } from '../src/types';
@@ -93,18 +93,23 @@ export default function TechniqueDetailScreen() {
 
   // Default duration: try to pick a DURATION_OPTIONS entry close to technique default
   const getDefaultDuration = () => {
-    if (!technique) return 120;
-    if (technique.defaultDuration) {
-      const closest = DURATION_OPTIONS.reduce((prev, cur) =>
-        Math.abs(cur.value - technique.defaultDuration!) < Math.abs(prev.value - technique.defaultDuration!) ? cur : prev
-      );
-      return closest.value;
-    }
-    return 120;
+    return 300;
   };
 
   const [selectedDuration, setSelectedDuration] = useState(getDefaultDuration);
   const [selectedChip, setSelectedChip] = useState(0);
+
+  const allTechniques = React.useMemo(() => [
+    ...TECHNIQUES,
+    ...(settingsStore.customTechniques ?? []),
+  ], [settingsStore.customTechniques]);
+
+  const currentIndex = allTechniques.findIndex(t => t.id === techniqueId);
+
+  const navigateTo = (index: number) => {
+    const wrapped = (index + allTechniques.length) % allTechniques.length;
+    router.replace({ pathname: '/technique-detail', params: { techniqueId: allTechniques[wrapped].id } });
+  };
 
   const handleStart = () => {
     if (!technique) return;
@@ -140,23 +145,32 @@ export default function TechniqueDetailScreen() {
       />
       <StatusBar barStyle="light-content" />
 
-      {/* ── Top bar ── */}
+      {/* ── Top bar: [spacer] [center: title + PRO] [close] ── */}
       <View style={[styles.topBar, { paddingTop: insets.top + 8 }]}>
-        <TouchableOpacity style={styles.iconBtn} onPress={() => router.back()}>
-          <Ionicons name="chevron-back" size={26} color="#fff" />
-        </TouchableOpacity>
-        <Text style={styles.topTitle} numberOfLines={1}>
-          {t(technique.nameKey)}
-        </Text>
-        <View style={styles.iconBtn}>
+        <View style={styles.topBarSide} />
+        <View style={styles.topTitleRow}>
+          <Text style={styles.topTitle} numberOfLines={1}>
+            {t(technique.nameKey)}
+          </Text>
           {isPro && (
-            <View style={styles.proBadge}>
+            <View style={[styles.proBadge, { marginLeft: 6 }]}>
               <Ionicons name="diamond" size={12} color="#fff" />
               <Text style={styles.proText}>PRO</Text>
             </View>
           )}
         </View>
+        <TouchableOpacity style={styles.topBarSide} onPress={() => router.back()}>
+          <Ionicons name="close" size={18} color="rgba(255,255,255,0.6)" />
+        </TouchableOpacity>
       </View>
+
+      {/* ── Side nav arrows (vertically centered) ── */}
+      <TouchableOpacity style={styles.navArrowLeft} onPress={() => navigateTo(currentIndex - 1)}>
+        <Ionicons name="chevron-back" size={28} color="rgba(255,255,255,0.55)" />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.navArrowRight} onPress={() => navigateTo(currentIndex + 1)}>
+        <Ionicons name="chevron-forward" size={28} color="rgba(255,255,255,0.55)" />
+      </TouchableOpacity>
 
       {/* ── Mandala ── */}
       <View style={styles.mandalaArea}>
@@ -276,8 +290,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  topTitle: {
+  topBarSide: {
+    width: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  topTitleRow: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  navArrow: {
+    padding: 6,
+  },
+  navArrowLeft: {
+    position: 'absolute',
+    left: 8,
+    top: '50%',
+    zIndex: 10,
+    padding: 8,
+  },
+  navArrowRight: {
+    position: 'absolute',
+    right: 8,
+    top: '50%',
+    zIndex: 10,
+    padding: 8,
+  },
+  topTitle: {
     textAlign: 'center',
     fontSize: 18,
     fontFamily: FONTS.bold,
@@ -403,5 +444,19 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  closeBtn: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  closeBtnSpacer: {
+    width: 30,
+    height: 30,
+    marginLeft: 8,
   },
 });
