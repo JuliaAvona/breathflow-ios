@@ -1,12 +1,11 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserSettings, BreathingTechnique } from '../types';
+import { UserSettings } from '../types';
 
 const STORAGE_KEY = '@breathflow_settings';
 
 const DEFAULT_SETTINGS: UserSettings = {
   techniqueOverrides: {},
-  customTechniques: [],
 
   soundEnabled: true,
   soundStyle: 'tone',
@@ -43,11 +42,6 @@ interface SettingsStore extends UserSettings {
   setTechniqueOverride: (techniqueId: string, overrides: UserSettings['techniqueOverrides'][string]) => void;
   clearTechniqueOverride: (techniqueId: string) => void;
 
-  // Custom techniques (Pro)
-  addCustomTechnique: (technique: BreathingTechnique) => void;
-  updateCustomTechnique: (id: string, technique: BreathingTechnique) => void;
-  deleteCustomTechnique: (id: string) => void;
-
   // Hydration
   hydrate: () => Promise<void>;
 }
@@ -56,7 +50,6 @@ interface SettingsStore extends UserSettings {
 function extractSettings(state: SettingsStore): UserSettings {
   return {
     techniqueOverrides: state.techniqueOverrides,
-    customTechniques: state.customTechniques,
     soundEnabled: state.soundEnabled,
     soundStyle: state.soundStyle,
     hapticsEnabled: state.hapticsEnabled,
@@ -128,28 +121,6 @@ export const useSettingsStore = create<SettingsStore>()((set, get) => ({
   clearTechniqueOverride: (techniqueId) => {
     const { [techniqueId]: _, ...rest } = get().techniqueOverrides;
     set({ techniqueOverrides: rest });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
-
-  addCustomTechnique: (technique) => {
-    set({ customTechniques: [...get().customTechniques, technique] });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
-
-  updateCustomTechnique: (id, technique) => {
-    set({
-      customTechniques: get().customTechniques.map(t => (t.id === id ? technique : t)),
-    });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
-
-  deleteCustomTechnique: (id) => {
-    set({
-      customTechniques: get().customTechniques.filter(t => t.id !== id),
-    });
     persist(get());
     import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
   },

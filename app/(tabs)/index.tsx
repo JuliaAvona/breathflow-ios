@@ -10,7 +10,6 @@ import {
   Modal,
   Pressable,
   PanResponder,
-  Alert,
   ImageBackground,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -46,14 +45,12 @@ const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
 };
 
 // Category fallbacks
-const BG_IMAGES: Record<TechniqueCategory | 'custom' | 'all', ReturnType<typeof require>> = {
-  all:      require('../../assets/bg_focus.jpg'),
-  calm:     require('../../assets/bg_calm.jpg'),
-  sleep:    require('../../assets/bg_sleep.jpg'),
-  focus:    require('../../assets/bg_focus.jpg'),
-  energy:   require('../../assets/bg_energy.jpg'),
-  advanced: require('../../assets/bg_advanced.jpg'),
-  custom:   require('../../assets/bg_custom.jpg'),
+const BG_IMAGES: Record<TechniqueCategory | 'all', ReturnType<typeof require>> = {
+  all:    require('../../assets/bg_focus.jpg'),
+  calm:   require('../../assets/bg_calm.jpg'),
+  sleep:  require('../../assets/bg_sleep.jpg'),
+  focus:  require('../../assets/bg_focus.jpg'),
+  energy: require('../../assets/bg_energy.jpg'),
 };
 
 // ─── Layout constants ────────────────────────────────────────────────────────
@@ -86,7 +83,7 @@ const CARD_THEMES: Record<string, CardTheme> = {
 
 // ─── Category tabs ──────────────────────────────────────────────────────────
 
-type FilterCategory = 'all' | TechniqueCategory | 'custom';
+type FilterCategory = 'all' | TechniqueCategory;
 
 const CATEGORY_FILTERS: { key: FilterCategory; labelKey: string }[] = [
   { key: 'all', labelKey: 'home.categoryAll' },
@@ -94,8 +91,6 @@ const CATEGORY_FILTERS: { key: FilterCategory; labelKey: string }[] = [
   { key: 'sleep', labelKey: 'home.categorySleep' },
   { key: 'focus', labelKey: 'home.categoryFocus' },
   { key: 'energy', labelKey: 'home.categoryEnergy' },
-  { key: 'advanced', labelKey: 'home.categoryAdvanced' },
-  { key: 'custom', labelKey: 'home.categoryCustom' },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -176,7 +171,7 @@ function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: Techn
     icon: (technique.icon ?? SHAPE_ICONS[technique.shape] ?? 'ellipse-outline') as keyof typeof Ionicons.glyphMap,
   };
 
-  const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[(technique.category ?? 'calm') as TechniqueCategory | 'custom' | 'all'];
+  const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[technique.category ?? 'calm'];
 
   return (
     <TouchableOpacity
@@ -594,8 +589,6 @@ export default function HomeScreen() {
   const theme = useThemeColors();
   const insets = useSafeAreaInsets();
   const isPro = useSettingsStore((s) => s.isPro);
-  const customTechniques = useSettingsStore((s) => s.customTechniques);
-  const deleteCustomTechnique = useSettingsStore((s) => s.deleteCustomTechnique);
   const selectedGoal = useSettingsStore((s) => s.selectedGoal);
   const stats = useSessionsStore((s) => s.stats);
 
@@ -606,10 +599,9 @@ export default function HomeScreen() {
   const [selectedTechnique, setSelectedTechnique] = useState<BreathingTechnique | null>(null);
 
   const filteredTechniques = useMemo(() => {
-    if (activeCategory === 'custom') return customTechniques ?? [];
     if (activeCategory === 'all') return TECHNIQUES;
     return TECHNIQUES.filter((tech) => tech.category === activeCategory);
-  }, [activeCategory, customTechniques]);
+  }, [activeCategory]);
 
   const handleQuickStart = () => {
     router.push({
@@ -630,24 +622,9 @@ export default function HomeScreen() {
     router.push({ pathname: '/session', params: { techniqueId: technique.id } });
   }, []);
 
-  const handleCustomEdit = useCallback((technique: BreathingTechnique) => {
-    router.push({ pathname: '/custom-technique', params: { editId: technique.id } });
-  }, []);
-
-  const handleCustomDelete = useCallback((technique: BreathingTechnique) => {
-    Alert.alert('Delete technique?', technique.nameKey, [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Delete', style: 'destructive', onPress: () => deleteCustomTechnique(technique.id) },
-    ]);
-  }, [deleteCustomTechnique]);
-
-  // Build grid rows (pairs). In Custom tab append null sentinel = Create Custom card.
-  const gridItems: (BreathingTechnique | null)[] = activeCategory === 'custom'
-    ? [...filteredTechniques, null]
-    : filteredTechniques;
-  const gridRows: (BreathingTechnique | null)[][] = [];
-  for (let i = 0; i < gridItems.length; i += 2) {
-    gridRows.push(gridItems.slice(i, i + 2));
+  const gridRows: BreathingTechnique[][] = [];
+  for (let i = 0; i < filteredTechniques.length; i += 2) {
+    gridRows.push(filteredTechniques.slice(i, i + 2));
   }
 
   const heroBg = BG_IMAGES[activeCategory];
@@ -730,12 +707,7 @@ export default function HomeScreen() {
         </ImageBackground>
 
         {/* ── Category filter tabs ── */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.categoryRow}
-          style={styles.categoryScroll}
-        >
+        <View style={styles.categoryRow}>
           {CATEGORY_FILTERS.map((cat) => {
             const isActive = cat.key === activeCategory;
             return (
@@ -762,46 +734,21 @@ export default function HomeScreen() {
               </TouchableOpacity>
             );
           })}
-        </ScrollView>
+        </View>
 
         {/* ── Technique grid ── */}
         <View style={styles.grid}>
           {gridRows.map((row, rowIndex) => (
             <View key={rowIndex} style={styles.gridRow}>
-              {row.map((tech, _colIndex) =>
-                tech === null ? (
-                  <TouchableOpacity
-                    key="create"
-                    style={[styles.gridCard, { backgroundColor: '#161e2e' }]}
-                    onPress={() => router.push('/custom-technique')}
-                    activeOpacity={0.85}
-                  >
-                    <LinearGradient
-                      colors={['#C8D8F0', '#A0B8E0']}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 1 }}
-                      style={styles.gridCardArt}
-                    >
-                      <Ionicons name="add" size={36} color="rgba(255,255,255,0.6)" />
-                    </LinearGradient>
-                    <View style={styles.gridCardInfo}>
-                      <Text style={[styles.gridCardName, { color: '#FFFFFF' }]} numberOfLines={1}>
-                        {t('home.createCustom')}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                ) : (
-                  <TechniqueCard
-                    key={tech.id}
-                    technique={tech}
-                    isPro={isPro}
-                    t={t}
-                    onPress={handleCardPress}
-                    onEdit={tech.id.startsWith('custom_') ? handleCustomEdit : undefined}
-                    onDelete={tech.id.startsWith('custom_') ? handleCustomDelete : undefined}
-                  />
-                )
-              )}
+              {row.map((tech) => (
+                <TechniqueCard
+                  key={tech.id}
+                  technique={tech}
+                  isPro={isPro}
+                  t={t}
+                  onPress={handleCardPress}
+                />
+              ))}
               {/* Spacer if odd number of cards */}
               {row.length === 1 && <View style={{ width: CARD_WIDTH }} />}
             </View>
@@ -922,13 +869,14 @@ const styles = StyleSheet.create({
   },
 
   // Category filter
-  categoryScroll: {
+  categoryRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 6,
     marginTop: 8,
     marginBottom: 16,
-  },
-  categoryRow: {
     paddingHorizontal: GRID_H_PADDING,
-    gap: 6,
   },
   categoryPill: {
     paddingHorizontal: 12,

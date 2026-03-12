@@ -108,7 +108,7 @@ export const TECHNIQUES: BreathingTechnique[] = [
     id: 'power',
     nameKey: 'techniques.power.name',
     descriptionKey: 'techniques.power.description',
-    category: 'advanced',
+    category: 'energy',
     phases: [
       { type: 'inhale', duration: 1, instructionKey: 'breatheIn' },
       { type: 'exhale', duration: 1, instructionKey: 'breatheOut' },
@@ -130,7 +130,7 @@ export const TECHNIQUES: BreathingTechnique[] = [
     id: 'fourFourSixTwo',
     nameKey: 'techniques.fourFourSixTwo.name',
     descriptionKey: 'techniques.fourFourSixTwo.description',
-    category: 'calm',
+    category: 'focus',
     phases: [
       { type: 'inhale', duration: 4, instructionKey: 'breatheIn' },
       { type: 'holdIn', duration: 4, instructionKey: 'hold' },
@@ -191,7 +191,7 @@ export const TECHNIQUES: BreathingTechnique[] = [
     id: 'cyclicSigh',
     nameKey: 'techniques.cyclicSigh.name',
     descriptionKey: 'techniques.cyclicSigh.description',
-    category: 'calm',
+    category: 'sleep',
     phases: [
       { type: 'inhale', duration: 3, instructionKey: 'breatheIn' },
       { type: 'inhale', duration: 1.5, instructionKey: 'topUpInhale' },

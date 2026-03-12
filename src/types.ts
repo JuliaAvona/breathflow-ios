@@ -29,7 +29,7 @@ export type KapalabhatiPhase =
 export type TimerMode = 'standard' | 'power' | 'kapalabhati';
 
 // Breathing technique category
-export type TechniqueCategory = 'calm' | 'sleep' | 'focus' | 'energy' | 'advanced';
+export type TechniqueCategory = 'calm' | 'sleep' | 'focus' | 'energy';
 
 // Visual shape for breathing animation
 export type BreathingShape = 'square' | 'triangle' | 'circle' | 'wave' | 'burst' | 'oval';
@@ -129,9 +129,6 @@ export interface UserSettings {
     breathsPerRound?: number;    // Power Breathing
     recoveryDuration?: number;   // Power Breathing
   }>;
-
-  // Custom techniques (Pro)
-  customTechniques: BreathingTechnique[];
 
   // Feedback
   soundEnabled: boolean;

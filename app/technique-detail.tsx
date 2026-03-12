@@ -32,13 +32,11 @@ const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
   cyclicSigh:     require('../assets/bg_cyclic_sigh.jpg'),
 };
 
-const BG_IMAGES: Record<TechniqueCategory | 'custom', ReturnType<typeof require>> = {
-  calm:     require('../assets/bg_calm.jpg'),
-  sleep:    require('../assets/bg_sleep.jpg'),
-  focus:    require('../assets/bg_focus.jpg'),
-  energy:   require('../assets/bg_energy.jpg'),
-  advanced: require('../assets/bg_advanced.jpg'),
-  custom:   require('../assets/bg_custom.jpg'),
+const BG_IMAGES: Record<TechniqueCategory, ReturnType<typeof require>> = {
+  calm:   require('../assets/bg_calm.jpg'),
+  sleep:  require('../assets/bg_sleep.jpg'),
+  focus:  require('../assets/bg_focus.jpg'),
+  energy: require('../assets/bg_energy.jpg'),
 };
 
 // ─── Duration options ──────────────────────────────────────────────────────
@@ -52,24 +50,20 @@ const DURATION_OPTIONS = [
 ];
 
 
-const CATEGORY_ACCENT: Record<TechniqueCategory | 'custom', string> = {
-  calm:     '#7BC4A8',
-  sleep:    '#7B68AE',
-  focus:    '#4A90D9',
-  energy:   '#F5A623',
-  advanced: '#9B59B6',
-  custom:   '#64748B',
+const CATEGORY_ACCENT: Record<TechniqueCategory, string> = {
+  calm:   '#7BC4A8',
+  sleep:  '#7B68AE',
+  focus:  '#4A90D9',
+  energy: '#F5A623',
 };
 
 // ─── Category chips (use-cases shown in the detail screen) ────────────────
 
-const CATEGORY_CHIPS: Record<TechniqueCategory | 'custom', string[]> = {
-  calm:     ['Stress', 'Anxiety', 'Tension'],
-  sleep:    ['Insomnia', 'Mind Racing', 'Restlessness'],
-  focus:    ['Distraction', 'Brain Fog', 'Fatigue'],
-  energy:   ['Low Energy', 'Brain Fog', 'Fatigue'],
-  advanced: ['Stress', 'Low Energy', 'Anxiety'],
-  custom:   ['Stress', 'Anxiety', 'Fatigue'],
+const CATEGORY_CHIPS: Record<TechniqueCategory, string[]> = {
+  calm:   ['Stress', 'Anxiety', 'Tension'],
+  sleep:  ['Insomnia', 'Mind Racing', 'Restlessness'],
+  focus:  ['Distraction', 'Brain Fog', 'Fatigue'],
+  energy: ['Low Energy', 'Brain Fog', 'Fatigue'],
 };
 
 // ─── Component ─────────────────────────────────────────────────────────────
@@ -82,11 +76,10 @@ export default function TechniqueDetailScreen() {
 
   const technique = React.useMemo(() => {
     if (!techniqueId) return undefined;
-    const custom = settingsStore.customTechniques?.find((ct) => ct.id === techniqueId);
-    return custom ?? getTechniqueById(techniqueId);
-  }, [techniqueId, settingsStore.customTechniques]);
+    return getTechniqueById(techniqueId);
+  }, [techniqueId]);
 
-  const category = (technique?.category ?? 'calm') as TechniqueCategory | 'custom';
+  const category = (technique?.category ?? 'calm') as TechniqueCategory;
 
   const accentColor = technique?.color ?? CATEGORY_ACCENT[category];
   const chips = CATEGORY_CHIPS[category];
@@ -99,10 +92,7 @@ export default function TechniqueDetailScreen() {
   const [selectedDuration, setSelectedDuration] = useState(getDefaultDuration);
   const [selectedChip, setSelectedChip] = useState(0);
 
-  const allTechniques = React.useMemo(() => [
-    ...TECHNIQUES,
-    ...(settingsStore.customTechniques ?? []),
-  ], [settingsStore.customTechniques]);
+  const allTechniques = TECHNIQUES;
 
   const currentIndex = allTechniques.findIndex(t => t.id === techniqueId);
 

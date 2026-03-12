@@ -42,13 +42,11 @@ const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
   cyclicSigh:     require('../assets/bg_cyclic_sigh.jpg'),
 };
 
-const BG_IMAGES: Record<TechniqueCategory | 'custom', ReturnType<typeof require>> = {
-  calm:     require('../assets/bg_calm.jpg'),
-  sleep:    require('../assets/bg_sleep.jpg'),
-  focus:    require('../assets/bg_focus.jpg'),
-  energy:   require('../assets/bg_energy.jpg'),
-  advanced: require('../assets/bg_advanced.jpg'),
-  custom:   require('../assets/bg_custom.jpg'),
+const BG_IMAGES: Record<TechniqueCategory, ReturnType<typeof require>> = {
+  calm:   require('../assets/bg_calm.jpg'),
+  sleep:  require('../assets/bg_sleep.jpg'),
+  focus:  require('../assets/bg_focus.jpg'),
+  energy: require('../assets/bg_energy.jpg'),
 };
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -112,9 +110,8 @@ export default function SessionScreen() {
 
   const technique = useMemo(() => {
     if (!techniqueId) return undefined;
-    const custom = settingsStore.customTechniques?.find((ct) => ct.id === techniqueId);
-    return custom ?? getTechniqueById(techniqueId);
-  }, [techniqueId, settingsStore.customTechniques]);
+    return getTechniqueById(techniqueId);
+  }, [techniqueId]);
 
   const overrides = useMemo(() => {
     if (!techniqueId) return undefined;
@@ -446,8 +443,7 @@ export default function SessionScreen() {
     (timerStore.powerPhase === 'RECOVERY' || (timerStore.powerPhase === 'PAUSED' && timerStore.recoveryTimeRemaining > 0)) &&
     timerStore.retentionTimes.length > 0;
 
-  const category = (technique.category ?? 'focus') as TechniqueCategory | 'custom';
-  const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[category];
+  const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[technique.category];
   const overlayColor = isRetention ? COLORS.retention : techniqueColor;
 
   // Show countdown overlay
