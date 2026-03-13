@@ -196,7 +196,11 @@ export default function HistoryScreen() {
       >
         {/* ── Hero gradient header ── */}
         <LinearGradient
-          colors={['#4A90D9', '#7FBFDF', theme.background]}
+          colors={
+            theme.isDark
+              ? ['#4A90D9', '#7FBFDF', theme.background]
+              : ['#3A73B0', '#4A90D9', theme.background]
+          }
           start={{ x: 0.5, y: 0 }}
           end={{ x: 0.5, y: 1 }}
           style={[styles.heroArea, { paddingTop: insets.top + 12 }]}
@@ -426,7 +430,7 @@ const styles = StyleSheet.create({
   // Hero stats
   heroStatsRow: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255,255,255,0.18)',
+    backgroundColor: 'rgba(0,0,0,0.15)',
     borderRadius: 20,
     paddingVertical: 16,
     paddingHorizontal: 8,
@@ -444,12 +448,12 @@ const styles = StyleSheet.create({
   heroStatLabel: {
     fontSize: 11,
     fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.7)',
+    color: 'rgba(255,255,255,0.85)',
     textAlign: 'center',
   },
   heroStatDivider: {
     width: 1,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.3)',
     marginVertical: 4,
   },
 

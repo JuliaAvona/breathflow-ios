@@ -159,13 +159,11 @@ interface TechniqueCardProps {
   isPro: boolean;
   t: (key: string) => string;
   onPress: (technique: BreathingTechnique) => void;
-  onEdit?: (technique: BreathingTechnique) => void;
-  onDelete?: (technique: BreathingTechnique) => void;
 }
 
-function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: TechniqueCardProps) {
+function TechniqueCard({ technique, isPro, t, onPress }: TechniqueCardProps) {
+  const theme = useThemeColors();
   const locked = technique.isPro && !isPro;
-  const isCustom = !!onEdit;
   const cardTheme = CARD_THEMES[technique.id] ?? {
     bg: [technique.color + '40', technique.color] as [string, string],
     icon: (technique.icon ?? SHAPE_ICONS[technique.shape] ?? 'ellipse-outline') as keyof typeof Ionicons.glyphMap,
@@ -175,7 +173,7 @@ function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: Techn
 
   return (
     <TouchableOpacity
-      style={[styles.gridCard, { backgroundColor: '#161e2e' }]}
+      style={[styles.gridCard, { backgroundColor: theme.card }]}
       onPress={() => onPress(technique)}
       activeOpacity={0.85}
       accessibilityLabel={t(technique.nameKey)}
@@ -184,7 +182,7 @@ function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: Techn
       {/* Nature photo art area */}
       <ImageBackground source={bgImage} style={styles.gridCardArt} resizeMode="cover">
         <LinearGradient
-          colors={['rgba(0,0,0,0.40)', 'rgba(0,0,0,0.72)']}
+          colors={['rgba(0,0,0,0.30)', 'rgba(0,0,0,0.60)']}
           style={StyleSheet.absoluteFill}
         />
         <Ionicons name={cardTheme.icon} size={36} color="rgba(255,255,255,0.75)" />
@@ -195,34 +193,14 @@ function TechniqueCard({ technique, isPro, t, onPress, onEdit, onDelete }: Techn
             <Ionicons name="lock-closed" size={10} color="rgba(255,255,255,0.9)" />
           </View>
         )}
-
-        {/* Edit / Delete buttons for custom cards */}
-        {isCustom && (
-          <View style={styles.cardActions}>
-            <TouchableOpacity
-              style={styles.cardActionBtn}
-              onPress={(e) => { e.stopPropagation(); onEdit!(technique); }}
-              hitSlop={6}
-            >
-              <Ionicons name="pencil" size={13} color="rgba(255,255,255,0.9)" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.cardActionBtn, styles.cardActionBtnDelete]}
-              onPress={(e) => { e.stopPropagation(); onDelete!(technique); }}
-              hitSlop={6}
-            >
-              <Ionicons name="trash" size={13} color="rgba(255,255,255,0.9)" />
-            </TouchableOpacity>
-          </View>
-        )}
       </ImageBackground>
 
       {/* Info */}
       <View style={styles.gridCardInfo}>
-        <Text style={[styles.gridCardName, { color: '#FFFFFF' }]} numberOfLines={1}>
+        <Text style={[styles.gridCardName, { color: theme.text }]} numberOfLines={1}>
           {t(technique.nameKey)}
         </Text>
-        <Text style={[styles.gridCardDuration, { color: 'rgba(255,255,255,0.5)' }]}>
+        <Text style={[styles.gridCardDuration, { color: theme.textSecondary }]}>
           {getPatternString(technique)}
         </Text>
       </View>
@@ -630,7 +608,7 @@ export default function HomeScreen() {
   const heroBg = BG_IMAGES[activeCategory];
 
   return (
-    <View style={[styles.container, { backgroundColor: '#0a0f1a' }]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -642,7 +620,11 @@ export default function HomeScreen() {
           style={[styles.heroArea, { paddingTop: insets.top + 12 }]}
         >
           <LinearGradient
-            colors={['#000000AA', '#00000055', '#0a0f1aFF']}
+            colors={
+              theme.isDark
+                ? ['#000000AA', '#00000055', `${theme.background}FF`]
+                : ['#00000066', '#00000044', `${theme.background}FF`]
+            }
             start={{ x: 0.5, y: 0 }}
             end={{ x: 0.5, y: 1 }}
             style={StyleSheet.absoluteFill}
@@ -666,7 +648,7 @@ export default function HomeScreen() {
 
           {/* Start button */}
           <TouchableOpacity
-            style={styles.startButton}
+            style={[styles.startButton, { backgroundColor: 'rgba(0,0,0,0.35)' }]}
             onPress={handleQuickStart}
             activeOpacity={0.85}
           >
@@ -717,7 +699,10 @@ export default function HomeScreen() {
                   styles.categoryPill,
                   isActive
                     ? { backgroundColor: theme.primary, borderColor: theme.primary }
-                    : { backgroundColor: 'rgba(255,255,255,0.08)' },
+                    : {
+                        backgroundColor: theme.isDark ? 'rgba(255,255,255,0.08)' : theme.card,
+                        borderColor: theme.isDark ? 'rgba(255,255,255,0.12)' : theme.border,
+                      },
                 ]}
                 onPress={() => setActiveCategory(cat.key)}
                 activeOpacity={0.7}
@@ -725,7 +710,7 @@ export default function HomeScreen() {
                 <Text
                   style={[
                     styles.categoryPillText,
-                    { color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.6)' },
+                    { color: isActive ? '#FFFFFF' : theme.isDark ? 'rgba(255,255,255,0.6)' : theme.textSecondary },
                     isActive && { fontFamily: FONTS.bold },
                   ]}
                 >
@@ -796,7 +781,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: 'rgba(255,255,255,0.25)',
+    backgroundColor: 'rgba(0,0,0,0.3)',
   },
   streakText: { fontSize: 14, fontFamily: FONTS.bold, color: '#FFFFFF' },
 
@@ -810,7 +795,6 @@ const styles = StyleSheet.create({
   startButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.25)',
     borderRadius: BORDER_RADIUS.full,
     paddingVertical: 14,
     paddingHorizontal: 24,
@@ -824,7 +808,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 2,
-    backgroundColor: 'rgba(255,255,255,0.25)',
+    backgroundColor: 'rgba(255,255,255,0.2)',
     borderRadius: BORDER_RADIUS.full,
     paddingHorizontal: 10,
     paddingVertical: 4,
@@ -856,12 +840,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   durationPillActive: {
-    backgroundColor: 'rgba(255,255,255,0.3)',
+    backgroundColor: 'rgba(0,0,0,0.35)',
   },
   durationPillText: {
     fontSize: 14,
     fontFamily: FONTS.semibold,
-    color: 'rgba(255,255,255,0.6)',
+    color: 'rgba(255,255,255,0.7)',
   },
   durationPillTextActive: {
     color: '#FFFFFF',
@@ -883,7 +867,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: BORDER_RADIUS.full,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.12)',
+    borderColor: 'transparent',
   },
   categoryPillText: {
     fontSize: 12,
@@ -942,26 +926,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.15)',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  // Custom card action buttons (edit / delete)
-  cardActions: {
-    position: 'absolute',
-    top: 6,
-    right: 6,
-    flexDirection: 'row',
-    gap: 4,
-  },
-  cardActionBtn: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cardActionBtnDelete: {
-    backgroundColor: 'rgba(200,40,40,0.45)',
   },
 
 });

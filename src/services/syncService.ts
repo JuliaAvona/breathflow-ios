@@ -72,12 +72,10 @@ export async function pushSettings(): Promise<void> {
   await supabase.from('user_settings').upsert({
     user_id: userId,
     technique_overrides: state.techniqueOverrides,
-    custom_techniques: state.customTechniques,
     sound_enabled: state.soundEnabled,
     sound_style: state.soundStyle,
     haptics_enabled: state.hapticsEnabled,
     voice_guidance: state.voiceGuidance,
-    color_theme_id: state.colorThemeId,
     dark_mode: state.darkMode,
     text_size: state.textSize,
     health_sync_enabled: state.healthSyncEnabled,
@@ -245,12 +243,10 @@ async function pullSettings(userId: string): Promise<void> {
   // Remote wins for most fields; onboardingCompleted uses OR merge
   const mergedSettings: Partial<UserSettings> = {
     techniqueOverrides: remote.technique_overrides ?? local.techniqueOverrides,
-    customTechniques: remote.custom_techniques ?? local.customTechniques,
     soundEnabled: remote.sound_enabled,
     soundStyle: remote.sound_style as UserSettings['soundStyle'],
     hapticsEnabled: remote.haptics_enabled,
     voiceGuidance: remote.voice_guidance as UserSettings['voiceGuidance'],
-    colorThemeId: remote.color_theme_id ?? 'ocean',
     darkMode: remote.dark_mode as UserSettings['darkMode'],
     textSize: remote.text_size as UserSettings['textSize'],
     healthSyncEnabled: remote.health_sync_enabled,

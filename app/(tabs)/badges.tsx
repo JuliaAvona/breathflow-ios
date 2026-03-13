@@ -73,7 +73,11 @@ export default function AwardsScreen() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         {/* Gradient Hero */}
         <LinearGradient
-          colors={[COLORS.primary, '#5BA0E8', theme.background]}
+          colors={
+            theme.isDark
+              ? [COLORS.primary, '#5BA0E8', theme.background]
+              : ['#3A73B0', COLORS.primary, theme.background]
+          }
           locations={[0, 0.6, 1]}
           style={[styles.hero, { paddingTop: insets.top + SPACING.sm }]}
         >
@@ -244,7 +248,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: 'rgba(0,0,0,0.15)',
     borderRadius: BORDER_RADIUS.xl,
     paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.md,
@@ -262,12 +266,12 @@ const styles = StyleSheet.create({
   heroStatLabel: {
     fontSize: 11,
     fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.7)',
+    color: 'rgba(255,255,255,0.85)',
   },
   statDivider: {
     width: 1,
     height: scale(30),
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.3)',
   },
 
   // Category sections

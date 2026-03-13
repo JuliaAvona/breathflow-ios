@@ -22,12 +22,10 @@ const mockStats: UserStats = {
 
 const mockSettings: UserSettings = {
   techniqueOverrides: {},
-  customTechniques: [],
   soundEnabled: true,
   soundStyle: 'tone',
   hapticsEnabled: true,
   voiceGuidance: 'off',
-  colorThemeId: 'ocean',
   darkMode: 'system',
   textSize: 'default',
   healthSyncEnabled: false,

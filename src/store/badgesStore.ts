@@ -65,7 +65,7 @@ function evaluateCondition(
         return hour >= 22;
       });
     case 'custom_creator':
-      return settings.customTechniques.length >= 1;
+      return false;
     case 'mood_tracker':
       return sessions.filter((s) => s.moodAfter != null).length >= 7;
     default:
