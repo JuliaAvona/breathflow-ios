@@ -42,11 +42,13 @@ const BG_IMAGES: Record<TechniqueCategory, ReturnType<typeof require>> = {
 // ─── Duration options ──────────────────────────────────────────────────────
 
 const DURATION_OPTIONS = [
-  { label: '1 min', value: 60 },
-  { label: '3 min', value: 180 },
-  { label: '5 min', value: 300 },
-  { label: '7 min', value: 420 },
-  { label: '10 min', value: 600 },
+  { label: '1', value: 60 },
+  { label: '3', value: 180 },
+  { label: '5', value: 300 },
+  { label: '7', value: 420 },
+  { label: '10', value: 600 },
+  { label: '15', value: 900 },
+  { label: '20', value: 1200 },
 ];
 
 

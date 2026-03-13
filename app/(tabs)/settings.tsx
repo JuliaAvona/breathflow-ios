@@ -75,7 +75,6 @@ type PickerType =
   | 'soundStyle'
   | 'voiceGuidance'
   | 'darkMode'
-  | 'textSize'
   | 'reminderTime'
   | 'reminderDays'
   | null;
@@ -97,11 +96,6 @@ const DARK_MODE_OPTIONS = [
   { labelKey: 'settings.darkModeSystem', value: 'system' as const },
   { labelKey: 'settings.darkModeLight', value: 'light' as const },
   { labelKey: 'settings.darkModeDark', value: 'dark' as const },
-];
-
-const TEXT_SIZE_OPTIONS = [
-  { labelKey: 'settings.textSizeDefault', value: 'default' as const },
-  { labelKey: 'settings.textSizeLarge', value: 'large' as const },
 ];
 
 const DAY_KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
@@ -293,11 +287,6 @@ export default function SettingsScreen() {
     return opt ? t(opt.labelKey) : val;
   };
 
-  const textSizeLabel = (val: string): string => {
-    const opt = TEXT_SIZE_OPTIONS.find((o) => o.value === val);
-    return opt ? t(opt.labelKey) : val;
-  };
-
   // ── Render ─────────────────────────────────────────────────────────────
 
   return (
@@ -419,22 +408,6 @@ export default function SettingsScreen() {
             </View>
           </TouchableOpacity>
 
-          {/* Text size picker */}
-          <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
-            onPress={() => { haptics.selection(); setActivePicker('textSize'); }}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-              {t('settings.textSize')}
-            </Text>
-            <View style={styles.pickerValueRow}>
-              <Text style={[styles.pickerValueText, { color: theme.primary }]}>
-                {textSizeLabel(settings.textSize)}
-              </Text>
-              <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-            </View>
-          </TouchableOpacity>
         </View>
 
         {/* ── Reminders ────────────────────────────────────────────────── */}
@@ -749,15 +722,6 @@ export default function SettingsScreen() {
         onClose={() => setActivePicker(null)}
       />
 
-      {/* Text size */}
-      <PickerModal<'default' | 'large'>
-        visible={activePicker === 'textSize'}
-        title={t('settings.textSize')}
-        options={TEXT_SIZE_OPTIONS.map((o) => ({ label: t(o.labelKey), value: o.value }))}
-        selectedValue={settings.textSize}
-        onSelect={(val) => settings.setSetting('textSize', val)}
-        onClose={() => setActivePicker(null)}
-      />
 
       {/* Reminder time */}
       <WheelPickerModal
