@@ -11,7 +11,15 @@ import {
   Pressable,
   PanResponder,
   ImageBackground,
+  Image,
+  LayoutAnimation,
+  UIManager,
+  Platform,
 } from 'react-native';
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -161,7 +169,7 @@ interface TechniqueCardProps {
   onPress: (technique: BreathingTechnique) => void;
 }
 
-function TechniqueCard({ technique, isPro, t, onPress }: TechniqueCardProps) {
+const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, t, onPress }: TechniqueCardProps) {
   const theme = useThemeColors();
   const locked = technique.isPro && !isPro;
   const cardTheme = CARD_THEMES[technique.id] ?? {
@@ -170,17 +178,19 @@ function TechniqueCard({ technique, isPro, t, onPress }: TechniqueCardProps) {
   };
 
   const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[technique.category ?? 'calm'];
+  const handlePress = useCallback(() => onPress(technique), [onPress, technique]);
 
   return (
     <TouchableOpacity
       style={[styles.gridCard, { backgroundColor: theme.card }]}
-      onPress={() => onPress(technique)}
+      onPress={handlePress}
       activeOpacity={0.85}
       accessibilityLabel={t(technique.nameKey)}
       accessibilityRole="button"
     >
       {/* Nature photo art area */}
-      <ImageBackground source={bgImage} style={styles.gridCardArt} resizeMode="cover">
+      <Image source={bgImage} style={styles.gridCardArt} resizeMode="cover" fadeDuration={0} />
+      <View style={[StyleSheet.absoluteFill, styles.gridCardArtOverlay]}>
         <LinearGradient
           colors={['rgba(0,0,0,0.30)', 'rgba(0,0,0,0.60)']}
           style={StyleSheet.absoluteFill}
@@ -193,7 +203,7 @@ function TechniqueCard({ technique, isPro, t, onPress }: TechniqueCardProps) {
             <Ionicons name="lock-closed" size={10} color="rgba(255,255,255,0.9)" />
           </View>
         )}
-      </ImageBackground>
+      </View>
 
       {/* Info */}
       <View style={styles.gridCardInfo}>
@@ -206,7 +216,7 @@ function TechniqueCard({ technique, isPro, t, onPress }: TechniqueCardProps) {
       </View>
     </TouchableOpacity>
   );
-}
+});
 
 // ─── Shape preview helper ────────────────────────────────────────────────────
 
@@ -576,6 +586,11 @@ export default function HomeScreen() {
   );
   const [selectedTechnique, setSelectedTechnique] = useState<BreathingTechnique | null>(null);
 
+  const handleCategoryChange = useCallback((cat: FilterCategory) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setActiveCategory(cat);
+  }, []);
+
   const filteredTechniques = useMemo(() => {
     if (activeCategory === 'all') return TECHNIQUES;
     return TECHNIQUES.filter((tech) => tech.category === activeCategory);
@@ -704,7 +719,7 @@ export default function HomeScreen() {
                         borderColor: theme.isDark ? 'rgba(255,255,255,0.12)' : theme.border,
                       },
                 ]}
-                onPress={() => setActiveCategory(cat.key)}
+                onPress={() => handleCategoryChange(cat.key)}
                 activeOpacity={0.7}
               >
                 <Text
@@ -896,6 +911,12 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   gridCardArt: {
+    width: '100%',
+    height: CARD_WIDTH * 0.65,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  gridCardArtOverlay: {
     height: CARD_WIDTH * 0.65,
     justifyContent: 'center',
     alignItems: 'center',
