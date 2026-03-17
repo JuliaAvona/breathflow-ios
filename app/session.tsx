@@ -354,6 +354,22 @@ export default function SessionScreen() {
   }
 
   const phaseLabel = t(getPhaseLabel(currentPhase));
+  const phaseColor = '#FFFFFF';
+
+  // Fade animation for phase label transitions
+  const phaseLabelOpacity = useRef(new Animated.Value(1)).current;
+  const prevPhaseLabelRef = useRef(phaseLabel);
+  useEffect(() => {
+    if (prevPhaseLabelRef.current !== phaseLabel) {
+      prevPhaseLabelRef.current = phaseLabel;
+      phaseLabelOpacity.setValue(0);
+      Animated.timing(phaseLabelOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [phaseLabel, phaseLabelOpacity]);
 
   // Sub-info
   const getSubInfo = (): string | null => {
@@ -378,38 +394,34 @@ export default function SessionScreen() {
     return null;
   };
 
-  // Phase elapsed (counts up: 1, 2, 3…)
-  const getPhaseElapsed = (): number | null => {
+  // Phase countdown (counts DOWN: 4→3→2→1)
+  const getPhaseCountdown = (): number | null => {
     if (timerStore.mode === 'standard') {
-      const dur = technique?.phases[timerStore.currentPhaseIndex]?.duration ?? 0;
-      return dur - timerStore.phaseTimeRemaining;
+      return timerStore.phaseTimeRemaining;
     }
     if (timerStore.mode === 'power') {
-      if (isRetention) return timerStore.retentionTime;
+      if (isRetention) return timerStore.retentionTime; // retention counts UP
       if (timerStore.powerPhase === 'RECOVERY') {
-        return 15 - timerStore.recoveryTimeRemaining;
+        return timerStore.recoveryTimeRemaining;
       }
     }
     if (timerStore.mode === 'kapalabhati') {
       if (timerStore.kapalabhatiPhase === 'RAPID_SET') {
-        const setDur = technique?.setDuration ?? 30;
-        return setDur - timerStore.setTimeRemaining;
+        return timerStore.setTimeRemaining;
       }
       if (timerStore.kapalabhatiPhase === 'REST') {
-        const restDur = technique?.restDuration ?? 15;
-        return restDur - timerStore.restTimeRemaining;
+        return timerStore.restTimeRemaining;
       }
     }
     return null;
   };
 
-  // Total remaining
+
+  // Total remaining (countdown for session duration)
   const getTotalRemaining = (): number => {
     if (!effectiveTechnique) return 0;
     if (timerStore.mode === 'standard') {
       const cycleDur = effectiveTechnique.phases.reduce((sum, p) => sum + p.duration, 0);
-      // Prefer the live totalCycles from the store (set by startSession) so that
-      // durationDerivedCycles is reflected once the session has started.
       const totalCycles =
         timerStore.totalCycles ||
         durationDerivedCycles ||
@@ -431,8 +443,7 @@ export default function SessionScreen() {
   };
 
   const subInfo = getSubInfo();
-  const phaseCountdown = getPhaseElapsed();
-  const totalRemaining = getTotalRemaining();
+  const phaseCountdown = getPhaseCountdown();
 
   const currentPhaseDuration = (() => {
     if (timerStore.mode !== 'standard' || !technique) return undefined;
@@ -507,7 +518,7 @@ export default function SessionScreen() {
 
         <View style={styles.timerPill}>
           <Text style={styles.timerPillText}>
-            {formatTime(totalRemaining)}
+            {formatTime(getTotalRemaining())}
           </Text>
         </View>
       </View>
@@ -517,7 +528,7 @@ export default function SessionScreen() {
         style={styles.centerContent}
         {...(isRetention ? panResponder.panHandlers : {})}
       >
-        {/* Breathing shape with countdown inside */}
+        {/* Breathing shape */}
         <View style={styles.circleArea}>
           <BreathingShape
             shape={technique?.shape ?? 'circle'}
@@ -526,20 +537,17 @@ export default function SessionScreen() {
             color="rgba(255,255,255,0.2)"
             phaseDuration={currentPhaseDuration}
           />
-
-          {phaseCountdown !== null && (
-            <View style={styles.circleOverlay}>
-              <Text style={styles.circleCountdown}>
-                {Math.ceil(phaseCountdown)}
-              </Text>
-            </View>
-          )}
         </View>
 
-        {/* Phase label below circle */}
-        <Text style={styles.phaseText}>
+        {/* Countdown + phase label below circle */}
+        {phaseCountdown !== null && (
+          <Text style={[styles.countdownNumber, { color: phaseColor }]}>
+            {Math.ceil(phaseCountdown)}
+          </Text>
+        )}
+        <Animated.Text style={[styles.phaseText, { opacity: phaseLabelOpacity, color: phaseColor }]}>
           {phaseLabel}
-        </Text>
+        </Animated.Text>
 
         {/* Sub info */}
         {subInfo && (
@@ -665,12 +673,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  circleCountdown: {
-    fontSize: scale(64),
+  countdownNumber: {
+    fontSize: scale(56),
     fontFamily: FONTS.heavy,
-    color: '#FFFFFF',
     fontVariant: ['tabular-nums'],
     letterSpacing: -2,
+    marginBottom: 4,
   },
 
   // Phase text
