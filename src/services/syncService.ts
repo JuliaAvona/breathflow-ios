@@ -77,7 +77,6 @@ export async function pushSettings(): Promise<void> {
     haptics_enabled: state.hapticsEnabled,
     voice_guidance: state.voiceGuidance,
     dark_mode: state.darkMode,
-    text_size: state.textSize,
     health_sync_enabled: state.healthSyncEnabled,
     reminder_enabled: state.reminderEnabled,
     reminder_time: state.reminderTime,
@@ -99,7 +98,6 @@ export async function pushBadges(): Promise<void> {
     user_id: userId,
     badge_id: b.badgeId,
     unlocked_at: b.unlockedAt,
-    updated_at: new Date().toISOString(),
   }));
 
   if (rows.length > 0) {
@@ -248,7 +246,6 @@ async function pullSettings(userId: string): Promise<void> {
     hapticsEnabled: remote.haptics_enabled,
     voiceGuidance: remote.voice_guidance as UserSettings['voiceGuidance'],
     darkMode: remote.dark_mode as UserSettings['darkMode'],
-    textSize: remote.text_size as UserSettings['textSize'],
     healthSyncEnabled: remote.health_sync_enabled,
     reminderEnabled: remote.reminder_enabled,
     reminderTime: remote.reminder_time,
