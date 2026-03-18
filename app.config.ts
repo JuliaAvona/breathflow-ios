@@ -14,7 +14,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   ios: {
     supportsTablet: false,
-    bundleIdentifier: 'com.breathflow.app',
+    bundleIdentifier: 'com.izbrodin90.breathflow',
     buildNumber: '13',
     usesAppleSignIn: true,
     infoPlist: {
@@ -61,13 +61,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
   ],
+  owner: 'izbrodin90',
   extra: {
     supabaseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
     supabaseAnonKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
     sentryDsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
     revenueCatApiKey: process.env.EXPO_PUBLIC_REVENUECAT_API_KEY,
     eas: {
-      projectId: '84e9dacb-8ba2-432f-8a72-5cad86ceb77a',
+      projectId: '9a72ff2d-fe77-45ed-94c3-b234e8cdb928',
     },
   },
 });

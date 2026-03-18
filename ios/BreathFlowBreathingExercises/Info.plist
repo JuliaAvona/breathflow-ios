@@ -30,7 +30,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>breathflow</string>
-          <string>com.breathflow.app</string>
+          <string>com.izbrodin90.breathflow</string>
         </array>
       </dict>
     </array>
