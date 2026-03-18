@@ -288,9 +288,13 @@ export default function HistoryScreen() {
                   <View style={styles.barChartRow}>
                     {weeklyData.map((week, idx) => {
                       const maxCount = Math.max(...weeklyData.map((w) => w.count), 1);
-                      const barHeight = Math.max(4, (week.count / maxCount) * 80);
+                      const barHeight = Math.max(4, (week.count / maxCount) * 72);
                       return (
                         <View key={idx} style={styles.barCol}>
+                          <Text style={[styles.barValue, { color: theme.text, opacity: week.count > 0 ? 1 : 0 }]}>
+                            {week.count}
+                          </Text>
+                          <View style={{ flex: 1 }} />
                           <View
                             style={[
                               styles.bar,
@@ -303,11 +307,6 @@ export default function HistoryScreen() {
                           <Text style={[styles.barLabel, { color: theme.textSecondary }]}>
                             {week.label}
                           </Text>
-                          {week.count > 0 && (
-                            <Text style={[styles.barValue, { color: theme.text }]}>
-                              {week.count}
-                            </Text>
-                          )}
                         </View>
                       );
                     })}
@@ -603,15 +602,15 @@ const styles = StyleSheet.create({
   },
   barChartRow: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'stretch',
     justifyContent: 'space-between',
-    height: 110,
+    height: 120,
     gap: 4,
   },
   barCol: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
   },
   bar: {
     width: '70%',
@@ -626,8 +625,7 @@ const styles = StyleSheet.create({
   barValue: {
     fontSize: 10,
     fontFamily: FONTS.bold,
-    position: 'absolute',
-    top: -2,
+    marginBottom: 2,
   },
 
   proUpsell: {
