@@ -13,6 +13,8 @@ export default {
   'home.goodEvening': 'Good evening',
   'home.goodNight': 'Good night',
   'home.breathe': 'Breathe',
+  'home.justBreathe': 'Chỉ Cần Thở',
+  'home.min': 'phút',
   'home.programs': 'PROGRAMS',
   'home.categoryAll': 'All',
   'home.categoryCalm': 'Calm',

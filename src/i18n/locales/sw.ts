@@ -13,6 +13,8 @@ export default {
   'home.goodEvening': 'Good evening',
   'home.goodNight': 'Good night',
   'home.breathe': 'Breathe',
+  'home.justBreathe': 'Pumua Tu',
+  'home.min': 'dak',
   'home.programs': 'PROGRAMS',
   'home.categoryAll': 'All',
   'home.categoryCalm': 'Calm',

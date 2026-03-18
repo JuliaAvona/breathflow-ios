@@ -13,6 +13,8 @@ export default {
   'home.goodEvening': '\u665a\u5b89',
   'home.goodNight': '\u665a\u5b89',
   'home.breathe': '\u547c\u5438',
+  'home.justBreathe': '專注呼吸',
+  'home.min': '分鐘',
   'home.programs': '\u8ab2\u7a0b',
   'home.categoryAll': '\u5168\u90e8',
   'home.categoryCalm': '\u5e73\u975c',

@@ -13,6 +13,8 @@ export default {
   'home.goodEvening': 'Dobr\u00fd ve\u010der',
   'home.goodNight': 'Dobrou noc',
   'home.breathe': 'D\u00fdchejte',
+  'home.justBreathe': 'Jen dýchej',
+  'home.min': 'min',
   'home.programs': 'PROGRAMY',
   'home.categoryAll': 'V\u0161e',
   'home.categoryCalm': 'Klid',

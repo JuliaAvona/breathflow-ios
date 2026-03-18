@@ -13,6 +13,8 @@ export default {
   'home.goodEvening': '晚上好',
   'home.goodNight': '晚安',
   'home.breathe': '呼吸',
+  'home.justBreathe': '专注呼吸',
+  'home.min': '分钟',
   'home.programs': '课程',
   'home.categoryAll': '全部',
   'home.categoryCalm': '平静',

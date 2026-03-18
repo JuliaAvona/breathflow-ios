@@ -13,6 +13,8 @@ export default {
   'home.goodEvening': 'こんばんは',
   'home.goodNight': 'おやすみなさい',
   'home.breathe': '呼吸する',
+  'home.justBreathe': 'ただ呼吸する',
+  'home.min': '分',
   'home.programs': 'プログラム',
   'home.categoryAll': 'すべて',
   'home.categoryCalm': 'リラックス',

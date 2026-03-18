@@ -667,11 +667,8 @@ export default function HomeScreen() {
             onPress={handleQuickStart}
             activeOpacity={0.85}
           >
-            <View style={styles.startButtonMinutes}>
-              <Text style={styles.startButtonMinutesText}>{selectedMinutes}</Text>
-            </View>
             <Text style={styles.startButtonLabel}>
-              {t('home.breathe')} {selectedMinutes} min
+              {t('home.justBreathe')} · {selectedMinutes} {t('home.min')}
             </Text>
           </TouchableOpacity>
 

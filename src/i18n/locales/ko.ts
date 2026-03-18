@@ -13,6 +13,8 @@ export default {
   'home.goodEvening': '\uC88B\uC740 \uC800\uB155\uC774\uC5D0\uC694',
   'home.goodNight': '\uD3B8\uC548\uD55C \uBC24 \uB418\uC138\uC694',
   'home.breathe': '\uD638\uD761\uD558\uAE30',
+  'home.justBreathe': '그냥 숨쉬기',
+  'home.min': '분',
   'home.programs': '\uD504\uB85C\uADF8\uB7A8',
   'home.categoryAll': '\uC804\uCCB4',
   'home.categoryCalm': '\uC9C4\uC815',

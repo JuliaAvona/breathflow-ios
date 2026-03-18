@@ -13,6 +13,8 @@ export default {
   'home.goodEvening': 'İyi akşamlar',
   'home.goodNight': 'İyi geceler',
   'home.breathe': 'Nefes Al',
+  'home.justBreathe': 'Sadece Nefes Al',
+  'home.min': 'dk',
   'home.programs': 'PROGRAMLAR',
   'home.categoryAll': 'Tümü',
   'home.categoryCalm': 'Sakinlik',
