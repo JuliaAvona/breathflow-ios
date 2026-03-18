@@ -9,14 +9,14 @@
 // ─── Sound asset sources ────────────────────────────────────────────────────
 
 const SOUNDS = {
-  beep: require('../../assets/percussion-hit-dry-wood.wav'),
-  chime: require('../../assets/japan-cowbell_120bpm_A_minor.wav'),
+  beep: require('../../assets/beep.mp3'),
+  chime: require('../../assets/chime.mp3'),
   chant: require('../../assets/breath-chant-vocal-smooth.wav'),
-  complete: require('../../assets/complete.wav'),
+  complete: require('../../assets/chime.mp3'),
   voiceStart: require('../../assets/ready-british-girl-voice.wav'),
   voiceSwitch: require('../../assets/percussion-hit-wood-rim.wav'),
   voiceBeep: require('../../assets/percussion-hit-rim-3_E_minor.wav'),
-  voiceComplete: require('../../assets/complete.wav'),
+  voiceComplete: require('../../assets/chime.mp3'),
   countdown3: require('../../assets/three-british-girl-voice.wav'),
   countdown2: require('../../assets/two-british-girl-voice.wav'),
   countdown1: require('../../assets/one-british-girl-voice.wav'),

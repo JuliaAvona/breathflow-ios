@@ -20,6 +20,7 @@ import { useTimerStore, useSettingsStore, useSessionsStore } from '../src/store'
 import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
+import { getToday } from '../src/utils/time';
 import { playPhaseTransition, playSessionComplete, playCountdownTick, playVoicePhase, playVoiceStart, playVoiceComplete, releaseAllSessionAudio } from '../src/utils/sessionAudio';
 import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
 import { startMusic, stopMusic, isMusicPlaying } from '../src/utils/sessionMusic';
@@ -277,7 +278,7 @@ export default function SessionScreen() {
     const session: BreathingSession = {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
       userId: '',
-      date: new Date().toISOString().split('T')[0],
+      date: getToday(),
       startedAt: timerStore.startedAt ?? new Date().toISOString(),
       completedAt: new Date().toISOString(),
       completed: true,
