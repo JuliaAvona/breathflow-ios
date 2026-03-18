@@ -34,14 +34,7 @@ export default function HistoryScreen() {
   const hydrate = useSessionsStore((s) => s.hydrate);
   const isPro = useSettingsStore((s) => s.isPro);
 
-  // Free users see last 7 days only
-  const sessions = useMemo(() => {
-    if (isPro) return allSessions;
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 7);
-    const cutoffStr = cutoff.toISOString().split('T')[0];
-    return allSessions.filter((s) => s.date >= cutoffStr);
-  }, [allSessions, isPro]);
+  const sessions = allSessions;
 
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
@@ -287,8 +280,8 @@ export default function HistoryScreen() {
               </View>
             )}
 
-            {/* Weekly sessions chart (Pro) */}
-            {isPro && sessions.length > 0 && (
+            {/* Weekly sessions chart */}
+            {sessions.length > 0 && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.weeklyActivity')}</Text>
                 <View style={[styles.chartCard, { backgroundColor: theme.card }]}>
@@ -321,21 +314,6 @@ export default function HistoryScreen() {
                   </View>
                 </View>
               </View>
-            )}
-
-            {/* Pro upsell for full history */}
-            {!isPro && (
-              <TouchableOpacity
-                style={[styles.proUpsell, { backgroundColor: COLORS.primary + '12' }]}
-                onPress={() => router.push('/paywall')}
-                activeOpacity={0.8}
-              >
-                <Ionicons name="lock-closed" size={16} color={COLORS.primary} />
-                <Text style={[styles.proUpsellText, { color: COLORS.primary }]}>
-                  {t('history.unlockFullHistory')}
-                </Text>
-                <Ionicons name="chevron-forward" size={16} color={COLORS.primary} />
-              </TouchableOpacity>
             )}
 
             {/* All-time stats */}

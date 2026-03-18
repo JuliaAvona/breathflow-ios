@@ -171,8 +171,8 @@ export default function TechniqueDetailScreen() {
             </View>
           )}
         </View>
-        <TouchableOpacity style={styles.topBarSide} onPress={() => router.back()}>
-          <Ionicons name="close" size={18} color="rgba(255,255,255,0.6)" />
+        <TouchableOpacity style={styles.closeBtn} onPress={() => router.back()}>
+          <Ionicons name="close" size={22} color="rgba(255,255,255,0.85)" />
         </TouchableOpacity>
       </View>
 
@@ -539,13 +539,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   closeBtn: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 8,
   },
   closeBtnSpacer: {
     width: 30,
