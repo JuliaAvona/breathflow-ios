@@ -22,6 +22,7 @@ import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import { playPhaseTransition, playSessionComplete, playCountdownTick, playVoicePhase, playVoiceStart, playVoiceComplete, releaseAllSessionAudio } from '../src/utils/sessionAudio';
 import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
+import { startMusic, stopMusic, isMusicPlaying } from '../src/utils/sessionMusic';
 import { BreathingMandala } from '../src/components/BreathingMandala';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase, BreathingShape as ShapeType } from '../src/types';
 
@@ -98,7 +99,8 @@ export default function SessionScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
   const insets = useSafeAreaInsets();
-  const { techniqueId, duration: durationParam } = useLocalSearchParams<{ techniqueId: string; duration?: string }>();
+  const { techniqueId, duration: durationParam, musicId } = useLocalSearchParams<{ techniqueId: string; duration?: string; musicId?: string }>();
+  const [musicOn, setMusicOn] = useState(!!musicId);
 
   // Parse the optional duration param passed by the quick-start hero (in seconds).
   // Falls back to undefined when not provided, preserving the technique's default behaviour.
@@ -168,6 +170,9 @@ export default function SessionScreen() {
         },
       );
       startBackgroundAudio();
+      if (musicId) {
+        startMusic(musicId);
+      }
       if (settingsStore.soundEnabled && settingsStore.voiceGuidance !== 'off') {
         playVoiceStart();
       }
@@ -223,10 +228,11 @@ export default function SessionScreen() {
     }
   }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, settingsStore.soundEnabled, settingsStore.soundStyle, settingsStore.voiceGuidance]);
 
-  // Stop background audio on unmount (safety net for unexpected exits)
+  // Stop background audio + music on unmount
   useEffect(() => {
     return () => {
       stopBackgroundAudio();
+      stopMusic();
     };
   }, []);
 
@@ -292,6 +298,7 @@ export default function SessionScreen() {
     };
 
     stopBackgroundAudio();
+    stopMusic();
     addSession(session);
     timerStore.reset();
     router.replace({ pathname: '/summary', params: { sessionId: session.id } });
@@ -311,6 +318,16 @@ export default function SessionScreen() {
     [],
   );
 
+  const toggleMusic = useCallback(() => {
+    if (musicOn) {
+      stopMusic();
+      setMusicOn(false);
+    } else if (musicId) {
+      startMusic(musicId);
+      setMusicOn(true);
+    }
+  }, [musicOn, musicId]);
+
   const handleStop = useCallback(() => {
     Alert.alert(t('session.stopTitle'), t('session.stopMessage'), [
       { text: t('session.cancel'), style: 'cancel' },
@@ -320,6 +337,7 @@ export default function SessionScreen() {
         onPress: () => {
           releaseAllSessionAudio();
           stopBackgroundAudio();
+          stopMusic();
           useTimerStore.getState().stop();
           router.back();
         },
@@ -581,6 +599,18 @@ export default function SessionScreen() {
 
       {/* ── Bottom controls ── */}
       <View style={styles.controlsRow}>
+        {/* Music toggle (only if music was selected) */}
+        {musicId ? (
+          <TouchableOpacity
+            style={styles.controlBtnSmall}
+            onPress={toggleMusic}
+            activeOpacity={0.8}
+          >
+            <Ionicons name={musicOn ? 'musical-notes' : 'musical-notes-outline'} size={22} color={musicOn ? '#FFFFFF' : 'rgba(255,255,255,0.5)'} />
+          </TouchableOpacity>
+        ) : <View style={styles.controlBtnSmall} />}
+
+        {/* Pause / Resume */}
         {timerStore.isRunning ? (
           <TouchableOpacity
             style={styles.controlBtn}
@@ -597,7 +627,10 @@ export default function SessionScreen() {
           >
             <Ionicons name="play" size={28} color="#FFFFFF" />
           </TouchableOpacity>
-        ) : null}
+        ) : <View style={styles.controlBtn} />}
+
+        {/* Spacer to balance layout */}
+        <View style={styles.controlBtnSmall} />
       </View>
     </ImageBackground>
   );
@@ -740,8 +773,18 @@ const styles = StyleSheet.create({
 
   // Controls
   controlsRow: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 24,
     paddingBottom: 8,
+  },
+  controlBtnSmall: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   controlBtn: {
     width: 64,

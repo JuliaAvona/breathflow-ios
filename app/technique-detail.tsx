@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ import { useSettingsStore } from '../src/store';
 import { getTechniqueById, TECHNIQUES } from '../src/constants/techniques';
 import { BreathingMandala } from '../src/components/BreathingMandala';
 import { FONTS, BORDER_RADIUS, scale } from '../src/constants';
+import { MUSIC_TRACKS, startMusic, stopMusic } from '../src/utils/sessionMusic';
 import type { TechniqueCategory } from '../src/types';
 
 const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
@@ -93,6 +94,21 @@ export default function TechniqueDetailScreen() {
 
   const [selectedDuration, setSelectedDuration] = useState(getDefaultDuration);
   const [selectedChip, setSelectedChip] = useState(0);
+  const [selectedMusic, setSelectedMusic] = useState<string | null>(null);
+
+  const handleMusicSelect = (trackId: string | null) => {
+    setSelectedMusic(trackId);
+    if (trackId) {
+      startMusic(trackId, 0.4, 10);
+    } else {
+      stopMusic();
+    }
+  };
+
+  // Stop preview music when leaving screen
+  useEffect(() => {
+    return () => { stopMusic(); };
+  }, []);
 
   const allTechniques = TECHNIQUES;
 
@@ -107,7 +123,11 @@ export default function TechniqueDetailScreen() {
     if (!technique) return;
     router.push({
       pathname: '/session',
-      params: { techniqueId: technique.id, duration: String(selectedDuration) },
+      params: {
+        techniqueId: technique.id,
+        duration: String(selectedDuration),
+        ...(selectedMusic ? { musicId: selectedMusic } : {}),
+      },
     });
   };
 
@@ -224,6 +244,54 @@ export default function TechniqueDetailScreen() {
                 {opt.label}
               </Text>
               {isActive && <View style={[styles.durationDot, { backgroundColor: accentColor }]} />}
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+
+      {/* ── Music picker ── */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.musicContent}
+        style={styles.musicScroll}
+      >
+        {/* No music option */}
+        <TouchableOpacity
+          style={[
+            styles.musicPill,
+            !selectedMusic && styles.musicPillActive,
+          ]}
+          onPress={() => handleMusicSelect(null)}
+          activeOpacity={0.7}
+        >
+          <Ionicons
+            name="volume-mute-outline"
+            size={14}
+            color={!selectedMusic ? '#000' : 'rgba(255,255,255,0.8)'}
+          />
+          <Text style={[styles.musicPillText, !selectedMusic && styles.musicPillTextActive]}>
+            No Music
+          </Text>
+        </TouchableOpacity>
+
+        {MUSIC_TRACKS.map((track) => {
+          const isActive = selectedMusic === track.id;
+          return (
+            <TouchableOpacity
+              key={track.id}
+              style={[styles.musicPill, isActive && styles.musicPillActive]}
+              onPress={() => handleMusicSelect(track.id)}
+              activeOpacity={0.7}
+            >
+              <Ionicons
+                name="musical-note"
+                size={14}
+                color={isActive ? '#000' : 'rgba(255,255,255,0.8)'}
+              />
+              <Text style={[styles.musicPillText, isActive && styles.musicPillTextActive]}>
+                {track.name}
+              </Text>
             </TouchableOpacity>
           );
         })}
@@ -386,6 +454,39 @@ const styles = StyleSheet.create({
     width: 5,
     height: 5,
     borderRadius: 2.5,
+  },
+  // Music picker
+  musicScroll: {
+    flexGrow: 0,
+    marginBottom: 16,
+  },
+  musicContent: {
+    paddingHorizontal: 20,
+    gap: 8,
+  },
+  musicPill: {
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: BORDER_RADIUS.full,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.25)',
+  },
+  musicPillActive: {
+    backgroundColor: 'rgba(255,255,255,0.92)',
+    borderColor: 'rgba(255,255,255,0.92)',
+  },
+  musicPillText: {
+    fontSize: 13,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.85)',
+  },
+  musicPillTextActive: {
+    color: '#000',
+    fontFamily: FONTS.bold,
   },
   descRow: {
     paddingHorizontal: 28,

@@ -1,17 +1,9 @@
-import { createAudioPlayer, AudioPlayer } from 'expo-audio';
-
 /**
- * Session audio service.
- * Plays cue sounds on phase transitions during breathing sessions.
+ * Session audio service using expo-audio.
  *
- * Sound styles map to different audio files:
- * - tone: percussion wood hit (default)
- * - bell: japan cowbell
- * - nature: smooth vocal chant
- * - bowl: complete bowl sound
- *
- * Voice guidance uses british girl voice assets.
- * Countdown uses three/two/one voice files.
+ * NOTE: expo-audio's `createAudioPlayer` is only available inside React components.
+ * We use a dynamic import approach: lazily resolve the module at call-time so the
+ * native module is already initialised by the time we need it.
  */
 
 // ─── Sound asset sources ────────────────────────────────────────────────────
@@ -30,7 +22,6 @@ const SOUNDS = {
   countdown1: require('../../assets/one-british-girl-voice.wav'),
 };
 
-// Map sound styles to phase transition sounds
 const STYLE_MAP: Record<string, { transition: keyof typeof SOUNDS; complete: keyof typeof SOUNDS }> = {
   tone: { transition: 'beep', complete: 'complete' },
   bell: { transition: 'chime', complete: 'complete' },
@@ -38,12 +29,27 @@ const STYLE_MAP: Record<string, { transition: keyof typeof SOUNDS; complete: key
   bowl: { transition: 'complete', complete: 'complete' },
 };
 
+// ─── Lazy module access ─────────────────────────────────────────────────────
+
+// We cannot call `createAudioPlayer` at module level because the native module
+// may not be ready. Instead we resolve it lazily on first use.
+let _createAudioPlayer: typeof import('expo-audio').createAudioPlayer | null = null;
+
+function getCreateAudioPlayer() {
+  if (!_createAudioPlayer) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const mod = require('expo-audio');
+    _createAudioPlayer = mod.createAudioPlayer;
+  }
+  return _createAudioPlayer!;
+}
+
 // ─── Player pool ────────────────────────────────────────────────────────────
 
+type AudioPlayer = ReturnType<typeof import('expo-audio').createAudioPlayer>;
 let activePlayers: AudioPlayer[] = [];
 
 function cleanupPlayers() {
-  // Release finished players
   const keep: AudioPlayer[] = [];
   for (const p of activePlayers) {
     try {
@@ -59,39 +65,31 @@ function cleanupPlayers() {
   activePlayers = keep;
 }
 
-async function playSound(source: keyof typeof SOUNDS, volume = 0.7): Promise<void> {
+function playSound(source: keyof typeof SOUNDS, volume = 0.7): void {
   try {
     cleanupPlayers();
-    const player = createAudioPlayer(SOUNDS[source]);
+    const create = getCreateAudioPlayer();
+    const player = create(SOUNDS[source]);
     player.volume = volume;
     player.play();
     activePlayers.push(player);
-  } catch {
-    // Audio not available (simulator, permissions)
+  } catch (e) {
+    console.warn('[SessionAudio] failed to play:', source, e);
   }
 }
 
 // ─── Public API ─────────────────────────────────────────────────────────────
 
-/**
- * Play phase transition sound based on the user's sound style setting.
- */
 export function playPhaseTransition(soundStyle: string = 'tone'): void {
   const style = STYLE_MAP[soundStyle] ?? STYLE_MAP.tone;
   playSound(style.transition, 0.5);
 }
 
-/**
- * Play session complete sound.
- */
 export function playSessionComplete(soundStyle: string = 'tone'): void {
   const style = STYLE_MAP[soundStyle] ?? STYLE_MAP.tone;
   playSound(style.complete, 0.8);
 }
 
-/**
- * Play countdown voice (3, 2, or 1 before session).
- */
 export function playCountdownTick(count?: number): void {
   if (count === 3) playSound('countdown3', 0.8);
   else if (count === 2) playSound('countdown2', 0.8);
@@ -99,30 +97,18 @@ export function playCountdownTick(count?: number): void {
   else playSound('beep', 0.3);
 }
 
-/**
- * Play voice cue for phase change.
- */
 export function playVoicePhase(): void {
   playSound('voiceSwitch', 0.8);
 }
 
-/**
- * Play voice cue for session start.
- */
 export function playVoiceStart(): void {
   playSound('voiceStart', 0.8);
 }
 
-/**
- * Play voice cue for session complete.
- */
 export function playVoiceComplete(): void {
   playSound('voiceComplete', 0.8);
 }
 
-/**
- * Release all active players. Call on session end.
- */
 export function releaseAllSessionAudio(): void {
   for (const p of activePlayers) {
     try {
