@@ -15,7 +15,7 @@ const SOUNDS = {
   complete: require('../../assets/chime.mp3'),
   voiceStart: require('../../assets/ready-british-girl-voice.wav'),
   voiceSwitch: require('../../assets/percussion-hit-wood-rim.wav'),
-  voiceBeep: require('../../assets/percussion-hit-rim-3_E_minor.wav'),
+  voiceBeep: require('../../assets/percussion-hit-wood-rim.wav'),
   voiceComplete: require('../../assets/chime.mp3'),
   countdown3: require('../../assets/three-british-girl-voice.wav'),
   countdown2: require('../../assets/two-british-girl-voice.wav'),

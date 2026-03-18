@@ -22,6 +22,8 @@ export const MUSIC_TRACKS: MusicTrack[] = [
   { id: 'delicate_texture',  name: 'Delicate Texture',  source: require('../../assets/music_delicate_texture.mp3') },
   { id: 'horizon',           name: 'Horizon',           source: require('../../assets/music_horizon.mp3') },
   { id: 'relaxing',          name: 'Relaxing',          source: require('../../assets/music_relaxing.mp3') },
+  { id: 'birds',             name: 'Birds',             source: require('../../assets/birds.mp3') },
+  { id: 'ocean',             name: 'Ocean',             source: require('../../assets/ocean.mp3') },
 ];
 
 // ─── Player ──────────────────────────────────────────────────────────────────
