@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Fout',
+
+  // Home (additional)
+  'home.categoryCustom': 'Aangepast',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Voel rust binnen minuten',
+  'onboarding.hookSub': 'Wetenschappelijk onderbouwde ademhaling voor stress, slaap en focus. Vertrouwd door therapeuten, atleten en NASA.',
+  'onboarding.benefitStress': 'Stress verminderen',
+  'onboarding.benefitSleep': 'Sneller slapen',
+  'onboarding.benefitFocus': 'Gefocust blijven',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'We maken jouw persoonlijke ademplan',
+  'onboarding.goalCalmLabel': 'Rust & Ontspanning',
+  'onboarding.goalCalmSub': 'Het innerlijke lawaai stillen',
+  'onboarding.goalSleepLabel': 'Betere Slaap',
+  'onboarding.goalSleepSub': 'Sneller in slaap vallen',
+  'onboarding.goalFocusLabel': 'Focus & Helderheid',
+  'onboarding.goalFocusSub': 'Helder hoofd op commando',
+  'onboarding.goalEnergyLabel': 'Energie & Drive',
+  'onboarding.goalEnergySub': 'Natuurlijke energieboost',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Kalmeer je zenuwstelsel',
+  'onboarding.planTitleSleep': 'Slaap in minuten',
+  'onboarding.planTitleFocus': 'Focus op commando',
+  'onboarding.planTitleEnergy': 'Natuurlijke energieboost',
+  'onboarding.planTitleDefault': 'Je ademplan is klaar',
+  'onboarding.planBadge': 'Persoonlijk voor jou',
+  'onboarding.planCalmB1': 'Coherente ademhaling verlaagt cortisol in 5 minuten',
+  'onboarding.planCalmB2': 'Gebruikt door therapeuten, olympische atleten en hulpverleners',
+  'onboarding.planCalmB3': 'Je zenuwstelsel leert kalm te blijven',
+  'onboarding.planSleepB1': '4-7-8 ademhaling activeert je parasympatisch systeem',
+  'onboarding.planSleepB2': 'De meeste gebruikers slapen binnen 3 dagen sneller',
+  'onboarding.planSleepB3': 'Geen pillen. Geen schermen. Alleen adem.',
+  'onboarding.planFocusB1': 'Box Breathing — gebruikt door Navy SEALs onder extreme druk',
+  'onboarding.planFocusB2': '4 minuten voor diep werk = uren helderheid',
+  'onboarding.planFocusB3': 'Klinisch bewezen om acute angst snel te verminderen',
+  'onboarding.planEnergyB1': 'Ademwerk activeert je sympathisch zenuwstelsel',
+  'onboarding.planEnergyB2': 'Gebruikt door atleten voor wedstrijdvoorbereiding',
+  'onboarding.planEnergyB3': 'Voel de verandering in minder dan 60 seconden',
+  'onboarding.yourTechnique': 'Jouw eerste techniek:',
+  'onboarding.scienceBacked': 'Wetenschappelijk onderbouwd · 10 technieken · iOS exclusief',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Terug',
+  'onboarding.maybeSkip': 'Misschien later',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Blijf consistent',
+  'onboarding.notificationsSub': 'Ontvang elke dag een zachte herinnering om te ademen',
+  'onboarding.notificationsEnable': 'Dagelijkse herinneringen inschakelen',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Synchroniseer met Apple Health',
+  'onboarding.appleHealthSub': 'Volg je Mindful Minutes automatisch',
+  'onboarding.appleHealthConnect': 'Apple Health verbinden',
+  'onboarding.appleHealthBullet1': 'Mindful Minutes automatisch synchroniseren',
+  'onboarding.appleHealthBullet2': 'Voortgang in de loop van de tijd volgen',
+  'onboarding.appleHealthBullet3': 'Je gegevens blijven privé',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Van stress naar rust — in minuten',
+  'paywall.heroSleep': 'Slaap in minuten, niet uren',
+  'paywall.heroFocus': 'Het focusgeheim van Navy SEALs — onthuld',
+  'paywall.heroEnergy': 'Natuurlijke energie. Geen cafeïne nodig.',
+  'paywall.heroDefault': 'Ontgrendel de volledige BreathFlow-ervaring',
+  'paywall.heroSub': 'Eenmalig ontgrendelen. Geen abonnement. Ooit.',
+  'paywall.socialProof': 'Sluit je aan bij duizenden die elke dag beter ademen',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Gratis',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 technieken',
+  'paywall.row1Pro': 'Alle 10 technieken ✓',
+  'paywall.row2Free': '7-daagse geschiedenis',
+  'paywall.row2Pro': 'Volledige geschiedenis & grafieken ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Eigen technieken maken ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Stemmingsregistratie ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Alle kleurthema\'s & badges ✓',
+  'paywall.anchor': 'Minder dan een koffie. Blijvende resultaten.',
+  'paywall.continueFree': 'Doorgaan met gratis versie',
+  'paywall.subtitle': 'Eenmalige aankoop. Geen abonnement.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sessie voltooid',
+  'notifications.sessionCompleteBody': 'Geweldige {{technique}}-sessie! Je geest en lichaam danken je.',
+  'notifications.tip1': 'Box Breathing kan cortisol in slechts 4 minuten verlagen.',
+  'notifications.tip2': 'Een ademsessie van 5 minuten verbetert de focus voor uren.',
+  'notifications.tip3': 'Diep ademhalen activeert je parasympatisch zenuwstelsel.',
+  'notifications.tip4': 'Probeer een fysiologische zucht voor direct stressverlichting.',
+  'notifications.tip5': 'Ademhalen op 5,5 ademhalingen/min optimaliseert hartritmevariantie.',
+  'notifications.tip6': 'Zelfs 1 minuut bewust ademhalen maakt een verschil.',
+  'notifications.tip7': 'Verlengde uitademingen vertellen je lichaam dat het veilig is om te ontspannen.',
 };

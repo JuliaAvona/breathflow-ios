@@ -491,4 +491,90 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'Personalizado',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Siente la calma en minutos',
+  'onboarding.hookSub': 'Respiración basada en ciencia para reducir el estrés, mejorar el sueño y agudizar el enfoque.',
+  'onboarding.benefitStress': 'Reducir el estrés',
+  'onboarding.benefitSleep': 'Dormirse más rápido',
+  'onboarding.benefitFocus': 'Mantener el enfoque',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'Personalizaremos tu experiencia de BreathFlow.',
+  'onboarding.goalCalmLabel': 'Calma y relajación',
+  'onboarding.goalCalmSub': 'Reducir ansiedad y tensión',
+  'onboarding.goalSleepLabel': 'Mejor sueño',
+  'onboarding.goalSleepSub': 'Dormirse más rápido, descansar más profundo',
+  'onboarding.goalFocusLabel': 'Enfoque y rendimiento',
+  'onboarding.goalFocusSub': 'Agudizar la mente, mantenerse presente',
+  'onboarding.goalEnergyLabel': 'Energía y vitalidad',
+  'onboarding.goalEnergySub': 'Recargarte de manera natural',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'Tu plan está listo',
+  'onboarding.planBadge': 'Respaldado por la ciencia',
+  'onboarding.planBullet1': 'Técnicas de respiración personalizadas',
+  'onboarding.planBullet2': 'Sesiones progresivas de 5 minutos',
+  'onboarding.planBullet3': 'Seguimiento del progreso y medallas',
+  'onboarding.yourTechnique': 'Tu primera técnica',
+  'onboarding.scienceBacked': 'Demostrado por la ciencia',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Atrás',
+  'onboarding.maybeSkip': 'Quizás después',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Mantente en curso',
+  'onboarding.notificationsSub': 'Los recordatorios suaves te ayudan a mantener tu rutina diaria.',
+  'onboarding.notificationsBullet1': 'Recordatorios diarios a la hora que elijas',
+  'onboarding.notificationsBullet2': 'Consejos y trucos de respiración',
+  'onboarding.notificationsBullet3': 'Celebraciones de logros',
+  'onboarding.enableNotifications': 'Activar notificaciones',
+  'onboarding.notificationsSkip': 'Ahora no',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sincronizar con Apple Health',
+  'onboarding.appleHealthSub': 'Registra Mindful Minutes y realiza un seguimiento de tu bienestar.',
+  'onboarding.appleHealthBullet1': 'Registro automático de Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Seguimiento de datos de HRV',
+  'onboarding.appleHealthBullet3': 'Tus datos permanecen privados',
+  'onboarding.connectHealth': 'Conectar Apple Health',
+  'onboarding.healthSkip': 'Omitir',
+
+  // Paywall (new keys)
+  'paywall.heroCalm': 'Respira para una calma profunda',
+  'paywall.heroSleep': 'Dormirse en minutos',
+  'paywall.heroFocus': 'Agudiza tu enfoque',
+  'paywall.heroEnergy': 'Aumenta tu energía',
+  'paywall.heroDefault': 'Desbloquea el potencial completo',
+  'paywall.heroSub': 'Actualiza a Pro para acceder a todas las técnicas y herramientas avanzadas.',
+  'paywall.socialProof': 'Únete a más de 50.000 respiradores tranquilos',
+  'paywall.freeLabel': 'Gratis',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 técnicas',
+  'paywall.row1Pro': '✓ Las 10 técnicas completas',
+  'paywall.row2Free': 'Historial de 7 días',
+  'paywall.row2Pro': '✓ Historial completo y gráficos',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ Constructor de técnicas personalizado',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ Todos los temas de color',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ Seguimiento del estado de ánimo y exportación',
+  'paywall.anchor': 'Compra única · Sin suscripción',
+  'paywall.continueFree': 'Continuar gratis',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sesión completada',
+  'notifications.sessionCompleteBody': '¡Excelente sesión de {{technique}}! Respiraste {{duration}} minutos hoy.',
+  'notifications.tip1': 'Box Breathing puede reducir el cortisol en solo 4 ciclos.',
+  'notifications.tip2': 'Los Navy SEALs usan Box Breathing para mantenerse tranquilos bajo presión.',
+  'notifications.tip3': 'La respiración coherente a un ritmo de 5,5 segundos optimiza la HRV.',
+  'notifications.tip4': 'La investigación de Stanford muestra que el suspiro fisiológico reduce el estrés más rápido que cualquier otra técnica.',
+  'notifications.tip5': 'Incluso 5 minutos de respiración consciente cambian el estado de ánimo.',
+  'notifications.tip6': 'La respiración lenta activa el sistema nervioso parasimpático.',
+  'notifications.tip7': 'La práctica constante desarrolla resiliencia con el tiempo.',
 };

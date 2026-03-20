@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Kesalahan',
+
+  // Home (additional)
+  'home.categoryCustom': 'Kustom',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Rasakan ketenangan dalam beberapa menit',
+  'onboarding.hookSub': 'Pernapasan berbasis sains untuk stres, tidur, dan fokus. Dipercaya oleh terapis, atlet, dan NASA.',
+  'onboarding.benefitStress': 'Kurangi stres',
+  'onboarding.benefitSleep': 'Tidur lebih cepat',
+  'onboarding.benefitFocus': 'Tetap fokus',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Kami akan membuat rencana pernapasan pribadi Anda',
+  'onboarding.goalCalmLabel': 'Ketenangan & Relaksasi',
+  'onboarding.goalCalmSub': 'Mendiamkan kebisingan batin',
+  'onboarding.goalSleepLabel': 'Tidur Lebih Baik',
+  'onboarding.goalSleepSub': 'Tertidur lebih cepat',
+  'onboarding.goalFocusLabel': 'Fokus & Kejernihan',
+  'onboarding.goalFocusSub': 'Pikiran jernih saat dibutuhkan',
+  'onboarding.goalEnergyLabel': 'Energi & Semangat',
+  'onboarding.goalEnergySub': 'Dorongan energi alami',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Tenangkan sistem saraf Anda',
+  'onboarding.planTitleSleep': 'Tertidur dalam beberapa menit',
+  'onboarding.planTitleFocus': 'Fokus saat dibutuhkan',
+  'onboarding.planTitleEnergy': 'Dorongan energi alami',
+  'onboarding.planTitleDefault': 'Rencana pernapasan Anda sudah siap',
+  'onboarding.planBadge': 'Dipersonalisasi untuk Anda',
+  'onboarding.planCalmB1': 'Pernapasan koheren menurunkan kortisol dalam 5 menit',
+  'onboarding.planCalmB2': 'Digunakan oleh terapis, atlet olimpiade, dan petugas darurat',
+  'onboarding.planCalmB3': 'Sistem saraf Anda belajar untuk tetap tenang',
+  'onboarding.planSleepB1': 'Pernapasan 4-7-8 mengaktifkan sistem parasimpatik',
+  'onboarding.planSleepB2': 'Kebanyakan pengguna tertidur lebih cepat dalam 3 hari',
+  'onboarding.planSleepB3': 'Tanpa pil. Tanpa layar. Hanya napas.',
+  'onboarding.planFocusB1': 'Box Breathing — digunakan oleh Navy SEALs di bawah tekanan ekstrem',
+  'onboarding.planFocusB2': '4 menit sebelum kerja mendalam = berjam-jam kejernihan',
+  'onboarding.planFocusB3': 'Terbukti secara klinis mengurangi kecemasan akut dengan cepat',
+  'onboarding.planEnergyB1': 'Latihan pernapasan mengaktifkan sistem saraf simpatik',
+  'onboarding.planEnergyB2': 'Digunakan oleh atlet untuk persiapan pra-kompetisi',
+  'onboarding.planEnergyB3': 'Rasakan perubahan dalam kurang dari 60 detik',
+  'onboarding.yourTechnique': 'Teknik pertama Anda:',
+  'onboarding.scienceBacked': 'Berdasarkan penelitian · 10 teknik · Eksklusif iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Kembali',
+  'onboarding.maybeSkip': 'Mungkin nanti',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Tetap konsisten',
+  'onboarding.notificationsSub': 'Dapatkan pengingat harian yang lembut untuk bernapas',
+  'onboarding.notificationsEnable': 'Aktifkan pengingat harian',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sinkronkan dengan Apple Health',
+  'onboarding.appleHealthSub': 'Lacak Mindful Minutes Anda secara otomatis',
+  'onboarding.appleHealthConnect': 'Sambungkan Apple Health',
+  'onboarding.appleHealthBullet1': 'Sinkronisasi Mindful Minutes otomatis',
+  'onboarding.appleHealthBullet2': 'Lacak kemajuan dari waktu ke waktu',
+  'onboarding.appleHealthBullet3': 'Data Anda tetap pribadi',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Dari stres ke ketenangan — dalam beberapa menit',
+  'paywall.heroSleep': 'Tertidur dalam menit, bukan jam',
+  'paywall.heroFocus': 'Rahasia fokus Navy SEALs — terungkap',
+  'paywall.heroEnergy': 'Energi alami. Tanpa kafein.',
+  'paywall.heroDefault': 'Buka pengalaman BreathFlow lengkap',
+  'paywall.heroSub': 'Buka satu kali. Tanpa langganan. Selamanya.',
+  'paywall.socialProof': 'Bergabung dengan ribuan orang yang bernapas lebih baik setiap hari',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Gratis',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 teknik',
+  'paywall.row1Pro': 'Semua 10 teknik ✓',
+  'paywall.row2Free': 'Riwayat 7 hari',
+  'paywall.row2Pro': 'Riwayat lengkap & grafik ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Pembuat teknik kustom ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Pelacakan suasana hati ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Semua tema warna & lencana ✓',
+  'paywall.anchor': 'Lebih murah dari secangkir kopi. Hasil yang bertahan.',
+  'paywall.continueFree': 'Lanjutkan dengan versi gratis',
+  'paywall.subtitle': 'Pembelian satu kali. Tanpa langganan.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sesi selesai',
+  'notifications.sessionCompleteBody': 'Sesi {{technique}} yang luar biasa! Pikiran dan tubuh Anda berterima kasih.',
+  'notifications.tip1': 'Box Breathing dapat menurunkan kortisol hanya dalam 4 menit.',
+  'notifications.tip2': 'Sesi pernapasan 5 menit meningkatkan fokus selama berjam-jam.',
+  'notifications.tip3': 'Pernapasan dalam mengaktifkan sistem saraf parasimpatik.',
+  'notifications.tip4': 'Coba desahan fisiologis untuk meredakan stres seketika.',
+  'notifications.tip5': 'Bernapas dengan 5,5 napas/menit mengoptimalkan variabilitas detak jantung.',
+  'notifications.tip6': 'Bahkan 1 menit pernapasan sadar membuat perbedaan.',
+  'notifications.tip7': 'Embusan napas panjang memberi tahu tubuh bahwa aman untuk rileks.',
 };

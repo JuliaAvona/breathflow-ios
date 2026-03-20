@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Feil',
+
+  // Home (additional)
+  'home.categoryCustom': 'Tilpasset',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Kjenn roen på noen minutter',
+  'onboarding.hookSub': 'Vitenskapelig basert pust for stress, søvn og fokus. Betrodd av terapeuter, idrettsutøvere og NASA.',
+  'onboarding.benefitStress': 'Reduser stress',
+  'onboarding.benefitSleep': 'Sov raskere',
+  'onboarding.benefitFocus': 'Hold fokus',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Vi lager din personlige pusteplan',
+  'onboarding.goalCalmLabel': 'Ro & Avslapning',
+  'onboarding.goalCalmSub': 'Stilne den indre støyen',
+  'onboarding.goalSleepLabel': 'Bedre Søvn',
+  'onboarding.goalSleepSub': 'Sovne raskere',
+  'onboarding.goalFocusLabel': 'Fokus & Klarhet',
+  'onboarding.goalFocusSub': 'Klart hode på kommando',
+  'onboarding.goalEnergyLabel': 'Energi & Drive',
+  'onboarding.goalEnergySub': 'Naturlig energiboost',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Ro ned nervesystemet ditt',
+  'onboarding.planTitleSleep': 'Sovn på minutter',
+  'onboarding.planTitleFocus': 'Fokus på kommando',
+  'onboarding.planTitleEnergy': 'Naturlig energiboost',
+  'onboarding.planTitleDefault': 'Pusteplanen din er klar',
+  'onboarding.planBadge': 'Personalisert for deg',
+  'onboarding.planCalmB1': 'Koherenspusting senker kortisol på 5 minutter',
+  'onboarding.planCalmB2': 'Brukes av terapeuter, olympiske idrettsutøvere og redningsfolk',
+  'onboarding.planCalmB3': 'Nervesystemet ditt lærer å holde seg rolig',
+  'onboarding.planSleepB1': '4-7-8 pusting aktiverer det parasympatiske systemet ditt',
+  'onboarding.planSleepB2': 'De fleste brukere sovner raskere innen 3 dager',
+  'onboarding.planSleepB3': 'Ingen piller. Ingen skjermer. Bare pust.',
+  'onboarding.planFocusB1': 'Box Breathing — brukt av Navy SEALs under ekstremt press',
+  'onboarding.planFocusB2': '4 minutter før dypt arbeid = timer med klarhet',
+  'onboarding.planFocusB3': 'Klinisk bevist å redusere akutt angst raskt',
+  'onboarding.planEnergyB1': 'Pustearbeid aktiverer det sympatiske nervesystemet ditt',
+  'onboarding.planEnergyB2': 'Brukes av idrettsutøvere til forberedelse før konkurranse',
+  'onboarding.planEnergyB3': 'Kjenn forandringen på under 60 sekunder',
+  'onboarding.yourTechnique': 'Din første teknikk:',
+  'onboarding.scienceBacked': 'Forskningsbasert · 10 teknikker · Kun iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Tilbake',
+  'onboarding.maybeSkip': 'Kanskje senere',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Vær konsekvent',
+  'onboarding.notificationsSub': 'Få en mild daglig påminnelse om å puste',
+  'onboarding.notificationsEnable': 'Aktiver daglige påminnelser',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Synkroniser med Apple Health',
+  'onboarding.appleHealthSub': 'Spor Mindful Minutes automatisk',
+  'onboarding.appleHealthConnect': 'Koble til Apple Health',
+  'onboarding.appleHealthBullet1': 'Automatisk synk av Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Spor fremgang over tid',
+  'onboarding.appleHealthBullet3': 'Dataene dine forblir private',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Fra stress til ro — på minutter',
+  'paywall.heroSleep': 'Sovn på minutter, ikke timer',
+  'paywall.heroFocus': 'Navy SEALs fokushemmelighet — avslørt',
+  'paywall.heroEnergy': 'Naturlig energi. Ingen koffein nødvendig.',
+  'paywall.heroDefault': 'Lås opp den fulle BreathFlow-opplevelsen',
+  'paywall.heroSub': 'Engangsopplåsing. Intet abonnement. Noensinne.',
+  'paywall.socialProof': 'Bli med tusenvis som puster bedre hver dag',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Gratis',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 teknikker',
+  'paywall.row1Pro': 'Alle 10 teknikker ✓',
+  'paywall.row2Free': '7-dagers historikk',
+  'paywall.row2Pro': 'Full historikk & diagrammer ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Bygg egne teknikker ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Humørsporing ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Alle fargetemaer & merker ✓',
+  'paywall.anchor': 'Mindre enn en kaffe. Resultater som varer.',
+  'paywall.continueFree': 'Fortsett med gratisversjon',
+  'paywall.subtitle': 'Engangskjøp. Intet abonnement.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Økt fullført',
+  'notifications.sessionCompleteBody': 'Flott {{technique}}-økt! Sinnet og kroppen din takker deg.',
+  'notifications.tip1': 'Box Breathing kan senke kortisol på bare 4 minutter.',
+  'notifications.tip2': 'En 5-minutters pusteøkt forbedrer fokus i timer.',
+  'notifications.tip3': 'Dyp pusting aktiverer det parasympatiske nervesystemet ditt.',
+  'notifications.tip4': 'Prøv et fysiologisk sukk for umiddelbar stresslindring.',
+  'notifications.tip5': 'Pusting på 5,5 pust/min optimaliserer hjertefrekvensvariabilitet.',
+  'notifications.tip6': 'Selv 1 minutt med bevisst pust gjør en forskjell.',
+  'notifications.tip7': 'Forlenget utpust forteller kroppen din at det er trygt å slappe av.',
 };

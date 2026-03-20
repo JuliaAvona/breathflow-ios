@@ -135,7 +135,7 @@ export default function RootLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="onboarding" />
+      <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
       <Stack.Screen
         name="session"
         options={{ gestureEnabled: false }}

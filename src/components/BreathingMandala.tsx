@@ -28,6 +28,10 @@ const IDLE_SCALE_OUT   = cosineRange(0.72, 0.90);
 const IDLE_OPACITY_OUT = cosineRange(0.65, 0.90);
 const IDLE_ORBIT_OUT   = cosineRange(0.60, 0.80);
 
+// Slow + full-collapse variant: orbit goes 0→0.88→0 (true circle ↔ flower)
+const IDLE_ORBIT_SLOW  = cosineRange(0.0, 0.88);
+const IDLE_SCALE_SLOW  = cosineRange(0.68, 0.95);
+
 type AnyPhase = TimerPhase | PowerBreathingPhase | KapalabhatiPhase | 'IDLE';
 
 interface Props {
@@ -36,6 +40,8 @@ interface Props {
   color: string;
   size?: number;
   phaseDuration?: number;
+  bright?: boolean;
+  slow?: boolean;
 }
 
 export function BreathingMandala({
@@ -43,6 +49,8 @@ export function BreathingMandala({
   mode = 'standard',
   size = 240,
   phaseDuration,
+  bright = false,
+  slow = false,
 }: Props) {
   // --- Rotation: always spinning, never stops ---
   const rotateAnim = useRef(new Animated.Value(0)).current;
@@ -89,15 +97,12 @@ export function BreathingMandala({
     const dur = (phaseDuration ?? 4) * 1000;
 
     if (phase === 'IDLE' || phase === 'READY') {
-      startRotation(14000);
-      // Cosine-wave idle pulse — single linear 0→1 loop so the restart is seamless:
-      // cosine derivative is 0 at both t=0 and t=1, meaning zero velocity AND zero
-      // acceleration at the loop boundary → no snap.
+      startRotation(slow ? 24000 : 14000);
       breathCycle.setValue(0);
       const loop = Animated.loop(
         Animated.timing(breathCycle, {
           toValue: 1,
-          duration: 5600,
+          duration: slow ? 8800 : 5600,
           easing: Easing.linear,
           useNativeDriver: true,
         }),
@@ -215,10 +220,14 @@ export function BreathingMandala({
 
   const isIdle = phase === 'IDLE' || phase === 'READY';
 
+  const idleOpacityOut = bright ? cosineRange(0.88, 1.0) : IDLE_OPACITY_OUT;
+  const idleScaleOut   = slow ? IDLE_SCALE_SLOW : IDLE_SCALE_OUT;
+  const idleOrbitOut   = slow ? IDLE_ORBIT_SLOW : IDLE_ORBIT_OUT;
+
   // For IDLE: derive all values from the single cosine-wave breathCycle.
   // For active phases: use the per-phase outerScale/orbitSpread/opacityAnim.
-  const renderScale   = isIdle ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: IDLE_SCALE_OUT })   : outerScale;
-  const renderOpacity = isIdle ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: IDLE_OPACITY_OUT }) : opacityAnim;
+  const renderScale   = isIdle ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleScaleOut }) : outerScale;
+  const renderOpacity = isIdle ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleOpacityOut }) : opacityAnim;
 
   return (
     <Animated.View
@@ -232,10 +241,10 @@ export function BreathingMandala({
       {/* Orbit petals */}
       {CIRCLES.map((c, i) => {
         const tx = isIdle
-          ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: IDLE_ORBIT_OUT.map(v => v * c.cos * orbitFull) })
+          ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleOrbitOut.map(v => v * c.cos * orbitFull) })
           : orbitSpread.interpolate({ inputRange: [0, 1], outputRange: [0, c.cos * orbitFull] });
         const ty = isIdle
-          ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: IDLE_ORBIT_OUT.map(v => v * c.sin * orbitFull) })
+          ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleOrbitOut.map(v => v * c.sin * orbitFull) })
           : orbitSpread.interpolate({ inputRange: [0, 1], outputRange: [0, c.sin * orbitFull] });
         return (
           <Animated.View
@@ -245,10 +254,10 @@ export function BreathingMandala({
               width: R * 2,
               height: R * 2,
               borderRadius: R,
-              backgroundColor: 'rgba(255, 255, 255, 0.25)',
-              opacity: 0.6,
+              backgroundColor: bright ? 'rgba(255, 255, 255, 0.42)' : 'rgba(255, 255, 255, 0.25)',
+              opacity: bright ? 0.85 : 0.6,
               borderWidth: 0.2,
-              borderColor: 'rgba(255,255,255,0.55)',
+              borderColor: bright ? 'rgba(255,255,255,0.80)' : 'rgba(255,255,255,0.55)',
               left: cx - R,
               top: cy - R,
               transform: [{ translateX: tx }, { translateY: ty }],

@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Fejl',
+
+  // Home (additional)
+  'home.categoryCustom': 'Brugerdefineret',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Mærk roen på få minutter',
+  'onboarding.hookSub': 'Videnskabeligt understøttet vejrtrækning til stress, søvn og fokus. Betroet af terapeuter, atleter og NASA.',
+  'onboarding.benefitStress': 'Reducer stress',
+  'onboarding.benefitSleep': 'Sov hurtigere',
+  'onboarding.benefitFocus': 'Forbliv fokuseret',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Vi laver din personlige vejrtrækningsplan',
+  'onboarding.goalCalmLabel': 'Ro & Afslapning',
+  'onboarding.goalCalmSub': 'Stilne den indre støj',
+  'onboarding.goalSleepLabel': 'Bedre Søvn',
+  'onboarding.goalSleepSub': 'Fald hurtigere i søvn',
+  'onboarding.goalFocusLabel': 'Fokus & Klarhed',
+  'onboarding.goalFocusSub': 'Klart hoved på kommando',
+  'onboarding.goalEnergyLabel': 'Energi & Drive',
+  'onboarding.goalEnergySub': 'Naturlig energiboost',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Rolig dit nervesystem',
+  'onboarding.planTitleSleep': 'Fald i søvn på minutter',
+  'onboarding.planTitleFocus': 'Fokus på kommando',
+  'onboarding.planTitleEnergy': 'Naturlig energiboost',
+  'onboarding.planTitleDefault': 'Din vejrtrækningsplan er klar',
+  'onboarding.planBadge': 'Personaliseret til dig',
+  'onboarding.planCalmB1': 'Koherensvejrtrækning sænker kortisol på 5 minutter',
+  'onboarding.planCalmB2': 'Bruges af terapeuter, olympiske atleter og redningsfolk',
+  'onboarding.planCalmB3': 'Dit nervesystem lærer at forblive roligt',
+  'onboarding.planSleepB1': '4-7-8 vejrtrækning aktiverer dit parasympatiske system',
+  'onboarding.planSleepB2': 'De fleste brugere falder hurtigere i søvn inden for 3 dage',
+  'onboarding.planSleepB3': 'Ingen piller. Ingen skærme. Kun vejrtrækning.',
+  'onboarding.planFocusB1': 'Box Breathing — bruges af Navy SEALs under ekstremt pres',
+  'onboarding.planFocusB2': '4 minutter før dybt arbejde = timers klarhed',
+  'onboarding.planFocusB3': 'Klinisk bevist at reducere akut angst hurtigt',
+  'onboarding.planEnergyB1': 'Vejrtrækningsarbejde aktiverer dit sympatiske nervesystem',
+  'onboarding.planEnergyB2': 'Bruges af atleter til forberedelse inden konkurrence',
+  'onboarding.planEnergyB3': 'Mærk forandringen på under 60 sekunder',
+  'onboarding.yourTechnique': 'Din første teknik:',
+  'onboarding.scienceBacked': 'Forskningsbaseret · 10 teknikker · Kun iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Tilbage',
+  'onboarding.maybeSkip': 'Måske senere',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Forbliv konsekvent',
+  'onboarding.notificationsSub': 'Få en blid daglig påmindelse om at trække vejret',
+  'onboarding.notificationsEnable': 'Aktiver daglige påmindelser',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Synkroniser med Apple Health',
+  'onboarding.appleHealthSub': 'Spor dine Mindful Minutes automatisk',
+  'onboarding.appleHealthConnect': 'Tilslut Apple Health',
+  'onboarding.appleHealthBullet1': 'Automatisk synk af Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Spor fremskridt over tid',
+  'onboarding.appleHealthBullet3': 'Dine data forbliver private',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Fra stress til ro — på minutter',
+  'paywall.heroSleep': 'Fald i søvn på minutter, ikke timer',
+  'paywall.heroFocus': 'Navy SEALs fokushemmelighed — afsløret',
+  'paywall.heroEnergy': 'Naturlig energi. Ingen koffein nødvendig.',
+  'paywall.heroDefault': 'Lås op for den fulde BreathFlow-oplevelse',
+  'paywall.heroSub': 'Engangsoplåsning. Intet abonnement. Nogensinde.',
+  'paywall.socialProof': 'Bliv en del af tusinder, der trækker vejret bedre hver dag',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Gratis',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 teknikker',
+  'paywall.row1Pro': 'Alle 10 teknikker ✓',
+  'paywall.row2Free': '7-dages historik',
+  'paywall.row2Pro': 'Fuld historik & diagrammer ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Byg egne teknikker ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Humørsporing ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Alle farvetemaer & badges ✓',
+  'paywall.anchor': 'Mindre end en kaffe. Resultater der varer.',
+  'paywall.continueFree': 'Fortsæt med gratis version',
+  'paywall.subtitle': 'Engangskøb. Intet abonnement.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Session afsluttet',
+  'notifications.sessionCompleteBody': 'Fremragende {{technique}}-session! Sind og krop takker dig.',
+  'notifications.tip1': 'Box Breathing kan sænke kortisol på blot 4 minutter.',
+  'notifications.tip2': 'En 5-minutters vejrtræningssession forbedrer fokus i timer.',
+  'notifications.tip3': 'Dyb vejrtrækning aktiverer dit parasympatiske nervesystem.',
+  'notifications.tip4': 'Prøv et fysiologisk suk for øjeblikkelig stresslindring.',
+  'notifications.tip5': 'Vejrtrækning med 5,5 åndedræt/min optimerer hjertefrekvens­variabilitet.',
+  'notifications.tip6': 'Selv 1 minuts bevidst vejrtrækning gør en forskel.',
+  'notifications.tip7': 'Forlænget udånding fortæller din krop, at det er sikkert at slappe af.',
 };

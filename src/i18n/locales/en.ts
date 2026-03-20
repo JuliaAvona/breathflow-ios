@@ -241,15 +241,15 @@ export default {
 
   // Onboarding
   // Page 1 — Hook
-  'onboarding.hookTitle': 'Feel calm in minutes.',
+  'onboarding.hookTitle': 'Feel calm in minutes',
   'onboarding.hookSub': 'Science-backed breathing for stress, sleep & focus. Trusted by therapists, athletes, and NASA.',
-  'onboarding.getStarted': 'Get Started — Free',
+  'onboarding.getStarted': 'Get Started',
   'onboarding.benefitStress': 'Reduce stress',
   'onboarding.benefitSleep': 'Sleep faster',
   'onboarding.benefitFocus': 'Stay focused',
 
   // Page 2 — Goal
-  'onboarding.chooseGoal': 'What brings you here?',
+  'onboarding.chooseGoal': "What's your goal?",
   'onboarding.chooseGoalSub': "We'll build your personal breathing plan",
   'onboarding.goalCalmLabel': 'Calm & Relax',
   'onboarding.goalCalmSub': 'Quiet the noise inside',
@@ -327,6 +327,23 @@ export default {
   'onboarding.valueHealth': 'Sync with Apple Health',
   'onboarding.valueTechniques': '10 science-backed techniques',
   'onboarding.valueFree': 'Free forever · No ads · No tricks',
+
+  // Navigation
+  'onboarding.back': 'Back',
+  'onboarding.maybeSkip': 'Maybe later',
+
+  // Notifications screen
+  'onboarding.notificationsTitle': 'Stay consistent',
+  'onboarding.notificationsSub': 'Get a gentle reminder each day to breathe',
+  'onboarding.notificationsEnable': 'Enable daily reminders',
+
+  // Apple Health screen
+  'onboarding.appleHealthTitle': 'Sync with Apple Health',
+  'onboarding.appleHealthSub': 'Track your Mindful Minutes automatically',
+  'onboarding.appleHealthConnect': 'Connect Apple Health',
+  'onboarding.appleHealthBullet1': 'Auto-sync Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Track progress over time',
+  'onboarding.appleHealthBullet3': 'Your data stays private',
 
   // Badges
   'badges.first_breath.name': 'First Breath',

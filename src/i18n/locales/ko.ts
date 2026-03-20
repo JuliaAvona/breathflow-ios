@@ -499,5 +499,90 @@ export default {
   'common.pro': 'PRO',
   'common.free': '\uBB34\uB8CC',
   'common.loading': '\uB85C\uB529 \uC911...',
-  'common.error': '\uC624\uB958',
+  'common.error': '오류',
+
+  // Home (additional)
+  'home.categoryCustom': '커스텀',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': '몇 분 안에 차분해지세요',
+  'onboarding.hookSub': '스트레스, 수면, 집중력을 위한 과학 기반 호흡법. 치료사, 운동선수, NASA가 신뢰합니다.',
+  'onboarding.benefitStress': '스트레스 줄이기',
+  'onboarding.benefitSleep': '빠른 수면',
+  'onboarding.benefitFocus': '집중력 유지',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': '맞춤형 호흡 계획을 세워드릴게요',
+  'onboarding.goalCalmLabel': '차분함 & 이완',
+  'onboarding.goalCalmSub': '내면의 소음 잠재우기',
+  'onboarding.goalSleepLabel': '더 나은 수면',
+  'onboarding.goalSleepSub': '빠르게 잠들기',
+  'onboarding.goalFocusLabel': '집중력 & 명료함',
+  'onboarding.goalFocusSub': '필요할 때 맑은 정신',
+  'onboarding.goalEnergyLabel': '에너지 & 활력',
+  'onboarding.goalEnergySub': '자연적인 에너지 부스트',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': '신경계를 진정시키세요',
+  'onboarding.planTitleSleep': '몇 분 만에 잠들기',
+  'onboarding.planTitleFocus': '원할 때 집중하기',
+  'onboarding.planTitleEnergy': '자연적인 에너지 부스트',
+  'onboarding.planTitleDefault': '당신의 호흡 계획이 준비됐어요',
+  'onboarding.planBadge': '맞춤형으로 제작됨',
+  'onboarding.planCalmB1': '일관성 호흡은 5분 안에 코르티솔을 낮춥니다',
+  'onboarding.planCalmB2': '치료사, 올림픽 선수 및 응급요원이 활용',
+  'onboarding.planCalmB3': '신경계가 차분함을 유지하는 법을 배웁니다',
+  'onboarding.planSleepB1': '4-7-8 호흡은 부교감 신경계를 활성화합니다',
+  'onboarding.planSleepB2': '대부분의 사용자가 3일 안에 더 빨리 잠듭니다',
+  'onboarding.planSleepB3': '알약 없이. 화면 없이. 오직 호흡만.',
+  'onboarding.planFocusB1': 'Box Breathing — 극한 압박 속 Navy SEALs가 사용',
+  'onboarding.planFocusB2': '집중 작업 전 4분 = 몇 시간의 명료함',
+  'onboarding.planFocusB3': '급성 불안을 빠르게 줄이는 임상적으로 증명된 방법',
+  'onboarding.planEnergyB1': '호흡법은 교감 신경계를 활성화합니다',
+  'onboarding.planEnergyB2': '선수들이 경기 전 준비를 위해 활용',
+  'onboarding.planEnergyB3': '60초 안에 변화를 느끼세요',
+  'onboarding.yourTechnique': '첫 번째 기법:',
+  'onboarding.scienceBacked': '과학적 근거 · 10가지 기법 · iOS 전용',
+
+  // Onboarding — Navigation
+  'onboarding.back': '뒤로',
+  'onboarding.maybeSkip': '나중에',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': '꾸준히 유지하세요',
+  'onboarding.notificationsSub': '매일 부드러운 호흡 알림을 받으세요',
+  'onboarding.notificationsEnable': '매일 알림 활성화',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health와 동기화',
+  'onboarding.appleHealthSub': 'Mindful Minutes를 자동으로 추적하세요',
+  'onboarding.appleHealthConnect': 'Apple Health 연결',
+  'onboarding.appleHealthBullet1': 'Mindful Minutes 자동 동기화',
+  'onboarding.appleHealthBullet2': '시간에 따른 진행 상황 추적',
+  'onboarding.appleHealthBullet3': '내 데이터는 비공개로 유지됩니다',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': '스트레스에서 평온으로 — 몇 분 안에',
+  'paywall.heroSleep': '몇 시간이 아닌 몇 분 만에 잠들기',
+  'paywall.heroFocus': 'Navy SEALs의 집중 비결 — 공개',
+  'paywall.heroEnergy': '자연적인 에너지. 카페인 없이.',
+  'paywall.heroDefault': '완전한 BreathFlow 경험 잠금 해제',
+  'paywall.heroSub': '한 번만 잠금 해제. 구독 없음. 절대.',
+  'paywall.socialProof': '매일 더 나은 호흡을 하는 수천 명과 함께하세요',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': '무료',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5가지 기법',
+  'paywall.row1Pro': '전체 10가지 기법 ✓',
+  'paywall.row2Free': '7일 기록',
+  'paywall.row2Pro': '전체 기록 & 차트 ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '커스텀 기법 제작기 ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '기분 추적 ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '모든 색상 테마 & 배지 ✓',
+  'paywall.anchor': '커피 한 잔보다 저렴. 지속적인 효과.',
+  'paywall.continueFree': '무료 버전으로 계속하기',
 };

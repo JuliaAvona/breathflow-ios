@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Erro',
+
+  // Home (additional)
+  'home.categoryCustom': 'Personalizado',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Sinta a calma em minutos',
+  'onboarding.hookSub': 'Respiração apoiada pela ciência para stress, sono e foco. De confiança para terapeutas, atletas e NASA.',
+  'onboarding.benefitStress': 'Reduzir o stress',
+  'onboarding.benefitSleep': 'Adormecer mais depressa',
+  'onboarding.benefitFocus': 'Manter o foco',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Vamos criar o seu plano de respiração personalizado',
+  'onboarding.goalCalmLabel': 'Calma & Descanso',
+  'onboarding.goalCalmSub': 'Silenciar o ruído interior',
+  'onboarding.goalSleepLabel': 'Melhor Sono',
+  'onboarding.goalSleepSub': 'Adormecer mais depressa',
+  'onboarding.goalFocusLabel': 'Foco & Clareza',
+  'onboarding.goalFocusSub': 'Mente clara quando precisar',
+  'onboarding.goalEnergyLabel': 'Energia & Motivação',
+  'onboarding.goalEnergySub': 'Impulso de energia natural',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Acalme o seu sistema nervoso',
+  'onboarding.planTitleSleep': 'Adormeça em minutos',
+  'onboarding.planTitleFocus': 'Foco quando precisar',
+  'onboarding.planTitleEnergy': 'Impulso de energia natural',
+  'onboarding.planTitleDefault': 'O seu plano de respiração está pronto',
+  'onboarding.planBadge': 'Personalizado para si',
+  'onboarding.planCalmB1': 'A respiração coerente reduz o cortisol em 5 minutos',
+  'onboarding.planCalmB2': 'Usada por terapeutas, atletas olímpicos e socorristas',
+  'onboarding.planCalmB3': 'O seu sistema nervoso aprende a manter-se calmo',
+  'onboarding.planSleepB1': 'A respiração 4-7-8 ativa o sistema parassimpático',
+  'onboarding.planSleepB2': 'A maioria dos utilizadores adormece mais depressa em 3 dias',
+  'onboarding.planSleepB3': 'Sem comprimidos. Sem ecrãs. Só respiração.',
+  'onboarding.planFocusB1': 'Box Breathing — usada pelos Navy SEALs sob pressão extrema',
+  'onboarding.planFocusB2': '4 minutos antes do trabalho profundo = horas de clareza',
+  'onboarding.planFocusB3': 'Clinicamente comprovado para reduzir ansiedade aguda rapidamente',
+  'onboarding.planEnergyB1': 'O trabalho respiratório ativa o sistema nervoso simpático',
+  'onboarding.planEnergyB2': 'Usada por atletas na preparação pré-competição',
+  'onboarding.planEnergyB3': 'Sinta a mudança em menos de 60 segundos',
+  'onboarding.yourTechnique': 'A sua primeira técnica:',
+  'onboarding.scienceBacked': 'Baseado em investigação · 10 técnicas · Exclusivo iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Voltar',
+  'onboarding.maybeSkip': 'Talvez mais tarde',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Mantenha a consistência',
+  'onboarding.notificationsSub': 'Receba um lembrete gentil diário para respirar',
+  'onboarding.notificationsEnable': 'Ativar lembretes diários',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sincronizar com Apple Health',
+  'onboarding.appleHealthSub': 'Acompanhe os seus Mindful Minutes automaticamente',
+  'onboarding.appleHealthConnect': 'Ligar Apple Health',
+  'onboarding.appleHealthBullet1': 'Sincronização automática de Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Acompanhe o progresso ao longo do tempo',
+  'onboarding.appleHealthBullet3': 'Os seus dados permanecem privados',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Do stress à calma — em minutos',
+  'paywall.heroSleep': 'Adormeça em minutos, não horas',
+  'paywall.heroFocus': 'O segredo de foco dos Navy SEALs — revelado',
+  'paywall.heroEnergy': 'Energia natural. Sem cafeína.',
+  'paywall.heroDefault': 'Desbloqueie a experiência completa BreathFlow',
+  'paywall.heroSub': 'Desbloqueio único. Sem subscrição. Nunca.',
+  'paywall.socialProof': 'Junte-se a milhares que respiram melhor todos os dias',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Grátis',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 técnicas',
+  'paywall.row1Pro': 'Todas as 10 técnicas ✓',
+  'paywall.row2Free': 'Histórico de 7 dias',
+  'paywall.row2Pro': 'Histórico completo & gráficos ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Criador de técnicas personalizadas ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Acompanhamento do humor ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Todos os temas & emblemas ✓',
+  'paywall.anchor': 'Menos do que um café. Resultados duradouros.',
+  'paywall.continueFree': 'Continuar com a versão gratuita',
+  'paywall.subtitle': 'Compra única. Sem subscrição.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sessão concluída',
+  'notifications.sessionCompleteBody': 'Excelente sessão de {{technique}}! A sua mente e corpo agradecem.',
+  'notifications.tip1': 'A Box Breathing pode reduzir o cortisol em apenas 4 minutos.',
+  'notifications.tip2': 'Uma sessão de respiração de 5 minutos melhora o foco durante horas.',
+  'notifications.tip3': 'A respiração profunda ativa o sistema nervoso parassimpático.',
+  'notifications.tip4': 'Experimente um suspiro fisiológico para alívio imediato do stress.',
+  'notifications.tip5': 'Respirar a 5,5 respirações/min otimiza a variabilidade da frequência cardíaca.',
+  'notifications.tip6': 'Mesmo 1 minuto de respiração consciente faz a diferença.',
+  'notifications.tip7': 'Expirações prolongadas dizem ao seu corpo que é seguro relaxar.',
 };

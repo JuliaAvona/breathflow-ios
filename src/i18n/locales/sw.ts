@@ -491,4 +491,90 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'Maalum',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Hisi utulivu ndani ya dakika',
+  'onboarding.hookSub': 'Kupumua kwa msingi wa sayansi ili kupunguza msongo, kulala vizuri na kuzingatia zaidi.',
+  'onboarding.benefitStress': 'Punguza msongo',
+  'onboarding.benefitSleep': 'Lala haraka zaidi',
+  'onboarding.benefitFocus': 'Dumu na umakini',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'Tutabinafsisha uzoefu wako wa BreathFlow.',
+  'onboarding.goalCalmLabel': 'Utulivu na Kupumzika',
+  'onboarding.goalCalmSub': 'Punguza wasiwasi na mfadhaiko',
+  'onboarding.goalSleepLabel': 'Usingizi Bora',
+  'onboarding.goalSleepSub': 'Lala haraka, pumzika kwa kina',
+  'onboarding.goalFocusLabel': 'Umakini na Utendaji',
+  'onboarding.goalFocusSub': 'Noa akili yako, kaa sasa hivi',
+  'onboarding.goalEnergyLabel': 'Nguvu na Uchangamfu',
+  'onboarding.goalEnergySub': 'Jichaji kwa njia ya asili',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'Mpango wako uko tayari',
+  'onboarding.planBadge': 'Imehakikishwa na sayansi',
+  'onboarding.planBullet1': 'Mbinu za kupumua zilizobinafsishwa',
+  'onboarding.planBullet2': 'Vikao vya hatua kwa hatua vya dakika 5',
+  'onboarding.planBullet3': 'Ufuatiliaji wa maendeleo na beji',
+  'onboarding.yourTechnique': 'Mbinu yako ya kwanza',
+  'onboarding.scienceBacked': 'Imethibitishwa na sayansi',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Rudi',
+  'onboarding.maybeSkip': 'Labda baadaye',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Kaa kwenye njia',
+  'onboarding.notificationsSub': 'Vikumbusha laini vinakusaidia kudumisha utaratibu wa kila siku.',
+  'onboarding.notificationsBullet1': 'Vikumbusha vya kila siku wakati unaopenda',
+  'onboarding.notificationsBullet2': 'Vidokezo vya kupumua',
+  'onboarding.notificationsBullet3': 'Kusherehekea mafanikio',
+  'onboarding.enableNotifications': 'Wezesha arifa',
+  'onboarding.notificationsSkip': 'Si sasa',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sawazisha na Apple Health',
+  'onboarding.appleHealthSub': 'Rekodi Mindful Minutes na ufuatilie ustawi wako.',
+  'onboarding.appleHealthBullet1': 'Kurekodi Mindful Minutes kiotomatiki',
+  'onboarding.appleHealthBullet2': 'Ufuatiliaji wa data ya HRV',
+  'onboarding.appleHealthBullet3': 'Data yako inabaki ya siri',
+  'onboarding.connectHealth': 'Unganisha Apple Health',
+  'onboarding.healthSkip': 'Ruka',
+
+  // Paywall (new keys)
+  'paywall.heroCalm': 'Pumua kwa utulivu wa kina',
+  'paywall.heroSleep': 'Lala ndani ya dakika',
+  'paywall.heroFocus': 'Noa umakini wako',
+  'paywall.heroEnergy': 'Ongeza nguvu zako',
+  'paywall.heroDefault': 'Fungua uwezo wako wote',
+  'paywall.heroSub': 'Boreshwa hadi Pro kwa upatikanaji wa mbinu zote na zana za hali ya juu.',
+  'paywall.socialProof': 'Jiunge na wapumzaji zaidi ya 50,000',
+  'paywall.freeLabel': 'Bure',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': 'Mbinu 5',
+  'paywall.row1Pro': '✓ Mbinu zote 10',
+  'paywall.row2Free': 'Historia ya siku 7',
+  'paywall.row2Pro': '✓ Historia kamili na grafu',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ Kijenzi cha mbinu maalum',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ Mandhari yote ya rangi',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ Ufuatiliaji wa hisia na kuhamisha',
+  'paywall.anchor': 'Malipo ya mara moja · Hakuna usajili',
+  'paywall.continueFree': 'Endelea bure',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Kikao kimekamilika',
+  'notifications.sessionCompleteBody': 'Kikao kizuri cha {{technique}}! Ulipumua kwa dakika {{duration}} leo.',
+  'notifications.tip1': 'Box Breathing inaweza kupunguza cortisol ndani ya mizunguko 4 tu.',
+  'notifications.tip2': 'Navy SEALs hutumia Box Breathing kukaa watulivu chini ya shinikizo.',
+  'notifications.tip3': 'Coherence breathing kwa mdundo wa sekunde 5.5 huboresha HRV.',
+  'notifications.tip4': 'Utafiti wa Stanford unaonyesha physiological sigh hupunguza msongo haraka zaidi kuliko mbinu nyingine yoyote.',
+  'notifications.tip5': 'Hata dakika 5 za kupumua kwa makini hubadilisha hisia.',
+  'notifications.tip6': 'Kupumua polepole huamsha mfumo wa neva wa parasympathetic.',
+  'notifications.tip7': 'Mazoezi ya mara kwa mara hujenga ustahimilivu kwa muda.',
 };

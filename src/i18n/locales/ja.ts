@@ -500,4 +500,89 @@ export default {
   'common.free': '無料',
   'common.loading': '読み込み中...',
   'common.error': 'エラー',
+
+  // Home (additional)
+  'home.categoryCustom': 'カスタム',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': '数分で穏やかになれる',
+  'onboarding.hookSub': 'ストレス、睡眠、集中力のための科学的根拠のある呼吸法。セラピスト、アスリート、NASAが信頼しています。',
+  'onboarding.benefitStress': 'ストレスを軽減',
+  'onboarding.benefitSleep': '早く眠れる',
+  'onboarding.benefitFocus': '集中力を維持',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'あなただけの呼吸プランを作ります',
+  'onboarding.goalCalmLabel': '落ち着き & リラックス',
+  'onboarding.goalCalmSub': '内なる雑音を静める',
+  'onboarding.goalSleepLabel': 'より良い睡眠',
+  'onboarding.goalSleepSub': '早く寝付く',
+  'onboarding.goalFocusLabel': '集中 & 明晰さ',
+  'onboarding.goalFocusSub': '必要なときに澄んだ頭',
+  'onboarding.goalEnergyLabel': 'エネルギー & やる気',
+  'onboarding.goalEnergySub': '自然なエネルギーブースト',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': '神経系を落ち着かせる',
+  'onboarding.planTitleSleep': '数分で眠りにつく',
+  'onboarding.planTitleFocus': '必要なときに集中',
+  'onboarding.planTitleEnergy': '自然なエネルギーブースト',
+  'onboarding.planTitleDefault': '呼吸プランの準備ができました',
+  'onboarding.planBadge': 'あなた専用',
+  'onboarding.planCalmB1': 'コヒーレンス呼吸は5分でコルチゾールを下げます',
+  'onboarding.planCalmB2': 'セラピスト、オリンピック選手、緊急救助隊が使用',
+  'onboarding.planCalmB3': '神経系が穏やかでいることを学びます',
+  'onboarding.planSleepB1': '4-7-8呼吸は副交感神経を活性化します',
+  'onboarding.planSleepB2': 'ほとんどのユーザーが3日以内に早く眠れるようになります',
+  'onboarding.planSleepB3': '薬なし。画面なし。ただ呼吸するだけ。',
+  'onboarding.planFocusB1': 'Box Breathing — Navy SEALsが極限のプレッシャー下で使用',
+  'onboarding.planFocusB2': '深い作業の前に4分 = 何時間もの明晰さ',
+  'onboarding.planFocusB3': '急性不安を素早く軽減することが臨床的に証明されています',
+  'onboarding.planEnergyB1': 'ブレスワークは交感神経系を活性化します',
+  'onboarding.planEnergyB2': 'アスリートが試合前の準備に使用',
+  'onboarding.planEnergyB3': '60秒以内に変化を感じる',
+  'onboarding.yourTechnique': 'あなたの最初のテクニック：',
+  'onboarding.scienceBacked': '研究に基づく · 10種類のテクニック · iOS限定',
+
+  // Onboarding — Navigation
+  'onboarding.back': '戻る',
+  'onboarding.maybeSkip': 'あとで',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': '継続しましょう',
+  'onboarding.notificationsSub': '毎日やさしい呼吸のリマインダーを受け取る',
+  'onboarding.notificationsEnable': '毎日のリマインダーを有効にする',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Healthと同期',
+  'onboarding.appleHealthSub': 'Mindful Minutesを自動で記録',
+  'onboarding.appleHealthConnect': 'Apple Healthを接続',
+  'onboarding.appleHealthBullet1': 'Mindful Minutesを自動同期',
+  'onboarding.appleHealthBullet2': '時間の経過とともに進捗を追跡',
+  'onboarding.appleHealthBullet3': 'データはプライベートのまま',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'ストレスから平穏へ — 数分で',
+  'paywall.heroSleep': '何時間も待たず、数分で眠りにつく',
+  'paywall.heroFocus': 'Navy SEALsの集中秘訣 — 公開',
+  'paywall.heroEnergy': '自然なエネルギー。カフェイン不要。',
+  'paywall.heroDefault': '完全なBreathFlow体験を解放',
+  'paywall.heroSub': '一回限りの解放。定期購入なし。永遠に。',
+  'paywall.socialProof': '毎日より良い呼吸をする数千人に加わりましょう',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': '無料',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5種類のテクニック',
+  'paywall.row1Pro': '全10種類のテクニック ✓',
+  'paywall.row2Free': '7日間の記録',
+  'paywall.row2Pro': '完全な記録 & チャート ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'カスタムテクニックビルダー ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '気分トラッキング ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'すべてのカラーテーマ & バッジ ✓',
+  'paywall.anchor': 'コーヒー1杯以下。持続する効果。',
+  'paywall.continueFree': '無料バージョンで続ける',
 };

@@ -500,4 +500,89 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'مخصص',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'اشعر بالهدوء في دقائق',
+  'onboarding.hookSub': 'تنفس مدعوم علميًا للتوتر والنوم والتركيز. موثوق به من المعالجين والرياضيين وناسا.',
+  'onboarding.benefitStress': 'تقليل التوتر',
+  'onboarding.benefitSleep': 'النوم بسرعة',
+  'onboarding.benefitFocus': 'البقاء مركزًا',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'سنبني خطة التنفس الشخصية لك',
+  'onboarding.goalCalmLabel': 'الهدوء والاسترخاء',
+  'onboarding.goalCalmSub': 'إسكات الضوضاء الداخلية',
+  'onboarding.goalSleepLabel': 'نوم أفضل',
+  'onboarding.goalSleepSub': 'النوم بشكل أسرع',
+  'onboarding.goalFocusLabel': 'التركيز والوضوح',
+  'onboarding.goalFocusSub': 'ذهن صافٍ عند الطلب',
+  'onboarding.goalEnergyLabel': 'الطاقة والدافع',
+  'onboarding.goalEnergySub': 'دفعة طاقة طبيعية',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'هدّئ جهازك العصبي',
+  'onboarding.planTitleSleep': 'انم في دقائق',
+  'onboarding.planTitleFocus': 'التركيز عند الطلب',
+  'onboarding.planTitleEnergy': 'دفعة طاقة طبيعية',
+  'onboarding.planTitleDefault': 'خطة التنفس الخاصة بك جاهزة',
+  'onboarding.planBadge': 'مخصص لك',
+  'onboarding.planCalmB1': 'التنفس المتوافق يخفض الكورتيزول في 5 دقائق',
+  'onboarding.planCalmB2': 'يستخدمه المعالجون والرياضيون الأولمبيون والمسعفون',
+  'onboarding.planCalmB3': 'جهازك العصبي يتعلم البقاء هادئًا',
+  'onboarding.planSleepB1': 'التنفس 4-7-8 ينشّط جهازك العصبي اللاإرادي',
+  'onboarding.planSleepB2': 'معظم المستخدمين ينامون بشكل أسرع خلال 3 أيام',
+  'onboarding.planSleepB3': 'لا حبوب. لا شاشات. فقط التنفس.',
+  'onboarding.planFocusB1': 'Box Breathing — يستخدمها Navy SEALs تحت ضغط شديد',
+  'onboarding.planFocusB2': '4 دقائق قبل العمل المركّز = ساعات من الوضوح',
+  'onboarding.planFocusB3': 'مُثبت سريريًا لتقليل القلق الحاد بسرعة',
+  'onboarding.planEnergyB1': 'العمل التنفسي ينشّط جهازك العصبي الودّي',
+  'onboarding.planEnergyB2': 'يستخدمه الرياضيون للتحضير قبل المنافسات',
+  'onboarding.planEnergyB3': 'اشعر بالتحول في أقل من 60 ثانية',
+  'onboarding.yourTechnique': 'تقنيتك الأولى:',
+  'onboarding.scienceBacked': 'مدعوم بالبحث العلمي · 10 تقنيات · حصري لـ iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'رجوع',
+  'onboarding.maybeSkip': 'ربما لاحقًا',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'ابقَ ثابتًا',
+  'onboarding.notificationsSub': 'احصل على تذكير لطيف يومي للتنفس',
+  'onboarding.notificationsEnable': 'تفعيل التذكيرات اليومية',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'مزامنة مع Apple Health',
+  'onboarding.appleHealthSub': 'تتبع دقائق التأمل تلقائيًا',
+  'onboarding.appleHealthConnect': 'ربط Apple Health',
+  'onboarding.appleHealthBullet1': 'مزامنة تلقائية لـ Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'تتبع التقدم عبر الزمن',
+  'onboarding.appleHealthBullet3': 'بياناتك تبقى خاصة',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'من التوتر إلى الهدوء — في دقائق',
+  'paywall.heroSleep': 'نم في دقائق وليس ساعات',
+  'paywall.heroFocus': 'سر تركيز Navy SEALs — مكشوف',
+  'paywall.heroEnergy': 'طاقة طبيعية. بدون كافيين.',
+  'paywall.heroDefault': 'افتح تجربة BreathFlow الكاملة',
+  'paywall.heroSub': 'فتح مرة واحدة. لا اشتراك. أبدًا.',
+  'paywall.socialProof': 'انضم إلى آلاف يتنفسون بشكل أفضل كل يوم',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'مجاني',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 تقنيات',
+  'paywall.row1Pro': 'جميع 10 تقنيات ✓',
+  'paywall.row2Free': 'تاريخ 7 أيام',
+  'paywall.row2Pro': 'تاريخ كامل ورسوم بيانية ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'منشئ تقنيات مخصصة ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'تتبع الحالة المزاجية ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'جميع الثيمات والشارات ✓',
+  'paywall.anchor': 'أقل من قهوة. نتائج تدوم.',
+  'paywall.continueFree': 'الاستمرار بالنسخة المجانية',
 };

@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'কাস্টম',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'মিনিটের মধ্যে শান্তি অনুভব করুন',
+  'onboarding.hookSub': 'চাপ কমাতে, ঘুম উন্নত করতে এবং ফোকাস তীক্ষ্ণ করতে বিজ্ঞান-ভিত্তিক শ্বাস-প্রশ্বাস।',
+  'onboarding.benefitStress': 'চাপ কমান',
+  'onboarding.benefitSleep': 'দ্রুত ঘুমান',
+  'onboarding.benefitFocus': 'মনোযোগ রাখুন',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'আপনার BreathFlow অভিজ্ঞতা ব্যক্তিগতকৃত করব।',
+  'onboarding.goalCalmLabel': 'শান্তি ও বিশ্রাম',
+  'onboarding.goalCalmSub': 'উদ্বেগ ও চাপ কমান',
+  'onboarding.goalSleepLabel': 'ভালো ঘুম',
+  'onboarding.goalSleepSub': 'দ্রুত ঘুমান, গভীরভাবে বিশ্রাম নিন',
+  'onboarding.goalFocusLabel': 'ফোকাস ও পারফরম্যান্স',
+  'onboarding.goalFocusSub': 'মন তীক্ষ্ণ করুন, বর্তমানে থাকুন',
+  'onboarding.goalEnergyLabel': 'শক্তি ও প্রাণশক্তি',
+  'onboarding.goalEnergySub': 'স্বাভাবিকভাবে নিজেকে চার্জ করুন',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'আপনার পরিকল্পনা প্রস্তুত',
+  'onboarding.planBadge': 'বিজ্ঞান-সমর্থিত',
+  'onboarding.planBullet1': 'ব্যক্তিগতকৃত শ্বাস কৌশল',
+  'onboarding.planBullet2': '৫-মিনিট ক্রমান্বয়ী সেশন',
+  'onboarding.planBullet3': 'অগ্রগতি ট্র্যাকিং এবং ব্যাজ',
+  'onboarding.yourTechnique': 'আপনার প্রথম কৌশল',
+  'onboarding.scienceBacked': 'বিজ্ঞান দ্বারা প্রমাণিত',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'পিছনে',
+  'onboarding.maybeSkip': 'হয়তো পরে',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'ট্র্যাকে থাকুন',
+  'onboarding.notificationsSub': 'নম্র অনুস্মারক আপনাকে দৈনিক রুটিন বজায় রাখতে সাহায্য করে।',
+  'onboarding.notificationsBullet1': 'পছন্দের সময়ে দৈনিক অনুস্মারক',
+  'onboarding.notificationsBullet2': 'শ্বাস-প্রশ্বাসের টিপস ও কৌশল',
+  'onboarding.notificationsBullet3': 'অর্জন উদযাপন',
+  'onboarding.enableNotifications': 'বিজ্ঞপ্তি সক্ষম করুন',
+  'onboarding.notificationsSkip': 'এখন নয়',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health-এর সাথে সিঙ্ক করুন',
+  'onboarding.appleHealthSub': 'Mindful Minutes রেকর্ড করুন এবং আপনার সুস্থতা ট্র্যাক করুন।',
+  'onboarding.appleHealthBullet1': 'স্বয়ংক্রিয় Mindful Minutes লগিং',
+  'onboarding.appleHealthBullet2': 'HRV ডেটা ট্র্যাকিং',
+  'onboarding.appleHealthBullet3': 'আপনার ডেটা ব্যক্তিগত থাকে',
+  'onboarding.connectHealth': 'Apple Health সংযুক্ত করুন',
+  'onboarding.healthSkip': 'এড়িয়ে যান',
+
+  // Paywall
+  'paywall.heroCalm': 'গভীর শান্তির জন্য শ্বাস নিন',
+  'paywall.heroSleep': 'মিনিটের মধ্যে ঘুমিয়ে পড়ুন',
+  'paywall.heroFocus': 'আপনার ফোকাস তীক্ষ্ণ করুন',
+  'paywall.heroEnergy': 'আপনার শক্তি বাড়ান',
+  'paywall.heroDefault': 'সম্পূর্ণ সম্ভাবনা আনলক করুন',
+  'paywall.heroSub': 'সমস্ত কৌশল এবং উন্নত সরঞ্জামে অ্যাক্সেসের জন্য Pro-তে আপগ্রেড করুন।',
+  'paywall.socialProof': '৫০,০০০+ শান্ত শ্বাসপ্রশ্বাসকারীদের সাথে যোগ দিন',
+  'paywall.freeLabel': 'বিনামূল্যে',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '৫ কৌশল',
+  'paywall.row1Pro': '✓ সমস্ত ১০ কৌশল',
+  'paywall.row2Free': '৭-দিনের ইতিহাস',
+  'paywall.row2Pro': '✓ সম্পূর্ণ ইতিহাস ও চার্ট',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ কাস্টম কৌশল বিল্ডার',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ সমস্ত রঙ থিম',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ মুড ট্র্যাকিং ও রপ্তানি',
+  'paywall.anchor': 'এককালীন ক্রয় · কোনো সদস্যতা নেই',
+  'paywall.continueFree': 'বিনামূল্যে চালিয়ে যান',
+  'paywall.subtitle': 'তাৎক্ষণিক অ্যাক্সেস · কখনো বিজ্ঞাপন নেই',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'সেশন সম্পন্ন',
+  'notifications.sessionCompleteBody': 'দুর্দান্ত {{technique}} সেশন! আজ {{duration}} মিনিট শ্বাস নিলেন।',
+  'notifications.tip1': 'Box Breathing মাত্র ৪ চক্রে কর্টিসল কমাতে পারে।',
+  'notifications.tip2': 'Navy SEALs চাপে শান্ত থাকতে Box Breathing ব্যবহার করে।',
+  'notifications.tip3': '৫.৫-সেকেন্ড ছন্দে Coherence breathing HRV অপ্টিমাইজ করে।',
+  'notifications.tip4': 'Stanford গবেষণা দেখায় physiological sigh অন্য যেকোনো কৌশলের চেয়ে দ্রুত চাপ কমায়।',
+  'notifications.tip5': 'মাত্র ৫ মিনিট সচেতন শ্বাসও মেজাজ বদলে দেয়।',
+  'notifications.tip6': 'ধীর শ্বাস parasympathetic nervous system সক্রিয় করে।',
+  'notifications.tip7': 'ধারাবাহিক অনুশীলন সময়ের সাথে স্থিতিস্থাপকতা তৈরি করে।',
 };

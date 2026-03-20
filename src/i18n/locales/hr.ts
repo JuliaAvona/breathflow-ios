@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Pogreška',
+
+  // Home (additional)
+  'home.categoryCustom': 'Prilagođeno',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Osjetite smirenost za nekoliko minuta',
+  'onboarding.hookSub': 'Disanje potkrijepljeno znanošću za stres, san i fokus. Vjeruju mu terapeuti, sportaši i NASA.',
+  'onboarding.benefitStress': 'Smanjiti stres',
+  'onboarding.benefitSleep': 'Brže zaspati',
+  'onboarding.benefitFocus': 'Ostati fokusiran',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Izgradit ćemo vaš osobni plan disanja',
+  'onboarding.goalCalmLabel': 'Mir & Opuštanje',
+  'onboarding.goalCalmSub': 'Utišati unutarnju buku',
+  'onboarding.goalSleepLabel': 'Bolji San',
+  'onboarding.goalSleepSub': 'Brže zaspati',
+  'onboarding.goalFocusLabel': 'Fokus & Jasnoća',
+  'onboarding.goalFocusSub': 'Bistar um na zahtjev',
+  'onboarding.goalEnergyLabel': 'Energija & Motivacija',
+  'onboarding.goalEnergySub': 'Prirodni energetski poticaj',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Smirite svoj živčani sustav',
+  'onboarding.planTitleSleep': 'Zaspite za nekoliko minuta',
+  'onboarding.planTitleFocus': 'Fokus na zahtjev',
+  'onboarding.planTitleEnergy': 'Prirodni energetski poticaj',
+  'onboarding.planTitleDefault': 'Vaš plan disanja je spreman',
+  'onboarding.planBadge': 'Personalizirano za vas',
+  'onboarding.planCalmB1': 'Koherentno disanje snižava kortizol za 5 minuta',
+  'onboarding.planCalmB2': 'Koriste ga terapeuti, olimpijski sportaši i spasitelji',
+  'onboarding.planCalmB3': 'Vaš živčani sustav uči ostati miran',
+  'onboarding.planSleepB1': 'Disanje 4-7-8 aktivira parasimpatički sustav',
+  'onboarding.planSleepB2': 'Većina korisnika zaspi brže unutar 3 dana',
+  'onboarding.planSleepB3': 'Bez tableta. Bez ekrana. Samo disanje.',
+  'onboarding.planFocusB1': 'Box Breathing — koriste ga Navy SEALs pod ekstremnim pritiskom',
+  'onboarding.planFocusB2': '4 minute prije dubokog rada = sati jasnoće',
+  'onboarding.planFocusB3': 'Klinički dokazano za brzo smanjenje akutne anksioznosti',
+  'onboarding.planEnergyB1': 'Rad disanjem aktivira simpatički živčani sustav',
+  'onboarding.planEnergyB2': 'Sportaši ga koriste za pripremu prije natjecanja',
+  'onboarding.planEnergyB3': 'Osjetite promjenu za manje od 60 sekundi',
+  'onboarding.yourTechnique': 'Vaša prva tehnika:',
+  'onboarding.scienceBacked': 'Potkrijepljeno istraživanjem · 10 tehnika · Samo za iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Natrag',
+  'onboarding.maybeSkip': 'Možda kasnije',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Ostanite dosljedni',
+  'onboarding.notificationsSub': 'Primajte nježan dnevni podsjetnik za disanje',
+  'onboarding.notificationsEnable': 'Uključi dnevne podsjetnike',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sinkronizacija s Apple Health',
+  'onboarding.appleHealthSub': 'Automatski pratite svoje Mindful Minutes',
+  'onboarding.appleHealthConnect': 'Poveži Apple Health',
+  'onboarding.appleHealthBullet1': 'Automatska sinkronizacija Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Praćenje napretka kroz vrijeme',
+  'onboarding.appleHealthBullet3': 'Vaši podaci ostaju privatni',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Od stresa do mira — za nekoliko minuta',
+  'paywall.heroSleep': 'Zaspite za minute, ne sate',
+  'paywall.heroFocus': 'Tajni fokus Navy SEALs-a — otkriven',
+  'paywall.heroEnergy': 'Prirodna energija. Bez kofeina.',
+  'paywall.heroDefault': 'Otključajte puno BreathFlow iskustvo',
+  'paywall.heroSub': 'Jednokratno otključavanje. Bez pretplate. Nikad.',
+  'paywall.socialProof': 'Pridružite se tisućama koji svaki dan dišu bolje',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Besplatno',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 tehnika',
+  'paywall.row1Pro': 'Svih 10 tehnika ✓',
+  'paywall.row2Free': 'Povijest od 7 dana',
+  'paywall.row2Pro': 'Potpuna povijest i grafikoni ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Graditelj prilagođenih tehnika ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Praćenje raspoloženja ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Sve teme boja i značke ✓',
+  'paywall.anchor': 'Manje od kave. Trajni rezultati.',
+  'paywall.continueFree': 'Nastavite s besplatnom verzijom',
+  'paywall.subtitle': 'Jednokratna kupnja. Bez pretplate.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sesija dovršena',
+  'notifications.sessionCompleteBody': 'Odlična {{technique}} sesija! Um i tijelo vam zahvaljuju.',
+  'notifications.tip1': 'Box Breathing može smanjiti kortizol za samo 4 minute.',
+  'notifications.tip2': 'Sesija disanja od 5 minuta poboljšava fokus satima.',
+  'notifications.tip3': 'Duboko disanje aktivira parasimpatički živčani sustav.',
+  'notifications.tip4': 'Isprobajte fiziološki uzdah za trenutno ublažavanje stresa.',
+  'notifications.tip5': 'Disanje od 5,5 udaha/min optimizira varijabilnost srčanog ritma.',
+  'notifications.tip6': 'Čak i 1 minuta svjesnog disanja čini razliku.',
+  'notifications.tip7': 'Produženi izdisaji govore tijelu da je sigurno opustiti se.',
 };

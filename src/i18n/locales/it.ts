@@ -500,4 +500,89 @@ export default {
   'common.free': 'GRATIS',
   'common.loading': 'Caricamento...',
   'common.error': 'Errore',
+
+  // Home (additional)
+  'home.categoryCustom': 'Personalizzato',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Senti la calma in pochi minuti',
+  'onboarding.hookSub': 'Respirazione supportata dalla scienza per stress, sonno e concentrazione. Fidata da terapisti, atleti e dalla NASA.',
+  'onboarding.benefitStress': 'Ridurre lo stress',
+  'onboarding.benefitSleep': 'Addormentarsi più velocemente',
+  'onboarding.benefitFocus': 'Rimanere concentrato',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Creeremo il tuo piano di respirazione personale',
+  'onboarding.goalCalmLabel': 'Calma & Relax',
+  'onboarding.goalCalmSub': 'Silenziare il rumore interiore',
+  'onboarding.goalSleepLabel': 'Sonno Migliore',
+  'onboarding.goalSleepSub': 'Addormentarsi più in fretta',
+  'onboarding.goalFocusLabel': 'Concentrazione & Chiarezza',
+  'onboarding.goalFocusSub': 'Mente lucida su richiesta',
+  'onboarding.goalEnergyLabel': 'Energia & Motivazione',
+  'onboarding.goalEnergySub': 'Boost energetico naturale',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Calma il tuo sistema nervoso',
+  'onboarding.planTitleSleep': 'Addormentati in pochi minuti',
+  'onboarding.planTitleFocus': 'Concentrazione su richiesta',
+  'onboarding.planTitleEnergy': 'Boost energetico naturale',
+  'onboarding.planTitleDefault': 'Il tuo piano di respirazione è pronto',
+  'onboarding.planBadge': 'Personalizzato per te',
+  'onboarding.planCalmB1': 'La respirazione coerente abbassa il cortisolo in 5 minuti',
+  'onboarding.planCalmB2': 'Usata da terapisti, atleti olimpici e soccorritori',
+  'onboarding.planCalmB3': 'Il tuo sistema nervoso impara a restare calmo',
+  'onboarding.planSleepB1': 'La respirazione 4-7-8 attiva il sistema parasimpatico',
+  'onboarding.planSleepB2': 'La maggior parte degli utenti si addormenta più in fretta entro 3 giorni',
+  'onboarding.planSleepB3': 'Niente pillole. Niente schermi. Solo il respiro.',
+  'onboarding.planFocusB1': 'Box Breathing — usata dai Navy SEALs sotto pressione estrema',
+  'onboarding.planFocusB2': '4 minuti prima del lavoro intenso = ore di chiarezza',
+  'onboarding.planFocusB3': 'Clinicamente provato per ridurre l\'ansia acuta rapidamente',
+  'onboarding.planEnergyB1': 'Il breathwork attiva il sistema nervoso simpatico',
+  'onboarding.planEnergyB2': 'Usata dagli atleti per prepararsi alle gare',
+  'onboarding.planEnergyB3': 'Senti il cambiamento in meno di 60 secondi',
+  'onboarding.yourTechnique': 'La tua prima tecnica:',
+  'onboarding.scienceBacked': 'Basato sulla ricerca · 10 tecniche · Esclusivo iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Indietro',
+  'onboarding.maybeSkip': 'Forse più tardi',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Rimani costante',
+  'onboarding.notificationsSub': 'Ricevi un promemoria gentile ogni giorno per respirare',
+  'onboarding.notificationsEnable': 'Attiva i promemoria giornalieri',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sincronizza con Apple Health',
+  'onboarding.appleHealthSub': 'Tieni traccia dei tuoi Mindful Minutes automaticamente',
+  'onboarding.appleHealthConnect': 'Connetti Apple Health',
+  'onboarding.appleHealthBullet1': 'Sincronizzazione automatica dei Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Monitora i progressi nel tempo',
+  'onboarding.appleHealthBullet3': 'I tuoi dati rimangono privati',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Dallo stress alla calma — in pochi minuti',
+  'paywall.heroSleep': 'Addormentati in minuti, non ore',
+  'paywall.heroFocus': 'Il segreto di concentrazione dei Navy SEALs — svelato',
+  'paywall.heroEnergy': 'Energia naturale. Senza caffeina.',
+  'paywall.heroDefault': 'Sblocca l\'esperienza completa di BreathFlow',
+  'paywall.heroSub': 'Sblocco unico. Nessun abbonamento. Mai.',
+  'paywall.socialProof': 'Unisciti a migliaia che respirano meglio ogni giorno',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Gratuito',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 tecniche',
+  'paywall.row1Pro': 'Tutte le 10 tecniche ✓',
+  'paywall.row2Free': 'Cronologia 7 giorni',
+  'paywall.row2Pro': 'Cronologia completa & grafici ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Creatore di tecniche personalizzate ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Monitoraggio dell\'umore ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Tutti i temi & badge ✓',
+  'paywall.anchor': 'Meno di un caffè. Risultati duraturi.',
+  'paywall.continueFree': 'Continua con la versione gratuita',
 };

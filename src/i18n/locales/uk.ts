@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Помилка',
+
+  // Home (additional)
+  'home.categoryCustom': 'Власне',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Відчуй спокій за хвилини',
+  'onboarding.hookSub': 'Науково обґрунтоване дихання для стресу, сну та концентрації. Довіряють терапевти, спортсмени і NASA.',
+  'onboarding.benefitStress': 'Зменшити стрес',
+  'onboarding.benefitSleep': 'Засинати швидше',
+  'onboarding.benefitFocus': 'Залишатися зосередженим',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Складемо твій особистий план дихання',
+  'onboarding.goalCalmLabel': 'Спокій & Розслаблення',
+  'onboarding.goalCalmSub': 'Заглушити внутрішній шум',
+  'onboarding.goalSleepLabel': 'Кращий Сон',
+  'onboarding.goalSleepSub': 'Засинати швидше',
+  'onboarding.goalFocusLabel': 'Фокус & Ясність',
+  'onboarding.goalFocusSub': 'Чистий розум на вимогу',
+  'onboarding.goalEnergyLabel': 'Енергія & Мотивація',
+  'onboarding.goalEnergySub': 'Природний заряд енергії',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Заспокой нервову систему',
+  'onboarding.planTitleSleep': 'Засни за кілька хвилин',
+  'onboarding.planTitleFocus': 'Фокус на вимогу',
+  'onboarding.planTitleEnergy': 'Природний заряд енергії',
+  'onboarding.planTitleDefault': 'Твій план дихання готовий',
+  'onboarding.planBadge': 'Персоналізовано для тебе',
+  'onboarding.planCalmB1': 'Когерентне дихання знижує кортизол за 5 хвилин',
+  'onboarding.planCalmB2': 'Використовують терапевти, олімпійські спортсмени та рятувальники',
+  'onboarding.planCalmB3': 'Твоя нервова система навчається залишатися спокійною',
+  'onboarding.planSleepB1': 'Дихання 4-7-8 активує парасимпатичну систему',
+  'onboarding.planSleepB2': 'Більшість користувачів засинають швидше протягом 3 днів',
+  'onboarding.planSleepB3': 'Без таблеток. Без екранів. Лише дихання.',
+  'onboarding.planFocusB1': 'Box Breathing — Navy SEALs використовують під екстремальним тиском',
+  'onboarding.planFocusB2': '4 хвилини перед глибокою роботою = години ясності',
+  'onboarding.planFocusB3': 'Клінічно доведено для швидкого зниження гострої тривоги',
+  'onboarding.planEnergyB1': 'Дихальна робота активує симпатичну нервову систему',
+  'onboarding.planEnergyB2': 'Спортсмени використовують для підготовки перед змаганнями',
+  'onboarding.planEnergyB3': 'Відчуй зміни менш ніж за 60 секунд',
+  'onboarding.yourTechnique': 'Твоя перша техніка:',
+  'onboarding.scienceBacked': 'Науково обґрунтовано · 10 технік · Лише для iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Назад',
+  'onboarding.maybeSkip': 'Мабуть пізніше',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Залишайся послідовним',
+  'onboarding.notificationsSub': 'Отримуй щоденне м\'яке нагадування про дихання',
+  'onboarding.notificationsEnable': 'Увімкнути щоденні нагадування',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Синхронізація з Apple Health',
+  'onboarding.appleHealthSub': 'Автоматично відстежуй Mindful Minutes',
+  'onboarding.appleHealthConnect': 'Підключити Apple Health',
+  'onboarding.appleHealthBullet1': 'Автоматична синхронізація Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Відстежуй прогрес з часом',
+  'onboarding.appleHealthBullet3': 'Твої дані залишаються конфіденційними',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Від стресу до спокою — за хвилини',
+  'paywall.heroSleep': 'Засни за хвилини, не години',
+  'paywall.heroFocus': 'Секрет концентрації Navy SEALs — розкритий',
+  'paywall.heroEnergy': 'Природна енергія. Без кофеїну.',
+  'paywall.heroDefault': 'Відкрий повний досвід BreathFlow',
+  'paywall.heroSub': 'Одноразове розблокування. Жодної підписки. Ніколи.',
+  'paywall.socialProof': 'Приєднуйся до тисяч, які дихають краще щодня',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Безкоштовно',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 технік',
+  'paywall.row1Pro': 'Усі 10 технік ✓',
+  'paywall.row2Free': 'Історія за 7 днів',
+  'paywall.row2Pro': 'Повна історія та графіки ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Конструктор власних технік ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Відстеження настрою ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Всі кольорові теми та значки ✓',
+  'paywall.anchor': 'Дешевше чашки кави. Результати на все життя.',
+  'paywall.continueFree': 'Продовжити з безкоштовною версією',
+  'paywall.subtitle': 'Одноразова покупка. Без підписки.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Сесія завершена',
+  'notifications.sessionCompleteBody': 'Чудова {{technique}} сесія! Розум і тіло дякують тобі.',
+  'notifications.tip1': 'Box Breathing може знизити кортизол всього за 4 хвилини.',
+  'notifications.tip2': 'П\'ятихвилинна дихальна сесія покращує концентрацію на години.',
+  'notifications.tip3': 'Глибоке дихання активує парасимпатичну нервову систему.',
+  'notifications.tip4': 'Спробуй фізіологічний зідхання для миттєвого зняття стресу.',
+  'notifications.tip5': 'Дихання з 5,5 вдихами/хв оптимізує варіабельність серцевого ритму.',
+  'notifications.tip6': 'Навіть 1 хвилина усвідомленого дихання має значення.',
+  'notifications.tip7': 'Подовжені видихи повідомляють тілу, що можна розслабитися.',
 };

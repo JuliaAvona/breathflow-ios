@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'कस्टम',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'मिनटों में शांति महसूस करें',
+  'onboarding.hookSub': 'तनाव कम करने, बेहतर नींद और तेज़ फोकस के लिए विज्ञान-आधारित श्वास तकनीक।',
+  'onboarding.benefitStress': 'तनाव कम करें',
+  'onboarding.benefitSleep': 'जल्दी सोएं',
+  'onboarding.benefitFocus': 'फोकस बनाए रखें',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'हम आपका BreathFlow अनुभव व्यक्तिगत बनाएंगे।',
+  'onboarding.goalCalmLabel': 'शांति और विश्राम',
+  'onboarding.goalCalmSub': 'चिंता और दबाव कम करें',
+  'onboarding.goalSleepLabel': 'बेहतर नींद',
+  'onboarding.goalSleepSub': 'जल्दी सोएं, गहरी नींद लें',
+  'onboarding.goalFocusLabel': 'फोकस और प्रदर्शन',
+  'onboarding.goalFocusSub': 'अपना दिमाग तेज़ करें, उपस्थित रहें',
+  'onboarding.goalEnergyLabel': 'ऊर्जा और जीवंतता',
+  'onboarding.goalEnergySub': 'स्वाभाविक रूप से खुद को चार्ज करें',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'आपकी योजना तैयार है',
+  'onboarding.planBadge': 'विज्ञान-समर्थित',
+  'onboarding.planBullet1': 'व्यक्तिगत श्वास तकनीक',
+  'onboarding.planBullet2': '5-मिनट क्रमिक सत्र',
+  'onboarding.planBullet3': 'प्रगति ट्रैकिंग और बैज',
+  'onboarding.yourTechnique': 'आपकी पहली तकनीक',
+  'onboarding.scienceBacked': 'विज्ञान द्वारा सिद्ध',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'वापस',
+  'onboarding.maybeSkip': 'शायद बाद में',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'ट्रैक पर रहें',
+  'onboarding.notificationsSub': 'सौम्य अनुस्मारक आपको दैनिक दिनचर्या बनाए रखने में मदद करते हैं।',
+  'onboarding.notificationsBullet1': 'अपनी पसंदीदा समय पर दैनिक अनुस्मारक',
+  'onboarding.notificationsBullet2': 'श्वास युक्तियाँ और तरकीबें',
+  'onboarding.notificationsBullet3': 'उपलब्धि उत्सव',
+  'onboarding.enableNotifications': 'सूचनाएं सक्षम करें',
+  'onboarding.notificationsSkip': 'अभी नहीं',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health से सिंक करें',
+  'onboarding.appleHealthSub': 'Mindful Minutes रिकॉर्ड करें और अपनी भलाई ट्रैक करें।',
+  'onboarding.appleHealthBullet1': 'स्वचालित Mindful Minutes लॉगिंग',
+  'onboarding.appleHealthBullet2': 'HRV डेटा ट्रैकिंग',
+  'onboarding.appleHealthBullet3': 'आपका डेटा निजी रहता है',
+  'onboarding.connectHealth': 'Apple Health से जोड़ें',
+  'onboarding.healthSkip': 'छोड़ें',
+
+  // Paywall
+  'paywall.heroCalm': 'गहरी शांति के लिए सांस लें',
+  'paywall.heroSleep': 'मिनटों में सो जाएं',
+  'paywall.heroFocus': 'अपना फोकस तेज़ करें',
+  'paywall.heroEnergy': 'अपनी ऊर्जा बढ़ाएं',
+  'paywall.heroDefault': 'पूरी क्षमता अनलॉक करें',
+  'paywall.heroSub': 'सभी तकनीकों और उन्नत टूल्स तक पहुंच के लिए Pro में अपग्रेड करें।',
+  'paywall.socialProof': '50,000+ शांत श्वासकर्ताओं से जुड़ें',
+  'paywall.freeLabel': 'मुफ़्त',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 तकनीकें',
+  'paywall.row1Pro': '✓ सभी 10 तकनीकें',
+  'paywall.row2Free': '7-दिन इतिहास',
+  'paywall.row2Pro': '✓ पूरा इतिहास और चार्ट',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ कस्टम तकनीक बिल्डर',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ सभी रंग थीम',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ मूड ट्रैकिंग और निर्यात',
+  'paywall.anchor': 'एकमुश्त खरीद · कोई सदस्यता नहीं',
+  'paywall.continueFree': 'मुफ़्त जारी रखें',
+  'paywall.subtitle': 'तत्काल पहुंच · कभी विज्ञापन नहीं',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'सत्र पूर्ण',
+  'notifications.sessionCompleteBody': 'बढ़िया {{technique}} सत्र! आज {{duration}} मिनट सांस ली।',
+  'notifications.tip1': 'Box Breathing केवल 4 चक्रों में कोर्टिसोल को कम कर सकती है।',
+  'notifications.tip2': 'Navy SEALs दबाव में शांत रहने के लिए Box Breathing का उपयोग करते हैं।',
+  'notifications.tip3': '5.5-सेकंड लय पर Coherence breathing HRV को अनुकूलित करती है।',
+  'notifications.tip4': 'Stanford शोध दिखाता है कि physiological sigh किसी भी अन्य तकनीक से तेज़ तनाव कम करती है।',
+  'notifications.tip5': 'सचेत श्वास के सिर्फ 5 मिनट भी मूड बदल देते हैं।',
+  'notifications.tip6': 'धीमी सांस लेने से parasympathetic nervous system सक्रिय होता है।',
+  'notifications.tip7': 'निरंतर अभ्यास समय के साथ लचीलापन बनाता है।',
 };

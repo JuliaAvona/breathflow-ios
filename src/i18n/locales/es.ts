@@ -500,4 +500,89 @@ export default {
   'common.free': 'GRATIS',
   'common.loading': 'Cargando...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'Personalizado',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Siente la calma en minutos',
+  'onboarding.hookSub': 'Respiración respaldada por la ciencia para el estrés, el sueño y el enfoque. De confianza para terapeutas, atletas y la NASA.',
+  'onboarding.benefitStress': 'Reducir el estrés',
+  'onboarding.benefitSleep': 'Dormir más rápido',
+  'onboarding.benefitFocus': 'Mantener el enfoque',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Crearemos tu plan de respiración personalizado',
+  'onboarding.goalCalmLabel': 'Calma & Relajación',
+  'onboarding.goalCalmSub': 'Silenciar el ruido interior',
+  'onboarding.goalSleepLabel': 'Mejor Sueño',
+  'onboarding.goalSleepSub': 'Dormirte más rápido',
+  'onboarding.goalFocusLabel': 'Enfoque & Claridad',
+  'onboarding.goalFocusSub': 'Mente clara cuando quieras',
+  'onboarding.goalEnergyLabel': 'Energía & Motivación',
+  'onboarding.goalEnergySub': 'Impulso de energía natural',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Calma tu sistema nervioso',
+  'onboarding.planTitleSleep': 'Quédate dormido en minutos',
+  'onboarding.planTitleFocus': 'Enfoque cuando lo necesites',
+  'onboarding.planTitleEnergy': 'Impulso de energía natural',
+  'onboarding.planTitleDefault': 'Tu plan de respiración está listo',
+  'onboarding.planBadge': 'Personalizado para ti',
+  'onboarding.planCalmB1': 'La respiración coherente reduce el cortisol en 5 minutos',
+  'onboarding.planCalmB2': 'Utilizada por terapeutas, atletas olímpicos y socorristas',
+  'onboarding.planCalmB3': 'Tu sistema nervioso aprende a mantenerse calmado',
+  'onboarding.planSleepB1': 'La respiración 4-7-8 activa tu sistema parasimpático',
+  'onboarding.planSleepB2': 'La mayoría se duerme más rápido en 3 días',
+  'onboarding.planSleepB3': 'Sin pastillas. Sin pantallas. Solo respiración.',
+  'onboarding.planFocusB1': 'Box Breathing — usada por Navy SEALs bajo presión extrema',
+  'onboarding.planFocusB2': '4 minutos antes del trabajo profundo = horas de claridad',
+  'onboarding.planFocusB3': 'Clínicamente probado para reducir la ansiedad aguda rápidamente',
+  'onboarding.planEnergyB1': 'El trabajo respiratorio activa tu sistema nervioso simpático',
+  'onboarding.planEnergyB2': 'Utilizada por atletas para prepararse antes de competir',
+  'onboarding.planEnergyB3': 'Siente el cambio en menos de 60 segundos',
+  'onboarding.yourTechnique': 'Tu primera técnica:',
+  'onboarding.scienceBacked': 'Respaldado por la ciencia · 10 técnicas · Exclusivo iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Atrás',
+  'onboarding.maybeSkip': 'Quizás más tarde',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Mantente constante',
+  'onboarding.notificationsSub': 'Recibe un suave recordatorio diario para respirar',
+  'onboarding.notificationsEnable': 'Activar recordatorios diarios',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sincronizar con Apple Health',
+  'onboarding.appleHealthSub': 'Registra tus Mindful Minutes automáticamente',
+  'onboarding.appleHealthConnect': 'Conectar Apple Health',
+  'onboarding.appleHealthBullet1': 'Sincronización automática de Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Sigue tu progreso a lo largo del tiempo',
+  'onboarding.appleHealthBullet3': 'Tus datos permanecen privados',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Del estrés a la calma — en minutos',
+  'paywall.heroSleep': 'Quédate dormido en minutos, no horas',
+  'paywall.heroFocus': 'El secreto de enfoque de los Navy SEALs — revelado',
+  'paywall.heroEnergy': 'Energía natural. Sin cafeína.',
+  'paywall.heroDefault': 'Desbloquea la experiencia completa de BreathFlow',
+  'paywall.heroSub': 'Desbloqueo único. Sin suscripción. Nunca.',
+  'paywall.socialProof': 'Únete a miles que respiran mejor cada día',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Gratis',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 técnicas',
+  'paywall.row1Pro': 'Las 10 técnicas ✓',
+  'paywall.row2Free': 'Historial de 7 días',
+  'paywall.row2Pro': 'Historial completo y gráficos ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Creador de técnicas personalizadas ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Seguimiento del estado de ánimo ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Todos los temas y badges ✓',
+  'paywall.anchor': 'Menos que un café. Resultados duraderos.',
+  'paywall.continueFree': 'Continuar con la versión gratuita',
 };

@@ -491,4 +491,90 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'Pielāgots',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Izjūti mieru dažu minūšu laikā',
+  'onboarding.hookSub': 'Zinātniski pamatota elpošana stresa mazināšanai, miega uzlabošanai un fokusa asināšanai.',
+  'onboarding.benefitStress': 'Mazini stresu',
+  'onboarding.benefitSleep': 'Aizmigt ātrāk',
+  'onboarding.benefitFocus': 'Saglabā fokusu',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'Mēs personalizēsim tavu BreathFlow pieredzi.',
+  'onboarding.goalCalmLabel': 'Miers un relaksācija',
+  'onboarding.goalCalmSub': 'Mazini trauksmi un spriedzi',
+  'onboarding.goalSleepLabel': 'Labāks miegs',
+  'onboarding.goalSleepSub': 'Aizmigt ātrāk, dziļāk atpūsties',
+  'onboarding.goalFocusLabel': 'Fokuss un sniegums',
+  'onboarding.goalFocusSub': 'Asini prātu, esi klātesošs',
+  'onboarding.goalEnergyLabel': 'Enerģija un vitalitāte',
+  'onboarding.goalEnergySub': 'Uzlādē sevi dabiski',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'Tavs plāns ir gatavs',
+  'onboarding.planBadge': 'Zinātniski apstiprināts',
+  'onboarding.planBullet1': 'Personalizētas elpošanas tehnikas',
+  'onboarding.planBullet2': '5 minūšu pakāpeniski sesijas',
+  'onboarding.planBullet3': 'Progresa izsekošana un nozīmītes',
+  'onboarding.yourTechnique': 'Tava pirmā tehnika',
+  'onboarding.scienceBacked': 'Zinātne to pierāda',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Atpakaļ',
+  'onboarding.maybeSkip': 'Varbūt vēlāk',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Paliec uz pareizā ceļa',
+  'onboarding.notificationsSub': 'Maigi atgādinājumi palīdz uzturēt ikdienas rutīnu.',
+  'onboarding.notificationsBullet1': 'Ikdienas atgādinājumi vēlamajā laikā',
+  'onboarding.notificationsBullet2': 'Elpošanas padomi un triki',
+  'onboarding.notificationsBullet3': 'Sasniegumu svinēšana',
+  'onboarding.enableNotifications': 'Iespējot paziņojumus',
+  'onboarding.notificationsSkip': 'Ne tagad',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sinhronizēt ar Apple Health',
+  'onboarding.appleHealthSub': 'Reģistrē Mindful Minutes un izseko savu labsajūtu.',
+  'onboarding.appleHealthBullet1': 'Automātiska Mindful Minutes reģistrēšana',
+  'onboarding.appleHealthBullet2': 'HRV datu izsekošana',
+  'onboarding.appleHealthBullet3': 'Tavi dati paliek privāti',
+  'onboarding.connectHealth': 'Savienot Apple Health',
+  'onboarding.healthSkip': 'Izlaist',
+
+  // Paywall (new keys)
+  'paywall.heroCalm': 'Elpo dziļam mieram',
+  'paywall.heroSleep': 'Aizmigt minūšu laikā',
+  'paywall.heroFocus': 'Asini savu fokusu',
+  'paywall.heroEnergy': 'Palielini savu enerģiju',
+  'paywall.heroDefault': 'Atslēdz pilnu potenciālu',
+  'paywall.heroSub': 'Jaunini uz Pro, lai piekļūtu visām tehnikām un uzlabotiem rīkiem.',
+  'paywall.socialProof': 'Pievienojies vairāk nekā 50 000 mierīgiem elpotājiem',
+  'paywall.freeLabel': 'Bezmaksas',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 tehnikas',
+  'paywall.row1Pro': '✓ Visas 10 tehnikas',
+  'paywall.row2Free': '7 dienu vēsture',
+  'paywall.row2Pro': '✓ Pilna vēsture un grafiki',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ Pielāgots tehnikas veidotājs',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ Visas krāsu tēmas',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ Garastāvokļa izsekošana un eksports',
+  'paywall.anchor': 'Vienreizējs pirkums · Bez abonēšanas',
+  'paywall.continueFree': 'Turpināt bezmaksas',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sesija pabeigta',
+  'notifications.sessionCompleteBody': 'Lieliska {{technique}} sesija! Šodien elpoji {{duration}} minūtes.',
+  'notifications.tip1': 'Box Breathing var samazināt kortizolu tikai 4 ciklos.',
+  'notifications.tip2': 'Navy SEALs izmanto Box Breathing, lai paliktu mierīgi zem spiediena.',
+  'notifications.tip3': 'Koherentā elpošana 5,5 sekunžu ritmā optimizē HRV.',
+  'notifications.tip4': 'Stenfordas pētījums parāda, ka fizioloģiskā nopūta mazina stresu ātrāk nekā jebkura cita tehnika.',
+  'notifications.tip5': 'Pat 5 minūtes apzinātas elpošanas maina garastāvokli.',
+  'notifications.tip6': 'Lēna elpošana aktivizē parasimpātisko nervu sistēmu.',
+  'notifications.tip7': 'Konsekventā prakse laika gaitā veido noturību.',
 };

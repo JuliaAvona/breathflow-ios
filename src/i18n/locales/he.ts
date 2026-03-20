@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'מותאם אישית',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'הרגש שלווה תוך דקות',
+  'onboarding.hookSub': 'נשימה מבוססת מדע להפחתת סטרס, שינה טובה יותר וריכוז חד.',
+  'onboarding.benefitStress': 'הפחתת סטרס',
+  'onboarding.benefitSleep': 'שינה מהירה יותר',
+  'onboarding.benefitFocus': 'שמירה על ריכוז',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'נתאים את חוויית BreathFlow שלך.',
+  'onboarding.goalCalmLabel': 'רגיעה והרפיה',
+  'onboarding.goalCalmSub': 'הפחת חרדה ומתח',
+  'onboarding.goalSleepLabel': 'שינה טובה יותר',
+  'onboarding.goalSleepSub': 'הירדם מהר יותר, שינה עמוקה יותר',
+  'onboarding.goalFocusLabel': 'ריכוז וביצועים',
+  'onboarding.goalFocusSub': 'חדד את דעתך, הישאר נוכח',
+  'onboarding.goalEnergyLabel': 'אנרגיה וחיוניות',
+  'onboarding.goalEnergySub': 'הפעל את עצמך באופן טבעי',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'התוכנית שלך מוכנה',
+  'onboarding.planBadge': 'מבוסס מדע',
+  'onboarding.planBullet1': 'טכניקות נשימה מותאמות אישית',
+  'onboarding.planBullet2': 'מפגשים הדרגתיים ל-5 דקות',
+  'onboarding.planBullet3': 'מעקב התקדמות ותגים',
+  'onboarding.yourTechnique': 'הטכניקה הראשונה שלך',
+  'onboarding.scienceBacked': 'מאושר מדעית',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'חזרה',
+  'onboarding.maybeSkip': 'אולי מאוחר יותר',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'הישאר על המסלול',
+  'onboarding.notificationsSub': 'תזכורות עדינות עוזרות לך להתמיד בשגרה היומית.',
+  'onboarding.notificationsBullet1': 'תזכורות יומיות בזמן שבוחר',
+  'onboarding.notificationsBullet2': 'טיפים ועצות נשימה',
+  'onboarding.notificationsBullet3': 'חגיגות הישגים',
+  'onboarding.enableNotifications': 'אפשר התראות',
+  'onboarding.notificationsSkip': 'לא עכשיו',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'סנכרן עם Apple Health',
+  'onboarding.appleHealthSub': 'רשום דקות מדיטציה ועקוב אחר הרווחה שלך.',
+  'onboarding.appleHealthBullet1': 'רישום אוטומטי של Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'מעקב נתוני HRV',
+  'onboarding.appleHealthBullet3': 'הנתונים שלך נשארים פרטיים',
+  'onboarding.connectHealth': 'חבר Apple Health',
+  'onboarding.healthSkip': 'דלג',
+
+  // Paywall
+  'paywall.heroCalm': 'נשום לשלווה עמוקה',
+  'paywall.heroSleep': 'הירדם תוך דקות',
+  'paywall.heroFocus': 'חדד את ריכוזך',
+  'paywall.heroEnergy': 'הגבר את האנרגיה שלך',
+  'paywall.heroDefault': 'שחרר את מלוא הפוטנציאל',
+  'paywall.heroSub': 'שדרג ל-Pro לגישה לכל הטכניקות וכלים מתקדמים.',
+  'paywall.socialProof': 'הצטרף ל-50,000+ נושמים רגועים',
+  'paywall.freeLabel': 'חינם',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 טכניקות',
+  'paywall.row1Pro': '✓ כל 10 הטכניקות',
+  'paywall.row2Free': 'היסטוריה של 7 ימים',
+  'paywall.row2Pro': '✓ היסטוריה מלאה ותרשימים',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ בונה טכניקות מותאם',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ כל ערכות הצבעים',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ מעקב מצב רוח וייצוא',
+  'paywall.anchor': 'רכישה חד-פעמית · ללא מנוי',
+  'paywall.continueFree': 'המשך בחינם',
+  'paywall.subtitle': 'גישה מיידית · ללא פרסומות לעולם',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'מפגש הושלם',
+  'notifications.sessionCompleteBody': 'מפגש {{technique}} נהדר! תרגשת {{duration}} דקות היום.',
+  'notifications.tip1': 'Box Breathing יכולה להפחית קורטיזול תוך 4 מחזורים בלבד.',
+  'notifications.tip2': 'Navy SEALs משתמשים ב-Box Breathing כדי להישאר רגועים תחת לחץ.',
+  'notifications.tip3': 'נשימה קוהרנטית בקצב 5.5 שניות ממטבת HRV.',
+  'notifications.tip4': 'מחקר של Stanford מראה שנאנקה פיזיולוגית מפחיתה סטרס מהר יותר מכל טכניקה אחרת.',
+  'notifications.tip5': 'אפילו 5 דקות של נשימה מודעת משנות את מצב הרוח.',
+  'notifications.tip6': 'נשימה איטית מפעילה את מערכת העצבים הפאראסימפתטית.',
+  'notifications.tip7': 'תרגול עקבי בונה חוסן לאורך זמן.',
 };

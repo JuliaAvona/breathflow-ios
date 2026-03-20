@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Σφάλμα',
+
+  // Home (additional)
+  'home.categoryCustom': 'Προσαρμοσμένο',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Νιώστε ηρεμία σε λίγα λεπτά',
+  'onboarding.hookSub': 'Επιστημονικά υποστηριζόμενη αναπνοή για άγχος, ύπνο και εστίαση. Εμπιστεύονται θεραπευτές, αθλητές και η NASA.',
+  'onboarding.benefitStress': 'Μείωση άγχους',
+  'onboarding.benefitSleep': 'Γρηγορότερος ύπνος',
+  'onboarding.benefitFocus': 'Διατήρηση εστίασης',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Θα δημιουργήσουμε το προσωπικό σας πρόγραμμα αναπνοής',
+  'onboarding.goalCalmLabel': 'Ηρεμία & Χαλάρωση',
+  'onboarding.goalCalmSub': 'Σίγαση του εσωτερικού θορύβου',
+  'onboarding.goalSleepLabel': 'Καλύτερος Ύπνος',
+  'onboarding.goalSleepSub': 'Γρηγορότερη αποκοίμηση',
+  'onboarding.goalFocusLabel': 'Εστίαση & Διαύγεια',
+  'onboarding.goalFocusSub': 'Καθαρό μυαλό κατ\' απαίτηση',
+  'onboarding.goalEnergyLabel': 'Ενέργεια & Κίνητρο',
+  'onboarding.goalEnergySub': 'Φυσική ενεργειακή ώθηση',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Ηρεμήστε το νευρικό σας σύστημα',
+  'onboarding.planTitleSleep': 'Κοιμηθείτε σε λίγα λεπτά',
+  'onboarding.planTitleFocus': 'Εστίαση κατ\' απαίτηση',
+  'onboarding.planTitleEnergy': 'Φυσική ενεργειακή ώθηση',
+  'onboarding.planTitleDefault': 'Το πρόγραμμά σας αναπνοής είναι έτοιμο',
+  'onboarding.planBadge': 'Εξατομικευμένο για εσάς',
+  'onboarding.planCalmB1': 'Η συνεκτική αναπνοή μειώνει την κορτιζόλη σε 5 λεπτά',
+  'onboarding.planCalmB2': 'Χρησιμοποιείται από θεραπευτές, Ολυμπιονίκες και διασώστες',
+  'onboarding.planCalmB3': 'Το νευρικό σας σύστημα μαθαίνει να παραμένει ήρεμο',
+  'onboarding.planSleepB1': 'Η αναπνοή 4-7-8 ενεργοποιεί το παρασυμπαθητικό σύστημα',
+  'onboarding.planSleepB2': 'Οι περισσότεροι χρήστες κοιμούνται γρηγορότερα σε 3 ημέρες',
+  'onboarding.planSleepB3': 'Χωρίς χάπια. Χωρίς οθόνες. Μόνο αναπνοή.',
+  'onboarding.planFocusB1': 'Box Breathing — χρησιμοποιείται από Navy SEALs υπό ακραία πίεση',
+  'onboarding.planFocusB2': '4 λεπτά πριν από βαθιά εργασία = ώρες διαύγειας',
+  'onboarding.planFocusB3': 'Κλινικά αποδεδειγμένο για γρήγορη μείωση οξείας αγχώδης',
+  'onboarding.planEnergyB1': 'Η εργασία αναπνοής ενεργοποιεί το συμπαθητικό νευρικό σύστημα',
+  'onboarding.planEnergyB2': 'Χρησιμοποιείται από αθλητές για προετοιμασία πριν τον αγώνα',
+  'onboarding.planEnergyB3': 'Νιώστε την αλλαγή σε λιγότερο από 60 δευτερόλεπτα',
+  'onboarding.yourTechnique': 'Η πρώτη σας τεχνική:',
+  'onboarding.scienceBacked': 'Υποστηριζόμενο από έρευνα · 10 τεχνικές · Αποκλειστικό iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Πίσω',
+  'onboarding.maybeSkip': 'Ίσως αργότερα',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Μείνετε συνεπείς',
+  'onboarding.notificationsSub': 'Λάβετε ένα ήπιο καθημερινό υπενθύμιση για αναπνοή',
+  'onboarding.notificationsEnable': 'Ενεργοποίηση καθημερινών υπενθυμίσεων',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Συγχρονισμός με Apple Health',
+  'onboarding.appleHealthSub': 'Παρακολουθήστε αυτόματα τα Mindful Minutes σας',
+  'onboarding.appleHealthConnect': 'Σύνδεση Apple Health',
+  'onboarding.appleHealthBullet1': 'Αυτόματος συγχρονισμός Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Παρακολούθηση προόδου με την πάροδο του χρόνου',
+  'onboarding.appleHealthBullet3': 'Τα δεδομένα σας παραμένουν ιδιωτικά',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Από το άγχος στη γαλήνη — σε λίγα λεπτά',
+  'paywall.heroSleep': 'Κοιμηθείτε σε λεπτά, όχι ώρες',
+  'paywall.heroFocus': 'Το μυστικό εστίασης των Navy SEALs — αποκαλύφθηκε',
+  'paywall.heroEnergy': 'Φυσική ενέργεια. Χωρίς καφεΐνη.',
+  'paywall.heroDefault': 'Ξεκλειδώστε την πλήρη εμπειρία BreathFlow',
+  'paywall.heroSub': 'Εφάπαξ ξεκλείδωμα. Χωρίς συνδρομή. Ποτέ.',
+  'paywall.socialProof': 'Γίνετε μέλος των χιλιάδων που αναπνέουν καλύτερα κάθε μέρα',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Δωρεάν',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 τεχνικές',
+  'paywall.row1Pro': 'Και οι 10 τεχνικές ✓',
+  'paywall.row2Free': 'Ιστορικό 7 ημερών',
+  'paywall.row2Pro': 'Πλήρες ιστορικό & γραφήματα ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Δημιουργός προσαρμοσμένων τεχνικών ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Παρακολούθηση διάθεσης ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Όλα τα θέματα χρωμάτων & badges ✓',
+  'paywall.anchor': 'Λιγότερο από έναν καφέ. Αποτελέσματα που διαρκούν.',
+  'paywall.continueFree': 'Συνέχεια με δωρεάν έκδοση',
+  'paywall.subtitle': 'Εφάπαξ αγορά. Χωρίς συνδρομή.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Συνεδρία ολοκληρώθηκε',
+  'notifications.sessionCompleteBody': 'Εξαιρετική συνεδρία {{technique}}! Το μυαλό και το σώμα σας ευγνωμονούν.',
+  'notifications.tip1': 'Το Box Breathing μπορεί να μειώσει την κορτιζόλη σε μόλις 4 λεπτά.',
+  'notifications.tip2': 'Μια συνεδρία αναπνοής 5 λεπτών βελτιώνει την εστίαση για ώρες.',
+  'notifications.tip3': 'Η βαθιά αναπνοή ενεργοποιεί το παρασυμπαθητικό νευρικό σύστημα.',
+  'notifications.tip4': 'Δοκιμάστε έναν φυσιολογικό αναστεναγμό για άμεση ανακούφιση από το άγχος.',
+  'notifications.tip5': 'Η αναπνοή με 5,5 αναπνοές/λεπτό βελτιστοποιεί την μεταβλητότητα καρδιακού ρυθμού.',
+  'notifications.tip6': 'Ακόμη και 1 λεπτό συνειδητής αναπνοής κάνει τη διαφορά.',
+  'notifications.tip7': 'Η παρατεταμένη εκπνοή λέει στο σώμα σας ότι είναι ασφαλές να χαλαρώσει.',
 };

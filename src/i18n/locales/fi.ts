@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Virhe',
+
+  // Home (additional)
+  'home.categoryCustom': 'Mukautettu',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Tunne rauha minuuteissa',
+  'onboarding.hookSub': 'Tieteellisesti tukeutuvaa hengitystä stressin, unen ja keskittymisen tueksi. Terapeuttien, urheilijoiden ja NASAn luottama.',
+  'onboarding.benefitStress': 'Vähennä stressiä',
+  'onboarding.benefitSleep': 'Nuku nopeammin',
+  'onboarding.benefitFocus': 'Pysy keskittyneenä',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Luomme henkilökohtaisen hengityssuunnitelmasi',
+  'onboarding.goalCalmLabel': 'Rauha & Rentoutuminen',
+  'onboarding.goalCalmSub': 'Hiljennä sisäinen melu',
+  'onboarding.goalSleepLabel': 'Parempi Uni',
+  'onboarding.goalSleepSub': 'Nukahtaa nopeammin',
+  'onboarding.goalFocusLabel': 'Keskittyminen & Selkeys',
+  'onboarding.goalFocusSub': 'Selkeä mieli pyydettäessä',
+  'onboarding.goalEnergyLabel': 'Energia & Motivaatio',
+  'onboarding.goalEnergySub': 'Luonnollinen energiaboosti',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Rauhoita hermostosi',
+  'onboarding.planTitleSleep': 'Nukahtaa minuuteissa',
+  'onboarding.planTitleFocus': 'Keskittyminen pyydettäessä',
+  'onboarding.planTitleEnergy': 'Luonnollinen energiaboosti',
+  'onboarding.planTitleDefault': 'Hengityssuunnitelmasi on valmis',
+  'onboarding.planBadge': 'Personoitu sinulle',
+  'onboarding.planCalmB1': 'Koherenssihengitys laskee kortisolia 5 minuutissa',
+  'onboarding.planCalmB2': 'Käytössä terapeuteilla, olympiaurheilijoilla ja ensihoitajilla',
+  'onboarding.planCalmB3': 'Hermostosi oppii pysymään rauhallisena',
+  'onboarding.planSleepB1': '4-7-8 hengitys aktivoi parasympaattisen järjestelmäsi',
+  'onboarding.planSleepB2': 'Useimmat käyttäjät nukahtavat nopeammin 3 päivän sisällä',
+  'onboarding.planSleepB3': 'Ei pilleriä. Ei näyttöä. Vain hengitys.',
+  'onboarding.planFocusB1': 'Box Breathing — Navy SEALsin käyttämä äärimmäisen paineen alla',
+  'onboarding.planFocusB2': '4 minuuttia ennen syvää työtä = tunteja selkeyttä',
+  'onboarding.planFocusB3': 'Kliinisesti todistettu vähentämään akuuttia ahdistusta nopeasti',
+  'onboarding.planEnergyB1': 'Hengitystyö aktivoi sympaattisen hermostosi',
+  'onboarding.planEnergyB2': 'Urheilijoiden käyttämä kilpailua edeltävässä valmistautumiessa',
+  'onboarding.planEnergyB3': 'Tunne muutos alle 60 sekunnissa',
+  'onboarding.yourTechnique': 'Ensimmäinen tekniikkasi:',
+  'onboarding.scienceBacked': 'Tutkimukseen perustuva · 10 tekniikkaa · Vain iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Takaisin',
+  'onboarding.maybeSkip': 'Ehkä myöhemmin',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Pysy johdonmukaisena',
+  'onboarding.notificationsSub': 'Saa päivittäinen lempeä muistutus hengittää',
+  'onboarding.notificationsEnable': 'Ota käyttöön päivittäiset muistutukset',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Synkronoi Apple Healthin kanssa',
+  'onboarding.appleHealthSub': 'Seuraa Mindful Minutes -aikaasi automaattisesti',
+  'onboarding.appleHealthConnect': 'Yhdistä Apple Health',
+  'onboarding.appleHealthBullet1': 'Automaattinen Mindful Minutes -synkronointi',
+  'onboarding.appleHealthBullet2': 'Seuraa edistymistä ajan myötä',
+  'onboarding.appleHealthBullet3': 'Tietosi pysyvät yksityisinä',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Stressistä rauhaan — minuuteissa',
+  'paywall.heroSleep': 'Nukahtaa minuuteissa, ei tunneissa',
+  'paywall.heroFocus': 'Navy SEALsin keskittymissalaisuus — paljastettu',
+  'paywall.heroEnergy': 'Luonnollinen energia. Ilman kofeiinia.',
+  'paywall.heroDefault': 'Avaa koko BreathFlow-kokemus',
+  'paywall.heroSub': 'Kertaavaus. Ei tilausta. Koskaan.',
+  'paywall.socialProof': 'Liity tuhansiin, jotka hengittävät paremmin joka päivä',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Ilmainen',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 tekniikkaa',
+  'paywall.row1Pro': 'Kaikki 10 tekniikkaa ✓',
+  'paywall.row2Free': '7 päivän historia',
+  'paywall.row2Pro': 'Koko historia & kaaviot ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Oman tekniikan rakentaja ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Mielialanseuranta ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Kaikki väriteemaat & merkit ✓',
+  'paywall.anchor': 'Kahvia halvemmalla. Tuloksia jotka kestävät.',
+  'paywall.continueFree': 'Jatka ilmaisella versiolla',
+  'paywall.subtitle': 'Kertaosto. Ei tilausta.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Harjoitus valmis',
+  'notifications.sessionCompleteBody': 'Hieno {{technique}}-harjoitus! Mielesi ja kehosi kiittää.',
+  'notifications.tip1': 'Box Breathing voi laskea kortisolia vain 4 minuutissa.',
+  'notifications.tip2': '5 minuutin hengitysharjoitus parantaa keskittymistä tunneiksi.',
+  'notifications.tip3': 'Syvä hengitys aktivoi parasympaattisen hermostosi.',
+  'notifications.tip4': 'Kokeile fysiologista huokausta välittömään stressiä lievittämiseen.',
+  'notifications.tip5': 'Hengittäminen 5,5 hengityksellä/min optimoi sydämen sykevaihtelun.',
+  'notifications.tip6': 'Jopa 1 minuutti tietoista hengitystä tekee eron.',
+  'notifications.tip7': 'Pidennetty uloshengitys kertoo kehollesi, että on turvallista rentoutua.',
 };

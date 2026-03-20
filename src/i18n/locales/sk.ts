@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Chyba',
+
+  // Home (additional)
+  'home.categoryCustom': 'Vlastné',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Pocíťte pokoj za niekoľko minút',
+  'onboarding.hookSub': 'Vedecky podložené dýchanie pre stres, spánok a sústredenie. Dôverujú mu terapeuti, športovci aj NASA.',
+  'onboarding.benefitStress': 'Znížiť stres',
+  'onboarding.benefitSleep': 'Rýchlejšie zaspať',
+  'onboarding.benefitFocus': 'Zostať sústredený',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Zostavíme váš osobný plán dýchania',
+  'onboarding.goalCalmLabel': 'Pokoj & Relaxácia',
+  'onboarding.goalCalmSub': 'Utíšiť vnútorný hluk',
+  'onboarding.goalSleepLabel': 'Lepší Spánok',
+  'onboarding.goalSleepSub': 'Rýchlejšie zaspávať',
+  'onboarding.goalFocusLabel': 'Sústredenie & Jasnosť',
+  'onboarding.goalFocusSub': 'Čistá myseľ na požiadanie',
+  'onboarding.goalEnergyLabel': 'Energia & Motivácia',
+  'onboarding.goalEnergySub': 'Prirodzený energetický boost',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Upokojte svoj nervový systém',
+  'onboarding.planTitleSleep': 'Zaspite za niekoľko minút',
+  'onboarding.planTitleFocus': 'Sústredenie na požiadanie',
+  'onboarding.planTitleEnergy': 'Prirodzený energetický boost',
+  'onboarding.planTitleDefault': 'Váš plán dýchania je pripravený',
+  'onboarding.planBadge': 'Personalizované pre vás',
+  'onboarding.planCalmB1': 'Koherentné dýchanie znižuje kortizol za 5 minút',
+  'onboarding.planCalmB2': 'Využívajú ho terapeuti, olympionici a záchranári',
+  'onboarding.planCalmB3': 'Váš nervový systém sa naučí zostať pokojný',
+  'onboarding.planSleepB1': 'Dýchanie 4-7-8 aktivuje parasympatický systém',
+  'onboarding.planSleepB2': 'Väčšina používateľov zaspáva rýchlejšie do 3 dní',
+  'onboarding.planSleepB3': 'Žiadne tabletky. Žiadne obrazovky. Len dych.',
+  'onboarding.planFocusB1': 'Box Breathing — využívajú Navy SEALs pod extrémnym tlakom',
+  'onboarding.planFocusB2': '4 minúty pred sústredením = hodiny jasnosti',
+  'onboarding.planFocusB3': 'Klinicky overené rýchle zníženie akútnej úzkosti',
+  'onboarding.planEnergyB1': 'Dýchacia práca aktivuje sympatický nervový systém',
+  'onboarding.planEnergyB2': 'Športovci ho využívajú pri príprave pred súťažou',
+  'onboarding.planEnergyB3': 'Pocítite zmenu za menej ako 60 sekúnd',
+  'onboarding.yourTechnique': 'Vaša prvá technika:',
+  'onboarding.scienceBacked': 'Vedecky podložené · 10 techník · Exkluzívne pre iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Späť',
+  'onboarding.maybeSkip': 'Možno neskôr',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Buďte dôslední',
+  'onboarding.notificationsSub': 'Dostávajte každý deň jemné pripomenutie na dýchanie',
+  'onboarding.notificationsEnable': 'Zapnúť denné pripomienky',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Synchronizovať s Apple Health',
+  'onboarding.appleHealthSub': 'Automaticky sledujte svoje Mindful Minutes',
+  'onboarding.appleHealthConnect': 'Pripojiť Apple Health',
+  'onboarding.appleHealthBullet1': 'Automatická synchronizácia Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Sledovanie pokroku v čase',
+  'onboarding.appleHealthBullet3': 'Vaše údaje zostávajú súkromné',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Od stresu k pokoju — za niekoľko minút',
+  'paywall.heroSleep': 'Zaspite za minúty, nie hodiny',
+  'paywall.heroFocus': 'Tajomstvo sústredenia Navy SEALs — odhalené',
+  'paywall.heroEnergy': 'Prirodzená energia. Bez kofeínu.',
+  'paywall.heroDefault': 'Odomknite plný zážitok BreathFlow',
+  'paywall.heroSub': 'Jednorázové odomknutie. Bez predplatného. Nikdy.',
+  'paywall.socialProof': 'Pridajte sa k tisícom, ktorí každý deň dýchajú lepšie',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Zadarmo',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 techník',
+  'paywall.row1Pro': 'Všetkých 10 techník ✓',
+  'paywall.row2Free': 'História 7 dní',
+  'paywall.row2Pro': 'Úplná história & grafy ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Tvorca vlastných techník ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Sledovanie nálady ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Všetky farebné témy & odznaky ✓',
+  'paywall.anchor': 'Menej ako káva. Výsledky, ktoré vydržia.',
+  'paywall.continueFree': 'Pokračovať s bezplatnou verziou',
+  'paywall.subtitle': 'Jednorazový nákup. Bez predplatného.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sedenie dokončené',
+  'notifications.sessionCompleteBody': 'Skvelé {{technique}} sedenie! Vaša myseľ a telo vám ďakujú.',
+  'notifications.tip1': 'Box Breathing môže znížiť kortizol za len 4 minúty.',
+  'notifications.tip2': '5-minútové dýchacie cvičenie zlepšuje sústredenie na hodiny.',
+  'notifications.tip3': 'Hlboké dýchanie aktivuje parasympatický nervový systém.',
+  'notifications.tip4': 'Vyskúšajte fyziologický vzdych pre okamžitú úľavu od stresu.',
+  'notifications.tip5': 'Dýchanie 5,5 nádychmi/min optimalizuje variabilitu srdcovej frekvencie.',
+  'notifications.tip6': 'Dokonca aj 1 minúta vedomého dýchania robí rozdiel.',
+  'notifications.tip7': 'Predĺžené výdychy hovoria vášmu telu, že je bezpečné relaxovať.',
 };

@@ -491,4 +491,90 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'Kohandatud',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Tunne rahu minutitega',
+  'onboarding.hookSub': 'Teaduspõhine hingamine stressi vähendamiseks, une parandamiseks ja fookuse teravdamiseks.',
+  'onboarding.benefitStress': 'Vähenda stressi',
+  'onboarding.benefitSleep': 'Uinu kiiremini',
+  'onboarding.benefitFocus': 'Hoia fookust',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'Isikupärastame sinu BreathFlow kogemuse.',
+  'onboarding.goalCalmLabel': 'Rahu ja lõõgastus',
+  'onboarding.goalCalmSub': 'Vähenda ärevust ja pingeid',
+  'onboarding.goalSleepLabel': 'Parem uni',
+  'onboarding.goalSleepSub': 'Uinu kiiremini, puhka sügavamalt',
+  'onboarding.goalFocusLabel': 'Fookus ja sooritusvõime',
+  'onboarding.goalFocusSub': 'Teravda meelt, ole kohal',
+  'onboarding.goalEnergyLabel': 'Energia ja elujõud',
+  'onboarding.goalEnergySub': 'Laadi end looduslikult',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'Sinu plaan on valmis',
+  'onboarding.planBadge': 'Teaduslikult tõestatud',
+  'onboarding.planBullet1': 'Isikupärastatud hingamistehnikad',
+  'onboarding.planBullet2': '5-minutilised järkjärgulised seansid',
+  'onboarding.planBullet3': 'Edenemise jälgimine ja märgid',
+  'onboarding.yourTechnique': 'Sinu esimene tehnika',
+  'onboarding.scienceBacked': 'Teadus tõestab',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Tagasi',
+  'onboarding.maybeSkip': 'Ehk hiljem',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Püsi rajal',
+  'onboarding.notificationsSub': 'Õrnad meeldetuletused aitavad sul igapäevast harjumust hoida.',
+  'onboarding.notificationsBullet1': 'Igapäevased meeldetuletused soovitud ajal',
+  'onboarding.notificationsBullet2': 'Hingamisnõuanded ja nipid',
+  'onboarding.notificationsBullet3': 'Saavutuste tähistamine',
+  'onboarding.enableNotifications': 'Luba teavitused',
+  'onboarding.notificationsSkip': 'Mitte praegu',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sünkroniseeri Apple Health\'iga',
+  'onboarding.appleHealthSub': 'Salvesta Mindful Minutes ja jälgi oma heaolu.',
+  'onboarding.appleHealthBullet1': 'Automaatne Mindful Minutes logimine',
+  'onboarding.appleHealthBullet2': 'HRV andmete jälgimine',
+  'onboarding.appleHealthBullet3': 'Sinu andmed jäävad privaatseks',
+  'onboarding.connectHealth': 'Ühenda Apple Health',
+  'onboarding.healthSkip': 'Jäta vahele',
+
+  // Paywall (new keys)
+  'paywall.heroCalm': 'Hinga sügava rahu jaoks',
+  'paywall.heroSleep': 'Uinu minutitega',
+  'paywall.heroFocus': 'Teravda oma fookust',
+  'paywall.heroEnergy': 'Suurenda oma energiat',
+  'paywall.heroDefault': 'Ava täielik potentsiaal',
+  'paywall.heroSub': 'Uuenda Pro-versioonile, et pääseda ligi kõigile tehnikatele ja täiustatud tööriistadele.',
+  'paywall.socialProof': 'Liitu üle 50 000 rahulikku hingaja',
+  'paywall.freeLabel': 'Tasuta',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 tehnikat',
+  'paywall.row1Pro': '✓ Kõik 10 tehnikat',
+  'paywall.row2Free': '7-päeva ajalugu',
+  'paywall.row2Pro': '✓ Täielik ajalugu ja graafikud',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ Kohandatud tehnika koostaja',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ Kõik värviskeemid',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ Meeleolu jälgimine ja eksport',
+  'paywall.anchor': 'Ühekordne ost · Ilma tellimuseta',
+  'paywall.continueFree': 'Jätka tasuta',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Seanss lõpetatud',
+  'notifications.sessionCompleteBody': 'Suurepärane {{technique}} seanss! Hingasid täna {{duration}} minutit.',
+  'notifications.tip1': 'Box Breathing suudab kortisoolisisaldust vähendada vaid 4 tsükliga.',
+  'notifications.tip2': 'Navy SEALs kasutavad Box Breathing\'i, et surve all rahulikuks jääda.',
+  'notifications.tip3': 'Koherentne hingamine 5,5-sekundilises rütmis optimeerib HRV-d.',
+  'notifications.tip4': 'Stanfordi uuring näitab, et füsioloogiline ohkamine vähendab stressi kiiremini kui ükski muu tehnika.',
+  'notifications.tip5': 'Juba 5 minutit teadlikku hingamist muudab meeleolu.',
+  'notifications.tip6': 'Aeglane hingamine aktiveerib parasümpaatilise närvisüsteemi.',
+  'notifications.tip7': 'Järjepidev harjutamine loob aja jooksul vastupidavust.',
 };

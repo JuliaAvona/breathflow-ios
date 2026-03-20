@@ -500,4 +500,89 @@ export default {
   'common.free': '免费',
   'common.loading': '加载中...',
   'common.error': '错误',
+
+  // Home (additional)
+  'home.categoryCustom': '自定义',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': '几分钟内感受平静',
+  'onboarding.hookSub': '经科学验证的呼吸法，有效缓解压力、改善睡眠与专注力。受到治疗师、运动员和NASA的信赖。',
+  'onboarding.benefitStress': '减轻压力',
+  'onboarding.benefitSleep': '更快入睡',
+  'onboarding.benefitFocus': '保持专注',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': '我们将为你制定个性化呼吸计划',
+  'onboarding.goalCalmLabel': '平静 & 放松',
+  'onboarding.goalCalmSub': '平息内心的喧嚣',
+  'onboarding.goalSleepLabel': '更好的睡眠',
+  'onboarding.goalSleepSub': '更快入睡',
+  'onboarding.goalFocusLabel': '专注 & 清晰',
+  'onboarding.goalFocusSub': '随时保持思维清晰',
+  'onboarding.goalEnergyLabel': '活力 & 动力',
+  'onboarding.goalEnergySub': '天然能量提升',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': '平静你的神经系统',
+  'onboarding.planTitleSleep': '几分钟内入睡',
+  'onboarding.planTitleFocus': '随时专注',
+  'onboarding.planTitleEnergy': '天然能量提升',
+  'onboarding.planTitleDefault': '你的呼吸计划已就绪',
+  'onboarding.planBadge': '专属定制',
+  'onboarding.planCalmB1': '协调呼吸在5分钟内降低皮质醇',
+  'onboarding.planCalmB2': '治疗师、奥运运动员和急救人员都在使用',
+  'onboarding.planCalmB3': '你的神经系统学会保持平静',
+  'onboarding.planSleepB1': '4-7-8呼吸激活副交感神经系统',
+  'onboarding.planSleepB2': '大多数用户在3天内入睡更快',
+  'onboarding.planSleepB3': '无需药物，无需屏幕，只需呼吸。',
+  'onboarding.planFocusB1': 'Box Breathing — Navy SEALs在极端压力下使用',
+  'onboarding.planFocusB2': '深度工作前4分钟 = 数小时的清醒',
+  'onboarding.planFocusB3': '临床证明可快速减轻急性焦虑',
+  'onboarding.planEnergyB1': '呼吸法激活交感神经系统',
+  'onboarding.planEnergyB2': '运动员在赛前准备中使用',
+  'onboarding.planEnergyB3': '60秒内感受变化',
+  'onboarding.yourTechnique': '你的第一个技法：',
+  'onboarding.scienceBacked': '科研支持 · 10种技法 · iOS专属',
+
+  // Onboarding — Navigation
+  'onboarding.back': '返回',
+  'onboarding.maybeSkip': '稍后再说',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': '保持坚持',
+  'onboarding.notificationsSub': '每天获得一次温柔的呼吸提醒',
+  'onboarding.notificationsEnable': '开启每日提醒',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': '与Apple Health同步',
+  'onboarding.appleHealthSub': '自动追踪你的Mindful Minutes',
+  'onboarding.appleHealthConnect': '连接Apple Health',
+  'onboarding.appleHealthBullet1': '自动同步Mindful Minutes',
+  'onboarding.appleHealthBullet2': '追踪长期进展',
+  'onboarding.appleHealthBullet3': '你的数据保持私密',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': '从压力到平静 — 几分钟内',
+  'paywall.heroSleep': '几分钟入睡，而非几小时',
+  'paywall.heroFocus': 'Navy SEALs的专注秘诀 — 揭秘',
+  'paywall.heroEnergy': '天然能量，无需咖啡因。',
+  'paywall.heroDefault': '解锁完整的BreathFlow体验',
+  'paywall.heroSub': '一次性解锁，永不订阅。',
+  'paywall.socialProof': '加入每天呼吸更好的数千人行列',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': '免费',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5种技法',
+  'paywall.row1Pro': '全部10种技法 ✓',
+  'paywall.row2Free': '7天记录',
+  'paywall.row2Pro': '完整记录与图表 ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '自定义技法构建器 ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '心情追踪 ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '全部颜色主题与徽章 ✓',
+  'paywall.anchor': '不到一杯咖啡的价格，持久的效果。',
+  'paywall.continueFree': '继续使用免费版',
 };

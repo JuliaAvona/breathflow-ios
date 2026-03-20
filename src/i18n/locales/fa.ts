@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'سفارشی',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'آرامش را در چند دقیقه احساس کنید',
+  'onboarding.hookSub': 'تنفس مبتنی بر علم برای کاهش استرس، خواب بهتر و تمرکز تیزتر.',
+  'onboarding.benefitStress': 'کاهش استرس',
+  'onboarding.benefitSleep': 'سریع‌تر خوابیدن',
+  'onboarding.benefitFocus': 'حفظ تمرکز',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'تجربه BreathFlow شما را شخصی‌سازی می‌کنیم.',
+  'onboarding.goalCalmLabel': 'آرامش و ریلکسیشن',
+  'onboarding.goalCalmSub': 'اضطراب و فشار را کاهش دهید',
+  'onboarding.goalSleepLabel': 'خواب بهتر',
+  'onboarding.goalSleepSub': 'سریع‌تر بخوابید، عمیق‌تر استراحت کنید',
+  'onboarding.goalFocusLabel': 'تمرکز و عملکرد',
+  'onboarding.goalFocusSub': 'ذهن خود را تیز کنید، حاضر بمانید',
+  'onboarding.goalEnergyLabel': 'انرژی و سرزندگی',
+  'onboarding.goalEnergySub': 'به طور طبیعی خود را شارژ کنید',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'برنامه شما آماده است',
+  'onboarding.planBadge': 'مبتنی بر علم',
+  'onboarding.planBullet1': 'تکنیک‌های تنفس شخصی‌سازی شده',
+  'onboarding.planBullet2': 'جلسات تدریجی ۵ دقیقه‌ای',
+  'onboarding.planBullet3': 'ردیابی پیشرفت و نشان‌ها',
+  'onboarding.yourTechnique': 'اولین تکنیک شما',
+  'onboarding.scienceBacked': 'تأیید شده توسط علم',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'بازگشت',
+  'onboarding.maybeSkip': 'شاید بعداً',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'در مسیر بمانید',
+  'onboarding.notificationsSub': 'یادآوری‌های ملایم به شما کمک می‌کند روتین روزانه‌تان را حفظ کنید.',
+  'onboarding.notificationsBullet1': 'یادآوری‌های روزانه در زمان دلخواه',
+  'onboarding.notificationsBullet2': 'نکات و ترفندهای تنفس',
+  'onboarding.notificationsBullet3': 'جشن دستاوردها',
+  'onboarding.enableNotifications': 'فعال‌سازی اعلان‌ها',
+  'onboarding.notificationsSkip': 'نه الان',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'همگام‌سازی با Apple Health',
+  'onboarding.appleHealthSub': 'دقایق ذهن‌آگاهی را ثبت کنید و سلامت خود را پیگیری کنید.',
+  'onboarding.appleHealthBullet1': 'ثبت خودکار Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'ردیابی داده‌های HRV',
+  'onboarding.appleHealthBullet3': 'داده‌های شما خصوصی می‌ماند',
+  'onboarding.connectHealth': 'اتصال به Apple Health',
+  'onboarding.healthSkip': 'رد کردن',
+
+  // Paywall
+  'paywall.heroCalm': 'برای آرامش عمیق نفس بکشید',
+  'paywall.heroSleep': 'در چند دقیقه بخوابید',
+  'paywall.heroFocus': 'تمرکز خود را تیز کنید',
+  'paywall.heroEnergy': 'انرژی خود را افزایش دهید',
+  'paywall.heroDefault': 'پتانسیل کامل را آزاد کنید',
+  'paywall.heroSub': 'برای دسترسی به همه تکنیک‌ها و ابزارهای پیشرفته به Pro ارتقا دهید.',
+  'paywall.socialProof': 'به ۵۰,۰۰۰+ نفس‌کش آرام بپیوندید',
+  'paywall.freeLabel': 'رایگان',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '۵ تکنیک',
+  'paywall.row1Pro': '✓ همه ۱۰ تکنیک',
+  'paywall.row2Free': 'تاریخچه ۷ روزه',
+  'paywall.row2Pro': '✓ تاریخچه کامل و نمودارها',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ سازنده تکنیک سفارشی',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ همه تم‌های رنگی',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ ردیابی خلق‌وخو و صادرات',
+  'paywall.anchor': 'خرید یک‌بار · بدون اشتراک',
+  'paywall.continueFree': 'ادامه رایگان',
+  'paywall.subtitle': 'دسترسی فوری · هرگز تبلیغ نیست',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'جلسه تکمیل شد',
+  'notifications.sessionCompleteBody': 'جلسه {{technique}} عالی! {{duration}} دقیقه امروز تنفس کردید.',
+  'notifications.tip1': 'Box Breathing می‌تواند کورتیزول را در ۴ چرخه کاهش دهد.',
+  'notifications.tip2': 'Navy SEALs از Box Breathing برای آرام ماندن زیر فشار استفاده می‌کنند.',
+  'notifications.tip3': 'تنفس کوهرنت با ریتم ۵.۵ ثانیه‌ای HRV را بهینه می‌کند.',
+  'notifications.tip4': 'تحقیقات Stanford نشان می‌دهد آه فیزیولوژیکی سریع‌تر از هر تکنیک دیگری استرس را کاهش می‌دهد.',
+  'notifications.tip5': 'حتی ۵ دقیقه تنفس آگاهانه خلق‌وخو را تغییر می‌دهد.',
+  'notifications.tip6': 'تنفس آهسته سیستم عصبی پاراسمپاتیک را فعال می‌کند.',
+  'notifications.tip7': 'تمرین مداوم در طول زمان تاب‌آوری ایجاد می‌کند.',
 };

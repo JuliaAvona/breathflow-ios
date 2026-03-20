@@ -491,4 +491,90 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'Custom',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Maramdaman ang kapayapaan sa loob ng ilang minuto',
+  'onboarding.hookSub': 'Paghinga batay sa agham para bawasan ang stress, mapabuti ang tulog, at mapatalas ang pokus.',
+  'onboarding.benefitStress': 'Bawasan ang stress',
+  'onboarding.benefitSleep': 'Makatulog nang mas mabilis',
+  'onboarding.benefitFocus': 'Mapanatili ang pokus',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'Ipapersonal namin ang iyong karanasan sa BreathFlow.',
+  'onboarding.goalCalmLabel': 'Kalma at Relaksasyon',
+  'onboarding.goalCalmSub': 'Bawasan ang pagkabalisa at tensyon',
+  'onboarding.goalSleepLabel': 'Mas Magandang Tulog',
+  'onboarding.goalSleepSub': 'Makatulog nang mas mabilis, mas malalim na pahinga',
+  'onboarding.goalFocusLabel': 'Pokus at Pagganap',
+  'onboarding.goalFocusSub': 'Patalas ang isip, manatiling naroroon',
+  'onboarding.goalEnergyLabel': 'Enerhiya at Sigla',
+  'onboarding.goalEnergySub': 'Mag-charge nang natural',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'Handa na ang iyong plano',
+  'onboarding.planBadge': 'Sinuportahan ng agham',
+  'onboarding.planBullet1': 'Personalisadong mga teknik sa paghinga',
+  'onboarding.planBullet2': 'Mga sesyong 5 minuto na paunti-unti',
+  'onboarding.planBullet3': 'Pagsubaybay ng progreso at mga badge',
+  'onboarding.yourTechnique': 'Ang iyong unang teknik',
+  'onboarding.scienceBacked': 'Pinatunayan ng agham',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Bumalik',
+  'onboarding.maybeSkip': 'Siguro mamaya',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Manatiling naka-track',
+  'onboarding.notificationsSub': 'Ang malambot na mga paalala ay tumutulong sa iyong mapanatili ang pang-araw-araw na gawi.',
+  'onboarding.notificationsBullet1': 'Mga pang-araw-araw na paalala sa oras na gusto mo',
+  'onboarding.notificationsBullet2': 'Mga tip at trick sa paghinga',
+  'onboarding.notificationsBullet3': 'Pagdiriwang ng mga tagumpay',
+  'onboarding.enableNotifications': 'I-enable ang mga abiso',
+  'onboarding.notificationsSkip': 'Hindi ngayon',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'I-sync sa Apple Health',
+  'onboarding.appleHealthSub': 'I-record ang Mindful Minutes at subaybayan ang iyong kalusugan.',
+  'onboarding.appleHealthBullet1': 'Awtomatikong pag-log ng Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Pagsubaybay ng data ng HRV',
+  'onboarding.appleHealthBullet3': 'Ang iyong data ay nananatiling pribado',
+  'onboarding.connectHealth': 'Ikonekta ang Apple Health',
+  'onboarding.healthSkip': 'Laktawan',
+
+  // Paywall (new keys)
+  'paywall.heroCalm': 'Huminga para sa malalim na kapayapaan',
+  'paywall.heroSleep': 'Makatulog sa loob ng ilang minuto',
+  'paywall.heroFocus': 'Patalas ang iyong pokus',
+  'paywall.heroEnergy': 'Palakasin ang iyong enerhiya',
+  'paywall.heroDefault': 'I-unlock ang buong potensyal',
+  'paywall.heroSub': 'I-upgrade sa Pro para ma-access ang lahat ng teknik at advanced na tool.',
+  'paywall.socialProof': 'Sumali sa mahigit 50,000 mapanatag na naghi-hinga',
+  'paywall.freeLabel': 'Libre',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 teknik',
+  'paywall.row1Pro': '✓ Lahat ng 10 teknik',
+  'paywall.row2Free': '7-araw na kasaysayan',
+  'paywall.row2Pro': '✓ Buong kasaysayan at mga chart',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ Custom na tagalikha ng teknik',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ Lahat ng tema ng kulay',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ Pagsubaybay ng mood at pag-export',
+  'paywall.anchor': 'Isang-beses na pagbili · Walang subscription',
+  'paywall.continueFree': 'Magpatuloy nang libre',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Kumpleto na ang sesyon',
+  'notifications.sessionCompleteBody': 'Magandang sesyon ng {{technique}}! Huminga ka ng {{duration}} minuto ngayon.',
+  'notifications.tip1': 'Mababawasan ng Box Breathing ang cortisol sa loob lamang ng 4 na siklo.',
+  'notifications.tip2': 'Ginagamit ng Navy SEALs ang Box Breathing para manatiling kalmado sa ilalim ng presyon.',
+  'notifications.tip3': 'Ang Coherence breathing sa ritmo ng 5.5 segundo ay nag-o-optimize ng HRV.',
+  'notifications.tip4': 'Ipinapakita ng pananaliksik ng Stanford na ang physiological sigh ay nagbabawas ng stress nang mas mabilis kaysa sa anumang iba pang teknik.',
+  'notifications.tip5': 'Kahit 5 minuto lamang ng maingat na paghinga ay nagbabago ng mood.',
+  'notifications.tip6': 'Ang mabagal na paghinga ay nag-a-activate ng parasympathetic nervous system.',
+  'notifications.tip7': 'Ang konsistenteng pagsasanay ay nagtatayo ng katatagan sa paglipas ng panahon.',
 };

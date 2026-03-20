@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Eroare',
+
+  // Home (additional)
+  'home.categoryCustom': 'Personalizat',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Simte calmul în câteva minute',
+  'onboarding.hookSub': 'Respirație susținută de știință pentru stres, somn și concentrare. De încredere pentru terapeuți, atleți și NASA.',
+  'onboarding.benefitStress': 'Reducere stres',
+  'onboarding.benefitSleep': 'Adormi mai repede',
+  'onboarding.benefitFocus': 'Menține concentrarea',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Vom crea planul tău personalizat de respirație',
+  'onboarding.goalCalmLabel': 'Calm & Relaxare',
+  'onboarding.goalCalmSub': 'Liniștește zgomotul interior',
+  'onboarding.goalSleepLabel': 'Somn Mai Bun',
+  'onboarding.goalSleepSub': 'Adormi mai repede',
+  'onboarding.goalFocusLabel': 'Concentrare & Claritate',
+  'onboarding.goalFocusSub': 'Minte clară la cerere',
+  'onboarding.goalEnergyLabel': 'Energie & Motivație',
+  'onboarding.goalEnergySub': 'Boost natural de energie',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Calmează-ți sistemul nervos',
+  'onboarding.planTitleSleep': 'Adormi în câteva minute',
+  'onboarding.planTitleFocus': 'Concentrare la cerere',
+  'onboarding.planTitleEnergy': 'Boost natural de energie',
+  'onboarding.planTitleDefault': 'Planul tău de respirație este gata',
+  'onboarding.planBadge': 'Personalizat pentru tine',
+  'onboarding.planCalmB1': 'Respirația coerentă scade cortizolul în 5 minute',
+  'onboarding.planCalmB2': 'Folosit de terapeuți, atleți olimpici și salvatori',
+  'onboarding.planCalmB3': 'Sistemul tău nervos învață să rămână calm',
+  'onboarding.planSleepB1': 'Respirația 4-7-8 activează sistemul parasimpatic',
+  'onboarding.planSleepB2': 'Cei mai mulți utilizatori adorm mai repede în 3 zile',
+  'onboarding.planSleepB3': 'Fără pastile. Fără ecrane. Doar respirație.',
+  'onboarding.planFocusB1': 'Box Breathing — folosit de Navy SEALs sub presiune extremă',
+  'onboarding.planFocusB2': '4 minute înainte de muncă profundă = ore de claritate',
+  'onboarding.planFocusB3': 'Dovedit clinic să reducă rapid anxietatea acută',
+  'onboarding.planEnergyB1': 'Tehnicile de respirație activează sistemul nervos simpatic',
+  'onboarding.planEnergyB2': 'Folosit de atleți pentru pregătire pre-competiție',
+  'onboarding.planEnergyB3': 'Simte schimbarea în mai puțin de 60 secunde',
+  'onboarding.yourTechnique': 'Prima ta tehnică:',
+  'onboarding.scienceBacked': 'Bazat pe cercetare · 10 tehnici · Exclusiv iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Înapoi',
+  'onboarding.maybeSkip': 'Poate mai târziu',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Rămâi consecvent',
+  'onboarding.notificationsSub': 'Primește o reamintire zilnică blândă să respiri',
+  'onboarding.notificationsEnable': 'Activează reamintirile zilnice',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sincronizare cu Apple Health',
+  'onboarding.appleHealthSub': 'Urmărește automat Mindful Minutes',
+  'onboarding.appleHealthConnect': 'Conectează Apple Health',
+  'onboarding.appleHealthBullet1': 'Sincronizare automată Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Urmărește progresul în timp',
+  'onboarding.appleHealthBullet3': 'Datele tale rămân private',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'De la stres la calm — în câteva minute',
+  'paywall.heroSleep': 'Adormi în minute, nu ore',
+  'paywall.heroFocus': 'Secretul de concentrare al Navy SEALs — dezvăluit',
+  'paywall.heroEnergy': 'Energie naturală. Fără cofeină.',
+  'paywall.heroDefault': 'Deblochează experiența completă BreathFlow',
+  'paywall.heroSub': 'Deblocare unică. Fără abonament. Niciodată.',
+  'paywall.socialProof': 'Alătură-te miilor care respiră mai bine în fiecare zi',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Gratuit',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 tehnici',
+  'paywall.row1Pro': 'Toate 10 tehnicile ✓',
+  'paywall.row2Free': 'Istoric 7 zile',
+  'paywall.row2Pro': 'Istoric complet & grafice ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Creator de tehnici personalizate ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Monitorizare stare de spirit ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Toate temele & insignele ✓',
+  'paywall.anchor': 'Mai puțin decât o cafea. Rezultate de durată.',
+  'paywall.continueFree': 'Continuă cu versiunea gratuită',
+  'paywall.subtitle': 'Cumpărătură unică. Fără abonament.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sesiune completă',
+  'notifications.sessionCompleteBody': 'Sesiune excelentă de {{technique}}! Mintea și corpul tău îți mulțumesc.',
+  'notifications.tip1': 'Box Breathing poate reduce cortizolul în doar 4 minute.',
+  'notifications.tip2': 'O sesiune de respirație de 5 minute îmbunătățește concentrarea ore în șir.',
+  'notifications.tip3': 'Respirația profundă activează sistemul nervos parasimpatic.',
+  'notifications.tip4': 'Încearcă un suspin fiziologic pentru ameliorarea imediată a stresului.',
+  'notifications.tip5': 'Respirația la 5,5 respirații/min optimizează variabilitatea frecvenței cardiace.',
+  'notifications.tip6': 'Chiar și 1 minut de respirație conștientă face diferența.',
+  'notifications.tip7': 'Expirațiile prelungite spun corpului tău că e sigur să se relaxeze.',
 };

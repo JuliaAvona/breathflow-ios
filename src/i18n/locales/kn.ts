@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'ಕಸ್ಟಮ್',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'ನಿಮಿಷಗಳಲ್ಲಿ ಶಾಂತಿ ಅನುಭವಿಸಿ',
+  'onboarding.hookSub': 'ಒತ್ತಡ ಕಡಿಮೆ ಮಾಡಲು, ನಿದ್ರೆ ಸುಧಾರಿಸಲು ಮತ್ತು ಗಮನ ಹೆಚ್ಚಿಸಲು ವಿಜ್ಞಾನ-ಆಧಾರಿತ ಉಸಿರಾಟ.',
+  'onboarding.benefitStress': 'ಒತ್ತಡ ಕಡಿಮೆ ಮಾಡಿ',
+  'onboarding.benefitSleep': 'ಬೇಗ ನಿದ್ರಿಸಿ',
+  'onboarding.benefitFocus': 'ಗಮನ ಕಾಪಾಡಿ',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'ನಿಮ್ಮ BreathFlow ಅನುಭವವನ್ನು ವ್ಯಕ್ತಿಗತಗೊಳಿಸುತ್ತೇವೆ.',
+  'onboarding.goalCalmLabel': 'ಶಾಂತಿ ಮತ್ತು ವಿಶ್ರಾಂತಿ',
+  'onboarding.goalCalmSub': 'ಆತಂಕ ಮತ್ತು ಒತ್ತಡ ಕಡಿಮೆ ಮಾಡಿ',
+  'onboarding.goalSleepLabel': 'ಉತ್ತಮ ನಿದ್ರೆ',
+  'onboarding.goalSleepSub': 'ಬೇಗ ನಿದ್ರಿಸಿ, ಆಳವಾಗಿ ವಿಶ್ರಮಿಸಿ',
+  'onboarding.goalFocusLabel': 'ಗಮನ ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ',
+  'onboarding.goalFocusSub': 'ಮನಸ್ಸನ್ನು ತೀಕ್ಷ್ಣಗೊಳಿಸಿ, ಪ್ರಸ್ತುತದಲ್ಲಿ ಇರಿ',
+  'onboarding.goalEnergyLabel': 'ಶಕ್ತಿ ಮತ್ತು ಚೈತನ್ಯ',
+  'onboarding.goalEnergySub': 'ನೈಸರ್ಗಿಕವಾಗಿ ನಿಮ್ಮನ್ನು ಚಾರ್ಜ್ ಮಾಡಿ',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'ನಿಮ್ಮ ಯೋಜನೆ ಸಿದ್ಧವಾಗಿದೆ',
+  'onboarding.planBadge': 'ವಿಜ್ಞಾನ-ಸಮರ್ಥಿತ',
+  'onboarding.planBullet1': 'ವ್ಯಕ್ತಿಗತ ಉಸಿರಾಟ ತಂತ್ರಗಳು',
+  'onboarding.planBullet2': '5-ನಿಮಿಷ ಕ್ರಮೇಣ ಅಧಿವೇಶನಗಳು',
+  'onboarding.planBullet3': 'ಪ್ರಗತಿ ಟ್ರ್ಯಾಕಿಂಗ್ ಮತ್ತು ಬ್ಯಾಡ್ಜ್‌ಗಳು',
+  'onboarding.yourTechnique': 'ನಿಮ್ಮ ಮೊದಲ ತಂತ್ರ',
+  'onboarding.scienceBacked': 'ವಿಜ್ಞಾನದಿಂದ ಸಾಬೀತಾಗಿದೆ',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'ಹಿಂದೆ',
+  'onboarding.maybeSkip': 'ಬಹುಶಃ ನಂತರ',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'ಟ್ರ್ಯಾಕ್‌ನಲ್ಲಿ ಇರಿ',
+  'onboarding.notificationsSub': 'ಮೃದು ನೆನಪೂಸುಗಳು ನಿಮ್ಮ ದೈನಂದಿನ ದಿನಚರಿ ಕಾಪಾಡಲು ಸಹಾಯ ಮಾಡುತ್ತವೆ.',
+  'onboarding.notificationsBullet1': 'ಆಯ್ದ ಸಮಯದಲ್ಲಿ ದೈನಂದಿನ ನೆನಪೂಸುಗಳು',
+  'onboarding.notificationsBullet2': 'ಉಸಿರಾಟ ಟಿಪ್ಸ್ ಮತ್ತು ತಂತ್ರಗಳು',
+  'onboarding.notificationsBullet3': 'ಸಾಧನೆ ಆಚರಣೆಗಳು',
+  'onboarding.enableNotifications': 'ಅಧಿಸೂಚನೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ',
+  'onboarding.notificationsSkip': 'ಈಗ ಬೇಡ',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health ಜೊತೆ ಸಿಂಕ್ ಮಾಡಿ',
+  'onboarding.appleHealthSub': 'Mindful Minutes ದಾಖಲಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಆರೋಗ್ಯ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ.',
+  'onboarding.appleHealthBullet1': 'ಸ್ವಯಂಚಾಲಿತ Mindful Minutes ಲಾಗಿಂಗ್',
+  'onboarding.appleHealthBullet2': 'HRV ಡೇಟಾ ಟ್ರ್ಯಾಕಿಂಗ್',
+  'onboarding.appleHealthBullet3': 'ನಿಮ್ಮ ಡೇಟಾ ಖಾಸಗಿಯಾಗಿ ಉಳಿಯುತ್ತದೆ',
+  'onboarding.connectHealth': 'Apple Health ಸಂಪರ್ಕಿಸಿ',
+  'onboarding.healthSkip': 'ಬಿಟ್ಟುಬಿಡಿ',
+
+  // Paywall
+  'paywall.heroCalm': 'ಆಳವಾದ ಶಾಂತಿಗಾಗಿ ಉಸಿರಾಡಿ',
+  'paywall.heroSleep': 'ನಿಮಿಷಗಳಲ್ಲಿ ನಿದ್ರಿಸಿ',
+  'paywall.heroFocus': 'ನಿಮ್ಮ ಗಮನ ತೀಕ್ಷ್ಣಗೊಳಿಸಿ',
+  'paywall.heroEnergy': 'ನಿಮ್ಮ ಶಕ್ತಿ ಹೆಚ್ಚಿಸಿ',
+  'paywall.heroDefault': 'ಪೂರ್ಣ ಸಾಮರ್ಥ್ಯ ಅನ್ಲಾಕ್ ಮಾಡಿ',
+  'paywall.heroSub': 'ಎಲ್ಲ ತಂತ್ರಗಳು ಮತ್ತು ಸುಧಾರಿತ ಪರಿಕರಗಳಿಗೆ ಪ್ರವೇಶಕ್ಕಾಗಿ Pro ಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ.',
+  'paywall.socialProof': '50,000+ ಶಾಂತ ಉಸಿರಾಡುವವರನ್ನು ಸೇರಿ',
+  'paywall.freeLabel': 'ಉಚಿತ',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 ತಂತ್ರಗಳು',
+  'paywall.row1Pro': '✓ ಎಲ್ಲ 10 ತಂತ್ರಗಳು',
+  'paywall.row2Free': '7-ದಿನ ಇತಿಹಾಸ',
+  'paywall.row2Pro': '✓ ಪೂರ್ಣ ಇತಿಹಾಸ ಮತ್ತು ಚಾರ್ಟ್‌ಗಳು',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ ಕಸ್ಟಮ್ ತಂತ್ರ ಬಿಲ್ಡರ್',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ ಎಲ್ಲ ಬಣ್ಣ ಥೀಮ್‌ಗಳು',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ ಮೂಡ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಮತ್ತು ರಫ್ತು',
+  'paywall.anchor': 'ಒಮ್ಮೆ ಖರೀದಿ · ಚಂದಾದಾರಿಕೆ ಇಲ್ಲ',
+  'paywall.continueFree': 'ಉಚಿತವಾಗಿ ಮುಂದುವರಿಸಿ',
+  'paywall.subtitle': 'ತಕ್ಷಣ ಪ್ರವೇಶ · ಎಂದಿಗೂ ಜಾಹೀರಾತಿಲ್ಲ',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'ಅಧಿವೇಶನ ಪೂರ್ಣ',
+  'notifications.sessionCompleteBody': 'ಅದ್ಭುತ {{technique}} ಅಧಿವೇಶನ! ಇಂದು {{duration}} ನಿಮಿಷ ಉಸಿರಾಡಿದ್ದೀರಿ.',
+  'notifications.tip1': 'Box Breathing ಕೇವಲ 4 ಚಕ್ರಗಳಲ್ಲಿ ಕಾರ್ಟಿಸಾಲ್ ಕಡಿಮೆ ಮಾಡಬಹುದು.',
+  'notifications.tip2': 'Navy SEALs ಒತ್ತಡದಲ್ಲಿ ಶಾಂತರಾಗಿ ಇರಲು Box Breathing ಬಳಸುತ್ತಾರೆ.',
+  'notifications.tip3': '5.5-ಸೆಕೆಂಡ್ ಲಯದಲ್ಲಿ Coherence breathing HRV ಅನ್ನು ಅತ್ಯುತ್ತಮಗೊಳಿಸುತ್ತದೆ.',
+  'notifications.tip4': 'Stanford ಸಂಶೋಧನೆ ತೋರಿಸುತ್ತದೆ physiological sigh ಯಾವ ತಂತ್ರಕ್ಕಿಂತಲೂ ವೇಗವಾಗಿ ಒತ್ತಡ ಕಡಿಮೆ ಮಾಡುತ್ತದೆ.',
+  'notifications.tip5': 'ಕೇವಲ 5 ನಿಮಿಷ ಪ್ರಜ್ಞಾಪೂರ್ವಕ ಉಸಿರಾಟ ಮನಸ್ಥಿತಿ ಬದಲಿಸುತ್ತದೆ.',
+  'notifications.tip6': 'ನಿಧಾನ ಉಸಿರಾಟ parasympathetic nervous system ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ.',
+  'notifications.tip7': 'ನಿರಂತರ ಅಭ್ಯಾಸ ಕ್ರಮೇಣ ಸ್ಥಿತಿಸ್ಥಾಪಕತ್ವ ನಿರ್ಮಿಸುತ್ತದೆ.',
 };

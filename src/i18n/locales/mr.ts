@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'सानुकूल',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'मिनिटांत शांतता अनुभवा',
+  'onboarding.hookSub': 'ताण कमी करण्यासाठी, झोप सुधारण्यासाठी आणि लक्ष तीव्र करण्यासाठी विज्ञान-आधारित श्वास.',
+  'onboarding.benefitStress': 'ताण कमी करा',
+  'onboarding.benefitSleep': 'लवकर झोपा',
+  'onboarding.benefitFocus': 'लक्ष राखा',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'आम्ही तुमचा BreathFlow अनुभव वैयक्तिक करू.',
+  'onboarding.goalCalmLabel': 'शांतता आणि विश्रांती',
+  'onboarding.goalCalmSub': 'चिंता आणि दबाव कमी करा',
+  'onboarding.goalSleepLabel': 'चांगली झोप',
+  'onboarding.goalSleepSub': 'लवकर झोपा, खोल विश्रांती घ्या',
+  'onboarding.goalFocusLabel': 'लक्ष आणि कामगिरी',
+  'onboarding.goalFocusSub': 'मन तीक्ष्ण करा, वर्तमानात राहा',
+  'onboarding.goalEnergyLabel': 'ऊर्जा आणि चैतन्य',
+  'onboarding.goalEnergySub': 'नैसर्गिकरित्या स्वतःला चार्ज करा',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'तुमची योजना तयार आहे',
+  'onboarding.planBadge': 'विज्ञान-समर्थित',
+  'onboarding.planBullet1': 'वैयक्तिक श्वास तंत्र',
+  'onboarding.planBullet2': '5-मिनिट क्रमिक सत्र',
+  'onboarding.planBullet3': 'प्रगती ट्रॅकिंग आणि बॅज',
+  'onboarding.yourTechnique': 'तुमचे पहिले तंत्र',
+  'onboarding.scienceBacked': 'विज्ञानाने सिद्ध',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'मागे',
+  'onboarding.maybeSkip': 'कदाचित नंतर',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'ट्रॅकवर राहा',
+  'onboarding.notificationsSub': 'सौम्य स्मरणपत्रे तुम्हाला दैनंदिन दिनचर्या राखण्यात मदत करतात.',
+  'onboarding.notificationsBullet1': 'आवडत्या वेळी दैनंदिन स्मरणपत्रे',
+  'onboarding.notificationsBullet2': 'श्वास टिप्स आणि युक्त्या',
+  'onboarding.notificationsBullet3': 'यश साजरे करणे',
+  'onboarding.enableNotifications': 'सूचना सक्षम करा',
+  'onboarding.notificationsSkip': 'आत्ता नाही',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health शी सिंक करा',
+  'onboarding.appleHealthSub': 'Mindful Minutes नोंदवा आणि तुमचे कल्याण ट्रॅक करा.',
+  'onboarding.appleHealthBullet1': 'आपोआप Mindful Minutes लॉगिंग',
+  'onboarding.appleHealthBullet2': 'HRV डेटा ट्रॅकिंग',
+  'onboarding.appleHealthBullet3': 'तुमचा डेटा खाजगी राहतो',
+  'onboarding.connectHealth': 'Apple Health जोडा',
+  'onboarding.healthSkip': 'वगळा',
+
+  // Paywall
+  'paywall.heroCalm': 'खोल शांततेसाठी श्वास घ्या',
+  'paywall.heroSleep': 'मिनिटांत झोपा',
+  'paywall.heroFocus': 'तुमचे लक्ष तीव्र करा',
+  'paywall.heroEnergy': 'तुमची ऊर्जा वाढवा',
+  'paywall.heroDefault': 'पूर्ण क्षमता अनलॉक करा',
+  'paywall.heroSub': 'सर्व तंत्रे आणि प्रगत साधनांसाठी Pro मध्ये अपग्रेड करा.',
+  'paywall.socialProof': '50,000+ शांत श्वासकर्त्यांसाठी सामील व्हा',
+  'paywall.freeLabel': 'मोफत',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 तंत्रे',
+  'paywall.row1Pro': '✓ सर्व 10 तंत्रे',
+  'paywall.row2Free': '7-दिवस इतिहास',
+  'paywall.row2Pro': '✓ पूर्ण इतिहास आणि चार्ट',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ सानुकूल तंत्र बिल्डर',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ सर्व रंग थीम',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ मूड ट्रॅकिंग आणि निर्यात',
+  'paywall.anchor': 'एकवेळ खरेदी · कोणती सदस्यता नाही',
+  'paywall.continueFree': 'मोफत सुरू ठेवा',
+  'paywall.subtitle': 'तत्काळ प्रवेश · कधीही जाहिराती नाही',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'सत्र पूर्ण',
+  'notifications.sessionCompleteBody': 'उत्कृष्ट {{technique}} सत्र! आज {{duration}} मिनिटे श्वास घेतला.',
+  'notifications.tip1': 'Box Breathing फक्त 4 चक्रांत कॉर्टिसॉल कमी करू शकते.',
+  'notifications.tip2': 'Navy SEALs दबावाखाली शांत राहण्यासाठी Box Breathing वापरतात.',
+  'notifications.tip3': '5.5-सेकंद लयीत Coherence breathing HRV अनुकूलित करते.',
+  'notifications.tip4': 'Stanford संशोधन दाखवते physiological sigh इतर कोणत्याही तंत्रापेक्षा जलद ताण कमी करते.',
+  'notifications.tip5': 'फक्त 5 मिनिटे सजग श्वास घेणे मूड बदलते.',
+  'notifications.tip6': 'हळू श्वास parasympathetic nervous system सक्रिय करतो.',
+  'notifications.tip7': 'सुसंगत सराव कालांतराने लवचिकता निर्माण करतो.',
 };

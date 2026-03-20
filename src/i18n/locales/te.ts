@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'అనుకూల',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'నిమిషాల్లో శాంతిని అనుభవించండి',
+  'onboarding.hookSub': 'ఒత్తిడి తగ్గించడానికి, నిద్ర మెరుగుపరచడానికి మరియు దృష్టిని పదునుపరచడానికి విజ్ఞాన-ఆధారిత శ్వాసక్రియ.',
+  'onboarding.benefitStress': 'ఒత్తిడి తగ్గించండి',
+  'onboarding.benefitSleep': 'త్వరగా నిద్రపోండి',
+  'onboarding.benefitFocus': 'దృష్టి నిలుపండి',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'మీ BreathFlow అనుభవాన్ని వ్యక్తిగతీకరిస్తాము.',
+  'onboarding.goalCalmLabel': 'శాంతి & విశ్రాంతి',
+  'onboarding.goalCalmSub': 'ఆందోళన & ఒత్తిడి తగ్గించండి',
+  'onboarding.goalSleepLabel': 'మెరుగైన నిద్ర',
+  'onboarding.goalSleepSub': 'త్వరగా నిద్రపోండి, లోతుగా విశ్రమించండి',
+  'onboarding.goalFocusLabel': 'దృష్టి & పనితీరు',
+  'onboarding.goalFocusSub': 'మనసు పదునుపరచండి, వర్తమానంలో ఉండండి',
+  'onboarding.goalEnergyLabel': 'శక్తి & చైతన్యం',
+  'onboarding.goalEnergySub': 'సహజంగా మిమ్మల్ని ఛార్జ్ చేసుకోండి',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'మీ ప్రణాళిక సిద్ధంగా ఉంది',
+  'onboarding.planBadge': 'విజ్ఞాన-మద్దతు',
+  'onboarding.planBullet1': 'వ్యక్తిగత శ్వాసక్రియ పద్ధతులు',
+  'onboarding.planBullet2': '5-నిమిష క్రమంగా సెషన్లు',
+  'onboarding.planBullet3': 'పురోగతి ట్రాకింగ్ & బ్యాడ్జ్‌లు',
+  'onboarding.yourTechnique': 'మీ మొదటి పద్ధతి',
+  'onboarding.scienceBacked': 'విజ్ఞానం నిరూపించింది',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'వెనక్కు',
+  'onboarding.maybeSkip': 'బహుశా తర్వాత',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'ట్రాక్‌లో ఉండండి',
+  'onboarding.notificationsSub': 'మృదువైన రిమైండర్లు మీ రోజువారీ దినచర్యను నిలుపుకోవడంలో సహాయపడతాయి.',
+  'onboarding.notificationsBullet1': 'ఇష్టమైన సమయంలో రోజువారీ రిమైండర్లు',
+  'onboarding.notificationsBullet2': 'శ్వాసక్రియ చిట్కాలు & ఉపాయాలు',
+  'onboarding.notificationsBullet3': 'విజయ వేడుకలు',
+  'onboarding.enableNotifications': 'నోటిఫికేషన్లు ప్రారంభించండి',
+  'onboarding.notificationsSkip': 'ఇప్పుడు వద్దు',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health తో సింక్ చేయండి',
+  'onboarding.appleHealthSub': 'Mindful Minutes నమోదు చేసి మీ ఆరోగ్యాన్ని ట్రాక్ చేయండి.',
+  'onboarding.appleHealthBullet1': 'స్వయంచాలక Mindful Minutes లాగింగ్',
+  'onboarding.appleHealthBullet2': 'HRV డేటా ట్రాకింగ్',
+  'onboarding.appleHealthBullet3': 'మీ డేటా ప్రైవేట్‌గా ఉంటుంది',
+  'onboarding.connectHealth': 'Apple Health కనెక్ట్ చేయండి',
+  'onboarding.healthSkip': 'దాటవేయి',
+
+  // Paywall
+  'paywall.heroCalm': 'లోతైన శాంతికి శ్వాసించండి',
+  'paywall.heroSleep': 'నిమిషాల్లో నిద్రపోండి',
+  'paywall.heroFocus': 'మీ దృష్టి పదునుపరచండి',
+  'paywall.heroEnergy': 'మీ శక్తి పెంచండి',
+  'paywall.heroDefault': 'పూర్తి సామర్థ్యాన్ని అన్‌లాక్ చేయండి',
+  'paywall.heroSub': 'అన్ని పద్ధతులు & అధునాతన సాధనాలకు ప్రాప్యత కోసం Pro కి అప్‌గ్రేడ్ చేయండి.',
+  'paywall.socialProof': '50,000+ శాంత శ్వాసకుల తో చేరండి',
+  'paywall.freeLabel': 'ఉచిత',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 పద్ధతులు',
+  'paywall.row1Pro': '✓ అన్ని 10 పద్ధతులు',
+  'paywall.row2Free': '7-రోజుల చరిత్ర',
+  'paywall.row2Pro': '✓ పూర్తి చరిత్ర & చార్టులు',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ అనుకూల పద్ధతి బిల్డర్',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ అన్ని రంగు థీమ్‌లు',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ మూడ్ ట్రాకింగ్ & ఎగుమతి',
+  'paywall.anchor': 'ఒకసారి కొనుగోలు · సభ్యత్వం లేదు',
+  'paywall.continueFree': 'ఉచితంగా కొనసాగించు',
+  'paywall.subtitle': 'తక్షణ ప్రాప్యత · ఎప్పుడూ ప్రకటనలు లేవు',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'సెషన్ పూర్తయింది',
+  'notifications.sessionCompleteBody': 'అద్భుతమైన {{technique}} సెషన్! ఈరోజు {{duration}} నిమిషాలు శ్వాసించారు.',
+  'notifications.tip1': 'Box Breathing కేవలం 4 చక్రాల్లో కార్టిసాల్ తగ్గించగలదు.',
+  'notifications.tip2': 'Navy SEALs ఒత్తిడిలో శాంతంగా ఉండటానికి Box Breathing వాడతారు.',
+  'notifications.tip3': '5.5-సెకండ్ లయలో Coherence breathing HRV ఆప్టిమైజ్ చేస్తుంది.',
+  'notifications.tip4': 'Stanford పరిశోధన చూపిస్తుంది physiological sigh ఇతర పద్ధతుల కంటే వేగంగా ఒత్తిడి తగ్గిస్తుంది.',
+  'notifications.tip5': 'కేవలం 5 నిమిషాల సచేతన శ్వాసక్రియ మూడ్ మారుస్తుంది.',
+  'notifications.tip6': 'నెమ్మదిగా శ్వాసించడం parasympathetic nervous system ని సక్రియం చేస్తుంది.',
+  'notifications.tip7': 'నిరంతర అభ్యాసం కాలక్రమేణా స్థితిస్థాపకత నిర్మిస్తుంది.',
 };

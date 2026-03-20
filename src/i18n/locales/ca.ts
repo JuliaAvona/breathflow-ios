@@ -491,4 +491,90 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'Personalitzat',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Sent la calma en minuts',
+  'onboarding.hookSub': 'Respiració basada en la ciència per reduir l\'estrès, millorar el son i aguditzar el focus.',
+  'onboarding.benefitStress': 'Redueix l\'estrès',
+  'onboarding.benefitSleep': 'Adorm-te més ràpid',
+  'onboarding.benefitFocus': 'Mantén el focus',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'Personalitzarem la teva experiència BreathFlow.',
+  'onboarding.goalCalmLabel': 'Calma i relaxació',
+  'onboarding.goalCalmSub': 'Redueix l\'ansietat i la tensió',
+  'onboarding.goalSleepLabel': 'Millor son',
+  'onboarding.goalSleepSub': 'Adorm-te més ràpid, descansa més profund',
+  'onboarding.goalFocusLabel': 'Focus i rendiment',
+  'onboarding.goalFocusSub': 'Aguditza la ment, estigues present',
+  'onboarding.goalEnergyLabel': 'Energia i vitalitat',
+  'onboarding.goalEnergySub': 'Recarrega\'t de manera natural',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'El teu pla està a punt',
+  'onboarding.planBadge': 'Basat en la ciència',
+  'onboarding.planBullet1': 'Tècniques de respiració personalitzades',
+  'onboarding.planBullet2': 'Sessions progressives de 5 minuts',
+  'onboarding.planBullet3': 'Seguiment del progrés i medalles',
+  'onboarding.yourTechnique': 'La teva primera tècnica',
+  'onboarding.scienceBacked': 'Demostrat per la ciència',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Enrere',
+  'onboarding.maybeSkip': 'Potser més tard',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Mantén-te en el camí',
+  'onboarding.notificationsSub': 'Els recordatoris suaus t\'ajuden a mantenir la rutina diària.',
+  'onboarding.notificationsBullet1': 'Recordatoris diaris a l\'hora que triis',
+  'onboarding.notificationsBullet2': 'Consells i trucs de respiració',
+  'onboarding.notificationsBullet3': 'Celebracions d\'assoliments',
+  'onboarding.enableNotifications': 'Activa les notificacions',
+  'onboarding.notificationsSkip': 'Ara no',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sincronitza amb Apple Health',
+  'onboarding.appleHealthSub': 'Registra Mindful Minutes i fes un seguiment del teu benestar.',
+  'onboarding.appleHealthBullet1': 'Registre automàtic de Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Seguiment de dades HRV',
+  'onboarding.appleHealthBullet3': 'Les teves dades es mantenen privades',
+  'onboarding.connectHealth': 'Connecta Apple Health',
+  'onboarding.healthSkip': 'Ometre',
+
+  // Paywall (new keys)
+  'paywall.heroCalm': 'Respira per a una calma profunda',
+  'paywall.heroSleep': 'Adorm-te en minuts',
+  'paywall.heroFocus': 'Aguditza el teu focus',
+  'paywall.heroEnergy': 'Augmenta la teva energia',
+  'paywall.heroDefault': 'Desbloqueja tot el potencial',
+  'paywall.heroSub': 'Actualitza a Pro per accedir a totes les tècniques i eines avançades.',
+  'paywall.socialProof': 'Uneix-te a més de 50.000 respiradors tranquils',
+  'paywall.freeLabel': 'Gratuït',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 tècniques',
+  'paywall.row1Pro': '✓ Totes les 10 tècniques',
+  'paywall.row2Free': 'Historial de 7 dies',
+  'paywall.row2Pro': '✓ Historial complet i gràfics',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ Constructor de tècniques personalitzat',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ Tots els temes de color',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ Seguiment d\'estat d\'ànim i exportació',
+  'paywall.anchor': 'Compra única · Sense subscripció',
+  'paywall.continueFree': 'Continua gratuïtament',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sessió completada',
+  'notifications.sessionCompleteBody': 'Fantàstica sessió de {{technique}}! Has respirat {{duration}} minuts avui.',
+  'notifications.tip1': 'Box Breathing pot reduir el cortisol en tan sols 4 cicles.',
+  'notifications.tip2': 'Els Navy SEALs utilitzen Box Breathing per mantenir-se tranquils sota pressió.',
+  'notifications.tip3': 'La respiració coherent a un ritme de 5,5 segons optimitza la HRV.',
+  'notifications.tip4': 'La investigació de Stanford mostra que el sospir fisiològic redueix l\'estrès més ràpid que qualsevol altra tècnica.',
+  'notifications.tip5': 'Fins i tot 5 minuts de respiració conscient canvien l\'estat d\'ànim.',
+  'notifications.tip6': 'La respiració lenta activa el sistema nerviós parasimpàtic.',
+  'notifications.tip7': 'La pràctica consistent construeix resiliència al llarg del temps.',
 };

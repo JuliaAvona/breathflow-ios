@@ -500,4 +500,89 @@ export default {
   'common.free': 'ZDARMA',
   'common.loading': 'Na\u010d\u00edt\u00e1n\u00ed...',
   'common.error': 'Chyba',
+
+  // Home (additional)
+  'home.categoryCustom': 'Vlastní',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Pocit klidu během minut',
+  'onboarding.hookSub': 'Vědecky podložené dýchání pro stres, spánek a soustředění. Důvěřují mu terapeuti, sportovci i NASA.',
+  'onboarding.benefitStress': 'Snížit stres',
+  'onboarding.benefitSleep': 'Rychleji usnout',
+  'onboarding.benefitFocus': 'Zůstat soustředěný',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Sestavíme váš osobní dechový plán',
+  'onboarding.goalCalmLabel': 'Klid & Relaxace',
+  'onboarding.goalCalmSub': 'Utišit vnitřní hluk',
+  'onboarding.goalSleepLabel': 'Lepší Spánek',
+  'onboarding.goalSleepSub': 'Rychleji usnout',
+  'onboarding.goalFocusLabel': 'Soustředění & Jasnost',
+  'onboarding.goalFocusSub': 'Čistá mysl na požádání',
+  'onboarding.goalEnergyLabel': 'Energie & Motivace',
+  'onboarding.goalEnergySub': 'Přirozený energetický boost',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Uklidněte svůj nervový systém',
+  'onboarding.planTitleSleep': 'Usněte během několika minut',
+  'onboarding.planTitleFocus': 'Soustředění na požádání',
+  'onboarding.planTitleEnergy': 'Přirozený energetický boost',
+  'onboarding.planTitleDefault': 'Váš dechový plán je připraven',
+  'onboarding.planBadge': 'Personalizováno pro vás',
+  'onboarding.planCalmB1': 'Koherentní dýchání snižuje kortizol za 5 minut',
+  'onboarding.planCalmB2': 'Využívají terapeuti, olympijští sportovci i záchranáři',
+  'onboarding.planCalmB3': 'Váš nervový systém se naučí zůstat klidný',
+  'onboarding.planSleepB1': 'Dýchání 4-7-8 aktivuje parasympatický systém',
+  'onboarding.planSleepB2': 'Většina uživatelů usne rychleji do 3 dnů',
+  'onboarding.planSleepB3': 'Žádné pilulky. Žádné obrazovky. Jen dech.',
+  'onboarding.planFocusB1': 'Box Breathing — využívají Navy SEALs pod extrémním tlakem',
+  'onboarding.planFocusB2': '4 minuty před soustředěnou prací = hodiny jasnosti',
+  'onboarding.planFocusB3': 'Klinicky ověřeno pro rychlé snížení akutní úzkosti',
+  'onboarding.planEnergyB1': 'Dechová práce aktivuje sympatický nervový systém',
+  'onboarding.planEnergyB2': 'Sportovci ji využívají k přípravě před závodem',
+  'onboarding.planEnergyB3': 'Pocítíte změnu za méně než 60 sekund',
+  'onboarding.yourTechnique': 'Vaše první technika:',
+  'onboarding.scienceBacked': 'Vědecky podloženo · 10 technik · Exkluzivně pro iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Zpět',
+  'onboarding.maybeSkip': 'Možná později',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Buďte důslední',
+  'onboarding.notificationsSub': 'Dostávejte každý den jemnou připomínku k dýchání',
+  'onboarding.notificationsEnable': 'Zapnout denní připomínky',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Synchronizovat s Apple Health',
+  'onboarding.appleHealthSub': 'Sledujte své Mindful Minutes automaticky',
+  'onboarding.appleHealthConnect': 'Připojit Apple Health',
+  'onboarding.appleHealthBullet1': 'Automatická synchronizace Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Sledujte pokrok v čase',
+  'onboarding.appleHealthBullet3': 'Vaše data zůstávají soukromá',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Od stresu ke klidu — během minut',
+  'paywall.heroSleep': 'Usněte za minuty, ne hodiny',
+  'paywall.heroFocus': 'Tajemství soustředění Navy SEALs — odhaleno',
+  'paywall.heroEnergy': 'Přirozená energie. Bez kofeinu.',
+  'paywall.heroDefault': 'Odemkněte plný zážitek BreathFlow',
+  'paywall.heroSub': 'Jednorázové odemčení. Bez předplatného. Nikdy.',
+  'paywall.socialProof': 'Připojte se k tisícům, kteří každý den dýchají lépe',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Zdarma',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 technik',
+  'paywall.row1Pro': 'Všech 10 technik ✓',
+  'paywall.row2Free': 'Historie 7 dní',
+  'paywall.row2Pro': 'Úplná historie & grafy ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Tvůrce vlastních technik ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Sledování nálady ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Všechna barevná témata & odznaky ✓',
+  'paywall.anchor': 'Méně než káva. Výsledky, které vydrží.',
+  'paywall.continueFree': 'Pokračovat s bezplatnou verzí',
 };

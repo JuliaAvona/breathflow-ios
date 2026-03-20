@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'કસ્ટમ',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'મિનિટોમાં શાંતિ અનુભવો',
+  'onboarding.hookSub': 'તણાવ ઘટાડવા, ઊઘ સુધારવા અને ધ્યાન તીક્ષ્ણ કરવા માટે વિજ્ઞાન-આધારિત શ્વાસ.',
+  'onboarding.benefitStress': 'તણાવ ઘટાડો',
+  'onboarding.benefitSleep': 'ઝડપી ઊઘ',
+  'onboarding.benefitFocus': 'ધ્યાન જાળવો',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'અમે તમારો BreathFlow અનુભવ વ્યક્તિગત બનાવીશું.',
+  'onboarding.goalCalmLabel': 'શાંતિ અને આરામ',
+  'onboarding.goalCalmSub': 'ચિંતા અને દબાણ ઘટાડો',
+  'onboarding.goalSleepLabel': 'સારી ઊઘ',
+  'onboarding.goalSleepSub': 'ઝડપી ઊઘ, ઊઘ ઊઘ',
+  'onboarding.goalFocusLabel': 'ધ્યાન અને પ્રદર્શન',
+  'onboarding.goalFocusSub': 'મન તીક્ષ્ણ કરો, હાજર રહો',
+  'onboarding.goalEnergyLabel': 'ઊર્જા અને ચૈતન્ય',
+  'onboarding.goalEnergySub': 'કુદરતી રીતે ખુદને ચાર્જ કરો',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'તમારી યોજના તૈયાર છે',
+  'onboarding.planBadge': 'વિજ્ઞાન-સમર્થિત',
+  'onboarding.planBullet1': 'વ્યક્તિગત શ્વાસ તકનીક',
+  'onboarding.planBullet2': '5-મિનિટ ક્રમિક સત્ર',
+  'onboarding.planBullet3': 'પ્રગતિ ટ્રેકિંગ અને બેજ',
+  'onboarding.yourTechnique': 'તમારી પ્રથમ તકનીક',
+  'onboarding.scienceBacked': 'વિજ્ઞાન દ્વારા સિદ્ધ',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'પાછળ',
+  'onboarding.maybeSkip': 'કદાચ પછી',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'ટ્રેક પર રહો',
+  'onboarding.notificationsSub': 'નમ્ર રીમાઇન્ડર્સ તમને દૈનિક રૂટિન જાળવવામાં મદદ કરે.',
+  'onboarding.notificationsBullet1': 'પસંદગીના સમયે દૈનિક રીમાઇન્ડર',
+  'onboarding.notificationsBullet2': 'શ્વાસ ટીપ્સ અને ટ્રિક્સ',
+  'onboarding.notificationsBullet3': 'સિદ્ધિ ઉત્સવ',
+  'onboarding.enableNotifications': 'સૂચનાઓ સક્ષમ કરો',
+  'onboarding.notificationsSkip': 'અત્યારે નહીં',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health સાથે સિંક કરો',
+  'onboarding.appleHealthSub': 'Mindful Minutes રેકોર્ડ કરો અને તમારી સ્વસ્થતા ટ્રેક કરો.',
+  'onboarding.appleHealthBullet1': 'આઓટોમેટિક Mindful Minutes લૉગિંગ',
+  'onboarding.appleHealthBullet2': 'HRV ડેટા ટ્રેકિંગ',
+  'onboarding.appleHealthBullet3': 'તમારો ડેટા ખાનગી રહે',
+  'onboarding.connectHealth': 'Apple Health કનેક્ટ કરો',
+  'onboarding.healthSkip': 'છોડો',
+
+  // Paywall
+  'paywall.heroCalm': 'ઊઘ શાંતિ માટે શ્વાસ લો',
+  'paywall.heroSleep': 'મિનિટોમાં ઊઘ જાઓ',
+  'paywall.heroFocus': 'ધ્યાન તીક્ષ્ણ કરો',
+  'paywall.heroEnergy': 'ઊર્જા વધારો',
+  'paywall.heroDefault': 'સંપૂર્ण ક્ષમતા અનલૉક કરો',
+  'paywall.heroSub': 'બધી તકનીક અને અદ્યતન સાધનોની ઍક્સેસ માટે Pro માં અપગ્રેડ કરો.',
+  'paywall.socialProof': '50,000+ શાંત શ્વાસ લેનારા સાથે જોડાઓ',
+  'paywall.freeLabel': 'મફત',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 તકનીક',
+  'paywall.row1Pro': '✓ બધી 10 તકનીક',
+  'paywall.row2Free': '7-દિવસ ઇતિહાસ',
+  'paywall.row2Pro': '✓ સંપૂર્ण ઇતિહાસ અને ચાર્ટ',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ કસ્ટમ તકનીક બિલ્ડર',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ બધા રંગ થીમ',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ મૂડ ટ્રેકિંગ અને એક્સ્પોર્ટ',
+  'paywall.anchor': 'એકકાળ ખરીદી · કોઈ સભ્યપદ નહીં',
+  'paywall.continueFree': 'મફત ચાલુ રાખો',
+  'paywall.subtitle': 'તત્કાળ ઍક્સેસ · ક્યારેય જાહેરાત નહીં',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'સત્ર પૂર્ण',
+  'notifications.sessionCompleteBody': 'ઉત્તમ {{technique}} સત્ર! આજ {{duration}} મિનિટ શ્વાસ લીધા.',
+  'notifications.tip1': 'Box Breathing માત્ર 4 ચક્રમાં કોર્ટિસોલ ઘટાડી શકે.',
+  'notifications.tip2': 'Navy SEALs દબાણ હેઠળ શાંત રહેવા Box Breathing વાપરે.',
+  'notifications.tip3': '5.5-સેકન્ડ લયમાં Coherence breathing HRV ઑપ્ટિમાઇઝ કરે.',
+  'notifications.tip4': 'Stanford સંશોધન દર્શાવે છે physiological sigh અન્ય કોઈ પણ તકનીક કરતાં ઝડpather તણાવ ઘટાડે.',
+  'notifications.tip5': 'ફક્ત 5 મિનિટ સભાન શ્વાસ પણ મૂડ બદલી શકે.',
+  'notifications.tip6': 'ધીમો શ્વાસ parasympathetic nervous system સક્રિય કરે.',
+  'notifications.tip7': 'સતત અભ્યાસ સમય સાથે સ્થિતિ-સ્થાપકતા બનાવે.',
 };

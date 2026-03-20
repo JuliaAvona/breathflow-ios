@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'ഇഷ്ടാനുസൃത',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'മിനിറ്റുകളിൽ സമാധാനം അനുഭവിക്കൂ',
+  'onboarding.hookSub': 'സ്ട്രെസ് കുറയ്ക്കാനും ഉറക്കം മെച്ചപ്പെടുത്താനും ശ്രദ്ധ തീക്ഷ്ണമാക്കാനും ശാസ്ത്ര-അടിസ്ഥാന ശ്വസനം.',
+  'onboarding.benefitStress': 'സ്ട്രെസ് കുറയ്ക്കൂ',
+  'onboarding.benefitSleep': 'വേഗം ഉറങ്ങൂ',
+  'onboarding.benefitFocus': 'ശ്രദ്ധ നിലനിർത്തൂ',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'നിങ്ങളുടെ BreathFlow അനുഭവം വ്യക്തിഗതമാക്കും.',
+  'onboarding.goalCalmLabel': 'ശാന്തത & വിശ്രാന്തി',
+  'onboarding.goalCalmSub': 'ഉത്കണ്ഠ & സമ്മർദ്ദം കുറയ്ക്കൂ',
+  'onboarding.goalSleepLabel': 'മെച്ചപ്പെട്ട ഉറക്കം',
+  'onboarding.goalSleepSub': 'വേഗം ഉറങ്ങൂ, ആഴത്തിൽ വിശ്രമിക്കൂ',
+  'onboarding.goalFocusLabel': 'ശ്രദ്ധ & പ്രകടനം',
+  'onboarding.goalFocusSub': 'മനസ്സ് മൂർച്ചപ്പെടുത്തൂ, ഇപ്പോൾ ഉണ്ടായിരിക്കൂ',
+  'onboarding.goalEnergyLabel': 'ഊർജ്ജം & ഉത്സാഹം',
+  'onboarding.goalEnergySub': 'സ്വാഭാവികമായി സ്വയം ചാർജ് ചെയ്യൂ',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'നിങ്ങളുടെ പദ്ധതി തയ്യാർ',
+  'onboarding.planBadge': 'ശാസ്ത്ര-പിന്തുണ',
+  'onboarding.planBullet1': 'വ്യക്തിഗത ശ്വസന സാങ്കേതിക വിദ്യകൾ',
+  'onboarding.planBullet2': '5-മിനിറ്റ് ക്രമാനുഗതമായ സെഷനുകൾ',
+  'onboarding.planBullet3': 'പ്രോഗ്രസ് ട്രാക്കിംഗ് & ബാഡ്ജുകൾ',
+  'onboarding.yourTechnique': 'നിങ്ങളുടെ ആദ്യ സാങ്കേതിക വിദ്യ',
+  'onboarding.scienceBacked': 'ശാസ്ത്രം തെളിയിച്ചത്',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'പിന്നോട്ട്',
+  'onboarding.maybeSkip': 'ഒരുപക്ഷേ പിന്നീട്',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'ട്രാക്കിൽ ഇരിക്കൂ',
+  'onboarding.notificationsSub': 'സൌമ്യ ഓർമ്മപ്പെടുത്തലുകൾ ദൈനംദിന ദിനചര്യ നിലനിർത്താൻ സഹായിക്കുന്നു.',
+  'onboarding.notificationsBullet1': 'തിരഞ്ഞെടുത്ത സമയത്ത് ദൈനംദിന ഓർമ്മപ്പെടുത്തലുകൾ',
+  'onboarding.notificationsBullet2': 'ശ്വസന ടിപ്സ് & ട്രിക്കുകൾ',
+  'onboarding.notificationsBullet3': 'നേട്ട ആഘോഷങ്ങൾ',
+  'onboarding.enableNotifications': 'അറിയിപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കൂ',
+  'onboarding.notificationsSkip': 'ഇപ്പോൾ വേണ്ട',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health-ൽ സിങ്ക് ചെയ്യൂ',
+  'onboarding.appleHealthSub': 'Mindful Minutes രേഖപ്പെടുത്തി ആരോഗ്യം ട്രാക്ക് ചെയ്യൂ.',
+  'onboarding.appleHealthBullet1': 'സ്വയംക്രിയ Mindful Minutes ലോഗിംഗ്',
+  'onboarding.appleHealthBullet2': 'HRV ഡാറ്റ ട്രാക്കിംഗ്',
+  'onboarding.appleHealthBullet3': 'നിങ്ങളുടെ ഡാറ്റ സ്വകാര്യമായി തുടരുന്നു',
+  'onboarding.connectHealth': 'Apple Health ബന്ധിപ്പിക്കൂ',
+  'onboarding.healthSkip': 'ഒഴിവാക്കൂ',
+
+  // Paywall
+  'paywall.heroCalm': 'ആഴത്തിലുള്ള ശാന്തതയ്ക്ക് ശ്വസിക്കൂ',
+  'paywall.heroSleep': 'മിനിറ്റുകളിൽ ഉറങ്ങൂ',
+  'paywall.heroFocus': 'ശ്രദ്ധ തീക്ഷ്ണമാക്കൂ',
+  'paywall.heroEnergy': 'ഊർജ്ജം വർദ്ധിപ്പിക്കൂ',
+  'paywall.heroDefault': 'പൂർണ ശേഷി അൺലോക്ക് ചെയ്യൂ',
+  'paywall.heroSub': 'എല്ലാ സാങ്കേതിക വിദ്യകളിലേക്കും & വിപുലമായ ഉപകരണങ്ങളിലേക്കും ആക്സസിനായി Pro-ലേക്ക് അപ്ഗ്രേഡ് ചെയ്യൂ.',
+  'paywall.socialProof': '50,000+ ശാന്ത ശ്വാസകർക്കൊപ്പം ചേരൂ',
+  'paywall.freeLabel': 'സൌജന്യം',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 സാങ്കേതിക വിദ്യകൾ',
+  'paywall.row1Pro': '✓ എല്ലാ 10 സാങ്കേതിക വിദ്യകളും',
+  'paywall.row2Free': '7-ദിവസ ചരിത്രം',
+  'paywall.row2Pro': '✓ പൂർണ ചരിത്രം & ചാർട്ടുകൾ',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ ഇഷ്ടാനുസൃത സാങ്കേതിക ബിൽഡർ',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ എല്ലാ കളർ തീമുകളും',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ മൂഡ് ട്രാക്കിംഗ് & എക്സ്പോർട്ട്',
+  'paywall.anchor': 'ഒറ്റ-തവണ വാങ്ങൽ · സബ്സ്ക്രിപ്ഷൻ ഇല്ല',
+  'paywall.continueFree': 'സൌജന്യമായി തുടരൂ',
+  'paywall.subtitle': 'ഉടനടി ആക്സസ് · ഒരിക്കലും പരസ്യമില്ല',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'സെഷൻ പൂർത്തിയായി',
+  'notifications.sessionCompleteBody': 'മികച്ച {{technique}} സെഷൻ! ഇന്ന് {{duration}} മിനിറ്റ് ശ്വസിച്ചു.',
+  'notifications.tip1': 'Box Breathing 4 ചക്രങ്ങളിൽ കോർട്ടിസോൾ കുറയ്ക്കും.',
+  'notifications.tip2': 'Navy SEALs സമ്മർദ്ദത്തിൽ ശാന്തരാകാൻ Box Breathing ഉപയോഗിക്കുന്നു.',
+  'notifications.tip3': '5.5-സെക്കൻഡ് താളത്തിൽ Coherence breathing HRV ഒപ്റ്റിമൈസ് ചെയ്യുന്നു.',
+  'notifications.tip4': 'Stanford ഗവേഷണം കാണിക്കുന്നു physiological sigh ഏതൊരു സാങ്കേതിക വിദ്യയേക്കാളും വേഗം സ്ട്രെസ് കുറയ്ക്കുന്നു.',
+  'notifications.tip5': 'ബോധ ശ്വസനത്തിന്റെ 5 മിനിറ്റ് മാത്രം മൂഡ് മാറ്റും.',
+  'notifications.tip6': 'സാവധാനം ശ്വസിക്കൽ parasympathetic nervous system സജീവമാക്കുന്നു.',
+  'notifications.tip7': 'സ്ഥിരമായ പരിശീലനം കാലക്രമേണ ദൃഢത നിർമ്മിക്കുന്നു.',
 };

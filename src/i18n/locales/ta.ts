@@ -491,4 +491,91 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'தனிப்பயன்',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'நிமிடங்களில் அமைதி உணருங்கள்',
+  'onboarding.hookSub': 'மன அழுத்தம் குறைக்கவும், தூக்கம் மேம்படுத்தவும், கவனம் கூர்மைப்படுத்தவும் அறிவியல்-அடிப்படையிலான சுவாசம்.',
+  'onboarding.benefitStress': 'மன அழுத்தத்தை குறைக்கவும்',
+  'onboarding.benefitSleep': 'விரைவாக தூங்கவும்',
+  'onboarding.benefitFocus': 'கவனத்தை தக்கவைக்கவும்',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'உங்கள் BreathFlow அனுபவத்தை தனிப்பயனாக்குவோம்.',
+  'onboarding.goalCalmLabel': 'அமைதி & ஓய்வு',
+  'onboarding.goalCalmSub': 'பதற்றம் & அழுத்தம் குறைக்கவும்',
+  'onboarding.goalSleepLabel': 'சிறந்த தூக்கம்',
+  'onboarding.goalSleepSub': 'விரைவாக தூங்கவும், ஆழமாக ஓய்வெடுக்கவும்',
+  'onboarding.goalFocusLabel': 'கவனம் & செயல்திறன்',
+  'onboarding.goalFocusSub': 'மனதை கூர்மைப்படுத்தவும், நிகழ்காலத்தில் இருக்கவும்',
+  'onboarding.goalEnergyLabel': 'ஆற்றல் & உயிர்ப்பு',
+  'onboarding.goalEnergySub': 'இயற்கையாக சக்தி பெறவும்',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'உங்கள் திட்டம் தயார்',
+  'onboarding.planBadge': 'அறிவியல் ஆதரவு',
+  'onboarding.planBullet1': 'தனிப்பயன் சுவாச நுட்பங்கள்',
+  'onboarding.planBullet2': '5-நிமிட படிப்படியான அமர்வுகள்',
+  'onboarding.planBullet3': 'முன்னேற்ற கண்காணிப்பு & பேட்ஜ்கள்',
+  'onboarding.yourTechnique': 'உங்கள் முதல் நுட்பம்',
+  'onboarding.scienceBacked': 'அறிவியலால் நிரூபிக்கப்பட்டது',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'பின்னால்',
+  'onboarding.maybeSkip': 'ஒருவேளை பிறகு',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'தொடர்ந்து இருங்கள்',
+  'onboarding.notificationsSub': 'மென்மையான நினைவூட்டல்கள் தினசரி பழக்கத்தை பராமரிக்க உதவுகின்றன.',
+  'onboarding.notificationsBullet1': 'விரும்பிய நேரத்தில் தினசரி நினைவூட்டல்கள்',
+  'onboarding.notificationsBullet2': 'சுவாச குறிப்புகள் & தந்திரங்கள்',
+  'onboarding.notificationsBullet3': 'சாதனை கொண்டாட்டங்கள்',
+  'onboarding.enableNotifications': 'அறிவிப்புகளை இயக்கு',
+  'onboarding.notificationsSkip': 'இப்போது வேண்டாம்',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health உடன் ஒத்திசை',
+  'onboarding.appleHealthSub': 'Mindful Minutes பதிவு செய்து உங்கள் நலனை கண்காணிக்கவும்.',
+  'onboarding.appleHealthBullet1': 'தானியங்கி Mindful Minutes பதிவு',
+  'onboarding.appleHealthBullet2': 'HRV தரவு கண்காணிப்பு',
+  'onboarding.appleHealthBullet3': 'உங்கள் தரவு தனிப்பட்டதாக இருக்கும்',
+  'onboarding.connectHealth': 'Apple Health இணைக்கவும்',
+  'onboarding.healthSkip': 'தவிர்',
+
+  // Paywall
+  'paywall.heroCalm': 'ஆழமான அமைதிக்காக சுவாசிக்கவும்',
+  'paywall.heroSleep': 'நிமிடங்களில் தூங்கவும்',
+  'paywall.heroFocus': 'கவனத்தை கூர்மைப்படுத்தவும்',
+  'paywall.heroEnergy': 'ஆற்றலை அதிகரிக்கவும்',
+  'paywall.heroDefault': 'முழு திறனை திறக்கவும்',
+  'paywall.heroSub': 'அனைத்து நுட்பங்கள் & மேம்பட்ட கருவிகளை அணுக Pro க்கு மேம்படுத்துங்கள்.',
+  'paywall.socialProof': '50,000+ அமைதியான சுவாசிகளுடன் சேருங்கள்',
+  'paywall.freeLabel': 'இலவசம்',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 நுட்பங்கள்',
+  'paywall.row1Pro': '✓ அனைத்து 10 நுட்பங்களும்',
+  'paywall.row2Free': '7-நாள் வரலாறு',
+  'paywall.row2Pro': '✓ முழு வரலாறு & விளக்கப்படங்கள்',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ தனிப்பயன் நுட்ப கட்டமைப்பாளர்',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ அனைத்து வண்ண கருப்பொருள்கள்',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ மனநிலை கண்காணிப்பு & ஏற்றுமதி',
+  'paywall.anchor': 'ஒரு முறை வாங்கல் · சந்தா இல்லை',
+  'paywall.continueFree': 'இலவசமாக தொடரவும்',
+  'paywall.subtitle': 'உடனடி அணுகல் · எந்த விளம்பரமும் இல்லை',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'அமர்வு முடிந்தது',
+  'notifications.sessionCompleteBody': 'அருமையான {{technique}} அமர்வு! இன்று {{duration}} நிமிடம் சுவாசித்தீர்கள்.',
+  'notifications.tip1': 'Box Breathing வெறும் 4 சுழற்சிகளில் கார்டிசோலை குறைக்கலாம்.',
+  'notifications.tip2': 'Navy SEALs அழுத்தத்தில் அமைதியாக இருக்க Box Breathing பயன்படுத்துகிறார்கள்.',
+  'notifications.tip3': '5.5-வினாடி தாளத்தில் Coherence breathing HRV ஐ மேம்படுத்துகிறது.',
+  'notifications.tip4': 'Stanford ஆராய்ச்சி காட்டுகிறது physiological sigh எந்த நுட்பத்தையும் விட வேகமாக மன அழுத்தத்தை குறைக்கிறது.',
+  'notifications.tip5': 'வெறும் 5 நிமிட உணர்வுடன் சுவாசிப்பது மனநிலையை மாற்றும்.',
+  'notifications.tip6': 'மெதுவான சுவாசம் parasympathetic nervous system ஐ செயல்படுத்துகிறது.',
+  'notifications.tip7': 'தொடர்ச்சியான பயிற்சி காலப்போக்கில் மன உறுதியை கட்டமைக்கிறது.',
 };

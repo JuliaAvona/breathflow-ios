@@ -500,4 +500,89 @@ export default {
   'common.free': 'GRATIS',
   'common.loading': 'Laden...',
   'common.error': 'Fehler',
+
+  // Home (additional)
+  'home.categoryCustom': 'Eigene',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'In Minuten zur Ruhe finden',
+  'onboarding.hookSub': 'Wissenschaftlich fundiertes Atmen für Stress, Schlaf & Fokus. Vertraut von Therapeuten, Athleten und der NASA.',
+  'onboarding.benefitStress': 'Stress reduzieren',
+  'onboarding.benefitSleep': 'Schneller einschlafen',
+  'onboarding.benefitFocus': 'Fokussiert bleiben',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Wir erstellen deinen persönlichen Atemplan',
+  'onboarding.goalCalmLabel': 'Ruhe & Entspannung',
+  'onboarding.goalCalmSub': 'Den inneren Lärm stillen',
+  'onboarding.goalSleepLabel': 'Besserer Schlaf',
+  'onboarding.goalSleepSub': 'Schneller einschlafen',
+  'onboarding.goalFocusLabel': 'Fokus & Klarheit',
+  'onboarding.goalFocusSub': 'Klarer Kopf auf Knopfdruck',
+  'onboarding.goalEnergyLabel': 'Energie & Antrieb',
+  'onboarding.goalEnergySub': 'Natürlicher Energieschub',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Dein Nervensystem beruhigen',
+  'onboarding.planTitleSleep': 'In Minuten einschlafen',
+  'onboarding.planTitleFocus': 'Fokus auf Knopfdruck',
+  'onboarding.planTitleEnergy': 'Natürlicher Energieschub',
+  'onboarding.planTitleDefault': 'Dein Atemplan ist bereit',
+  'onboarding.planBadge': 'Personalisiert für dich',
+  'onboarding.planCalmB1': 'Kohärenzatmung senkt Cortisol in 5 Minuten',
+  'onboarding.planCalmB2': 'Genutzt von Therapeuten, Olympioniken & Ersthelfern',
+  'onboarding.planCalmB3': 'Dein Nervensystem lernt, ruhig zu bleiben',
+  'onboarding.planSleepB1': '4-7-8 Atmung aktiviert dein parasympathisches System',
+  'onboarding.planSleepB2': 'Die meisten Nutzer schlafen innerhalb von 3 Tagen schneller ein',
+  'onboarding.planSleepB3': 'Keine Pillen. Keine Bildschirme. Nur Atem.',
+  'onboarding.planFocusB1': 'Box Breathing — genutzt von Navy SEALs unter extremem Druck',
+  'onboarding.planFocusB2': '4 Minuten vor der Arbeit = stundenlange Klarheit',
+  'onboarding.planFocusB3': 'Klinisch bewiesen, akute Angst schnell zu reduzieren',
+  'onboarding.planEnergyB1': 'Atemarbeit aktiviert dein sympathisches Nervensystem',
+  'onboarding.planEnergyB2': 'Genutzt von Athleten zur Wettkampfvorbereitung',
+  'onboarding.planEnergyB3': 'Spüre den Wandel in unter 60 Sekunden',
+  'onboarding.yourTechnique': 'Deine erste Technik:',
+  'onboarding.scienceBacked': 'Wissenschaftlich fundiert · 10 Techniken · Nur iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Zurück',
+  'onboarding.maybeSkip': 'Vielleicht später',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Bleib konsequent',
+  'onboarding.notificationsSub': 'Erhalte täglich eine sanfte Erinnerung zum Atmen',
+  'onboarding.notificationsEnable': 'Tägliche Erinnerungen aktivieren',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Mit Apple Health synchronisieren',
+  'onboarding.appleHealthSub': 'Verfolge deine Mindful Minutes automatisch',
+  'onboarding.appleHealthConnect': 'Apple Health verbinden',
+  'onboarding.appleHealthBullet1': 'Mindful Minutes automatisch synchronisieren',
+  'onboarding.appleHealthBullet2': 'Fortschritt im Zeitverlauf verfolgen',
+  'onboarding.appleHealthBullet3': 'Deine Daten bleiben privat',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Von gestresst zu ruhig — in Minuten',
+  'paywall.heroSleep': 'In Minuten einschlafen, nicht Stunden',
+  'paywall.heroFocus': 'Das Fokus-Geheimnis der Navy SEALs — enthüllt',
+  'paywall.heroEnergy': 'Natürliche Energie. Kein Koffein nötig.',
+  'paywall.heroDefault': 'Das volle BreathFlow-Erlebnis freischalten',
+  'paywall.heroSub': 'Einmalig freischalten. Kein Abo. Niemals.',
+  'paywall.socialProof': 'Tausende atmen jeden Tag besser',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Kostenlos',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 Techniken',
+  'paywall.row1Pro': 'Alle 10 Techniken ✓',
+  'paywall.row2Free': '7-Tage-Verlauf',
+  'paywall.row2Pro': 'Vollständiger Verlauf & Diagramme ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Eigene Techniken erstellen ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Stimmungserfassung ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Alle Farbschemata & Abzeichen ✓',
+  'paywall.anchor': 'Weniger als ein Kaffee. Ergebnisse, die bleiben.',
+  'paywall.continueFree': 'Mit kostenloser Version fortfahren',
 };

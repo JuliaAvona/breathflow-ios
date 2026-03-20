@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'ข้อผิดพลาด',
+
+  // Home (additional)
+  'home.categoryCustom': 'กำหนดเอง',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'รู้สึกสงบภายในไม่กี่นาที',
+  'onboarding.hookSub': 'การหายใจที่รองรับด้วยวิทยาศาสตร์เพื่อความเครียด การนอนหลับ และสมาธิ ได้รับความไว้วางใจจากนักบำบัด นักกีฬา และ NASA',
+  'onboarding.benefitStress': 'ลดความเครียด',
+  'onboarding.benefitSleep': 'นอนหลับเร็วขึ้น',
+  'onboarding.benefitFocus': 'รักษาสมาธิ',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'เราจะสร้างแผนการหายใจส่วนตัวสำหรับคุณ',
+  'onboarding.goalCalmLabel': 'ความสงบ & ผ่อนคลาย',
+  'onboarding.goalCalmSub': 'ดับเสียงรบกวนภายใน',
+  'onboarding.goalSleepLabel': 'นอนหลับดีขึ้น',
+  'onboarding.goalSleepSub': 'นอนหลับได้เร็วขึ้น',
+  'onboarding.goalFocusLabel': 'สมาธิ & ความชัดเจน',
+  'onboarding.goalFocusSub': 'จิตใจที่แจ่มใสตามต้องการ',
+  'onboarding.goalEnergyLabel': 'พลังงาน & แรงบันดาลใจ',
+  'onboarding.goalEnergySub': 'พลังงานธรรมชาติเพิ่มขึ้น',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'ทำให้ระบบประสาทของคุณสงบ',
+  'onboarding.planTitleSleep': 'นอนหลับภายในไม่กี่นาที',
+  'onboarding.planTitleFocus': 'สมาธิตามต้องการ',
+  'onboarding.planTitleEnergy': 'พลังงานธรรมชาติเพิ่มขึ้น',
+  'onboarding.planTitleDefault': 'แผนการหายใจของคุณพร้อมแล้ว',
+  'onboarding.planBadge': 'ปรับแต่งเป็นพิเศษสำหรับคุณ',
+  'onboarding.planCalmB1': 'การหายใจแบบ Coherence ลดคอร์ติซอลใน 5 นาที',
+  'onboarding.planCalmB2': 'ใช้โดยนักบำบัด นักกีฬาโอลิมปิก และเจ้าหน้าที่กู้ภัย',
+  'onboarding.planCalmB3': 'ระบบประสาทของคุณเรียนรู้ที่จะอยู่ในสภาวะสงบ',
+  'onboarding.planSleepB1': 'การหายใจ 4-7-8 กระตุ้นระบบประสาทพาราซิมพาเทติก',
+  'onboarding.planSleepB2': 'ผู้ใช้ส่วนใหญ่นอนหลับเร็วขึ้นภายใน 3 วัน',
+  'onboarding.planSleepB3': 'ไม่มียา ไม่มีจอ มีแค่การหายใจ',
+  'onboarding.planFocusB1': 'Box Breathing — Navy SEALs ใช้ภายใต้แรงกดดันสูง',
+  'onboarding.planFocusB2': '4 นาทีก่อนงานลึก = ชั่วโมงแห่งความชัดเจน',
+  'onboarding.planFocusB3': 'ได้รับการพิสูจน์ทางคลินิกว่าลดความวิตกกังวลเฉียบพลันได้อย่างรวดเร็ว',
+  'onboarding.planEnergyB1': 'การทำงานหายใจกระตุ้นระบบประสาทซิมพาเทติก',
+  'onboarding.planEnergyB2': 'นักกีฬาใช้เพื่อเตรียมตัวก่อนการแข่งขัน',
+  'onboarding.planEnergyB3': 'รู้สึกถึงการเปลี่ยนแปลงในน้อยกว่า 60 วินาที',
+  'onboarding.yourTechnique': 'เทคนิคแรกของคุณ:',
+  'onboarding.scienceBacked': 'รองรับด้วยงานวิจัย · 10 เทคนิค · เฉพาะ iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'ย้อนกลับ',
+  'onboarding.maybeSkip': 'อาจจะทีหลัง',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'รักษาความสม่ำเสมอ',
+  'onboarding.notificationsSub': 'รับการเตือนเบาๆ ทุกวันให้หายใจ',
+  'onboarding.notificationsEnable': 'เปิดใช้การเตือนรายวัน',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'ซิงค์กับ Apple Health',
+  'onboarding.appleHealthSub': 'ติดตาม Mindful Minutes ของคุณโดยอัตโนมัติ',
+  'onboarding.appleHealthConnect': 'เชื่อมต่อ Apple Health',
+  'onboarding.appleHealthBullet1': 'ซิงค์ Mindful Minutes อัตโนมัติ',
+  'onboarding.appleHealthBullet2': 'ติดตามความก้าวหน้าตามเวลา',
+  'onboarding.appleHealthBullet3': 'ข้อมูลของคุณยังคงเป็นส่วนตัว',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'จากความเครียดสู่ความสงบ — ในไม่กี่นาที',
+  'paywall.heroSleep': 'นอนหลับในนาที ไม่ใช่ชั่วโมง',
+  'paywall.heroFocus': 'ความลับด้านสมาธิของ Navy SEALs — เปิดเผยแล้ว',
+  'paywall.heroEnergy': 'พลังงานธรรมชาติ ไม่ต้องใช้คาเฟอีน',
+  'paywall.heroDefault': 'ปลดล็อกประสบการณ์ BreathFlow เต็มรูปแบบ',
+  'paywall.heroSub': 'ปลดล็อกครั้งเดียว ไม่มีการสมัครสมาชิก ตลอดไป',
+  'paywall.socialProof': 'ร่วมกับผู้คนนับพันที่หายใจดีขึ้นทุกวัน',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'ฟรี',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 เทคนิค',
+  'paywall.row1Pro': 'ครบ 10 เทคนิค ✓',
+  'paywall.row2Free': 'ประวัติ 7 วัน',
+  'paywall.row2Pro': 'ประวัติเต็ม & กราฟ ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'ตัวสร้างเทคนิคที่กำหนดเอง ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'ติดตามอารมณ์ ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'ธีมสีและตราทั้งหมด ✓',
+  'paywall.anchor': 'ราคาน้อยกว่ากาแฟ ผลลัพธ์ที่ยาวนาน',
+  'paywall.continueFree': 'ดำเนินต่อด้วยเวอร์ชันฟรี',
+  'paywall.subtitle': 'ซื้อครั้งเดียว ไม่มีสมาชิก',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'เสร็จสิ้นการฝึก',
+  'notifications.sessionCompleteBody': 'เซสชัน {{technique}} ที่ยอดเยี่ยม! จิตใจและร่างกายของคุณขอบคุณ',
+  'notifications.tip1': 'Box Breathing สามารถลดคอร์ติซอลได้ภายใน 4 นาที',
+  'notifications.tip2': 'เซสชันหายใจ 5 นาทีช่วยเพิ่มสมาธิได้หลายชั่วโมง',
+  'notifications.tip3': 'การหายใจลึกกระตุ้นระบบประสาทพาราซิมพาเทติก',
+  'notifications.tip4': 'ลองหายใจแบบ Physiological Sigh เพื่อบรรเทาความเครียดทันที',
+  'notifications.tip5': 'การหายใจ 5.5 ครั้ง/นาทีจะเพิ่มประสิทธิภาพ HRV',
+  'notifications.tip6': 'แม้แต่ 1 นาทีของการหายใจอย่างมีสติก็สร้างความแตกต่างได้',
+  'notifications.tip7': 'การหายใจออกยาวๆ บอกให้ร่างกายรู้ว่าปลอดภัยที่จะผ่อนคลาย',
 };

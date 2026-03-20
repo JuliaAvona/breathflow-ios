@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Lỗi',
+
+  // Home (additional)
+  'home.categoryCustom': 'Tùy chỉnh',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Cảm nhận sự bình tĩnh chỉ trong vài phút',
+  'onboarding.hookSub': 'Kỹ thuật thở được khoa học chứng minh cho căng thẳng, giấc ngủ và sự tập trung. Được các chuyên gia trị liệu, vận động viên và NASA tin dùng.',
+  'onboarding.benefitStress': 'Giảm căng thẳng',
+  'onboarding.benefitSleep': 'Ngủ nhanh hơn',
+  'onboarding.benefitFocus': 'Duy trì sự tập trung',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Chúng tôi sẽ tạo kế hoạch thở cá nhân hóa cho bạn',
+  'onboarding.goalCalmLabel': 'Bình tĩnh & Thư giãn',
+  'onboarding.goalCalmSub': 'Lặng đi tiếng ồn bên trong',
+  'onboarding.goalSleepLabel': 'Giấc Ngủ Tốt Hơn',
+  'onboarding.goalSleepSub': 'Ngủ nhanh hơn',
+  'onboarding.goalFocusLabel': 'Tập Trung & Rõ Ràng',
+  'onboarding.goalFocusSub': 'Tâm trí sáng suốt theo yêu cầu',
+  'onboarding.goalEnergyLabel': 'Năng Lượng & Động Lực',
+  'onboarding.goalEnergySub': 'Tăng cường năng lượng tự nhiên',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Bình tĩnh hệ thần kinh của bạn',
+  'onboarding.planTitleSleep': 'Ngủ trong vài phút',
+  'onboarding.planTitleFocus': 'Tập trung theo yêu cầu',
+  'onboarding.planTitleEnergy': 'Tăng cường năng lượng tự nhiên',
+  'onboarding.planTitleDefault': 'Kế hoạch thở của bạn đã sẵn sàng',
+  'onboarding.planBadge': 'Cá nhân hóa cho bạn',
+  'onboarding.planCalmB1': 'Hơi thở nhịp nhàng giảm cortisol trong 5 phút',
+  'onboarding.planCalmB2': 'Được các nhà trị liệu, vận động viên Olympic và nhân viên cứu hộ sử dụng',
+  'onboarding.planCalmB3': 'Hệ thần kinh của bạn học cách giữ bình tĩnh',
+  'onboarding.planSleepB1': 'Thở 4-7-8 kích hoạt hệ thần kinh phó giao cảm',
+  'onboarding.planSleepB2': 'Hầu hết người dùng ngủ nhanh hơn trong 3 ngày',
+  'onboarding.planSleepB3': 'Không thuốc. Không màn hình. Chỉ hơi thở.',
+  'onboarding.planFocusB1': 'Box Breathing — Navy SEALs dùng dưới áp lực cực độ',
+  'onboarding.planFocusB2': '4 phút trước công việc sâu = nhiều giờ rõ ràng',
+  'onboarding.planFocusB3': 'Được chứng minh lâm sàng giảm lo âu cấp tính nhanh chóng',
+  'onboarding.planEnergyB1': 'Luyện tập thở kích hoạt hệ thần kinh giao cảm',
+  'onboarding.planEnergyB2': 'Vận động viên dùng để chuẩn bị trước thi đấu',
+  'onboarding.planEnergyB3': 'Cảm nhận sự thay đổi trong vòng 60 giây',
+  'onboarding.yourTechnique': 'Kỹ thuật đầu tiên của bạn:',
+  'onboarding.scienceBacked': 'Có cơ sở khoa học · 10 kỹ thuật · Độc quyền iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Quay lại',
+  'onboarding.maybeSkip': 'Có thể sau',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Duy trì sự nhất quán',
+  'onboarding.notificationsSub': 'Nhận nhắc nhở nhẹ nhàng hàng ngày để thở',
+  'onboarding.notificationsEnable': 'Bật nhắc nhở hàng ngày',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Đồng bộ với Apple Health',
+  'onboarding.appleHealthSub': 'Tự động theo dõi Mindful Minutes của bạn',
+  'onboarding.appleHealthConnect': 'Kết nối Apple Health',
+  'onboarding.appleHealthBullet1': 'Tự động đồng bộ Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Theo dõi tiến trình theo thời gian',
+  'onboarding.appleHealthBullet3': 'Dữ liệu của bạn vẫn riêng tư',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Từ căng thẳng đến bình tĩnh — trong vài phút',
+  'paywall.heroSleep': 'Ngủ trong vài phút, không phải vài giờ',
+  'paywall.heroFocus': 'Bí quyết tập trung của Navy SEALs — được tiết lộ',
+  'paywall.heroEnergy': 'Năng lượng tự nhiên. Không cần caffeine.',
+  'paywall.heroDefault': 'Mở khóa trải nghiệm BreathFlow đầy đủ',
+  'paywall.heroSub': 'Mở khóa một lần. Không đăng ký. Bao giờ.',
+  'paywall.socialProof': 'Tham gia hàng nghìn người thở tốt hơn mỗi ngày',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Miễn phí',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 kỹ thuật',
+  'paywall.row1Pro': 'Tất cả 10 kỹ thuật ✓',
+  'paywall.row2Free': 'Lịch sử 7 ngày',
+  'paywall.row2Pro': 'Lịch sử đầy đủ & biểu đồ ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Trình tạo kỹ thuật tùy chỉnh ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Theo dõi tâm trạng ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Tất cả chủ đề màu & huy hiệu ✓',
+  'paywall.anchor': 'Rẻ hơn một ly cà phê. Kết quả lâu dài.',
+  'paywall.continueFree': 'Tiếp tục với phiên bản miễn phí',
+  'paywall.subtitle': 'Mua một lần. Không đăng ký.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Phiên hoàn tất',
+  'notifications.sessionCompleteBody': 'Phiên {{technique}} tuyệt vời! Tâm trí và cơ thể bạn cảm ơn bạn.',
+  'notifications.tip1': 'Box Breathing có thể giảm cortisol chỉ trong 4 phút.',
+  'notifications.tip2': 'Một phiên thở 5 phút cải thiện sự tập trung trong nhiều giờ.',
+  'notifications.tip3': 'Thở sâu kích hoạt hệ thần kinh phó giao cảm.',
+  'notifications.tip4': 'Thử thở sinh lý để giảm căng thẳng ngay lập tức.',
+  'notifications.tip5': 'Thở với 5,5 hơi/phút tối ưu hóa biến thiên nhịp tim.',
+  'notifications.tip6': 'Ngay cả 1 phút thở có ý thức cũng tạo ra sự khác biệt.',
+  'notifications.tip7': 'Thở ra dài nói với cơ thể rằng an toàn để thư giãn.',
 };

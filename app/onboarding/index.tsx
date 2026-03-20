@@ -2,956 +2,673 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
   Animated,
-  ViewToken,
+  ScrollView,
+  ImageBackground,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { router } from 'expo-router';
+import * as Notifications from 'expo-notifications';
 import { useSettingsStore } from '../../src/store';
 import { TechniqueCategory } from '../../src/types';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
-import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
+import { BreathingMandala } from '../../src/components/BreathingMandala';
 
-const { width } = Dimensions.get('window');
+// ── Data ──────────────────────────────────────────────────────────────────────
 
-interface OnboardingPage {
-  id: string;
-  type: 'hook' | 'goal' | 'commit' | 'building' | 'value' | 'safety';
-}
-
-const pages: OnboardingPage[] = [
-  { id: '1', type: 'hook' },
-  { id: '2', type: 'goal' },
-  { id: '3', type: 'commit' },
-  { id: '4', type: 'building' },
-  { id: '5', type: 'value' },
-  { id: '6', type: 'safety' },
-];
-
-const GOAL_OPTIONS: {
+type GoalOption = {
   category: TechniqueCategory;
   icon: keyof typeof Ionicons.glyphMap;
   color: string;
   labelKey: string;
   subKey: string;
-}[] = [
+};
+
+const GOAL_OPTIONS: GoalOption[] = [
   { category: 'calm',   icon: 'leaf-outline',  color: '#7BC4A8', labelKey: 'onboarding.goalCalmLabel',   subKey: 'onboarding.goalCalmSub' },
   { category: 'sleep',  icon: 'moon-outline',  color: '#7B68AE', labelKey: 'onboarding.goalSleepLabel',  subKey: 'onboarding.goalSleepSub' },
   { category: 'focus',  icon: 'eye-outline',   color: '#4A90D9', labelKey: 'onboarding.goalFocusLabel',  subKey: 'onboarding.goalFocusSub' },
   { category: 'energy', icon: 'flash-outline', color: '#F5A623', labelKey: 'onboarding.goalEnergyLabel', subKey: 'onboarding.goalEnergySub' },
 ];
 
-const PLAN_CONTENT: Record<string, {
+const COMMIT_OPTIONS = [3, 5, 10, 15];
+
+type PlanEntry = {
   titleKey: string;
   techniqueId: string;
-  techniqueName: string;
   techniqueNameKey: string;
   color: string;
   icon: keyof typeof Ionicons.glyphMap;
-}> = {
-  calm: {
-    titleKey: 'onboarding.planTitleCalm',
-    techniqueId: 'coherence',
-    techniqueName: 'Coherence Breathing',
-    techniqueNameKey: 'techniques.coherence.name',
-    color: '#7BC4A8',
-    icon: 'radio-outline',
-  },
-  sleep: {
-    titleKey: 'onboarding.planTitleSleep',
-    techniqueId: 'fourSevenEight',
-    techniqueName: '4-7-8 Breathing',
-    techniqueNameKey: 'techniques.fourSevenEight.name',
-    color: '#7B68AE',
-    icon: 'moon-outline',
-  },
-  focus: {
-    titleKey: 'onboarding.planTitleFocus',
-    techniqueId: 'box',
-    techniqueName: 'Box Breathing',
-    techniqueNameKey: 'techniques.box.name',
-    color: '#4A90D9',
-    icon: 'cube-outline',
-  },
-  energy: {
-    titleKey: 'onboarding.planTitleEnergy',
-    techniqueId: 'triangle',
-    techniqueName: 'Triangle Breathing',
-    techniqueNameKey: 'techniques.triangle.name',
-    color: '#F5A623',
-    icon: 'flash-outline',
-  },
+  b1Key: string; b2Key: string; b3Key: string;
 };
 
+const PLAN_CONTENT: Record<string, PlanEntry> = {
+  calm:   { titleKey: 'onboarding.planTitleCalm',   techniqueId: 'coherence',      techniqueNameKey: 'techniques.coherence.name',      color: '#7BC4A8', icon: 'radio-outline',  b1Key: 'onboarding.planCalmB1',   b2Key: 'onboarding.planCalmB2',   b3Key: 'onboarding.planCalmB3'   },
+  sleep:  { titleKey: 'onboarding.planTitleSleep',  techniqueId: 'fourSevenEight', techniqueNameKey: 'techniques.fourSevenEight.name', color: '#7B68AE', icon: 'moon-outline',   b1Key: 'onboarding.planSleepB1',  b2Key: 'onboarding.planSleepB2',  b3Key: 'onboarding.planSleepB3'  },
+  focus:  { titleKey: 'onboarding.planTitleFocus',  techniqueId: 'box',            techniqueNameKey: 'techniques.box.name',            color: '#4A90D9', icon: 'cube-outline',   b1Key: 'onboarding.planFocusB1',  b2Key: 'onboarding.planFocusB2',  b3Key: 'onboarding.planFocusB3'  },
+  energy: { titleKey: 'onboarding.planTitleEnergy', techniqueId: 'triangle',       techniqueNameKey: 'techniques.triangle.name',       color: '#F5A623', icon: 'flash-outline',  b1Key: 'onboarding.planEnergyB1', b2Key: 'onboarding.planEnergyB2', b3Key: 'onboarding.planEnergyB3' },
+};
 const DEFAULT_PLAN = PLAN_CONTENT.focus;
 
-const COMMIT_OPTIONS = [3, 5, 10, 15];
+const SAFETY_ITEMS = ['onboarding.safety1', 'onboarding.safety2', 'onboarding.safety3', 'onboarding.safety4'];
 
-const SAFETY_ITEMS = [
-  'onboarding.safety1',
-  'onboarding.safety2',
-  'onboarding.safety3',
-  'onboarding.safety4',
-];
+// ── Shared glass colours ──────────────────────────────────────────────────────
+const GLASS_BG       = 'rgba(255,255,255,0.09)';
+const GLASS_BORDER   = 'rgba(255,255,255,0.18)';
+const GLASS_SEL_BG   = 'rgba(255,255,255,0.20)';
+const GLASS_SEL_BORDER = 'rgba(255,255,255,0.55)';
+const DIVIDER        = 'rgba(255,255,255,0.10)';
+const TEXT_PRIMARY   = '#FFFFFF';
+const TEXT_SECONDARY = 'rgba(255,255,255,0.65)';
 
-// ─── Value bullets shown on "your plan ready" screen ─────────────────────────
-const VALUE_BULLETS: {
-  icon: keyof typeof Ionicons.glyphMap;
-  color: string;
-  key: string;
-}[] = [
-  { icon: 'bar-chart-outline',        color: '#4A90D9', key: 'onboarding.valueProgress' },
-  { icon: 'trophy-outline',           color: '#F5A623', key: 'onboarding.valueBadges' },
-  { icon: 'heart-outline',            color: '#FF6B6B', key: 'onboarding.valueHealth' },
-  { icon: 'layers-outline',           color: '#7BC4A8', key: 'onboarding.valueTechniques' },
-  { icon: 'checkmark-circle-outline', color: '#7B68AE', key: 'onboarding.valueFree' },
-];
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export default function OnboardingScreen() {
   const { t } = useTranslation();
-  const theme = useThemeColors();
-  const fontSize = useFontSize();
-  const flatListRef = useRef<FlatList>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const setSetting = useSettingsStore((s) => s.setSetting);
+  const [page, setPage] = useState(0);
+  const [selectedGoal, setSelectedGoal]     = useState<TechniqueCategory | undefined>(undefined);
+  const [selectedMinutes, setSelectedMinutes] = useState<number | undefined>(undefined);
+  const [safetyChecked, setSafetyChecked]   = useState(false);
 
-  const [selectedGoal, setSelectedGoal] = useState<TechniqueCategory | undefined>(undefined);
-  const [selectedMinutes, setSelectedMinutes] = useState(5);
-  const [safetyChecked, setSafetyChecked] = useState(false);
+  const fadeAnim  = useRef(new Animated.Value(1)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
 
-  // Building screen animation values
-  const buildingProgress = useRef(new Animated.Value(0)).current;
+  // Hook animation
+  const hookLabelOpacity = useRef(new Animated.Value(1)).current;
+  const [hookBreathDir, setHookBreathDir] = useState<'in' | 'out'>('in');
+
+  // Building steps
   const step1Opacity = useRef(new Animated.Value(0)).current;
   const step2Opacity = useRef(new Animated.Value(0)).current;
   const step3Opacity = useRef(new Animated.Value(0)).current;
 
-  const onViewableItemsChanged = useRef(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      if (viewableItems.length > 0 && viewableItems[0].index !== null) {
-        setCurrentIndex(viewableItems[0].index);
-      }
-    },
-  ).current;
+  const plan: PlanEntry = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
 
-  const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+  // ── Navigation ───────────────────────────────────────────────────────────────
 
-  const goToNext = useCallback(() => {
-    const nextIndex = currentIndex + 1;
-    if (nextIndex < pages.length) {
-      flatListRef.current?.scrollToIndex({ index: nextIndex });
-    }
-  }, [currentIndex]);
+  const goToPage = useCallback((nextPage: number, direction = 1) => {
+    Animated.parallel([
+      Animated.timing(fadeAnim,  { toValue: 0,   duration: 130, useNativeDriver: true }),
+      Animated.timing(slideAnim, { toValue: -28 * direction, duration: 130, useNativeDriver: true }),
+    ]).start(() => {
+      setPage(nextPage);
+      slideAnim.setValue(28 * direction);
+      Animated.parallel([
+        Animated.timing(fadeAnim,  { toValue: 1, duration: 200, useNativeDriver: true }),
+        Animated.timing(slideAnim, { toValue: 0, duration: 200, useNativeDriver: true }),
+      ]).start();
+    });
+  }, [fadeAnim, slideAnim]);
 
-  // Auto-advance from "building" screen after animation completes
+  const goNext = useCallback(() => goToPage(page + 1, 1),  [page, goToPage]);
+  const goBack = useCallback(() => goToPage(page - 1, -1), [page, goToPage]);
+
+  // Hook breath cycle — matches mandala slow cycle (8800ms)
   useEffect(() => {
-    if (currentIndex !== 3) return; // page index 3 = building
+    if (page !== 0) return;
+    const HALF = 4400;
+    hookLabelOpacity.setValue(1);
+    setHookBreathDir('in');
+    const loop = Animated.loop(Animated.sequence([
+      Animated.timing(hookLabelOpacity, { toValue: 0.35, duration: HALF, useNativeDriver: true }),
+      Animated.timing(hookLabelOpacity, { toValue: 1,    duration: HALF, useNativeDriver: true }),
+    ]));
+    loop.start();
+    const interval = setInterval(() => setHookBreathDir((d) => d === 'in' ? 'out' : 'in'), HALF);
+    return () => { loop.stop(); clearInterval(interval); };
+  }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // Reset
-    step1Opacity.setValue(0);
-    step2Opacity.setValue(0);
-    step3Opacity.setValue(0);
-
+  // Building auto-advance
+  useEffect(() => {
+    if (page !== 3) return;
+    step1Opacity.setValue(0); step2Opacity.setValue(0); step3Opacity.setValue(0);
     const seq = Animated.sequence([
       Animated.delay(400),
       Animated.timing(step1Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
-      Animated.delay(550),
+      Animated.delay(600),
       Animated.timing(step2Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
-      Animated.delay(550),
+      Animated.delay(600),
       Animated.timing(step3Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
-      Animated.delay(700),
+      Animated.delay(800),
     ]);
-
-    seq.start(() => {
-      flatListRef.current?.scrollToIndex({ index: 4 });
-    });
-
+    seq.start(() => goToPage(4, 1));
     return () => seq.stop();
-  }, [currentIndex]);
+  }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const finishOnboarding = useCallback(() => {
-    setSetting('onboardingCompleted', true);
-    setSetting('safetyAccepted', true);
-    const plan = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
-    router.replace({
-      pathname: '/paywall',
-      params: {
-        fromOnboarding: '1',
-        goal: selectedGoal ?? 'focus',
-        techniqueId: plan.techniqueId,
-      },
-    });
-  }, [setSetting, selectedGoal]);
-
-  const skipToApp = useCallback(() => {
-    setSetting('onboardingCompleted', true);
-    const plan = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
-    router.replace({
-      pathname: '/session',
-      params: { techniqueId: plan.techniqueId, duration: '120', fromOnboarding: '1' },
-    });
-  }, [setSetting, selectedGoal]);
+  // ── Handlers ─────────────────────────────────────────────────────────────────
 
   const handleGoalSelect = useCallback((category: TechniqueCategory) => {
     setSelectedGoal(category);
     setSetting('selectedGoal', category);
-  }, [setSetting]);
+    setTimeout(() => goNext(), 280);
+  }, [setSetting, goNext]);
 
   const handleCommitSelect = useCallback((min: number) => {
     setSelectedMinutes(min);
     setSetting('dailyGoalMinutes', min);
-  }, [setSetting]);
+    setTimeout(() => goNext(), 300);
+  }, [setSetting, goNext]);
 
-  // ─── Page 1 — Hook ──────────────────────────────────────────────────────────
+  const handleEnableNotifications = useCallback(() => {
+    Notifications.requestPermissionsAsync().catch(() => {});
+    goNext();
+  }, [goNext]);
+
+  const handleConnectHealth = useCallback(() => {
+    setSetting('healthSyncEnabled', true);
+    goNext();
+  }, [setSetting, goNext]);
+
+  const finishOnboarding = useCallback(() => {
+    setSetting('onboardingCompleted', true);
+    setSetting('safetyAccepted', true);
+    router.replace({ pathname: '/paywall', params: { fromOnboarding: '1', goal: selectedGoal ?? 'focus', techniqueId: plan.techniqueId } });
+  }, [setSetting, selectedGoal, plan]);
+
+  const skipToApp = useCallback(() => {
+    setSetting('onboardingCompleted', true);
+    router.replace({ pathname: '/session', params: { techniqueId: plan.techniqueId, duration: '120', fromOnboarding: '1' } });
+  }, [setSetting, plan]);
+
+  // ── Progress ──────────────────────────────────────────────────────────────────
+  const progressVisible = page > 0 && page !== 3;
+  const progressStep    = page < 3 ? page : page - 1;
+  const progressPct     = progressStep / 6;
+
+  // ── Page 0 — Hook ─────────────────────────────────────────────────────────────
 
   const renderHook = () => (
-    <View style={[styles.page, { width }]}>
-      {/* Hero gradient orb */}
-      <View style={styles.heroOrbWrapper}>
-        <LinearGradient
-          colors={['#4A90D9', '#7BC4A8', '#7B68AE']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.heroOrb}
-        >
-          <Ionicons name="body-outline" size={scale(52)} color="rgba(255,255,255,0.95)" />
-        </LinearGradient>
-        {/* Glow ring */}
-        <View style={[styles.heroOrbRing, { borderColor: '#4A90D9' + '30' }]} />
+    <View style={{ flex: 1 }}>
+      {/* Bottom gradient for text readability */}
+      <LinearGradient
+        colors={['transparent', 'rgba(5,10,30,0.70)', 'rgba(5,10,30,0.92)']}
+        style={StyleSheet.absoluteFillObject}
+        start={{ x: 0.5, y: 0.35 }}
+        end={{ x: 0.5, y: 1 }}
+        pointerEvents="none"
+      />
+
+      {/* Mandala */}
+      <View style={styles.hookCenter}>
+        <BreathingMandala phase="IDLE" color="#4A90D9" size={scale(260)} bright slow />
+        <Animated.Text style={[styles.hookBreathLabel, { opacity: hookLabelOpacity }]}>
+          {hookBreathDir === 'in' ? t('phase.breatheIn') : t('phase.breatheOut')}
+        </Animated.Text>
       </View>
 
-      <Text style={[styles.hookTitle, { color: theme.text }]}>
-        {t('onboarding.hookTitle')}
-      </Text>
-      <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-        {t('onboarding.hookSub')}
-      </Text>
-
-      {/* Social proof pills */}
-      <View style={styles.socialProofRow}>
-        {([
-          { icon: 'shield-checkmark-outline' as const, key: 'onboarding.socialProof1', color: '#7BC4A8' },
-          { icon: 'flask-outline'             as const, key: 'onboarding.socialProof2', color: '#4A90D9' },
-          { icon: 'heart-outline'             as const, key: 'onboarding.socialProof3', color: '#FF6B6B' },
-        ] as const).map((b) => (
-          <View key={b.key} style={[styles.socialPill, { backgroundColor: b.color + '18' }]}>
-            <Ionicons name={b.icon} size={13} color={b.color} />
-            <Text style={[styles.socialPillText, { color: b.color }]}>{t(b.key)}</Text>
-          </View>
-        ))}
-      </View>
-
-      <TouchableOpacity
-        style={[styles.primaryButton, { backgroundColor: theme.primary }]}
-        onPress={goToNext}
-        activeOpacity={0.8}
-      >
-        <Text style={[styles.primaryButtonText, { fontSize: fontSize.lg }]}>
-          {t('onboarding.getStarted')}
-        </Text>
-      </TouchableOpacity>
-
-      <Text style={[styles.fineprint, { color: theme.textSecondary }]}>
-        {t('onboarding.noCardRequired')}
-      </Text>
-    </View>
-  );
-
-  // ─── Page 2 — Goal ──────────────────────────────────────────────────────────
-
-  const renderGoal = () => (
-    <View style={[styles.page, { width }]}>
-      <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
-        {t('onboarding.chooseGoal')}
-      </Text>
-      <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-        {t('onboarding.chooseGoalSub')}
-      </Text>
-
-      <View style={styles.goalGrid}>
-        {GOAL_OPTIONS.map((goal) => {
-          const isSelected = selectedGoal === goal.category;
-          return (
-            <TouchableOpacity
-              key={goal.category}
-              style={[
-                styles.goalCard,
-                {
-                  backgroundColor: isSelected ? goal.color + '18' : theme.surface,
-                  borderColor: isSelected ? goal.color : theme.border,
-                  borderWidth: isSelected ? 2 : 1.5,
-                },
-              ]}
-              onPress={() => handleGoalSelect(goal.category)}
-              activeOpacity={0.7}
-            >
-              <View style={[styles.goalIconCircle, { backgroundColor: goal.color + '20' }]}>
-                <Ionicons name={goal.icon} size={28} color={goal.color} />
-              </View>
-              <Text style={[styles.goalLabel, { color: isSelected ? goal.color : theme.text, fontSize: fontSize.md }]}>
-                {t(goal.labelKey)}
-              </Text>
-              <Text style={[styles.goalSub, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-                {t(goal.subKey)}
-              </Text>
-              {isSelected && (
-                <View style={[styles.goalCheck, { backgroundColor: goal.color }]}>
-                  <Ionicons name="checkmark" size={12} color="#fff" />
-                </View>
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      <TouchableOpacity
-        style={[styles.primaryButton, { backgroundColor: theme.primary }]}
-        onPress={goToNext}
-        activeOpacity={0.8}
-      >
-        <Text style={[styles.primaryButtonText, { fontSize: fontSize.lg }]}>
-          {t('onboarding.continue')}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.skipLink} onPress={goToNext}>
-        <Text style={[styles.skipLinkText, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-          {t('onboarding.skip')}
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  // ─── Page 3 — Daily Commitment ──────────────────────────────────────────────
-
-  const renderCommit = () => (
-    <View style={[styles.page, { width }]}>
-      {/* Icon */}
-      <View style={[styles.commitIconCircle, { backgroundColor: COLORS.primary + '18' }]}>
-        <Ionicons name="calendar-outline" size={scale(42)} color={COLORS.primary} />
-      </View>
-
-      <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
-        {t('onboarding.commitTitle')}
-      </Text>
-      <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-        {t('onboarding.commitSub')}
-      </Text>
-
-      {/* Time option cards */}
-      <View style={styles.commitGrid}>
-        {COMMIT_OPTIONS.map((min) => {
-          const isSelected = selectedMinutes === min;
-          return (
-            <TouchableOpacity
-              key={min}
-              style={[
-                styles.commitCard,
-                {
-                  backgroundColor: isSelected ? COLORS.primary + '18' : theme.surface,
-                  borderColor: isSelected ? COLORS.primary : theme.border,
-                  borderWidth: isSelected ? 2 : 1.5,
-                },
-              ]}
-              onPress={() => handleCommitSelect(min)}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.commitMinutes, { color: isSelected ? COLORS.primary : theme.text }]}>
-                {min}
-              </Text>
-              <Text style={[styles.commitMinLabel, { color: theme.textSecondary }]}>
-                {t('onboarding.commitMinUnit')}
-              </Text>
-              {isSelected && (
-                <View style={[styles.goalCheck, { backgroundColor: COLORS.primary }]}>
-                  <Ionicons name="checkmark" size={12} color="#fff" />
-                </View>
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      {/* Motivational hint based on selected minutes */}
-      <View style={[styles.commitHint, { backgroundColor: '#F5A623' + '15', borderColor: '#F5A623' + '40' }]}>
-        <Ionicons name="flame-outline" size={18} color="#F5A623" />
-        <Text style={[styles.commitHintText, { color: theme.text, fontSize: fontSize.sm }]}>
-          {t('onboarding.commitHint_' + selectedMinutes)}
-        </Text>
-      </View>
-
-      <TouchableOpacity
-        style={[styles.primaryButton, { backgroundColor: theme.primary }]}
-        onPress={goToNext}
-        activeOpacity={0.8}
-      >
-        <Text style={[styles.primaryButtonText, { fontSize: fontSize.lg }]}>
-          {t('onboarding.continue')}
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  // ─── Page 4 — Building Plan (auto-advance) ──────────────────────────────────
-
-  const renderBuilding = () => {
-    const plan = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
-
-    return (
-      <View style={[styles.page, { width }]}>
-        {/* Animated gradient orb */}
-        <LinearGradient
-          colors={[plan.color + 'AA', plan.color]}
-          style={styles.buildingOrb}
-        >
-          <Ionicons name="sparkles-outline" size={scale(44)} color="#FFFFFF" />
-        </LinearGradient>
-
-        <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
-          {t('onboarding.buildingTitle')}
-        </Text>
-
-        <View style={styles.buildingSteps}>
+      {/* Content */}
+      <View style={styles.hookContent}>
+        <Text style={styles.hookTitle}>{t('onboarding.hookTitle')}</Text>
+        <Text style={styles.hookSub}>{t('onboarding.hookSub')}</Text>
+        <View style={styles.pillsRow}>
           {([
-            { opacity: step1Opacity, key: 'onboarding.buildingStep1' },
-            { opacity: step2Opacity, key: 'onboarding.buildingStep2' },
-            { opacity: step3Opacity, key: 'onboarding.buildingStep3' },
-          ] as const).map((step, i) => (
-            <Animated.View
-              key={i}
-              style={[styles.buildingStep, { opacity: step.opacity, backgroundColor: theme.surface }]}
-            >
-              <View style={[styles.buildingStepCheck, { backgroundColor: plan.color }]}>
-                <Ionicons name="checkmark" size={14} color="#FFFFFF" />
-              </View>
-              <Text style={[styles.buildingStepText, { color: theme.text, fontSize: fontSize.sm }]}>
-                {t(step.key)}
-              </Text>
-            </Animated.View>
-          ))}
-        </View>
-      </View>
-    );
-  };
-
-  // ─── Page 5 — Your Plan Ready ──────────────────────────────────────────────
-
-  const renderValue = () => {
-    const plan = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
-
-    return (
-      <View style={[styles.page, { width }]}>
-        {/* Badge */}
-        <View style={[styles.planBadge, { backgroundColor: plan.color + '20' }]}>
-          <Ionicons name="checkmark-circle" size={14} color={plan.color} />
-          <Text style={[styles.planBadgeText, { color: plan.color }]}>
-            {t('onboarding.planBadge')}
-          </Text>
-        </View>
-
-        <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
-          {t(plan.titleKey)}
-        </Text>
-
-        {/* Recommended technique */}
-        <View style={[styles.techniqueCard, { backgroundColor: theme.surface, borderColor: plan.color + '40' }]}>
-          <Text style={[styles.techniqueCardLabel, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('onboarding.yourTechnique')}
-          </Text>
-          <View style={styles.techniqueCardRow}>
-            <LinearGradient colors={[plan.color + '80', plan.color]} style={styles.techniqueCardIcon}>
-              <Ionicons name={plan.icon} size={20} color="#FFFFFF" />
-            </LinearGradient>
-            <Text style={[styles.techniqueCardName, { color: theme.text, fontSize: fontSize.md }]}>
-              {t(plan.techniqueNameKey)}
-            </Text>
-          </View>
-        </View>
-
-        {/* Value bullets */}
-        <View style={styles.valueBullets}>
-          {VALUE_BULLETS.map((b) => (
-            <View key={b.key} style={[styles.valueBulletRow, { backgroundColor: theme.surface }]}>
-              <View style={[styles.valueBulletIcon, { backgroundColor: b.color + '20' }]}>
-                <Ionicons name={b.icon} size={18} color={b.color} />
-              </View>
-              <Text style={[styles.valueBulletText, { color: theme.text, fontSize: fontSize.sm }]}>
-                {t(b.key)}
-              </Text>
+            { icon: 'shield-checkmark-outline' as const, key: 'onboarding.socialProof1', color: '#7BC4A8' },
+            { icon: 'flask-outline'             as const, key: 'onboarding.socialProof2', color: '#4A90D9' },
+            { icon: 'heart-outline'             as const, key: 'onboarding.socialProof3', color: '#FF6B6B' },
+          ]).map((p) => (
+            <View key={p.key} style={[styles.pill, { backgroundColor: 'rgba(255,255,255,0.12)' }]}>
+              <Ionicons name={p.icon} size={12} color={p.color} />
+              <Text style={[styles.pillText, { color: '#FFFFFF' }]}>{t(p.key)}</Text>
             </View>
           ))}
         </View>
-
-        <TouchableOpacity
-          style={[styles.primaryButton, { backgroundColor: theme.primary }]}
-          onPress={goToNext}
-          activeOpacity={0.8}
-        >
-          <Text style={[styles.primaryButtonText, { fontSize: fontSize.lg }]}>
-            {t('onboarding.continue')}
-          </Text>
+        <TouchableOpacity style={styles.primaryBtn} onPress={goNext} activeOpacity={0.85}>
+          <Text style={styles.primaryBtnText}>{t('onboarding.getStarted')}</Text>
         </TouchableOpacity>
       </View>
-    );
-  };
+    </View>
+  );
 
-  // ─── Page 6 — Safety ────────────────────────────────────────────────────────
+  // ── Page 1 — Goal ─────────────────────────────────────────────────────────────
 
-  const renderSafety = () => (
-    <View style={[styles.page, { width }]}>
-      <View style={[styles.safetyIconCircle, { backgroundColor: COLORS.accent + '20' }]}>
-        <Ionicons name="shield-checkmark-outline" size={scale(44)} color={COLORS.accent} />
+  const renderGoal = () => (
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1, justifyContent: 'center' }]} showsVerticalScrollIndicator={false}>
+      <Text style={styles.pageTitle}>{t('onboarding.chooseGoal')}</Text>
+      <Text style={styles.pageSub}>{t('onboarding.chooseGoalSub')}</Text>
+      <View style={styles.optionList}>
+        {GOAL_OPTIONS.map((g) => {
+          const sel = selectedGoal === g.category;
+          return (
+            <TouchableOpacity
+              key={g.category}
+              style={[styles.optionRow, sel && styles.optionRowSelected]}
+              onPress={() => handleGoalSelect(g.category)}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.optionIconCircle, { backgroundColor: g.color + '30' }]}>
+                <Ionicons name={g.icon} size={22} color={g.color} />
+              </View>
+              <View style={styles.optionTexts}>
+                <Text style={styles.optionLabel}>{t(g.labelKey)}</Text>
+                <Text style={styles.optionSub}>{t(g.subKey)}</Text>
+              </View>
+              {sel
+                ? <View style={[styles.checkCircle, { backgroundColor: g.color }]}><Ionicons name="checkmark" size={13} color="#FFF" /></View>
+                : <Ionicons name="chevron-forward" size={17} color="rgba(255,255,255,0.4)" />}
+            </TouchableOpacity>
+          );
+        })}
       </View>
-      <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
-        {t('onboarding.safety')}
-      </Text>
+    </ScrollView>
+  );
 
-      <View style={styles.safetyList}>
-        {SAFETY_ITEMS.map((key, i) => (
-          <View key={i} style={[styles.safetyRow, { backgroundColor: theme.surface }]}>
-            <Ionicons name="checkmark-circle-outline" size={18} color={COLORS.accent} />
-            <Text style={[styles.safetyText, { color: theme.text, fontSize: fontSize.sm }]} numberOfLines={2}>
-              {t(key)}
-            </Text>
+  // ── Page 2 — Commit ───────────────────────────────────────────────────────────
+
+  const renderCommit = () => (
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1, justifyContent: 'center' }]} showsVerticalScrollIndicator={false}>
+      <Text style={styles.pageTitle}>{t('onboarding.commitTitle')}</Text>
+      <Text style={styles.pageSub}>{t('onboarding.commitSub')}</Text>
+      <View style={styles.optionList}>
+        {COMMIT_OPTIONS.map((min) => {
+          const sel = selectedMinutes != null && selectedMinutes === min;
+          return (
+            <TouchableOpacity
+              key={min}
+              style={[styles.optionRow, sel && styles.optionRowSelected]}
+              onPress={() => handleCommitSelect(min)}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.optionIconCircle, { backgroundColor: (sel ? COLORS.primary : 'rgba(255,255,255,0.15)') }]}>
+                <Text style={[styles.commitNum, { color: '#FFFFFF' }]}>{min}</Text>
+              </View>
+              <View style={styles.optionTexts}>
+                <Text style={styles.optionLabel}>{min} {t('onboarding.commitMinUnit')}</Text>
+              </View>
+              {sel
+                ? <View style={[styles.checkCircle, { backgroundColor: COLORS.primary }]}><Ionicons name="checkmark" size={13} color="#FFF" /></View>
+                : <Ionicons name="chevron-forward" size={17} color="rgba(255,255,255,0.4)" />}
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+      {selectedMinutes != null && (
+        <View style={styles.hintBox}>
+          <Ionicons name="flame-outline" size={16} color="#F5A623" />
+          <Text style={styles.hintText}>{t('onboarding.commitHint_' + selectedMinutes)}</Text>
+        </View>
+      )}
+    </ScrollView>
+  );
+
+  // ── Page 3 — Building ─────────────────────────────────────────────────────────
+
+  const renderBuilding = () => (
+    <View style={[styles.pageContent, { justifyContent: 'center' }]}>
+      <View style={{ alignItems: 'center', marginBottom: SPACING.lg }}>
+        <View style={[styles.buildingOrb, { backgroundColor: plan.color }]}>
+          <Ionicons name="sparkles-outline" size={scale(40)} color="#FFFFFF" />
+        </View>
+      </View>
+      <Text style={[styles.pageTitle, { textAlign: 'center', marginBottom: SPACING.xl }]}>{t('onboarding.buildingTitle')}</Text>
+      <View style={{ gap: SPACING.md }}>
+        {([
+          { opacity: step1Opacity, key: 'onboarding.buildingStep1' },
+          { opacity: step2Opacity, key: 'onboarding.buildingStep2' },
+          { opacity: step3Opacity, key: 'onboarding.buildingStep3' },
+        ] as const).map((s, i) => (
+          <Animated.View key={i} style={[styles.bulletRow, { opacity: s.opacity }]}>
+            <View style={[styles.stepDot, { backgroundColor: plan.color }]}><Ionicons name="checkmark" size={12} color="#FFF" /></View>
+            <Text style={styles.bulletText}>{t(s.key)}</Text>
+          </Animated.View>
+        ))}
+      </View>
+    </View>
+  );
+
+  // ── Page 4 — Plan ─────────────────────────────────────────────────────────────
+
+  const renderPlan = () => (
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1, justifyContent: 'center', paddingBottom: 32 }]} showsVerticalScrollIndicator={false}>
+      <View style={[styles.planBadge, { backgroundColor: plan.color + '30' }]}>
+        <Ionicons name="checkmark-circle" size={13} color={plan.color} />
+        <Text style={[styles.planBadgeText, { color: plan.color }]}>{t('onboarding.planBadge')}</Text>
+      </View>
+      <Text style={styles.pageTitle}>{t(plan.titleKey)}</Text>
+
+      {/* Technique card */}
+      <View style={[styles.glassCard, styles.techniqueCard, { borderColor: plan.color + '60' }]}>
+        <View style={[styles.techniqueIcon, { backgroundColor: plan.color }]}>
+          <Ionicons name={plan.icon} size={20} color="#FFF" />
+        </View>
+        <View>
+          <Text style={styles.techniqueLabel}>{t('onboarding.yourTechnique')}</Text>
+          <Text style={styles.techniqueName}>{t(plan.techniqueNameKey)}</Text>
+        </View>
+      </View>
+
+      {/* Bullets */}
+      <View style={styles.glassCard}>
+        {[plan.b1Key, plan.b2Key, plan.b3Key].map((key, i) => (
+          <View key={i} style={[styles.bulletRow, i < 2 && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: DIVIDER }]}>
+            <Ionicons name="checkmark-circle" size={18} color={plan.color} />
+            <Text style={styles.bulletText}>{t(key)}</Text>
           </View>
         ))}
       </View>
 
-      <TouchableOpacity
-        style={styles.checkboxRow}
-        onPress={() => setSafetyChecked((prev) => !prev)}
-        activeOpacity={0.7}
-      >
-        <Ionicons
-          name={safetyChecked ? 'checkbox' : 'square-outline'}
-          size={24}
-          color={safetyChecked ? theme.primary : theme.textSecondary}
-        />
-        <Text style={[styles.checkboxLabel, { color: theme.text, fontSize: fontSize.sm }]}>
-          {t('onboarding.understand')}
-        </Text>
+      <TouchableOpacity style={styles.primaryBtn} onPress={goNext} activeOpacity={0.85}>
+        <Text style={styles.primaryBtnText}>{t('onboarding.continue')}</Text>
       </TouchableOpacity>
+    </ScrollView>
+  );
 
-      <TouchableOpacity
-        style={[
-          styles.primaryButton,
-          { backgroundColor: safetyChecked ? theme.primary : theme.border },
-        ]}
-        onPress={finishOnboarding}
-        activeOpacity={0.8}
-        disabled={!safetyChecked}
-      >
-        <Text style={[styles.primaryButtonText, { fontSize: fontSize.lg, opacity: safetyChecked ? 1 : 0.5 }]}>
-          {t('onboarding.startBreathing')}
-        </Text>
+  // ── Page 5 — Notifications ────────────────────────────────────────────────────
+
+  const renderNotifications = () => (
+    <View style={[styles.pageContent, { justifyContent: 'center' }]}>
+      <View style={[styles.bigIconCircle, { backgroundColor: '#4A90D930' }]}>
+        <Ionicons name="notifications-outline" size={scale(48)} color="#4A90D9" />
+      </View>
+      <Text style={styles.pageTitle}>{t('onboarding.notificationsTitle')}</Text>
+      <Text style={styles.pageSub}>{t('onboarding.notificationsSub')}</Text>
+
+      {/* Mock notification */}
+      <View style={[styles.glassCard, { marginBottom: SPACING.lg }]}>
+        <View style={styles.notifRow}>
+          <View style={[styles.notifAppIcon, { backgroundColor: COLORS.primary }]}>
+            <Ionicons name="body-outline" size={16} color="#FFF" />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.optionLabel, { marginBottom: 2 }]}>BreathFlow</Text>
+            <Text style={styles.optionSub}>Time for your daily breathing session 🌿</Text>
+          </View>
+          <Text style={styles.optionSub}>now</Text>
+        </View>
+      </View>
+
+      <TouchableOpacity style={[styles.primaryBtn, { flexDirection: 'row', gap: 8 }]} onPress={handleEnableNotifications} activeOpacity={0.85}>
+        <Ionicons name="notifications-outline" size={18} color="#FFF" />
+        <Text style={styles.primaryBtnText}>{t('onboarding.notificationsEnable')}</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.skipLink} onPress={skipToApp}>
-        <Text style={[styles.skipLinkText, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-          {t('onboarding.skipToApp')}
-        </Text>
+      <TouchableOpacity style={styles.skipLink} onPress={goNext}>
+        <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
       </TouchableOpacity>
     </View>
   );
 
-  const renderItem = ({ item }: { item: OnboardingPage }) => {
-    switch (item.type) {
-      case 'hook':     return renderHook();
-      case 'goal':     return renderGoal();
-      case 'commit':   return renderCommit();
-      case 'building': return renderBuilding();
-      case 'value':    return renderValue();
-      case 'safety':   return renderSafety();
-      default:         return null;
+  // ── Page 6 — Apple Health ─────────────────────────────────────────────────────
+
+  const renderAppleHealth = () => (
+    <View style={[styles.pageContent, { justifyContent: 'center' }]}>
+      <View style={[styles.bigIconCircle, { backgroundColor: '#FF3B3025' }]}>
+        <Ionicons name="heart" size={scale(48)} color="#FF3B30" />
+      </View>
+      <Text style={styles.pageTitle}>{t('onboarding.appleHealthTitle')}</Text>
+      <Text style={styles.pageSub}>{t('onboarding.appleHealthSub')}</Text>
+      <View style={styles.glassCard}>
+        {([
+          { icon: 'sync-outline'        as const, key: 'onboarding.appleHealthBullet1' },
+          { icon: 'trending-up-outline' as const, key: 'onboarding.appleHealthBullet2' },
+          { icon: 'lock-closed-outline' as const, key: 'onboarding.appleHealthBullet3' },
+        ]).map((b, i) => (
+          <View key={i} style={[styles.bulletRow, i < 2 && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: DIVIDER }]}>
+            <Ionicons name={b.icon} size={18} color="#FF3B30" />
+            <Text style={styles.bulletText}>{t(b.key)}</Text>
+          </View>
+        ))}
+      </View>
+      <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: '#FF3B30', flexDirection: 'row', gap: 8 }]} onPress={handleConnectHealth} activeOpacity={0.85}>
+        <Ionicons name="heart" size={18} color="#FFF" />
+        <Text style={styles.primaryBtnText}>{t('onboarding.appleHealthConnect')}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.skipLink} onPress={goNext}>
+        <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  // ── Page 7 — Safety ───────────────────────────────────────────────────────────
+
+  const renderSafety = () => (
+    <View style={styles.pageContent}>
+      <View style={[styles.bigIconCircle, { backgroundColor: '#7BC4A820' }]}>
+        <Ionicons name="shield-checkmark-outline" size={scale(48)} color="#7BC4A8" />
+      </View>
+      <Text style={styles.pageTitle}>{t('onboarding.safety')}</Text>
+      <View style={styles.glassCard}>
+        {SAFETY_ITEMS.map((key, i) => (
+          <View key={i} style={[styles.bulletRow, i < SAFETY_ITEMS.length - 1 && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: DIVIDER }]}>
+            <Ionicons name="checkmark-circle-outline" size={18} color="#7BC4A8" />
+            <Text style={styles.bulletText}>{t(key)}</Text>
+          </View>
+        ))}
+      </View>
+      <TouchableOpacity style={styles.checkboxRow} onPress={() => setSafetyChecked((v) => !v)} activeOpacity={0.7}>
+        <Ionicons name={safetyChecked ? 'checkbox' : 'square-outline'} size={24} color={safetyChecked ? COLORS.primary : 'rgba(255,255,255,0.5)'} />
+        <Text style={styles.checkboxLabel}>{t('onboarding.understand')}</Text>
+      </TouchableOpacity>
+      <View style={styles.bottomArea}>
+        <TouchableOpacity
+          style={[styles.primaryBtn, !safetyChecked && { backgroundColor: 'rgba(255,255,255,0.15)' }]}
+          onPress={finishOnboarding}
+          disabled={!safetyChecked}
+          activeOpacity={0.85}
+        >
+          <Text style={[styles.primaryBtnText, { opacity: safetyChecked ? 1 : 0.45 }]}>{t('onboarding.startBreathing')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.skipLink} onPress={skipToApp}>
+          <Text style={styles.skipText}>{t('onboarding.skipToApp')}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  const renderPage = () => {
+    switch (page) {
+      case 0: return renderHook();
+      case 1: return renderGoal();
+      case 2: return renderCommit();
+      case 3: return renderBuilding();
+      case 4: return renderPlan();
+      case 5: return renderNotifications();
+      case 6: return renderAppleHealth();
+      case 7: return renderSafety();
+      default: return null;
     }
   };
 
-  return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-      <FlatList
-        ref={flatListRef}
-        data={pages}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onViewableItemsChanged={onViewableItemsChanged}
-        viewabilityConfig={viewabilityConfig}
-        scrollEnabled={false}
-      />
+  // ── Root ──────────────────────────────────────────────────────────────────────
 
-      {/* Progress dots — hidden on building screen */}
-      {currentIndex !== 3 && (
-        <View style={styles.dotsContainer}>
-          {pages.filter((_, i) => i !== 3).map((_, i) => {
-            // Map visual dot index to actual page index (skip building=3)
-            const actualIndex = i >= 3 ? i + 1 : i;
-            const isActive = currentIndex === actualIndex;
-            return (
-              <View
-                key={i}
-                style={[
-                  styles.dot,
-                  isActive
-                    ? { backgroundColor: theme.primary, width: 20 }
-                    : { backgroundColor: theme.border },
-                ]}
-              />
-            );
-          })}
-        </View>
-      )}
-    </SafeAreaView>
+  return (
+    <ImageBackground
+      source={require('../../assets/bg_sleep.webp')}
+      style={{ flex: 1 }}
+      resizeMode="cover"
+    >
+      {/* Global dark overlay */}
+      <View style={styles.overlay} />
+
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: 'transparent' }}
+        edges={page === 0 ? ['left', 'right', 'bottom'] : ['top', 'left', 'right', 'bottom']}
+      >
+        {/* Back + Forward buttons */}
+        {page > 0 && page !== 3 && (
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.backBtn} onPress={goBack} activeOpacity={0.7}>
+              <Ionicons name="chevron-back" size={22} color="#FFFFFF" />
+              <Text style={styles.backText}>{t('onboarding.back')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.forwardBtn} onPress={goNext} activeOpacity={0.7}>
+              <Text style={styles.backText}>{t('onboarding.skip')}</Text>
+              <Ionicons name="chevron-forward" size={22} color="#FFFFFF" />
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {/* Progress bar */}
+        {progressVisible && (
+          <View style={styles.progressTrack}>
+            <View style={[styles.progressFill, { width: `${progressPct * 100}%` }]} />
+          </View>
+        )}
+
+        {/* Page */}
+        <Animated.View style={[{ flex: 1 }, { opacity: fadeAnim, transform: [{ translateX: slideAnim }] }]}>
+          {renderPage()}
+        </Animated.View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
+// ── Styles ────────────────────────────────────────────────────────────────────
+
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: SPACING.xl,
+  // Root
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(5, 10, 30, 0.72)',
   },
 
-  // ── Hook ──────────────────────────────────────────────────────────────────
-  heroOrbWrapper: {
+  // Header
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: SPACING.xl,
+    paddingHorizontal: SPACING.md,
+    paddingTop: SPACING.md,
+    paddingBottom: 2,
+    minHeight: 44,
   },
-  heroOrb: {
-    width: scale(110),
-    height: scale(110),
-    borderRadius: scale(55),
-    alignItems: 'center',
-    justifyContent: 'center',
+  backBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 2,
+    paddingRight: 12, paddingVertical: 4,
   },
-  heroOrbRing: {
-    position: 'absolute',
-    width: scale(130),
-    height: scale(130),
-    borderRadius: scale(65),
-    borderWidth: 1.5,
+  forwardBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 2,
+    paddingLeft: 12, paddingVertical: 4,
   },
-  hookTitle: {
-    fontFamily: FONTS.heavy,
-    fontSize: FONT_SIZE.xxl + 6,
-    textAlign: 'center',
+  backText: { fontSize: FONT_SIZE.md, fontFamily: FONTS.medium, color: '#FFFFFF' },
+
+  // Progress
+  progressTrack: {
+    height: 3,
+    marginHorizontal: SPACING.lg,
+    borderRadius: 2,
     marginBottom: SPACING.sm,
-    letterSpacing: -0.5,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    overflow: 'hidden',
   },
-  socialProofRow: {
-    flexDirection: 'row',
-    gap: 6,
-    marginBottom: SPACING.xl,
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+  progressFill: { height: 3, borderRadius: 2, backgroundColor: '#FFFFFF' },
+
+  // Page content
+  pageContent: {
+    flex: 1,
+    paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.md,
+    paddingBottom: SPACING.md,
   },
-  socialPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: BORDER_RADIUS.full,
+
+  // Shared text
+  pageTitle: {
+    fontFamily: FONTS.heavy,
+    fontSize: FONT_SIZE.xxl + 2,
+    letterSpacing: -0.4,
+    marginBottom: 6,
+    color: TEXT_PRIMARY,
   },
-  socialPillText: {
-    fontSize: FONT_SIZE.xs,
-    fontFamily: FONTS.bold,
-  },
-  fineprint: {
-    fontSize: FONT_SIZE.xs,
+  pageSub: {
     fontFamily: FONTS.medium,
+    fontSize: FONT_SIZE.sm,
+    lineHeight: 20,
+    marginBottom: SPACING.lg,
+    color: TEXT_SECONDARY,
+  },
+
+  // Bottom area
+  bottomArea: { marginTop: 'auto', paddingTop: SPACING.md },
+
+  // Buttons
+  primaryBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    borderRadius: 14,
+    backgroundColor: COLORS.primary,
     marginTop: SPACING.sm,
-    opacity: 0.7,
   },
+  primaryBtnText: { color: '#FFFFFF', fontFamily: FONTS.bold, fontSize: FONT_SIZE.md + 1 },
+  skipLink: { alignItems: 'center', paddingVertical: SPACING.md },
+  skipText: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, color: TEXT_SECONDARY, textDecorationLine: 'underline' },
 
-  // ── Shared ─────────────────────────────────────────────────────────────────
-  title: {
-    fontFamily: FONTS.bold,
-    textAlign: 'center',
+  // Hook page
+  hookCenter: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: SPACING.lg },
+  hookContent: { paddingHorizontal: SPACING.lg, paddingBottom: SPACING.lg },
+  hookTitle: { fontFamily: FONTS.heavy, fontSize: FONT_SIZE.xxl + 2, textAlign: 'center', letterSpacing: -0.5, color: TEXT_PRIMARY, marginBottom: 6 },
+  hookSub: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, textAlign: 'center', lineHeight: 20, color: TEXT_SECONDARY, marginBottom: SPACING.md },
+  hookBreathLabel: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.lg, color: 'rgba(255,255,255,0.75)', letterSpacing: 1.5, textTransform: 'uppercase' },
+  pillsRow: { flexDirection: 'row', gap: 6, justifyContent: 'center', flexWrap: 'wrap', marginBottom: SPACING.md },
+  pill: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 6, borderRadius: BORDER_RADIUS.full },
+  pillText: { fontSize: FONT_SIZE.xs, fontFamily: FONTS.bold },
+
+  // Option rows
+  optionList: { gap: SPACING.sm, marginBottom: SPACING.md },
+  optionRow: {
+    flexDirection: 'row', alignItems: 'center',
+    paddingVertical: 13, paddingHorizontal: SPACING.md,
+    borderRadius: 14, gap: SPACING.md,
+    backgroundColor: GLASS_BG,
+    borderWidth: 1, borderColor: GLASS_BORDER,
+  },
+  optionRowSelected: { backgroundColor: GLASS_SEL_BG, borderColor: GLASS_SEL_BORDER },
+  optionIconCircle: { width: 44, height: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  optionTexts: { flex: 1 },
+  optionLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
+  optionSub: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
+  checkCircle: { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  commitNum: { fontFamily: FONTS.heavy, fontSize: 20 },
+
+  // Hint
+  hintBox: {
+    flexDirection: 'row', alignItems: 'center', gap: 10,
+    padding: SPACING.md, borderRadius: 12, borderWidth: 1,
+    backgroundColor: 'rgba(245,166,35,0.10)',
+    borderColor: 'rgba(245,166,35,0.25)',
     marginBottom: SPACING.sm,
   },
-  subtitle: {
-    textAlign: 'center',
-    fontFamily: FONTS.medium,
-    lineHeight: 22,
-    marginBottom: SPACING.xl,
-    paddingHorizontal: SPACING.xs,
-  },
-  primaryButton: {
-    width: '100%',
-    paddingVertical: SPACING.md + 2,
-    borderRadius: BORDER_RADIUS.xl,
-    alignItems: 'center',
-    marginTop: SPACING.md,
-  },
-  primaryButtonText: {
-    color: '#FFFFFF',
-    fontFamily: FONTS.bold,
-  },
-  skipLink: {
-    marginTop: SPACING.md,
-    paddingVertical: SPACING.sm,
-  },
-  skipLinkText: {
-    textDecorationLine: 'underline',
-    fontFamily: FONTS.medium,
-  },
+  hintText: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.xs, flex: 1, lineHeight: 18, color: 'rgba(255,255,255,0.85)' },
 
-  // ── Goal ────────────────────────────────────────────────────────────────────
-  goalGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: SPACING.sm + 2,
-    justifyContent: 'center',
-    marginBottom: SPACING.lg,
-    width: '100%',
-  },
-  goalCard: {
-    width: '46%',
-    alignItems: 'center',
-    paddingVertical: SPACING.md,
-    paddingHorizontal: SPACING.sm,
-    borderRadius: BORDER_RADIUS.lg,
-    position: 'relative',
-  },
-  goalIconCircle: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: SPACING.sm,
-  },
-  goalLabel: {
-    fontFamily: FONTS.bold,
-    textAlign: 'center',
-    marginBottom: 2,
-  },
-  goalSub: {
-    fontFamily: FONTS.regular,
-    textAlign: 'center',
-  },
-  goalCheck: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  // ── Commit ─────────────────────────────────────────────────────────────────
-  commitIconCircle: {
-    width: scale(90),
-    height: scale(90),
-    borderRadius: scale(45),
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: SPACING.lg,
-  },
-  commitGrid: {
-    flexDirection: 'row',
-    gap: SPACING.sm,
-    justifyContent: 'center',
-    marginBottom: SPACING.lg,
-  },
-  commitCard: {
-    width: 70,
-    paddingVertical: SPACING.md,
-    borderRadius: BORDER_RADIUS.lg,
-    alignItems: 'center',
-    position: 'relative',
-  },
-  commitMinutes: {
-    fontSize: 26,
-    fontFamily: FONTS.heavy,
-    letterSpacing: -0.5,
-  },
-  commitMinLabel: {
-    fontSize: FONT_SIZE.xs,
-    fontFamily: FONTS.medium,
-    marginTop: 2,
-  },
-  commitHint: {
-    width: '100%',
-    borderRadius: BORDER_RADIUS.lg,
+  // Glass card
+  glassCard: {
+    backgroundColor: GLASS_BG,
     borderWidth: 1,
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm + 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    marginBottom: SPACING.sm,
-  },
-  commitHintText: {
-    fontFamily: FONTS.medium,
-    flex: 1,
-    lineHeight: 20,
-  },
-
-  // ── Building ───────────────────────────────────────────────────────────────
-  buildingOrb: {
-    width: scale(110),
-    height: scale(110),
-    borderRadius: scale(55),
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: SPACING.xl,
-  },
-  buildingSteps: {
-    width: '100%',
-    gap: SPACING.sm,
-    marginTop: SPACING.lg,
-  },
-  buildingStep: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-    paddingVertical: SPACING.sm + 2,
-    paddingHorizontal: SPACING.md,
-    borderRadius: BORDER_RADIUS.md,
-  },
-  buildingStepCheck: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buildingStepText: {
-    fontFamily: FONTS.semibold,
-  },
-
-  // ── Value / Plan Ready ─────────────────────────────────────────────────────
-  planBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: BORDER_RADIUS.full,
+    borderColor: GLASS_BORDER,
+    borderRadius: 16,
+    overflow: 'hidden',
     marginBottom: SPACING.md,
   },
-  planBadgeText: {
-    fontSize: FONT_SIZE.xs,
-    fontFamily: FONTS.bold,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  techniqueCard: {
-    width: '100%',
-    padding: SPACING.md,
-    borderRadius: BORDER_RADIUS.lg,
-    borderWidth: 1.5,
-    marginBottom: SPACING.md,
-  },
-  techniqueCardLabel: {
-    fontFamily: FONTS.semibold,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 8,
-  },
-  techniqueCardRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  techniqueCardIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  techniqueCardName: {
-    fontFamily: FONTS.bold,
-  },
-  valueBullets: {
-    width: '100%',
-    gap: SPACING.xs + 2,
-    marginBottom: SPACING.sm,
-  },
-  valueBulletRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    paddingVertical: SPACING.sm + 2,
-    paddingHorizontal: SPACING.md,
-    borderRadius: BORDER_RADIUS.md,
-  },
-  valueBulletIcon: {
-    width: 34,
-    height: 34,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  valueBulletText: {
-    fontFamily: FONTS.medium,
-    flex: 1,
-  },
 
-  // ── Safety ──────────────────────────────────────────────────────────────────
-  safetyIconCircle: {
-    width: scale(90),
-    height: scale(90),
-    borderRadius: scale(45),
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: SPACING.lg,
-  },
-  safetyList: {
-    width: '100%',
-    gap: SPACING.xs + 2,
-    marginBottom: SPACING.lg,
-  },
-  safetyRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-    paddingVertical: SPACING.sm + 2,
-    paddingHorizontal: SPACING.md,
-    borderRadius: BORDER_RADIUS.md,
-  },
-  safetyText: {
-    flex: 1,
-    lineHeight: 20,
-    fontFamily: FONTS.medium,
-  },
-  checkboxRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-    marginBottom: SPACING.sm,
-    alignSelf: 'flex-start',
-    paddingHorizontal: SPACING.xs,
-  },
-  checkboxLabel: {
-    fontFamily: FONTS.semibold,
-  },
+  // Bullet rows
+  bulletRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: SPACING.md },
+  bulletText: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.lg, flex: 1, lineHeight: 24, color: TEXT_PRIMARY },
 
-  // ── Dots ────────────────────────────────────────────────────────────────────
-  dotsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 6,
-    paddingBottom: SPACING.xl,
-  },
-  dot: {
-    height: 8,
-    width: 8,
-    borderRadius: 4,
-  },
+  // Building
+  buildingOrb: { width: scale(90), height: scale(90), borderRadius: scale(45), alignItems: 'center', justifyContent: 'center' },
+  stepDot: { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+
+  // Plan
+  planBadge: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 10, paddingVertical: 5, borderRadius: BORDER_RADIUS.full, alignSelf: 'flex-start', marginBottom: SPACING.sm },
+  planBadgeText: { fontFamily: FONTS.bold, fontSize: FONT_SIZE.xs, textTransform: 'uppercase', letterSpacing: 0.5 },
+  techniqueCard: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, padding: SPACING.md, borderWidth: 1.5 },
+  techniqueIcon: { width: 42, height: 42, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  techniqueLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.xs, textTransform: 'uppercase', letterSpacing: 0.3, color: TEXT_SECONDARY, marginBottom: 2 },
+  techniqueName: { fontFamily: FONTS.bold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
+
+  // Notifications
+  notifRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, padding: SPACING.md },
+  notifAppIcon: { width: 36, height: 36, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+
+  // Big icon circle
+  bigIconCircle: { width: scale(96), height: scale(96), borderRadius: scale(48), alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginBottom: SPACING.lg, marginTop: SPACING.sm },
+
+  // Checkbox
+  checkboxRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.sm, paddingHorizontal: 2 },
+  checkboxLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.sm, flex: 1, lineHeight: 20, color: TEXT_PRIMARY },
 });

@@ -500,4 +500,89 @@ export default {
   'common.free': 'ÜCRETSİZ',
   'common.loading': 'Yükleniyor...',
   'common.error': 'Hata',
+
+  // Home (additional)
+  'home.categoryCustom': 'Özel',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Dakikalar içinde sakinleşin',
+  'onboarding.hookSub': 'Stres, uyku ve odaklanma için bilimsel destekli nefes teknikleri. Terapistler, sporcular ve NASA tarafından güveniliyor.',
+  'onboarding.benefitStress': 'Stresi azalt',
+  'onboarding.benefitSleep': 'Daha hızlı uyu',
+  'onboarding.benefitFocus': 'Odaklanmayı koru',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Kişisel nefes planınızı oluşturacağız',
+  'onboarding.goalCalmLabel': 'Sakinlik & Rahatlama',
+  'onboarding.goalCalmSub': 'İç sesi susturmak',
+  'onboarding.goalSleepLabel': 'Daha İyi Uyku',
+  'onboarding.goalSleepSub': 'Daha hızlı uykuya dalmak',
+  'onboarding.goalFocusLabel': 'Odak & Netlik',
+  'onboarding.goalFocusSub': 'İstenildiğinde berrak zihin',
+  'onboarding.goalEnergyLabel': 'Enerji & İstek',
+  'onboarding.goalEnergySub': 'Doğal enerji artışı',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Sinir sisteminizi sakinleştirin',
+  'onboarding.planTitleSleep': 'Dakikalar içinde uyuyun',
+  'onboarding.planTitleFocus': 'İstenildiğinde odaklanma',
+  'onboarding.planTitleEnergy': 'Doğal enerji artışı',
+  'onboarding.planTitleDefault': 'Nefes planınız hazır',
+  'onboarding.planBadge': 'Size özel',
+  'onboarding.planCalmB1': 'Tutarlı nefes alma kortizolü 5 dakikada düşürür',
+  'onboarding.planCalmB2': 'Terapistler, olimpik sporcular ve ilk yardımcılar tarafından kullanılır',
+  'onboarding.planCalmB3': 'Sinir sisteminiz sakin kalmayı öğrenir',
+  'onboarding.planSleepB1': '4-7-8 nefes tekniği parasempatik sisteminizi aktive eder',
+  'onboarding.planSleepB2': 'Kullanıcıların çoğu 3 gün içinde daha hızlı uyuyor',
+  'onboarding.planSleepB3': 'Hap yok. Ekran yok. Sadece nefes.',
+  'onboarding.planFocusB1': 'Box Breathing — Navy SEALs tarafından aşırı baskı altında kullanılır',
+  'onboarding.planFocusB2': 'Derin çalışmadan önce 4 dakika = saatlerce netlik',
+  'onboarding.planFocusB3': 'Akut kaygıyı hızla azaltmak için klinik olarak kanıtlandı',
+  'onboarding.planEnergyB1': 'Nefes çalışması sempatik sinir sisteminizi aktive eder',
+  'onboarding.planEnergyB2': 'Sporcular tarafından yarışma öncesi hazırlık için kullanılır',
+  'onboarding.planEnergyB3': '60 saniyeden kısa sürede değişimi hissedin',
+  'onboarding.yourTechnique': 'İlk tekniğiniz:',
+  'onboarding.scienceBacked': 'Araştırma destekli · 10 teknik · Yalnızca iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Geri',
+  'onboarding.maybeSkip': 'Belki sonra',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Tutarlı kalın',
+  'onboarding.notificationsSub': 'Her gün nefes almak için nazik bir hatırlatıcı alın',
+  'onboarding.notificationsEnable': 'Günlük hatırlatıcıları etkinleştir',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health ile senkronize edin',
+  'onboarding.appleHealthSub': 'Mindful Minutes takibini otomatik yapın',
+  'onboarding.appleHealthConnect': 'Apple Health bağla',
+  'onboarding.appleHealthBullet1': 'Mindful Minutes otomatik senkronizasyonu',
+  'onboarding.appleHealthBullet2': 'Zaman içindeki ilerlemeyi takip edin',
+  'onboarding.appleHealthBullet3': 'Verileriniz gizli kalır',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Stresten sakinliğe — dakikalar içinde',
+  'paywall.heroSleep': 'Saatler değil, dakikalar içinde uykuya dalın',
+  'paywall.heroFocus': 'Navy SEALs\'in odak sırrı — açığa çıktı',
+  'paywall.heroEnergy': 'Doğal enerji. Kafeinsiz.',
+  'paywall.heroDefault': 'Tam BreathFlow deneyiminin kilidini açın',
+  'paywall.heroSub': 'Tek seferlik kilit açma. Abonelik yok. Hiç.',
+  'paywall.socialProof': 'Her gün daha iyi nefes alan binlerce kişiye katılın',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Ücretsiz',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 teknik',
+  'paywall.row1Pro': 'Tüm 10 teknik ✓',
+  'paywall.row2Free': '7 günlük geçmiş',
+  'paywall.row2Pro': 'Tam geçmiş ve grafikler ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Özel teknik oluşturucu ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Ruh hali takibi ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Tüm renk temaları ve rozetler ✓',
+  'paywall.anchor': 'Bir kahveden az. Kalıcı sonuçlar.',
+  'paywall.continueFree': 'Ücretsiz sürümle devam et',
 };

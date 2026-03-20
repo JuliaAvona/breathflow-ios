@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Błąd',
+
+  // Home (additional)
+  'home.categoryCustom': 'Własne',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Poczuj spokój w kilka minut',
+  'onboarding.hookSub': 'Oddychanie poparte nauką — dla stresu, snu i koncentracji. Zaufali mu terapeuci, sportowcy i NASA.',
+  'onboarding.benefitStress': 'Zmniejszyć stres',
+  'onboarding.benefitSleep': 'Szybciej zasypiać',
+  'onboarding.benefitFocus': 'Utrzymać koncentrację',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Stworzymy Twój osobisty plan oddychania',
+  'onboarding.goalCalmLabel': 'Spokój & Relaks',
+  'onboarding.goalCalmSub': 'Uciszyć wewnętrzny hałas',
+  'onboarding.goalSleepLabel': 'Lepszy Sen',
+  'onboarding.goalSleepSub': 'Zasypiać szybciej',
+  'onboarding.goalFocusLabel': 'Koncentracja & Jasność',
+  'onboarding.goalFocusSub': 'Klarowny umysł na żądanie',
+  'onboarding.goalEnergyLabel': 'Energia & Motywacja',
+  'onboarding.goalEnergySub': 'Naturalny zastrzyk energii',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Uspokój swój układ nerwowy',
+  'onboarding.planTitleSleep': 'Zaśnij w kilka minut',
+  'onboarding.planTitleFocus': 'Koncentracja na żądanie',
+  'onboarding.planTitleEnergy': 'Naturalny zastrzyk energii',
+  'onboarding.planTitleDefault': 'Twój plan oddychania jest gotowy',
+  'onboarding.planBadge': 'Spersonalizowany dla Ciebie',
+  'onboarding.planCalmB1': 'Oddychanie koherencyjne obniża kortyzol w 5 minut',
+  'onboarding.planCalmB2': 'Stosowane przez terapeutów, olimpijczyków i ratowników',
+  'onboarding.planCalmB3': 'Twój układ nerwowy uczy się pozostawać spokojnym',
+  'onboarding.planSleepB1': 'Oddychanie 4-7-8 aktywuje układ przywspółczulny',
+  'onboarding.planSleepB2': 'Większość użytkowników zasypia szybciej w ciągu 3 dni',
+  'onboarding.planSleepB3': 'Żadnych tabletek. Żadnych ekranów. Tylko oddech.',
+  'onboarding.planFocusB1': 'Box Breathing — używane przez Navy SEALs pod ekstremalną presją',
+  'onboarding.planFocusB2': '4 minuty przed głęboką pracą = godziny jasności',
+  'onboarding.planFocusB3': 'Klinicznie udowodnione szybkie zmniejszenie ostrego lęku',
+  'onboarding.planEnergyB1': 'Praca oddechowa aktywuje współczulny układ nerwowy',
+  'onboarding.planEnergyB2': 'Stosowane przez sportowców w przygotowaniach przedstartowych',
+  'onboarding.planEnergyB3': 'Poczuj zmianę w mniej niż 60 sekund',
+  'onboarding.yourTechnique': 'Twoja pierwsza technika:',
+  'onboarding.scienceBacked': 'Poparte badaniami · 10 technik · Tylko iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Wstecz',
+  'onboarding.maybeSkip': 'Może później',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Bądź konsekwentny',
+  'onboarding.notificationsSub': 'Odbieraj codzienne delikatne przypomnienie o oddychaniu',
+  'onboarding.notificationsEnable': 'Włącz codzienne przypomnienia',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Synchronizuj z Apple Health',
+  'onboarding.appleHealthSub': 'Automatycznie śledź swoje Mindful Minutes',
+  'onboarding.appleHealthConnect': 'Połącz Apple Health',
+  'onboarding.appleHealthBullet1': 'Automatyczna synchronizacja Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Śledź postępy w czasie',
+  'onboarding.appleHealthBullet3': 'Twoje dane pozostają prywatne',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Od stresu do spokoju — w kilka minut',
+  'paywall.heroSleep': 'Zasypaj w minuty, nie godziny',
+  'paywall.heroFocus': 'Sekret koncentracji Navy SEALs — ujawniony',
+  'paywall.heroEnergy': 'Naturalna energia. Bez kofeiny.',
+  'paywall.heroDefault': 'Odblokuj pełne doświadczenie BreathFlow',
+  'paywall.heroSub': 'Jednorazowe odblokowanie. Bez subskrypcji. Nigdy.',
+  'paywall.socialProof': 'Dołącz do tysięcy, którzy każdego dnia oddychają lepiej',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Bezpłatna',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 technik',
+  'paywall.row1Pro': 'Wszystkie 10 technik ✓',
+  'paywall.row2Free': 'Historia 7 dni',
+  'paywall.row2Pro': 'Pełna historia & wykresy ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Kreator własnych technik ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Śledzenie nastroju ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Wszystkie motywy & odznaki ✓',
+  'paywall.anchor': 'Mniej niż kawa. Trwałe efekty.',
+  'paywall.continueFree': 'Kontynuuj z wersją bezpłatną',
+  'paywall.subtitle': 'Jednorazowy zakup. Bez subskrypcji.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sesja zakończona',
+  'notifications.sessionCompleteBody': 'Świetna sesja {{technique}}! Twój umysł i ciało dziękują Ci.',
+  'notifications.tip1': 'Box Breathing może obniżyć kortyzol w zaledwie 4 minuty.',
+  'notifications.tip2': 'Pięciominutowa sesja oddychania poprawia koncentrację na wiele godzin.',
+  'notifications.tip3': 'Głębokie oddychanie aktywuje przywspółczulny układ nerwowy.',
+  'notifications.tip4': 'Wypróbuj fizjologiczne westchnienie, aby natychmiast złagodzić stres.',
+  'notifications.tip5': 'Oddychanie z 5,5 oddechami/min optymalizuje zmienność rytmu serca.',
+  'notifications.tip6': 'Nawet 1 minuta świadomego oddychania robi różnicę.',
+  'notifications.tip7': 'Przedłużone wydechy sygnalizują ciału, że jest bezpiecznie się odprężyć.',
 };

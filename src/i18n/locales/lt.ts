@@ -491,4 +491,90 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'Tinkinta',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Pajusk ramybę per kelias minutes',
+  'onboarding.hookSub': 'Mokslu pagrįstas kvėpavimas stresui mažinti, miegui gerinti ir dėmesiui aštrinati.',
+  'onboarding.benefitStress': 'Mažink stresą',
+  'onboarding.benefitSleep': 'Užmiki greičiau',
+  'onboarding.benefitFocus': 'Išlaikyk dėmesį',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'Personalizuosime tavo BreathFlow patirtį.',
+  'onboarding.goalCalmLabel': 'Ramybė ir atsipalaidavimas',
+  'onboarding.goalCalmSub': 'Mažink nerimą ir įtampą',
+  'onboarding.goalSleepLabel': 'Geresnis miegas',
+  'onboarding.goalSleepSub': 'Užmiki greičiau, ilsėkis giliau',
+  'onboarding.goalFocusLabel': 'Dėmesys ir našumas',
+  'onboarding.goalFocusSub': 'Aštink protą, būk dabartyje',
+  'onboarding.goalEnergyLabel': 'Energija ir gyvybingumas',
+  'onboarding.goalEnergySub': 'Įsikrauk natūraliai',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'Tavo planas paruoštas',
+  'onboarding.planBadge': 'Moksliškai patvirtinta',
+  'onboarding.planBullet1': 'Personalizuotos kvėpavimo technikos',
+  'onboarding.planBullet2': '5 minučių laipsniškas sesijas',
+  'onboarding.planBullet3': 'Pažangos stebėjimas ir ženkleliai',
+  'onboarding.yourTechnique': 'Tavo pirmoji technika',
+  'onboarding.scienceBacked': 'Mokslas tai patvirtina',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Atgal',
+  'onboarding.maybeSkip': 'Gal vėliau',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Laikykis kurso',
+  'onboarding.notificationsSub': 'Švelnūs priminimai padeda išlaikyti kasdienę rutiną.',
+  'onboarding.notificationsBullet1': 'Kasdieniai priminimai pageidaujamu laiku',
+  'onboarding.notificationsBullet2': 'Kvėpavimo patarimai ir gudrybės',
+  'onboarding.notificationsBullet3': 'Pasiekimų šventimas',
+  'onboarding.enableNotifications': 'Įjungti pranešimus',
+  'onboarding.notificationsSkip': 'Ne dabar',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Sinchronizuoti su Apple Health',
+  'onboarding.appleHealthSub': 'Įrašyk Mindful Minutes ir stebėk savo gerovę.',
+  'onboarding.appleHealthBullet1': 'Automatinis Mindful Minutes registravimas',
+  'onboarding.appleHealthBullet2': 'HRV duomenų stebėjimas',
+  'onboarding.appleHealthBullet3': 'Tavo duomenys lieka privatūs',
+  'onboarding.connectHealth': 'Prijungti Apple Health',
+  'onboarding.healthSkip': 'Praleisti',
+
+  // Paywall (new keys)
+  'paywall.heroCalm': 'Kvėpuok giliai ramybei',
+  'paywall.heroSleep': 'Užmik per kelias minutes',
+  'paywall.heroFocus': 'Aštrint savo dėmesį',
+  'paywall.heroEnergy': 'Padidinti savo energiją',
+  'paywall.heroDefault': 'Atrakinti visą potencialą',
+  'paywall.heroSub': 'Atnaujink į Pro, kad gautum prieigą prie visų technikų ir išplėstinių įrankių.',
+  'paywall.socialProof': 'Prisijunk prie daugiau nei 50 000 ramių kvėpuotojų',
+  'paywall.freeLabel': 'Nemokama',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 technikos',
+  'paywall.row1Pro': '✓ Visos 10 technikų',
+  'paywall.row2Free': '7 dienų istorija',
+  'paywall.row2Pro': '✓ Visa istorija ir grafikai',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ Tinkinta technikos kūrėjas',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ Visos spalvų temos',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ Nuotaikos stebėjimas ir eksportas',
+  'paywall.anchor': 'Vienkartinis pirkimas · Be prenumeratos',
+  'paywall.continueFree': 'Tęsti nemokamai',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Sesija baigta',
+  'notifications.sessionCompleteBody': 'Puiki {{technique}} sesija! Šiandien kvėpavai {{duration}} minučių.',
+  'notifications.tip1': 'Box Breathing gali sumažinti kortizolio lygį vos per 4 ciklus.',
+  'notifications.tip2': 'Navy SEALs naudoja Box Breathing, kad išliktų ramūs esant spaudimui.',
+  'notifications.tip3': 'Koherentinis kvėpavimas 5,5 sekundžių ritmu optimizuoja HRV.',
+  'notifications.tip4': 'Stanfordo tyrimas rodo, kad fiziologinis atodūsis greičiau mažina stresą nei bet kuri kita technika.',
+  'notifications.tip5': 'Net 5 minutės sąmoningo kvėpavimo keičia nuotaiką.',
+  'notifications.tip6': 'Lėtas kvėpavimas aktyvuoja parasimpatinę nervų sistemą.',
+  'notifications.tip7': 'Nuosekli praktika ilgainiui ugdo atsparumą.',
 };

@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Hiba',
+
+  // Home (additional)
+  'home.categoryCustom': 'Egyéni',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Érezd a nyugalmat percek alatt',
+  'onboarding.hookSub': 'Tudományosan megalapozott légzés stressz, alvás és fókusz javítására. Terapeuták, sportolók és a NASA bízik benne.',
+  'onboarding.benefitStress': 'Stressz csökkentése',
+  'onboarding.benefitSleep': 'Gyorsabb elalvás',
+  'onboarding.benefitFocus': 'Fókusz megőrzése',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Elkészítjük személyes légzési tervedet',
+  'onboarding.goalCalmLabel': 'Nyugalom & Lazulás',
+  'onboarding.goalCalmSub': 'A belső zaj csillapítása',
+  'onboarding.goalSleepLabel': 'Jobb Alvás',
+  'onboarding.goalSleepSub': 'Gyorsabban elaludni',
+  'onboarding.goalFocusLabel': 'Fókusz & Tisztánlátás',
+  'onboarding.goalFocusSub': 'Tiszta elme igény szerint',
+  'onboarding.goalEnergyLabel': 'Energia & Motiváció',
+  'onboarding.goalEnergySub': 'Természetes energialökés',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Csillapítsd az idegrendszered',
+  'onboarding.planTitleSleep': 'Aludj el percek alatt',
+  'onboarding.planTitleFocus': 'Fókusz igény szerint',
+  'onboarding.planTitleEnergy': 'Természetes energialökés',
+  'onboarding.planTitleDefault': 'A légzési terved kész',
+  'onboarding.planBadge': 'Személyre szabva neked',
+  'onboarding.planCalmB1': 'A koherens légzés 5 perc alatt csökkenti a kortizolt',
+  'onboarding.planCalmB2': 'Terapeuták, olimpiai sportolók és mentők is alkalmazzák',
+  'onboarding.planCalmB3': 'Idegrendszered megtanul nyugodt maradni',
+  'onboarding.planSleepB1': 'A 4-7-8 légzés aktiválja a paraszimpatikus rendszert',
+  'onboarding.planSleepB2': 'A legtöbb felhasználó 3 napon belül gyorsabban alszik el',
+  'onboarding.planSleepB3': 'Sem tabletta. Sem képernyő. Csak légzés.',
+  'onboarding.planFocusB1': 'Box Breathing — a Navy SEALs is használja szélsőséges nyomás alatt',
+  'onboarding.planFocusB2': '4 perc a mély munka előtt = órányi tisztánlátás',
+  'onboarding.planFocusB3': 'Klinikailag bizonyított az akut szorongás gyors csökkentésére',
+  'onboarding.planEnergyB1': 'A légzőmunka aktiválja a szimpatikus idegrendszert',
+  'onboarding.planEnergyB2': 'Sportolók alkalmazzák verseny előtti felkészülésben',
+  'onboarding.planEnergyB3': 'Érezd a változást 60 másodpercen belül',
+  'onboarding.yourTechnique': 'Az első technikád:',
+  'onboarding.scienceBacked': 'Kutatáson alapuló · 10 technika · iOS kizárólagos',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Vissza',
+  'onboarding.maybeSkip': 'Talán később',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Maradj következetes',
+  'onboarding.notificationsSub': 'Kapj minden nap egy gyengéd emlékeztetőt a légzésre',
+  'onboarding.notificationsEnable': 'Napi emlékeztetők bekapcsolása',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Szinkronizálás az Apple Healthhel',
+  'onboarding.appleHealthSub': 'Kövesd automatikusan a Mindful Minutes idődet',
+  'onboarding.appleHealthConnect': 'Apple Health csatlakoztatása',
+  'onboarding.appleHealthBullet1': 'Mindful Minutes automatikus szinkronizálása',
+  'onboarding.appleHealthBullet2': 'Haladás nyomon követése idővel',
+  'onboarding.appleHealthBullet3': 'Adataid privát maradnak',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Stressztől a nyugalomig — percek alatt',
+  'paywall.heroSleep': 'Aludj el percek, ne órák alatt',
+  'paywall.heroFocus': 'A Navy SEALs fókusztitkod — felfedve',
+  'paywall.heroEnergy': 'Természetes energia. Koffein nélkül.',
+  'paywall.heroDefault': 'Nyisd meg a teljes BreathFlow-élményt',
+  'paywall.heroSub': 'Egyszeri feloldás. Nincs előfizetés. Soha.',
+  'paywall.socialProof': 'Csatlakozz azokhoz az ezrekhez, akik minden nap jobban lélegeznek',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Ingyenes',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 technika',
+  'paywall.row1Pro': 'Mind a 10 technika ✓',
+  'paywall.row2Free': '7 napos előzmény',
+  'paywall.row2Pro': 'Teljes előzmény & diagramok ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Egyéni technika készítő ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Hangulat nyomon követés ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Minden színtéma & jelvény ✓',
+  'paywall.anchor': 'Kevesebb, mint egy kávé. Tartós eredmények.',
+  'paywall.continueFree': 'Folytatás ingyenes verzióval',
+  'paywall.subtitle': 'Egyszeri vásárlás. Nincs előfizetés.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Edzés kész',
+  'notifications.sessionCompleteBody': 'Nagyszerű {{technique}}-edzés! Elméd és tested hálás.',
+  'notifications.tip1': 'A Box Breathing már 4 perc alatt csökkentheti a kortizolt.',
+  'notifications.tip2': 'Egy 5 perces légzésgyakorlat órákon át javítja a koncentrációt.',
+  'notifications.tip3': 'A mélylégzés aktiválja a paraszimpatikus idegrendszert.',
+  'notifications.tip4': 'Próbáld ki a fiziológiai sóhajt azonnali stresszcsökkentéshez.',
+  'notifications.tip5': 'A 5,5 légvétel/perc ritmusú légzés optimalizálja a szívritmus-variabilitást.',
+  'notifications.tip6': 'Már 1 perc tudatos légzés is változást hoz.',
+  'notifications.tip7': 'A meghosszabbított kilégzés jelzi a testednek, hogy biztonságos lazítani.',
 };

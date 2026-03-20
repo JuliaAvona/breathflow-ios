@@ -490,5 +490,102 @@ export default {
   'common.pro': 'PRO',
   'common.free': 'FREE',
   'common.loading': 'Loading...',
-  'common.error': 'Error',
+  'common.error': 'Fel',
+
+  // Home (additional)
+  'home.categoryCustom': 'Anpassad',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'Känn lugnet på minuter',
+  'onboarding.hookSub': 'Vetenskapligt grundad andning för stress, sömn och fokus. Betrodd av terapeuter, idrottare och NASA.',
+  'onboarding.benefitStress': 'Minska stress',
+  'onboarding.benefitSleep': 'Sov snabbare',
+  'onboarding.benefitFocus': 'Håll fokus',
+
+  // Onboarding — Goal
+  'onboarding.chooseGoalSub': 'Vi skapar din personliga andningsplan',
+  'onboarding.goalCalmLabel': 'Lugn & Avslappning',
+  'onboarding.goalCalmSub': 'Tysta det inre bruset',
+  'onboarding.goalSleepLabel': 'Bättre Sömn',
+  'onboarding.goalSleepSub': 'Somna snabbare',
+  'onboarding.goalFocusLabel': 'Fokus & Klarhet',
+  'onboarding.goalFocusSub': 'Klart huvud på kommando',
+  'onboarding.goalEnergyLabel': 'Energi & Driv',
+  'onboarding.goalEnergySub': 'Naturlig energiboost',
+
+  // Onboarding — Plan
+  'onboarding.planTitleCalm': 'Lugna ditt nervsystem',
+  'onboarding.planTitleSleep': 'Somna på minuter',
+  'onboarding.planTitleFocus': 'Fokus på kommando',
+  'onboarding.planTitleEnergy': 'Naturlig energiboost',
+  'onboarding.planTitleDefault': 'Din andningsplan är klar',
+  'onboarding.planBadge': 'Personanpassad för dig',
+  'onboarding.planCalmB1': 'Koherensandning sänker kortisol på 5 minuter',
+  'onboarding.planCalmB2': 'Används av terapeuter, olympiska idrottare och räddningstjänst',
+  'onboarding.planCalmB3': 'Ditt nervsystem lär sig att hålla sig lugnt',
+  'onboarding.planSleepB1': '4-7-8 andning aktiverar ditt parasympatiska system',
+  'onboarding.planSleepB2': 'De flesta användare somnar snabbare inom 3 dagar',
+  'onboarding.planSleepB3': 'Inga piller. Inga skärmar. Bara andning.',
+  'onboarding.planFocusB1': 'Box Breathing — används av Navy SEALs under extremt tryck',
+  'onboarding.planFocusB2': '4 minuter innan djupt arbete = timmar av klarhet',
+  'onboarding.planFocusB3': 'Kliniskt bevisat att snabbt minska akut ångest',
+  'onboarding.planEnergyB1': 'Andningsarbete aktiverar ditt sympatiska nervsystem',
+  'onboarding.planEnergyB2': 'Används av idrottare för förberedelse inför tävling',
+  'onboarding.planEnergyB3': 'Känn förändringen på under 60 sekunder',
+  'onboarding.yourTechnique': 'Din första teknik:',
+  'onboarding.scienceBacked': 'Forskningsbaserat · 10 tekniker · Exklusivt för iOS',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'Tillbaka',
+  'onboarding.maybeSkip': 'Kanske senare',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'Håll dig konsekvent',
+  'onboarding.notificationsSub': 'Få en mjuk daglig påminnelse om att andas',
+  'onboarding.notificationsEnable': 'Aktivera dagliga påminnelser',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Synkronisera med Apple Health',
+  'onboarding.appleHealthSub': 'Spåra dina Mindful Minutes automatiskt',
+  'onboarding.appleHealthConnect': 'Anslut Apple Health',
+  'onboarding.appleHealthBullet1': 'Automatisk synk av Mindful Minutes',
+  'onboarding.appleHealthBullet2': 'Spåra framsteg över tid',
+  'onboarding.appleHealthBullet3': 'Dina data förblir privata',
+
+  // Paywall — personalized headlines
+  'paywall.heroCalm': 'Från stress till lugn — på minuter',
+  'paywall.heroSleep': 'Somna på minuter, inte timmar',
+  'paywall.heroFocus': 'Navy SEALs fokushemlighet — avslöjad',
+  'paywall.heroEnergy': 'Naturlig energi. Inget koffein behövs.',
+  'paywall.heroDefault': 'Lås upp hela BreathFlow-upplevelsen',
+  'paywall.heroSub': 'Engångslås. Inget abonnemang. Aldrig.',
+  'paywall.socialProof': 'Gå med tusentals som andas bättre varje dag',
+
+  // Paywall — comparison table
+  'paywall.freeLabel': 'Gratis',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 tekniker',
+  'paywall.row1Pro': 'Alla 10 tekniker ✓',
+  'paywall.row2Free': '7-dagars historik',
+  'paywall.row2Pro': 'Fullständig historik & diagram ✓',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': 'Bygg egna tekniker ✓',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': 'Humörspårning ✓',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': 'Alla färgteman & märken ✓',
+  'paywall.anchor': 'Mindre än en kaffe. Resultat som håller.',
+  'paywall.continueFree': 'Fortsätt med gratisversionen',
+  'paywall.subtitle': 'Engångsköp. Inget abonnemang.',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'Session klar',
+  'notifications.sessionCompleteBody': 'Bra {{technique}}-session! Ditt sinne och kropp tackar dig.',
+  'notifications.tip1': 'Box Breathing kan sänka kortisol på bara 4 minuter.',
+  'notifications.tip2': 'En 5 minuters andningssession förbättrar fokus i timmar.',
+  'notifications.tip3': 'Djupandning aktiverar ditt parasympatiska nervsystem.',
+  'notifications.tip4': 'Prova en fysiologisk suck för omedelbar stresslindring.',
+  'notifications.tip5': 'Andning på 5,5 andetag/min optimerar hjärtfrekvensvariabilitet.',
+  'notifications.tip6': 'Även 1 minut av medveten andning gör skillnad.',
+  'notifications.tip7': 'Förlängda utandningar berättar för din kropp att det är säkert att slappna av.',
 };

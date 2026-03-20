@@ -491,4 +491,90 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Home (additional)
+  'home.categoryCustom': 'ብጁ',
+
+  // Onboarding — Hook
+  'onboarding.hookTitle': 'በደቂቃዎች ውስጥ ሰላምን ይሰማ',
+  'onboarding.hookSub': 'ጭንቀትን ለመቀነስ፣ ተሻሽሎ ለመተኛት እና ትኩረትን ለማሳደር ሳይንሳዊ ምርምር ላይ የተመሰረተ መተንፈሻ.',
+  'onboarding.benefitStress': 'ጭንቀትን ቀንስ',
+  'onboarding.benefitSleep': 'ፈጥኖ ተኛ',
+  'onboarding.benefitFocus': 'ትኩረትን ጠብቅ',
+
+  // Onboarding — Choose Goal
+  'onboarding.chooseGoalSub': 'የ BreathFlow ተሞክሮዎን ግላዊ እናደርጋለን.',
+  'onboarding.goalCalmLabel': 'ሰላምና እረፍት',
+  'onboarding.goalCalmSub': 'ጭንቀትና ጫና ቀንስ',
+  'onboarding.goalSleepLabel': 'ተሻሽሎ መተኛት',
+  'onboarding.goalSleepSub': 'ፈጥኖ ተኛ፣ ጥልቀት ያለ እረፍት ወስድ',
+  'onboarding.goalFocusLabel': 'ትኩረትና አፈፃፀም',
+  'onboarding.goalFocusSub': 'አዕምሮን ሰልጥን፣ በአሁኑ ጊዜ ሁን',
+  'onboarding.goalEnergyLabel': 'ጉልበትና ህያውነት',
+  'onboarding.goalEnergySub': 'ተፈጥሯዊ በሆነ መንገድ ነርጂ ሙላ',
+
+  // Onboarding — Plan
+  'onboarding.planTitle': 'ዕቅድዎ ዝግጁ ነው',
+  'onboarding.planBadge': 'ሳይንሳዊ ድጋፍ',
+  'onboarding.planBullet1': 'ግላዊ የተንፈሻ ቴክኒኮች',
+  'onboarding.planBullet2': '5-ደቂቃ ቀስ በቀስ ክፍለ-ጊዜዎች',
+  'onboarding.planBullet3': 'የሂደት ክትትልና ሜዳሊያዎች',
+  'onboarding.yourTechnique': 'የመጀመሪያ ቴክኒክዎ',
+  'onboarding.scienceBacked': 'በሳይንስ የተረጋገጠ',
+
+  // Onboarding — Navigation
+  'onboarding.back': 'ወደኋላ',
+  'onboarding.maybeSkip': 'ምናልባት ቆይቶ',
+
+  // Onboarding — Notifications
+  'onboarding.notificationsTitle': 'መንገድ ላይ ቁም',
+  'onboarding.notificationsSub': 'ለስላሳ አስታዋሾች ዕለታዊ ልምድዎን ለማቆየት ይረዳሉ.',
+  'onboarding.notificationsBullet1': 'በፈለጉት ሰዓት ዕለታዊ አስታዋሾች',
+  'onboarding.notificationsBullet2': 'የትንፋሽ ምክሮችና ዘዴዎች',
+  'onboarding.notificationsBullet3': 'ስኬቶችን ማክበር',
+  'onboarding.enableNotifications': 'ማሳወቂያዎችን አስቻል',
+  'onboarding.notificationsSkip': 'አሁን አይደለም',
+
+  // Onboarding — Apple Health
+  'onboarding.appleHealthTitle': 'Apple Health ጋር አስተባብር',
+  'onboarding.appleHealthSub': 'Mindful Minutes ሰንዶ ጤንነትዎን ክትተሉ.',
+  'onboarding.appleHealthBullet1': 'ራስ-ሰር Mindful Minutes ምዝገባ',
+  'onboarding.appleHealthBullet2': 'HRV ዳታ ክትትል',
+  'onboarding.appleHealthBullet3': 'ዳታዎ ሚስጢራዊ ይቆያል',
+  'onboarding.connectHealth': 'Apple Health ያዛምዱ',
+  'onboarding.healthSkip': 'ዝለሉ',
+
+  // Paywall
+  'paywall.heroCalm': 'ጥልቅ ሰላም ለማግኘት ተንፍሱ',
+  'paywall.heroSleep': 'በደቂቃዎች ተኙ',
+  'paywall.heroFocus': 'ትኩረትዎን ሰልጥኑ',
+  'paywall.heroEnergy': 'ጉልበትዎን ጨምሩ',
+  'paywall.heroDefault': 'ሙሉ አቅምን ይክፈቱ',
+  'paywall.heroSub': 'ሁሉንም ቴክኒኮችና የተሻሻሉ ዕቃዎችን ለመድረስ Pro ይሻሻሉ.',
+  'paywall.socialProof': '50,000+ የተረጋጉ ተሳታፊዎችን ይቀላቀሉ',
+  'paywall.freeLabel': 'ነፃ',
+  'paywall.proLabel': 'Pro',
+  'paywall.row1Free': '5 ቴክኒኮች',
+  'paywall.row1Pro': '✓ ሁሉም 10 ቴክኒኮች',
+  'paywall.row2Free': 'የ7-ቀን ታሪክ',
+  'paywall.row2Pro': '✓ ሙሉ ታሪክና 차트ዎች',
+  'paywall.row3Free': '—',
+  'paywall.row3Pro': '✓ ብጁ ቴክኒክ ገንቢ',
+  'paywall.row4Free': '—',
+  'paywall.row4Pro': '✓ ሁሉም የቀለም ጭብጦች',
+  'paywall.row5Free': '—',
+  'paywall.row5Pro': '✓ ስሜት ክትትልና ወደ ውጭ ማስወጣት',
+  'paywall.anchor': 'አንድ ጊዜ ግዢ · ምንም ምዝገባ የለም',
+  'paywall.continueFree': 'ነፃ ሆኖ ቀጥሉ',
+
+  // Notifications
+  'notifications.sessionCompleteTitle': 'ክፍለ-ጊዜ ተጠናቀቀ',
+  'notifications.sessionCompleteBody': 'ድንቅ {{technique}} ክፍለ-ጊዜ! ዛሬ {{duration}} ደቂቃዎች ተነፈሱ.',
+  'notifications.tip1': 'Box Breathing በ4 ዙሮች ብቻ ኮርቲዞልን ሊቀንስ ይችላል.',
+  'notifications.tip2': 'Navy SEALs ጫና ስር ሰላም ለመሆን Box Breathing ይጠቀማሉ.',
+  'notifications.tip3': '5.5-ሴኮንድ ምት ባለው Coherence breathing HRV ይሻሻላል.',
+  'notifications.tip4': 'Stanford ጥናት physiological sigh ሌሎች ቴክኒኮችን ይልቅ ፈጥኖ ጭንቀትን ይቀንሳል ያሳያል.',
+  'notifications.tip5': 'ሳነዋ 5 ደቂቃ ተወያያ መተንፈሻ ስሜቱን ይቀይራል.',
+  'notifications.tip6': 'ዝግ ያለ መተንፈሻ parasympathetic nervous system ያነቃቃል.',
+  'notifications.tip7': 'ቀጣይ ልምምድ ከጊዜ ጋር ጥንካሬ ይፈጥራል.',
 };
