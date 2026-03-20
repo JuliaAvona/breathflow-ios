@@ -24,6 +24,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   onboardingCompleted: false,
   safetyAccepted: false,
   selectedGoal: undefined,
+  dailyGoalMinutes: 5,
 
   isPro: false,
 };

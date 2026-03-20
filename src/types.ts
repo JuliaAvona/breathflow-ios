@@ -152,6 +152,7 @@ export interface UserSettings {
   onboardingCompleted: boolean;
   safetyAccepted: boolean;       // safety warning acknowledged
   selectedGoal?: TechniqueCategory;  // from onboarding
+  dailyGoalMinutes: number;          // from onboarding commitment screen
 
   isPro: boolean;
 }

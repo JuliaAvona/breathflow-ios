@@ -299,6 +299,34 @@ export default {
   'onboarding.recommendDefault': 'Try Box Breathing to get started',
   'onboarding.startBreathing': 'Try my first session',
   'onboarding.skipToApp': 'Skip for now',
+  'onboarding.noCardRequired': 'No credit card required',
+
+  // Social proof pills (hook screen)
+  'onboarding.socialProof1': 'Athlete-trusted',
+  'onboarding.socialProof2': 'Stanford-backed',
+  'onboarding.socialProof3': 'Apple Health',
+
+  // Commitment screen (daily goal)
+  'onboarding.commitTitle': 'Set your daily goal',
+  'onboarding.commitSub': 'Small daily habits create lasting change.',
+  'onboarding.commitMinUnit': 'min / day',
+  'onboarding.commitHint_3': 'Even a 3-minute session can help calm your nervous system.',
+  'onboarding.commitHint_5': 'Stanford research links slow breathing to lower stress and better sleep.',
+  'onboarding.commitHint_10': 'Box Breathing is used by Navy SEALs to stay focused under pressure.',
+  'onboarding.commitHint_15': 'Dr. Andrew Huberman recommends 15 min of daily breathwork for lasting results.',
+
+  // Building plan screen
+  'onboarding.buildingTitle': 'Building your plan...',
+  'onboarding.buildingStep1': 'Analyzing your goal',
+  'onboarding.buildingStep2': 'Selecting techniques',
+  'onboarding.buildingStep3': 'Personalizing your schedule',
+
+  // Value bullets (plan ready screen)
+  'onboarding.valueProgress': 'Track daily progress & streaks',
+  'onboarding.valueBadges': 'Earn badges for milestones',
+  'onboarding.valueHealth': 'Sync with Apple Health',
+  'onboarding.valueTechniques': '10 science-backed techniques',
+  'onboarding.valueFree': 'Free forever · No ads · No tricks',
 
   // Badges
   'badges.first_breath.name': 'First Breath',

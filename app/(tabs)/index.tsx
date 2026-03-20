@@ -63,7 +63,7 @@ const BG_IMAGES: Record<TechniqueCategory | 'all', ReturnType<typeof require>> =
 
 // ─── Layout constants ────────────────────────────────────────────────────────
 
-const DURATION_OPTIONS = [1, 2, 3, 5, 10, 15, 20];
+
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const GRID_H_PADDING = 20;
 const GRID_GAP = 12;
@@ -580,7 +580,6 @@ export default function HomeScreen() {
   const selectedGoal = useSettingsStore((s) => s.selectedGoal);
   const stats = useSessionsStore((s) => s.stats);
 
-  const [selectedMinutes, setSelectedMinutes] = useState(5);
   const [activeCategory, setActiveCategory] = useState<FilterCategory>(
     selectedGoal ?? 'all',
   );
@@ -597,13 +596,7 @@ export default function HomeScreen() {
   }, [activeCategory]);
 
   const handleQuickStart = () => {
-    router.push({
-      pathname: '/session',
-      params: {
-        techniqueId: 'coherence',
-        duration: String(selectedMinutes * 60),
-      },
-    });
+    router.push({ pathname: '/technique-detail', params: { techniqueId: 'coherence' } });
   };
 
   const handleCardPress = useCallback((technique: BreathingTechnique) => {
@@ -668,36 +661,9 @@ export default function HomeScreen() {
             activeOpacity={0.85}
           >
             <Text style={styles.startButtonLabel}>
-              {t('home.justBreathe')} · {selectedMinutes} {t('home.min')}
+              {t('home.justBreathe')}
             </Text>
           </TouchableOpacity>
-
-          {/* Duration pills */}
-          <View style={styles.durationRow}>
-            {DURATION_OPTIONS.map((min) => {
-              const isActive = min === selectedMinutes;
-              return (
-                <TouchableOpacity
-                  key={min}
-                  style={[
-                    styles.durationPill,
-                    isActive && styles.durationPillActive,
-                  ]}
-                  onPress={() => setSelectedMinutes(min)}
-                  activeOpacity={0.7}
-                >
-                  <Text
-                    style={[
-                      styles.durationPillText,
-                      isActive && styles.durationPillTextActive,
-                    ]}
-                  >
-                    {min}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
         </ImageBackground>
 
         {/* ── Category filter tabs ── */}
