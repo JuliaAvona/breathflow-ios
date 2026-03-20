@@ -450,6 +450,12 @@ export default {
   'paywall.foreverAccess': 'Lebenslanger Zugang. Kein Abo.',
   'paywall.terms': 'AGB',
   'paywall.privacy': 'Datenschutz',
+  'paywall.weekly': 'Wöchentlich',
+  'paywall.lifetime': 'Lebenslang',
+  'paywall.perWeek': 'pro Woche',
+  'paywall.oneTimePay': 'einmalig',
+  'paywall.bestValue': 'Bestes Angebot',
+  'paywall.weeklyNote': '{{price}}/Woche, wird automatisch erneuert. Jederzeit in den App Store-Einstellungen kündigen.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Nutzungsbedingungen',

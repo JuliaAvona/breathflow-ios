@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Tedenski',
+  'paywall.lifetime': 'Dosmrtni',
+  'paywall.perWeek': 'na teden',
+  'paywall.oneTimePay': 'enkratno',
+  'paywall.bestValue': 'Najboljša vrednost',
+  'paywall.weeklyNote': '{{price}}/teden, samodejno se podaljšuje. Kdajkoli prekličite v nastavitvah App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

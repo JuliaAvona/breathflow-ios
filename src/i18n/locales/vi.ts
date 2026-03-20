@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Hàng tuần',
+  'paywall.lifetime': 'Trọn đời',
+  'paywall.perWeek': 'mỗi tuần',
+  'paywall.oneTimePay': 'một lần',
+  'paywall.bestValue': 'Giá trị tốt nhất',
+  'paywall.weeklyNote': '{{price}}/tuần, tự động gia hạn. Hủy bất cứ lúc nào trong cài đặt App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Viikoittain',
+  'paywall.lifetime': 'Elinikäinen',
+  'paywall.perWeek': 'viikossa',
+  'paywall.oneTimePay': 'kertamaksu',
+  'paywall.bestValue': 'Paras arvo',
+  'paywall.weeklyNote': '{{price}}/viikko, uusitaan automaattisesti. Peruuta milloin tahansa App Storen asetuksista.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

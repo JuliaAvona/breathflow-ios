@@ -450,6 +450,12 @@ export default {
   'paywall.foreverAccess': '\uD3C9\uC0DD \uC774\uC6A9. \uAD6C\uB3C5 \uC5C6\uC74C.',
   'paywall.terms': '\uC774\uC6A9\uC57D\uAD00',
   'paywall.privacy': '\uAC1C\uC778\uC815\uBCF4',
+  'paywall.weekly': '주간',
+  'paywall.lifetime': '평생',
+  'paywall.perWeek': '주당',
+  'paywall.oneTimePay': '일회성',
+  'paywall.bestValue': '최고의 가치',
+  'paywall.weeklyNote': '{{price}}/주, 자동 갱신. App Store 설정에서 언제든지 취소하세요.',
 
   // Legal
   'legal.termsOfServiceTitle': '\uC774\uC6A9\uC57D\uAD00',

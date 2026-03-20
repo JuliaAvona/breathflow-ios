@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'പ്രതിവാര',
+  'paywall.lifetime': 'ആജീവനാന്ത',
+  'paywall.perWeek': 'ആഴ്ചയ്ക്ക്',
+  'paywall.oneTimePay': 'ഒറ്റത്തവണ',
+  'paywall.bestValue': 'ഏറ്റവും മികച്ച മൂല്യം',
+  'paywall.weeklyNote': '{{price}}/ആഴ്ച, സ്വയം പുതുക്കുന്നു. App Store ക്രമീകരണങ്ങളിൽ എപ്പോൾ വേണമെങ്കിലും റദ്ദാക്കുക.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

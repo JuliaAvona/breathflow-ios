@@ -450,6 +450,12 @@ export default {
   'paywall.foreverAccess': '\u6c38\u4e45\u4f7f\u7528\u6b0a\u3002\u7121\u9700\u8a02\u95b1\u3002',
   'paywall.terms': '\u689d\u6b3e',
   'paywall.privacy': '\u96b1\u79c1',
+  'paywall.weekly': '每週',
+  'paywall.lifetime': '終身',
+  'paywall.perWeek': '每週',
+  'paywall.oneTimePay': '一次性付款',
+  'paywall.bestValue': '最超值',
+  'paywall.weeklyNote': '{{price}}/週，自動續訂。隨時可在App Store設定中取消。',
 
   // Legal
   'legal.termsOfServiceTitle': '\u670d\u52d9\u689d\u6b3e',

@@ -450,6 +450,12 @@ export default {
   'paywall.foreverAccess': '终身使用，无需订阅。',
   'paywall.terms': '条款',
   'paywall.privacy': '隐私',
+  'paywall.weekly': '每周',
+  'paywall.lifetime': '终身',
+  'paywall.perWeek': '每周',
+  'paywall.oneTimePay': '一次性',
+  'paywall.bestValue': '最超值',
+  'paywall.weeklyNote': '{{price}}/周，自动续费。随时可在App Store设置中取消。',
 
   // Legal
   'legal.termsOfServiceTitle': '服务条款',

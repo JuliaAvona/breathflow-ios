@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Mingguan',
+  'paywall.lifetime': 'Seumur hidup',
+  'paywall.perWeek': 'seminggu',
+  'paywall.oneTimePay': 'sekali bayar',
+  'paywall.bestValue': 'Nilai terbaik',
+  'paywall.weeklyNote': '{{price}}/minggu, diperbaharui secara automatik. Batal bila-bila masa dalam tetapan App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

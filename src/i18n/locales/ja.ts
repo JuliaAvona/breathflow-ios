@@ -450,6 +450,12 @@ export default {
   'paywall.foreverAccess': '永久アクセス。サブスクリプションなし。',
   'paywall.terms': '利用規約',
   'paywall.privacy': 'プライバシー',
+  'paywall.weekly': '週間',
+  'paywall.lifetime': '生涯',
+  'paywall.perWeek': '週あたり',
+  'paywall.oneTimePay': '一回払い',
+  'paywall.bestValue': 'ベストバリュー',
+  'paywall.weeklyNote': '{{price}}/週、自動更新。App Storeの設定でいつでもキャンセルできます。',
 
   // Legal
   'legal.termsOfServiceTitle': '利用規約',

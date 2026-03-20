@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'รายสัปดาห์',
+  'paywall.lifetime': 'ตลอดชีพ',
+  'paywall.perWeek': 'ต่อสัปดาห์',
+  'paywall.oneTimePay': 'ชำระครั้งเดียว',
+  'paywall.bestValue': 'คุ้มค่าที่สุด',
+  'paywall.weeklyNote': '{{price}}/สัปดาห์ ต่ออายุอัตโนมัติ ยกเลิกได้ตลอดเวลาในการตั้งค่า App Store',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

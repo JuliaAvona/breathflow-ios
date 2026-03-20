@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Savaitinis',
+  'paywall.lifetime': 'Visam laikui',
+  'paywall.perWeek': 'per savaitę',
+  'paywall.oneTimePay': 'vienkartinis',
+  'paywall.bestValue': 'Geriausias pasirinkimas',
+  'paywall.weeklyNote': '{{price}}/savaitė, automatiškai atnaujinama. Atšaukite bet kada App Store nustatymuose.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

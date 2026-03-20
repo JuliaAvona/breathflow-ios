@@ -450,6 +450,12 @@ export default {
   'paywall.foreverAccess': 'Do\u017eivotn\u00ed p\u0159\u00edstup. \u017d\u00e1dn\u00e9 p\u0159edplatn\u00e9.',
   'paywall.terms': 'Podm\u00ednky',
   'paywall.privacy': 'Soukrom\u00ed',
+  'paywall.weekly': 'Týdenní',
+  'paywall.lifetime': 'Doživotní',
+  'paywall.perWeek': 'týdně',
+  'paywall.oneTimePay': 'jednorázově',
+  'paywall.bestValue': 'Nejlepší hodnota',
+  'paywall.weeklyNote': '{{price}}/týden, automaticky se obnovuje. Kdykoli zrušte v nastavení App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Podm\u00ednky slu\u017eby',

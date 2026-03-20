@@ -450,6 +450,12 @@ export default {
   'paywall.foreverAccess': 'Ömür boyu erişim. Abonelik yok.',
   'paywall.terms': 'Koşullar',
   'paywall.privacy': 'Gizlilik',
+  'paywall.weekly': 'Haftalık',
+  'paywall.lifetime': 'Ömür boyu',
+  'paywall.perWeek': 'haftada',
+  'paywall.oneTimePay': 'tek seferlik',
+  'paywall.bestValue': 'En iyi değer',
+  'paywall.weeklyNote': '{{price}}/hafta, otomatik yenilenir. App Store ayarlarından istediğiniz zaman iptal edin.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Kullanım Koşulları',

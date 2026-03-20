@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'সাপ্তাহিক',
+  'paywall.lifetime': 'আজীবন',
+  'paywall.perWeek': 'প্রতি সপ্তাহে',
+  'paywall.oneTimePay': 'একবার',
+  'paywall.bestValue': 'সেরা মূল্য',
+  'paywall.weeklyNote': '{{price}}/সপ্তাহ, স্বয়ংক্রিয়ভাবে নবায়ন হয়। App Store সেটিংসে যেকোনো সময় বাতিল করুন।',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

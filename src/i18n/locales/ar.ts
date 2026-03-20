@@ -450,6 +450,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'أسبوعي',
+  'paywall.lifetime': 'مدى الحياة',
+  'paywall.perWeek': 'في الأسبوع',
+  'paywall.oneTimePay': 'مرة واحدة',
+  'paywall.bestValue': 'أفضل قيمة',
+  'paywall.weeklyNote': '{{price}}/أسبوع، يتجدد تلقائياً. إلغاء في أي وقت من إعدادات App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

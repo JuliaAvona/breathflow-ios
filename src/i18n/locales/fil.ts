@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Lingguhán',
+  'paywall.lifetime': 'Habambuhay',
+  'paywall.perWeek': 'bawat linggo',
+  'paywall.oneTimePay': 'isang beses',
+  'paywall.bestValue': 'Pinakamahusay na halaga',
+  'paywall.weeklyNote': '{{price}}/linggo, awtomatikong nagre-renew. I-cancel anumang oras sa mga setting ng App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

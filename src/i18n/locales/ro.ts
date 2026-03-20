@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Săptămânal',
+  'paywall.lifetime': 'Pe viață',
+  'paywall.perWeek': 'pe săptămână',
+  'paywall.oneTimePay': 'o singură dată',
+  'paywall.bestValue': 'Cel mai bun raport calitate-preț',
+  'paywall.weeklyNote': '{{price}}/săptămână, se reînnoiește automat. Anulați oricând din setările App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Iknedēļas',
+  'paywall.lifetime': 'Mūžīgais',
+  'paywall.perWeek': 'nedēļā',
+  'paywall.oneTimePay': 'vienreizējs',
+  'paywall.bestValue': 'Labākā vērtība',
+  'paywall.weeklyNote': '{{price}}/nedēļā, automātiski atjaunojas. Atcelt jebkurā laikā App Store iestatījumos.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

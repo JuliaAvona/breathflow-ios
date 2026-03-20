@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Kila wiki',
+  'paywall.lifetime': 'Maisha yote',
+  'paywall.perWeek': 'kwa wiki',
+  'paywall.oneTimePay': 'mara moja',
+  'paywall.bestValue': 'Thamani bora',
+  'paywall.weeklyNote': '{{price}}/wiki, inaendelea kiotomatiki. Futa wakati wowote katika mipangilio ya App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

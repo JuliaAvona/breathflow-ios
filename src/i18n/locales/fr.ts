@@ -450,6 +450,12 @@ export default {
   'paywall.foreverAccess': 'Acc\u00e8s \u00e0 vie. Sans abonnement.',
   'paywall.terms': 'Conditions',
   'paywall.privacy': 'Confidentialit\u00e9',
+  'paywall.weekly': 'Hebdomadaire',
+  'paywall.lifetime': 'À vie',
+  'paywall.perWeek': 'par semaine',
+  'paywall.oneTimePay': 'paiement unique',
+  'paywall.bestValue': 'Meilleur rapport qualité/prix',
+  'paywall.weeklyNote': "{{price}}/semaine, renouvellement automatique. Annulez à tout moment dans les paramètres de l'App Store.",
 
   // Legal
   'legal.termsOfServiceTitle': 'Conditions d\'utilisation',

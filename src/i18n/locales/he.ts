@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'שבועי',
+  'paywall.lifetime': 'לכל החיים',
+  'paywall.perWeek': 'לשבוע',
+  'paywall.oneTimePay': 'תשלום חד-פעמי',
+  'paywall.bestValue': 'הערך הטוב ביותר',
+  'paywall.weeklyNote': '{{price}}/שבוע, מתחדש אוטומטית. בטל בכל עת בהגדרות App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Heti',
+  'paywall.lifetime': 'Egész életre szóló',
+  'paywall.perWeek': 'hetente',
+  'paywall.oneTimePay': 'egyszeri',
+  'paywall.bestValue': 'Legjobb ár',
+  'paywall.weeklyNote': '{{price}}/hét, automatikusan megújul. Bármikor lemondható az App Store beállításaiban.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

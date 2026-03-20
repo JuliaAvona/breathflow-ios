@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'ವಾರದ',
+  'paywall.lifetime': 'ಜೀವಮಾನ',
+  'paywall.perWeek': 'ವಾರಕ್ಕೆ',
+  'paywall.oneTimePay': 'ಒಂದು ಬಾರಿ',
+  'paywall.bestValue': 'ಅತ್ಯುತ್ತಮ ಮೌಲ್ಯ',
+  'paywall.weeklyNote': '{{price}}/ವಾರ, ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸುತ್ತದೆ. App Store ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಯಾವಾಗಲೂ ರದ್ದು ಮಾಡಿ.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'هفتگی',
+  'paywall.lifetime': 'مادام‌العمر',
+  'paywall.perWeek': 'در هفته',
+  'paywall.oneTimePay': 'یک‌بار',
+  'paywall.bestValue': 'بهترین ارزش',
+  'paywall.weeklyNote': '{{price}}/هفته، به‌صورت خودکار تمدید می‌شود. هر زمان در تنظیمات App Store لغو کنید.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

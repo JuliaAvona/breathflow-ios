@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Еженедельно',
+  'paywall.lifetime': 'Навсегда',
+  'paywall.perWeek': 'в неделю',
+  'paywall.oneTimePay': 'разово',
+  'paywall.bestValue': 'Лучшая цена',
+  'paywall.weeklyNote': '{{price}}/неделю, автопродление. Отмените в любое время в настройках App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Εβδομαδιαία',
+  'paywall.lifetime': "Εφ'όρου ζωής",
+  'paywall.perWeek': 'την εβδομάδα',
+  'paywall.oneTimePay': 'εφάπαξ',
+  'paywall.bestValue': 'Καλύτερη αξία',
+  'paywall.weeklyNote': '{{price}}/εβδομάδα, ανανεώνεται αυτόματα. Ακύρωση οποτεδήποτε στις ρυθμίσεις του App Store.',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

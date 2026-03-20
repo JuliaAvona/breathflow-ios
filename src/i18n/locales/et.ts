@@ -441,6 +441,12 @@ export default {
   'paywall.foreverAccess': 'Lifetime access. No subscription.',
   'paywall.terms': 'Terms',
   'paywall.privacy': 'Privacy',
+  'paywall.weekly': 'Iganädalane',
+  'paywall.lifetime': 'Eluaegne',
+  'paywall.perWeek': 'nädalas',
+  'paywall.oneTimePay': 'ühekordne',
+  'paywall.bestValue': 'Parim väärtus',
+  'paywall.weeklyNote': "{{price}}/nädal, uueneb automaatselt. Tühista igal ajal App Store'i seadetes.",
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',
