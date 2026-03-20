@@ -53,6 +53,8 @@
     <string>BreathFlow reads your weight and height to personalize your breathing exercises and provide accurate session insights.</string>
     <key>NSHealthUpdateUsageDescription</key>
     <string>BreathFlow saves your mindfulness sessions to Apple Health.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
     <key>NSSupportsLiveActivities</key>
     <true/>
     <key>NSUserActivityTypes</key>

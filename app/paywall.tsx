@@ -21,7 +21,10 @@ import {
   purchasePackage,
   restorePurchases,
   type PurchasesOffering,
+  type PurchasesPackage,
 } from '../src/utils/revenueCat';
+
+type PlanType = 'weekly' | 'lifetime';
 
 export default function PaywallScreen() {
   const { t } = useTranslation();
@@ -31,10 +34,17 @@ export default function PaywallScreen() {
   const grantPro = useSettingsStore((s) => s.grantPro);
   const [loading, setLoading] = useState(false);
   const [offering, setOffering] = useState<PurchasesOffering | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>('weekly');
 
   useEffect(() => {
     getOfferings().then(setOffering);
   }, []);
+
+  const weeklyPkg: PurchasesPackage | null = offering?.weekly ?? null;
+  const lifetimePkg: PurchasesPackage | null = offering?.lifetime ?? null;
+
+  const weeklyPrice = weeklyPkg?.product.priceString ?? '$2.99';
+  const lifetimePrice = lifetimePkg?.product.priceString ?? '$9.99';
 
   const features = [
     { icon: 'flash-outline' as const, text: t('paywall.feature1') },
@@ -46,13 +56,11 @@ export default function PaywallScreen() {
   ];
 
   const onPurchase = async () => {
-    // Try lifetime package first, then fall back to annual
-    const pkg = offering?.lifetime ?? offering?.annual ?? undefined;
+    const pkg = selectedPlan === 'weekly' ? weeklyPkg : lifetimePkg;
     if (!pkg) {
       Alert.alert(t('paywall.errorTitle'), t('paywall.errorNoProduct'));
       return;
     }
-
     setLoading(true);
     try {
       const { isPro } = await purchasePackage(pkg);
@@ -86,9 +94,7 @@ export default function PaywallScreen() {
     }
   };
 
-  const priceStr = offering?.lifetime?.product.priceString
-    ?? offering?.annual?.product.priceString
-    ?? '$3.99';
+  const ctaPrice = selectedPlan === 'weekly' ? weeklyPrice : lifetimePrice;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -123,12 +129,11 @@ export default function PaywallScreen() {
             <Ionicons name="diamond" size={scale(40)} color="#FFFFFF" />
           </View>
 
-          {/* Title */}
           <Text style={styles.heroTitle}>{t('paywall.title')}</Text>
           <Text style={styles.heroSubtitle}>{t('paywall.subtitle')}</Text>
         </LinearGradient>
 
-        {/* Feature list card */}
+        {/* Feature list */}
         <View style={[styles.featureCard, { backgroundColor: theme.card }]}>
           {features.map((feature, index) => (
             <View key={index} style={styles.featureRow}>
@@ -142,18 +147,67 @@ export default function PaywallScreen() {
           ))}
         </View>
 
-        {/* Price highlight */}
-        <View style={[styles.priceCard, { backgroundColor: theme.card }]}>
-          <Text style={[styles.priceLabel, { color: theme.textSecondary }]}>
-            {t('paywall.oneTimePayment')}
-          </Text>
-          <Text style={[styles.priceValue, { color: theme.text }]}>
-            {priceStr}
-          </Text>
-          <Text style={[styles.priceNote, { color: theme.textSecondary }]}>
-            {t('paywall.foreverAccess')}
-          </Text>
+        {/* Plan selector */}
+        <View style={styles.planRow}>
+          {/* Weekly plan */}
+          <TouchableOpacity
+            style={[
+              styles.planCard,
+              { backgroundColor: theme.card, borderColor: selectedPlan === 'weekly' ? COLORS.primary : 'transparent' },
+            ]}
+            activeOpacity={0.85}
+            onPress={() => setSelectedPlan('weekly')}
+          >
+            {selectedPlan === 'weekly' && (
+              <View style={[styles.planBadge, { backgroundColor: COLORS.primary }]}>
+                <Text style={styles.planBadgeText}>Popular</Text>
+              </View>
+            )}
+            <Text style={[styles.planTitle, { color: theme.text }]}>{t('paywall.weekly')}</Text>
+            <Text style={[styles.planPrice, { color: selectedPlan === 'weekly' ? COLORS.primary : theme.text }]}>
+              {weeklyPrice}
+            </Text>
+            <Text style={[styles.planPeriod, { color: theme.textSecondary }]}>{t('paywall.perWeek')}</Text>
+            {selectedPlan === 'weekly' && (
+              <View style={[styles.planCheck, { backgroundColor: COLORS.primary }]}>
+                <Ionicons name="checkmark" size={12} color="#FFFFFF" />
+              </View>
+            )}
+          </TouchableOpacity>
+
+          {/* Lifetime plan */}
+          <TouchableOpacity
+            style={[
+              styles.planCard,
+              { backgroundColor: theme.card, borderColor: selectedPlan === 'lifetime' ? COLORS.primary : 'transparent' },
+            ]}
+            activeOpacity={0.85}
+            onPress={() => setSelectedPlan('lifetime')}
+          >
+            {selectedPlan === 'lifetime' && (
+              <View style={[styles.planBadge, { backgroundColor: '#F5A623' }]}>
+                <Text style={styles.planBadgeText}>{t('paywall.bestValue')}</Text>
+              </View>
+            )}
+            <Text style={[styles.planTitle, { color: theme.text }]}>{t('paywall.lifetime')}</Text>
+            <Text style={[styles.planPrice, { color: selectedPlan === 'lifetime' ? COLORS.primary : theme.text }]}>
+              {lifetimePrice}
+            </Text>
+            <Text style={[styles.planPeriod, { color: theme.textSecondary }]}>{t('paywall.oneTimePay')}</Text>
+            {selectedPlan === 'lifetime' && (
+              <View style={[styles.planCheck, { backgroundColor: COLORS.primary }]}>
+                <Ionicons name="checkmark" size={12} color="#FFFFFF" />
+              </View>
+            )}
+          </TouchableOpacity>
         </View>
+
+        {/* Weekly disclaimer */}
+        {selectedPlan === 'weekly' && (
+          <Text style={[styles.weeklyNote, { color: theme.textSecondary }]}>
+            {t('paywall.weeklyNote', { price: weeklyPrice })}
+          </Text>
+        )}
 
         {/* CTA Button */}
         <TouchableOpacity
@@ -174,7 +228,7 @@ export default function PaywallScreen() {
               <>
                 <Ionicons name="lock-open-outline" size={20} color="#FFFFFF" />
                 <Text style={styles.ctaText}>
-                  {t('paywall.purchase', { price: priceStr })}
+                  {t('paywall.purchase', { price: ctaPrice })}
                 </Text>
               </>
             )}
@@ -204,7 +258,6 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   scrollContent: { flexGrow: 1 },
 
-  // Hero
   hero: {
     paddingHorizontal: SPACING.lg,
     paddingBottom: SPACING.xl + SPACING.md,
@@ -254,7 +307,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
-  // Feature card
   featureCard: {
     marginHorizontal: SPACING.lg,
     padding: SPACING.lg,
@@ -280,41 +332,79 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   featureText: {
-    fontSize: FONT_SIZE.md,
     fontFamily: FONTS.medium,
     flex: 1,
   },
 
-  // Price card
-  priceCard: {
+  // Plan selector
+  planRow: {
+    flexDirection: 'row',
     marginHorizontal: SPACING.lg,
-    padding: SPACING.lg,
-    borderRadius: 20,
+    gap: SPACING.sm,
+    marginBottom: SPACING.sm,
+  },
+  planCard: {
+    flex: 1,
+    borderRadius: 16,
+    padding: SPACING.md,
     alignItems: 'center',
+    borderWidth: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 8,
     elevation: 2,
-    marginBottom: SPACING.lg,
+    position: 'relative',
+    minHeight: 110,
+    justifyContent: 'center',
   },
-  priceLabel: {
+  planBadge: {
+    position: 'absolute',
+    top: -10,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: BORDER_RADIUS.full,
+  },
+  planBadgeText: {
+    fontSize: 10,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+  planTitle: {
     fontSize: FONT_SIZE.sm,
-    fontFamily: FONTS.medium,
+    fontFamily: FONTS.semibold,
     marginBottom: 4,
   },
-  priceValue: {
-    fontSize: 36,
+  planPrice: {
+    fontSize: 22,
     fontFamily: FONTS.heavy,
-    letterSpacing: -1,
+    letterSpacing: -0.5,
   },
-  priceNote: {
-    fontSize: FONT_SIZE.sm,
+  planPeriod: {
+    fontSize: 11,
     fontFamily: FONTS.medium,
     marginTop: 2,
   },
+  planCheck: {
+    position: 'absolute',
+    bottom: 8,
+    right: 8,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
-  // CTA
+  weeklyNote: {
+    fontSize: 11,
+    fontFamily: FONTS.medium,
+    textAlign: 'center',
+    marginHorizontal: SPACING.lg,
+    marginBottom: SPACING.md,
+    lineHeight: 16,
+  },
+
   ctaButton: {
     marginHorizontal: SPACING.lg,
     borderRadius: BORDER_RADIUS.xl,
@@ -341,7 +431,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
 
-  // Legal
   legalLinks: {
     flexDirection: 'row',
     alignItems: 'center',
