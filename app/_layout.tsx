@@ -16,6 +16,7 @@ import * as Notifications from 'expo-notifications';
 import {
   scheduleStreakProtection,
   scheduleWeeklySummary,
+  scheduleBreatheReminder,
   checkNotificationPermissions,
 } from '../src/utils/notifications';
 import { COLORS } from '../src/constants';
@@ -97,6 +98,15 @@ export default function RootLayout() {
 
       // Schedule weekly summary
       scheduleWeeklySummary(stats.totalSessions, stats.totalMinutes);
+
+      // Default daily reminder at 10:00 if user hasn't set a custom one
+      const { reminderEnabled, reminderTime } = useSettingsStore.getState();
+      if (reminderEnabled) {
+        const [h, m] = reminderTime.split(':').map(Number);
+        scheduleBreatheReminder(h, m);
+      } else {
+        scheduleBreatheReminder(10, 0);
+      }
     };
 
     setupNotifications().catch(() => {});

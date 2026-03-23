@@ -149,6 +149,7 @@ export default function SessionScreen() {
   }, [technique, requestedDuration]);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const hapticIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [countdown, setCountdown] = useState<number | null>(3);
   const countdownScale = useRef(new Animated.Value(1)).current;
   const countdownOpacity = useRef(new Animated.Value(1)).current;
@@ -220,9 +221,16 @@ export default function SessionScreen() {
       playPhaseTransition(settingsStore.soundStyle);
     }
 
+    if (hapticIntervalRef.current) {
+      clearInterval(hapticIntervalRef.current);
+      hapticIntervalRef.current = null;
+    }
     if (!hapticsEnabled) return;
     if (currentPhaseVal === 'INHALE' || currentPhaseVal === 'EXHALE') {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      hapticIntervalRef.current = setInterval(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      }, 1000);
     }
   }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, settingsStore.soundEnabled, settingsStore.soundStyle]);
 
@@ -231,6 +239,9 @@ export default function SessionScreen() {
     return () => {
       stopBackgroundAudio();
       stopMusic();
+      if (hapticIntervalRef.current) {
+        clearInterval(hapticIntervalRef.current);
+      }
     };
   }, []);
 

@@ -207,10 +207,6 @@ export default function SettingsScreen() {
   };
 
   const handleReminderToggle = async (val: boolean) => {
-    if (!settings.isPro) {
-      handleProFeatureTap();
-      return;
-    }
     const { scheduleBreatheReminder, cancelNotification, requestNotificationPermissions } =
       await import('../../src/utils/notifications');
     if (val) {
@@ -221,7 +217,8 @@ export default function SettingsScreen() {
       await scheduleBreatheReminder(h, m);
     } else {
       settings.setSetting('reminderEnabled', false);
-      await cancelNotification('breathe-reminder');
+      // Fall back to default 10:00 AM reminder
+      await scheduleBreatheReminder(10, 0);
     }
   };
 
@@ -388,22 +385,16 @@ export default function SettingsScreen() {
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
             {t('settings.reminders')}
           </Text>
-          <TouchableOpacity
-            onPress={settings.isPro ? undefined : handleProFeatureTap}
-            activeOpacity={settings.isPro ? 1 : 0.7}
-          >
-            <ToggleRow
-              label={t('settings.dailyReminder')}
-              value={settings.reminderEnabled}
-              onToggle={handleReminderToggle}
-              theme={theme}
-              badge={settings.isPro ? undefined : t('settings.proFeature')}
-              onHaptic={haptics.light}
-              labelSize={fontSize.md}
-            />
-          </TouchableOpacity>
+          <ToggleRow
+            label={t('settings.dailyReminder')}
+            value={settings.reminderEnabled}
+            onToggle={handleReminderToggle}
+            theme={theme}
+            onHaptic={haptics.light}
+            labelSize={fontSize.md}
+          />
 
-          {settings.isPro && settings.reminderEnabled && (
+          {settings.reminderEnabled && (
             <>
               {/* Reminder time */}
               <TouchableOpacity
