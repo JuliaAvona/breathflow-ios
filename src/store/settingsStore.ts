@@ -10,7 +10,6 @@ const DEFAULT_SETTINGS: UserSettings = {
   soundEnabled: true,
   soundStyle: 'tone',
   hapticsEnabled: true,
-  voiceGuidance: 'off',
 
   darkMode: 'dark',
   textSize: 'default',
@@ -55,7 +54,6 @@ function extractSettings(state: SettingsStore): UserSettings {
     soundEnabled: state.soundEnabled,
     soundStyle: state.soundStyle,
     hapticsEnabled: state.hapticsEnabled,
-    voiceGuidance: state.voiceGuidance,
     darkMode: state.darkMode,
     textSize: state.textSize,
     healthSyncEnabled: state.healthSyncEnabled,

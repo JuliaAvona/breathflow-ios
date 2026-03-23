@@ -132,9 +132,8 @@ export interface UserSettings {
 
   // Feedback
   soundEnabled: boolean;
-  soundStyle: 'tone' | 'bell' | 'nature' | 'bowl';
+  soundStyle: 'tone' | 'nature' | 'voice' | 'off';
   hapticsEnabled: boolean;
-  voiceGuidance: 'off' | 'phases' | 'countdown';
 
   // Appearance
   darkMode: 'system' | 'light' | 'dark';

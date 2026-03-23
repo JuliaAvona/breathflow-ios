@@ -73,23 +73,16 @@ function ToggleRow({ label, value, onToggle, theme, badge, onHaptic, labelSize }
 
 type PickerType =
   | 'soundStyle'
-  | 'voiceGuidance'
   | 'darkMode'
   | 'reminderTime'
   | 'reminderDays'
   | null;
 
 const SOUND_STYLE_OPTIONS = [
-  { labelKey: 'settings.soundTone', value: 'tone' as const },
-  { labelKey: 'settings.soundBell', value: 'bell' as const },
   { labelKey: 'settings.soundNature', value: 'nature' as const },
-  { labelKey: 'settings.soundBowl', value: 'bowl' as const },
-];
-
-const VOICE_GUIDANCE_OPTIONS = [
-  { labelKey: 'settings.voiceOff', value: 'off' as const },
-  { labelKey: 'settings.voicePhases', value: 'phases' as const },
-  // 'countdown' is not yet implemented (requires numbered voice MP3s / TTS) — hidden until ready
+  { labelKey: 'settings.soundVoice', value: 'voice' as const },
+  { labelKey: 'settings.soundTone', value: 'tone' as const },
+  { labelKey: 'settings.soundOff', value: 'off' as const },
 ];
 
 const DARK_MODE_OPTIONS = [
@@ -277,10 +270,6 @@ export default function SettingsScreen() {
     return opt ? t(opt.labelKey) : style;
   };
 
-  const voiceGuidanceLabel = (val: string): string => {
-    const opt = VOICE_GUIDANCE_OPTIONS.find((o) => o.value === val);
-    return opt ? t(opt.labelKey) : val;
-  };
 
   const darkModeLabel = (val: string): string => {
     const opt = DARK_MODE_OPTIONS.find((o) => o.value === val);
@@ -367,22 +356,6 @@ export default function SettingsScreen() {
             labelSize={fontSize.md}
           />
 
-          {/* Voice guidance picker */}
-          <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
-            onPress={() => { haptics.selection(); setActivePicker('voiceGuidance'); }}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-              {t('settings.voiceGuidance')}
-            </Text>
-            <View style={styles.pickerValueRow}>
-              <Text style={[styles.pickerValueText, { color: theme.primary }]}>
-                {voiceGuidanceLabel(settings.voiceGuidance)}
-              </Text>
-              <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-            </View>
-          </TouchableOpacity>
         </View>
 
         {/* ── Appearance ───────────────────────────────────────────────── */}
@@ -699,16 +672,6 @@ export default function SettingsScreen() {
         options={SOUND_STYLE_OPTIONS.map((o) => ({ label: t(o.labelKey), value: o.value }))}
         selectedValue={settings.soundStyle}
         onSelect={(val) => settings.setSetting('soundStyle', val)}
-        onClose={() => setActivePicker(null)}
-      />
-
-      {/* Voice guidance — 'countdown' option hidden until TTS/numbered-MP3 support is implemented */}
-      <PickerModal<'off' | 'phases' | 'countdown'>
-        visible={activePicker === 'voiceGuidance'}
-        title={t('settings.voiceGuidance')}
-        options={VOICE_GUIDANCE_OPTIONS.map((o) => ({ label: t(o.labelKey), value: o.value }))}
-        selectedValue={settings.voiceGuidance}
-        onSelect={(val) => settings.setSetting('voiceGuidance', val)}
         onClose={() => setActivePicker(null)}
       />
 

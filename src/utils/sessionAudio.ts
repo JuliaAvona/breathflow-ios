@@ -9,24 +9,30 @@
 // ─── Sound asset sources ────────────────────────────────────────────────────
 
 const SOUNDS = {
-  beep: require('../../assets/beep.mp3'),
-  chime: require('../../assets/chime.mp3'),
-  chant: require('../../assets/breath-chant-vocal-smooth.wav'),
-  complete: require('../../assets/chime.mp3'),
-  voiceStart: require('../../assets/ready-british-girl-voice.wav'),
-  voiceSwitch: require('../../assets/percussion-hit-wood-rim.wav'),
-  voiceBeep: require('../../assets/percussion-hit-wood-rim.wav'),
+  // tone style
+  beep:       require('../../assets/beep.mp3'),
+  woodDry:    require('../../assets/percussion-hit-dry-wood.wav'),
+  // bell style
+  chime:      require('../../assets/chime.mp3'),
+  woodRim:    require('../../assets/percussion-hit-wood-rim.wav'),
+  // nature style
+  chant:      require('../../assets/breath-chant-vocal-smooth.wav'),
+  // bowl style
+  cowbell:    require('../../assets/japan-cowbell_120bpm_A_minor.wav'),
+  // voice
+  voiceStart:    require('../../assets/ready-british-girl-voice.wav'),
+  voiceSwitch:   require('../../assets/percussion-hit-wood-rim.wav'),
   voiceComplete: require('../../assets/chime.mp3'),
-  countdown3: require('../../assets/three-british-girl-voice.wav'),
-  countdown2: require('../../assets/two-british-girl-voice.wav'),
-  countdown1: require('../../assets/one-british-girl-voice.wav'),
+  countdown3:    require('../../assets/three-british-girl-voice.wav'),
+  countdown2:    require('../../assets/two-british-girl-voice.wav'),
+  countdown1:    require('../../assets/one-british-girl-voice.wav'),
 };
 
 const STYLE_MAP: Record<string, { transition: keyof typeof SOUNDS; complete: keyof typeof SOUNDS }> = {
-  tone: { transition: 'beep', complete: 'complete' },
-  bell: { transition: 'chime', complete: 'complete' },
-  nature: { transition: 'chant', complete: 'complete' },
-  bowl: { transition: 'complete', complete: 'complete' },
+  tone:   { transition: 'beep',    complete: 'chime'   },
+  nature: { transition: 'chant',   complete: 'chime'   },
+  voice:  { transition: 'woodRim', complete: 'chime' },
+  off:    { transition: 'beep',    complete: 'chime'   }, // soundEnabled=false handles mute
 };
 
 // ─── Lazy module access ─────────────────────────────────────────────────────

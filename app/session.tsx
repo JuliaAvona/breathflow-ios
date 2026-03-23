@@ -21,7 +21,7 @@ import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import { getToday } from '../src/utils/time';
-import { playPhaseTransition, playSessionComplete, playCountdownTick, playVoicePhase, playVoiceStart, playVoiceComplete, releaseAllSessionAudio } from '../src/utils/sessionAudio';
+import { playPhaseTransition, playSessionComplete, playCountdownTick, releaseAllSessionAudio } from '../src/utils/sessionAudio';
 import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
 import { startMusic, stopMusic, isMusicPlaying } from '../src/utils/sessionMusic';
 import { BreathingMandala } from '../src/components/BreathingMandala';
@@ -174,8 +174,8 @@ export default function SessionScreen() {
       if (musicId) {
         startMusic(musicId);
       }
-      if (settingsStore.soundEnabled && settingsStore.voiceGuidance !== 'off') {
-        playVoiceStart();
+      if (settingsStore.soundEnabled && settingsStore.soundStyle !== 'off') {
+        // no voice start for bamboo/tone/nature styles
       }
       return;
     }
@@ -216,18 +216,15 @@ export default function SessionScreen() {
 
     // Sound on phase transitions (skip Hold phases)
     const isHold = currentPhaseVal === 'HOLD_IN' || currentPhaseVal === 'HOLD_OUT';
-    if (settingsStore.soundEnabled && !isHold && currentPhaseVal !== 'READY' && currentPhaseVal !== 'DONE' && currentPhaseVal !== 'PAUSED') {
+    if (settingsStore.soundEnabled && settingsStore.soundStyle !== 'off' && !isHold && currentPhaseVal !== 'READY' && currentPhaseVal !== 'DONE' && currentPhaseVal !== 'PAUSED') {
       playPhaseTransition(settingsStore.soundStyle);
-      if (settingsStore.voiceGuidance === 'phases') {
-        playVoicePhase();
-      }
     }
 
     if (!hapticsEnabled) return;
     if (currentPhaseVal === 'INHALE' || currentPhaseVal === 'EXHALE') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-  }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, settingsStore.soundEnabled, settingsStore.soundStyle, settingsStore.voiceGuidance]);
+  }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, settingsStore.soundEnabled, settingsStore.soundStyle]);
 
   // Stop background audio + music on unmount
   useEffect(() => {
@@ -268,11 +265,8 @@ export default function SessionScreen() {
     if (!isDone || !technique) return;
 
     // Play completion sound + voice
-    if (settingsStore.soundEnabled) {
+    if (settingsStore.soundEnabled && settingsStore.soundStyle !== 'off') {
       playSessionComplete(settingsStore.soundStyle);
-      if (settingsStore.voiceGuidance !== 'off') {
-        playVoiceComplete();
-      }
     }
 
     const session: BreathingSession = {
