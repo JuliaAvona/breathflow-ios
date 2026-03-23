@@ -35,5 +35,6 @@ export async function performAppleSignIn(): Promise<{
     idToken: credential.identityToken,
     nonce: rawNonce,
     authorizationCode: credential.authorizationCode,
+    givenName: credential.fullName?.givenName ?? null,
   };
 }

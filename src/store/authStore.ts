@@ -39,12 +39,13 @@ interface AuthStore {
   user: User | null;
   session: SupabaseSession | null;
   isAnonymous: boolean;
+  displayName: string | null;
   _hydrated: boolean;
 
   hydrate: () => Promise<void>;
   signInAnonymously: () => Promise<void>;
-  signInWithApple: (idToken: string, nonce: string, authorizationCode: string) => Promise<void>;
-  linkAppleAccount: (idToken: string, nonce: string, authorizationCode: string) => Promise<void>;
+  signInWithApple: (idToken: string, nonce: string, authorizationCode: string, givenName?: string | null) => Promise<void>;
+  linkAppleAccount: (idToken: string, nonce: string, authorizationCode: string, givenName?: string | null) => Promise<void>;
   signOut: () => Promise<void>;
   deleteAccount: () => Promise<void>;
 }
@@ -86,10 +87,13 @@ async function revokeAppleToken(): Promise<void> {
   await clearAppleRefreshToken();
 }
 
+const DISPLAY_NAME_KEY = '@breathflow_display_name';
+
 export const useAuthStore = create<AuthStore>((set, get) => ({
   user: null,
   session: null,
   isAnonymous: true,
+  displayName: null,
   _hydrated: false,
 
   hydrate: async () => {
@@ -103,11 +107,14 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         data: { session },
       } = await supabase.auth.getSession();
 
+      const savedName = await AsyncStorage.getItem(DISPLAY_NAME_KEY).catch(() => null);
+
       if (session) {
         set({
           user: session.user,
           session,
           isAnonymous: session.user.is_anonymous ?? true,
+          displayName: savedName,
           _hydrated: true,
         });
       } else {
@@ -148,24 +155,29 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  signInWithApple: async (idToken: string, nonce: string, authorizationCode: string) => {
+  signInWithApple: async (idToken: string, nonce: string, authorizationCode: string, givenName?: string | null) => {
     const { data, error } = await supabase.auth.signInWithIdToken({
       provider: 'apple',
       token: idToken,
       nonce,
     });
     if (error) throw error;
+    if (givenName) {
+      await AsyncStorage.setItem(DISPLAY_NAME_KEY, givenName).catch(() => {});
+    }
+    const savedName = givenName ?? await AsyncStorage.getItem(DISPLAY_NAME_KEY).catch(() => null);
     set({
       user: data.session?.user ?? null,
       session: data.session,
       isAnonymous: false,
+      displayName: savedName,
     });
 
     // Exchange auth code for refresh token (non-blocking)
     exchangeAppleCode(authorizationCode);
   },
 
-  linkAppleAccount: async (idToken: string, nonce: string, authorizationCode: string) => {
+  linkAppleAccount: async (idToken: string, nonce: string, authorizationCode: string, givenName?: string | null) => {
     try {
       const { error } = await supabase.auth.linkIdentity({
         provider: 'apple',
@@ -173,8 +185,12 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
       if (error) {
         // Link failed, trying direct sign-in
-        await get().signInWithApple(idToken, nonce, authorizationCode);
+        await get().signInWithApple(idToken, nonce, authorizationCode, givenName);
         return;
+      }
+      if (givenName) {
+        await AsyncStorage.setItem(DISPLAY_NAME_KEY, givenName).catch(() => {});
+        set({ displayName: givenName });
       }
 
       const {

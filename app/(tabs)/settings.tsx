@@ -15,14 +15,13 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { useSettingsStore, useAuthStore, useSessionsStore } from '../../src/store';
+import { useSettingsStore, useAuthStore } from '../../src/store';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 import { requestHealthPermissions, isHealthKitAvailable } from '../../src/utils/healthKit';
 import { performAppleSignIn } from '../../src/utils/appleAuth';
 import { pushAll, pullAndMerge } from '../../src/services/syncService';
 import { useHaptics } from '../../src/hooks/useHaptics';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
-import { exportSessionsAsCSV } from '../../src/utils/csvExport';
 import { PickerModal } from '../../src/components/PickerModal';
 import { WheelPickerModal, WheelColumn } from '../../src/components/WheelPickerModal';
 
@@ -114,18 +113,18 @@ export default function SettingsScreen() {
   const [activePicker, setActivePicker] = useState<PickerType>(null);
   const user = useAuthStore((s) => s.user);
   const isAnonymous = useAuthStore((s) => s.isAnonymous);
-  const sessions = useSessionsStore((s) => s.sessions);
+  const displayName = useAuthStore((s) => s.displayName);
 
   // ── Handlers ───────────────────────────────────────────────────────────
 
   const handleSignInWithApple = async () => {
     setIsSigningIn(true);
     try {
-      const { idToken, nonce, authorizationCode } = await performAppleSignIn();
+      const { idToken, nonce, authorizationCode, givenName } = await performAppleSignIn();
       if (isAnonymous && user) {
-        await useAuthStore.getState().linkAppleAccount(idToken, nonce, authorizationCode);
+        await useAuthStore.getState().linkAppleAccount(idToken, nonce, authorizationCode, givenName);
       } else {
-        await useAuthStore.getState().signInWithApple(idToken, nonce, authorizationCode);
+        await useAuthStore.getState().signInWithApple(idToken, nonce, authorizationCode, givenName);
       }
       await pullAndMerge();
       await pushAll();
@@ -280,9 +279,13 @@ export default function SettingsScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <View style={styles.titleRow}>
-          <Text style={[styles.screenTitle, { color: theme.text, fontSize: fontSize.xxl }]}>
-            {t('settings.title')}
-          </Text>
+          {!isAnonymous && displayName ? (
+            <Text style={[styles.greeting, { color: theme.text }]}>
+              Hi, {displayName}
+            </Text>
+          ) : (
+            <View />
+          )}
           {settings.isPro && (
             <View style={[styles.proStatusBadge, { backgroundColor: theme.accent }]}>
               <Ionicons name="diamond" size={12} color={COLORS.white} />
@@ -542,30 +545,6 @@ export default function SettingsScreen() {
             {t('settings.general')}
           </Text>
 
-          {/* Language */}
-          <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: theme.border }]}
-            onPress={() => Linking.openSettings()}
-            accessibilityRole="link"
-          >
-            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-              {t('settings.language')}
-            </Text>
-            <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
-          </TouchableOpacity>
-
-          {/* Export data */}
-          <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: theme.border }]}
-            onPress={() => exportSessionsAsCSV(sessions)}
-            accessibilityRole="button"
-          >
-            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-              {t('settings.exportData')}
-            </Text>
-            <Ionicons name="download-outline" size={18} color={theme.textSecondary} />
-          </TouchableOpacity>
-
           {/* About */}
           <View style={[styles.settingRow, { borderBottomColor: theme.border }]}>
             <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
@@ -716,8 +695,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.sm,
+    paddingTop: SPACING.md,
     paddingBottom: SPACING.lg,
+  },
+  greeting: {
+    fontSize: FONT_SIZE.xl,
+    fontFamily: FONTS.bold,
   },
   proStatusBadge: {
     flexDirection: 'row',
