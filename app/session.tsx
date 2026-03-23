@@ -102,6 +102,7 @@ export default function SessionScreen() {
   const insets = useSafeAreaInsets();
   const { techniqueId, duration: durationParam, musicId, fromOnboarding } = useLocalSearchParams<{ techniqueId: string; duration?: string; musicId?: string; fromOnboarding?: string }>();
   const [musicOn, setMusicOn] = useState(!!musicId);
+  const [soundOn, setSoundOn] = useState(true);
 
   // Parse the optional duration param passed by the quick-start hero (in seconds).
   // Falls back to undefined when not provided, preserving the technique's default behaviour.
@@ -175,7 +176,7 @@ export default function SessionScreen() {
       if (musicId) {
         startMusic(musicId);
       }
-      if (settingsStore.soundEnabled && settingsStore.soundStyle !== 'off') {
+      if (soundOn && settingsStore.soundStyle !== 'off') {
         // no voice start for bamboo/tone/nature styles
       }
       return;
@@ -194,7 +195,7 @@ export default function SessionScreen() {
     if (hapticsEnabled) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
-    if (settingsStore.soundEnabled) {
+    if (soundOn) {
       playCountdownTick(countdown);
     }
 
@@ -217,7 +218,7 @@ export default function SessionScreen() {
 
     // Sound on phase transitions (skip Hold phases)
     const isHold = currentPhaseVal === 'HOLD_IN' || currentPhaseVal === 'HOLD_OUT';
-    if (settingsStore.soundEnabled && settingsStore.soundStyle !== 'off' && !isHold && currentPhaseVal !== 'READY' && currentPhaseVal !== 'DONE' && currentPhaseVal !== 'PAUSED') {
+    if (soundOn && settingsStore.soundStyle !== 'off' && !isHold && currentPhaseVal !== 'READY' && currentPhaseVal !== 'DONE' && currentPhaseVal !== 'PAUSED') {
       playPhaseTransition(settingsStore.soundStyle);
     }
 
@@ -232,7 +233,7 @@ export default function SessionScreen() {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       }, 1000);
     }
-  }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, settingsStore.soundEnabled, settingsStore.soundStyle]);
+  }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, soundOn, settingsStore.soundStyle]);
 
   // Stop background audio + music on unmount
   useEffect(() => {
@@ -276,7 +277,7 @@ export default function SessionScreen() {
     if (!isDone || !technique) return;
 
     // Play completion sound + voice
-    if (settingsStore.soundEnabled && settingsStore.soundStyle !== 'off') {
+    if (soundOn && settingsStore.soundStyle !== 'off') {
       playSessionComplete(settingsStore.soundStyle);
     }
 
@@ -328,9 +329,11 @@ export default function SessionScreen() {
     if (musicOn) {
       stopMusic();
       setMusicOn(false);
+      setSoundOn(false);
     } else if (musicId) {
       startMusic(musicId);
       setMusicOn(true);
+      setSoundOn(true);
     }
   }, [musicOn, musicId]);
 

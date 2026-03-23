@@ -67,22 +67,19 @@ export default function HistoryScreen() {
     return getTechniqueById(stats.favoriteTechniqueId) ?? null;
   }, [stats.favoriteTechniqueId]);
 
-  // Weekly sessions data for bar chart (last 7 weeks)
+  // Daily sessions data for bar chart (last 7 days)
   const weeklyData = useMemo(() => {
-    const weeks: { label: string; count: number }[] = [];
+    const days: { label: string; count: number }[] = [];
     const today = new Date();
-    for (let w = 6; w >= 0; w--) {
-      const weekStart = new Date(today);
-      weekStart.setDate(today.getDate() - (w * 7 + today.getDay()));
-      const weekEnd = new Date(weekStart);
-      weekEnd.setDate(weekStart.getDate() + 6);
-      const startStr = weekStart.toISOString().split('T')[0];
-      const endStr = weekEnd.toISOString().split('T')[0];
-      const count = sessions.filter((s) => s.date >= startStr && s.date <= endStr).length;
-      const label = `${weekStart.getMonth() + 1}/${weekStart.getDate()}`;
-      weeks.push({ label, count });
+    for (let d = 6; d >= 0; d--) {
+      const day = new Date(today);
+      day.setDate(today.getDate() - d);
+      const dateStr = day.toISOString().split('T')[0];
+      const count = sessions.filter((s) => s.date === dateStr).length;
+      const label = day.toLocaleDateString(undefined, { weekday: 'narrow' });
+      days.push({ label, count });
     }
-    return weeks;
+    return days;
   }, [sessions]);
 
   const animateMonthChange = useCallback((changeFn: () => void) => {
@@ -286,13 +283,14 @@ export default function HistoryScreen() {
                 <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.weeklyActivity')}</Text>
                 <View style={[styles.chartCard, { backgroundColor: theme.card }]}>
                   <View style={styles.barChartRow}>
-                    {weeklyData.map((week, idx) => {
+                    {weeklyData.map((day, idx) => {
                       const maxCount = Math.max(...weeklyData.map((w) => w.count), 1);
-                      const barHeight = Math.max(4, (week.count / maxCount) * 72);
+                      const barHeight = Math.max(4, (day.count / maxCount) * 72);
+                      const isToday = idx === 6;
                       return (
                         <View key={idx} style={styles.barCol}>
-                          <Text style={[styles.barValue, { color: theme.text, opacity: week.count > 0 ? 1 : 0 }]}>
-                            {week.count}
+                          <Text style={[styles.barValue, { color: theme.text, opacity: day.count > 0 ? 1 : 0 }]}>
+                            {day.count}
                           </Text>
                           <View style={{ flex: 1 }} />
                           <View
@@ -300,12 +298,13 @@ export default function HistoryScreen() {
                               styles.bar,
                               {
                                 height: barHeight,
-                                backgroundColor: week.count > 0 ? COLORS.primary : (theme.isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'),
+                                backgroundColor: day.count > 0 ? COLORS.primary : (theme.isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'),
+                                opacity: isToday ? 1 : 0.6,
                               },
                             ]}
                           />
                           <Text style={[styles.barLabel, { color: theme.textSecondary }]}>
-                            {week.label}
+                            {day.label}
                           </Text>
                         </View>
                       );

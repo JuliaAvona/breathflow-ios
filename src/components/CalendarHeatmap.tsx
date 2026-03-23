@@ -157,7 +157,8 @@ export function CalendarHeatmap({
                         isToday && !isActive && { backgroundColor: `${theme.primary}18`, borderWidth: 2, borderColor: theme.primary },
                         isToday && isActive && { borderWidth: 2, borderColor: COLORS.white },
                         isSelected && !isActive && !isToday && { borderWidth: 1.5, borderColor: theme.textSecondary },
-                        isSelected && isActive && { borderWidth: 2, borderColor: COLORS.white, shadowColor: theme.primary, shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.4, shadowRadius: 5, elevation: 4 },
+                        isSelected && isActive && !isToday && { borderWidth: 2, borderColor: '#04abd0' },
+                        isSelected && !isActive && isToday && { borderWidth: 2, borderColor: theme.primary },
                       ]}
                     >
                       <Text

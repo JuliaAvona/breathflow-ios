@@ -11,19 +11,15 @@ export interface MusicTrack {
 }
 
 export const MUSIC_TRACKS: MusicTrack[] = [
-  { id: 'ambient_day',       name: 'Ambient Day',       source: require('../../assets/music_ambient_day.mp3') },
-  { id: 'deep_meditation',   name: 'Deep Meditation',   source: require('../../assets/music_deep_meditation.mp3') },
-  { id: 'soft_lullaby',      name: 'Soft Lullaby',      source: require('../../assets/music_soft_lullaby.mp3') },
-  { id: 'in_the_moment',     name: 'In The Moment',     source: require('../../assets/music_in_the_moment.mp3') },
-  { id: 'cathedral',         name: 'Cathedral',         source: require('../../assets/music_cathedral.mp3') },
-  { id: 'serenity',          name: 'Serenity',          source: require('../../assets/music_serenity.mp3') },
-  { id: 'mellow_thoughts',   name: 'Mellow Thoughts',   source: require('../../assets/music_mellow_thoughts.mp3') },
-  { id: 'abstract_aprils',   name: 'Abstract Aprils',   source: require('../../assets/music_abstract_aprils.mp3') },
-  { id: 'delicate_texture',  name: 'Delicate Texture',  source: require('../../assets/music_delicate_texture.mp3') },
-  { id: 'horizon',           name: 'Horizon',           source: require('../../assets/music_horizon.mp3') },
-  { id: 'relaxing',          name: 'Relaxing',          source: require('../../assets/music_relaxing.mp3') },
-  { id: 'birds',             name: 'Birds',             source: require('../../assets/birds.mp3') },
-  { id: 'ocean',             name: 'Ocean',             source: require('../../assets/ocean.mp3') },
+  { id: 'track_1',  name: 'Morning Mist',     source: require('../../assets/1.aac') },
+  { id: 'track_3',  name: 'Still Water',      source: require('../../assets/3.aac') },
+  { id: 'track_4',  name: 'Deep Calm',        source: require('../../assets/4.aac') },
+  { id: 'track_5',  name: 'Soft Horizon',     source: require('../../assets/5.aac') },
+  { id: 'track_7',  name: 'Inner Space',      source: require('../../assets/7.aac') },
+  { id: 'track_9',  name: 'Gentle Flow',      source: require('../../assets/9.aac') },
+  { id: 'track_10', name: 'Twilight',         source: require('../../assets/10.aac') },
+  { id: 'track_11', name: 'Open Sky',         source: require('../../assets/11.aac') },
+  { id: 'track_12', name: 'Serenity',         source: require('../../assets/12.aac') },
 ];
 
 // ─── Player ──────────────────────────────────────────────────────────────────

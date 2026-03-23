@@ -160,6 +160,18 @@ function getPatternString(technique: BreathingTechnique): string {
     .join('  ·  ');
 }
 
+function getShortPattern(technique: BreathingTechnique): string {
+  if (technique.mode === 'power') {
+    return `${technique.breathCount} breaths · ${technique.roundCount} rounds`;
+  }
+  if (technique.mode === 'kapalabhati') {
+    return `${technique.setCount} sets · ${technique.setDuration}s`;
+  }
+  return technique.phases
+    .map((p) => (p.duration % 1 === 0 ? `${p.duration}` : `${p.duration.toFixed(1)}`))
+    .join('-');
+}
+
 // ─── TechniqueCard (grid card) ──────────────────────────────────────────────
 
 interface TechniqueCardProps {
@@ -218,8 +230,8 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
         <Text style={[styles.gridCardName, { color: theme.text }]} numberOfLines={1}>
           {t(technique.nameKey)}
         </Text>
-        <Text style={[styles.gridCardDuration, { color: theme.textSecondary }]}>
-          {getPatternString(technique)}
+        <Text style={[styles.gridCardDuration, { color: theme.textSecondary }]} numberOfLines={1}>
+          {getShortPattern(technique)}
         </Text>
       </View>
     </TouchableOpacity>
@@ -918,7 +930,7 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     borderRadius: 11,
-    backgroundColor: '#F5A623',
+    backgroundColor: 'rgba(252, 187, 48, 0.73)',
     justifyContent: 'center',
     alignItems: 'center',
   },
