@@ -188,7 +188,7 @@ export default {
 
   // Settings screen
   'settings.title': '設定',
-  'settings.feedback': 'フィードバック',
+  'settings.feedback': 'サウンド',
   'settings.sound': 'サウンド',
   'settings.soundStyle': 'サウンドスタイル',
   'settings.soundTone': 'トーン',

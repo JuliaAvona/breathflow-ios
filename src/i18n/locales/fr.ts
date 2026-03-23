@@ -188,7 +188,7 @@ export default {
 
   // Settings screen
   'settings.title': 'R\u00e9glages',
-  'settings.feedback': 'Retour sensoriel',
+  'settings.feedback': 'Sons',
   'settings.sound': 'Son',
   'settings.soundStyle': 'Style de son',
   'settings.soundTone': 'Tonalit\u00e9',

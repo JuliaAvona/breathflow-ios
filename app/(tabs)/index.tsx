@@ -432,7 +432,7 @@ function TechniqueDetailSheet({ technique, visible, onClose, onStart, isPro, t, 
             {/* Start / Unlock button */}
             {locked ? (
               <TouchableOpacity
-                style={[sheetStyles.startBtn, { backgroundColor: '#F5A623' }]}
+                style={[sheetStyles.startBtn, { backgroundColor: '#4A90D9' }]}
                 onPress={() => { onClose(); router.push('/paywall'); }}
                 activeOpacity={0.85}
               >

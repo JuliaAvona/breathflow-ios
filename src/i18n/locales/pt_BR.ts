@@ -188,7 +188,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Ajustes',
-  'settings.feedback': 'Feedback',
+  'settings.feedback': 'Sons',
   'settings.sound': 'Som',
   'settings.soundStyle': 'Estilo de Som',
   'settings.soundTone': 'Tom',

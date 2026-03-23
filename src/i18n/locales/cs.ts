@@ -188,7 +188,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Nastaven\u00ed',
-  'settings.feedback': 'Zp\u011btn\u00e1 vazba',
+  'settings.feedback': 'Zvuky',
   'settings.sound': 'Zvuk',
   'settings.soundStyle': 'Styl zvuku',
   'settings.soundTone': 'T\u00f3n',

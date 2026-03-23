@@ -188,7 +188,7 @@ export default {
 
   // Settings screen
   'settings.title': '\uC124\uC815',
-  'settings.feedback': '\uD53C\uB4DC\uBC31',
+  'settings.feedback': '사운드',
   'settings.sound': '\uC0AC\uC6B4\uB4DC',
   'settings.soundStyle': '\uC0AC\uC6B4\uB4DC \uC2A4\uD0C0\uC77C',
   'settings.soundTone': '\uD1A4',

@@ -188,7 +188,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Ayarlar',
-  'settings.feedback': 'Geri Bildirim',
+  'settings.feedback': 'Sesler',
   'settings.sound': 'Ses',
   'settings.soundStyle': 'Ses Stili',
   'settings.soundTone': 'Ton',
