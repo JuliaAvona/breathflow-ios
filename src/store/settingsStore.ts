@@ -24,6 +24,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   onboardingCompleted: false,
   safetyAccepted: false,
   selectedGoal: undefined,
+  recommendedTechniqueId: undefined,
   dailyGoalMinutes: 5,
 
   isPro: false,
@@ -64,6 +65,8 @@ function extractSettings(state: SettingsStore): UserSettings {
     onboardingCompleted: state.onboardingCompleted,
     safetyAccepted: state.safetyAccepted,
     selectedGoal: state.selectedGoal,
+    recommendedTechniqueId: state.recommendedTechniqueId,
+    dailyGoalMinutes: state.dailyGoalMinutes,
     isPro: state.isPro,
   };
 }

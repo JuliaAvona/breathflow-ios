@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
@@ -35,6 +35,16 @@ export default function PaywallScreen() {
   const [loading, setLoading] = useState(false);
   const [offering, setOffering] = useState<PurchasesOffering | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<PlanType>('weekly');
+  const { fromOnboarding } = useLocalSearchParams<{ fromOnboarding?: string }>();
+  const isFromOnboarding = fromOnboarding === '1';
+
+  const handleClose = () => {
+    if (isFromOnboarding) {
+      router.replace('/(tabs)');
+    } else {
+      router.canGoBack() ? router.back() : router.replace('/(tabs)');
+    }
+  };
 
   useEffect(() => {
     getOfferings().then(setOffering);
@@ -66,7 +76,11 @@ export default function PaywallScreen() {
       const { isPro } = await purchasePackage(pkg);
       if (isPro) {
         grantPro();
-        router.canGoBack() ? router.back() : router.replace('/(tabs)');
+        if (isFromOnboarding) {
+          goToTrialSession();
+        } else {
+          router.canGoBack() ? router.back() : router.replace('/(tabs)');
+        }
       }
     } catch (e: any) {
       if (e.userCancelled) return;
@@ -83,7 +97,11 @@ export default function PaywallScreen() {
       if (isPro) {
         grantPro();
         Alert.alert(t('paywall.restoreSuccessTitle'), t('paywall.restoreSuccessMessage'));
-        router.canGoBack() ? router.back() : router.replace('/(tabs)');
+        if (isFromOnboarding) {
+          goToTrialSession();
+        } else {
+          router.canGoBack() ? router.back() : router.replace('/(tabs)');
+        }
       } else {
         Alert.alert(t('paywall.restoreTitle'), t('paywall.restoreNoPurchases'));
       }
@@ -111,7 +129,7 @@ export default function PaywallScreen() {
           {/* Close / Restore row */}
           <View style={styles.headerRow}>
             <TouchableOpacity
-              onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')}
+              onPress={handleClose}
               activeOpacity={0.7}
               hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
             >

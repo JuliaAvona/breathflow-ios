@@ -120,7 +120,7 @@ export default function SummaryScreen() {
   const theme = useThemeColors();
   const fontSize = useFontSize();
 
-  const params = useLocalSearchParams<{ sessionId: string }>();
+  const params = useLocalSearchParams<{ sessionId: string; fromOnboarding?: string }>();
 
   const sessions = useSessionsStore((s) => s.sessions);
   const stats = useSessionsStore((s) => s.stats);

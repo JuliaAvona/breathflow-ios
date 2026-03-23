@@ -142,7 +142,7 @@ export default function RootLayout() {
       />
       <Stack.Screen
         name="summary"
-        options={{ presentation: 'modal', gestureEnabled: false }}
+        options={{ gestureEnabled: false }}
       />
       <Stack.Screen
         name="paywall"

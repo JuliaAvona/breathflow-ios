@@ -100,7 +100,7 @@ export default function SessionScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
   const insets = useSafeAreaInsets();
-  const { techniqueId, duration: durationParam, musicId } = useLocalSearchParams<{ techniqueId: string; duration?: string; musicId?: string }>();
+  const { techniqueId, duration: durationParam, musicId, fromOnboarding } = useLocalSearchParams<{ techniqueId: string; duration?: string; musicId?: string; fromOnboarding?: string }>();
   const [musicOn, setMusicOn] = useState(!!musicId);
 
   // Parse the optional duration param passed by the quick-start hero (in seconds).
@@ -302,7 +302,7 @@ export default function SessionScreen() {
     stopMusic();
     addSession(session);
     timerStore.reset();
-    router.replace({ pathname: '/summary', params: { sessionId: session.id } });
+    router.replace({ pathname: '/summary', params: { sessionId: session.id, fromOnboarding: fromOnboarding ?? '' } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase]);
 
@@ -340,7 +340,11 @@ export default function SessionScreen() {
           stopBackgroundAudio();
           stopMusic();
           useTimerStore.getState().stop();
-          router.back();
+          if (router.canGoBack()) {
+            router.back();
+          } else {
+            router.replace('/(tabs)');
+          }
         },
       },
     ]);

@@ -5,10 +5,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   Animated,
+  Easing,
   ScrollView,
   ImageBackground,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -62,7 +63,6 @@ const GLASS_BG       = 'rgba(255,255,255,0.09)';
 const GLASS_BORDER   = 'rgba(255,255,255,0.18)';
 const GLASS_SEL_BG   = 'rgba(255,255,255,0.20)';
 const GLASS_SEL_BORDER = 'rgba(255,255,255,0.55)';
-const DIVIDER        = 'rgba(255,255,255,0.10)';
 const TEXT_PRIMARY   = '#FFFFFF';
 const TEXT_SECONDARY = 'rgba(255,255,255,0.65)';
 
@@ -71,6 +71,7 @@ const TEXT_SECONDARY = 'rgba(255,255,255,0.65)';
 export default function OnboardingScreen() {
   const { t } = useTranslation();
   const setSetting = useSettingsStore((s) => s.setSetting);
+  const insets = useSafeAreaInsets();
   const [page, setPage] = useState(0);
   const [selectedGoal, setSelectedGoal]     = useState<TechniqueCategory | undefined>(undefined);
   const [selectedMinutes, setSelectedMinutes] = useState<number | undefined>(undefined);
@@ -82,6 +83,34 @@ export default function OnboardingScreen() {
   // Hook animation
   const hookLabelOpacity = useRef(new Animated.Value(1)).current;
   const [hookBreathDir, setHookBreathDir] = useState<'in' | 'out'>('in');
+
+  // Commit section slide-in
+  const commitAnim = useRef(new Animated.Value(1)).current;
+  const commitOpacity = useRef(new Animated.Value(1)).current;
+
+  // Apple Health pulse
+  const heartPulse = useRef(new Animated.Value(1)).current;
+  const ringPulse  = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (page !== 2) return;
+    const pulse = Animated.loop(
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(heartPulse, { toValue: 1.12, duration: 500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+          Animated.timing(ringPulse,  { toValue: 1.18, duration: 500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+        ]),
+        Animated.parallel([
+          Animated.timing(heartPulse, { toValue: 1.0,  duration: 600, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+          Animated.timing(ringPulse,  { toValue: 1.0,  duration: 600, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+        ]),
+        Animated.delay(800),
+      ]),
+    );
+    pulse.start();
+    return () => pulse.stop();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   // Building steps
   const step1Opacity = useRef(new Animated.Value(0)).current;
@@ -124,9 +153,10 @@ export default function OnboardingScreen() {
     return () => { loop.stop(); clearInterval(interval); };
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
+
   // Building auto-advance
   useEffect(() => {
-    if (page !== 3) return;
+    if (page !== 4) return;
     step1Opacity.setValue(0); step2Opacity.setValue(0); step3Opacity.setValue(0);
     const seq = Animated.sequence([
       Animated.delay(400),
@@ -137,7 +167,7 @@ export default function OnboardingScreen() {
       Animated.timing(step3Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
       Animated.delay(800),
     ]);
-    seq.start(() => goToPage(4, 1));
+    seq.start(() => goToPage(5, 1));
     return () => seq.stop();
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -146,8 +176,7 @@ export default function OnboardingScreen() {
   const handleGoalSelect = useCallback((category: TechniqueCategory) => {
     setSelectedGoal(category);
     setSetting('selectedGoal', category);
-    setTimeout(() => goNext(), 280);
-  }, [setSetting, goNext]);
+  }, [setSetting]);
 
   const handleCommitSelect = useCallback((min: number) => {
     setSelectedMinutes(min);
@@ -168,24 +197,24 @@ export default function OnboardingScreen() {
   const finishOnboarding = useCallback(() => {
     setSetting('onboardingCompleted', true);
     setSetting('safetyAccepted', true);
-    router.replace({ pathname: '/paywall', params: { fromOnboarding: '1', goal: selectedGoal ?? 'focus', techniqueId: plan.techniqueId } });
-  }, [setSetting, selectedGoal, plan]);
+    setSetting('recommendedTechniqueId', plan.techniqueId);
+    router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
+  }, [setSetting, plan]);
 
   const skipToApp = useCallback(() => {
     setSetting('onboardingCompleted', true);
-    router.replace({ pathname: '/session', params: { techniqueId: plan.techniqueId, duration: '120', fromOnboarding: '1' } });
+    router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
   }, [setSetting, plan]);
 
   // ── Progress ──────────────────────────────────────────────────────────────────
-  const progressVisible = page > 0 && page !== 3;
-  const progressStep    = page < 3 ? page : page - 1;
-  const progressPct     = progressStep / 6;
+  const progressVisible = page > 0 && page !== 4;
+  const progressStep    = page < 4 ? page : page - 1;
+  const progressPct     = progressStep / 5;
 
   // ── Page 0 — Hook ─────────────────────────────────────────────────────────────
 
   const renderHook = () => (
     <View style={{ flex: 1 }}>
-      {/* Bottom gradient for text readability */}
       <LinearGradient
         colors={['transparent', 'rgba(5,10,30,0.70)', 'rgba(5,10,30,0.92)']}
         style={StyleSheet.absoluteFillObject}
@@ -194,30 +223,21 @@ export default function OnboardingScreen() {
         pointerEvents="none"
       />
 
-      {/* Mandala */}
+      {/* Title at top */}
+      <View style={[styles.hookTop, { paddingTop: insets.top + SPACING.xl }]}>
+        <Text style={styles.hookTitle}>{t('onboarding.hookTitle')}</Text>
+      </View>
+
+      {/* Mandala centered */}
       <View style={styles.hookCenter}>
         <BreathingMandala phase="IDLE" color="#4A90D9" size={scale(260)} bright slow />
-        <Animated.Text style={[styles.hookBreathLabel, { opacity: hookLabelOpacity }]}>
+        <Animated.Text style={[styles.hookBreathLabel, { opacity: hookLabelOpacity, marginTop: SPACING.md }]}>
           {hookBreathDir === 'in' ? t('phase.breatheIn') : t('phase.breatheOut')}
         </Animated.Text>
       </View>
 
-      {/* Content */}
+      {/* Button at bottom */}
       <View style={styles.hookContent}>
-        <Text style={styles.hookTitle}>{t('onboarding.hookTitle')}</Text>
-        <Text style={styles.hookSub}>{t('onboarding.hookSub')}</Text>
-        <View style={styles.pillsRow}>
-          {([
-            { icon: 'shield-checkmark-outline' as const, key: 'onboarding.socialProof1', color: '#7BC4A8' },
-            { icon: 'flask-outline'             as const, key: 'onboarding.socialProof2', color: '#4A90D9' },
-            { icon: 'heart-outline'             as const, key: 'onboarding.socialProof3', color: '#FF6B6B' },
-          ]).map((p) => (
-            <View key={p.key} style={[styles.pill, { backgroundColor: 'rgba(255,255,255,0.12)' }]}>
-              <Ionicons name={p.icon} size={12} color={p.color} />
-              <Text style={[styles.pillText, { color: '#FFFFFF' }]}>{t(p.key)}</Text>
-            </View>
-          ))}
-        </View>
         <TouchableOpacity style={styles.primaryBtn} onPress={goNext} activeOpacity={0.85}>
           <Text style={styles.primaryBtnText}>{t('onboarding.getStarted')}</Text>
         </TouchableOpacity>
@@ -225,10 +245,10 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  // ── Page 1 — Goal ─────────────────────────────────────────────────────────────
+  // ── Page 3 — Goal + Commit (combined) ────────────────────────────────────────
 
-  const renderGoal = () => (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1, justifyContent: 'center' }]} showsVerticalScrollIndicator={false}>
+  const renderGoalAndCommit = () => (
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1 }]} showsVerticalScrollIndicator={false}>
       <Text style={styles.pageTitle}>{t('onboarding.chooseGoal')}</Text>
       <Text style={styles.pageSub}>{t('onboarding.chooseGoalSub')}</Text>
       <View style={styles.optionList}>
@@ -255,44 +275,28 @@ export default function OnboardingScreen() {
           );
         })}
       </View>
-    </ScrollView>
-  );
 
-  // ── Page 2 — Commit ───────────────────────────────────────────────────────────
-
-  const renderCommit = () => (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1, justifyContent: 'center' }]} showsVerticalScrollIndicator={false}>
-      <Text style={styles.pageTitle}>{t('onboarding.commitTitle')}</Text>
-      <Text style={styles.pageSub}>{t('onboarding.commitSub')}</Text>
-      <View style={styles.optionList}>
-        {COMMIT_OPTIONS.map((min) => {
-          const sel = selectedMinutes != null && selectedMinutes === min;
-          return (
-            <TouchableOpacity
-              key={min}
-              style={[styles.optionRow, sel && styles.optionRowSelected]}
-              onPress={() => handleCommitSelect(min)}
-              activeOpacity={0.75}
-            >
-              <View style={[styles.optionIconCircle, { backgroundColor: (sel ? COLORS.primary : 'rgba(255,255,255,0.15)') }]}>
-                <Text style={[styles.commitNum, { color: '#FFFFFF' }]}>{min}</Text>
-              </View>
-              <View style={styles.optionTexts}>
-                <Text style={styles.optionLabel}>{min} {t('onboarding.commitMinUnit')}</Text>
-              </View>
-              {sel
-                ? <View style={[styles.checkCircle, { backgroundColor: COLORS.primary }]}><Ionicons name="checkmark" size={13} color="#FFF" /></View>
-                : <Ionicons name="chevron-forward" size={17} color="rgba(255,255,255,0.4)" />}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-      {selectedMinutes != null && (
-        <View style={styles.hintBox}>
-          <Ionicons name="flame-outline" size={16} color="#F5A623" />
-          <Text style={styles.hintText}>{t('onboarding.commitHint_' + selectedMinutes)}</Text>
+      {/* Minutes — slides in after goal selected */}
+      <Animated.View style={{ opacity: commitOpacity, transform: [{ translateY: commitAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
+        <Text style={[styles.pageTitle, { fontSize: FONT_SIZE.xl, marginTop: SPACING.lg }]}>{t('onboarding.commitTitle')}</Text>
+        <Text style={[styles.pageSub, { marginBottom: SPACING.sm }]}>{t('onboarding.commitSub')}</Text>
+        <View style={styles.commitRow}>
+          {COMMIT_OPTIONS.map((min) => {
+            const sel = selectedMinutes != null && selectedMinutes === min;
+            return (
+              <TouchableOpacity
+                key={min}
+                style={[styles.commitChip, sel && styles.commitChipSelected]}
+                onPress={() => handleCommitSelect(min)}
+                activeOpacity={0.75}
+              >
+                <Text style={[styles.commitChipNum, sel && { color: '#FFF' }]}>{min}</Text>
+                <Text style={[styles.commitChipUnit, sel && { color: 'rgba(255,255,255,0.8)' }]}>min</Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
-      )}
+      </Animated.View>
     </ScrollView>
   );
 
@@ -301,9 +305,7 @@ export default function OnboardingScreen() {
   const renderBuilding = () => (
     <View style={[styles.pageContent, { justifyContent: 'center' }]}>
       <View style={{ alignItems: 'center', marginBottom: SPACING.lg }}>
-        <View style={[styles.buildingOrb, { backgroundColor: plan.color }]}>
-          <Ionicons name="sparkles-outline" size={scale(40)} color="#FFFFFF" />
-        </View>
+        <BreathingMandala phase="IDLE" color={plan.color} size={scale(160)} bright slow />
       </View>
       <Text style={[styles.pageTitle, { textAlign: 'center', marginBottom: SPACING.xl }]}>{t('onboarding.buildingTitle')}</Text>
       <View style={{ gap: SPACING.md }}>
@@ -325,28 +327,26 @@ export default function OnboardingScreen() {
 
   const renderPlan = () => (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1, justifyContent: 'center', paddingBottom: 32 }]} showsVerticalScrollIndicator={false}>
-      <View style={[styles.planBadge, { backgroundColor: plan.color + '30' }]}>
-        <Ionicons name="checkmark-circle" size={13} color={plan.color} />
-        <Text style={[styles.planBadgeText, { color: plan.color }]}>{t('onboarding.planBadge')}</Text>
+      {/* Badge */}
+      <View style={[styles.planBadge, { backgroundColor: plan.color, borderColor: 'transparent' }]}>
+        <Ionicons name="sparkles" size={14} color="#FFFFFF" />
+        <Text style={[styles.planBadgeText, { color: '#FFFFFF' }]}>{t('onboarding.planBadge')}</Text>
       </View>
+
+      {/* Title */}
       <Text style={styles.pageTitle}>{t(plan.titleKey)}</Text>
 
-      {/* Technique card */}
-      <View style={[styles.glassCard, styles.techniqueCard, { borderColor: plan.color + '60' }]}>
-        <View style={[styles.techniqueIcon, { backgroundColor: plan.color }]}>
-          <Ionicons name={plan.icon} size={20} color="#FFF" />
-        </View>
-        <View>
-          <Text style={styles.techniqueLabel}>{t('onboarding.yourTechnique')}</Text>
-          <Text style={styles.techniqueName}>{t(plan.techniqueNameKey)}</Text>
-        </View>
+      {/* Technique inline */}
+      <View style={[styles.techniquePill, { backgroundColor: plan.color + '20', borderColor: plan.color + '40' }]}>
+        <Ionicons name={plan.icon} size={15} color={plan.color} />
+        <Text style={[styles.techniquePillText, { color: plan.color }]}>{t(plan.techniqueNameKey)}</Text>
       </View>
 
       {/* Bullets */}
-      <View style={styles.glassCard}>
+      <View style={{ gap: SPACING.lg, marginTop: SPACING.xl, marginBottom: SPACING.xl }}>
         {[plan.b1Key, plan.b2Key, plan.b3Key].map((key, i) => (
-          <View key={i} style={[styles.bulletRow, i < 2 && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: DIVIDER }]}>
-            <Ionicons name="checkmark-circle" size={18} color={plan.color} />
+          <View key={i} style={styles.bulletRow}>
+            <Ionicons name="checkmark-circle" size={20} color={plan.color} />
             <Text style={styles.bulletText}>{t(key)}</Text>
           </View>
         ))}
@@ -361,96 +361,160 @@ export default function OnboardingScreen() {
   // ── Page 5 — Notifications ────────────────────────────────────────────────────
 
   const renderNotifications = () => (
-    <View style={[styles.pageContent, { justifyContent: 'center' }]}>
-      <View style={[styles.bigIconCircle, { backgroundColor: '#4A90D930' }]}>
-        <Ionicons name="notifications-outline" size={scale(48)} color="#4A90D9" />
+    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
+      {/* Top: title */}
+      <View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm, marginBottom: 6 }}>
+          <Ionicons name="notifications" size={28} color="#4A90D9" />
+          <Text style={styles.pageTitle}>{t('onboarding.notificationsTitle')}</Text>
+        </View>
+        <Text style={styles.pageSub}>{t('onboarding.notificationsSub')}</Text>
       </View>
-      <Text style={styles.pageTitle}>{t('onboarding.notificationsTitle')}</Text>
-      <Text style={styles.pageSub}>{t('onboarding.notificationsSub')}</Text>
 
-      {/* Mock notification */}
-      <View style={[styles.glassCard, { marginBottom: SPACING.lg }]}>
-        <View style={styles.notifRow}>
-          <View style={[styles.notifAppIcon, { backgroundColor: COLORS.primary }]}>
-            <Ionicons name="body-outline" size={16} color="#FFF" />
+      {/* Middle: notification bubbles */}
+      <View style={{ gap: SPACING.sm }}>
+        {/* Notification 1 */}
+        <View style={[styles.glassCard, { marginBottom: 0, marginRight: SPACING.xl }]}>
+          <View style={styles.notifRow}>
+            <View style={[styles.notifBubbleIcon, { backgroundColor: COLORS.primary }]}>
+              <Ionicons name="leaf" size={16} color="#FFF" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <View style={styles.notifHeader}>
+                <Text style={styles.notifAppName}>BREATHFLOW</Text>
+                <Text style={styles.notifTime}>9:00 AM</Text>
+              </View>
+              <Text style={styles.notifTitle}>Time to breathe 🌿</Text>
+              <Text style={styles.notifMessage}>Your daily session is ready. Take 5 minutes for yourself.</Text>
+            </View>
           </View>
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.optionLabel, { marginBottom: 2 }]}>BreathFlow</Text>
-            <Text style={styles.optionSub}>Time for your daily breathing session 🌿</Text>
+        </View>
+
+        {/* Notification 2 — shifted right */}
+        <View style={[styles.glassCard, { marginBottom: 0, marginLeft: SPACING.xl, opacity: 0.6 }]}>
+          <View style={styles.notifRow}>
+            <View style={[styles.notifBubbleIcon, { backgroundColor: COLORS.primary }]}>
+              <Ionicons name="leaf" size={16} color="#FFF" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <View style={styles.notifHeader}>
+                <Text style={styles.notifAppName}>BREATHFLOW</Text>
+                <Text style={styles.notifTime}>Yesterday</Text>
+              </View>
+              <Text style={styles.notifTitle}>3-day streak! 🔥</Text>
+              <Text style={styles.notifMessage}>Keep it up — consistency is everything.</Text>
+            </View>
           </View>
-          <Text style={styles.optionSub}>now</Text>
         </View>
       </View>
 
-      <TouchableOpacity style={[styles.primaryBtn, { flexDirection: 'row', gap: 8 }]} onPress={handleEnableNotifications} activeOpacity={0.85}>
-        <Ionicons name="notifications-outline" size={18} color="#FFF" />
-        <Text style={styles.primaryBtnText}>{t('onboarding.notificationsEnable')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.skipLink} onPress={goNext}>
-        <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
-      </TouchableOpacity>
+      {/* Bottom: button */}
+      <View>
+        <TouchableOpacity
+          style={[styles.primaryBtn, styles.glowBtn, { flexDirection: 'row', gap: 8 }]}
+          onPress={handleEnableNotifications}
+          activeOpacity={0.85}
+        >
+          <Ionicons name="notifications-outline" size={18} color="#FFF" />
+          <Text style={styles.primaryBtnText}>{t('onboarding.notificationsEnable')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.skipLink} onPress={goNext}>
+          <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
   // ── Page 6 — Apple Health ─────────────────────────────────────────────────────
 
   const renderAppleHealth = () => (
-    <View style={[styles.pageContent, { justifyContent: 'center' }]}>
-      <View style={[styles.bigIconCircle, { backgroundColor: '#FF3B3025' }]}>
-        <Ionicons name="heart" size={scale(48)} color="#FF3B30" />
+    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
+      {/* Top: title */}
+      <View>
+        <Text style={[styles.pageTitle, { marginTop: SPACING.sm }]}>{t('onboarding.appleHealthTitle')}</Text>
+        <Text style={styles.pageSub}>{t('onboarding.appleHealthSub')}</Text>
       </View>
-      <Text style={styles.pageTitle}>{t('onboarding.appleHealthTitle')}</Text>
-      <Text style={styles.pageSub}>{t('onboarding.appleHealthSub')}</Text>
-      <View style={styles.glassCard}>
+
+      {/* Middle: heart with ripple rings */}
+      <View style={styles.healthRippleWrap}>
+        <Animated.View style={[styles.healthRing, { width: scale(200), height: scale(200), borderRadius: scale(100), opacity: 0.08, transform: [{ scale: ringPulse }] }]} />
+        <Animated.View style={[styles.healthRing, { width: scale(158), height: scale(158), borderRadius: scale(79), opacity: 0.14, transform: [{ scale: ringPulse }] }]} />
+        <Animated.View style={[styles.healthRing, { width: scale(118), height: scale(118), borderRadius: scale(59), opacity: 0.22, transform: [{ scale: ringPulse }] }]} />
+        <Animated.View style={[styles.healthIconCircle, { transform: [{ scale: heartPulse }] }]}>
+          <Ionicons name="heart" size={scale(44)} color="#FFF" />
+        </Animated.View>
+      </View>
+
+      {/* Bullets — no card */}
+      <View style={{ gap: SPACING.md }}>
         {([
           { icon: 'sync-outline'        as const, key: 'onboarding.appleHealthBullet1' },
           { icon: 'trending-up-outline' as const, key: 'onboarding.appleHealthBullet2' },
           { icon: 'lock-closed-outline' as const, key: 'onboarding.appleHealthBullet3' },
         ]).map((b, i) => (
-          <View key={i} style={[styles.bulletRow, i < 2 && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: DIVIDER }]}>
+          <View key={i} style={styles.bulletRow}>
             <Ionicons name={b.icon} size={18} color="#FF3B30" />
             <Text style={styles.bulletText}>{t(b.key)}</Text>
           </View>
         ))}
       </View>
-      <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: '#FF3B30', flexDirection: 'row', gap: 8 }]} onPress={handleConnectHealth} activeOpacity={0.85}>
-        <Ionicons name="heart" size={18} color="#FFF" />
-        <Text style={styles.primaryBtnText}>{t('onboarding.appleHealthConnect')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.skipLink} onPress={goNext}>
-        <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
-      </TouchableOpacity>
+
+      {/* Bottom: button */}
+      <View>
+        <TouchableOpacity style={[styles.primaryBtn, styles.glowBtn, { backgroundColor: '#FF3B30', flexDirection: 'row', gap: 8, shadowColor: '#FF3B30' }]} onPress={handleConnectHealth} activeOpacity={0.85}>
+          <Ionicons name="heart" size={18} color="#FFF" />
+          <Text style={styles.primaryBtnText}>{t('onboarding.appleHealthConnect')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.skipLink} onPress={goNext}>
+          <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
   // ── Page 7 — Safety ───────────────────────────────────────────────────────────
 
   const renderSafety = () => (
-    <View style={styles.pageContent}>
-      <View style={[styles.bigIconCircle, { backgroundColor: '#7BC4A820' }]}>
-        <Ionicons name="shield-checkmark-outline" size={scale(48)} color="#7BC4A8" />
+    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
+      {/* Top */}
+      <View>
+        <Text style={[styles.pageTitle, { marginTop: SPACING.sm }]}>{t('onboarding.safety')}</Text>
+        <Text style={[styles.pageSub, { marginBottom: SPACING.xl }]}>{'Read before starting your first session'}</Text>
+
+        {/* Bullets — no card */}
+        <View style={{ gap: SPACING.lg }}>
+          {SAFETY_ITEMS.map((key, i) => (
+            <View key={i} style={styles.bulletRow}>
+              <View style={styles.safetyDot}>
+                <Text style={styles.safetyDotNum}>{i + 1}</Text>
+              </View>
+              <Text style={styles.bulletText}>{t(key)}</Text>
+            </View>
+          ))}
+        </View>
       </View>
-      <Text style={styles.pageTitle}>{t('onboarding.safety')}</Text>
-      <View style={styles.glassCard}>
-        {SAFETY_ITEMS.map((key, i) => (
-          <View key={i} style={[styles.bulletRow, i < SAFETY_ITEMS.length - 1 && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: DIVIDER }]}>
-            <Ionicons name="checkmark-circle-outline" size={18} color="#7BC4A8" />
-            <Text style={styles.bulletText}>{t(key)}</Text>
-          </View>
-        ))}
-      </View>
-      <TouchableOpacity style={styles.checkboxRow} onPress={() => setSafetyChecked((v) => !v)} activeOpacity={0.7}>
-        <Ionicons name={safetyChecked ? 'checkbox' : 'square-outline'} size={24} color={safetyChecked ? COLORS.primary : 'rgba(255,255,255,0.5)'} />
-        <Text style={styles.checkboxLabel}>{t('onboarding.understand')}</Text>
-      </TouchableOpacity>
-      <View style={styles.bottomArea}>
+
+      {/* Bottom */}
+      <View>
+        {/* Checkbox styled as a full-width tappable row */}
         <TouchableOpacity
-          style={[styles.primaryBtn, !safetyChecked && { backgroundColor: 'rgba(255,255,255,0.15)' }]}
+          style={[styles.safetyCheckRow, safetyChecked && { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '15' }]}
+          onPress={() => setSafetyChecked((v) => !v)}
+          activeOpacity={0.7}
+        >
+          <View style={[styles.safetyCheckBox, safetyChecked && { backgroundColor: COLORS.primary, borderColor: COLORS.primary }]}>
+            {safetyChecked && <Ionicons name="checkmark" size={14} color="#FFF" />}
+          </View>
+          <Text style={styles.checkboxLabel}>{t('onboarding.understand')}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.primaryBtn, { marginTop: SPACING.md }, !safetyChecked && { backgroundColor: 'rgba(255,255,255,0.15)' }]}
           onPress={finishOnboarding}
           disabled={!safetyChecked}
           activeOpacity={0.85}
         >
-          <Text style={[styles.primaryBtnText, { opacity: safetyChecked ? 1 : 0.45 }]}>{t('onboarding.startBreathing')}</Text>
+          <Text style={[styles.primaryBtnText, { opacity: safetyChecked ? 1 : 0.4 }]}>{t('onboarding.startBreathing')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.skipLink} onPress={skipToApp}>
           <Text style={styles.skipText}>{t('onboarding.skipToApp')}</Text>
@@ -462,13 +526,12 @@ export default function OnboardingScreen() {
   const renderPage = () => {
     switch (page) {
       case 0: return renderHook();
-      case 1: return renderGoal();
-      case 2: return renderCommit();
-      case 3: return renderBuilding();
-      case 4: return renderPlan();
-      case 5: return renderNotifications();
-      case 6: return renderAppleHealth();
-      case 7: return renderSafety();
+      case 1: return renderNotifications();
+      case 2: return renderAppleHealth();
+      case 3: return renderGoalAndCommit();
+      case 4: return renderBuilding();
+      case 5: return renderPlan();
+      case 6: return renderSafety();
       default: return null;
     }
   };
@@ -489,16 +552,18 @@ export default function OnboardingScreen() {
         edges={page === 0 ? ['left', 'right', 'bottom'] : ['top', 'left', 'right', 'bottom']}
       >
         {/* Back + Forward buttons */}
-        {page > 0 && page !== 3 && (
+        {page > 0 && page !== 4 && (
           <View style={styles.header}>
             <TouchableOpacity style={styles.backBtn} onPress={goBack} activeOpacity={0.7}>
               <Ionicons name="chevron-back" size={22} color="#FFFFFF" />
               <Text style={styles.backText}>{t('onboarding.back')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.forwardBtn} onPress={goNext} activeOpacity={0.7}>
-              <Text style={styles.backText}>{t('onboarding.skip')}</Text>
-              <Ionicons name="chevron-forward" size={22} color="#FFFFFF" />
-            </TouchableOpacity>
+            {page !== 6 && (
+              <TouchableOpacity style={styles.forwardBtn} onPress={goNext} activeOpacity={0.7}>
+                <Text style={styles.backText}>{t('onboarding.skip')}</Text>
+                <Ionicons name="chevron-forward" size={22} color="#FFFFFF" />
+              </TouchableOpacity>
+            )}
           </View>
         )}
 
@@ -599,9 +664,10 @@ const styles = StyleSheet.create({
   skipText: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, color: TEXT_SECONDARY, textDecorationLine: 'underline' },
 
   // Hook page
+  hookTop: { paddingHorizontal: SPACING.lg, alignItems: 'center' },
   hookCenter: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: SPACING.lg },
   hookContent: { paddingHorizontal: SPACING.lg, paddingBottom: SPACING.lg },
-  hookTitle: { fontFamily: FONTS.heavy, fontSize: FONT_SIZE.xxl + 2, textAlign: 'center', letterSpacing: -0.5, color: TEXT_PRIMARY, marginBottom: 6 },
+  hookTitle: { fontFamily: FONTS.heavy, fontSize: FONT_SIZE.xxl + 4, textAlign: 'center', letterSpacing: -0.5, color: TEXT_PRIMARY, marginBottom: 6 },
   hookSub: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, textAlign: 'center', lineHeight: 20, color: TEXT_SECONDARY, marginBottom: SPACING.md },
   hookBreathLabel: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.lg, color: 'rgba(255,255,255,0.75)', letterSpacing: 1.5, textTransform: 'uppercase' },
   pillsRow: { flexDirection: 'row', gap: 6, justifyContent: 'center', flexWrap: 'wrap', marginBottom: SPACING.md },
@@ -609,21 +675,30 @@ const styles = StyleSheet.create({
   pillText: { fontSize: FONT_SIZE.xs, fontFamily: FONTS.bold },
 
   // Option rows
-  optionList: { gap: SPACING.sm, marginBottom: SPACING.md },
+  optionList: { gap: 6, marginBottom: SPACING.md },
   optionRow: {
     flexDirection: 'row', alignItems: 'center',
-    paddingVertical: 13, paddingHorizontal: SPACING.md,
+    paddingVertical: 10, paddingHorizontal: SPACING.md,
     borderRadius: 14, gap: SPACING.md,
     backgroundColor: GLASS_BG,
     borderWidth: 1, borderColor: GLASS_BORDER,
   },
   optionRowSelected: { backgroundColor: GLASS_SEL_BG, borderColor: GLASS_SEL_BORDER },
-  optionIconCircle: { width: 44, height: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  optionIconCircle: { width: 38, height: 38, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   optionTexts: { flex: 1 },
   optionLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
   optionSub: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
   checkCircle: { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   commitNum: { fontFamily: FONTS.heavy, fontSize: 20 },
+  commitRow: { flexDirection: 'row', gap: SPACING.sm, marginBottom: SPACING.md },
+  commitChip: {
+    flex: 1, alignItems: 'center', justifyContent: 'center',
+    paddingVertical: 14, borderRadius: 14,
+    backgroundColor: GLASS_BG, borderWidth: 1, borderColor: GLASS_BORDER,
+  },
+  commitChipSelected: { backgroundColor: COLORS.primary, borderColor: COLORS.primary },
+  commitChipNum: { fontFamily: FONTS.heavy, fontSize: 22, color: TEXT_PRIMARY },
+  commitChipUnit: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
 
   // Hint
   hintBox: {
@@ -656,17 +731,65 @@ const styles = StyleSheet.create({
   // Plan
   planBadge: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 10, paddingVertical: 5, borderRadius: BORDER_RADIUS.full, alignSelf: 'flex-start', marginBottom: SPACING.sm },
   planBadgeText: { fontFamily: FONTS.bold, fontSize: FONT_SIZE.xs, textTransform: 'uppercase', letterSpacing: 0.5 },
-  techniqueCard: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, padding: SPACING.md, borderWidth: 1.5 },
+  techniqueCard: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, paddingVertical: SPACING.md, paddingRight: SPACING.md },
+  techniqueAccent: { width: 4, alignSelf: 'stretch', borderRadius: 2 },
   techniqueIcon: { width: 42, height: 42, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   techniqueLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.xs, textTransform: 'uppercase', letterSpacing: 0.3, color: TEXT_SECONDARY, marginBottom: 2 },
   techniqueName: { fontFamily: FONTS.bold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
+  techniquePill: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 6, borderRadius: BORDER_RADIUS.full, borderWidth: 1, marginTop: 6, marginBottom: 4 },
+  techniquePillText: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.sm },
+  freeBadge: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: BORDER_RADIUS.full, backgroundColor: '#7BC4A820', borderWidth: 1, borderColor: '#7BC4A840' },
+  freeBadgeText: { fontFamily: FONTS.bold, fontSize: 10, color: '#7BC4A8', letterSpacing: 0.5 },
 
   // Notifications
-  notifRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, padding: SPACING.md },
-  notifAppIcon: { width: 36, height: 36, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
+  notifIconWrap: { alignSelf: 'center', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  notifIconGlow: {
+    position: 'absolute',
+    width: scale(100), height: scale(100), borderRadius: scale(50),
+    backgroundColor: '#4A90D9',
+    opacity: 0.12,
+  },
+  notifIconCircle: {
+    width: scale(72), height: scale(72), borderRadius: scale(36),
+    backgroundColor: '#4A90D920',
+    borderWidth: 1, borderColor: '#4A90D940',
+    alignItems: 'center', justifyContent: 'center',
+  },
+  notifBadgeIcon: { width: 44, height: 44, borderRadius: 12, borderWidth: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  notifBubbleRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm },
+  notifBubbleIcon: { width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center' },
+  notifHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 },
+  notifAppIconRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  notifAppIcon: { width: 18, height: 18, borderRadius: 4, alignItems: 'center', justifyContent: 'center' },
+  notifAppName: { fontFamily: FONTS.bold, fontSize: 10, color: TEXT_SECONDARY, letterSpacing: 0.5 },
+  notifTime: { fontFamily: FONTS.regular, fontSize: 11, color: TEXT_SECONDARY },
+  notifBody: { paddingHorizontal: SPACING.md, paddingBottom: SPACING.sm },
+  notifTitle: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.sm, color: TEXT_PRIMARY, marginBottom: 2 },
+  notifMessage: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, lineHeight: 17 },
+  notifRow: { flexDirection: 'row', alignItems: 'flex-start', gap: SPACING.sm, padding: SPACING.md },
+  glowBtn: {
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 12,
+    elevation: 8,
+  },
 
   // Big icon circle
   bigIconCircle: { width: scale(96), height: scale(96), borderRadius: scale(48), alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginBottom: SPACING.lg, marginTop: SPACING.sm },
+
+  // Apple Health ripple
+  healthRippleWrap: { alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
+  healthRing: { position: 'absolute', backgroundColor: '#FF3B30' },
+  healthIconCircle: { width: scale(88), height: scale(88), borderRadius: scale(44), backgroundColor: '#FF3B30', alignItems: 'center', justifyContent: 'center' },
+
+  // Safety screen
+  safetyIconRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm, marginBottom: 6 },
+  safetyIconCircle: { width: 44, height: 44, borderRadius: 12, backgroundColor: '#7BC4A820', borderWidth: 1, borderColor: '#7BC4A840', alignItems: 'center', justifyContent: 'center' },
+  safetyDot: { width: 26, height: 26, borderRadius: 13, backgroundColor: '#7BC4A820', borderWidth: 1, borderColor: '#7BC4A840', alignItems: 'center', justifyContent: 'center' },
+  safetyDotNum: { fontFamily: FONTS.bold, fontSize: 12, color: '#7BC4A8' },
+  safetyCheckRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, padding: SPACING.md, borderRadius: 14, borderWidth: 1, borderColor: GLASS_BORDER, backgroundColor: GLASS_BG },
+  safetyCheckBox: { width: 22, height: 22, borderRadius: 6, borderWidth: 2, borderColor: 'rgba(255,255,255,0.4)', alignItems: 'center', justifyContent: 'center' },
 
   // Checkbox
   checkboxRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.sm, paddingHorizontal: 2 },

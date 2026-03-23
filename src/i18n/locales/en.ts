@@ -333,8 +333,8 @@ export default {
   'onboarding.maybeSkip': 'Maybe later',
 
   // Notifications screen
-  'onboarding.notificationsTitle': 'Stay consistent',
-  'onboarding.notificationsSub': 'Get a gentle reminder each day to breathe',
+  'onboarding.notificationsTitle': 'Never miss a session',
+  'onboarding.notificationsSub': 'A gentle nudge when it\'s time to breathe',
   'onboarding.notificationsEnable': 'Enable daily reminders',
 
   // Apple Health screen

@@ -55,7 +55,7 @@ const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
 // Category fallbacks
 const BG_IMAGES: Record<TechniqueCategory | 'all', ReturnType<typeof require>> = {
   all:    require('../../assets/bg_focus.webp'),
-  calm:   require('../../assets/bg_calm.webp'),
+  calm:   require('../../assets/bg_focus.webp'),
   sleep:  require('../../assets/bg_sleep.webp'),
   focus:  require('../../assets/bg_focus.webp'),
   energy: require('../../assets/bg_energy.webp'),
@@ -165,11 +165,12 @@ function getPatternString(technique: BreathingTechnique): string {
 interface TechniqueCardProps {
   technique: BreathingTechnique;
   isPro: boolean;
+  isRecommended?: boolean;
   t: (key: string) => string;
   onPress: (technique: BreathingTechnique) => void;
 }
 
-const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, t, onPress }: TechniqueCardProps) {
+const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRecommended, t, onPress }: TechniqueCardProps) {
   const theme = useThemeColors();
   const locked = technique.isPro && !isPro;
   const cardTheme = CARD_THEMES[technique.id] ?? {
@@ -196,6 +197,13 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, t, o
           style={StyleSheet.absoluteFill}
         />
         <Ionicons name={cardTheme.icon} size={36} color="rgba(255,255,255,0.75)" />
+
+        {/* Recommended badge */}
+        {isRecommended && (
+          <View style={styles.recommendedBadge}>
+            <Ionicons name="star" size={9} color="#FFF" />
+          </View>
+        )}
 
         {/* PRO lock */}
         {locked && (
@@ -578,6 +586,7 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const isPro = useSettingsStore((s) => s.isPro);
   const selectedGoal = useSettingsStore((s) => s.selectedGoal);
+  const recommendedTechniqueId = useSettingsStore((s) => s.recommendedTechniqueId);
   const stats = useSessionsStore((s) => s.stats);
 
   const [activeCategory, setActiveCategory] = useState<FilterCategory>(
@@ -596,7 +605,8 @@ export default function HomeScreen() {
   }, [activeCategory]);
 
   const handleQuickStart = () => {
-    router.push({ pathname: '/technique-detail', params: { techniqueId: 'coherence' } });
+    const id = recommendedTechniqueId ?? 'coherence';
+    router.push({ pathname: '/technique-detail', params: { techniqueId: id } });
   };
 
   const handleCardPress = useCallback((technique: BreathingTechnique) => {
@@ -613,7 +623,7 @@ export default function HomeScreen() {
     gridRows.push(filteredTechniques.slice(i, i + 2));
   }
 
-  const heroBg = BG_IMAGES[activeCategory];
+  const heroBg = BG_IMAGES['all'];
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -708,6 +718,7 @@ export default function HomeScreen() {
                   key={tech.id}
                   technique={tech}
                   isPro={isPro}
+                  isRecommended={tech.id === recommendedTechniqueId}
                   t={t}
                   onPress={handleCardPress}
                 />
@@ -897,6 +908,19 @@ const styles = StyleSheet.create({
   gridCardDuration: {
     fontSize: 12,
     fontFamily: FONTS.medium,
+  },
+
+  // Recommended badge
+  recommendedBadge: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#F5A623',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   // PRO badge
