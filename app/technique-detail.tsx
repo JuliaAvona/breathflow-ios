@@ -60,21 +60,13 @@ const CATEGORY_ACCENT: Record<TechniqueCategory, string> = {
   energy: '#F5A623',
 };
 
-// ─── Category chips (use-cases shown in the detail screen) ────────────────
-
-const CATEGORY_CHIPS: Record<TechniqueCategory, string[]> = {
-  calm:   ['Stress', 'Anxiety', 'Tension'],
-  sleep:  ['Insomnia', 'Mind Racing', 'Restlessness'],
-  focus:  ['Distraction', 'Brain Fog', 'Fatigue'],
-  energy: ['Low Energy', 'Brain Fog', 'Fatigue'],
-};
 
 // ─── Component ─────────────────────────────────────────────────────────────
 
 export default function TechniqueDetailScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { techniqueId } = useLocalSearchParams<{ techniqueId: string }>();
+  const { techniqueId, _dur, _music } = useLocalSearchParams<{ techniqueId: string; _dur?: string; _music?: string }>();
   const settingsStore = useSettingsStore();
 
   const technique = React.useMemo(() => {
@@ -85,16 +77,14 @@ export default function TechniqueDetailScreen() {
   const category = (technique?.category ?? 'calm') as TechniqueCategory;
 
   const accentColor = technique?.color ?? CATEGORY_ACCENT[category];
-  const chips = CATEGORY_CHIPS[category];
-
   // Default duration: try to pick a DURATION_OPTIONS entry close to technique default
   const getDefaultDuration = () => {
     return 300;
   };
 
-  const [selectedDuration, setSelectedDuration] = useState(getDefaultDuration);
-  const [selectedChip, setSelectedChip] = useState(0);
-  const [selectedMusic, setSelectedMusic] = useState<string | null>(null);
+  const [selectedDuration, setSelectedDuration] = useState(() => _dur ? Number(_dur) : getDefaultDuration());
+  const [selectedMusic, setSelectedMusic] = useState<string | null>(_music ?? null);
+  const [descExpanded, setDescExpanded] = useState(false);
 
   const handleMusicSelect = (trackId: string | null) => {
     setSelectedMusic(trackId);
@@ -116,7 +106,14 @@ export default function TechniqueDetailScreen() {
 
   const navigateTo = (index: number) => {
     const wrapped = (index + allTechniques.length) % allTechniques.length;
-    router.replace({ pathname: '/technique-detail', params: { techniqueId: allTechniques[wrapped].id } });
+    router.replace({
+      pathname: '/technique-detail',
+      params: {
+        techniqueId: allTechniques[wrapped].id,
+        _dur: String(selectedDuration),
+        ...(selectedMusic ? { _music: selectedMusic } : {}),
+      },
+    });
   };
 
   const handleStart = () => {
@@ -190,38 +187,8 @@ export default function TechniqueDetailScreen() {
           phase="IDLE"
           color={accentColor}
           size={scale(310)}
+          bright
         />
-      </View>
-
-      {/* ── Use-case chips ── */}
-      <View style={styles.chipsRow}>
-        {chips.map((chip, i) => (
-          <TouchableOpacity
-            key={chip}
-            style={[
-              styles.chip,
-              {
-                backgroundColor: i === selectedChip
-                  ? 'rgba(255,255,255,0.95)'
-                  : 'rgba(255,255,255,0.18)',
-                borderColor: i === selectedChip
-                  ? 'rgba(255,255,255,0.95)'
-                  : 'rgba(255,255,255,0.35)',
-              },
-            ]}
-            onPress={() => setSelectedChip(i)}
-            activeOpacity={0.7}
-          >
-            <Text
-              style={[
-                styles.chipText,
-                { color: i === selectedChip ? '#000' : 'rgba(255,255,255,0.95)' },
-              ]}
-            >
-              {chip}
-            </Text>
-          </TouchableOpacity>
-        ))}
       </View>
 
       {/* ── Duration picker ── */}
@@ -277,15 +244,16 @@ export default function TechniqueDetailScreen() {
 
         {MUSIC_TRACKS.map((track) => {
           const isActive = selectedMusic === track.id;
+          const locked = track.isPro && !settingsStore.isPro;
           return (
             <TouchableOpacity
               key={track.id}
-              style={[styles.musicPill, isActive && styles.musicPillActive]}
-              onPress={() => handleMusicSelect(track.id)}
+              style={[styles.musicPill, isActive && styles.musicPillActive, locked && { opacity: 0.5 }]}
+              onPress={() => locked ? router.push('/paywall') : handleMusicSelect(track.id)}
               activeOpacity={0.7}
             >
               <Ionicons
-                name="musical-note"
+                name={locked ? 'lock-closed' : 'musical-note'}
                 size={14}
                 color={isActive ? '#000' : 'rgba(255,255,255,0.8)'}
               />
@@ -298,23 +266,87 @@ export default function TechniqueDetailScreen() {
       </ScrollView>
 
       {/* ── Description ── */}
-      <View style={styles.descRow}>
-        <Text style={styles.descText}>
-          {t(`techniques.${technique.id.replace('fourSevenEight', 'fourSevenEight').replace('physioSigh', 'physioSigh').replace('fourFourSixTwo', 'fourFourSixTwo').replace('cyclicSigh', 'cyclicSigh').replace('twoToOne', 'twoToOne').replace('kapalabhati', 'kapalabhati')}.detail` as never, { defaultValue: t(technique.descriptionKey) })}
+      <TouchableOpacity
+        style={styles.descRow}
+        onPress={() => setDescExpanded(v => !v)}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.descText} numberOfLines={descExpanded ? undefined : 2}>
+          {t(`techniques.${technique.id}.detail` as never, { defaultValue: t(technique.descriptionKey) })}
         </Text>
+        <Ionicons
+          name={descExpanded ? 'chevron-up' : 'chevron-down'}
+          size={16}
+          color="rgba(255,255,255,0.5)"
+          style={{ marginTop: 4, alignSelf: 'center' }}
+        />
+      </TouchableOpacity>
+
+      {/* ── Phase intervals ── */}
+      <View style={styles.phasesRow}>
+        {technique.mode === 'power' ? (
+          <>
+            <View style={styles.phasePill}>
+              <Text style={styles.phasePillLabel}>Breaths</Text>
+              <Text style={styles.phasePillValue}>{technique.breathCount}</Text>
+            </View>
+            <View style={styles.phasePill}>
+              <Text style={styles.phasePillLabel}>Rounds</Text>
+              <Text style={styles.phasePillValue}>{technique.roundCount}</Text>
+            </View>
+          </>
+        ) : technique.mode === 'kapalabhati' ? (
+          <>
+            <View style={styles.phasePill}>
+              <Text style={styles.phasePillLabel}>Sets</Text>
+              <Text style={styles.phasePillValue}>{technique.setCount}</Text>
+            </View>
+            <View style={styles.phasePill}>
+              <Text style={styles.phasePillLabel}>Duration</Text>
+              <Text style={styles.phasePillValue}>{technique.setDuration}s</Text>
+            </View>
+          </>
+        ) : (
+          technique.phases.map((phase, i) => {
+            const PHASE_NAMES: Record<string, string> = {
+              breatheIn: 'Inhale',
+              topUpInhale: '+Inhale',
+              hold: 'Hold',
+              holdOut: 'Hold',
+              breatheOut: 'Exhale',
+            };
+            const label = PHASE_NAMES[phase.instructionKey] ?? phase.instructionKey;
+            const dur = phase.duration % 1 === 0 ? `${phase.duration}s` : `${phase.duration.toFixed(1)}s`;
+            return (
+              <React.Fragment key={i}>
+                <View style={styles.phasePill}>
+                  <Text style={styles.phasePillLabel}>{label}</Text>
+                  <Text style={styles.phasePillValue}>{dur}</Text>
+                </View>
+              </React.Fragment>
+            );
+          })
+        )}
       </View>
 
       {/* ── START button ── */}
       <View style={[styles.bottomArea, { paddingBottom: insets.bottom + 16 }]}>
         {isPro ? (
-          <TouchableOpacity
-            style={[styles.startBtn, { backgroundColor: 'rgba(255,255,255,0.15)' }]}
-            onPress={() => router.push('/paywall')}
-            activeOpacity={0.85}
+          <LinearGradient
+            colors={['#9B59B6', '#7B68AE']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.startBtnGradient}
           >
-            <Ionicons name="diamond" size={18} color="#fff" style={{ marginRight: 8 }} />
-            <Text style={styles.startBtnText}>Unlock Pro</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.startBtn}
+              onPress={() => router.push('/paywall')}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="diamond" size={18} color="#fff" style={{ marginRight: 8 }} />
+              <Text style={styles.startBtnText}>Unlock Pro</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         ) : (
           <LinearGradient
             colors={[accentColor, accentColor + 'CC']}
@@ -427,6 +459,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   durationContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
     paddingHorizontal: 20,
     gap: 0,
     flexDirection: 'row',
@@ -455,6 +489,35 @@ const styles = StyleSheet.create({
     height: 5,
     borderRadius: 2.5,
   },
+  // Phase intervals
+  phasesRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginTop: 1,
+    marginBottom: 20,
+  },
+  phaseSep: {
+    color: 'rgba(255,255,255,0.4)',
+    fontSize: 16,
+    marginHorizontal: 4,
+  },
+  phasePill: {
+    alignItems: 'center',
+    gap: 1,
+  },
+  phasePillLabel: {
+    fontSize: 11,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.55)',
+  },
+  phasePillValue: {
+    fontSize: 18,
+    fontFamily: FONTS.heavy,
+    color: '#fff',
+  },
+
   // Music picker
   musicScroll: {
     flexGrow: 0,
@@ -493,11 +556,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   descText: {
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: FONTS.regular,
-    color: 'rgba(255,255,255,0.70)',
+    color: 'rgba(255,255,255,0.75)',
     textAlign: 'center',
-    lineHeight: 19,
+    lineHeight: 22,
   },
   bottomArea: {
     paddingHorizontal: 24,

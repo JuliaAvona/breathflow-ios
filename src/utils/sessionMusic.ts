@@ -7,19 +7,19 @@
 export interface MusicTrack {
   id: string;
   name: string;
+  isPro?: boolean;
   source: ReturnType<typeof require>;
 }
 
 export const MUSIC_TRACKS: MusicTrack[] = [
   { id: 'track_1',  name: 'Morning Mist',     source: require('../../assets/1.aac') },
-  { id: 'track_3',  name: 'Still Water',      source: require('../../assets/3.aac') },
-  { id: 'track_4',  name: 'Deep Calm',        source: require('../../assets/4.aac') },
-  { id: 'track_5',  name: 'Soft Horizon',     source: require('../../assets/5.aac') },
-  { id: 'track_7',  name: 'Inner Space',      source: require('../../assets/7.aac') },
-  { id: 'track_9',  name: 'Gentle Flow',      source: require('../../assets/9.aac') },
-  { id: 'track_10', name: 'Twilight',         source: require('../../assets/10.aac') },
+  { id: 'track_3',  name: 'Still Forest',     source: require('../../assets/3.aac') },
   { id: 'track_11', name: 'Open Sky',         source: require('../../assets/11.aac') },
-  { id: 'track_12', name: 'Serenity',         source: require('../../assets/12.aac') },
+  { id: 'track_4',  name: 'Deep Ocean',       isPro: true, source: require('../../assets/ocean.mp3') },
+  { id: 'track_7',  name: 'Inner Space',      isPro: true, source: require('../../assets/7.aac') },
+  { id: 'track_12', name: 'Serenity',         isPro: true, source: require('../../assets/12.aac') },
+  { id: 'track_9',  name: 'Gentle Flow',      isPro: true, source: require('../../assets/9.aac') },
+  { id: 'track_10', name: 'Twilight',         isPro: true, source: require('../../assets/10.aac') },
 ];
 
 // ─── Player ──────────────────────────────────────────────────────────────────

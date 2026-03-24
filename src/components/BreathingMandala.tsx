@@ -220,7 +220,7 @@ export function BreathingMandala({
 
   const isIdle = phase === 'IDLE' || phase === 'READY';
 
-  const idleOpacityOut = bright ? cosineRange(0.88, 1.0) : IDLE_OPACITY_OUT;
+  const idleOpacityOut = bright ? cosineRange(0.75, 0.9) : IDLE_OPACITY_OUT;
   const idleScaleOut   = slow ? IDLE_SCALE_SLOW : IDLE_SCALE_OUT;
   const idleOrbitOut   = slow ? IDLE_ORBIT_SLOW : IDLE_ORBIT_OUT;
 

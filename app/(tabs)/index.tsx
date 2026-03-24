@@ -611,6 +611,30 @@ export default function HomeScreen() {
     setActiveCategory(cat);
   }, []);
 
+  const categoryKeys = CATEGORY_FILTERS.map((c) => c.key);
+
+  const swipePanResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, g) =>
+        Math.abs(g.dx) > 25 && Math.abs(g.dy) < 40,
+      onPanResponderRelease: (_, g) => {
+        if (Math.abs(g.dx) < 40) return;
+        setActiveCategory((current) => {
+          const idx = categoryKeys.indexOf(current);
+          if (g.dx < 0 && idx < categoryKeys.length - 1) {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            return categoryKeys[idx + 1];
+          }
+          if (g.dx > 0 && idx > 0) {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            return categoryKeys[idx - 1];
+          }
+          return current;
+        });
+      },
+    }),
+  ).current;
+
   const filteredTechniques = useMemo(() => {
     if (activeCategory === 'all') return TECHNIQUES;
     return TECHNIQUES.filter((tech) => tech.category === activeCategory);
@@ -722,7 +746,7 @@ export default function HomeScreen() {
         </View>
 
         {/* ── Technique grid ── */}
-        <View style={styles.grid}>
+        <View style={styles.grid} {...swipePanResponder.panHandlers}>
           {gridRows.map((row, rowIndex) => (
             <View key={rowIndex} style={styles.gridRow}>
               {row.map((tech) => (
