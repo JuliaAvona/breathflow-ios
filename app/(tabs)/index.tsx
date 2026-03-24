@@ -217,10 +217,11 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
           </View>
         )}
 
-        {/* PRO lock */}
+        {/* PRO badge */}
         {locked && (
           <View style={styles.proBadge}>
-            <Ionicons name="lock-closed" size={10} color="rgba(255,255,255,0.9)" />
+            <Ionicons name="diamond" size={9} color="#FFF" />
+            <Text style={styles.proBadgeText}>PRO</Text>
           </View>
         )}
       </View>
@@ -964,12 +965,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     right: 8,
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: 'rgba(0,0,0,0.15)',
-    justifyContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center',
+    gap: 3,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: 10,
+    backgroundColor: 'rgba(155,89,182,0.75)',
+  },
+  proBadgeText: {
+    fontSize: 9,
+    fontFamily: FONTS.bold,
+    color: '#FFF',
+    letterSpacing: 0.5,
   },
 
 });

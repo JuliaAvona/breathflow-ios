@@ -40,22 +40,21 @@ export default function PrivacyScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Text style={[styles.lastUpdated, { color: theme.textSecondary }]}>
-          Last updated: February 28, 2026
+          Last updated: March 24, 2026
         </Text>
 
         <Text style={[styles.body, { color: theme.text }]}>
-          This Privacy Policy describes how WalkPace ("we", "our", or "us") collects, uses, and protects your information when you use the WalkPace mobile application (the "App").
+          This Privacy Policy describes how BreathFlow ("we", "our", or "us") collects, uses, and protects your information when you use the BreathFlow mobile application (the "App").
         </Text>
 
         <Text style={[styles.sectionTitle, { color: theme.text }]}>
           1. What Data We Collect
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
-          WalkPace collects the following data to provide and improve the App experience:{'\n\n'}
-          {'\u2022'} Walking session data: duration, intervals completed, rounds, timestamps, and estimated calories burned.{'\n'}
-          {'\u2022'} App settings and preferences: sound, vibration, timer configurations, and theme preferences.{'\n'}
-          {'\u2022'} Optional personal information: weight, age, and height, if you choose to provide them for more accurate calorie estimation.{'\n'}
-          {'\u2022'} Achievement and streak data: badges earned and daily walking streaks.{'\n'}
+          BreathFlow collects the following data to provide and improve the App experience:{'\n\n'}
+          {'\u2022'} Breathing session data: technique used, duration, cycles or rounds completed, retention times, timestamps, and optional mood ratings.{'\n'}
+          {'\u2022'} App settings and preferences: sound, haptics, voice guidance, timer configurations, and theme preferences.{'\n'}
+          {'\u2022'} Achievement and streak data: badges earned and daily breathing practice streaks.{'\n'}
           {'\u2022'} Account information: anonymous user ID or Apple ID email (if you sign in with Apple).
         </Text>
 
@@ -63,18 +62,18 @@ export default function PrivacyScreen() {
           2. Health Data (Apple HealthKit)
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
-          If you grant permission, WalkPace integrates with Apple HealthKit to both read and write health data:{'\n\n'}
-          {'\u2022'} We read: step count, walking distance, weight, and height to track your walking progress and provide accurate calorie estimates.{'\n'}
-          {'\u2022'} We write: workout sessions and active energy burned from your interval walking sessions.{'\n\n'}
-          HealthKit integration is entirely optional and can be enabled or disabled at any time in the App settings. Health data accessed through HealthKit is never stored on our servers or shared with third parties.
+          If you grant permission, BreathFlow integrates with Apple HealthKit to write Mindful Minutes after each breathing session.{'\n\n'}
+          {'\u2022'} We write: Mindful Minutes based on the duration of your completed breathing sessions.{'\n'}
+          {'\u2022'} We do not read any health data from HealthKit.{'\n\n'}
+          HealthKit integration is entirely optional and can be enabled or disabled at any time in the App settings. Health data written through HealthKit is never stored on our servers or shared with third parties.
         </Text>
 
         <Text style={[styles.sectionTitle, { color: theme.text }]}>
           3. Data Storage and Cloud Sync
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
-          WalkPace is designed as an offline-first application. All your data is stored locally on your device first.{'\n\n'}
-          When you are signed in, your data is also synced to our cloud servers (hosted on Supabase) to enable backup and cross-device sync. This includes your walking sessions, statistics, settings, profile, and badges. All cloud data is protected by Row Level Security — only you can access your own data.{'\n\n'}
+          BreathFlow is designed as an offline-first application. All your data is stored locally on your device first.{'\n\n'}
+          When you are signed in, your data is also synced to our cloud servers (hosted on Supabase) to enable backup and cross-device sync. This includes your breathing sessions, statistics, settings, and badges. All cloud data is protected by Row Level Security — only you can access your own data.{'\n\n'}
           Authentication sessions are stored securely using the iOS Keychain (SecureStore).
         </Text>
 
@@ -82,9 +81,9 @@ export default function PrivacyScreen() {
           4. Third-Party Services
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
-          WalkPace uses the following third-party services:{'\n\n'}
+          BreathFlow uses the following third-party services:{'\n\n'}
           {'\u2022'} Supabase — cloud database and authentication. Your synced data is stored on Supabase servers. Privacy policy: supabase.com/privacy{'\n'}
-          {'\u2022'} RevenueCat — subscription management. Processes your purchase transactions and subscription status. Privacy policy: revenuecat.com/privacy{'\n'}
+          {'\u2022'} RevenueCat — purchase management. Processes your one-time Pro purchase transaction and purchase status. Privacy policy: revenuecat.com/privacy{'\n'}
           {'\u2022'} Sentry — crash reporting. Receives anonymous crash reports and device information to help us fix bugs. No personal data is included. Privacy policy: sentry.io/privacy{'\n\n'}
           We do not sell, trade, or rent your personal data to any third parties for marketing or advertising purposes.
         </Text>
@@ -100,15 +99,15 @@ export default function PrivacyScreen() {
           6. Data Deletion
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
-          You can delete your account and all associated data at any time from Settings {'>'} Delete Account. This will permanently remove all your data from both your device and our cloud servers, including walking sessions, statistics, badges, settings, and profile information. This action cannot be undone.{'\n\n'}
-          If you have an active subscription, please cancel it before deleting your account via Settings {'>'} Subscriptions on your device.
+          You can delete your account and all associated data at any time from Settings {'>'} Delete Account. This will permanently remove all your data from both your device and our cloud servers, including breathing sessions, statistics, badges, settings, and profile information. This action cannot be undone.{'\n\n'}
+          If you have a Pro purchase, your purchase receipt is managed by Apple and will remain valid even after account deletion. However, all session data and preferences will be permanently removed.
         </Text>
 
         <Text style={[styles.sectionTitle, { color: theme.text }]}>
           7. Children's Privacy
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
-          WalkPace is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13.
+          BreathFlow is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13.
         </Text>
 
         <Text style={[styles.sectionTitle, { color: theme.text }]}>
@@ -123,7 +122,7 @@ export default function PrivacyScreen() {
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
           If you have any questions or concerns about this Privacy Policy, please contact us at:{'\n\n'}
-          Email: support@walkpace.app
+          Email: support@breathflow.app
         </Text>
 
         <View style={styles.bottomSpacer} />

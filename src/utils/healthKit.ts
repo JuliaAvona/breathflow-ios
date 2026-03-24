@@ -39,10 +39,7 @@ export async function requestHealthPermissions(): Promise<boolean> {
   try {
     const permissions = {
       permissions: {
-        read: [
-          HealthConstants.Permissions.Weight,
-          HealthConstants.Permissions.Height,
-        ],
+        read: [],
         write: [
           HealthConstants.Permissions.MindfulSession,
         ],
@@ -90,44 +87,3 @@ export async function writeMindfulSession(
   }
 }
 
-export async function getLatestWeight(): Promise<number | null> {
-  if (!isHealthKitAvailable()) return null;
-
-  try {
-    return new Promise((resolve) => {
-      AppleHealthKit.getLatestWeight(
-        { unit: 'kg' },
-        (err: string, results: { value: number }) => {
-          if (err || !results) {
-            resolve(null);
-          } else {
-            resolve(Math.round(results.value * 10) / 10);
-          }
-        },
-      );
-    });
-  } catch {
-    return null;
-  }
-}
-
-export async function getLatestHeight(): Promise<number | null> {
-  if (!isHealthKitAvailable()) return null;
-
-  try {
-    return new Promise((resolve) => {
-      AppleHealthKit.getLatestHeight(
-        { unit: 'cm' },
-        (err: string, results: { value: number }) => {
-          if (err || !results) {
-            resolve(null);
-          } else {
-            resolve(Math.round(results.value));
-          }
-        },
-      );
-    });
-  } catch {
-    return null;
-  }
-}

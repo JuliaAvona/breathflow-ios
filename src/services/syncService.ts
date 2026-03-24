@@ -75,7 +75,6 @@ export async function pushSettings(): Promise<void> {
     sound_enabled: state.soundEnabled,
     sound_style: state.soundStyle,
     haptics_enabled: state.hapticsEnabled,
-    voice_guidance: state.voiceGuidance,
     dark_mode: state.darkMode,
     health_sync_enabled: state.healthSyncEnabled,
     reminder_enabled: state.reminderEnabled,
@@ -85,6 +84,9 @@ export async function pushSettings(): Promise<void> {
     safety_accepted: state.safetyAccepted,
     selected_goal: state.selectedGoal ?? null,
     is_pro: state.isPro,
+    text_size: state.textSize,
+    daily_goal_minutes: state.dailyGoalMinutes,
+    recommended_technique_id: state.recommendedTechniqueId ?? null,
     updated_at: new Date().toISOString(),
   });
 }
@@ -244,7 +246,6 @@ async function pullSettings(userId: string): Promise<void> {
     soundEnabled: remote.sound_enabled,
     soundStyle: remote.sound_style as UserSettings['soundStyle'],
     hapticsEnabled: remote.haptics_enabled,
-    voiceGuidance: remote.voice_guidance as UserSettings['voiceGuidance'],
     darkMode: remote.dark_mode as UserSettings['darkMode'],
     healthSyncEnabled: remote.health_sync_enabled,
     reminderEnabled: remote.reminder_enabled,
@@ -254,6 +255,9 @@ async function pullSettings(userId: string): Promise<void> {
     safetyAccepted: local.safetyAccepted || remote.safety_accepted,
     selectedGoal: remote.selected_goal ?? local.selectedGoal,
     isPro: remote.is_pro,
+    textSize: remote.text_size ?? local.textSize,
+    dailyGoalMinutes: remote.daily_goal_minutes ?? local.dailyGoalMinutes,
+    recommendedTechniqueId: remote.recommended_technique_id ?? local.recommendedTechniqueId,
   };
 
   useSettingsStore.setState(mergedSettings);
