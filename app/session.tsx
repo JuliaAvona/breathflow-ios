@@ -23,7 +23,7 @@ import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
 import { getToday } from '../src/utils/time';
 import { playPhaseTransition, playSessionComplete, playCountdownTick, releaseAllSessionAudio } from '../src/utils/sessionAudio';
 import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
-import { startMusic, stopMusic, isMusicPlaying } from '../src/utils/sessionMusic';
+import { startMusic, stopMusic, pauseMusic, resumeMusic, isMusicPlaying } from '../src/utils/sessionMusic';
 import { BreathingMandala } from '../src/components/BreathingMandala';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase, BreathingShape as ShapeType } from '../src/types';
 
@@ -170,6 +170,8 @@ export default function SessionScreen() {
           // For cycle-based techniques pass the cycles derived from the requested duration.
           // undefined here means startSession keeps its own default — safe for all other paths.
           cycles: durationDerivedCycles ?? overrides?.cycles,
+          // Force exact duration stop so timer always matches selected time
+          maxDuration: requestedDuration,
         },
       );
       startBackgroundAudio();
@@ -290,7 +292,7 @@ export default function SessionScreen() {
       completed: true,
       techniqueId: technique.id,
       cyclesCompleted: timerStore.mode === 'standard' ? timerStore.currentCycle : 0,
-      totalDuration: timerStore.totalElapsed,
+      totalDuration: timerStore.maxDuration > 0 ? timerStore.maxDuration : timerStore.totalElapsed,
       roundsCompleted: timerStore.mode === 'power' ? timerStore.currentRound : undefined,
       retentionTimes: timerStore.mode === 'power' ? timerStore.retentionTimes : undefined,
       bestRetention:
@@ -308,7 +310,7 @@ export default function SessionScreen() {
     stopMusic();
     addSession(session);
     timerStore.reset();
-    router.replace({ pathname: '/summary', params: { sessionId: session.id, fromOnboarding: fromOnboarding ?? '' } });
+    router.replace({ pathname: '/summary', params: { sessionId: session.id, fromOnboarding: fromOnboarding ?? '', _dur: durationParam ?? '', _music: musicId ?? '' } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase]);
 
@@ -451,6 +453,12 @@ export default function SessionScreen() {
   // Total remaining (countdown for session duration)
   const getTotalRemaining = (): number => {
     if (!effectiveTechnique) return 0;
+
+    // If maxDuration is set (user selected exact time), always use it
+    if (timerStore.maxDuration > 0) {
+      return Math.max(0, timerStore.maxDuration - timerStore.totalElapsed);
+    }
+
     if (timerStore.mode === 'standard') {
       const cycleDur = effectiveTechnique.phases.reduce((sum, p) => sum + p.duration, 0);
       const totalCycles =
@@ -627,7 +635,7 @@ export default function SessionScreen() {
         {timerStore.isRunning ? (
           <TouchableOpacity
             style={styles.controlBtn}
-            onPress={() => useTimerStore.getState().pause()}
+            onPress={() => { useTimerStore.getState().pause(); if (musicOn) pauseMusic(); }}
             activeOpacity={0.8}
           >
             <Ionicons name="pause" size={28} color="#FFFFFF" />
@@ -635,7 +643,7 @@ export default function SessionScreen() {
         ) : currentPhase === 'PAUSED' ? (
           <TouchableOpacity
             style={[styles.controlBtn, styles.controlBtnActive]}
-            onPress={() => useTimerStore.getState().resume()}
+            onPress={() => { useTimerStore.getState().resume(); if (musicOn) resumeMusic(); }}
             activeOpacity={0.8}
           >
             <Ionicons name="play" size={28} color="#FFFFFF" />

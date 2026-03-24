@@ -54,6 +54,7 @@ interface TimerStore {
 
   // Common
   totalElapsed: number;
+  maxDuration: number; // 0 = no limit (use cycles)
   isRunning: boolean;
   startedAt: string | null;
 
@@ -65,6 +66,7 @@ interface TimerStore {
       phaseDurations?: number[];
       rounds?: number;
       breathsPerRound?: number;
+      maxDuration?: number;
     },
   ) => void;
   tick: () => void;
@@ -104,6 +106,7 @@ const initialState = {
   breathsInSet: 0,
 
   totalElapsed: 0,
+  maxDuration: 0,
   isRunning: false,
   startedAt: null as string | null,
 };
@@ -149,6 +152,7 @@ export const useTimerStore = create<TimerStore>()((set, get) => ({
         currentCycle: 1,
         totalCycles,
         totalElapsed: 0,
+        maxDuration: overrides?.maxDuration ?? 0,
         isRunning: true,
         startedAt: new Date().toISOString(),
       });
@@ -319,6 +323,17 @@ function tickStandard(
   const phases = technique.phases;
   const newTimeRemaining = phaseTimeRemaining - 1;
   const newTotalElapsed = totalElapsed + 1;
+
+  // Check maxDuration-based completion (user selected exact duration)
+  if (state.maxDuration > 0 && newTotalElapsed >= state.maxDuration) {
+    set({
+      phase: 'DONE',
+      phaseTimeRemaining: 0,
+      totalElapsed: state.maxDuration,
+      isRunning: false,
+    });
+    return;
+  }
 
   // Check duration-based completion (coherence, cyclic sigh)
   if (technique.defaultDuration && technique.defaultDuration > 0 && totalCycles === 0) {

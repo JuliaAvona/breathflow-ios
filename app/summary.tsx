@@ -24,6 +24,7 @@ import { getTechniqueById } from '../src/constants/techniques';
 import { BadgeUnlockModal } from '../src/components/BadgeUnlockModal';
 import { getRandomQuoteKey } from '../src/constants/motivationalQuotes';
 import { Mood } from '../src/types';
+import { requestStoreReview } from '../src/utils/storeReview';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -120,7 +121,7 @@ export default function SummaryScreen() {
   const theme = useThemeColors();
   const fontSize = useFontSize();
 
-  const params = useLocalSearchParams<{ sessionId: string; fromOnboarding?: string }>();
+  const params = useLocalSearchParams<{ sessionId: string; fromOnboarding?: string; _dur?: string; _music?: string }>();
 
   const sessions = useSessionsStore((s) => s.sessions);
   const stats = useSessionsStore((s) => s.stats);
@@ -199,6 +200,22 @@ export default function SummaryScreen() {
     }
   }, [sessions.length, stats.totalSessions]);
 
+  // Request App Store review after 2nd, 5th, 10th session
+  const reviewRequested = useRef(false);
+  useEffect(() => {
+    if (reviewRequested.current) return;
+    const total = stats.totalSessions;
+    if (total === 2 || total === 5 || total === 10) {
+      reviewRequested.current = true;
+      // Will work in production builds with expo-store-review native module
+      // In Expo Go / simulator this is a no-op
+      const timer = setTimeout(() => {
+        requestStoreReview();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [stats.totalSessions]);
+
   // Replay confetti when returning from background
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextState) => {
@@ -247,8 +264,15 @@ export default function SummaryScreen() {
   }, []);
 
   const handleRepeat = useCallback(() => {
-    router.replace({ pathname: '/session', params: { techniqueId } });
-  }, [techniqueId]);
+    router.replace({
+      pathname: '/session',
+      params: {
+        techniqueId,
+        ...(params._dur ? { duration: params._dur } : {}),
+        ...(params._music ? { musicId: params._music } : {}),
+      },
+    });
+  }, [techniqueId, params._dur, params._music]);
 
   const handleShare = useCallback(async () => {
     const techniqueName = technique ? t(technique.nameKey) : techniqueId;
@@ -577,7 +601,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     alignSelf: 'center',
     alignItems: 'center',
-    paddingTop: SPACING.xl,
+    paddingTop: SPACING.xxl + SPACING.lg,
     paddingBottom: SPACING.xxl,
     marginBottom: SPACING.md,
     marginHorizontal: -SPACING.lg,

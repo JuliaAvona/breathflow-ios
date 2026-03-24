@@ -69,6 +69,18 @@ export function stopMusic(): void {
   }
 }
 
+export function pauseMusic(): void {
+  try {
+    if (musicPlayer) musicPlayer.pause();
+  } catch { /* ignore */ }
+}
+
+export function resumeMusic(): void {
+  try {
+    if (musicPlayer) musicPlayer.play();
+  } catch { /* ignore */ }
+}
+
 export function isMusicPlaying(): boolean {
   return musicPlayer !== null && currentTrackId !== null;
 }
