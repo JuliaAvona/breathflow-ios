@@ -184,7 +184,8 @@ export default {
   'history.incomplete': 'Tamamlanmadı',
 
   // Calendar
-  'calendar.sessions': '{{count}} oturum',
+  'calendar.sessions_one': '{{count}} oturum',
+  'calendar.sessions_other': '{{count}} oturum',
 
   // Settings screen
   'settings.title': 'Ayarlar',

@@ -184,7 +184,8 @@ export default {
   'history.incomplete': '未完了',
 
   // Calendar
-  'calendar.sessions': '{{count}}セッション',
+  'calendar.sessions_one': '{{count}}セッション',
+  'calendar.sessions_other': '{{count}}セッション',
 
   // Settings screen
   'settings.title': '設定',

@@ -184,7 +184,8 @@ export default {
   'history.incomplete': '\u672a\u5b8c\u6210',
 
   // Calendar
-  'calendar.sessions': '{{count}} \u6b21\u7df4\u7fd2',
+  'calendar.sessions_one': '{{count}} \u6b21\u7df4\u7fd2',
+  'calendar.sessions_other': '{{count}} \u6b21\u7df4\u7fd2',
 
   // Settings screen
   'settings.title': '\u8a2d\u5b9a',

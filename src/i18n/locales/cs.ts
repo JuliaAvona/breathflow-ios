@@ -184,7 +184,8 @@ export default {
   'history.incomplete': 'Nedokon\u010deno',
 
   // Calendar
-  'calendar.sessions': '{{count}} cvi\u010den\u00ed',
+  'calendar.sessions_one': '{{count}} cvi\u010den\u00ed',
+  'calendar.sessions_other': '{{count}} cvi\u010den\u00ed',
 
   // Settings screen
   'settings.title': 'Nastaven\u00ed',

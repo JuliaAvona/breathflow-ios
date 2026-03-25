@@ -9,6 +9,7 @@ import { useHaptics } from '../hooks/useHaptics';
 
 interface CalendarHeatmapProps {
   activeDays: Set<string>;
+  monthSessionCount?: number;
   year: number;
   month: number; // 0-indexed
   onPrevMonth: () => void;
@@ -20,6 +21,7 @@ interface CalendarHeatmapProps {
 
 export function CalendarHeatmap({
   activeDays,
+  monthSessionCount,
   year,
   month,
   onPrevMonth,
@@ -98,10 +100,10 @@ export function CalendarHeatmap({
           <Text style={[styles.monthTitle, { color: theme.text }]}>
             {monthName} {year}
           </Text>
-          {activeDaysCount > 0 && (
+          {(monthSessionCount ?? activeDaysCount) > 0 && (
             <View style={[styles.sessionsBadge, { backgroundColor: `${theme.primary}15` }]}>
               <Text style={[styles.activeDaysCount, { color: theme.primary }]}>
-                {t('calendar.sessions', { count: activeDaysCount })}
+                {t('calendar.sessions', { count: monthSessionCount ?? activeDaysCount })}
               </Text>
             </View>
           )}

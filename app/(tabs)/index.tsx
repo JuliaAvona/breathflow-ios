@@ -26,9 +26,11 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
+import { useHaptics } from '../../src/hooks/useHaptics';
 import { useSettingsStore, useSessionsStore } from '../../src/store';
 import { TECHNIQUES } from '../../src/constants/techniques';
 import { SPACING, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
+import { getToday } from '../../src/utils/time';
 import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
 import { BreathingCircle } from '../../src/components/BreathingCircle';
 import { BreathingSquare } from '../../src/components/BreathingSquare';
@@ -93,12 +95,12 @@ const CARD_THEMES: Record<string, CardTheme> = {
 
 type FilterCategory = 'all' | TechniqueCategory;
 
-const CATEGORY_FILTERS: { key: FilterCategory; labelKey: string }[] = [
-  { key: 'all', labelKey: 'home.categoryAll' },
-  { key: 'calm', labelKey: 'home.categoryCalm' },
-  { key: 'sleep', labelKey: 'home.categorySleep' },
-  { key: 'focus', labelKey: 'home.categoryFocus' },
-  { key: 'energy', labelKey: 'home.categoryEnergy' },
+const CATEGORY_FILTERS: { key: FilterCategory; labelKey: string; icon: keyof typeof Ionicons.glyphMap }[] = [
+  { key: 'all', labelKey: 'home.categoryAll', icon: 'apps-outline' },
+  { key: 'calm', labelKey: 'home.categoryCalm', icon: 'leaf-outline' },
+  { key: 'sleep', labelKey: 'home.categorySleep', icon: 'moon-outline' },
+  { key: 'focus', labelKey: 'home.categoryFocus', icon: 'eye-outline' },
+  { key: 'energy', labelKey: 'home.categoryEnergy', icon: 'flash-outline' },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -174,16 +176,20 @@ function getShortPattern(technique: BreathingTechnique): string {
 
 // ─── TechniqueCard (grid card) ──────────────────────────────────────────────
 
+const CARD_WIDTH_FULL = SCREEN_WIDTH - GRID_H_PADDING * 2;
+
 interface TechniqueCardProps {
   technique: BreathingTechnique;
   isPro: boolean;
+  fullWidth?: boolean;
   isRecommended?: boolean;
   t: (key: string) => string;
   onPress: (technique: BreathingTechnique) => void;
 }
 
-const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRecommended, t, onPress }: TechniqueCardProps) {
+const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRecommended, fullWidth, t, onPress }: TechniqueCardProps) {
   const theme = useThemeColors();
+  const haptics = useHaptics();
   const locked = technique.isPro && !isPro;
   const cardTheme = CARD_THEMES[technique.id] ?? {
     bg: [technique.color + '40', technique.color] as [string, string],
@@ -191,13 +197,38 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
   };
 
   const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[technique.category ?? 'calm'];
-  const handlePress = useCallback(() => onPress(technique), [onPress, technique]);
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = useCallback(() => {
+    Animated.spring(scaleAnim, { toValue: 0.95, friction: 8, tension: 100, useNativeDriver: true }).start();
+  }, [scaleAnim]);
+
+  const handlePressOut = useCallback(() => {
+    Animated.spring(scaleAnim, { toValue: 1, friction: 5, tension: 40, useNativeDriver: true }).start();
+  }, [scaleAnim]);
+
+  const handlePress = useCallback(() => {
+    haptics.light();
+    onPress(technique);
+  }, [onPress, technique, haptics]);
+
+  const handleLongPress = useCallback(() => {
+    haptics.medium();
+    if (!locked) {
+      router.push({ pathname: '/session', params: { techniqueId: technique.id } });
+    }
+  }, [technique, locked, haptics]);
 
   return (
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
     <TouchableOpacity
-      style={[styles.gridCard, { backgroundColor: theme.card }]}
+      style={[styles.gridCard, { backgroundColor: theme.card }, fullWidth && { width: CARD_WIDTH_FULL }]}
       onPress={handlePress}
-      activeOpacity={0.85}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      onLongPress={handleLongPress}
+      delayLongPress={500}
+      activeOpacity={1}
       accessibilityLabel={t(technique.nameKey)}
       accessibilityRole="button"
     >
@@ -236,6 +267,7 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
         </Text>
       </View>
     </TouchableOpacity>
+    </Animated.View>
   );
 });
 
@@ -601,16 +633,29 @@ export default function HomeScreen() {
   const selectedGoal = useSettingsStore((s) => s.selectedGoal);
   const recommendedTechniqueId = useSettingsStore((s) => s.recommendedTechniqueId);
   const stats = useSessionsStore((s) => s.stats);
+  const sessions = useSessionsStore((s) => s.sessions);
+
+  const todayStr = useMemo(() => getToday(), []);
+  const todaySessions = useMemo(() => sessions.filter(s => s.date === todayStr), [sessions, todayStr]);
+
+  const greeting = useMemo(() => {
+    const h = new Date().getHours();
+    if (h < 12) return t('home.goodMorning', { defaultValue: 'Good morning' });
+    if (h < 18) return t('home.goodAfternoon', { defaultValue: 'Good afternoon' });
+    return t('home.goodEvening', { defaultValue: 'Good evening' });
+  }, [t]);
 
   const [activeCategory, setActiveCategory] = useState<FilterCategory>(
     selectedGoal ?? 'all',
   );
   const [selectedTechnique, setSelectedTechnique] = useState<BreathingTechnique | null>(null);
 
+  const homeHaptics = useHaptics();
   const handleCategoryChange = useCallback((cat: FilterCategory) => {
+    homeHaptics.light();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setActiveCategory(cat);
-  }, []);
+  }, [homeHaptics]);
 
   const categoryKeys = CATEGORY_FILTERS.map((c) => c.key);
 
@@ -640,6 +685,7 @@ export default function HomeScreen() {
     if (activeCategory === 'all') return TECHNIQUES;
     return TECHNIQUES.filter((tech) => tech.category === activeCategory);
   }, [activeCategory]);
+
 
   const handleQuickStart = () => {
     const id = recommendedTechniqueId ?? 'coherence';
@@ -685,32 +731,55 @@ export default function HomeScreen() {
             style={StyleSheet.absoluteFill}
           />
 
-          {/* Streak badge (top right) */}
-          {stats.currentStreak > 0 && (
-            <View style={styles.heroTopBar}>
-              <View />
-              <View style={styles.streakBadge}>
-                <Ionicons name="flame" size={14} color="#FFFFFF" />
-                <Text style={styles.streakText}>{stats.currentStreak}</Text>
-              </View>
-            </View>
-          )}
+          {/* Top bar: greeting */}
+          <View style={styles.heroTopBar}>
+            <Text style={styles.greetingText}>{greeting}</Text>
+          </View>
 
           {/* Mandala — tap to start quick session */}
           <TouchableOpacity style={styles.orbWrapper} onPress={handleQuickStart} activeOpacity={0.85}>
-            <BreathingMandala phase="IDLE" color="#4A90D9" size={scale(220)} />
+            <BreathingMandala phase="IDLE" color="#4A90D9" size={scale(180)} />
           </TouchableOpacity>
 
-          {/* Start button */}
-          <TouchableOpacity
-            style={[styles.startButton, { backgroundColor: 'rgba(0,0,0,0.35)' }]}
-            onPress={handleQuickStart}
-            activeOpacity={0.85}
-          >
-            <Text style={styles.startButtonLabel}>
-              {t('home.justBreathe')}
-            </Text>
-          </TouchableOpacity>
+          {/* Tap hint — hidden after 3 sessions */}
+          {stats.totalSessions < 3 && (
+            <Text style={styles.tapHint}>{t('home.tapToBreathe', { defaultValue: 'Tap to breathe' })}</Text>
+          )}
+
+          {/* All-time stats (hidden for newcomers) */}
+          {stats.totalSessions > 0 && (
+            <View style={styles.todayCard}>
+              <View style={styles.todayStat}>
+                <Ionicons name="leaf-outline" size={16} color="#7BC4A8" />
+                <Text style={styles.todayValue}>{stats.totalSessions}</Text>
+                <Text style={styles.todayLabel}>{t('home.totalSessions', { defaultValue: 'sessions' })}</Text>
+              </View>
+              <View style={styles.todayDivider} />
+              <View style={styles.todayStat}>
+                <Ionicons name="time-outline" size={16} color="#4A90D9" />
+                <Text style={styles.todayValue}>{stats.totalMinutes}</Text>
+                <Text style={styles.todayLabel}>{t('home.totalMin', { defaultValue: 'min' })}</Text>
+              </View>
+              {stats.currentStreak > 0 && (
+                <>
+                  <View style={styles.todayDivider} />
+                  <View style={styles.todayStat}>
+                    <Ionicons name="flame-outline" size={16} color="#F5A623" />
+                    <Text style={styles.todayValue}>{stats.currentStreak}</Text>
+                    <Text style={styles.todayLabel}>{t('home.streak', { defaultValue: 'streak' })}</Text>
+                  </View>
+                </>
+              )}
+            </View>
+          )}
+
+          {/* No sessions today — tappable */}
+          {todaySessions.length === 0 && stats.totalSessions > 0 && (
+            <TouchableOpacity onPress={handleQuickStart} activeOpacity={0.7}>
+              <Text style={styles.todayEmpty}>{t('home.noSessionToday', { defaultValue: 'No sessions today — tap to breathe!' })}</Text>
+            </TouchableOpacity>
+          )}
+
         </ImageBackground>
 
         {/* ── Category filter tabs ── */}
@@ -760,7 +829,6 @@ export default function HomeScreen() {
                   onPress={handleCardPress}
                 />
               ))}
-              {/* Spacer if odd number of cards */}
               {row.length === 1 && <View style={{ width: CARD_WIDTH }} />}
             </View>
           ))}
@@ -811,13 +879,100 @@ const styles = StyleSheet.create({
   },
   streakText: { fontSize: 14, fontFamily: FONTS.bold, color: '#FFFFFF' },
 
+  heroTopRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  greetingText: {
+    fontSize: 20,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: -0.3,
+  },
   orbWrapper: {
-    marginVertical: 20,
+    marginVertical: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  tapHint: {
+    fontSize: 14,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.6)',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  todayCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 14,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    marginBottom: 12,
+    gap: 16,
+  },
+  todayStat: {
+    alignItems: 'center',
+  },
+  todayValue: {
+    fontSize: 20,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+  },
+  todayLabel: {
+    fontSize: 12,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.7)',
+  },
+  todayDivider: {
+    width: 1,
+    height: 28,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  todayEmpty: {
+    fontSize: 14,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.6)',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
 
-  // Start button
+  // Quick start widget
+  quickWidget: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginHorizontal: 24,
+    marginBottom: 16,
+    gap: 12,
+  },
+  quickWidgetInfo: {
+    flex: 1,
+  },
+  quickWidgetName: {
+    fontSize: 16,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+  quickWidgetPattern: {
+    fontSize: 13,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.7)',
+    marginTop: 2,
+  },
+  quickWidgetPlay: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  // Start button (legacy)
   startButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -889,6 +1044,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: GRID_H_PADDING,
   },
   categoryPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: BORDER_RADIUS.full,

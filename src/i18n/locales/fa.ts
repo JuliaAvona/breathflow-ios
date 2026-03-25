@@ -184,7 +184,8 @@ export default {
   'history.incomplete': 'Incomplete',
 
   // Calendar
-  'calendar.sessions': '{{count}} sessions',
+  'calendar.sessions_one': '{{count}} جلسه',
+  'calendar.sessions_other': '{{count}} جلسه',
 
   // Settings screen
   'settings.title': 'Settings',

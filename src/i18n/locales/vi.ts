@@ -184,7 +184,8 @@ export default {
   'history.incomplete': 'Incomplete',
 
   // Calendar
-  'calendar.sessions': '{{count}} sessions',
+  'calendar.sessions_one': '{{count}} buổi tập',
+  'calendar.sessions_other': '{{count}} buổi tập',
 
   // Settings screen
   'settings.title': 'Settings',

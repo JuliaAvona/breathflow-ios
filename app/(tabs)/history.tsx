@@ -57,6 +57,11 @@ export default function HistoryScreen() {
     return days;
   }, [sessions]);
 
+  const monthSessions = useMemo(() => {
+    const monthStr = `${year}-${String(month + 1).padStart(2, '0')}`;
+    return sessions.filter(s => s.date.startsWith(monthStr)).length;
+  }, [sessions, year, month]);
+
   const todayStr = useMemo(() => getToday(), []);
   const todaySessions = useMemo(() => sessions.filter((s) => s.date === todayStr), [sessions, todayStr]);
   const todayMinutes = useMemo(
@@ -216,16 +221,19 @@ export default function HistoryScreen() {
           {/* Today stats */}
           <View style={styles.heroStatsRow}>
             <View style={styles.heroStat}>
-              <Text style={styles.heroStatValue}>{todayMinutes}</Text>
-              <Text style={styles.heroStatLabel}>{t('history.minutesToday')}</Text>
-            </View>
-            <View style={styles.heroStatDivider} />
-            <View style={styles.heroStat}>
+              <Ionicons name="leaf-outline" size={16} color="#7BC4A8" />
               <Text style={styles.heroStatValue}>{todaySessions.length}</Text>
               <Text style={styles.heroStatLabel}>{t('history.sessionsToday')}</Text>
             </View>
             <View style={styles.heroStatDivider} />
             <View style={styles.heroStat}>
+              <Ionicons name="time-outline" size={16} color="#4A90D9" />
+              <Text style={styles.heroStatValue}>{todayMinutes}</Text>
+              <Text style={styles.heroStatLabel}>{t('history.minutesToday')}</Text>
+            </View>
+            <View style={styles.heroStatDivider} />
+            <View style={styles.heroStat}>
+              <Ionicons name="flame-outline" size={16} color="#F5A623" />
               <Text style={styles.heroStatValue}>{stats.currentStreak}</Text>
               <Text style={styles.heroStatLabel}>{t('history.streakDays')}</Text>
             </View>
@@ -255,6 +263,7 @@ export default function HistoryScreen() {
               <View style={[styles.calendarCard, { backgroundColor: theme.card }]}>
                 <CalendarHeatmap
                   activeDays={activeDays}
+                  monthSessionCount={monthSessions}
                   year={year}
                   month={month}
                   onPrevMonth={handlePrevMonth}

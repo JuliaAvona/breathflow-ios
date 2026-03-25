@@ -184,7 +184,8 @@ export default {
   'history.incomplete': '未完成',
 
   // Calendar
-  'calendar.sessions': '{{count}}次练习',
+  'calendar.sessions_one': '{{count}}次练习',
+  'calendar.sessions_other': '{{count}}次练习',
 
   // Settings screen
   'settings.title': '设置',

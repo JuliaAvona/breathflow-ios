@@ -36,3 +36,10 @@ export function getRandomQuoteKey(): string {
     Math.floor(Math.random() * MOTIVATIONAL_QUOTE_KEYS.length)
   ];
 }
+
+/** Returns a stable quote key for the current day */
+export function getDailyQuoteKey(): string {
+  const now = new Date();
+  const dayIndex = (now.getFullYear() * 366 + now.getMonth() * 31 + now.getDate()) % MOTIVATIONAL_QUOTE_KEYS.length;
+  return MOTIVATIONAL_QUOTE_KEYS[dayIndex];
+}
