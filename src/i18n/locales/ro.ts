@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Ascunde opțiunile',
   'paywall.then': 'apoi',
   'paywall.weeklyAutoRenew': 'reînnoire automată',
+  'paywall.weeklyTrial': '3 zile de încercare gratuită',
   'paywall.annualBilled': 'facturat anual',
+  'paywall.annualTrial': '7 zile de încercare gratuită',
   'paywall.lifetimeBilled': 'facturat',
 
   // Legal

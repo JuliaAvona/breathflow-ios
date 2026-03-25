@@ -488,7 +488,9 @@ export default {
   'paywall.hideOptions': 'إخفاء الخيارات',
   'paywall.then': 'ثم',
   'paywall.weeklyAutoRenew': 'تجديد تلقائي',
+  'paywall.weeklyTrial': 'تجربة مجانية لمدة 3 أيام',
   'paywall.annualBilled': 'يُحاسب سنوياً',
+  'paywall.annualTrial': 'تجربة مجانية لمدة 7 أيام',
   'paywall.lifetimeBilled': 'يُحاسب',
 
   // Legal

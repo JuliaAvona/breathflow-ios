@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'વિકલ્પો છુપાવો',
   'paywall.then': 'પછી',
   'paywall.weeklyAutoRenew': 'ઓટો-રિન્યુએબલ',
+  'paywall.weeklyTrial': '3 દિવસની મફત ટ્રાયલ',
   'paywall.annualBilled': 'વાર્ષિક બિલ',
+  'paywall.annualTrial': '7 દિવસની મફત ટ્રાયલ',
   'paywall.lifetimeBilled': 'બિલ',
 
   // Legal

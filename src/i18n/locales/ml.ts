@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'ഓപ്ഷനുകൾ മറയ്ക്കുക',
   'paywall.then': 'പിന്നെ',
   'paywall.weeklyAutoRenew': 'ഓട്ടോ-പുതുക്കൽ',
+  'paywall.weeklyTrial': '3 ദിവസത്തെ സൗജന്യ ട്രയൽ',
   'paywall.annualBilled': 'വാർഷിക ബിൽ',
+  'paywall.annualTrial': '7 ദിവസത്തെ സൗജന്യ ട്രയൽ',
   'paywall.lifetimeBilled': 'ബിൽ',
 
   // Legal

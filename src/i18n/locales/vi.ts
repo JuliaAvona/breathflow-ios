@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Ẩn tùy chọn',
   'paywall.then': 'sau đó',
   'paywall.weeklyAutoRenew': 'tự động gia hạn',
+  'paywall.weeklyTrial': 'Dùng thử miễn phí 3 ngày',
   'paywall.annualBilled': 'thanh toán hàng năm',
+  'paywall.annualTrial': 'Dùng thử miễn phí 7 ngày',
   'paywall.lifetimeBilled': 'thanh toán',
 
   // Legal

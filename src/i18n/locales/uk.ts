@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Сховати варіанти',
   'paywall.then': 'потім',
   'paywall.weeklyAutoRenew': 'автоподовження',
+  'paywall.weeklyTrial': '3 дні безкоштовного пробного періоду',
   'paywall.annualBilled': 'оплата за рік',
+  'paywall.annualTrial': '7 днів безкоштовного пробного періоду',
   'paywall.lifetimeBilled': 'оплата',
 
   // Legal

@@ -61,9 +61,9 @@ export default function PaywallScreen() {
   const annualPkg: PurchasesPackage | null = offering?.annual ?? null;
   const lifetimePkg: PurchasesPackage | null = offering?.lifetime ?? null;
 
-  const weeklyPrice = weeklyPkg?.product.priceString ?? '$1.99';
+  const weeklyPrice = weeklyPkg?.product.priceString ?? '$2.99';
   const annualPrice = annualPkg?.product.priceString ?? '$14.99';
-  const lifetimePrice = lifetimePkg?.product.priceString ?? '$24.99';
+  const lifetimePrice = lifetimePkg?.product.priceString ?? '$19.99';
 
   const getSelectedPkg = (): PurchasesPackage | null => {
     if (selectedPlan === 'weekly') return weeklyPkg;
@@ -195,7 +195,7 @@ export default function PaywallScreen() {
               </View>
               <View>
                 <Text style={styles.planTitle}>WEEKLY</Text>
-                <Text style={styles.planSub}>{t('paywall.weeklyAutoRenew', { defaultValue: 'auto-renewable' })}</Text>
+                <Text style={styles.planSub}>{t('paywall.weeklyTrial', { defaultValue: '3-day free trial' })}</Text>
               </View>
             </View>
             <View style={styles.planRight}>
@@ -219,7 +219,7 @@ export default function PaywallScreen() {
               </View>
               <View>
                 <Text style={styles.planTitle}>ANNUAL</Text>
-                <Text style={styles.planSub}>{t('paywall.annualBilled', { defaultValue: 'billed yearly' })}</Text>
+                <Text style={styles.planSub}>{t('paywall.annualTrial', { defaultValue: '7-day free trial' })}</Text>
               </View>
             </View>
             <View style={styles.planRight}>
@@ -242,12 +242,12 @@ export default function PaywallScreen() {
                 {selectedPlan === 'lifetime' && <View style={styles.planRadioDot} />}
               </View>
               <View>
-                <Text style={styles.planTitle}>LIFETIME ACCESS</Text>
-                <Text style={styles.planSub}>{t('paywall.lifetimeBilled', { defaultValue: 'billed' })} {lifetimePrice}</Text>
+                <Text style={styles.planTitle}>LIFETIME</Text>
+                <Text style={styles.planSub}>{t('paywall.oneTimePay', { defaultValue: 'one-time purchase' })}</Text>
               </View>
             </View>
             <View style={styles.planRight}>
-              <Text style={styles.planPriceOnce}>{t('paywall.oneTimePay', { defaultValue: 'Once' })}</Text>
+              <Text style={styles.planPriceOnce}>{lifetimePrice}</Text>
             </View>
           </TouchableOpacity>
         </View>

@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'ซ่อนตัวเลือก',
   'paywall.then': 'จากนั้น',
   'paywall.weeklyAutoRenew': 'ต่ออายุอัตโนมัติ',
+  'paywall.weeklyTrial': 'ทดลองใช้ฟรี 3 วัน',
   'paywall.annualBilled': 'เรียกเก็บรายปี',
+  'paywall.annualTrial': 'ทดลองใช้ฟรี 7 วัน',
   'paywall.lifetimeBilled': 'เรียกเก็บ',
 
   // Legal

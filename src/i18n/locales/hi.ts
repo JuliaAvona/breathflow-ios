@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'विकल्प छुपाएं',
   'paywall.then': 'फिर',
   'paywall.weeklyAutoRenew': 'ऑटो-नवीनीकरण',
+  'paywall.weeklyTrial': '3 दिन का मुफ्त ट्रायल',
   'paywall.annualBilled': 'वार्षिक बिल',
+  'paywall.annualTrial': '7 दिन का मुफ्त ट्रायल',
   'paywall.lifetimeBilled': 'बिल',
 
   // Legal

@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Verberg opties',
   'paywall.then': 'daarna',
   'paywall.weeklyAutoRenew': 'automatische verlenging',
+  'paywall.weeklyTrial': '3 dagen gratis proberen',
   'paywall.annualBilled': 'jaarlijks gefactureerd',
+  'paywall.annualTrial': '7 dagen gratis proberen',
   'paywall.lifetimeBilled': 'gefactureerd',
 
   // Legal

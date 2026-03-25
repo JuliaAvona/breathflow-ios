@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'বিকল্প লুকান',
   'paywall.then': 'তারপর',
   'paywall.weeklyAutoRenew': 'স্বয়ংক্রিয়-নবায়নযোগ্য',
+  'paywall.weeklyTrial': '৩ দিনের বিনামূল্যে ট্রায়াল',
   'paywall.annualBilled': 'বার্ষিক বিল',
+  'paywall.annualTrial': '৭ দিনের বিনামূল্যে ট্রায়াল',
   'paywall.lifetimeBilled': 'বিল',
 
   // Legal

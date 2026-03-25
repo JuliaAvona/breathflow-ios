@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Lehetőségek elrejtése',
   'paywall.then': 'aztán',
   'paywall.weeklyAutoRenew': 'automatikus megújítás',
+  'paywall.weeklyTrial': '3 napos ingyenes próba',
   'paywall.annualBilled': 'éves számlázás',
+  'paywall.annualTrial': '7 napos ingyenes próba',
   'paywall.lifetimeBilled': 'számlázás',
 
   // Legal

@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'הסתר אפשרויות',
   'paywall.then': 'אז',
   'paywall.weeklyAutoRenew': 'חידוש אוטומטי',
+  'paywall.weeklyTrial': '3 ימי ניסיון חינם',
   'paywall.annualBilled': 'חיוב שנתי',
+  'paywall.annualTrial': '7 ימי ניסיון חינם',
   'paywall.lifetimeBilled': 'חיוב',
 
   // Legal

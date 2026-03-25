@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Piilota vaihtoehdot',
   'paywall.then': 'sitten',
   'paywall.weeklyAutoRenew': 'automaattinen uusinta',
+  'paywall.weeklyTrial': '3 päivän ilmainen kokeilu',
   'paywall.annualBilled': 'vuosilaskutus',
+  'paywall.annualTrial': '7 päivän ilmainen kokeilu',
   'paywall.lifetimeBilled': 'laskutus',
 
   // Legal

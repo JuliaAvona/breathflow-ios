@@ -578,7 +578,9 @@ export default {
   'paywall.hideOptions': 'Hide Options',
   'paywall.then': 'then',
   'paywall.weeklyAutoRenew': 'auto-renewable',
+  'paywall.weeklyTrial': '3-day free trial',
   'paywall.annualBilled': 'billed yearly',
+  'paywall.annualTrial': '7-day free trial',
   'paywall.lifetimeBilled': 'billed',
 
   // Legal

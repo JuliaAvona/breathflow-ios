@@ -488,7 +488,9 @@ export default {
   'paywall.hideOptions': 'Skrýt možnosti',
   'paywall.then': 'poté',
   'paywall.weeklyAutoRenew': 'automatické obnovení',
+  'paywall.weeklyTrial': '3 dny zdarma na zkoušku',
   'paywall.annualBilled': 'roční platba',
+  'paywall.annualTrial': '7 dní zdarma na zkoušku',
   'paywall.lifetimeBilled': 'platba',
 
   // Legal

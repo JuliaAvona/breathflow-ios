@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Peida valikud',
   'paywall.then': 'seejärel',
   'paywall.weeklyAutoRenew': 'automaatne uuendamine',
+  'paywall.weeklyTrial': '3-päevane tasuta prooviperiood',
   'paywall.annualBilled': 'aastane arveldus',
+  'paywall.annualTrial': '7-päevane tasuta prooviperiood',
   'paywall.lifetimeBilled': 'arveldus',
 
   // Legal

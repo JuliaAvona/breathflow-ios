@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Amaga opcions',
   'paywall.then': 'després',
   'paywall.weeklyAutoRenew': 'renovació automàtica',
+  'paywall.weeklyTrial': '3 dies de prova gratuïta',
   'paywall.annualBilled': 'facturació anual',
+  'paywall.annualTrial': '7 dies de prova gratuïta',
   'paywall.lifetimeBilled': 'facturació',
 
   // Legal

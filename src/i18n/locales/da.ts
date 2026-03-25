@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Skjul muligheder',
   'paywall.then': 'derefter',
   'paywall.weeklyAutoRenew': 'automatisk fornyelse',
+  'paywall.weeklyTrial': '3 dages gratis prøveperiode',
   'paywall.annualBilled': 'årlig fakturering',
+  'paywall.annualTrial': '7 dages gratis prøveperiode',
   'paywall.lifetimeBilled': 'fakturering',
 
   // Legal

@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'پنهان کردن گزینه‌ها',
   'paywall.then': 'سپس',
   'paywall.weeklyAutoRenew': 'تمدید خودکار',
+  'paywall.weeklyTrial': '۳ روز آزمایش رایگان',
   'paywall.annualBilled': 'صورتحساب سالانه',
+  'paywall.annualTrial': '۷ روز آزمایش رایگان',
   'paywall.lifetimeBilled': 'صورتحساب',
 
   // Legal

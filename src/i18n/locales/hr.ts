@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Sakrij opcije',
   'paywall.then': 'zatim',
   'paywall.weeklyAutoRenew': 'automatsko obnavljanje',
+  'paywall.weeklyTrial': '3 dana besplatnog probnog razdoblja',
   'paywall.annualBilled': 'godišnja naplata',
+  'paywall.annualTrial': '7 dana besplatnog probnog razdoblja',
   'paywall.lifetimeBilled': 'naplata',
 
   // Legal

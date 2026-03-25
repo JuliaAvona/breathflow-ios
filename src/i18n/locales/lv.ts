@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Slēpt opcijas',
   'paywall.then': 'tad',
   'paywall.weeklyAutoRenew': 'automātiska atjaunošana',
+  'paywall.weeklyTrial': '3 dienu bezmaksas izmēģinājums',
   'paywall.annualBilled': 'gada norēķins',
+  'paywall.annualTrial': '7 dienu bezmaksas izmēģinājums',
   'paywall.lifetimeBilled': 'norēķins',
 
   // Legal

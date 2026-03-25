@@ -488,7 +488,9 @@ export default {
   'paywall.hideOptions': 'Nascondi opzioni',
   'paywall.then': 'poi',
   'paywall.weeklyAutoRenew': 'rinnovo automatico',
+  'paywall.weeklyTrial': '3 giorni di prova gratuita',
   'paywall.annualBilled': 'fatturato annualmente',
+  'paywall.annualTrial': '7 giorni di prova gratuita',
   'paywall.lifetimeBilled': 'fatturato',
 
   // Legal

@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'விருப்பங்களை மறை',
   'paywall.then': 'பின்னர்',
   'paywall.weeklyAutoRenew': 'தானியங்கி புதுப்பிப்பு',
+  'paywall.weeklyTrial': '3 நாள் இலவச சோதனை',
   'paywall.annualBilled': 'ஆண்டு கட்டணம்',
+  'paywall.annualTrial': '7 நாள் இலவச சோதனை',
   'paywall.lifetimeBilled': 'கட்டணம்',
 
   // Legal

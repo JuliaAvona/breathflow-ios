@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Ficha Chaguzi',
   'paywall.then': 'kisha',
   'paywall.weeklyAutoRenew': 'upya otomatiki',
+  'paywall.weeklyTrial': 'Jaribio la bure la siku 3',
   'paywall.annualBilled': 'malipo ya mwaka',
+  'paywall.annualTrial': 'Jaribio la bure la siku 7',
   'paywall.lifetimeBilled': 'malipo',
 
   // Legal

@@ -488,7 +488,9 @@ export default {
   'paywall.hideOptions': '옵션 숨기기',
   'paywall.then': '이후',
   'paywall.weeklyAutoRenew': '자동 갱신',
+  'paywall.weeklyTrial': '3일 무료 체험',
   'paywall.annualBilled': '연간 청구',
+  'paywall.annualTrial': '7일 무료 체험',
   'paywall.lifetimeBilled': '청구',
 
   // Legal

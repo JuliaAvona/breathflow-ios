@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Skryť možnosti',
   'paywall.then': 'potom',
   'paywall.weeklyAutoRenew': 'automatické obnovenie',
+  'paywall.weeklyTrial': '3 dni skúšobnej doby zadarmo',
   'paywall.annualBilled': 'ročná platba',
+  'paywall.annualTrial': '7 dní skúšobnej doby zadarmo',
   'paywall.lifetimeBilled': 'platba',
 
   // Legal

@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'ఎంపికలను దాచు',
   'paywall.then': 'తర్వాత',
   'paywall.weeklyAutoRenew': 'ఆటో-రెన్యూవల్',
+  'paywall.weeklyTrial': '3 రోజుల ఉచిత ట్రయల్',
   'paywall.annualBilled': 'వార్షిక బిల్',
+  'paywall.annualTrial': '7 రోజుల ఉచిత ట్రయల్',
   'paywall.lifetimeBilled': 'బిల్',
 
   // Legal

@@ -488,7 +488,9 @@ export default {
   'paywall.hideOptions': 'Seçenekleri gizle',
   'paywall.then': 'sonra',
   'paywall.weeklyAutoRenew': 'otomatik yenileme',
+  'paywall.weeklyTrial': '3 günlük ücretsiz deneme',
   'paywall.annualBilled': 'yıllık faturalandırma',
+  'paywall.annualTrial': '7 günlük ücretsiz deneme',
   'paywall.lifetimeBilled': 'faturalandırma',
 
   // Legal

@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'አማራጮችን ደብቅ',
   'paywall.then': 'ከዚያ',
   'paywall.weeklyAutoRenew': 'ራስ-አዲስ',
+  'paywall.weeklyTrial': '3-ቀን ነፃ ሙከራ',
   'paywall.annualBilled': 'ዓመታዊ ክፍያ',
+  'paywall.annualTrial': '7-ቀን ነፃ ሙከራ',
   'paywall.lifetimeBilled': 'ክፍያ',
 
   // Legal

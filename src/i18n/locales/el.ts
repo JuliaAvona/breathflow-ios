@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Απόκρυψη επιλογών',
   'paywall.then': 'μετά',
   'paywall.weeklyAutoRenew': 'αυτόματη ανανέωση',
+  'paywall.weeklyTrial': '3 ημέρες δωρεάν δοκιμή',
   'paywall.annualBilled': 'ετήσια χρέωση',
+  'paywall.annualTrial': '7 ημέρες δωρεάν δοκιμή',
   'paywall.lifetimeBilled': 'χρέωση',
 
   // Legal

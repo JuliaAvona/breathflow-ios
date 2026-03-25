@@ -488,7 +488,9 @@ export default {
   'paywall.hideOptions': 'オプションを隠す',
   'paywall.then': 'その後',
   'paywall.weeklyAutoRenew': '自動更新',
+  'paywall.weeklyTrial': '3日間無料トライアル',
   'paywall.annualBilled': '年一括請求',
+  'paywall.annualTrial': '7日間無料トライアル',
   'paywall.lifetimeBilled': '請求',
 
   // Legal

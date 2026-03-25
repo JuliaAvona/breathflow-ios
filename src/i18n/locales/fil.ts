@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Itago ang mga Opsyon',
   'paywall.then': 'pagkatapos',
   'paywall.weeklyAutoRenew': 'awtomatikong nire-renew',
+  'paywall.weeklyTrial': '3-araw na libreng pagsubok',
   'paywall.annualBilled': 'taunang singil',
+  'paywall.annualTrial': '7-araw na libreng pagsubok',
   'paywall.lifetimeBilled': 'singil',
 
   // Legal

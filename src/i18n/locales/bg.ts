@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Скрий опциите',
   'paywall.then': 'след това',
   'paywall.weeklyAutoRenew': 'автоматично подновяване',
+  'paywall.weeklyTrial': '3 дни безплатен пробен период',
   'paywall.annualBilled': 'годишно таксуване',
+  'paywall.annualTrial': '7 дни безплатен пробен период',
   'paywall.lifetimeBilled': 'таксуване',
 
   // Legal

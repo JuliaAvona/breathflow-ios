@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Sembunyikan Pilihan',
   'paywall.then': 'kemudian',
   'paywall.weeklyAutoRenew': 'pembaharuan automatik',
+  'paywall.weeklyTrial': 'Percubaan percuma 3 hari',
   'paywall.annualBilled': 'bil tahunan',
+  'paywall.annualTrial': 'Percubaan percuma 7 hari',
   'paywall.lifetimeBilled': 'bil',
 
   // Legal

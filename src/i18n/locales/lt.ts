@@ -479,7 +479,9 @@ export default {
   'paywall.hideOptions': 'Slėpti parinktis',
   'paywall.then': 'tada',
   'paywall.weeklyAutoRenew': 'automatinis atnaujinimas',
+  'paywall.weeklyTrial': '3 dienų nemokamas bandomasis laikotarpis',
   'paywall.annualBilled': 'metinis mokėjimas',
+  'paywall.annualTrial': '7 dienų nemokamas bandomasis laikotarpis',
   'paywall.lifetimeBilled': 'mokėjimas',
 
   // Legal
