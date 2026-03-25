@@ -34,7 +34,14 @@ export default function HistoryScreen() {
   const hydrate = useSessionsStore((s) => s.hydrate);
   const isPro = useSettingsStore((s) => s.isPro);
 
-  const sessions = allSessions;
+  // Free users: last 7 days only; Pro: all sessions
+  const sessions = useMemo(() => {
+    if (isPro) return allSessions;
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 7);
+    const cutoffStr = cutoff.toISOString().split('T')[0];
+    return allSessions.filter((s) => s.date >= cutoffStr);
+  }, [allSessions, isPro]);
 
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
@@ -277,8 +284,8 @@ export default function HistoryScreen() {
               </View>
             )}
 
-            {/* Weekly sessions chart */}
-            {sessions.length > 0 && (
+            {/* Weekly sessions chart (Pro only) */}
+            {isPro && sessions.length > 0 && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.weeklyActivity')}</Text>
                 <View style={[styles.chartCard, { backgroundColor: theme.card }]}>
@@ -315,7 +322,20 @@ export default function HistoryScreen() {
             )}
 
             {/* All-time stats */}
-            <View style={styles.section}>
+            {!isPro && sessions.length > 0 && (
+              <TouchableOpacity
+                style={[styles.proHistoryBanner, { backgroundColor: 'rgba(155,89,182,0.15)', borderColor: 'rgba(155,89,182,0.3)' }]}
+                onPress={() => router.push('/paywall')}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="diamond" size={16} color="#9B59B6" />
+                <Text style={[styles.proHistoryText, { color: theme.text }]}>
+                  {t('history.unlockFullHistory', { defaultValue: 'Unlock full history & all-time stats' })}
+                </Text>
+                <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
+              </TouchableOpacity>
+            )}
+            {isPro && <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.allTimeStats')}</Text>
               <View style={[styles.allTimeCard, { backgroundColor: theme.card }]}>
                 <View style={styles.allTimeRow}>
@@ -363,7 +383,7 @@ export default function HistoryScreen() {
                   </View>
                 )}
               </View>
-            </View>
+            </View>}
           </>
         )}
       </ScrollView>
@@ -638,6 +658,22 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   proUpsellText: {
+    flex: 1,
+    fontSize: FONT_SIZE.sm,
+    fontFamily: FONTS.semibold,
+  },
+  proHistoryBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.md,
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    gap: 10,
+    marginHorizontal: SPACING.lg,
+    marginBottom: SPACING.lg,
+  },
+  proHistoryText: {
     flex: 1,
     fontSize: FONT_SIZE.sm,
     fontFamily: FONTS.semibold,

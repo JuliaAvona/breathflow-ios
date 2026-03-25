@@ -436,11 +436,10 @@ export default {
   'paywall.continueFree': 'Continue with free version',
   'paywall.restore': 'Restore',
   'paywall.unlockPro': 'Unlock Pro',
-  // Legacy features (kept for compatibility)
-  'paywall.feature1': 'All 10 breathing techniques',
-  'paywall.feature2': 'Custom technique builder',
-  'paywall.feature3': 'Full history & progress charts',
-  'paywall.feature4': 'All color themes',
+  'paywall.feature1': 'All 10 Breathing Techniques',
+  'paywall.feature2': 'All Music Tracks',
+  'paywall.feature3': 'Unlock All Badges',
+  'paywall.feature4': 'Full History & Stats',
   'paywall.feature5': 'Mood tracking',
   'paywall.feature6': 'All badges',
 
@@ -570,6 +569,16 @@ export default {
   'paywall.oneTimePay': 'one-time',
   'paywall.bestValue': 'Best Value',
   'paywall.weeklyNote': '{{price}}/week, auto-renews. Cancel anytime in App Store settings.',
+  'paywall.annual': '1 Year',
+  'paywall.perYear': 'per year',
+  'paywall.unlockForever': 'Unlock Forever',
+  'paywall.startAnnual': 'Start Annual Plan',
+  'paywall.startWeekly': 'Start Weekly',
+  'paywall.hideOptions': 'Hide Options',
+  'paywall.then': 'then',
+  'paywall.weeklyAutoRenew': 'auto-renewable',
+  'paywall.annualBilled': 'billed yearly',
+  'paywall.lifetimeBilled': 'billed',
 
   // Legal
   'legal.termsOfServiceTitle': 'Terms of Service',

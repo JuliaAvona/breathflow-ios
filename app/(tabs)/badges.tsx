@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import { useBadgesStore, useSessionsStore } from '../../src/store';
+import { router } from 'expo-router';
+import { useBadgesStore, useSessionsStore, useSettingsStore } from '../../src/store';
 import { BadgeGrid } from '../../src/components/BadgeGrid';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS, BADGE_DEFINITIONS, FONTS, scale, COLORS } from '../../src/constants';
@@ -30,6 +31,7 @@ export default function AwardsScreen() {
 
   const stats = useSessionsStore((s) => s.stats);
   const unlockedBadges = useBadgesStore((s) => s.unlockedBadges);
+  const isPro = useSettingsStore((s) => s.isPro);
 
   const allBadges = useMemo(
     () =>
@@ -131,8 +133,28 @@ export default function AwardsScreen() {
           </View>
         </LinearGradient>
 
+        {/* PRO upsell for free users */}
+        {!isPro && (
+          <TouchableOpacity
+            style={[styles.proBanner, { backgroundColor: 'rgba(155,89,182,0.15)', borderColor: 'rgba(155,89,182,0.3)' }]}
+            onPress={() => router.push('/paywall')}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="diamond" size={18} color="#9B59B6" />
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.proBannerTitle, { color: theme.text }]}>
+                {t('badges.unlockBadges', { defaultValue: 'Unlock Badges with Pro' })}
+              </Text>
+              <Text style={[styles.proBannerSub, { color: theme.textSecondary }]}>
+                {t('badges.unlockBadgesDesc', { defaultValue: 'Track your achievements and earn all badges' })}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+          </TouchableOpacity>
+        )}
+
         {/* Category sections */}
-        {CATEGORIES.map((cat) => {
+        {isPro && CATEGORIES.map((cat) => {
           const badges = grouped[cat.key];
           if (!badges || badges.length === 0) return null;
 
@@ -326,5 +348,25 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.06,
     shadowRadius: 8,
     elevation: 2,
+  },
+  proBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: SPACING.lg,
+    marginBottom: SPACING.lg,
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.md,
+    borderRadius: BORDER_RADIUS.lg,
+    borderWidth: 1,
+    gap: 10,
+  },
+  proBannerTitle: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.semibold,
+  },
+  proBannerSub: {
+    fontSize: FONT_SIZE.sm,
+    fontFamily: FONTS.regular,
+    marginTop: 2,
   },
 });
