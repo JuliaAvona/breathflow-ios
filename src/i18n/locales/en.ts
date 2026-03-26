@@ -11,6 +11,14 @@ export default {
   'home.goodMorning': 'Good morning',
   'home.goodAfternoon': 'Good afternoon',
   'home.goodEvening': 'Good evening',
+  'home.tapToBreathe': 'Tap to breathe',
+  'home.totalSessions': 'sessions',
+  'home.totalMin': 'min',
+  'home.streak': 'streak',
+  'home.noSessionToday': 'No sessions today — tap to breathe!',
+  'home.breaths': 'breaths',
+  'home.rounds': 'rounds',
+  'home.sets': 'sets',
   'home.goodNight': 'Good night',
   'home.breathe': 'Breathe',
   'home.justBreathe': 'Just Breathe',
@@ -69,8 +77,15 @@ export default {
   'techniqueDetail.pattern': 'Pattern',
   'techniqueDetail.duration': 'Duration',
   'techniqueDetail.category': 'Category',
-  'techniqueDetail.start': 'Start Session',
+  'techniqueDetail.start': 'START',
   'techniqueDetail.pro': 'Pro',
+  'techniqueDetail.inhale': 'Inhale',
+  'techniqueDetail.exhale': 'Exhale',
+  'techniqueDetail.hold': 'Hold',
+  'techniqueDetail.breaths': 'Breaths',
+  'techniqueDetail.rounds': 'Rounds',
+  'techniqueDetail.sets': 'Sets',
+  'techniqueDetail.noMusic': 'No Music',
 
   // Phase instructions
   'phase.breatheIn': 'Breathe In',
@@ -390,6 +405,8 @@ export default {
   // Badges screen
   'badges.title': 'Badges',
   'badges.unlocked': 'Unlocked',
+  'badges.unlockBadges': 'Unlock Badges with Pro',
+  'badges.unlockBadgesDesc': 'Track your achievements and earn all badges',
   'badges.locked': 'Locked',
   'badges.progress': '{{unlocked}} of {{total}} badges',
   'badges.all': 'All',
@@ -597,6 +614,7 @@ export default {
   'badges.tapToContinue': 'Tap to continue',
 
   // Common
+  'common.sec': 's',
   'common.cancel': 'Cancel',
   'common.ok': 'OK',
   'common.save': 'Save',

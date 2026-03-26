@@ -238,7 +238,7 @@ export default function TechniqueDetailScreen() {
             color={!selectedMusic ? '#000' : 'rgba(255,255,255,0.8)'}
           />
           <Text style={[styles.musicPillText, !selectedMusic && styles.musicPillTextActive]}>
-            No Music
+            {t('techniqueDetail.noMusic')}
           </Text>
         </TouchableOpacity>
 
@@ -287,36 +287,36 @@ export default function TechniqueDetailScreen() {
         {technique.mode === 'power' ? (
           <>
             <View style={styles.phasePill}>
-              <Text style={styles.phasePillLabel}>Breaths</Text>
+              <Text style={styles.phasePillLabel}>{t('techniqueDetail.breaths')}</Text>
               <Text style={styles.phasePillValue}>{technique.breathCount}</Text>
             </View>
             <View style={styles.phasePill}>
-              <Text style={styles.phasePillLabel}>Rounds</Text>
+              <Text style={styles.phasePillLabel}>{t('techniqueDetail.rounds')}</Text>
               <Text style={styles.phasePillValue}>{technique.roundCount}</Text>
             </View>
           </>
         ) : technique.mode === 'kapalabhati' ? (
           <>
             <View style={styles.phasePill}>
-              <Text style={styles.phasePillLabel}>Sets</Text>
+              <Text style={styles.phasePillLabel}>{t('techniqueDetail.sets')}</Text>
               <Text style={styles.phasePillValue}>{technique.setCount}</Text>
             </View>
             <View style={styles.phasePill}>
-              <Text style={styles.phasePillLabel}>Duration</Text>
-              <Text style={styles.phasePillValue}>{technique.setDuration}s</Text>
+              <Text style={styles.phasePillLabel}>{t('techniqueDetail.duration')}</Text>
+              <Text style={styles.phasePillValue}>{technique.setDuration}{t('common.sec')}</Text>
             </View>
           </>
         ) : (
           technique.phases.map((phase, i) => {
-            const PHASE_NAMES: Record<string, string> = {
-              breatheIn: 'Inhale',
-              topUpInhale: '+Inhale',
-              hold: 'Hold',
-              holdOut: 'Hold',
-              breatheOut: 'Exhale',
+            const PHASE_KEYS: Record<string, string> = {
+              breatheIn: 'techniqueDetail.inhale',
+              topUpInhale: 'techniqueDetail.inhale',
+              hold: 'techniqueDetail.hold',
+              holdOut: 'techniqueDetail.hold',
+              breatheOut: 'techniqueDetail.exhale',
             };
-            const label = PHASE_NAMES[phase.instructionKey] ?? phase.instructionKey;
-            const dur = phase.duration % 1 === 0 ? `${phase.duration}s` : `${phase.duration.toFixed(1)}s`;
+            const label = t(PHASE_KEYS[phase.instructionKey] ?? phase.instructionKey);
+            const dur = phase.duration % 1 === 0 ? `${phase.duration}${t('common.sec')}` : `${phase.duration.toFixed(1)}${t('common.sec')}`;
             return (
               <React.Fragment key={i}>
                 <View style={styles.phasePill}>
@@ -344,7 +344,7 @@ export default function TechniqueDetailScreen() {
               activeOpacity={0.85}
             >
               <Ionicons name="diamond" size={18} color="#fff" style={{ marginRight: 8 }} />
-              <Text style={styles.startBtnText}>Unlock Pro</Text>
+              <Text style={styles.startBtnText}>{t('paywall.unlockPro')}</Text>
             </TouchableOpacity>
           </LinearGradient>
         ) : (
@@ -355,7 +355,7 @@ export default function TechniqueDetailScreen() {
             style={styles.startBtnGradient}
           >
             <TouchableOpacity style={styles.startBtn} onPress={handleStart} activeOpacity={0.85}>
-              <Text style={styles.startBtnText}>START</Text>
+              <Text style={styles.startBtnText}>{t('techniqueDetail.start')}</Text>
             </TouchableOpacity>
           </LinearGradient>
         )}

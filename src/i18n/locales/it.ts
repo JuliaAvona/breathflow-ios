@@ -1,6 +1,6 @@
 export default {
   // Tabs
-  'tabs.home': 'Home',
+  'tabs.home': 'Inizio',
   'tabs.breathe': 'Respira',
   'tabs.history': 'Progressi',
   'tabs.badges': 'Traguardi',
@@ -12,6 +12,14 @@ export default {
   'home.goodAfternoon': 'Buon pomeriggio',
   'home.goodEvening': 'Buonasera',
   'home.goodNight': 'Buonanotte',
+  'home.tapToBreathe': 'Tocca per respirare',
+  'home.totalSessions': 'sessioni',
+  'home.totalMin': 'min',
+  'home.streak': 'serie',
+  'home.noSessionToday': 'Nessuna sessione oggi \u2014 tocca per respirare!',
+  'home.breaths': 'respiri',
+  'home.rounds': 'cicli',
+  'home.sets': 'serie',
   'home.breathe': 'Respira',
   'home.justBreathe': 'Solo Respira',
   'home.min': 'min',
@@ -19,14 +27,14 @@ export default {
   'home.categoryAll': 'Tutti',
   'home.categoryCalm': 'Calma',
   'home.categorySleep': 'Sonno',
-  'home.categoryFocus': 'Focus',
+  'home.categoryFocus': 'Concentrazione',
   'home.categoryEnergy': 'Energia',
   'home.categoryAdvanced': 'Avanzato',
 
   // Categories
   'category.calm': 'Calma',
   'category.sleep': 'Sonno',
-  'category.focus': 'Focus',
+  'category.focus': 'Concentrazione',
   'category.energy': 'Energia',
   'category.advanced': 'Avanzato',
 
@@ -68,8 +76,15 @@ export default {
   'techniqueDetail.pattern': 'Schema',
   'techniqueDetail.duration': 'Durata',
   'techniqueDetail.category': 'Categoria',
-  'techniqueDetail.start': 'Inizia Sessione',
+  'techniqueDetail.start': 'INIZIA',
   'techniqueDetail.pro': 'Pro',
+  'techniqueDetail.inhale': 'Inspira',
+  'techniqueDetail.exhale': 'Espira',
+  'techniqueDetail.hold': 'Trattieni',
+  'techniqueDetail.breaths': 'Respiri',
+  'techniqueDetail.rounds': 'Cicli',
+  'techniqueDetail.sets': 'Serie',
+  'techniqueDetail.noMusic': 'Senza musica',
 
   // Phase instructions
   'phase.breatheIn': 'Inspira',
@@ -264,7 +279,7 @@ export default {
   'onboarding.skipToApp': 'Vai all\'app',
   'onboarding.noCardRequired': 'Nessuna carta di credito richiesta',
   'onboarding.socialProof1': 'Scelto dagli atleti',
-  'onboarding.socialProof2': 'Stanford-backed',
+  'onboarding.socialProof2': 'Supportato da Stanford',
   'onboarding.socialProof3': 'Apple Health',
   'onboarding.commitTitle': 'Imposta il tuo obiettivo quotidiano',
   'onboarding.commitSub': 'Le piccole abitudini quotidiane creano un cambiamento duraturo.',
@@ -324,6 +339,8 @@ export default {
   // Badges screen
   'badges.title': 'Traguardi',
   'badges.unlocked': 'Sbloccati',
+  'badges.unlockBadges': 'Sblocca i traguardi con Pro',
+  'badges.unlockBadgesDesc': 'Monitora i tuoi risultati e guadagna tutti i traguardi',
   'badges.locked': 'Bloccati',
   'badges.progress': '{{unlocked}} di {{total}} traguardi',
   'badges.all': 'Tutti',
@@ -507,6 +524,7 @@ export default {
   'badges.tapToContinue': 'Tocca per continuare',
 
   // Common
+  'common.sec': 's',
   'common.cancel': 'Annulla',
   'common.ok': 'OK',
   'common.save': 'Salva',

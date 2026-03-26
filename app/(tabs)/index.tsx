@@ -162,12 +162,12 @@ function getPatternString(technique: BreathingTechnique): string {
     .join('  ·  ');
 }
 
-function getShortPattern(technique: BreathingTechnique): string {
+function getShortPattern(technique: BreathingTechnique, t: (key: string) => string): string {
   if (technique.mode === 'power') {
-    return `${technique.breathCount} breaths · ${technique.roundCount} rounds`;
+    return `${technique.breathCount} ${t('home.breaths')} · ${technique.roundCount} ${t('home.rounds')}`;
   }
   if (technique.mode === 'kapalabhati') {
-    return `${technique.setCount} sets · ${technique.setDuration}s`;
+    return `${technique.setCount} ${t('home.sets')} · ${technique.setDuration}s`;
   }
   return technique.phases
     .map((p) => (p.duration % 1 === 0 ? `${p.duration}` : `${p.duration.toFixed(1)}`))
@@ -263,7 +263,7 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
           {t(technique.nameKey)}
         </Text>
         <Text style={[styles.gridCardDuration, { color: theme.textSecondary }]} numberOfLines={1}>
-          {getShortPattern(technique)}
+          {getShortPattern(technique, t)}
         </Text>
       </View>
     </TouchableOpacity>
