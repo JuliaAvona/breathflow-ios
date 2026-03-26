@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import { View, Text, ScrollView, StyleSheet, Animated, RefreshControl, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -62,37 +62,58 @@ export default function HistoryScreen() {
     return sessions.filter(s => s.date.startsWith(monthStr)).length;
   }, [sessions, year, month]);
 
+
   const todayStr = useMemo(() => getToday(), []);
-  const todaySessions = useMemo(() => sessions.filter((s) => s.date === todayStr), [sessions, todayStr]);
-  const todayMinutes = useMemo(
-    () => todaySessions.reduce((sum, s) => sum + Math.round(s.totalDuration / 60), 0),
-    [todaySessions],
-  );
+  const hadSessionToday = useMemo(() => allSessions.some(s => s.date === todayStr), [allSessions, todayStr]);
 
   const selectedDaySessions = useMemo(() => {
     if (!selectedDate) return [];
     return sessions.filter((s) => s.date === selectedDate);
   }, [sessions, selectedDate]);
 
-  const favoriteTechnique = useMemo(() => {
-    if (!stats.favoriteTechniqueId) return null;
-    return getTechniqueById(stats.favoriteTechniqueId) ?? null;
-  }, [stats.favoriteTechniqueId]);
 
-  // Daily sessions data for bar chart (last 7 days)
+  // Technique distribution
+  const techniqueDistribution = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const s of sessions) {
+      counts[s.techniqueId] = (counts[s.techniqueId] || 0) + 1;
+    }
+    const sorted = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 4)
+      .map(([id, count]) => {
+        const tech = getTechniqueById(id);
+        return {
+          id,
+          name: tech ? t(tech.nameKey) : id,
+          color: tech?.color ?? COLORS.primary,
+          count,
+        };
+      });
+    const total = sorted.reduce((sum, item) => sum + item.count, 0);
+    return { items: sorted, total };
+  }, [sessions, t]);
+
+  // Personal bests
+  const personalBests = useMemo(() => {
+    if (sessions.length === 0) return null;
+    const longestSession = Math.max(...sessions.map((s) => s.totalDuration));
+    return { longestSession };
+  }, [sessions]);
+
+  // Daily sessions data for week chart (last 7 days, uses allSessions to match calendar)
   const weeklyData = useMemo(() => {
-    const days: { label: string; count: number }[] = [];
+    const days: { label: string; count: number; dateStr: string }[] = [];
     const today = new Date();
     for (let d = 6; d >= 0; d--) {
-      const day = new Date(today);
-      day.setDate(today.getDate() - d);
-      const dateStr = day.toISOString().split('T')[0];
-      const count = sessions.filter((s) => s.date === dateStr).length;
-      const label = day.toLocaleDateString(undefined, { weekday: 'narrow' });
-      days.push({ label, count });
+      const day = new Date(today.getFullYear(), today.getMonth(), today.getDate() - d);
+      const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+      const count = allSessions.filter((s) => s.date === dateStr).length;
+      const label = day.toLocaleDateString(i18n.language, { weekday: 'narrow' });
+      days.push({ label, count, dateStr });
     }
     return days;
-  }, [sessions]);
+  }, [allSessions, i18n.language]);
 
   const animateMonthChange = useCallback((changeFn: () => void) => {
     Animated.timing(calendarOpacity, { toValue: 0.3, duration: 120, useNativeDriver: true }).start(() => {
@@ -218,24 +239,24 @@ export default function HistoryScreen() {
             )}
           </View>
 
-          {/* Today stats */}
+          {/* All-time stats (same as Breathe screen) */}
           <View style={styles.heroStatsRow}>
             <View style={styles.heroStat}>
               <Ionicons name="leaf-outline" size={16} color="#7BC4A8" />
-              <Text style={styles.heroStatValue}>{todaySessions.length}</Text>
-              <Text style={styles.heroStatLabel}>{t('history.sessionsToday')}</Text>
+              <Text style={styles.heroStatValue}>{stats.totalSessions}</Text>
+              <Text style={styles.heroStatLabel}>{t('home.totalSessions')}</Text>
             </View>
             <View style={styles.heroStatDivider} />
             <View style={styles.heroStat}>
               <Ionicons name="time-outline" size={16} color="#4A90D9" />
-              <Text style={styles.heroStatValue}>{todayMinutes}</Text>
-              <Text style={styles.heroStatLabel}>{t('history.minutesToday')}</Text>
+              <Text style={styles.heroStatValue}>{stats.totalMinutes}</Text>
+              <Text style={styles.heroStatLabel}>{t('home.totalMin')}</Text>
             </View>
             <View style={styles.heroStatDivider} />
             <View style={styles.heroStat}>
               <Ionicons name="flame-outline" size={16} color="#F5A623" />
               <Text style={styles.heroStatValue}>{stats.currentStreak}</Text>
-              <Text style={styles.heroStatLabel}>{t('history.streakDays')}</Text>
+              <Text style={styles.heroStatLabel}>{t('home.streak')}</Text>
             </View>
           </View>
         </LinearGradient>
@@ -258,7 +279,92 @@ export default function HistoryScreen() {
           </View>
         ) : (
           <>
-            {/* Calendar */}
+            {/* 1. Streak / Motivation Banner */}
+            <TouchableOpacity activeOpacity={0.85} onPress={() => router.push('/(tabs)')}>
+              {hadSessionToday ? (
+                <LinearGradient
+                  colors={['#7BC4A8', '#5BAD8A']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.streakBanner}
+                >
+                  <Ionicons name="checkmark-circle" size={28} color="#FFF" />
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.streakBannerTitle}>
+                      {stats.currentStreak > 1
+                        ? t('progress.streakBanner', { count: stats.currentStreak, defaultValue: '{{count}} days in a row!' })
+                        : t('progress.doneToday', { defaultValue: 'Done for today!' })}
+                    </Text>
+                    <Text style={styles.streakBannerSub}>
+                      {stats.longestStreak > stats.currentStreak
+                        ? t('progress.bestStreakWas', { count: stats.longestStreak, defaultValue: 'Your best: {{count}} days' })
+                        : t('progress.streakNewRecord', { defaultValue: 'New personal record!' })}
+                    </Text>
+                  </View>
+                  {stats.currentStreak > 0 && (
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                      <Ionicons name="flame" size={18} color="#FFF" />
+                      <Text style={styles.streakBannerCount}>{stats.currentStreak}</Text>
+                    </View>
+                  )}
+                </LinearGradient>
+              ) : (
+                <LinearGradient
+                  colors={['#F5A623', '#E85D4A']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.streakBanner}
+                >
+                  <Ionicons name="flame" size={28} color="#FFF" />
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.streakBannerTitle}>
+                      {stats.currentStreak > 0
+                        ? t('progress.streakBanner', { count: stats.currentStreak, defaultValue: '{{count}} days in a row!' })
+                        : t('progress.startStreak', { defaultValue: 'Start your streak today!' })}
+                    </Text>
+                    <Text style={styles.streakBannerSub}>
+                      {t('progress.streakKeepGoing', { defaultValue: 'Keep your streak alive!' })}
+                    </Text>
+                  </View>
+                  <Ionicons name="chevron-forward" size={22} color="rgba(255,255,255,0.6)" />
+                </LinearGradient>
+              )}
+            </TouchableOpacity>
+
+            {/* 2. Weekly activity */}
+            {sessions.length > 0 && (
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.weeklyActivity')}</Text>
+                <View style={[styles.chartCard, { backgroundColor: theme.card }]}>
+                  <View style={styles.weekRow}>
+                    {weeklyData.map((day, idx) => {
+                      const isToday = idx === 6;
+                      const hasActivity = day.count > 0;
+                      return (
+                        <View key={idx} style={styles.weekDayCol}>
+                          <View style={styles.weekDayLetterWrap}>
+                            {isToday ? (
+                              <View style={[styles.weekDayCircle, { borderColor: theme.primary }]}>
+                                <Text style={[styles.weekDayLetter, { color: theme.primary }]}>{day.label}</Text>
+                              </View>
+                            ) : (
+                              <Text style={[styles.weekDayLetter, { color: hasActivity ? theme.text : theme.textSecondary }]}>{day.label}</Text>
+                            )}
+                          </View>
+                          <Ionicons
+                            name={hasActivity ? 'flame' : 'flame-outline'}
+                            size={18}
+                            color={hasActivity ? '#F5A623' : (theme.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)')}
+                          />
+                        </View>
+                      );
+                    })}
+                  </View>
+                </View>
+              </View>
+            )}
+
+            {/* 3. Calendar */}
             <Animated.View style={{ opacity: calendarOpacity }}>
               <View style={[styles.calendarCard, { backgroundColor: theme.card }]}>
                 <CalendarHeatmap
@@ -274,7 +380,7 @@ export default function HistoryScreen() {
               </View>
             </Animated.View>
 
-            {/* Selected day sessions */}
+            {/* 4. Selected day sessions */}
             {selectedDate && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.text }]}>
@@ -293,38 +399,88 @@ export default function HistoryScreen() {
               </View>
             )}
 
-            {/* Weekly sessions chart (Pro only) */}
-            {isPro && sessions.length > 0 && (
-              <View style={styles.section}>
-                <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.weeklyActivity')}</Text>
-                <View style={[styles.chartCard, { backgroundColor: theme.card }]}>
-                  <View style={styles.barChartRow}>
-                    {weeklyData.map((day, idx) => {
-                      const maxCount = Math.max(...weeklyData.map((w) => w.count), 1);
-                      const barHeight = Math.max(4, (day.count / maxCount) * 72);
-                      const isToday = idx === 6;
-                      return (
-                        <View key={idx} style={styles.barCol}>
-                          <Text style={[styles.barValue, { color: theme.text, opacity: day.count > 0 ? 1 : 0 }]}>
-                            {day.count}
-                          </Text>
-                          <View style={{ flex: 1 }} />
-                          <View
-                            style={[
-                              styles.bar,
-                              {
-                                height: barHeight,
-                                backgroundColor: day.count > 0 ? COLORS.primary : (theme.isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'),
-                                opacity: isToday ? 1 : 0.6,
-                              },
-                            ]}
-                          />
-                          <Text style={[styles.barLabel, { color: theme.textSecondary }]}>
-                            {day.label}
-                          </Text>
-                        </View>
-                      );
-                    })}
+            {/* 5. Technique Distribution */}
+            {techniqueDistribution.items.length > 0 && (
+              <View style={[styles.newCard, { backgroundColor: theme.card }]}>
+                <Text style={[styles.newCardTitle, { color: theme.text }]}>
+                  {t('progress.techniqueBreakdown', { defaultValue: 'Your Practice' })}
+                </Text>
+                <View style={styles.distBarContainer}>
+                  {techniqueDistribution.items.map((item, idx) => (
+                    <View
+                      key={item.id}
+                      style={[
+                        styles.distBarSegment,
+                        {
+                          backgroundColor: item.color,
+                          flex: item.count / techniqueDistribution.total,
+                          borderTopLeftRadius: idx === 0 ? 8 : 0,
+                          borderBottomLeftRadius: idx === 0 ? 8 : 0,
+                          borderTopRightRadius: idx === techniqueDistribution.items.length - 1 ? 8 : 0,
+                          borderBottomRightRadius: idx === techniqueDistribution.items.length - 1 ? 8 : 0,
+                        },
+                      ]}
+                    />
+                  ))}
+                </View>
+                <View style={styles.distLegend}>
+                  {techniqueDistribution.items.map((item) => (
+                    <View key={item.id} style={styles.distLegendItem}>
+                      <View style={[styles.distLegendDot, { backgroundColor: item.color }]} />
+                      <Text style={[styles.distLegendName, { color: theme.text }]} numberOfLines={1}>
+                        {item.name}
+                      </Text>
+                      <Text style={[styles.distLegendCount, { color: theme.textSecondary }]}>
+                        {item.count}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
+
+            {/* 6. Personal Bests */}
+            {personalBests && (
+              <View style={[styles.newCard, { backgroundColor: theme.card }]}>
+                <Text style={[styles.newCardTitle, { color: theme.text }]}>
+                  {t('progress.personalBests', { defaultValue: 'Personal Bests' })}
+                </Text>
+                <View style={styles.bestsGrid}>
+                  <View style={[styles.bestItem, { backgroundColor: theme.isDark ? 'rgba(74,144,217,0.1)' : 'rgba(74,144,217,0.08)' }]}>
+                    <Ionicons name="timer" size={22} color="#4A90D9" />
+                    <Text style={[styles.bestValue, { color: theme.text }]}>
+                      {formatTime(personalBests.longestSession)}
+                    </Text>
+                    <Text style={[styles.bestLabel, { color: theme.textSecondary }]}>
+                      {t('progress.longestSession', { defaultValue: 'Longest Session' })}
+                    </Text>
+                  </View>
+                  <View style={[styles.bestItem, { backgroundColor: theme.isDark ? 'rgba(245,166,35,0.1)' : 'rgba(245,166,35,0.08)' }]}>
+                    <Ionicons name="flame" size={22} color="#F5A623" />
+                    <Text style={[styles.bestValue, { color: theme.text }]}>
+                      {stats.longestStreak}
+                    </Text>
+                    <Text style={[styles.bestLabel, { color: theme.textSecondary }]}>
+                      {t('progress.bestStreak', { defaultValue: 'Best Streak' })}
+                    </Text>
+                  </View>
+                  <View style={[styles.bestItem, { backgroundColor: theme.isDark ? 'rgba(123,196,168,0.1)' : 'rgba(123,196,168,0.08)' }]}>
+                    <Ionicons name="time" size={22} color="#7BC4A8" />
+                    <Text style={[styles.bestValue, { color: theme.text }]}>
+                      {stats.totalMinutes}
+                    </Text>
+                    <Text style={[styles.bestLabel, { color: theme.textSecondary }]}>
+                      {t('progress.totalMinutes', { defaultValue: 'Total Minutes' })}
+                    </Text>
+                  </View>
+                  <View style={[styles.bestItem, { backgroundColor: theme.isDark ? 'rgba(123,104,174,0.1)' : 'rgba(123,104,174,0.08)' }]}>
+                    <Ionicons name="leaf" size={22} color="#7B68AE" />
+                    <Text style={[styles.bestValue, { color: theme.text }]}>
+                      {stats.totalSessions}
+                    </Text>
+                    <Text style={[styles.bestLabel, { color: theme.textSecondary }]}>
+                      {t('progress.totalSessions', { defaultValue: 'Total Sessions' })}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -344,55 +500,6 @@ export default function HistoryScreen() {
                 <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
               </TouchableOpacity>
             )}
-            {isPro && <View style={styles.section}>
-              <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.allTimeStats')}</Text>
-              <View style={[styles.allTimeCard, { backgroundColor: theme.card }]}>
-                <View style={styles.allTimeRow}>
-                  <View style={styles.allTimeStat}>
-                    <Text style={[styles.allTimeValue, { color: theme.text }]}>{stats.totalSessions}</Text>
-                    <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>{t('history.totalSessions')}</Text>
-                  </View>
-                  <View style={styles.allTimeStat}>
-                    <Text style={[styles.allTimeValue, { color: theme.text }]}>{stats.totalMinutes}</Text>
-                    <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>{t('history.totalMinutes')}</Text>
-                  </View>
-                </View>
-                <View style={styles.allTimeRow}>
-                  <View style={styles.allTimeStat}>
-                    <Text style={[styles.allTimeValue, { color: theme.text }]}>{stats.longestStreak}</Text>
-                    <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>{t('history.longestStreak')}</Text>
-                  </View>
-                  <View style={styles.allTimeStat}>
-                    {favoriteTechnique ? (
-                      <>
-                        <Ionicons name={favoriteTechnique.icon as keyof typeof Ionicons.glyphMap} size={22} color={favoriteTechnique.color} />
-                        <Text style={[styles.allTimeValue, { color: theme.text, fontSize: 15 }]} numberOfLines={1}>
-                          {t(favoriteTechnique.nameKey)}
-                        </Text>
-                        <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>{t('history.favoriteTechnique')}</Text>
-                      </>
-                    ) : (
-                      <>
-                        <Text style={[styles.allTimeValue, { color: theme.text }]}>-</Text>
-                        <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>{t('history.favoriteTechnique')}</Text>
-                      </>
-                    )}
-                  </View>
-                </View>
-                {stats.bestRetention > 0 && (
-                  <View style={styles.allTimeRow}>
-                    <View style={styles.allTimeStat}>
-                      <Text style={[styles.allTimeValue, { color: theme.text }]}>{formatTime(stats.bestRetention)}</Text>
-                      <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>{t('history.bestRetention')}</Text>
-                    </View>
-                    <View style={styles.allTimeStat}>
-                      <Text style={[styles.allTimeValue, { color: theme.text }]}>{formatTime(stats.avgRetention)}</Text>
-                      <Text style={[styles.allTimeLabel, { color: theme.textSecondary }]}>{t('history.avgRetention')}</Text>
-                    </View>
-                  </View>
-                )}
-              </View>
-            </View>}
           </>
         )}
       </ScrollView>
@@ -628,32 +735,38 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 2,
   },
-  barChartRow: {
+  weekRow: {
     flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    height: 120,
-    gap: 4,
-  },
-  barCol: {
-    flex: 1,
+    justifyContent: 'space-around',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    paddingVertical: 8,
   },
-  bar: {
-    width: '70%',
-    borderRadius: 4,
-    minHeight: 4,
-    marginBottom: 4,
+  weekDayCol: {
+    alignItems: 'center',
+    gap: 6,
+    flex: 1,
   },
-  barLabel: {
-    fontSize: 9,
-    fontFamily: FONTS.medium,
+  weekDayLetterWrap: {
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  barValue: {
-    fontSize: 10,
+  weekDayLetter: {
+    fontSize: 16,
     fontFamily: FONTS.bold,
-    marginBottom: 2,
+  },
+  weekDayCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  weekDayDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
 
   proUpsell: {
@@ -686,5 +799,140 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: FONT_SIZE.sm,
     fontFamily: FONTS.semibold,
+  },
+
+  // ── Streak Motivation Banner ──
+  streakBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: SPACING.lg,
+    marginBottom: SPACING.md,
+    borderRadius: 20,
+    padding: SPACING.lg,
+    gap: 12,
+    shadowColor: '#E85D4A',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+  streakBannerEmoji: {
+    fontSize: 32,
+  },
+  streakBannerTitle: {
+    fontSize: 20,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: -0.3,
+  },
+  streakBannerSub: {
+    fontSize: 14,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.85)',
+    marginTop: 2,
+  },
+  streakBannerCount: {
+    fontSize: 18,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+  },
+
+  // ── New Card (shared for new sections) ──
+  newCard: {
+    marginHorizontal: SPACING.lg,
+    marginBottom: SPACING.md,
+    borderRadius: 20,
+    padding: SPACING.lg,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  newCardTitle: {
+    fontSize: 18,
+    fontFamily: FONTS.bold,
+    marginBottom: SPACING.sm,
+  },
+
+  // ── Last 30 Days Streak Dots ──
+  streakDotsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 4,
+  },
+  streakDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  streakDotToday: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    borderWidth: 2,
+  },
+
+  // ── Technique Distribution ──
+  distBarContainer: {
+    flexDirection: 'row',
+    height: 16,
+    borderRadius: 8,
+    overflow: 'hidden',
+    marginBottom: SPACING.md,
+    gap: 2,
+  },
+  distBarSegment: {
+    height: '100%',
+  },
+  distLegend: {
+    gap: 8,
+  },
+  distLegendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  distLegendDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  distLegendName: {
+    flex: 1,
+    fontSize: 14,
+    fontFamily: FONTS.medium,
+  },
+  distLegendCount: {
+    fontSize: 14,
+    fontFamily: FONTS.bold,
+  },
+
+  // ── Personal Bests ──
+  bestsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: SPACING.md,
+  },
+  bestItem: {
+    width: '46%',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: SPACING.md,
+    borderRadius: 16,
+  },
+  bestIconBg: {
+    marginBottom: 0,
+  },
+  bestValue: {
+    fontSize: 22,
+    fontFamily: FONTS.heavy,
+    textAlign: 'center',
+  },
+  bestLabel: {
+    fontSize: 11,
+    fontFamily: FONTS.medium,
+    textAlign: 'center',
   },
 });
