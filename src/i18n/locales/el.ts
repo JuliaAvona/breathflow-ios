@@ -31,6 +31,20 @@ export default {
   'home.rounds': '\u03b3\u03cd\u03c1\u03bf\u03b9',
   'home.sets': '\u03c3\u03b5\u03c4',
 
+  // Progress
+  'progress.streakBanner': '{{count}} μέρες στη σειρά!',
+  'progress.doneToday': 'Ολοκληρώθηκε για σήμερα!',
+  'progress.bestStreakWas': 'Το καλύτερό σου: {{count}} μέρες',
+  'progress.streakNewRecord': 'Νέο προσωπικό ρεκόρ!',
+  'progress.startStreak': 'Ξεκίνα τη σειρά σου σήμερα!',
+  'progress.streakKeepGoing': 'Κράτα τη σειρά σου!',
+  'progress.techniqueBreakdown': 'Η πρακτική σου',
+  'progress.personalBests': 'Προσωπικά ρεκόρ',
+  'progress.longestSession': 'Μεγαλύτερη συνεδρία',
+  'progress.bestStreak': 'Καλύτερη σειρά',
+  'progress.totalMinutes': 'Συνολικά λεπτά',
+  'progress.totalSessions': 'Συνολικές συνεδρίες',
+
   // Categories
   'category.calm': '\u0397\u03c1\u03b5\u03bc\u03af\u03b1',
   'category.sleep': '\u038e\u03c0\u03bd\u03bf\u03c2',

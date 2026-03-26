@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'சுற்றுகள்',
   'home.sets': 'தொகுப்புகள்',
 
+  // Progress
+  'progress.streakBanner': 'தொடர்ச்சியாக {{count}} நாட்கள்!',
+  'progress.doneToday': 'இன்றைக்கு முடிந்தது!',
+  'progress.bestStreakWas': 'உங்கள் சிறந்தது: {{count}} நாட்கள்',
+  'progress.streakNewRecord': 'புதிய தனிப்பட்ட சாதனை!',
+  'progress.startStreak': 'இன்றே உங்கள் தொடரைத் தொடங்குங்கள்!',
+  'progress.streakKeepGoing': 'உங்கள் தொடரைத் தொடருங்கள்!',
+  'progress.techniqueBreakdown': 'உங்கள் பயிற்சி',
+  'progress.personalBests': 'தனிப்பட்ட சிறந்தவை',
+  'progress.longestSession': 'நீண்ட அமர்வு',
+  'progress.bestStreak': 'சிறந்த தொடர்',
+  'progress.totalMinutes': 'மொத்த நிமிடங்கள்',
+  'progress.totalSessions': 'மொத்த அமர்வுகள்',
+
   // Categories
   'category.calm': 'அமைதி',
   'category.sleep': 'தூக்கம்',

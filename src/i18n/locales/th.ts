@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'รอบ',
   'home.sets': 'เซ็ต',
 
+  // Progress
+  'progress.streakBanner': '{{count}} วันติดต่อกัน!',
+  'progress.doneToday': 'เสร็จสิ้นสำหรับวันนี้!',
+  'progress.bestStreakWas': 'สถิติของคุณ: {{count}} วัน',
+  'progress.streakNewRecord': 'สถิติส่วนตัวใหม่!',
+  'progress.startStreak': 'เริ่มสถิติของคุณวันนี้!',
+  'progress.streakKeepGoing': 'รักษาสถิติของคุณไว้!',
+  'progress.techniqueBreakdown': 'การฝึกของคุณ',
+  'progress.personalBests': 'สถิติส่วนตัว',
+  'progress.longestSession': 'เซสชันที่ยาวที่สุด',
+  'progress.bestStreak': 'สถิติที่ดีที่สุด',
+  'progress.totalMinutes': 'นาทีรวม',
+  'progress.totalSessions': 'เซสชันรวม',
+
   // Categories
   'category.calm': 'สงบ',
   'category.sleep': 'การนอน',

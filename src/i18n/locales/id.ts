@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'putaran',
   'home.sets': 'set',
 
+  // Progress
+  'progress.streakBanner': '{{count}} hari berturut-turut!',
+  'progress.doneToday': 'Selesai untuk hari ini!',
+  'progress.bestStreakWas': 'Terbaik Anda: {{count}} hari',
+  'progress.streakNewRecord': 'Rekor pribadi baru!',
+  'progress.startStreak': 'Mulai rangkaian Anda hari ini!',
+  'progress.streakKeepGoing': 'Pertahankan rangkaian Anda!',
+  'progress.techniqueBreakdown': 'Latihan Anda',
+  'progress.personalBests': 'Rekor Pribadi',
+  'progress.longestSession': 'Sesi Terlama',
+  'progress.bestStreak': 'Rangkaian Terbaik',
+  'progress.totalMinutes': 'Total Menit',
+  'progress.totalSessions': 'Total Sesi',
+
   // Categories
   'category.calm': 'Tenang',
   'category.sleep': 'Tidur',

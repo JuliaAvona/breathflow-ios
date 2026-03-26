@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'rondas',
   'home.sets': 's\u00e9ries',
 
+  // Progress
+  'progress.streakBanner': '{{count}} dias consecutivos!',
+  'progress.doneToday': 'Concluído por hoje!',
+  'progress.bestStreakWas': 'O seu melhor: {{count}} dias',
+  'progress.streakNewRecord': 'Novo recorde pessoal!',
+  'progress.startStreak': 'Comece a sua série hoje!',
+  'progress.streakKeepGoing': 'Mantenha a sua série!',
+  'progress.techniqueBreakdown': 'A sua prática',
+  'progress.personalBests': 'Recordes pessoais',
+  'progress.longestSession': 'Sessão mais longa',
+  'progress.bestStreak': 'Melhor série',
+  'progress.totalMinutes': 'Minutos totais',
+  'progress.totalSessions': 'Sessões totais',
+
   // Categories
   'category.calm': 'Calma',
   'category.sleep': 'Sono',

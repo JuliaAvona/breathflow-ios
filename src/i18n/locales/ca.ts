@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'rondes',
   'home.sets': 'sèries',
 
+  // Progress
+  'progress.streakBanner': '{{count}} dies seguits!',
+  'progress.doneToday': 'Fet per avui!',
+  'progress.bestStreakWas': 'El teu millor: {{count}} dies',
+  'progress.streakNewRecord': 'Nou rècord personal!',
+  'progress.startStreak': 'Comença la teva ratxa avui!',
+  'progress.streakKeepGoing': 'Mantén la teva ratxa!',
+  'progress.techniqueBreakdown': 'La teva pràctica',
+  'progress.personalBests': 'Millors marques',
+  'progress.longestSession': 'Sessió més llarga',
+  'progress.bestStreak': 'Millor ratxa',
+  'progress.totalMinutes': 'Minuts totals',
+  'progress.totalSessions': 'Sessions totals',
+
   // Categories
   'category.calm': 'Calma',
   'category.sleep': 'Son',

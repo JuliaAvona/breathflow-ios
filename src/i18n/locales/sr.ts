@@ -31,6 +31,20 @@ export default {
   'home.rounds': '\u043A\u0440\u0443\u0433\u043E\u0432\u0430',
   'home.sets': '\u0441\u0435\u0440\u0438\u0458\u0430',
 
+  // Progress
+  'progress.streakBanner': '{{count}} дана заредом!',
+  'progress.doneToday': 'Завршено за данас!',
+  'progress.bestStreakWas': 'Ваш рекорд: {{count}} дана',
+  'progress.streakNewRecord': 'Нови лични рекорд!',
+  'progress.startStreak': 'Започните свој низ данас!',
+  'progress.streakKeepGoing': 'Наставите свој низ!',
+  'progress.techniqueBreakdown': 'Ваша пракса',
+  'progress.personalBests': 'Лични рекорди',
+  'progress.longestSession': 'Најдужа сесија',
+  'progress.bestStreak': 'Најбољи низ',
+  'progress.totalMinutes': 'Укупно минута',
+  'progress.totalSessions': 'Укупно сесија',
+
   // Categories
   'category.calm': '\u041C\u0438\u0440',
   'category.sleep': '\u0421\u0430\u043D',

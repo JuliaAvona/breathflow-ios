@@ -399,8 +399,8 @@ export default function HistoryScreen() {
               </View>
             )}
 
-            {/* 5. Technique Distribution */}
-            {techniqueDistribution.items.length > 0 && (
+            {/* 5. Technique Distribution (Pro only) */}
+            {isPro && techniqueDistribution.items.length > 0 && (
               <View style={[styles.newCard, { backgroundColor: theme.card }]}>
                 <Text style={[styles.newCardTitle, { color: theme.text }]}>
                   {t('progress.techniqueBreakdown', { defaultValue: 'Your Practice' })}

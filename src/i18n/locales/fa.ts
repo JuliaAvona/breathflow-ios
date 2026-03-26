@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'دور',
   'home.sets': 'ست',
 
+  // Progress
+  'progress.streakBanner': '{{count}} روز پشت سر هم!',
+  'progress.doneToday': 'برای امروز تمام شد!',
+  'progress.bestStreakWas': 'بهترین شما: {{count}} روز',
+  'progress.streakNewRecord': 'رکورد شخصی جدید!',
+  'progress.startStreak': 'رشته خود را امروز شروع کنید!',
+  'progress.streakKeepGoing': 'رشته خود را حفظ کنید!',
+  'progress.techniqueBreakdown': 'تمرین شما',
+  'progress.personalBests': 'بهترین‌های شخصی',
+  'progress.longestSession': 'طولانی‌ترین جلسه',
+  'progress.bestStreak': 'بهترین رشته',
+  'progress.totalMinutes': 'کل دقایق',
+  'progress.totalSessions': 'کل جلسات',
+
   // Categories
   'category.calm': 'آرامش',
   'category.sleep': 'خواب',

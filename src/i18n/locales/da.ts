@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'runder',
   'home.sets': 'sæt',
 
+  // Progress
+  'progress.streakBanner': '{{count}} dage i træk!',
+  'progress.doneToday': 'Færdig for i dag!',
+  'progress.bestStreakWas': 'Din bedste: {{count}} dage',
+  'progress.streakNewRecord': 'Ny personlig rekord!',
+  'progress.startStreak': 'Start din serie i dag!',
+  'progress.streakKeepGoing': 'Hold din serie i gang!',
+  'progress.techniqueBreakdown': 'Din praksis',
+  'progress.personalBests': 'Personlige rekorder',
+  'progress.longestSession': 'Længste session',
+  'progress.bestStreak': 'Bedste serie',
+  'progress.totalMinutes': 'Minutter i alt',
+  'progress.totalSessions': 'Sessioner i alt',
+
   // Categories
   'category.calm': 'Ro',
   'category.sleep': 'S\u00f8vn',

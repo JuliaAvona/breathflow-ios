@@ -31,6 +31,20 @@ export default {
   'home.rounds': '\u092b\u0947\u0931\u094d\u092f\u093e',
   'home.sets': '\u0938\u0947\u091f',
 
+  // Progress
+  'progress.streakBanner': 'सलग {{count}} दिवस!',
+  'progress.doneToday': 'आजसाठी पूर्ण!',
+  'progress.bestStreakWas': 'तुमचा सर्वोत्तम: {{count}} दिवस',
+  'progress.streakNewRecord': 'नवा वैयक्तिक विक्रम!',
+  'progress.startStreak': 'आज तुमची मालिका सुरू करा!',
+  'progress.streakKeepGoing': 'तुमची मालिका सुरू ठेवा!',
+  'progress.techniqueBreakdown': 'तुमचा सराव',
+  'progress.personalBests': 'वैयक्तिक सर्वोत्तम',
+  'progress.longestSession': 'सर्वात लांब सत्र',
+  'progress.bestStreak': 'सर्वोत्तम मालिका',
+  'progress.totalMinutes': 'एकूण मिनिटे',
+  'progress.totalSessions': 'एकूण सत्रे',
+
   // Categories
   'category.calm': '\u0936\u093e\u0902\u0924',
   'category.sleep': '\u091d\u094b\u092a',

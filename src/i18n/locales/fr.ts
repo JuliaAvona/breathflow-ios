@@ -31,6 +31,20 @@ export default {
   'home.categoryEnergy': '\u00c9nergie',
   'home.categoryAdvanced': 'Avanc\u00e9',
 
+  // Progress
+  'progress.streakBanner': '{{count}} jours d\'affil\u00e9e\u00a0!',
+  'progress.doneToday': 'Termin\u00e9 pour aujourd\'hui\u00a0!',
+  'progress.bestStreakWas': 'Votre meilleur\u00a0: {{count}} jours',
+  'progress.streakNewRecord': 'Nouveau record personnel\u00a0!',
+  'progress.startStreak': 'Commencez votre s\u00e9rie aujourd\'hui\u00a0!',
+  'progress.streakKeepGoing': 'Maintenez votre s\u00e9rie\u00a0!',
+  'progress.techniqueBreakdown': 'Votre pratique',
+  'progress.personalBests': 'Records personnels',
+  'progress.longestSession': 'Plus longue s\u00e9ance',
+  'progress.bestStreak': 'Meilleure s\u00e9rie',
+  'progress.totalMinutes': 'Minutes totales',
+  'progress.totalSessions': 'S\u00e9ances totales',
+
   // Categories
   'category.calm': 'Calme',
   'category.sleep': 'Sommeil',

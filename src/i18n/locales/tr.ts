@@ -31,6 +31,20 @@ export default {
   'home.categoryEnergy': 'Enerji',
   'home.categoryAdvanced': 'İleri Düzey',
 
+  // Progress
+  'progress.streakBanner': 'Üst üste {{count}} gün!',
+  'progress.doneToday': 'Bugünlük tamam!',
+  'progress.bestStreakWas': 'En iyiniz: {{count}} gün',
+  'progress.streakNewRecord': 'Yeni kişisel rekor!',
+  'progress.startStreak': 'Serinize bugün başlayın!',
+  'progress.streakKeepGoing': 'Serinizi sürdürün!',
+  'progress.techniqueBreakdown': 'Pratiğiniz',
+  'progress.personalBests': 'Kişisel Rekorlar',
+  'progress.longestSession': 'En Uzun Seans',
+  'progress.bestStreak': 'En İyi Seri',
+  'progress.totalMinutes': 'Toplam Dakika',
+  'progress.totalSessions': 'Toplam Seans',
+
   // Categories
   'category.calm': 'Sakinlik',
   'category.sleep': 'Uyku',

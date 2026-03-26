@@ -31,6 +31,20 @@ export default {
   'home.categoryEnergy': 'Енергія',
   'home.categoryAdvanced': 'Просунуте',
 
+  // Progress
+  'progress.streakBanner': '{{count}} днів поспіль!',
+  'progress.doneToday': 'На сьогодні виконано!',
+  'progress.bestStreakWas': 'Ваш рекорд: {{count}} днів',
+  'progress.streakNewRecord': 'Новий особистий рекорд!',
+  'progress.startStreak': 'Розпочніть свою серію сьогодні!',
+  'progress.streakKeepGoing': 'Продовжуйте свою серію!',
+  'progress.techniqueBreakdown': 'Ваша практика',
+  'progress.personalBests': 'Особисті рекорди',
+  'progress.longestSession': 'Найдовша сесія',
+  'progress.bestStreak': 'Найкраща серія',
+  'progress.totalMinutes': 'Всього хвилин',
+  'progress.totalSessions': 'Всього сесій',
+
   // Categories
   'category.calm': 'Спокій',
   'category.sleep': 'Сон',

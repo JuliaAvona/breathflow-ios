@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'k\u0101rtas',
   'home.sets': 'komplekti',
 
+  // Progress
+  'progress.streakBanner': '{{count}} dienas pēc kārtas!',
+  'progress.doneToday': 'Šodien izdarīts!',
+  'progress.bestStreakWas': 'Tavs labākais: {{count}} dienas',
+  'progress.streakNewRecord': 'Jauns personīgais rekords!',
+  'progress.startStreak': 'Sāc savu sēriju šodien!',
+  'progress.streakKeepGoing': 'Turpini savu sēriju!',
+  'progress.techniqueBreakdown': 'Tava prakse',
+  'progress.personalBests': 'Personīgie rekordi',
+  'progress.longestSession': 'Garākā sesija',
+  'progress.bestStreak': 'Labākā sērija',
+  'progress.totalMinutes': 'Kopā minūtes',
+  'progress.totalSessions': 'Kopā sesijas',
+
   // Categories
   'category.calm': 'Miers',
   'category.sleep': 'Miegs',

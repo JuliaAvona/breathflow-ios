@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'v\u00f2ng',
   'home.sets': 'hi\u1ec7p',
 
+  // Progress
+  'progress.streakBanner': '{{count}} ngày liên tiếp!',
+  'progress.doneToday': 'Hoàn thành cho hôm nay!',
+  'progress.bestStreakWas': 'Kỷ lục của bạn: {{count}} ngày',
+  'progress.streakNewRecord': 'Kỷ lục cá nhân mới!',
+  'progress.startStreak': 'Bắt đầu chuỗi ngày của bạn hôm nay!',
+  'progress.streakKeepGoing': 'Duy trì chuỗi ngày của bạn!',
+  'progress.techniqueBreakdown': 'Luyện tập của bạn',
+  'progress.personalBests': 'Kỷ lục cá nhân',
+  'progress.longestSession': 'Phiên dài nhất',
+  'progress.bestStreak': 'Chuỗi tốt nhất',
+  'progress.totalMinutes': 'Tổng số phút',
+  'progress.totalSessions': 'Tổng số phiên',
+
   // Categories
   'category.calm': 'B\u00ECnh t\u0129nh',
   'category.sleep': 'Gi\u1EA5c ng\u1EE7',

@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'k\u00f4l',
   'home.sets': 's\u00e1d',
 
+  // Progress
+  'progress.streakBanner': '{{count}} dní v rade!',
+  'progress.doneToday': 'Hotovo na dnes!',
+  'progress.bestStreakWas': 'Váš rekord: {{count}} dní',
+  'progress.streakNewRecord': 'Nový osobný rekord!',
+  'progress.startStreak': 'Začnite svoju sériu dnes!',
+  'progress.streakKeepGoing': 'Udržte svoju sériu!',
+  'progress.techniqueBreakdown': 'Vaša prax',
+  'progress.personalBests': 'Osobné rekordy',
+  'progress.longestSession': 'Najdlhšie sedenie',
+  'progress.bestStreak': 'Najlepšia séria',
+  'progress.totalMinutes': 'Celkom minút',
+  'progress.totalSessions': 'Celkom sedení',
+
   // Categories
   'category.calm': 'Pokoj',
   'category.sleep': 'Spanok',

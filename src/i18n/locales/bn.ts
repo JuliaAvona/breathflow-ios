@@ -31,6 +31,20 @@ export default {
   'home.rounds': '\u09B0\u09BE\u0989\u09A8\u09CD\u09A1',
   'home.sets': '\u09B8\u09C7\u099F',
 
+  // Progress
+  'progress.streakBanner': 'পরপর {{count}} দিন!',
+  'progress.doneToday': 'আজকের জন্য সম্পন্ন!',
+  'progress.bestStreakWas': 'আপনার সেরা: {{count}} দিন',
+  'progress.streakNewRecord': 'নতুন ব্যক্তিগত রেকর্ড!',
+  'progress.startStreak': 'আজই আপনার ধারা শুরু করুন!',
+  'progress.streakKeepGoing': 'আপনার ধারা বজায় রাখুন!',
+  'progress.techniqueBreakdown': 'আপনার অনুশীলন',
+  'progress.personalBests': 'ব্যক্তিগত সেরা',
+  'progress.longestSession': 'দীর্ঘতম সেশন',
+  'progress.bestStreak': 'সেরা ধারা',
+  'progress.totalMinutes': 'মোট মিনিট',
+  'progress.totalSessions': 'মোট সেশন',
+
   // Categories
   'category.calm': '\u09B6\u09BE\u09A8\u09CD\u09A4',
   'category.sleep': '\u0998\u09C1\u09AE',

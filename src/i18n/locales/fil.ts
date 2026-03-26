@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'rounds',
   'home.sets': 'sets',
 
+  // Progress
+  'progress.streakBanner': '{{count}} araw sunod-sunod!',
+  'progress.doneToday': 'Tapos na ngayong araw!',
+  'progress.bestStreakWas': 'Pinakamahusay mo: {{count}} araw',
+  'progress.streakNewRecord': 'Bagong personal record!',
+  'progress.startStreak': 'Simulan ang streak mo ngayon!',
+  'progress.streakKeepGoing': 'Ituloy ang streak mo!',
+  'progress.techniqueBreakdown': 'Ang Pagsasanay Mo',
+  'progress.personalBests': 'Mga Personal Best',
+  'progress.longestSession': 'Pinakamahabang Sesyon',
+  'progress.bestStreak': 'Pinakamahusay na Streak',
+  'progress.totalMinutes': 'Kabuuang Minuto',
+  'progress.totalSessions': 'Kabuuang Sesyon',
+
   // Categories
   'category.calm': 'Kalma',
   'category.sleep': 'Tulog',

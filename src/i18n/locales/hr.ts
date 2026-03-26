@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'krugova',
   'home.sets': 'setova',
 
+  // Progress
+  'progress.streakBanner': '{{count}} dana zaredom!',
+  'progress.doneToday': 'Gotovo za danas!',
+  'progress.bestStreakWas': 'Tvoj rekord: {{count}} dana',
+  'progress.streakNewRecord': 'Novi osobni rekord!',
+  'progress.startStreak': 'Započni svoj niz danas!',
+  'progress.streakKeepGoing': 'Nastavi svoj niz!',
+  'progress.techniqueBreakdown': 'Tvoja praksa',
+  'progress.personalBests': 'Osobni rekordi',
+  'progress.longestSession': 'Najduža sesija',
+  'progress.bestStreak': 'Najbolji niz',
+  'progress.totalMinutes': 'Ukupno minuta',
+  'progress.totalSessions': 'Ukupno sesija',
+
   // Categories
   'category.calm': 'Mir',
   'category.sleep': 'San',

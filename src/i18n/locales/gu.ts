@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'રાઉન્ડ',
   'home.sets': 'સેટ',
 
+  // Progress
+  'progress.streakBanner': 'સતત {{count}} દિવસ!',
+  'progress.doneToday': 'આજ માટે પૂર્ણ!',
+  'progress.bestStreakWas': 'તમારું શ્રેષ્ઠ: {{count}} દિવસ',
+  'progress.streakNewRecord': 'નવો વ્યક્તિગત રેકોર્ડ!',
+  'progress.startStreak': 'આજે તમારી શ્રેણી શરૂ કરો!',
+  'progress.streakKeepGoing': 'તમારી શ્રેણી જાળવો!',
+  'progress.techniqueBreakdown': 'તમારી પ્રેક્ટિસ',
+  'progress.personalBests': 'વ્યક્તિગત શ્રેષ્ઠ',
+  'progress.longestSession': 'સૌથી લાંબું સત્ર',
+  'progress.bestStreak': 'શ્રેષ્ઠ શ્રેણી',
+  'progress.totalMinutes': 'કુલ મિનિટ',
+  'progress.totalSessions': 'કુલ સત્રો',
+
   // Categories
   'category.calm': 'શાંત',
   'category.sleep': 'ઊંઘ',

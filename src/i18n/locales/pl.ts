@@ -27,6 +27,21 @@ export default {
   'home.categoryFocus': 'Skupienie',
   'home.categoryEnergy': 'Energia',
   'home.categoryAdvanced': 'Zaawans.',
+
+  // Progress
+  'progress.streakBanner': '{{count}} dni z rzędu!',
+  'progress.doneToday': 'Gotowe na dziś!',
+  'progress.bestStreakWas': 'Twój rekord: {{count}} dni',
+  'progress.streakNewRecord': 'Nowy rekord osobisty!',
+  'progress.startStreak': 'Zacznij swoją serię dziś!',
+  'progress.streakKeepGoing': 'Kontynuuj swoją serię!',
+  'progress.techniqueBreakdown': 'Twoja praktyka',
+  'progress.personalBests': 'Rekordy osobiste',
+  'progress.longestSession': 'Najdłuższa sesja',
+  'progress.bestStreak': 'Najlepsza seria',
+  'progress.totalMinutes': 'Łącznie minut',
+  'progress.totalSessions': 'Łącznie sesji',
+
   'category.calm': 'Spok\u00f3j',
   'category.sleep': 'Sen',
   'category.focus': 'Skupienie',

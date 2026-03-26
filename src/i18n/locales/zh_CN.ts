@@ -31,6 +31,20 @@ export default {
   'home.categoryEnergy': '活力',
   'home.categoryAdvanced': '进阶',
 
+  // Progress
+  'progress.streakBanner': '连续{{count}}天!',
+  'progress.doneToday': '今日已完成!',
+  'progress.bestStreakWas': '最佳纪录: {{count}}天',
+  'progress.streakNewRecord': '新的个人纪录!',
+  'progress.startStreak': '今天开始你的连续记录!',
+  'progress.streakKeepGoing': '保持你的连续记录!',
+  'progress.techniqueBreakdown': '你的练习',
+  'progress.personalBests': '个人最佳',
+  'progress.longestSession': '最长练习',
+  'progress.bestStreak': '最佳连续',
+  'progress.totalMinutes': '总分钟数',
+  'progress.totalSessions': '总练习次数',
+
   // Categories
   'category.calm': '平静',
   'category.sleep': '睡眠',

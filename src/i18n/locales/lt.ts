@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'rat\u0173',
   'home.sets': 'rinkini\u0173',
 
+  // Progress
+  'progress.streakBanner': '{{count}} dienos iš eilės!',
+  'progress.doneToday': 'Šiandien atlikta!',
+  'progress.bestStreakWas': 'Jūsų rekordas: {{count}} dienos',
+  'progress.streakNewRecord': 'Naujas asmeninis rekordas!',
+  'progress.startStreak': 'Pradėkite savo seriją šiandien!',
+  'progress.streakKeepGoing': 'Tęskite savo seriją!',
+  'progress.techniqueBreakdown': 'Jūsų praktika',
+  'progress.personalBests': 'Asmeniniai rekordai',
+  'progress.longestSession': 'Ilgiausia sesija',
+  'progress.bestStreak': 'Geriausia serija',
+  'progress.totalMinutes': 'Iš viso minučių',
+  'progress.totalSessions': 'Iš viso sesijų',
+
   // Categories
   'category.calm': 'Ramybe',
   'category.sleep': 'Miegas',

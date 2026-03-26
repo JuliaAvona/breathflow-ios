@@ -31,6 +31,20 @@ export default {
   'home.categoryEnergy': '\uC5D0\uB108\uC9C0',
   'home.categoryAdvanced': '\uACE0\uAE09',
 
+  // Progress
+  'progress.streakBanner': '{{count}}일 연속!',
+  'progress.doneToday': '오늘 완료!',
+  'progress.bestStreakWas': '최고 기록: {{count}}일',
+  'progress.streakNewRecord': '새로운 개인 기록!',
+  'progress.startStreak': '오늘 연속 기록을 시작하세요!',
+  'progress.streakKeepGoing': '연속 기록을 이어가세요!',
+  'progress.techniqueBreakdown': '나의 수련',
+  'progress.personalBests': '개인 최고 기록',
+  'progress.longestSession': '최장 세션',
+  'progress.bestStreak': '최고 연속',
+  'progress.totalMinutes': '총 분',
+  'progress.totalSessions': '총 세션',
+
   // Categories
   'category.calm': '\uC9C4\uC815',
   'category.sleep': '\uC218\uBA74',

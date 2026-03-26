@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'ringi',
   'home.sets': 'seeriat',
 
+  // Progress
+  'progress.streakBanner': '{{count}} päeva järjest!',
+  'progress.doneToday': 'Tänaseks tehtud!',
+  'progress.bestStreakWas': 'Sinu parim: {{count}} päeva',
+  'progress.streakNewRecord': 'Uus isiklik rekord!',
+  'progress.startStreak': 'Alusta oma seeriat täna!',
+  'progress.streakKeepGoing': 'Hoia oma seeria käigus!',
+  'progress.techniqueBreakdown': 'Sinu praktika',
+  'progress.personalBests': 'Isiklikud rekordid',
+  'progress.longestSession': 'Pikim seanss',
+  'progress.bestStreak': 'Parim seeria',
+  'progress.totalMinutes': 'Minuteid kokku',
+  'progress.totalSessions': 'Seansse kokku',
+
   // Categories
   'category.calm': 'Rahu',
   'category.sleep': 'Uni',

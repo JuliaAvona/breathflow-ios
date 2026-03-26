@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'ಸುತ್ತುಗಳು',
   'home.sets': 'ಸೆಟ್',
 
+  // Progress
+  'progress.streakBanner': 'ಸತತ {{count}} ದಿನಗಳು!',
+  'progress.doneToday': 'ಇಂದಿಗೆ ಮುಗಿಯಿತು!',
+  'progress.bestStreakWas': 'ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ: {{count}} ದಿನಗಳು',
+  'progress.streakNewRecord': 'ಹೊಸ ವೈಯಕ್ತಿಕ ದಾಖಲೆ!',
+  'progress.startStreak': 'ಇಂದು ನಿಮ್ಮ ಸರಣಿಯನ್ನು ಪ್ರಾರಂಭಿಸಿ!',
+  'progress.streakKeepGoing': 'ನಿಮ್ಮ ಸರಣಿಯನ್ನು ಮುಂದುವರಿಸಿ!',
+  'progress.techniqueBreakdown': 'ನಿಮ್ಮ ಅಭ್ಯಾಸ',
+  'progress.personalBests': 'ವೈಯಕ್ತಿಕ ಅತ್ಯುತ್ತಮ',
+  'progress.longestSession': 'ಅತಿ ಉದ್ದ ಅವಧಿ',
+  'progress.bestStreak': 'ಅತ್ಯುತ್ತಮ ಸರಣಿ',
+  'progress.totalMinutes': 'ಒಟ್ಟು ನಿಮಿಷಗಳು',
+  'progress.totalSessions': 'ಒಟ್ಟು ಅವಧಿಗಳು',
+
   // Categories
   'category.calm': 'ಶಾಂತ',
   'category.sleep': 'ನಿದ್ರೆ',

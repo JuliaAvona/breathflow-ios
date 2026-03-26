@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'kierrosta',
   'home.sets': 'sarjaa',
 
+  // Progress
+  'progress.streakBanner': '{{count}} päivää peräkkäin!',
+  'progress.doneToday': 'Valmis tältä päivältä!',
+  'progress.bestStreakWas': 'Paras tuloksesi: {{count}} päivää',
+  'progress.streakNewRecord': 'Uusi henkilökohtainen ennätys!',
+  'progress.startStreak': 'Aloita putkesi tänään!',
+  'progress.streakKeepGoing': 'Pidä putkesi käynnissä!',
+  'progress.techniqueBreakdown': 'Harjoittelusi',
+  'progress.personalBests': 'Henkilökohtaiset ennätykset',
+  'progress.longestSession': 'Pisin istunto',
+  'progress.bestStreak': 'Paras putki',
+  'progress.totalMinutes': 'Minuutteja yhteensä',
+  'progress.totalSessions': 'Istuntoja yhteensä',
+
   // Categories
   'category.calm': 'Rauha',
   'category.sleep': 'Uni',

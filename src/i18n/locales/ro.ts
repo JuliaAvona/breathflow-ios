@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'runde',
   'home.sets': 'seturi',
 
+  // Progress
+  'progress.streakBanner': '{{count}} zile consecutiv!',
+  'progress.doneToday': 'Gata pentru azi!',
+  'progress.bestStreakWas': 'Cel mai bun: {{count}} zile',
+  'progress.streakNewRecord': 'Nou record personal!',
+  'progress.startStreak': 'Începe seria ta azi!',
+  'progress.streakKeepGoing': 'Menține seria ta!',
+  'progress.techniqueBreakdown': 'Practica ta',
+  'progress.personalBests': 'Recorduri personale',
+  'progress.longestSession': 'Cea mai lungă sesiune',
+  'progress.bestStreak': 'Cea mai bună serie',
+  'progress.totalMinutes': 'Total minute',
+  'progress.totalSessions': 'Total sesiuni',
+
   // Categories
   'category.calm': 'Calm',
   'category.sleep': 'Somn',

@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'k\u00f6r',
   'home.sets': 'sorozat',
 
+  // Progress
+  'progress.streakBanner': '{{count}} nap egymás után!',
+  'progress.doneToday': 'Mára kész!',
+  'progress.bestStreakWas': 'A rekordod: {{count}} nap',
+  'progress.streakNewRecord': 'Új személyes rekord!',
+  'progress.startStreak': 'Kezdd el a sorozatod ma!',
+  'progress.streakKeepGoing': 'Tartsd fenn a sorozatod!',
+  'progress.techniqueBreakdown': 'A gyakorlásod',
+  'progress.personalBests': 'Személyes rekordok',
+  'progress.longestSession': 'Leghosszabb ülés',
+  'progress.bestStreak': 'Legjobb sorozat',
+  'progress.totalMinutes': 'Összes perc',
+  'progress.totalSessions': 'Összes ülés',
+
   // Categories
   'category.calm': 'Nyugalom',
   'category.sleep': 'Alvás',

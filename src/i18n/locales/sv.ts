@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'rundor',
   'home.sets': 'set',
 
+  // Progress
+  'progress.streakBanner': '{{count}} dagar i rad!',
+  'progress.doneToday': 'Klart för idag!',
+  'progress.bestStreakWas': 'Ditt bästa: {{count}} dagar',
+  'progress.streakNewRecord': 'Nytt personligt rekord!',
+  'progress.startStreak': 'Starta din svit idag!',
+  'progress.streakKeepGoing': 'Håll din svit igång!',
+  'progress.techniqueBreakdown': 'Din övning',
+  'progress.personalBests': 'Personliga rekord',
+  'progress.longestSession': 'Längsta session',
+  'progress.bestStreak': 'Bästa svit',
+  'progress.totalMinutes': 'Totalt minuter',
+  'progress.totalSessions': 'Totalt sessioner',
+
   // Categories
   'category.calm': 'Lugn',
   'category.sleep': 'Sömn',

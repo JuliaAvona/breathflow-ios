@@ -31,6 +31,20 @@ export default {
   'home.categoryEnergy': 'Energie',
   'home.categoryAdvanced': 'Pokro\u010dil\u00e9',
 
+  // Progress
+  'progress.streakBanner': '{{count}} dní v řadě!',
+  'progress.doneToday': 'Hotovo pro dnešek!',
+  'progress.bestStreakWas': 'Váš rekord: {{count}} dní',
+  'progress.streakNewRecord': 'Nový osobní rekord!',
+  'progress.startStreak': 'Začněte svou sérii dnes!',
+  'progress.streakKeepGoing': 'Udržte svou sérii!',
+  'progress.techniqueBreakdown': 'Vaše praxe',
+  'progress.personalBests': 'Osobní rekordy',
+  'progress.longestSession': 'Nejdelší sezení',
+  'progress.bestStreak': 'Nejlepší série',
+  'progress.totalMinutes': 'Celkem minut',
+  'progress.totalSessions': 'Celkem sezení',
+
   // Categories
   'category.calm': 'Klid',
   'category.sleep': 'Sp\u00e1nek',

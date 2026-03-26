@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'סבבים',
   'home.sets': 'סטים',
 
+  // Progress
+  'progress.streakBanner': '{{count}} ימים ברצף!',
+  'progress.doneToday': 'סיימת להיום!',
+  'progress.bestStreakWas': 'השיא שלך: {{count}} ימים',
+  'progress.streakNewRecord': 'שיא אישי חדש!',
+  'progress.startStreak': 'התחל את הרצף שלך היום!',
+  'progress.streakKeepGoing': 'שמור על הרצף שלך!',
+  'progress.techniqueBreakdown': 'התרגול שלך',
+  'progress.personalBests': 'שיאים אישיים',
+  'progress.longestSession': 'הפגישה הארוכה ביותר',
+  'progress.bestStreak': 'הרצף הטוב ביותר',
+  'progress.totalMinutes': 'סה"כ דקות',
+  'progress.totalSessions': 'סה"כ פגישות',
+
   // Categories
   'category.calm': 'רגיעה',
   'category.sleep': 'שינה',

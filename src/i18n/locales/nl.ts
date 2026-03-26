@@ -27,6 +27,21 @@ export default {
   'home.categoryFocus': 'Focus',
   'home.categoryEnergy': 'Energie',
   'home.categoryAdvanced': 'Gevor.',
+
+  // Progress
+  'progress.streakBanner': '{{count}} dagen op rij!',
+  'progress.doneToday': 'Klaar voor vandaag!',
+  'progress.bestStreakWas': 'Jouw beste: {{count}} dagen',
+  'progress.streakNewRecord': 'Nieuw persoonlijk record!',
+  'progress.startStreak': 'Begin je reeks vandaag!',
+  'progress.streakKeepGoing': 'Houd je reeks vol!',
+  'progress.techniqueBreakdown': 'Jouw oefening',
+  'progress.personalBests': 'Persoonlijke records',
+  'progress.longestSession': 'Langste sessie',
+  'progress.bestStreak': 'Beste reeks',
+  'progress.totalMinutes': 'Totaal minuten',
+  'progress.totalSessions': 'Totaal sessies',
+
   'category.calm': 'Rust',
   'category.sleep': 'Slaap',
   'category.focus': 'Focus',

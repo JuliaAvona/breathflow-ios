@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'റൗണ്ടുകൾ',
   'home.sets': 'സെറ്റുകൾ',
 
+  // Progress
+  'progress.streakBanner': 'തുടർച്ചയായി {{count}} ദിവസം!',
+  'progress.doneToday': 'ഇന്നത്തേക്ക് പൂർത്തിയായി!',
+  'progress.bestStreakWas': 'നിങ്ങളുടെ മികച്ചത്: {{count}} ദിവസം',
+  'progress.streakNewRecord': 'പുതിയ വ്യക്തിഗത റെക്കോർഡ്!',
+  'progress.startStreak': 'ഇന്ന് നിങ്ങളുടെ പരമ്പര ആരംഭിക്കൂ!',
+  'progress.streakKeepGoing': 'നിങ്ങളുടെ പരമ്പര തുടരൂ!',
+  'progress.techniqueBreakdown': 'നിങ്ങളുടെ പരിശീലനം',
+  'progress.personalBests': 'വ്യക്തിഗത മികച്ചവ',
+  'progress.longestSession': 'ഏറ്റവും നീളമുള്ള സെഷൻ',
+  'progress.bestStreak': 'മികച്ച പരമ്പര',
+  'progress.totalMinutes': 'ആകെ മിനിറ്റ്',
+  'progress.totalSessions': 'ആകെ സെഷനുകൾ',
+
   // Categories
   'category.calm': 'ശാന്തത',
   'category.sleep': 'ഉറക്കം',

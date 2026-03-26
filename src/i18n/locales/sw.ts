@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'raundi',
   'home.sets': 'seti',
 
+  // Progress
+  'progress.streakBanner': 'Siku {{count}} mfululizo!',
+  'progress.doneToday': 'Umemaliza kwa leo!',
+  'progress.bestStreakWas': 'Bora yako: siku {{count}}',
+  'progress.streakNewRecord': 'Rekodi mpya ya kibinafsi!',
+  'progress.startStreak': 'Anza mfululizo wako leo!',
+  'progress.streakKeepGoing': 'Endelea na mfululizo wako!',
+  'progress.techniqueBreakdown': 'Mazoezi Yako',
+  'progress.personalBests': 'Rekodi za Kibinafsi',
+  'progress.longestSession': 'Kipindi Kirefu Zaidi',
+  'progress.bestStreak': 'Mfululizo Bora',
+  'progress.totalMinutes': 'Jumla ya Dakika',
+  'progress.totalSessions': 'Jumla ya Vipindi',
+
   // Categories
   'category.calm': 'Utulivu',
   'category.sleep': 'Usingizi',

@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'ዙሮች',
   'home.sets': 'ስብስቦች',
 
+  // Progress
+  'progress.streakBanner': '{{count}} ቀናት በተከታታይ!',
+  'progress.doneToday': 'ዛሬ ተጠናቅቋል!',
+  'progress.bestStreakWas': 'ምርጥዎ: {{count}} ቀናት',
+  'progress.streakNewRecord': 'አዲስ የግል ሪከርድ!',
+  'progress.startStreak': 'ዛሬ ተከታታይ ጀምር!',
+  'progress.streakKeepGoing': 'ተከታታይዎን አትተው!',
+  'progress.techniqueBreakdown': 'ልምምድዎ',
+  'progress.personalBests': 'የግል ምርጦች',
+  'progress.longestSession': 'ረጅሙ ክፍለ ጊዜ',
+  'progress.bestStreak': 'ምርጥ ተከታታይ',
+  'progress.totalMinutes': 'ጠቅላላ ደቂቃዎች',
+  'progress.totalSessions': 'ጠቅላላ ክፍለ ጊዜዎች',
+
   // Categories
   'category.calm': 'ሰላም',
   'category.sleep': 'እንቅልፍ',

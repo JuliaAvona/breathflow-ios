@@ -31,6 +31,20 @@ export default {
   'home.rounds': 'రౌండ్లు',
   'home.sets': 'సెట్లు',
 
+  // Progress
+  'progress.streakBanner': 'వరుసగా {{count}} రోజులు!',
+  'progress.doneToday': 'ఈరోజుకు పూర్తయింది!',
+  'progress.bestStreakWas': 'మీ అత్యుత్తమం: {{count}} రోజులు',
+  'progress.streakNewRecord': 'కొత్త వ్యక్తిగత రికార్డు!',
+  'progress.startStreak': 'ఈరోజు మీ సిరీస్ ప్రారంభించండి!',
+  'progress.streakKeepGoing': 'మీ సిరీస్ కొనసాగించండి!',
+  'progress.techniqueBreakdown': 'మీ అభ్యాసం',
+  'progress.personalBests': 'వ్యక్తిగత అత్యుత్తమాలు',
+  'progress.longestSession': 'సుదీర్ఘ సెషన్',
+  'progress.bestStreak': 'అత్యుత్తమ సిరీస్',
+  'progress.totalMinutes': 'మొత్తం నిమిషాలు',
+  'progress.totalSessions': 'మొత్తం సెషన్లు',
+
   // Categories
   'category.calm': 'శాంతి',
   'category.sleep': 'నిద్ర',

@@ -31,6 +31,20 @@ export default {
   'home.rounds': '\u062C\u0648\u0644\u0627\u062A',
   'home.sets': '\u0645\u062C\u0645\u0648\u0639\u0627\u062A',
 
+  // Progress
+  'progress.streakBanner': '{{count}} أيام متتالية!',
+  'progress.doneToday': 'انتهيت لليوم!',
+  'progress.bestStreakWas': 'أفضل إنجاز: {{count}} أيام',
+  'progress.streakNewRecord': 'رقم قياسي شخصي جديد!',
+  'progress.startStreak': 'ابدأ سلسلتك اليوم!',
+  'progress.streakKeepGoing': 'حافظ على سلسلتك!',
+  'progress.techniqueBreakdown': 'ممارستك',
+  'progress.personalBests': 'أفضل الإنجازات',
+  'progress.longestSession': 'أطول جلسة',
+  'progress.bestStreak': 'أفضل سلسلة',
+  'progress.totalMinutes': 'إجمالي الدقائق',
+  'progress.totalSessions': 'إجمالي الجلسات',
+
   // Categories
   'category.calm': '\u0647\u062F\u0648\u0621',
   'category.sleep': '\u0646\u0648\u0645',
