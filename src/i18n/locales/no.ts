@@ -624,7 +624,6 @@ export default {
   'paywall.row5Pro': 'Alle fargetemaer & merker ✓',
   'paywall.anchor': 'Mindre enn en kaffe. Resultater som varer.',
   'paywall.continueFree': 'Fortsett med gratisversjon',
-  'paywall.subtitle': 'Engangskjøp. Intet abonnement.',
 
   // Notifications
   'notifications.sessionCompleteTitle': 'Økt fullført',

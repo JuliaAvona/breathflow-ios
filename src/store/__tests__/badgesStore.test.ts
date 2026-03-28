@@ -25,7 +25,6 @@ const mockSettings: UserSettings = {
   soundEnabled: true,
   soundStyle: 'tone',
   hapticsEnabled: true,
-  voiceGuidance: 'off',
   darkMode: 'system',
   textSize: 'default',
   healthSyncEnabled: false,
@@ -34,6 +33,7 @@ const mockSettings: UserSettings = {
   reminderDays: [0, 1, 2, 3, 4, 5, 6],
   onboardingCompleted: true,
   safetyAccepted: true,
+  dailyGoalMinutes: 5,
   isPro: false,
 };
 

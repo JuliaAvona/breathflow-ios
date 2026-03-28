@@ -614,7 +614,6 @@ export default {
   'paywall.row5Pro': '✓ മൂഡ് ട്രാക്കിംഗ് & എക്സ്പോർട്ട്',
   'paywall.anchor': 'ഒറ്റ-തവണ വാങ്ങൽ · സബ്സ്ക്രിപ്ഷൻ ഇല്ല',
   'paywall.continueFree': 'സൌജന്യമായി തുടരൂ',
-  'paywall.subtitle': 'ഉടനടി ആക്സസ് · ഒരിക്കലും പരസ്യമില്ല',
 
   // Notifications
   'notifications.sessionCompleteTitle': 'സെഷൻ പൂർത്തിയായി',

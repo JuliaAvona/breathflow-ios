@@ -636,7 +636,7 @@ export default function SettingsScreen() {
       {/* ── Picker Modals ──────────────────────────────────────────────── */}
 
       {/* Sound style */}
-      <PickerModal<'tone' | 'bell' | 'nature' | 'bowl'>
+      <PickerModal<'tone' | 'nature' | 'voice' | 'off'>
         visible={activePicker === 'soundStyle'}
         title={t('settings.soundStyle')}
         options={SOUND_STYLE_OPTIONS.map((o) => ({ label: t(o.labelKey), value: o.value }))}

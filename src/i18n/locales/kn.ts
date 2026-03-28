@@ -614,7 +614,6 @@ export default {
   'paywall.row5Pro': '✓ ಮೂಡ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಮತ್ತು ರಫ್ತು',
   'paywall.anchor': 'ಒಮ್ಮೆ ಖರೀದಿ · ಚಂದಾದಾರಿಕೆ ಇಲ್ಲ',
   'paywall.continueFree': 'ಉಚಿತವಾಗಿ ಮುಂದುವರಿಸಿ',
-  'paywall.subtitle': 'ತಕ್ಷಣ ಪ್ರವೇಶ · ಎಂದಿಗೂ ಜಾಹೀರಾತಿಲ್ಲ',
 
   // Notifications
   'notifications.sessionCompleteTitle': 'ಅಧಿವೇಶನ ಪೂರ್ಣ',
