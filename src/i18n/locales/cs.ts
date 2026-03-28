@@ -69,7 +69,7 @@ export default {
   'techniques.fourFourSixTwo.description': 'Prodlou\u017een\u00fd v\u00fddech pro hlubokou relaxaci',
   'techniques.kapalabhati.name': 'Energizuj\u00edc\u00ed dech',
   'techniques.kapalabhati.description': 'Probu\u010fte se technikou rychl\u00e9ho d\u00fdch\u00e1n\u00ed',
-  'techniques.twoToOne.name': '2ku1 Relaxace',
+  'techniques.twoToOne.name': '2-ku-1 Relaxace',
   'techniques.twoToOne.description': 'Dvojn\u00e1sobn\u00fd v\u00fddech pro hlubokou relaxaci',
   'techniques.cyclicSigh.name': 'Cyklick\u00e9 vzdechy',
   'techniques.cyclicSigh.description': 'Nejlep\u0161\u00ed zlep\u0161en\u00ed n\u00e1lady podlo\u017een\u00e9 v\u00fdzkumem Stanfordu',
@@ -225,7 +225,7 @@ export default {
   'settings.soundStyle': 'Styl zvuku',
   'settings.soundTone': 'T\u00f3n',
   'settings.soundNature': 'P\u0159\u00edroda',
-  'settings.soundVoice': 'Bamboo',
+  'settings.soundVoice': 'Bambus',
   'settings.soundOff': 'Vypnuto',
   'settings.haptics': 'Haptika',
   'settings.appearance': 'Vzhled',
@@ -448,7 +448,7 @@ export default {
   'summary.savedToHealth': 'Ulo\u017eeno do Apple Health',
 
   // Settings screen (additional keys)
-  'settings.upgradePro': 'Upgradovat na Pro',
+  'settings.upgradePro': 'Přejít na Pro',
   'settings.proSubtitle': 'Odemkn\u011bte v\u0161echny funkce',
   'settings.proFeature': 'PRO',
   'settings.syncFailed': 'Synchronizace selhala. Zkuste to pros\u00edm znovu.',

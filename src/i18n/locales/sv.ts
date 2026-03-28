@@ -25,7 +25,7 @@ export default {
   'home.tapToBreathe': 'Tryck f\u00f6r att andas',
   'home.totalSessions': 'sessioner',
   'home.totalMin': 'min',
-  'home.streak': 'svit',
+  'home.streak': 'serie',
   'home.noSessionToday': 'Inga sessioner idag \u2014 tryck f\u00f6r att andas!',
   'home.breaths': '\u00e5ndetag',
   'home.rounds': 'rundor',
@@ -36,12 +36,12 @@ export default {
   'progress.doneToday': 'Klart för idag!',
   'progress.bestStreakWas': 'Ditt bästa: {{count}} dagar',
   'progress.streakNewRecord': 'Nytt personligt rekord!',
-  'progress.startStreak': 'Starta din svit idag!',
-  'progress.streakKeepGoing': 'Håll din svit igång!',
+  'progress.startStreak': 'Starta din serie idag!',
+  'progress.streakKeepGoing': 'Håll din serie igång!',
   'progress.techniqueBreakdown': 'Din övning',
   'progress.personalBests': 'Personliga rekord',
   'progress.longestSession': 'Längsta session',
-  'progress.bestStreak': 'Bästa svit',
+  'progress.bestStreak': 'Bästa serie',
   'progress.totalMinutes': 'Totalt minuter',
   'progress.totalSessions': 'Totalt sessioner',
 
@@ -71,8 +71,8 @@ export default {
   'techniques.kapalabhati.description': 'Vakna till med snabb andningsteknik',
   'techniques.twoToOne.name': '2-till-1 Avslappning',
   'techniques.twoToOne.description': 'Dubbel utandning för djup avslappning',
-  'techniques.cyclicSigh.name': 'Cyklisk suckning',
-  'techniques.cyclicSigh.description': 'Bästa humörboost stödd av Stanford-forskning',
+  'techniques.cyclicSigh.name': 'Cyklisk suck',
+  'techniques.cyclicSigh.description': 'Bästa humörförbättring enligt Stanford-forskning',
 
   // Technique detail info
   'techniques.box.detail': 'Används av Navy SEALs för stresshantering. Lika långa faser av inandning, hållning, utandning och hållning skapar en lugnande rytm som sänker kortisol och förbättrar fokus.',
@@ -84,7 +84,7 @@ export default {
   'techniques.fourFourSixTwo.detail': 'Den förlängda utandningen (6s) i förhållande till inandningen (4s) skiftar kroppen till djup avslappning. Den korta pausen mellan cykler återställer andningsrytmen.',
   'techniques.kapalabhati.detail': 'Gammal yogisk teknik som betyder "strålande-skalle-andning." Snabba kraftfulla utandningar energiserar kroppen, rensar sinnet och stärker mellangärdet.',
   'techniques.twoToOne.detail': 'Utandningen är dubbelt så lång som inandningen, maximerar CO\u2082-utsläpp och aktiverar vagusnerven. Ett av de mest effektiva mönstren för djup avslappning.',
-  'techniques.cyclicSigh.detail': 'Stanford-studie visade att 5 minuters cyklisk suckning är mer effektiv för att minska stress än meditation. Dubbel inandning + förlängd utandning återställer nervsystemet.',
+  'techniques.cyclicSigh.detail': 'Stanford-studie visade att 5 minuters cyklisk suckning är mer effektiv för stressreducering än meditation. Dubbel inandning + förlängd utandning återställer nervsystemet.',
 
   // Technique detail labels
   'techniqueDetail.pattern': 'Mönster',
@@ -161,7 +161,7 @@ export default {
   'summary.shareMessage': 'Jag har precis genomfört en {{duration}} {{technique}}-session med BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.partialComplete': 'Genomförde {{completed}} av {{total}} cykler',
   'summary.round': 'Runda {{number}}',
-  'summary.healthSynced': 'Mindful minutes synkroniserade med Apple Health',
+  'summary.healthSynced': 'Medvetna minuter synkroniserade med Apple Health',
 
   // Motivational quotes
   'summary.quote1': '\u00AB Andningen \u00e4r bron som f\u00f6rbinder livet med medvetenheten.\u00BB \u2014 Thich Nhat Hanh',
@@ -295,7 +295,7 @@ export default {
   'onboarding.skipToApp': 'Hoppa över',
   'onboarding.noCardRequired': 'Inget kreditkort krävs',
   'onboarding.socialProof1': 'Betrodd av idrottare',
-  'onboarding.socialProof2': 'Stanford-st\u00f6dd',
+  'onboarding.socialProof2': 'Stanford-bevisad',
   'onboarding.socialProof3': 'Apple Health',
   'onboarding.commitTitle': 'Sätt ditt dagliga mål',
   'onboarding.commitSub': 'Små dagliga vanor skapar varaktig förändring.',
@@ -547,7 +547,7 @@ export default {
   'onboarding.hookTitle': 'Känn lugnet på minuter',
   'onboarding.hookSub': 'Vetenskapligt grundad andning för stress, sömn och fokus. Betrodd av terapeuter, idrottare och NASA.',
   'onboarding.benefitStress': 'Minska stress',
-  'onboarding.benefitSleep': 'Sov snabbare',
+  'onboarding.benefitSleep': 'Somna snabbare',
   'onboarding.benefitFocus': 'Håll fokus',
 
   // Onboarding — Goal
@@ -588,8 +588,8 @@ export default {
   'onboarding.maybeSkip': 'Kanske senare',
 
   // Onboarding — Notifications
-  'onboarding.notificationsTitle': 'Håll dig konsekvent',
-  'onboarding.notificationsSub': 'Få en mjuk daglig påminnelse om att andas',
+  'onboarding.notificationsTitle': 'Håll rutinen',
+  'onboarding.notificationsSub': 'Få en varsam daglig påminnelse om att andas',
   'onboarding.notificationsEnable': 'Aktivera dagliga påminnelser',
 
   // Onboarding — Apple Health
@@ -606,7 +606,7 @@ export default {
   'paywall.heroFocus': 'Navy SEALs fokushemlighet — avslöjad',
   'paywall.heroEnergy': 'Naturlig energi. Inget koffein behövs.',
   'paywall.heroDefault': 'Lås upp hela BreathFlow-upplevelsen',
-  'paywall.heroSub': 'Engångslås. Inget abonnemang. Aldrig.',
+  'paywall.heroSub': 'Engångsköp. Inget abonnemang. Aldrig.',
   'paywall.socialProof': 'Gå med tusentals som andas bättre varje dag',
 
   // Paywall — comparison table
@@ -624,7 +624,6 @@ export default {
   'paywall.row5Pro': 'Alla färgteman & märken ✓',
   'paywall.anchor': 'Mindre än en kaffe. Resultat som håller.',
   'paywall.continueFree': 'Fortsätt med gratisversionen',
-  'paywall.subtitle': 'Engångsköp. Inget abonnemang.',
 
   // Notifications
   'notifications.sessionCompleteTitle': 'Session klar',

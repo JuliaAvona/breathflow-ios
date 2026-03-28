@@ -56,9 +56,9 @@ export default {
   'techniques.box.name': 'Firkantpusting',
   'techniques.box.description': 'Fokus og ro med likesidet pusting',
   'techniques.fourSevenEight.name': '4-7-8 Avslapning',
-  'techniques.fourSevenEight.description': 'Sovn raskere med dette bev\u00e6rte m\u00f8nsteret',
+  'techniques.fourSevenEight.description': 'Sovne raskere med dette beviste m\u00f8nsteret',
   'techniques.physioSigh.name': 'Fysiologisk sukk',
-  'techniques.physioSigh.description': 'Stanford-forsket umiddelbar stresslindring',
+  'techniques.physioSigh.description': 'Stanford-bekreftet umiddelbar stresslindring',
   'techniques.coherence.name': 'Koherenspusting',
   'techniques.coherence.description': 'Optimaliser hjertefrekvensvariabilitet',
   'techniques.triangle.name': 'Trekantpusting',
@@ -71,7 +71,7 @@ export default {
   'techniques.kapalabhati.description': 'V\u00e5kn opp med rask pusteteknikk',
   'techniques.twoToOne.name': '2-til-1 Avslapning',
   'techniques.twoToOne.description': 'Dobbel utpust for dyp avslapning',
-  'techniques.cyclicSigh.name': 'Syklisk sukking',
+  'techniques.cyclicSigh.name': 'Syklisk sukk',
   'techniques.cyclicSigh.description': 'Beste hum\u00f8rboost st\u00f8ttet av Stanford-forskning',
 
   // Technique detail info
@@ -82,9 +82,9 @@ export default {
   'techniques.triangle.detail': 'Et mykt 3-fase-m\u00f8nster perfekt for nybegynnere. Balanserer nervesystemet uten pustestopp, noe som gj\u00f8r det enkelt og tilgjengelig for alle.',
   'techniques.power.detail': 'Inspirert av Wim Hof-metoden. Rask pusting etterfulgt av pusteholding \u00f8ker energien, gj\u00f8r blodet basisk og styrker immunforsvaret.',
   'techniques.fourFourSixTwo.detail': 'Den forlengede utpusten (6s) i forhold til innpusten (4s) skifter kroppen til dyp avslapning. Den korte pausen mellom sykluser tilbakestiller pusterytmen.',
-  'techniques.kapalabhati.detail': 'Gammel yogisk teknikk som betyr \u00abstr\u00e5lende-hodeskalle-pust\u00bb. Raske kraftige utpust energiserer kroppen, klarer sinnet og styrker mellomgulvet.',
+  'techniques.kapalabhati.detail': 'Gammel yogisk teknikk som betyr \u00abstr\u00e5lende hodeskalle\u00bb. Raske kraftige utpust energiserer kroppen, klarer sinnet og styrker mellomgulvet.',
   'techniques.twoToOne.detail': 'Utpusten er dobbelt s\u00e5 lang som innpusten, maksimerer CO\u2082-utslipp og aktiverer vagusnerven. Et av de mest effektive m\u00f8nstrene for dyp avslapning.',
-  'techniques.cyclicSigh.detail': 'Stanford-studie viste at 5 minutters syklisk sukking er mer effektivt for \u00e5 redusere stress enn meditasjon. Dobbel innpust + forlenget utpust tilbakestiller nervesystemet.',
+  'techniques.cyclicSigh.detail': 'Stanford-studie viste at 5 minutters syklisk sukk er mer effektivt for \u00e5 redusere stress enn meditasjon. Dobbelt innpust + forlenget utpust tilbakestiller nervesystemet.',
 
   // Technique detail labels
   'techniqueDetail.pattern': 'M\u00f8nster',
@@ -174,7 +174,7 @@ export default {
   'summary.quote8': '\u00abBare pust. Du er nok.\u00bb',
   'summary.quote9': '\u00abFred begynner med et enkelt \u00e5ndedrag.\u00bb',
   'summary.quote10': '\u00abPusten din er ditt st\u00f8rste verkt\u00f8y for selvregulering.\u00bb',
-  'summary.quote11': '\u00abPusting er livets st\u00f8rste n\u00f8ye.\u00bb \u2014 Giovanni Papini',
+  'summary.quote11': '\u00abPusting er livets st\u00f8rste glede.\u00bb \u2014 Giovanni Papini',
   'summary.quote12': '\u00abSmil, pust og g\u00e5 sakte.\u00bb \u2014 Thich Nhat Hanh',
   'summary.quote13': '\u00abLivet m\u00e5les ikke i antall \u00e5ndedrag vi tar, men i \u00f8yeblikkene som tar pusten fra oss.\u00bb',
   'summary.quote14': '\u00abFor pusten er livet, og hvis du puster godt, vil du leve lenge p\u00e5 jorden.\u00bb \u2014 Sanskritisk ordspr\u00e5k',
@@ -563,7 +563,7 @@ export default {
 
   // Onboarding — Plan
   'onboarding.planTitleCalm': 'Ro ned nervesystemet ditt',
-  'onboarding.planTitleSleep': 'Sovn på minutter',
+  'onboarding.planTitleSleep': 'Sovne p\u00e5 minutter',
   'onboarding.planTitleFocus': 'Fokus på kommando',
   'onboarding.planTitleEnergy': 'Naturlig energiboost',
   'onboarding.planTitleDefault': 'Pusteplanen din er klar',
@@ -602,7 +602,7 @@ export default {
 
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Fra stress til ro — på minutter',
-  'paywall.heroSleep': 'Sovn på minutter, ikke timer',
+  'paywall.heroSleep': 'Sovne p\u00e5 minutter, ikke timer',
   'paywall.heroFocus': 'Navy SEALs fokushemmelighet — avslørt',
   'paywall.heroEnergy': 'Naturlig energi. Ingen koffein nødvendig.',
   'paywall.heroDefault': 'Lås opp den fulle BreathFlow-opplevelsen',

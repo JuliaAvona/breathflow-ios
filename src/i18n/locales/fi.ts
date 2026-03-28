@@ -84,7 +84,7 @@ export default {
   'techniques.fourFourSixTwo.detail': 'Pidennetty uloshengitys (6s) suhteessa sis\u00e4\u00e4nhengitykseen (4s) ohjaa kehon syv\u00e4\u00e4n rentoutumiseen. Lyhyt tauko syklien v\u00e4lill\u00e4 nollaa hengitysrytmin.',
   'techniques.kapalabhati.detail': 'Muinainen jooginen tekniikka, joka tarkoittaa \u201dkallon loistetta\u201d. Nopeat voimakkaat uloshengitykset energisoivat kehoa, kirkastavat mielt\u00e4 ja vahvistavat palleaa.',
   'techniques.twoToOne.detail': 'Uloshengitys on kaksinkertainen sis\u00e4\u00e4nhengitykseen n\u00e4hden, maksimoiden CO\u2082:n vapautumisen ja aktivoiden vagushermon. Yksi tehokkaimmista malleista syv\u00e4\u00e4n rentoutumiseen.',
-  'techniques.cyclicSigh.detail': 'Stanfordin tutkimus osoitti, ett\u00e4 5 minuuttia syklis\u00e4 huokausta on tehokkaampaa stressin v\u00e4hent\u00e4misess\u00e4 kuin meditaatio. Kaksoissis\u00e4\u00e4nhengitys + pidennetty uloshengitys nollaa hermoston.',
+  'techniques.cyclicSigh.detail': 'Stanfordin tutkimus osoitti, ett\u00e4 5 minuuttia syklist\u00e4 huokausta on tehokkaampaa stressin v\u00e4hent\u00e4misess\u00e4 kuin meditaatio. Kaksoissis\u00e4\u00e4nhengitys + pidennetty uloshengitys nollaa hermoston.',
 
   // Technique detail labels
   'techniqueDetail.pattern': 'Malli',
@@ -183,11 +183,11 @@ export default {
   'summary.quote17': '\u201dHallitse hengityksesi, anna itsesi olla autuudessa.\u201d \u2014 T. Krishnamacharya',
   'summary.quote18': '\u201d\u00c4rsykkeen ja reaktion v\u00e4liss\u00e4 on tila. Siell\u00e4 on vapautemme.\u201d \u2014 Viktor Frankl',
   'summary.quote19': '\u201dKun hengitys vaeltaa, mieli on my\u00f6s levoton. Mutta kun hengitys on rauhallinen, mieli on my\u00f6s hiljainen.\u201d \u2014 Hatha Yoga Pradipika',
-  'summary.quote20': '\u201dAinoa tapa el\u00e4\u00e4 on hyv\u00e4ksy\u00e4 jokainen minuutti ainutlaatuisena ihmeenr.\u201d \u2014 Tara Brach',
+  'summary.quote20': '\u201dAinoa tapa el\u00e4\u00e4 on hyv\u00e4ksy\u00e4 jokainen minuutti ainutlaatuisena ihmeen\u00e4.\u201d \u2014 Tara Brach',
   'summary.quote21': '\u201dHengitys on luonnon hienoin lahja. Ole kiitollinen t\u00e4st\u00e4 upeasta lahjasta.\u201d \u2014 Amit Ray',
   'summary.quote22': '\u201dLiikkeen ja kaaoksen keskell\u00e4, s\u00e4ilyt\u00e4 hiljaisuus sis\u00e4ll\u00e4si.\u201d \u2014 Deepak Chopra',
   'summary.quote23': '\u201dRauhallinen mieli tuo sis\u00e4ist\u00e4 voimaa ja itseluottamusta.\u201d \u2014 Dalai Lama',
-  'summary.quote24': '\u201dMelkein kaikki toimii taas, jos irrotat sen muutamaksi minuutiksi, sinr mukaan lukien.\u201d \u2014 Anne Lamott',
+  'summary.quote24': '\u201dMelkein kaikki toimii taas, jos irrotat sen muutamaksi minuutiksi, sin\u00e4 mukaan lukien.\u201d \u2014 Anne Lamott',
   'summary.quote25': '\u201dHiljenn\u00e4 mieli, niin sielu puhuu.\u201d \u2014 Ma Jaya Sati Bhagavati',
   'summary.quote26': '\u201dYksi tietoinen hengitys sis\u00e4\u00e4n ja ulos on meditaatiota.\u201d \u2014 Eckhart Tolle',
   'summary.quote27': '\u201dJ\u00e4nnitys on sit\u00e4, mit\u00e4 luulet olevasi. Rentoutuminen on sit\u00e4, mit\u00e4 olet.\u201d \u2014 Kiinalainen sananlasku',
@@ -204,10 +204,10 @@ export default {
   'history.allTime': 'Kokonaistilastot',
   'history.totalSessions': 'Harjoitukset yhteens\u00e4',
   'history.totalMinutes': 'Minuutit yhteens\u00e4',
-  'history.longestStreak': 'Pisin Putki',
+  'history.longestStreak': 'Pisin putki',
   'history.favoriteTechnique': 'Suosikki',
-  'history.bestRetention': 'Paras Pid\u00e4tys',
-  'history.avgRetention': 'Keskim. Pid\u00e4tys',
+  'history.bestRetention': 'Paras pid\u00e4tys',
+  'history.avgRetention': 'Keskim. pid\u00e4tys',
   'history.noSessions': 'Ei harjoituksia viel\u00e4',
   'history.startFirst': 'Suorita ensimm\u00e4inen hengitysharjoituksesi!',
   'history.days': 'p\u00e4iv\u00e4\u00e4',
@@ -302,7 +302,7 @@ export default {
   'onboarding.commitMinUnit': 'min / p\u00e4iv\u00e4',
   'onboarding.commitHint_3': 'Jo 3 minuutin harjoitus voi auttaa rauhoittamaan hermostoasi.',
   'onboarding.commitHint_5': 'Stanfordin tutkimus yhdist\u00e4\u00e4 hitaan hengityksen v\u00e4h\u00e4isemp\u00e4\u00e4n stressiin ja parempaan uneen.',
-  'onboarding.commitHint_10': 'Navy SEALs k\u00e4ytt\u00e4\u00e4 Laatikkohengityst\u00e4 pysyakseen keskittyneenr paineen alla.',
+  'onboarding.commitHint_10': 'Navy SEALs k\u00e4ytt\u00e4\u00e4 Laatikkohengityst\u00e4 pysyakseen keskittynein\u00e4 paineen alla.',
   'onboarding.commitHint_15': 'Dr. Andrew Huberman suosittelee 15 min p\u00e4ivitt\u00e4ist\u00e4 hengitysharjoittelua.',
   'onboarding.buildingTitle': 'Rakennetaan suunnitelmaasi...',
   'onboarding.buildingStep1': 'Analysoidaan tavoitettasi',
@@ -337,7 +337,7 @@ export default {
   'badges.zen_master.description': '1000 minuuttia yhteens\u00e4',
   'badges.early_bird.name': 'Aamuvirkku',
   'badges.early_bird.description': 'Harjoitus ennen klo 7',
-  'badges.night_owl.name': 'Y\u00f6kyyhky',
+  'badges.night_owl.name': 'Y\u00f6p\u00f6ll\u00f6',
   'badges.night_owl.description': 'Harjoitus klo 22 j\u00e4lkeen',
   'badges.custom_creator.name': 'Luoja',
   'badges.custom_creator.description': 'Luo mukautettu tekniikka',
@@ -446,7 +446,7 @@ export default {
   'summary.savedToHealth': 'Tallennettu Apple Healthiin',
 
   // Settings screen (additional keys)
-  'settings.upgradePro': 'P\u00e4ivit\u00e4 Proksi',
+  'settings.upgradePro': 'P\u00e4ivit\u00e4 Pro-versioon',
   'settings.proSubtitle': 'Avaa kaikki ominaisuudet',
   'settings.proFeature': 'PRO',
   'settings.syncFailed': 'Synkronointi ep\u00e4onnistui. Yrit\u00e4 uudelleen.',
@@ -545,10 +545,10 @@ export default {
 
   // Onboarding \u2014 Hook
   'onboarding.hookTitle': 'Tunne rauha minuuteissa',
-  'onboarding.hookSub': 'Tieteellisesti tukeutuvaa hengityst\u00e4 stressin, unen ja keskittymisen tueksi. Terapeuttien, urheilijoiden ja NASAn luottama.',
+  'onboarding.hookSub': 'Tieteellisesti tuettua hengityst\u00e4 stressin, unen ja keskittymisen tueksi. Terapeuttien, urheilijoiden ja NASAn luottama.',
   'onboarding.benefitStress': 'V\u00e4henn\u00e4 stressi\u00e4',
   'onboarding.benefitSleep': 'Nuku nopeammin',
-  'onboarding.benefitFocus': 'Pysy keskittyneenr',
+  'onboarding.benefitFocus': 'Pysy keskittyneenä',
 
   // Onboarding \u2014 Goal
   'onboarding.chooseGoalSub': 'Luomme henkil\u00f6kohtaisen hengityssuunnitelmasi',

@@ -56,9 +56,9 @@ export default {
   'techniques.box.name': 'Firkant\u00e5nding',
   'techniques.box.description': 'Fokus og ro med ligesidet vejrtr\u00e6kning',
   'techniques.fourSevenEight.name': '4-7-8 Afslapning',
-  'techniques.fourSevenEight.description': 'Fald hurtigere i s\u00f8vn med dette bev\u00e6rede m\u00f8nster',
+  'techniques.fourSevenEight.description': 'Fald hurtigere i s\u00f8vn med dette beviste m\u00f8nster',
   'techniques.physioSigh.name': 'Fysiologisk suk',
-  'techniques.physioSigh.description': 'Stanford-forsket \u00f8jeblikkelig stresslindring',
+  'techniques.physioSigh.description': 'Stanford-bekr\u00e6ftet \u00f8jeblikkelig stresslindring',
   'techniques.coherence.name': 'Koh\u00e6rensvejrtr\u00e6kning',
   'techniques.coherence.description': 'Optimer hjertefrekvensvariabilitet',
   'techniques.triangle.name': 'Trekant\u00e5nding',
@@ -573,7 +573,7 @@ export default {
   'onboarding.goalEnergySub': 'Naturlig energiboost',
 
   // Onboarding \u2014 Plan
-  'onboarding.planTitleCalm': 'Rolig dit nervesystem',
+  'onboarding.planTitleCalm': 'Berolig dit nervesystem',
   'onboarding.planTitleSleep': 'Fald i s\u00f8vn p\u00e5 minutter',
   'onboarding.planTitleFocus': 'Fokus p\u00e5 kommando',
   'onboarding.planTitleEnergy': 'Naturlig energiboost',
