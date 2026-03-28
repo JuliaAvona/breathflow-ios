@@ -102,7 +102,7 @@ export interface BreathingSession {
   breathsPerRound?: number;
 
   // Optional mood tracking
-  moodAfter?: 'calm' | 'energized' | 'focused' | 'sleepy' | null;
+  moodAfter?: Mood | null;
 }
 
 // Aggregated user stats
@@ -182,4 +182,4 @@ export interface UnlockedBadge {
 }
 
 // Mood type
-export type Mood = 'calm' | 'energized' | 'focused' | 'sleepy';
+export type Mood = 'calm' | 'energized' | 'focused' | 'sleepy' | 'anxious' | 'happy';

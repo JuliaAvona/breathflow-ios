@@ -15,8 +15,10 @@ import type { BreathingSession } from '../../src/types';
 
 const MOOD_EMOJI: Record<string, string> = {
   calm: '\u{1F60C}',
+  happy: '\u{1F60A}',
   energized: '\u{26A1}',
   focused: '\u{1F3AF}',
+  anxious: '\u{1F630}',
   sleepy: '\u{1F634}',
 };
 

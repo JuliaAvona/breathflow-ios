@@ -31,11 +31,13 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 const CONFETTI_COLORS = ['#4A90D9', '#7BC4A8', '#F5C542', '#7B68AE', '#E85D4A', '#5BA4C8'];
 const CONFETTI_COUNT = 40;
 
-const MOOD_OPTIONS: { key: Mood; emoji: string; labelKey: string }[] = [
-  { key: 'calm', emoji: '\u{1F60C}', labelKey: 'summary.moodCalm' },
-  { key: 'energized', emoji: '\u{26A1}', labelKey: 'summary.moodEnergized' },
-  { key: 'focused', emoji: '\u{1F3AF}', labelKey: 'summary.moodFocused' },
-  { key: 'sleepy', emoji: '\u{1F634}', labelKey: 'summary.moodSleepy' },
+const MOOD_OPTIONS: { key: Mood; emoji: string; color: string; bg: string; labelKey: string }[] = [
+  { key: 'energized', emoji: '\u{1F929}', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
+  { key: 'happy', emoji: '\u{1F642}', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
+  { key: 'calm', emoji: '\u{1F610}', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
+  { key: 'focused', emoji: '\u{1F61E}', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
+  { key: 'anxious', emoji: '\u{1F62D}', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
+  { key: 'sleepy', emoji: '\u{1F634}', color: '#7B68AE', bg: '#7B68AE', labelKey: 'summary.moodSleepy' },
 ];
 
 function ConfettiAnimation() {
@@ -449,26 +451,18 @@ export default function SummaryScreen() {
                 style={[
                   styles.moodButton,
                   {
-                    backgroundColor: selectedMood === mood.key ? theme.primary + '20' : theme.card,
-                    borderColor: selectedMood === mood.key ? theme.primary : 'transparent',
+                    backgroundColor: 'transparent',
+                    borderColor: 'transparent',
+                    transform: [{ scale: selectedMood === mood.key ? 1.25 : 1 }],
+                    opacity: selectedMood && selectedMood !== mood.key ? 0.8 : 1,
                   },
                 ]}
                 onPress={() => handleMoodSelect(mood.key)}
                 activeOpacity={0.7}
               >
-                <Text style={styles.moodEmoji}>{mood.emoji}</Text>
-                <Text
-                  style={[
-                    styles.moodLabel,
-                    {
-                      color: selectedMood === mood.key ? theme.primary : theme.textSecondary,
-                      fontSize: fontSize.xs,
-                    },
-                  ]}
-                  numberOfLines={1}
-                >
-                  {t(mood.labelKey)}
-                </Text>
+                <View style={[styles.moodIconBg, { backgroundColor: mood.bg }]}>
+                  <Text style={styles.moodEmoji}>{mood.emoji}</Text>
+                </View>
               </TouchableOpacity>
             ))}
           </View>
@@ -754,23 +748,30 @@ const styles = StyleSheet.create({
   },
   moodRow: {
     flexDirection: 'row',
-    gap: SPACING.sm,
+    justifyContent: 'center',
+    gap: 6,
   },
   moodButton: {
     alignItems: 'center',
-    paddingVertical: SPACING.sm,
-    paddingHorizontal: SPACING.sm,
-    borderRadius: BORDER_RADIUS.lg,
+    justifyContent: 'center',
+    borderRadius: 14,
     borderWidth: 2,
-    minWidth: scale(70),
+    width: 48,
+    height: 48,
+    overflow: 'hidden',
+  },
+  moodIconBg: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   moodEmoji: {
     fontSize: 24,
-    marginBottom: 4,
   },
   moodLabel: {
     fontSize: FONT_SIZE.xs,
-    fontFamily: FONTS.semibold,
+    fontFamily: FONTS.bold,
   },
 
   // Badges

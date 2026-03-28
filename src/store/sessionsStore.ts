@@ -184,11 +184,10 @@ export const useSessionsStore = create<SessionsStore>((set, get) => ({
         AsyncStorage.setItem(STATS_KEY, JSON.stringify(recalculated));
         set({ sessions: deduped, stats: recalculated, _hydrated: true });
       } else {
-        set({
-          sessions: deduped,
-          stats: statsJson ? JSON.parse(statsJson) : defaultStats,
-          _hydrated: true,
-        });
+        // Always recompute stats on hydrate so streak is accurate for today
+        const freshStats = computeStats(deduped);
+        AsyncStorage.setItem(STATS_KEY, JSON.stringify(freshStats));
+        set({ sessions: deduped, stats: freshStats, _hydrated: true });
       }
     } catch {
       set({ _hydrated: true });
