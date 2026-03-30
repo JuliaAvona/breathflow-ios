@@ -176,13 +176,20 @@ export default function OnboardingScreen() {
   const handleGoalSelect = useCallback((category: TechniqueCategory) => {
     setSelectedGoal(category);
     setSetting('selectedGoal', category);
-  }, [setSetting]);
+    // Auto-advance if minutes already selected
+    if (selectedMinutes != null) {
+      setTimeout(() => goNext(), 300);
+    }
+  }, [setSetting, selectedMinutes, goNext]);
 
   const handleCommitSelect = useCallback((min: number) => {
     setSelectedMinutes(min);
     setSetting('dailyGoalMinutes', min);
-    setTimeout(() => goNext(), 300);
-  }, [setSetting, goNext]);
+    // Auto-advance if goal already selected
+    if (selectedGoal != null) {
+      setTimeout(() => goNext(), 300);
+    }
+  }, [setSetting, selectedGoal, goNext]);
 
   const handleEnableNotifications = useCallback(() => {
     Notifications.requestPermissionsAsync().catch(() => {});
@@ -250,7 +257,6 @@ export default function OnboardingScreen() {
   const renderGoalAndCommit = () => (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1 }]} showsVerticalScrollIndicator={false}>
       <Text style={styles.pageTitle}>{t('onboarding.chooseGoal')}</Text>
-      <Text style={styles.pageSub}>{t('onboarding.chooseGoalSub')}</Text>
       <View style={styles.optionList}>
         {GOAL_OPTIONS.map((g) => {
           const sel = selectedGoal === g.category;
@@ -266,7 +272,6 @@ export default function OnboardingScreen() {
               </View>
               <View style={styles.optionTexts}>
                 <Text style={styles.optionLabel}>{t(g.labelKey)}</Text>
-                <Text style={styles.optionSub}>{t(g.subKey)}</Text>
               </View>
               {sel
                 ? <View style={[styles.checkCircle, { backgroundColor: g.color }]}><Ionicons name="checkmark" size={13} color="#FFF" /></View>
@@ -279,7 +284,6 @@ export default function OnboardingScreen() {
       {/* Minutes — slides in after goal selected */}
       <Animated.View style={{ opacity: commitOpacity, transform: [{ translateY: commitAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
         <Text style={[styles.pageTitle, { fontSize: FONT_SIZE.xl, marginTop: SPACING.lg }]}>{t('onboarding.commitTitle')}</Text>
-        <Text style={[styles.pageSub, { marginBottom: SPACING.sm }]}>{t('onboarding.commitSub')}</Text>
         <View style={styles.commitRow}>
           {COMMIT_OPTIONS.map((min) => {
             const sel = selectedMinutes != null && selectedMinutes === min;
@@ -364,9 +368,9 @@ export default function OnboardingScreen() {
     <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
       {/* Top: title */}
       <View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm, marginBottom: 6 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm, marginBottom: 6, paddingRight: SPACING.lg }}>
           <Ionicons name="notifications" size={28} color="#4A90D9" />
-          <Text style={styles.pageTitle}>{t('onboarding.notificationsTitle')}</Text>
+          <Text style={[styles.pageTitle, { flex: 1 }]}>{t('onboarding.notificationsTitle')}</Text>
         </View>
         <Text style={styles.pageSub}>{t('onboarding.notificationsSub')}</Text>
       </View>

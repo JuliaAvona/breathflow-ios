@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ImageBackground,
   StatusBar,
+  PanResponder,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -95,14 +96,28 @@ export default function TechniqueDetailScreen() {
     }
   };
 
-  // Stop preview music when leaving screen
+  // Auto-play music if carried from previous technique
   useEffect(() => {
+    if (_music) {
+      startMusic(_music, 0.4, 10);
+    }
     return () => { stopMusic(); };
-  }, []);
+  }, [_music]);
 
   const allTechniques = TECHNIQUES;
 
   const currentIndex = allTechniques.findIndex(t => t.id === techniqueId);
+
+  const swipePanResponder = useMemo(() =>
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, g) =>
+        Math.abs(g.dx) > 30 && Math.abs(g.dy) < 40,
+      onPanResponderRelease: (_, g) => {
+        if (g.dx < -50) navigateTo(currentIndex + 1);
+        else if (g.dx > 50) navigateTo(currentIndex - 1);
+      },
+    }),
+  [currentIndex]);
 
   const navigateTo = (index: number) => {
     const wrapped = (index + allTechniques.length) % allTechniques.length;
@@ -145,7 +160,7 @@ export default function TechniqueDetailScreen() {
   const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[category];
 
   return (
-    <ImageBackground source={bgImage} style={styles.container} resizeMode="cover">
+    <ImageBackground source={bgImage} style={styles.container} resizeMode="cover" {...swipePanResponder.panHandlers}>
       {/* Vignette overlay: dark at top/bottom, transparent in mandala zone */}
       <LinearGradient
         colors={['#000000DD', '#00000055', '#00000022', '#000000BB', '#000000EE']}

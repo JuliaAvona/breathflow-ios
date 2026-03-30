@@ -259,7 +259,7 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
 
       {/* Info */}
       <View style={styles.gridCardInfo}>
-        <Text style={[styles.gridCardName, { color: theme.text }]} numberOfLines={1}>
+        <Text style={[styles.gridCardName, { color: theme.text }]} numberOfLines={2}>
           {t(technique.nameKey)}
         </Text>
         <Text style={[styles.gridCardDuration, { color: theme.textSecondary }]} numberOfLines={1}>

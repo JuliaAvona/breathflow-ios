@@ -14,11 +14,11 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/cons
 import type { BreathingSession } from '../../src/types';
 
 const MOOD_EMOJI: Record<string, string> = {
-  calm: '\u{1F60C}',
-  happy: '\u{1F60A}',
-  energized: '\u{26A1}',
-  focused: '\u{1F3AF}',
-  anxious: '\u{1F630}',
+  energized: '\u{1F929}',
+  happy: '\u{1F642}',
+  calm: '\u{1F610}',
+  focused: '\u{1F61E}',
+  anxious: '\u{1F62D}',
   sleepy: '\u{1F634}',
 };
 
@@ -244,13 +244,13 @@ export default function HistoryScreen() {
           {/* All-time stats (same as Breathe screen) */}
           <View style={styles.heroStatsRow}>
             <View style={styles.heroStat}>
-              <Ionicons name="leaf-outline" size={16} color="#7BC4A8" />
+              <Ionicons name="leaf-outline" size={16} color="rgba(255,255,255,0.85)" />
               <Text style={styles.heroStatValue}>{stats.totalSessions}</Text>
               <Text style={styles.heroStatLabel}>{t('home.totalSessions')}</Text>
             </View>
             <View style={styles.heroStatDivider} />
             <View style={styles.heroStat}>
-              <Ionicons name="time-outline" size={16} color="#4A90D9" />
+              <Ionicons name="time-outline" size={16} color="#95f5fb" />
               <Text style={styles.heroStatValue}>{stats.totalMinutes}</Text>
               <Text style={styles.heroStatLabel}>{t('home.totalMin')}</Text>
             </View>
@@ -544,7 +544,7 @@ const styles = StyleSheet.create({
   // Hero stats
   heroStatsRow: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(0,0,0,0.15)',
+    backgroundColor: 'rgba(0,0,0,0.3)',
     borderRadius: 20,
     paddingVertical: 16,
     paddingHorizontal: 8,

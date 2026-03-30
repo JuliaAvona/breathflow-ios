@@ -47,14 +47,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'react-native-health',
       {
         healthSharePermission:
-          'BreathFlow reads your weight and height to personalize your breathing exercises and provide accurate session insights.',
+          'BreathFlow uses Apple Health to track your mindfulness practice.',
         healthUpdatePermission:
-          'BreathFlow saves your mindfulness sessions to Apple Health.',
+          'BreathFlow saves your breathing sessions as Mindful Minutes to Apple Health.',
         healthClinicalPermission: '',
-        readPermissions: [
-          'Weight',
-          'Height',
-        ],
+        readPermissions: [],
         writePermissions: [
           'MindfulSession',
         ],

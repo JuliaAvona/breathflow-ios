@@ -233,7 +233,7 @@ export default function SessionScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       hapticIntervalRef.current = setInterval(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-      }, 1000);
+      }, 300);
     }
   }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, soundOn, settingsStore.soundStyle]);
 
@@ -797,8 +797,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 24,
-    paddingBottom: 8,
+    gap: 40,
+    paddingBottom: 16,
   },
   controlBtnSmall: {
     width: 44,
