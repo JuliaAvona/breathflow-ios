@@ -53,6 +53,20 @@ const DURATION_OPTIONS = [
   { label: '20', value: 1200 },
 ];
 
+const ROUND_OPTIONS = [
+  { label: '2', value: 2 },
+  { label: '3', value: 3 },
+  { label: '4', value: 4 },
+  { label: '5', value: 5 },
+];
+
+const SET_OPTIONS = [
+  { label: '2', value: 2 },
+  { label: '3', value: 3 },
+  { label: '4', value: 4 },
+  { label: '5', value: 5 },
+];
+
 
 const CATEGORY_ACCENT: Record<TechniqueCategory, string> = {
   calm:   '#7BC4A8',
@@ -84,6 +98,8 @@ export default function TechniqueDetailScreen() {
   };
 
   const [selectedDuration, setSelectedDuration] = useState(() => _dur ? Number(_dur) : getDefaultDuration());
+  const [selectedRounds, setSelectedRounds] = useState(technique?.roundCount ?? 3);
+  const [selectedSets, setSelectedSets] = useState(technique?.setCount ?? 3);
   const [selectedMusic, setSelectedMusic] = useState<string | null>(_music ?? null);
   const [descExpanded, setDescExpanded] = useState(false);
 
@@ -137,7 +153,9 @@ export default function TechniqueDetailScreen() {
       pathname: '/session',
       params: {
         techniqueId: technique.id,
-        duration: String(selectedDuration),
+        ...(technique.mode === 'standard' ? { duration: String(selectedDuration) } : {}),
+        ...(technique.mode === 'power' ? { rounds: String(selectedRounds) } : {}),
+        ...(technique.mode === 'kapalabhati' ? { sets: String(selectedSets) } : {}),
         ...(selectedMusic ? { musicId: selectedMusic } : {}),
       },
     });
@@ -206,29 +224,65 @@ export default function TechniqueDetailScreen() {
         />
       </View>
 
-      {/* ── Duration picker ── */}
+      {/* ── Duration / Rounds / Sets picker ── */}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.durationContent}
         style={styles.durationScroll}
       >
-        {DURATION_OPTIONS.map((opt) => {
-          const isActive = opt.value === selectedDuration;
-          return (
-            <TouchableOpacity
-              key={opt.value}
-              style={styles.durationItem}
-              onPress={() => setSelectedDuration(opt.value)}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.durationLabel, isActive ? styles.durationLabelActive : styles.durationLabelInactive]}>
-                {opt.label}
-              </Text>
-              {isActive && <View style={[styles.durationDot, { backgroundColor: accentColor }]} />}
-            </TouchableOpacity>
-          );
-        })}
+        {technique.mode === 'power' ? (
+          ROUND_OPTIONS.map((opt) => {
+            const isActive = opt.value === selectedRounds;
+            return (
+              <TouchableOpacity
+                key={opt.value}
+                style={styles.durationItem}
+                onPress={() => setSelectedRounds(opt.value)}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.durationLabel, isActive ? styles.durationLabelActive : styles.durationLabelInactive]}>
+                  {opt.label}
+                </Text>
+                {isActive && <View style={[styles.durationDot, { backgroundColor: accentColor }]} />}
+              </TouchableOpacity>
+            );
+          })
+        ) : technique.mode === 'kapalabhati' ? (
+          SET_OPTIONS.map((opt) => {
+            const isActive = opt.value === selectedSets;
+            return (
+              <TouchableOpacity
+                key={opt.value}
+                style={styles.durationItem}
+                onPress={() => setSelectedSets(opt.value)}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.durationLabel, isActive ? styles.durationLabelActive : styles.durationLabelInactive]}>
+                  {opt.label}
+                </Text>
+                {isActive && <View style={[styles.durationDot, { backgroundColor: accentColor }]} />}
+              </TouchableOpacity>
+            );
+          })
+        ) : (
+          DURATION_OPTIONS.map((opt) => {
+            const isActive = opt.value === selectedDuration;
+            return (
+              <TouchableOpacity
+                key={opt.value}
+                style={styles.durationItem}
+                onPress={() => setSelectedDuration(opt.value)}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.durationLabel, isActive ? styles.durationLabelActive : styles.durationLabelInactive]}>
+                  {opt.label}
+                </Text>
+                {isActive && <View style={[styles.durationDot, { backgroundColor: accentColor }]} />}
+              </TouchableOpacity>
+            );
+          })
+        )}
       </ScrollView>
 
       {/* ── Music picker ── */}
@@ -307,14 +361,14 @@ export default function TechniqueDetailScreen() {
             </View>
             <View style={styles.phasePill}>
               <Text style={styles.phasePillLabel}>{t('techniqueDetail.rounds')}</Text>
-              <Text style={styles.phasePillValue}>{technique.roundCount}</Text>
+              <Text style={styles.phasePillValue}>{selectedRounds}</Text>
             </View>
           </>
         ) : technique.mode === 'kapalabhati' ? (
           <>
             <View style={styles.phasePill}>
               <Text style={styles.phasePillLabel}>{t('techniqueDetail.sets')}</Text>
-              <Text style={styles.phasePillValue}>{technique.setCount}</Text>
+              <Text style={styles.phasePillValue}>{selectedSets}</Text>
             </View>
             <View style={styles.phasePill}>
               <Text style={styles.phasePillLabel}>{t('techniqueDetail.duration')}</Text>

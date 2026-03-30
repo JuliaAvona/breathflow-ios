@@ -177,7 +177,7 @@ export const useTimerStore = create<TimerStore>()((set, get) => ({
         startedAt: new Date().toISOString(),
       });
     } else if (mode === 'kapalabhati') {
-      const totalSets = technique.setCount ?? 3;
+      const totalSets = overrides?.rounds ?? technique.setCount ?? 3;
       const setDuration = technique.setDuration ?? 30;
 
       set({

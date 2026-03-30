@@ -25,6 +25,7 @@ import { playPhaseTransition, playSessionComplete, playCountdownTick, releaseAll
 import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
 import { startMusic, stopMusic, pauseMusic, resumeMusic, isMusicPlaying } from '../src/utils/sessionMusic';
 import { BreathingMandala } from '../src/components/BreathingMandala';
+import { PulseRings } from '../src/components/PulseRings';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase, BreathingShape as ShapeType } from '../src/types';
 
 import type { TechniqueCategory } from '../src/types';
@@ -90,6 +91,9 @@ function BreathingShape({
   color: string;
   phaseDuration?: number;
 }) {
+  if (mode === 'power' || mode === 'kapalabhati') {
+    return <PulseRings phase={phase} color={color} size={CIRCLE_SIZE} />;
+  }
   return <BreathingMandala phase={phase} mode={mode} color={color} size={CIRCLE_SIZE} phaseDuration={phaseDuration} />;
 }
 
@@ -100,7 +104,7 @@ export default function SessionScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
   const insets = useSafeAreaInsets();
-  const { techniqueId, duration: durationParam, musicId, fromOnboarding } = useLocalSearchParams<{ techniqueId: string; duration?: string; musicId?: string; fromOnboarding?: string }>();
+  const { techniqueId, duration: durationParam, rounds: roundsParam, sets: setsParam, musicId, fromOnboarding } = useLocalSearchParams<{ techniqueId: string; duration?: string; rounds?: string; sets?: string; musicId?: string; fromOnboarding?: string }>();
   const [musicOn, setMusicOn] = useState(!!musicId);
   const [soundOn, setSoundOn] = useState(true);
 
@@ -168,10 +172,13 @@ export default function SessionScreen() {
         {
           ...overrides,
           // For cycle-based techniques pass the cycles derived from the requested duration.
-          // undefined here means startSession keeps its own default — safe for all other paths.
           cycles: durationDerivedCycles ?? overrides?.cycles,
           // Force exact duration stop so timer always matches selected time
           maxDuration: requestedDuration,
+          // Power Breathing: override rounds from picker
+          ...(roundsParam ? { rounds: parseInt(roundsParam, 10) } : {}),
+          // Kapalabhati: override sets (passed as rounds to startSession)
+          ...(setsParam ? { rounds: parseInt(setsParam, 10) } : {}),
         },
       );
       startBackgroundAudio();
@@ -230,10 +237,26 @@ export default function SessionScreen() {
     }
     if (!hapticsEnabled) return;
     if (currentPhaseVal === 'INHALE' || currentPhaseVal === 'EXHALE') {
+      // Standard: rhythmic vibration during breathe in/out
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       hapticIntervalRef.current = setInterval(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       }, 300);
+    } else if (currentPhaseVal === 'BREATHING' || currentPhaseVal === 'RAPID_SET') {
+      // Power/Kapalabhati: light pulse during rapid breathing
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      hapticIntervalRef.current = setInterval(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      }, 500);
+    } else if (currentPhaseVal === 'RETENTION') {
+      // Retention: single heavy vibration at start, then nothing (silence = focus)
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    } else if (currentPhaseVal === 'RECOVERY' || currentPhaseVal === 'REST') {
+      // Recovery/Rest: gentle slow pulse
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      hapticIntervalRef.current = setInterval(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      }, 1000);
     }
   }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, soundOn, settingsStore.soundStyle]);
 
@@ -248,26 +271,21 @@ export default function SessionScreen() {
     };
   }, []);
 
-  // Tick
+  // Tick — stable interval, checks isRunning inside
   useEffect(() => {
-    const tickInterval = timerStore.mode === 'standard' ? 1000 : 500;
-    if (timerStore.isRunning) {
-      intervalRef.current = setInterval(() => {
-        useTimerStore.getState().tick();
-      }, tickInterval);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
+    intervalRef.current = setInterval(() => {
+      const state = useTimerStore.getState();
+      if (state.isRunning) {
+        state.tick();
       }
-    }
+    }, 1000);
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
     };
-  }, [timerStore.isRunning, timerStore.mode]);
+  }, []);
 
   // Handle DONE
   useEffect(() => {
@@ -291,9 +309,11 @@ export default function SessionScreen() {
       completedAt: new Date().toISOString(),
       completed: true,
       techniqueId: technique.id,
-      cyclesCompleted: timerStore.mode === 'standard' ? timerStore.currentCycle : 0,
+      cyclesCompleted: timerStore.mode === 'standard' ? timerStore.currentCycle
+        : timerStore.mode === 'kapalabhati' ? timerStore.currentSet : 0,
       totalDuration: timerStore.maxDuration > 0 ? timerStore.maxDuration : timerStore.totalElapsed,
-      roundsCompleted: timerStore.mode === 'power' ? timerStore.currentRound : undefined,
+      roundsCompleted: timerStore.mode === 'power' ? timerStore.currentRound
+        : timerStore.mode === 'kapalabhati' ? timerStore.currentSet : undefined,
       retentionTimes: timerStore.mode === 'power' ? timerStore.retentionTimes : undefined,
       bestRetention:
         timerStore.mode === 'power' && timerStore.retentionTimes.length > 0
@@ -471,11 +491,16 @@ export default function SessionScreen() {
       return Math.max(0, totalSec - timerStore.totalElapsed);
     }
     if (timerStore.mode === 'power') {
-      const estTotal = (effectiveTechnique.breathCount! * 2 * effectiveTechnique.roundCount! + effectiveTechnique.roundCount! * 90);
+      const rounds = timerStore.totalRounds;
+      const breaths = timerStore.targetBreaths;
+      const estTotal = (breaths * 2 * rounds + rounds * 90);
       return Math.max(0, estTotal - timerStore.totalElapsed);
     }
     if (timerStore.mode === 'kapalabhati') {
-      const estTotal = effectiveTechnique.setCount! * effectiveTechnique.setDuration! + (effectiveTechnique.setCount! - 1) * effectiveTechnique.restDuration!;
+      const sets = timerStore.totalSets;
+      const setDur = effectiveTechnique.setDuration ?? 30;
+      const restDur = effectiveTechnique.restDuration ?? 30;
+      const estTotal = sets * setDur + (sets - 1) * restDur;
       return Math.max(0, estTotal - timerStore.totalElapsed);
     }
     return 0;
@@ -555,11 +580,13 @@ export default function SessionScreen() {
           </Text>
         </View>
 
-        <View style={styles.timerPill}>
-          <Text style={styles.timerPillText}>
-            {formatTime(getTotalRemaining())}
-          </Text>
-        </View>
+        {timerStore.mode === 'standard' && (
+          <View style={styles.timerPill}>
+            <Text style={styles.timerPillText}>
+              {formatTime(getTotalRemaining())}
+            </Text>
+          </View>
+        )}
       </View>
 
       {/* ── Center content: circle + phase label ── */}
@@ -607,19 +634,20 @@ export default function SessionScreen() {
           </View>
         )}
 
-        {/* Swipe hint for retention */}
+        {/* Exhale button for retention */}
         {isRetention && (
-          <View style={styles.swipeHint}>
-            <Ionicons name="arrow-up" size={14} color="rgba(255,255,255,0.7)" />
-            <Text style={styles.swipeHintText}>
-              {t('session.swipeToExhale')}
-            </Text>
-          </View>
+          <TouchableOpacity
+            style={styles.exhaleButton}
+            onPress={() => useTimerStore.getState().endRetention()}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.exhaleButtonText}>{t('session.exhale', { defaultValue: 'Exhale' })}</Text>
+          </TouchableOpacity>
         )}
       </View>
 
-      {/* ── Bottom controls ── */}
-      <View style={styles.controlsRow}>
+      {/* ── Bottom controls (hidden during retention) ── */}
+      {!isRetention && <View style={styles.controlsRow}>
         {/* Music toggle (only if music was selected) */}
         {musicId ? (
           <TouchableOpacity
@@ -631,8 +659,8 @@ export default function SessionScreen() {
           </TouchableOpacity>
         ) : <View style={styles.controlBtnSmall} />}
 
-        {/* Pause / Resume */}
-        {timerStore.isRunning ? (
+        {/* Pause / Resume (hidden during retention — Exhale button replaces it) */}
+        {timerStore.isRunning && !isRetention ? (
           <TouchableOpacity
             style={styles.controlBtn}
             onPress={() => { useTimerStore.getState().pause(); if (musicOn) pauseMusic(); }}
@@ -652,7 +680,7 @@ export default function SessionScreen() {
 
         {/* Spacer to balance layout */}
         <View style={styles.controlBtnSmall} />
-      </View>
+      </View>}
     </ImageBackground>
   );
 }
@@ -757,7 +785,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.15)',
     paddingHorizontal: 24,
     paddingVertical: 14,
-    marginTop: 16,
+    marginTop: 20,
+    marginBottom: 20,
     alignItems: 'center',
   },
   resultLabel: {
@@ -775,21 +804,22 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
 
-  // Swipe hint
-  swipeHint: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    marginTop: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+  // Exhale button (retention phase)
+  exhaleButton: {
+    marginTop: 20,
+    marginBottom: 24,
+    paddingHorizontal: 40,
+    paddingVertical: 16,
     borderRadius: BORDER_RADIUS.full,
-    backgroundColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
   },
-  swipeHintText: {
-    fontSize: 13,
-    fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.7)',
+  exhaleButtonText: {
+    fontSize: 16,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+    letterSpacing: 0.5,
   },
 
   // Controls

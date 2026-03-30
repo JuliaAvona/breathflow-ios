@@ -151,18 +151,22 @@ export function BreathingMandala({
       }
     } else if (mode === 'power') {
       if (phase === 'BREATHING') {
-        startRotation(5000);
+        startRotation(10000);
+        // Smoothly collapse to circle first, then pulse
+        Animated.parallel([
+          Animated.timing(orbitSpread, { toValue: 0.0, duration: 600, easing: BREATH_EASING, useNativeDriver: true }),
+          Animated.timing(outerScale,  { toValue: 0.82, duration: 600, easing: BREATH_EASING, useNativeDriver: true }),
+          Animated.timing(opacityAnim, { toValue: 0.85, duration: 600, useNativeDriver: true }),
+        ]).start();
         const loop = Animated.loop(
           Animated.sequence([
             Animated.parallel([
-              Animated.timing(outerScale,  { toValue: 1.1,  duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
-              Animated.timing(orbitSpread, { toValue: 1.0,  duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
-              Animated.timing(opacityAnim, { toValue: 1.0,  duration: 320, useNativeDriver: true }),
+              Animated.timing(outerScale,  { toValue: 0.9,  duration: 900, easing: BREATH_EASING, useNativeDriver: true }),
+              Animated.timing(opacityAnim, { toValue: 0.95, duration: 900, useNativeDriver: true }),
             ]),
             Animated.parallel([
-              Animated.timing(outerScale,  { toValue: 0.70, duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
-              Animated.timing(orbitSpread, { toValue: 0.0,  duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
-              Animated.timing(opacityAnim, { toValue: 0.55, duration: 320, useNativeDriver: true }),
+              Animated.timing(outerScale,  { toValue: 0.82, duration: 900, easing: BREATH_EASING, useNativeDriver: true }),
+              Animated.timing(opacityAnim, { toValue: 0.8,  duration: 900, useNativeDriver: true }),
             ]),
           ]),
         );
@@ -185,16 +189,22 @@ export function BreathingMandala({
       }
     } else if (mode === 'kapalabhati') {
       if (phase === 'RAPID_SET') {
-        startRotation(4000);
+        startRotation(10000);
+        // Smoothly collapse to circle first, then pulse
+        Animated.parallel([
+          Animated.timing(orbitSpread, { toValue: 0.0, duration: 600, easing: BREATH_EASING, useNativeDriver: true }),
+          Animated.timing(outerScale,  { toValue: 0.8, duration: 600, easing: BREATH_EASING, useNativeDriver: true }),
+          Animated.timing(opacityAnim, { toValue: 0.83, duration: 600, useNativeDriver: true }),
+        ]).start();
         const loop = Animated.loop(
           Animated.sequence([
             Animated.parallel([
-              Animated.timing(outerScale,  { toValue: 1.05, duration: 160, easing: Easing.out(Easing.quad), useNativeDriver: true }),
-              Animated.timing(orbitSpread, { toValue: 1.0,  duration: 160, easing: Easing.out(Easing.quad), useNativeDriver: true }),
+              Animated.timing(outerScale,  { toValue: 0.88, duration: 700, easing: BREATH_EASING, useNativeDriver: true }),
+              Animated.timing(opacityAnim, { toValue: 0.92, duration: 700, useNativeDriver: true }),
             ]),
             Animated.parallel([
-              Animated.timing(outerScale,  { toValue: 0.75, duration: 160, easing: Easing.in(Easing.quad), useNativeDriver: true }),
-              Animated.timing(orbitSpread, { toValue: 0.0,  duration: 160, easing: Easing.in(Easing.quad), useNativeDriver: true }),
+              Animated.timing(outerScale,  { toValue: 0.8,  duration: 700, easing: BREATH_EASING, useNativeDriver: true }),
+              Animated.timing(opacityAnim, { toValue: 0.78, duration: 700, useNativeDriver: true }),
             ]),
           ]),
         );

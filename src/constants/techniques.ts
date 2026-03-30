@@ -123,7 +123,7 @@ export const TECHNIQUES: BreathingTechnique[] = [
     shape: 'burst',
     color: '#E85D4A',
     icon: 'flash-outline',
-    isPro: true,
+    isPro: false,
   },
 
   {
@@ -165,7 +165,7 @@ export const TECHNIQUES: BreathingTechnique[] = [
     shape: 'burst',
     color: '#F5A623',
     icon: 'sunny-outline',
-    isPro: true,
+    isPro: false,
   },
 
   {
