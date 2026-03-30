@@ -32,10 +32,13 @@ export default {
   'home.sets': 'sèries',
 
   // Progress
-  'progress.streakBanner': '{{count}} dies seguits!',
+  'progress.streakBanner_one': '{{count}} dia seguit!',
+  'progress.streakBanner_other': '{{count}} dies seguits!',
   'progress.doneToday': 'Fet per avui!',
-  'progress.bestStreakWas': 'El teu millor: {{count}} dies',
+  'progress.bestStreakWas_one': 'El teu millor: {{count}} dia',
+  'progress.bestStreakWas_other': 'El teu millor: {{count}} dies',
   'progress.streakNewRecord': 'Nou rècord personal!',
+  'progress.moodHistory': 'El teu estat d\'ànim',
   'progress.startStreak': 'Comença la teva ratxa avui!',
   'progress.streakKeepGoing': 'Mantén la teva ratxa!',
   'progress.techniqueBreakdown': 'La teva pràctica',

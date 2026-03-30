@@ -32,10 +32,13 @@ export default {
   'home.sets': 'sarjaa',
 
   // Progress
-  'progress.streakBanner': '{{count}} päivää peräkkäin!',
+  'progress.streakBanner_one': '{{count}} päivä peräkkäin!',
+  'progress.streakBanner_other': '{{count}} päivää peräkkäin!',
   'progress.doneToday': 'Valmis tältä päivältä!',
-  'progress.bestStreakWas': 'Paras tuloksesi: {{count}} päivää',
+  'progress.bestStreakWas_one': 'Paras tuloksesi: {{count}} päivä',
+  'progress.bestStreakWas_other': 'Paras tuloksesi: {{count}} päivää',
   'progress.streakNewRecord': 'Uusi henkilökohtainen ennätys!',
+  'progress.moodHistory': 'Mielialasi',
   'progress.startStreak': 'Aloita putkesi tänään!',
   'progress.streakKeepGoing': 'Pidä putkesi käynnissä!',
   'progress.techniqueBreakdown': 'Harjoittelusi',

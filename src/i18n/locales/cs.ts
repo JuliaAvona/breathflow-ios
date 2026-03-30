@@ -32,10 +32,15 @@ export default {
   'home.categoryAdvanced': 'Pokro\u010dil\u00e9',
 
   // Progress
-  'progress.streakBanner': '{{count}} dní v řadě!',
+  'progress.streakBanner_one': '{{count}} den v řadě!',
+  'progress.streakBanner_few': '{{count}} dny v řadě!',
+  'progress.streakBanner_many': '{{count}} dní v řadě!',
   'progress.doneToday': 'Hotovo pro dnešek!',
-  'progress.bestStreakWas': 'Váš rekord: {{count}} dní',
+  'progress.bestStreakWas_one': 'Váš rekord: {{count}} den',
+  'progress.bestStreakWas_few': 'Váš rekord: {{count}} dny',
+  'progress.bestStreakWas_many': 'Váš rekord: {{count}} dní',
   'progress.streakNewRecord': 'Nový osobní rekord!',
+  'progress.moodHistory': 'Vaše nálada',
   'progress.startStreak': 'Začněte svou sérii dnes!',
   'progress.streakKeepGoing': 'Udržte svou sérii!',
   'progress.techniqueBreakdown': 'Vaše praxe',

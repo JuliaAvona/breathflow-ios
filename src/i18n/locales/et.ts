@@ -32,10 +32,13 @@ export default {
   'home.sets': 'seeriat',
 
   // Progress
-  'progress.streakBanner': '{{count}} päeva järjest!',
+  'progress.streakBanner_one': '{{count}} päev järjest!',
+  'progress.streakBanner_other': '{{count}} päeva järjest!',
   'progress.doneToday': 'Tänaseks tehtud!',
-  'progress.bestStreakWas': 'Sinu parim: {{count}} päeva',
+  'progress.bestStreakWas_one': 'Sinu parim: {{count}} päev',
+  'progress.bestStreakWas_other': 'Sinu parim: {{count}} päeva',
   'progress.streakNewRecord': 'Uus isiklik rekord!',
+  'progress.moodHistory': 'Sinu tuju',
   'progress.startStreak': 'Alusta oma seeriat täna!',
   'progress.streakKeepGoing': 'Hoia oma seeria käigus!',
   'progress.techniqueBreakdown': 'Sinu praktika',

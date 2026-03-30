@@ -32,10 +32,13 @@ export default {
   'home.sets': '\u03c3\u03b5\u03c4',
 
   // Progress
-  'progress.streakBanner': '{{count}} μέρες στη σειρά!',
+  'progress.streakBanner_one': '{{count}} μέρα στη σειρά!',
+  'progress.streakBanner_other': '{{count}} μέρες στη σειρά!',
   'progress.doneToday': 'Ολοκληρώθηκε για σήμερα!',
-  'progress.bestStreakWas': 'Το καλύτερό σου: {{count}} μέρες',
+  'progress.bestStreakWas_one': 'Το καλύτερό σου: {{count}} μέρα',
+  'progress.bestStreakWas_other': 'Το καλύτερό σου: {{count}} μέρες',
   'progress.streakNewRecord': 'Νέο προσωπικό ρεκόρ!',
+  'progress.moodHistory': 'Η διάθεσή σου',
   'progress.startStreak': 'Ξεκίνα τη σειρά σου σήμερα!',
   'progress.streakKeepGoing': 'Κράτα τη σειρά σου!',
   'progress.techniqueBreakdown': 'Η πρακτική σου',

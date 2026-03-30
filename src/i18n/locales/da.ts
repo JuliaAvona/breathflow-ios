@@ -32,10 +32,13 @@ export default {
   'home.sets': 'sæt',
 
   // Progress
-  'progress.streakBanner': '{{count}} dage i træk!',
+  'progress.streakBanner_one': '{{count}} dag i træk!',
+  'progress.streakBanner_other': '{{count}} dage i træk!',
   'progress.doneToday': 'Færdig for i dag!',
-  'progress.bestStreakWas': 'Din bedste: {{count}} dage',
+  'progress.bestStreakWas_one': 'Din bedste: {{count}} dag',
+  'progress.bestStreakWas_other': 'Din bedste: {{count}} dage',
   'progress.streakNewRecord': 'Ny personlig rekord!',
+  'progress.moodHistory': 'Dit humør',
   'progress.startStreak': 'Start din serie i dag!',
   'progress.streakKeepGoing': 'Hold din serie i gang!',
   'progress.techniqueBreakdown': 'Din praksis',

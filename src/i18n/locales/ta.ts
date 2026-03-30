@@ -32,10 +32,13 @@ export default {
   'home.sets': 'தொகுப்புகள்',
 
   // Progress
-  'progress.streakBanner': 'தொடர்ச்சியாக {{count}} நாட்கள்!',
+  'progress.streakBanner_one': 'தொடர்ச்சியாக {{count}} நாள்!',
+  'progress.streakBanner_other': 'தொடர்ச்சியாக {{count}} நாட்கள்!',
   'progress.doneToday': 'இன்றைக்கு முடிந்தது!',
-  'progress.bestStreakWas': 'உங்கள் சிறந்தது: {{count}} நாட்கள்',
+  'progress.bestStreakWas_one': 'உங்கள் சிறந்தது: {{count}} நாள்',
+  'progress.bestStreakWas_other': 'உங்கள் சிறந்தது: {{count}} நாட்கள்',
   'progress.streakNewRecord': 'புதிய தனிப்பட்ட சாதனை!',
+  'progress.moodHistory': 'உங்கள் மனநிலை',
   'progress.startStreak': 'இன்றே உங்கள் தொடரைத் தொடங்குங்கள்!',
   'progress.streakKeepGoing': 'உங்கள் தொடரைத் தொடருங்கள்!',
   'progress.techniqueBreakdown': 'உங்கள் பயிற்சி',

@@ -32,10 +32,15 @@ export default {
   'home.sets': 'rinkini\u0173',
 
   // Progress
-  'progress.streakBanner': '{{count}} dienos iš eilės!',
+  'progress.streakBanner_one': '{{count}} diena iš eilės!',
+  'progress.streakBanner_few': '{{count}} dienos iš eilės!',
+  'progress.streakBanner_many': '{{count}} dienų iš eilės!',
   'progress.doneToday': 'Šiandien atlikta!',
-  'progress.bestStreakWas': 'Jūsų rekordas: {{count}} dienos',
+  'progress.bestStreakWas_one': 'Jūsų rekordas: {{count}} diena',
+  'progress.bestStreakWas_few': 'Jūsų rekordas: {{count}} dienos',
+  'progress.bestStreakWas_many': 'Jūsų rekordas: {{count}} dienų',
   'progress.streakNewRecord': 'Naujas asmeninis rekordas!',
+  'progress.moodHistory': 'Jūsų nuotaika',
   'progress.startStreak': 'Pradėkite savo seriją šiandien!',
   'progress.streakKeepGoing': 'Tęskite savo seriją!',
   'progress.techniqueBreakdown': 'Jūsų praktika',

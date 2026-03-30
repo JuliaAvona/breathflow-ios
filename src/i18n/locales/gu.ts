@@ -32,10 +32,13 @@ export default {
   'home.sets': 'સેટ',
 
   // Progress
-  'progress.streakBanner': 'સતત {{count}} દિવસ!',
+  'progress.streakBanner_one': 'સતત {{count}} દિવસ!',
+  'progress.streakBanner_other': 'સતત {{count}} દિવસ!',
   'progress.doneToday': 'આજ માટે પૂર્ણ!',
-  'progress.bestStreakWas': 'તમારું શ્રેષ્ઠ: {{count}} દિવસ',
+  'progress.bestStreakWas_one': 'તમારું શ્રેષ્ઠ: {{count}} દિવસ',
+  'progress.bestStreakWas_other': 'તમારું શ્રેષ્ઠ: {{count}} દિવસ',
   'progress.streakNewRecord': 'નવો વ્યક્તિગત રેકોર્ડ!',
+  'progress.moodHistory': 'તમારો મૂડ',
   'progress.startStreak': 'આજે તમારી શ્રેણી શરૂ કરો!',
   'progress.streakKeepGoing': 'તમારી શ્રેણી જાળવો!',
   'progress.techniqueBreakdown': 'તમારી પ્રેક્ટિસ',

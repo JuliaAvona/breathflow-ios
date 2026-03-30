@@ -32,10 +32,13 @@ export default {
   'home.categoryAdvanced': 'Avanc\u00e9',
 
   // Progress
-  'progress.streakBanner': '{{count}} jours d\'affil\u00e9e\u00a0!',
-  'progress.doneToday': 'Termin\u00e9 pour aujourd\'hui\u00a0!',
-  'progress.bestStreakWas': 'Votre meilleur\u00a0: {{count}} jours',
+  'progress.streakBanner_one': '{{count}} jour d\'affilée\u00a0!',
+  'progress.streakBanner_other': '{{count}} jours d\'affilée\u00a0!',
+  'progress.doneToday': 'Terminé pour aujourd\'hui\u00a0!',
+  'progress.bestStreakWas_one': 'Votre meilleur\u00a0: {{count}} jour',
+  'progress.bestStreakWas_other': 'Votre meilleur\u00a0: {{count}} jours',
   'progress.streakNewRecord': 'Nouveau record personnel\u00a0!',
+  'progress.moodHistory': 'Votre humeur',
   'progress.startStreak': 'Commencez votre s\u00e9rie aujourd\'hui\u00a0!',
   'progress.streakKeepGoing': 'Maintenez votre s\u00e9rie\u00a0!',
   'progress.techniqueBreakdown': 'Votre pratique',

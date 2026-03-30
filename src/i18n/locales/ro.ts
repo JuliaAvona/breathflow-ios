@@ -32,10 +32,15 @@ export default {
   'home.sets': 'seturi',
 
   // Progress
-  'progress.streakBanner': '{{count}} zile consecutiv!',
+  'progress.streakBanner_one': '{{count}} zi consecutiv!',
+  'progress.streakBanner_few': '{{count}} zile consecutiv!',
+  'progress.streakBanner_many': '{{count}} de zile consecutiv!',
   'progress.doneToday': 'Gata pentru azi!',
-  'progress.bestStreakWas': 'Cel mai bun: {{count}} zile',
+  'progress.bestStreakWas_one': 'Cel mai bun: {{count}} zi',
+  'progress.bestStreakWas_few': 'Cel mai bun: {{count}} zile',
+  'progress.bestStreakWas_many': 'Cel mai bun: {{count}} de zile',
   'progress.streakNewRecord': 'Nou record personal!',
+  'progress.moodHistory': 'Dispoziția ta',
   'progress.startStreak': 'Începe seria ta azi!',
   'progress.streakKeepGoing': 'Menține seria ta!',
   'progress.techniqueBreakdown': 'Practica ta',

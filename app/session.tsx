@@ -101,7 +101,7 @@ function BreathingShape({
 
 export default function SessionScreen() {
   useKeepAwake();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const theme = useThemeColors();
   const insets = useSafeAreaInsets();
   const { techniqueId, duration: durationParam, rounds: roundsParam, sets: setsParam, musicId, fromOnboarding } = useLocalSearchParams<{ techniqueId: string; duration?: string; rounds?: string; sets?: string; musicId?: string; fromOnboarding?: string }>();
@@ -205,7 +205,7 @@ export default function SessionScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
     if (soundOn) {
-      playCountdownTick(countdown);
+      playCountdownTick(countdown, i18n.language);
     }
 
     const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -514,9 +514,6 @@ export default function SessionScreen() {
     return technique.phases[timerStore.currentPhaseIndex]?.duration;
   })();
 
-  const showRetentionResult = timerStore.mode === 'power' &&
-    (timerStore.powerPhase === 'RECOVERY' || (timerStore.powerPhase === 'PAUSED' && timerStore.recoveryTimeRemaining > 0)) &&
-    timerStore.retentionTimes.length > 0;
 
   const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[technique.category];
   const overlayColor = isRetention ? COLORS.retention : techniqueColor;
@@ -622,17 +619,6 @@ export default function SessionScreen() {
           </Text>
         )}
 
-        {/* Retention result */}
-        {showRetentionResult && (
-          <View style={styles.resultCard}>
-            <Text style={styles.resultLabel}>
-              {t('summary.round', { number: timerStore.retentionTimes.length })}
-            </Text>
-            <Text style={styles.resultValue}>
-              {formatTime(timerStore.retentionTimes[timerStore.retentionTimes.length - 1])}
-            </Text>
-          </View>
-        )}
 
         {/* Exhale button for retention */}
         {isRetention && (
@@ -646,7 +632,7 @@ export default function SessionScreen() {
         )}
       </View>
 
-      {/* ── Bottom controls (hidden during retention) ── */}
+      {/* ── Bottom controls (hidden during retention and result display) ── */}
       {!isRetention && <View style={styles.controlsRow}>
         {/* Music toggle (only if music was selected) */}
         {musicId ? (

@@ -32,10 +32,13 @@ export default {
   'home.sets': 'סטים',
 
   // Progress
-  'progress.streakBanner': '{{count}} ימים ברצף!',
+  'progress.streakBanner_one': 'יום {{count}} ברצף!',
+  'progress.streakBanner_other': '{{count}} ימים ברצף!',
   'progress.doneToday': 'סיימת להיום!',
-  'progress.bestStreakWas': 'השיא שלך: {{count}} ימים',
+  'progress.bestStreakWas_one': 'השיא שלך: יום {{count}}',
+  'progress.bestStreakWas_other': 'השיא שלך: {{count}} ימים',
   'progress.streakNewRecord': 'שיא אישי חדש!',
+  'progress.moodHistory': 'מצב הרוח שלך',
   'progress.startStreak': 'התחל את הרצף שלך היום!',
   'progress.streakKeepGoing': 'שמור על הרצף שלך!',
   'progress.techniqueBreakdown': 'התרגול שלך',

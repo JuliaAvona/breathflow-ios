@@ -19,9 +19,12 @@ export default {
   'home.breaths': 'breaths',
 
   // Progress screen
-  'progress.streakBanner': '{{count}} days in a row!',
+  'progress.streakBanner_one': '{{count}} day in a row!',
+  'progress.streakBanner_other': '{{count}} days in a row!',
+  'progress.moodHistory': 'Your Mood',
   'progress.doneToday': 'Done for today!',
-  'progress.bestStreakWas': 'Your best: {{count}} days',
+  'progress.bestStreakWas_one': 'Your best: {{count}} day',
+  'progress.bestStreakWas_other': 'Your best: {{count}} days',
   'progress.streakNewRecord': 'New personal record!',
   'progress.startStreak': 'Start your streak today!',
   'progress.streakKeepGoing': 'Keep your streak alive!',

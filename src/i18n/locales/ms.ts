@@ -32,10 +32,13 @@ export default {
   'home.sets': 'set',
 
   // Progress
-  'progress.streakBanner': '{{count}} hari berturut-turut!',
+  'progress.streakBanner_one': '{{count}} hari berturut-turut!',
+  'progress.streakBanner_other': '{{count}} hari berturut-turut!',
   'progress.doneToday': 'Selesai untuk hari ini!',
-  'progress.bestStreakWas': 'Terbaik anda: {{count}} hari',
+  'progress.bestStreakWas_one': 'Terbaik anda: {{count}} hari',
+  'progress.bestStreakWas_other': 'Terbaik anda: {{count}} hari',
   'progress.streakNewRecord': 'Rekod peribadi baharu!',
+  'progress.moodHistory': 'Mood anda',
   'progress.startStreak': 'Mulakan rentak anda hari ini!',
   'progress.streakKeepGoing': 'Kekalkan rentak anda!',
   'progress.techniqueBreakdown': 'Amalan Anda',

@@ -32,10 +32,13 @@ export default {
   'home.sets': 'ስብስቦች',
 
   // Progress
-  'progress.streakBanner': '{{count}} ቀናት በተከታታይ!',
+  'progress.streakBanner_one': '{{count}} ቀን በተከታታይ!',
+  'progress.streakBanner_other': '{{count}} ቀናት በተከታታይ!',
   'progress.doneToday': 'ዛሬ ተጠናቅቋል!',
-  'progress.bestStreakWas': 'ምርጥዎ: {{count}} ቀናት',
+  'progress.bestStreakWas_one': 'ምርጥዎ: {{count}} ቀን',
+  'progress.bestStreakWas_other': 'ምርጥዎ: {{count}} ቀናት',
   'progress.streakNewRecord': 'አዲስ የግል ሪከርድ!',
+  'progress.moodHistory': 'ስሜትዎ',
   'progress.startStreak': 'ዛሬ ተከታታይ ጀምር!',
   'progress.streakKeepGoing': 'ተከታታይዎን አትተው!',
   'progress.techniqueBreakdown': 'ልምምድዎ',

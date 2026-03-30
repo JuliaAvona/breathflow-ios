@@ -32,10 +32,15 @@ export default {
   'home.sets': 's\u00e1d',
 
   // Progress
-  'progress.streakBanner': '{{count}} dní v rade!',
+  'progress.streakBanner_one': '{{count}} deň v rade!',
+  'progress.streakBanner_few': '{{count}} dni v rade!',
+  'progress.streakBanner_many': '{{count}} dní v rade!',
   'progress.doneToday': 'Hotovo na dnes!',
-  'progress.bestStreakWas': 'Váš rekord: {{count}} dní',
+  'progress.bestStreakWas_one': 'Váš rekord: {{count}} deň',
+  'progress.bestStreakWas_few': 'Váš rekord: {{count}} dni',
+  'progress.bestStreakWas_many': 'Váš rekord: {{count}} dní',
   'progress.streakNewRecord': 'Nový osobný rekord!',
+  'progress.moodHistory': 'Vaša nálada',
   'progress.startStreak': 'Začnite svoju sériu dnes!',
   'progress.streakKeepGoing': 'Udržte svoju sériu!',
   'progress.techniqueBreakdown': 'Vaša prax',

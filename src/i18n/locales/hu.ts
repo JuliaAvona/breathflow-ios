@@ -32,10 +32,13 @@ export default {
   'home.sets': 'sorozat',
 
   // Progress
-  'progress.streakBanner': '{{count}} nap egymás után!',
+  'progress.streakBanner_one': '{{count}} nap egymás után!',
+  'progress.streakBanner_other': '{{count}} nap egymás után!',
   'progress.doneToday': 'Mára kész!',
-  'progress.bestStreakWas': 'A rekordod: {{count}} nap',
+  'progress.bestStreakWas_one': 'A rekordod: {{count}} nap',
+  'progress.bestStreakWas_other': 'A rekordod: {{count}} nap',
   'progress.streakNewRecord': 'Új személyes rekord!',
+  'progress.moodHistory': 'Hangulatod',
   'progress.startStreak': 'Kezdd el a sorozatod ma!',
   'progress.streakKeepGoing': 'Tartsd fenn a sorozatod!',
   'progress.techniqueBreakdown': 'A gyakorlásod',

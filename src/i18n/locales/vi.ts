@@ -32,10 +32,13 @@ export default {
   'home.sets': 'hi\u1ec7p',
 
   // Progress
-  'progress.streakBanner': '{{count}} ngày liên tiếp!',
+  'progress.streakBanner_one': '{{count}} ngày liên tiếp!',
+  'progress.streakBanner_other': '{{count}} ngày liên tiếp!',
   'progress.doneToday': 'Hoàn thành cho hôm nay!',
-  'progress.bestStreakWas': 'Kỷ lục của bạn: {{count}} ngày',
+  'progress.bestStreakWas_one': 'Kỷ lục của bạn: {{count}} ngày',
+  'progress.bestStreakWas_other': 'Kỷ lục của bạn: {{count}} ngày',
   'progress.streakNewRecord': 'Kỷ lục cá nhân mới!',
+  'progress.moodHistory': 'Tâm trạng của bạn',
   'progress.startStreak': 'Bắt đầu chuỗi ngày của bạn hôm nay!',
   'progress.streakKeepGoing': 'Duy trì chuỗi ngày của bạn!',
   'progress.techniqueBreakdown': 'Luyện tập của bạn',

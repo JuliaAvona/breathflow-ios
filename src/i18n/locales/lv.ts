@@ -32,10 +32,15 @@ export default {
   'home.sets': 'komplekti',
 
   // Progress
-  'progress.streakBanner': '{{count}} dienas pēc kārtas!',
+  'progress.streakBanner_one': '{{count}} diena pēc kārtas!',
+  'progress.streakBanner_few': '{{count}} dienas pēc kārtas!',
+  'progress.streakBanner_many': '{{count}} dienu pēc kārtas!',
   'progress.doneToday': 'Šodien izdarīts!',
-  'progress.bestStreakWas': 'Tavs labākais: {{count}} dienas',
+  'progress.bestStreakWas_one': 'Tavs labākais: {{count}} diena',
+  'progress.bestStreakWas_few': 'Tavs labākais: {{count}} dienas',
+  'progress.bestStreakWas_many': 'Tavs labākais: {{count}} dienu',
   'progress.streakNewRecord': 'Jauns personīgais rekords!',
+  'progress.moodHistory': 'Tavs garastāvoklis',
   'progress.startStreak': 'Sāc savu sēriju šodien!',
   'progress.streakKeepGoing': 'Turpini savu sēriju!',
   'progress.techniqueBreakdown': 'Tava prakse',

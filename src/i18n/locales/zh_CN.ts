@@ -32,10 +32,13 @@ export default {
   'home.categoryAdvanced': '进阶',
 
   // Progress
-  'progress.streakBanner': '连续{{count}}天!',
+  'progress.streakBanner_one': '连续{{count}}天!',
+  'progress.streakBanner_other': '连续{{count}}天!',
   'progress.doneToday': '今日已完成!',
-  'progress.bestStreakWas': '最佳纪录: {{count}}天',
+  'progress.bestStreakWas_one': '最佳纪录: {{count}}天',
+  'progress.bestStreakWas_other': '最佳纪录: {{count}}天',
   'progress.streakNewRecord': '新的个人纪录!',
+  'progress.moodHistory': '您的心情',
   'progress.startStreak': '今天开始你的连续记录!',
   'progress.streakKeepGoing': '保持你的连续记录!',
   'progress.techniqueBreakdown': '你的练习',

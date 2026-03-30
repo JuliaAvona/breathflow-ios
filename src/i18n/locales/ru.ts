@@ -20,10 +20,17 @@ export default {
   'home.breaths': 'вдохов',
 
   // Progress screen
-  'progress.streakBanner': '{{count}} дней подряд!',
+  'progress.streakBanner_one': '{{count}} день подряд!',
+  'progress.streakBanner_few': '{{count}} дня подряд!',
+  'progress.streakBanner_many': '{{count}} дней подряд!',
+  'progress.streakBanner_other': '{{count}} дней подряд!',
   'progress.doneToday': 'Сделано на сегодня!',
-  'progress.bestStreakWas': 'Ваш рекорд: {{count}} дней',
+  'progress.bestStreakWas_one': 'Ваш рекорд: {{count}} день',
+  'progress.bestStreakWas_few': 'Ваш рекорд: {{count}} дня',
+  'progress.bestStreakWas_many': 'Ваш рекорд: {{count}} дней',
+  'progress.bestStreakWas_other': 'Ваш рекорд: {{count}} дней',
   'progress.streakNewRecord': 'Новый личный рекорд!',
+  'progress.moodHistory': 'Ваше настроение',
   'progress.startStreak': 'Начните серию сегодня!',
   'progress.streakKeepGoing': 'Не прерывайте серию!',
   'progress.techniqueBreakdown': 'Ваша практика',
@@ -216,6 +223,8 @@ export default {
 
   // Calendar
   'calendar.sessions_one': '{{count}} сессия',
+  'calendar.sessions_few': '{{count}} сессии',
+  'calendar.sessions_many': '{{count}} сессий',
   'calendar.sessions_other': '{{count}} сессий',
 
   // Settings screen

@@ -32,10 +32,13 @@ export default {
   'home.sets': 'set',
 
   // Progress
-  'progress.streakBanner': '{{count}} dagar i rad!',
+  'progress.streakBanner_one': '{{count}} dag i rad!',
+  'progress.streakBanner_other': '{{count}} dagar i rad!',
   'progress.doneToday': 'Klart för idag!',
-  'progress.bestStreakWas': 'Ditt bästa: {{count}} dagar',
+  'progress.bestStreakWas_one': 'Ditt bästa: {{count}} dag',
+  'progress.bestStreakWas_other': 'Ditt bästa: {{count}} dagar',
   'progress.streakNewRecord': 'Nytt personligt rekord!',
+  'progress.moodHistory': 'Ditt humör',
   'progress.startStreak': 'Starta din serie idag!',
   'progress.streakKeepGoing': 'Håll din serie igång!',
   'progress.techniqueBreakdown': 'Din övning',

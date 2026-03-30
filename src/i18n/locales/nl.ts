@@ -29,10 +29,13 @@ export default {
   'home.categoryAdvanced': 'Gevord.',
 
   // Progress
-  'progress.streakBanner': '{{count}} dagen op rij!',
+  'progress.streakBanner_one': '{{count}} dag op rij!',
+  'progress.streakBanner_other': '{{count}} dagen op rij!',
   'progress.doneToday': 'Klaar voor vandaag!',
-  'progress.bestStreakWas': 'Jouw beste: {{count}} dagen',
+  'progress.bestStreakWas_one': 'Jouw beste: {{count}} dag',
+  'progress.bestStreakWas_other': 'Jouw beste: {{count}} dagen',
   'progress.streakNewRecord': 'Nieuw persoonlijk record!',
+  'progress.moodHistory': 'Jouw stemming',
   'progress.startStreak': 'Begin je reeks vandaag!',
   'progress.streakKeepGoing': 'Houd je reeks vol!',
   'progress.techniqueBreakdown': 'Jouw oefening',

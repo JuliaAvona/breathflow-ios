@@ -32,10 +32,15 @@ export default {
   'home.sets': '\u0441\u0435\u0440\u0438\u0458\u0430',
 
   // Progress
-  'progress.streakBanner': '{{count}} дана заредом!',
+  'progress.streakBanner_one': '{{count}} дан заредом!',
+  'progress.streakBanner_few': '{{count}} дана заредом!',
+  'progress.streakBanner_many': '{{count}} дана заредом!',
   'progress.doneToday': 'Завршено за данас!',
-  'progress.bestStreakWas': 'Ваш рекорд: {{count}} дана',
+  'progress.bestStreakWas_one': 'Ваш рекорд: {{count}} дан',
+  'progress.bestStreakWas_few': 'Ваш рекорд: {{count}} дана',
+  'progress.bestStreakWas_many': 'Ваш рекорд: {{count}} дана',
   'progress.streakNewRecord': 'Нови лични рекорд!',
+  'progress.moodHistory': 'Ваше расположење',
   'progress.startStreak': 'Започните свој низ данас!',
   'progress.streakKeepGoing': 'Наставите свој низ!',
   'progress.techniqueBreakdown': 'Ваша пракса',

@@ -32,10 +32,13 @@ export default {
   'home.categoryAdvanced': 'Avanzato',
 
   // Progress
-  'progress.streakBanner': '{{count}} giorni di fila!',
+  'progress.streakBanner_one': '{{count}} giorno di fila!',
+  'progress.streakBanner_other': '{{count}} giorni di fila!',
   'progress.doneToday': 'Fatto per oggi!',
-  'progress.bestStreakWas': 'Il Suo record: {{count}} giorni',
+  'progress.bestStreakWas_one': 'Il Suo record: {{count}} giorno',
+  'progress.bestStreakWas_other': 'Il Suo record: {{count}} giorni',
   'progress.streakNewRecord': 'Nuovo record personale!',
+  'progress.moodHistory': 'Il Suo umore',
   'progress.startStreak': 'Inizi la Sua serie oggi!',
   'progress.streakKeepGoing': 'Mantenga la Sua serie!',
   'progress.techniqueBreakdown': 'La Sua pratica',

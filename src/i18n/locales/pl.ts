@@ -29,10 +29,15 @@ export default {
   'home.categoryAdvanced': 'Zaawans.',
 
   // Progress
-  'progress.streakBanner': '{{count}} dni z rzędu!',
+  'progress.streakBanner_one': '{{count}} dzień z rzędu!',
+  'progress.streakBanner_few': '{{count}} dni z rzędu!',
+  'progress.streakBanner_many': '{{count}} dni z rzędu!',
   'progress.doneToday': 'Gotowe na dziś!',
-  'progress.bestStreakWas': 'Twój rekord: {{count}} dni',
+  'progress.bestStreakWas_one': 'Twój rekord: {{count}} dzień',
+  'progress.bestStreakWas_few': 'Twój rekord: {{count}} dni',
+  'progress.bestStreakWas_many': 'Twój rekord: {{count}} dni',
   'progress.streakNewRecord': 'Nowy rekord osobisty!',
+  'progress.moodHistory': 'Twój nastrój',
   'progress.startStreak': 'Zacznij swoją serię dziś!',
   'progress.streakKeepGoing': 'Kontynuuj serię!',
   'progress.techniqueBreakdown': 'Twoja praktyka',

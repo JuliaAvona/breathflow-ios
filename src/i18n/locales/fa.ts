@@ -32,10 +32,13 @@ export default {
   'home.sets': 'ست',
 
   // Progress
-  'progress.streakBanner': '{{count}} روز پشت سر هم!',
+  'progress.streakBanner_one': '{{count}} روز پشت سر هم!',
+  'progress.streakBanner_other': '{{count}} روز پشت سر هم!',
   'progress.doneToday': 'برای امروز تمام شد!',
-  'progress.bestStreakWas': 'بهترین شما: {{count}} روز',
+  'progress.bestStreakWas_one': 'بهترین شما: {{count}} روز',
+  'progress.bestStreakWas_other': 'بهترین شما: {{count}} روز',
   'progress.streakNewRecord': 'رکورد شخصی جدید!',
+  'progress.moodHistory': 'حال و هوای شما',
   'progress.startStreak': 'رشته خود را امروز شروع کنید!',
   'progress.streakKeepGoing': 'رشته خود را حفظ کنید!',
   'progress.techniqueBreakdown': 'تمرین شما',

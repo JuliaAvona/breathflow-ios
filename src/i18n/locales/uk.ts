@@ -32,10 +32,15 @@ export default {
   'home.categoryAdvanced': 'Просунуте',
 
   // Progress
-  'progress.streakBanner': '{{count}} днів поспіль!',
+  'progress.streakBanner_one': '{{count}} день поспіль!',
+  'progress.streakBanner_few': '{{count}} дні поспіль!',
+  'progress.streakBanner_many': '{{count}} днів поспіль!',
   'progress.doneToday': 'На сьогодні виконано!',
-  'progress.bestStreakWas': 'Ваш рекорд: {{count}} днів',
+  'progress.bestStreakWas_one': 'Ваш рекорд: {{count}} день',
+  'progress.bestStreakWas_few': 'Ваш рекорд: {{count}} дні',
+  'progress.bestStreakWas_many': 'Ваш рекорд: {{count}} днів',
   'progress.streakNewRecord': 'Новий особистий рекорд!',
+  'progress.moodHistory': 'Ваш настрій',
   'progress.startStreak': 'Розпочніть свою серію сьогодні!',
   'progress.streakKeepGoing': 'Продовжуйте свою серію!',
   'progress.techniqueBreakdown': 'Ваша практика',

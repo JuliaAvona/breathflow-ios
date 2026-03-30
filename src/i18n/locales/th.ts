@@ -32,10 +32,13 @@ export default {
   'home.sets': 'เซ็ต',
 
   // Progress
-  'progress.streakBanner': '{{count}} วันติดต่อกัน!',
+  'progress.streakBanner_one': '{{count}} วันติดต่อกัน!',
+  'progress.streakBanner_other': '{{count}} วันติดต่อกัน!',
   'progress.doneToday': 'เสร็จสิ้นสำหรับวันนี้!',
-  'progress.bestStreakWas': 'สถิติของคุณ: {{count}} วัน',
+  'progress.bestStreakWas_one': 'สถิติของคุณ: {{count}} วัน',
+  'progress.bestStreakWas_other': 'สถิติของคุณ: {{count}} วัน',
   'progress.streakNewRecord': 'สถิติส่วนตัวใหม่!',
+  'progress.moodHistory': 'อารมณ์ของคุณ',
   'progress.startStreak': 'เริ่มสถิติของคุณวันนี้!',
   'progress.streakKeepGoing': 'รักษาสถิติของคุณไว้!',
   'progress.techniqueBreakdown': 'การฝึกของคุณ',

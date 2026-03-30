@@ -32,10 +32,13 @@ export default {
   'home.sets': 's\u00e9ries',
 
   // Progress
-  'progress.streakBanner': '{{count}} dias consecutivos!',
+  'progress.streakBanner_one': '{{count}} dia consecutivo!',
+  'progress.streakBanner_other': '{{count}} dias consecutivos!',
   'progress.doneToday': 'Concluído por hoje!',
-  'progress.bestStreakWas': 'O seu melhor: {{count}} dias',
+  'progress.bestStreakWas_one': 'O seu melhor: {{count}} dia',
+  'progress.bestStreakWas_other': 'O seu melhor: {{count}} dias',
   'progress.streakNewRecord': 'Novo recorde pessoal!',
+  'progress.moodHistory': 'O seu humor',
   'progress.startStreak': 'Comece a sua série hoje!',
   'progress.streakKeepGoing': 'Mantenha a sua série!',
   'progress.techniqueBreakdown': 'A sua prática',

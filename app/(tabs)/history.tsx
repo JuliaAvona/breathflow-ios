@@ -103,6 +103,39 @@ export default function HistoryScreen() {
     return { longestSession };
   }, [sessions]);
 
+  // Mood scores for graph Y position (higher = better mood)
+  const MOOD_SCORE: Record<string, number> = {
+    energized: 5, happy: 4, calm: 3, focused: 2, anxious: 1, sleepy: 0,
+  };
+  const MOOD_GRAPH_HEIGHT = 140;
+
+  // Mood history — last 7 days with mood emoji + score
+  const moodHistory = useMemo(() => {
+    const today = new Date();
+    const days: { label: string; emoji: string | null; score: number | null; dateStr: string }[] = [];
+    for (let d = 6; d >= 0; d--) {
+      const day = new Date(today.getFullYear(), today.getMonth(), today.getDate() - d);
+      const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+      const label = day.toLocaleDateString(i18n.language, { weekday: 'short' }).slice(0, 3).toUpperCase();
+      const daySessions = allSessions.filter(s => s.date === dateStr && s.moodAfter);
+      let topMood: string | null = null;
+      if (daySessions.length > 0) {
+        const counts: Record<string, number> = {};
+        for (const s of daySessions) {
+          if (s.moodAfter) counts[s.moodAfter] = (counts[s.moodAfter] || 0) + 1;
+        }
+        topMood = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+      }
+      days.push({
+        label,
+        emoji: topMood ? MOOD_EMOJI[topMood] ?? null : null,
+        score: topMood ? MOOD_SCORE[topMood] ?? null : null,
+        dateStr,
+      });
+    }
+    return days;
+  }, [allSessions, i18n.language]);
+
   // Daily sessions data for week chart (last 7 days, uses allSessions to match calendar)
   const weeklyData = useMemo(() => {
     const days: { label: string; count: number; dateStr: string }[] = [];
@@ -285,50 +318,62 @@ export default function HistoryScreen() {
             <TouchableOpacity activeOpacity={0.85} onPress={() => router.push('/(tabs)')}>
               {hadSessionToday ? (
                 <LinearGradient
-                  colors={['#7BC4A8', '#5BAD8A']}
+                  colors={['#56AB91', '#36D1A0', '#7BC4A8']}
                   start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
+                  end={{ x: 1, y: 1 }}
                   style={styles.streakBanner}
                 >
-                  <Ionicons name="checkmark-circle" size={28} color="#FFF" />
+                  <View style={styles.streakBannerDecoCircle} />
+                  <View style={styles.streakBannerDecoCircle2} />
+                  <View style={styles.streakBannerLeft}>
+                    <View style={styles.streakIconCircle}>
+                      <Ionicons name="checkmark" size={22} color="#FFF" />
+                    </View>
+                  </View>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.streakBannerTitle}>
                       {stats.currentStreak > 1
-                        ? t('progress.streakBanner', { count: stats.currentStreak, defaultValue: '{{count}} days in a row!' })
+                        ? t('progress.streakBanner', { count: stats.currentStreak })
                         : t('progress.doneToday', { defaultValue: 'Done for today!' })}
                     </Text>
                     <Text style={styles.streakBannerSub}>
                       {stats.longestStreak > stats.currentStreak
-                        ? t('progress.bestStreakWas', { count: stats.longestStreak, defaultValue: 'Your best: {{count}} days' })
+                        ? t('progress.bestStreakWas', { count: stats.longestStreak })
                         : t('progress.streakNewRecord', { defaultValue: 'New personal record!' })}
                     </Text>
                   </View>
                   {stats.currentStreak > 0 && (
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                      <Ionicons name="flame" size={18} color="#FFF" />
+                    <View style={styles.streakCountBubble}>
+                      <Ionicons name="flame" size={16} color="#FFF" />
                       <Text style={styles.streakBannerCount}>{stats.currentStreak}</Text>
                     </View>
                   )}
                 </LinearGradient>
               ) : (
                 <LinearGradient
-                  colors={['#F5A623', '#E85D4A']}
+                  colors={['#F7971E', '#F5A623', '#E85D4A']}
                   start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
+                  end={{ x: 1, y: 1 }}
                   style={styles.streakBanner}
                 >
-                  <Ionicons name="flame" size={28} color="#FFF" />
+                  <View style={styles.streakBannerDecoCircle} />
+                  <View style={styles.streakBannerDecoCircle2} />
+                  <View style={styles.streakBannerLeft}>
+                    <View style={styles.streakIconCircle}>
+                      <Ionicons name="flame" size={22} color="#FFF" />
+                    </View>
+                  </View>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.streakBannerTitle}>
                       {stats.currentStreak > 0
-                        ? t('progress.streakBanner', { count: stats.currentStreak, defaultValue: '{{count}} days in a row!' })
+                        ? t('progress.streakBanner', { count: stats.currentStreak })
                         : t('progress.startStreak', { defaultValue: 'Start your streak today!' })}
                     </Text>
                     <Text style={styles.streakBannerSub}>
                       {t('progress.streakKeepGoing', { defaultValue: 'Keep your streak alive!' })}
                     </Text>
                   </View>
-                  <Ionicons name="chevron-forward" size={22} color="rgba(255,255,255,0.6)" />
+                  <Ionicons name="chevron-forward" size={22} color="rgba(255,255,255,0.7)" />
                 </LinearGradient>
               )}
             </TouchableOpacity>
@@ -483,6 +528,78 @@ export default function HistoryScreen() {
                     <Text style={[styles.bestLabel, { color: theme.textSecondary }]}>
                       {t('progress.totalSessions', { defaultValue: 'Total Sessions' })}
                     </Text>
+                  </View>
+                </View>
+              </View>
+            )}
+
+            {/* Mood History — graph style */}
+            {moodHistory.some(d => d.emoji) && (
+              <View style={[styles.newCard, { backgroundColor: theme.card }]}>
+                <Text style={[styles.newCardTitle, { color: theme.text }]}>
+                  {t('progress.moodHistory', { defaultValue: 'Your Mood' })}
+                </Text>
+                <View style={styles.moodGraphContainer}>
+                  <View style={{ flexDirection: 'row' }}>
+                  {/* Y-axis emoji scale */}
+                  <View style={styles.moodYAxis}>
+                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.energized}</Text>
+                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.happy}</Text>
+                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.calm}</Text>
+                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.focused}</Text>
+                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.anxious}</Text>
+                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.sleepy}</Text>
+                  </View>
+                  {/* Graph area */}
+                  <View style={[styles.moodGraphArea, { flex: 1 }]}>
+                    {/* Horizontal grid lines */}
+                    {[0, 1, 2, 3, 4].map(i => (
+                      <View key={i} style={[styles.moodGridLine, {
+                        bottom: (i + 0.5) * (MOOD_GRAPH_HEIGHT / 5),
+                        backgroundColor: theme.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
+                      }]} />
+                    ))}
+                    {/* Mood emoji dots */}
+                    {moodHistory.map((day, idx) => {
+                      const colW = 100 / 7;
+                      const x = idx * colW + colW / 2;
+                      const padding = 16;
+                      const graphH = MOOD_GRAPH_HEIGHT - padding * 2;
+                      const y = day.score != null
+                        ? padding + graphH - (day.score / 5) * graphH - 14
+                        : MOOD_GRAPH_HEIGHT / 2 - 6;
+                      return day.emoji ? (
+                        <View key={`dot-${idx}`} style={{
+                          position: 'absolute',
+                          left: `${x - 5}%`,
+                          top: y,
+                        }}>
+                          <Text style={{ fontSize: 28 }}>{day.emoji}</Text>
+                        </View>
+                      ) : (
+                        <View key={`dot-${idx}`} style={{
+                          position: 'absolute',
+                          left: `${x - 1.5}%`,
+                          top: MOOD_GRAPH_HEIGHT / 2 - 6,
+                          width: 12,
+                          height: 12,
+                          borderRadius: 6,
+                          borderWidth: 2,
+                          borderColor: theme.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)',
+                          backgroundColor: theme.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                        }} />
+                      );
+                    })}
+                  </View>
+                  </View>
+                  {/* Day labels */}
+                  <View style={[styles.moodGraphLabels, { marginLeft: 30 }]}>
+                    {moodHistory.map((day, idx) => (
+                      <Text key={idx} style={[styles.moodGraphLabel, {
+                        color: idx === 6 ? theme.primary : theme.textSecondary,
+                        fontFamily: idx === 6 ? FONTS.bold : FONTS.medium,
+                      }]}>{day.label}</Text>
+                    ))}
                   </View>
                 </View>
               </View>
@@ -812,6 +929,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: SPACING.lg,
     gap: 12,
+    overflow: 'hidden',
     shadowColor: '#E85D4A',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
@@ -837,6 +955,44 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
+  },
+  streakBannerDecoCircle: {
+    position: 'absolute',
+    top: -30,
+    right: -20,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+  },
+  streakBannerDecoCircle2: {
+    position: 'absolute',
+    bottom: -20,
+    left: -15,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
+  streakBannerLeft: {
+    marginRight: 4,
+  },
+  streakIconCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255,255,255,0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  streakCountBubble: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
   },
 
   // ── New Card (shared for new sections) ──
@@ -935,6 +1091,40 @@ const styles = StyleSheet.create({
   bestLabel: {
     fontSize: 11,
     fontFamily: FONTS.medium,
+    textAlign: 'center',
+  },
+
+  // Mood Graph
+  moodGraphContainer: {
+    marginTop: 4,
+  },
+  moodYAxis: {
+    width: 30,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  moodYEmoji: {
+    fontSize: 14,
+  },
+  moodGraphArea: {
+    height: 140,
+    position: 'relative',
+  },
+  moodGridLine: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    height: 1,
+  },
+  moodGraphLabels: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 8,
+  },
+  moodGraphLabel: {
+    fontSize: 11,
+    flex: 1,
     textAlign: 'center',
   },
 });

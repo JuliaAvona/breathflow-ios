@@ -32,10 +32,15 @@ export default {
   'home.sets': 'setova',
 
   // Progress
-  'progress.streakBanner': '{{count}} dana zaredom!',
+  'progress.streakBanner_one': '{{count}} dan zaredom!',
+  'progress.streakBanner_few': '{{count}} dana zaredom!',
+  'progress.streakBanner_many': '{{count}} dana zaredom!',
   'progress.doneToday': 'Gotovo za danas!',
-  'progress.bestStreakWas': 'Tvoj rekord: {{count}} dana',
+  'progress.bestStreakWas_one': 'Tvoj rekord: {{count}} dan',
+  'progress.bestStreakWas_few': 'Tvoj rekord: {{count}} dana',
+  'progress.bestStreakWas_many': 'Tvoj rekord: {{count}} dana',
   'progress.streakNewRecord': 'Novi osobni rekord!',
+  'progress.moodHistory': 'Tvoje raspoloženje',
   'progress.startStreak': 'Započni svoj niz danas!',
   'progress.streakKeepGoing': 'Nastavi svoj niz!',
   'progress.techniqueBreakdown': 'Tvoja praksa',

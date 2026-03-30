@@ -32,10 +32,13 @@ export default {
   'home.sets': '\u0645\u062C\u0645\u0648\u0639\u0627\u062A',
 
   // Progress
-  'progress.streakBanner': '{{count}} أيام متتالية!',
+  'progress.streakBanner_one': 'يوم {{count}} متتالي!',
+  'progress.streakBanner_other': '{{count}} أيام متتالية!',
   'progress.doneToday': 'انتهيت لليوم!',
-  'progress.bestStreakWas': 'أفضل إنجاز: {{count}} أيام',
+  'progress.bestStreakWas_one': 'أفضل إنجاز: يوم {{count}}',
+  'progress.bestStreakWas_other': 'أفضل إنجاز: {{count}} أيام',
   'progress.streakNewRecord': 'رقم قياسي شخصي جديد!',
+  'progress.moodHistory': 'مزاجك',
   'progress.startStreak': 'ابدأ سلسلتك اليوم!',
   'progress.streakKeepGoing': 'حافظ على سلسلتك!',
   'progress.techniqueBreakdown': 'ممارستك',

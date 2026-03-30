@@ -32,10 +32,13 @@ export default {
   'home.sets': '\u09B8\u09C7\u099F',
 
   // Progress
-  'progress.streakBanner': 'পরপর {{count}} দিন!',
+  'progress.streakBanner_one': 'পরপর {{count}} দিন!',
+  'progress.streakBanner_other': 'পরপর {{count}} দিন!',
   'progress.doneToday': 'আজকের জন্য সম্পন্ন!',
-  'progress.bestStreakWas': 'আপনার সেরা: {{count}} দিন',
+  'progress.bestStreakWas_one': 'আপনার সেরা: {{count}} দিন',
+  'progress.bestStreakWas_other': 'আপনার সেরা: {{count}} দিন',
   'progress.streakNewRecord': 'নতুন ব্যক্তিগত রেকর্ড!',
+  'progress.moodHistory': 'আপনার মেজাজ',
   'progress.startStreak': 'আজই আপনার ধারা শুরু করুন!',
   'progress.streakKeepGoing': 'আপনার ধারা বজায় রাখুন!',
   'progress.techniqueBreakdown': 'আপনার অনুশীলন',

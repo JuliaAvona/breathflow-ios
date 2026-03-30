@@ -32,10 +32,13 @@ export default {
   'home.sets': 'sets',
 
   // Progress
-  'progress.streakBanner': '{{count}} araw sunod-sunod!',
+  'progress.streakBanner_one': '{{count}} araw sunod-sunod!',
+  'progress.streakBanner_other': '{{count}} araw sunod-sunod!',
   'progress.doneToday': 'Tapos na ngayong araw!',
-  'progress.bestStreakWas': 'Pinakamahusay mo: {{count}} araw',
+  'progress.bestStreakWas_one': 'Pinakamahusay mo: {{count}} araw',
+  'progress.bestStreakWas_other': 'Pinakamahusay mo: {{count}} araw',
   'progress.streakNewRecord': 'Bagong personal record!',
+  'progress.moodHistory': 'Iyong kalooban',
   'progress.startStreak': 'Simulan ang streak mo ngayon!',
   'progress.streakKeepGoing': 'Ituloy ang streak mo!',
   'progress.techniqueBreakdown': 'Ang Pagsasanay Mo',

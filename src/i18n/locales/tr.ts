@@ -32,10 +32,13 @@ export default {
   'home.categoryAdvanced': 'İleri Düzey',
 
   // Progress
-  'progress.streakBanner': 'Üst üste {{count}} gün!',
+  'progress.streakBanner_one': 'Üst üste {{count}} gün!',
+  'progress.streakBanner_other': 'Üst üste {{count}} gün!',
   'progress.doneToday': 'Bugünlük tamam!',
-  'progress.bestStreakWas': 'En iyisi: {{count}} gün',
+  'progress.bestStreakWas_one': 'En iyisi: {{count}} gün',
+  'progress.bestStreakWas_other': 'En iyisi: {{count}} gün',
   'progress.streakNewRecord': 'Yeni kişisel rekor!',
+  'progress.moodHistory': 'Ruh haliniz',
   'progress.startStreak': 'Serinize bugün başlayın!',
   'progress.streakKeepGoing': 'Serinizi sürdürün!',
   'progress.techniqueBreakdown': 'Pratiğiniz',

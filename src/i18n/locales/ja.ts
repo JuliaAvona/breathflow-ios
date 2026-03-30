@@ -32,10 +32,13 @@ export default {
   'home.categoryAdvanced': '上級',
 
   // Progress
-  'progress.streakBanner': '{{count}}日連続!',
+  'progress.streakBanner_one': '{{count}}日連続!',
+  'progress.streakBanner_other': '{{count}}日連続!',
   'progress.doneToday': '今日は完了!',
-  'progress.bestStreakWas': '最高記録: {{count}}日',
+  'progress.bestStreakWas_one': '最高記録: {{count}}日',
+  'progress.bestStreakWas_other': '最高記録: {{count}}日',
   'progress.streakNewRecord': '新しい自己記録!',
+  'progress.moodHistory': 'あなたの気分',
   'progress.startStreak': '今日からストリークを始めよう!',
   'progress.streakKeepGoing': 'ストリークを続けよう!',
   'progress.techniqueBreakdown': 'あなたの練習',

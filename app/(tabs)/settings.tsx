@@ -81,7 +81,6 @@ const SOUND_STYLE_OPTIONS = [
   { labelKey: 'settings.soundNature', value: 'nature' as const },
   { labelKey: 'settings.soundVoice', value: 'voice' as const },
   { labelKey: 'settings.soundTone', value: 'tone' as const },
-  { labelKey: 'settings.soundOff', value: 'off' as const },
 ];
 
 const DARK_MODE_OPTIONS = [
@@ -327,24 +326,22 @@ export default function SettingsScreen() {
             labelSize={fontSize.md}
           />
 
-          {/* Sound style picker */}
-          {settings.soundEnabled && (
-            <TouchableOpacity
-              style={[styles.settingRow, { borderBottomColor: theme.border }]}
-              onPress={() => { haptics.selection(); setActivePicker('soundStyle'); }}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-                {t('settings.soundStyle')}
+          {/* Sound style picker (only when sound is on) */}
+          {settings.soundEnabled && <TouchableOpacity
+            style={[styles.settingRow, { borderBottomColor: theme.border }]}
+            onPress={() => { haptics.selection(); setActivePicker('soundStyle'); }}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+              {t('settings.soundStyle')}
+            </Text>
+            <View style={styles.pickerValueRow}>
+              <Text style={[styles.pickerValueText, { color: theme.primary }]}>
+                {soundStyleLabel(settings.soundStyle)}
               </Text>
-              <View style={styles.pickerValueRow}>
-                <Text style={[styles.pickerValueText, { color: theme.primary }]}>
-                  {soundStyleLabel(settings.soundStyle)}
-                </Text>
-                <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-              </View>
-            </TouchableOpacity>
-          )}
+              <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
+            </View>
+          </TouchableOpacity>}
 
           {/* Haptics toggle */}
           <ToggleRow

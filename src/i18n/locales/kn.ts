@@ -32,10 +32,13 @@ export default {
   'home.sets': 'ಸೆಟ್',
 
   // Progress
-  'progress.streakBanner': 'ಸತತ {{count}} ದಿನಗಳು!',
+  'progress.streakBanner_one': 'ಸತತ {{count}} ದಿನ!',
+  'progress.streakBanner_other': 'ಸತತ {{count}} ದಿನಗಳು!',
   'progress.doneToday': 'ಇಂದಿಗೆ ಮುಗಿಯಿತು!',
-  'progress.bestStreakWas': 'ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ: {{count}} ದಿನಗಳು',
+  'progress.bestStreakWas_one': 'ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ: {{count}} ದಿನ',
+  'progress.bestStreakWas_other': 'ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ: {{count}} ದಿನಗಳು',
   'progress.streakNewRecord': 'ಹೊಸ ವೈಯಕ್ತಿಕ ದಾಖಲೆ!',
+  'progress.moodHistory': 'ನಿಮ್ಮ ಮನಸ್ಥಿತಿ',
   'progress.startStreak': 'ಇಂದು ನಿಮ್ಮ ಸರಣಿಯನ್ನು ಪ್ರಾರಂಭಿಸಿ!',
   'progress.streakKeepGoing': 'ನಿಮ್ಮ ಸರಣಿಯನ್ನು ಮುಂದುವರಿಸಿ!',
   'progress.techniqueBreakdown': 'ನಿಮ್ಮ ಅಭ್ಯಾಸ',

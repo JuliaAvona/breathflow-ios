@@ -96,11 +96,15 @@ export function playSessionComplete(soundStyle: string = 'tone'): void {
   playSound(style.complete, 0.8);
 }
 
-export function playCountdownTick(count?: number): void {
-  if (count === 3) playSound('countdown3', 0.8);
-  else if (count === 2) playSound('countdown2', 0.8);
-  else if (count === 1) playSound('countdown1', 0.8);
-  else playSound('beep', 0.3);
+export function playCountdownTick(count?: number, lang?: string): void {
+  const isEn = !lang || lang.startsWith('en');
+  if (isEn && count != null && count >= 1 && count <= 3) {
+    if (count === 3) playSound('countdown3', 0.8);
+    else if (count === 2) playSound('countdown2', 0.8);
+    else if (count === 1) playSound('countdown1', 0.8);
+  } else {
+    playSound('woodDry', 0.7);
+  }
 }
 
 export function playVoicePhase(): void {

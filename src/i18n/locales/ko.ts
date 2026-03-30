@@ -32,10 +32,13 @@ export default {
   'home.categoryAdvanced': '\uACE0\uAE09',
 
   // Progress
-  'progress.streakBanner': '{{count}}일 연속!',
+  'progress.streakBanner_one': '{{count}}일 연속!',
+  'progress.streakBanner_other': '{{count}}일 연속!',
   'progress.doneToday': '오늘 완료!',
-  'progress.bestStreakWas': '최고 기록: {{count}}일',
+  'progress.bestStreakWas_one': '최고 기록: {{count}}일',
+  'progress.bestStreakWas_other': '최고 기록: {{count}}일',
   'progress.streakNewRecord': '새로운 개인 기록!',
+  'progress.moodHistory': '기분 기록',
   'progress.startStreak': '오늘 연속 기록을 시작하세요!',
   'progress.streakKeepGoing': '연속 기록을 이어가세요!',
   'progress.techniqueBreakdown': '나의 수련',

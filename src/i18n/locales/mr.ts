@@ -32,10 +32,13 @@ export default {
   'home.sets': '\u0938\u0947\u091f',
 
   // Progress
-  'progress.streakBanner': 'सलग {{count}} दिवस!',
+  'progress.streakBanner_one': 'सलग {{count}} दिवस!',
+  'progress.streakBanner_other': 'सलग {{count}} दिवस!',
   'progress.doneToday': 'आजसाठी पूर्ण!',
-  'progress.bestStreakWas': 'तुमचा सर्वोत्तम: {{count}} दिवस',
+  'progress.bestStreakWas_one': 'तुमचा सर्वोत्तम: {{count}} दिवस',
+  'progress.bestStreakWas_other': 'तुमचा सर्वोत्तम: {{count}} दिवस',
   'progress.streakNewRecord': 'नवा वैयक्तिक विक्रम!',
+  'progress.moodHistory': 'तुमचा मूड',
   'progress.startStreak': 'आज तुमची मालिका सुरू करा!',
   'progress.streakKeepGoing': 'तुमची मालिका सुरू ठेवा!',
   'progress.techniqueBreakdown': 'तुमचा सराव',

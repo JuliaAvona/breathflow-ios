@@ -32,10 +32,13 @@ export default {
   'home.sets': 'seti',
 
   // Progress
-  'progress.streakBanner': 'Siku {{count}} mfululizo!',
+  'progress.streakBanner_one': 'Siku {{count}} mfululizo!',
+  'progress.streakBanner_other': 'Siku {{count}} mfululizo!',
   'progress.doneToday': 'Umemaliza kwa leo!',
-  'progress.bestStreakWas': 'Bora yako: siku {{count}}',
+  'progress.bestStreakWas_one': 'Bora yako: siku {{count}}',
+  'progress.bestStreakWas_other': 'Bora yako: siku {{count}}',
   'progress.streakNewRecord': 'Rekodi mpya ya kibinafsi!',
+  'progress.moodHistory': 'Hali yako',
   'progress.startStreak': 'Anza mfululizo wako leo!',
   'progress.streakKeepGoing': 'Endelea na mfululizo wako!',
   'progress.techniqueBreakdown': 'Mazoezi Yako',
