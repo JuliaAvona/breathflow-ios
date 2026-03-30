@@ -72,7 +72,7 @@ export default {
   'techniques.physioSigh.detail': 'Ontdekt door Stanford neurowetenschapper Dr. Andrew Huberman. Een dubbele inademing gevolgd door een lange uitademing is de snelste manier om stress te verminderen.',
   'techniques.coherence.detail': 'Ademhalen met 5,5 ademhalingen per minuut synchroniseert hartslag, bloeddruk en zenuwstelsel \u2014 voor optimale HRV.',
   'techniques.triangle.detail': 'Een zacht 3-fasen patroon perfect voor beginners. Balanceert het zenuwstelsel zonder ademinhouden.',
-  'techniques.power.detail': 'Ge\u00efnspireerd door de Wim Hof Methode. Snel ademhalen gevolgd door ademretentie verhoogt energie en versterkt de immuunrespons.',
+  'techniques.power.detail': 'Een geavanceerde ademhalingstechniek. Snel ademhalen gevolgd door ademretentie verhoogt energie en versterkt de immuunrespons.',
   'techniques.fourFourSixTwo.detail': 'De verlengde uitademing (6s) ten opzichte van inademing (4s) brengt het lichaam in diepe ontspanning.',
   'techniques.kapalabhati.detail': 'Oude yogische techniek die "schedel-verlichtende adem" betekent. Snelle krachtige uitademingen energetiseren het lichaam.',
   'techniques.twoToOne.detail': 'Uitademing is twee keer zo lang als inademing, maximaliseert CO\u2082-afgifte en activeert de nervus vagus.',

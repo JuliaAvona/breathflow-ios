@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Otkrio Stanfordov neuroznanstvenik Dr. Andrew Huberman. Dvostruki udisaj nakon kojeg slijedi dugi izdisaj najbrzi je nacin za smanjenje stresa u stvarnom vremenu.',
   'techniques.coherence.detail': 'Disanje od 5,5 udaha u minuti sinkronizira srcani ritam, krvni tlak i zivcani sustav \u2014 postizuci stanje zvano "koherencija" za optimalni HRV.',
   'techniques.triangle.detail': 'Njezan uzorak u 3 faze savršen za pocetnike. Uravnotezuje zivcani sustav bez zadrzavanja daha, sto ga cini lakim i pristupacnim za sve.',
-  'techniques.power.detail': 'Inspirirano Wim Hof metodom. Brzo disanje praceno zadrzavanjem daha povecava energiju, alkalizira krv i jacaha imunoloski odgovor.',
+  'techniques.power.detail': 'Napredna tehnika disanja. Brzo disanje praceno zadrzavanjem daha povecava energiju, alkalizira krv i jacaha imunoloski odgovor.',
   'techniques.fourFourSixTwo.detail': 'Produljeni izdisaj (6s) u odnosu na udisaj (4s) prebacuje tijelo u duboku relaksaciju. Kratka pauza izmedu ciklusa resetira ritam disanja.',
   'techniques.kapalabhati.detail': 'Drevna yogijska tehnika koja znaci "disanje sjajne lubanje". Brzi snazni izdisaji energiziraju tijelo, bistre um i jacaju dijafragmu.',
   'techniques.twoToOne.detail': 'Izdisaj je dvostruko duzi od udisaja, maksimizirajuci oslobadanje CO\u2082 i aktivirajuci vagusni zivac. Jedan od najucinkovitijih uzoraka za duboku relaksaciju.',

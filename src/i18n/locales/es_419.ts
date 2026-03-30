@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Descubierto por el neurocientifico de Stanford Dr. Andrew Huberman. Una doble inhalacion seguida de una exhalacion larga es la forma mas rapida de reducir el estres en tiempo real.',
   'techniques.coherence.detail': 'Respirar a 5.5 respiraciones por minuto sincroniza la frecuencia cardiaca, la presion arterial y el sistema nervioso \u2014 alcanzando un estado llamado "coherencia" para una HRV optima.',
   'techniques.triangle.detail': 'Un patron suave de 3 fases perfecto para principiantes. Equilibra el sistema nervioso sin retenciones de aliento, haciendolo facil y accesible para todos.',
-  'techniques.power.detail': 'Inspirado en el Metodo Wim Hof. La respiracion rapida seguida de retencion del aliento aumenta la energia, alcaliniza la sangre y fortalece la respuesta inmune.',
+  'techniques.power.detail': 'Una técnica de respiración avanzada. La respiracion rapida seguida de retencion del aliento aumenta la energia, alcaliniza la sangre y fortalece la respuesta inmune.',
   'techniques.fourFourSixTwo.detail': 'La exhalacion extendida (6s) en relacion a la inhalacion (4s) lleva al cuerpo a una relajacion profunda. La breve pausa entre ciclos reinicia el ritmo respiratorio.',
   'techniques.kapalabhati.detail': 'Tecnica yoguica antigua que significa "respiracion del craneo brillante." Las exhalaciones rapidas y fuertes energizan el cuerpo, aclaran la mente y fortalecen el diafragma.',
   'techniques.twoToOne.detail': 'La exhalacion es el doble de la inhalacion, maximizando la liberacion de CO\u2082 y activando el nervio vago. Uno de los patrones mas efectivos para la relajacion profunda.',

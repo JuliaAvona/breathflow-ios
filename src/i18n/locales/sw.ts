@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Iligunduliwa na mtaalamu wa neva wa Stanford Dk. Andrew Huberman. Kuvuta pumzi mara mbili ikifuatiwa na kutoa pumzi kwa urefu ni njia ya haraka zaidi ya kupunguza msongo kwa wakati halisi.',
   'techniques.coherence.detail': 'Kupumua kwa pumzi 5.5 kwa dakika husawazisha kiwango cha moyo, shinikizo la damu, na mfumo wa neva \u2014 kufikia hali inayoitwa "msimamo" kwa HRV bora.',
   'techniques.triangle.detail': 'Muundo mpole wa hatua 3 unaofaa kwa wanaoanza. Husawazisha mfumo wa neva bila kushikilia pumzi, ni rahisi na inayoweza kufikiwa na kila mtu.',
-  'techniques.power.detail': 'Ilihimizwa na Mbinu ya Wim Hof. Kupumua haraka ikifuatiwa na kushikilia pumzi huongeza nguvu, huongeza alkali katika damu, na huimarisha majibu ya kinga.',
+  'techniques.power.detail': 'Mbinu ya hali ya juu ya kupumua. Kupumua haraka ikifuatiwa na kushikilia pumzi huongeza nguvu, huongeza alkali katika damu, na huimarisha majibu ya kinga.',
   'techniques.fourFourSixTwo.detail': 'Kutoa pumzi kwa urefu (6s) ikilinganishwa na kuvuta (4s) hubadilisha mwili kwenye utulivu wa kina. Kusimama kwa muda mfupi kati ya mizunguko huseti upya mdundo wa kupumua.',
   'techniques.kapalabhati.detail': 'Mbinu ya kale ya yoga inayomaanisha "kupumua kwa kung\'aa kwa fuvu." Kutoa pumzi kwa nguvu na haraka huongeza nguvu mwilini, husafisha akili, na huimarisha diaphragm.',
   'techniques.twoToOne.detail': 'Kutoa pumzi ni mara mbili ya urefu wa kuvuta, kuongeza CO\u2082 na kuamsha neva ya vagus. Ni mojawapo ya mifumo yenye ufanisi zaidi kwa utulivu wa kina.',

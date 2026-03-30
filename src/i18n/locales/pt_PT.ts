@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Descoberta pelo neurocientista de Stanford Dr. Andrew Huberman. Uma dupla inspiracao seguida de uma expiracao longa e a forma mais rapida de reduzir o stress em tempo real.',
   'techniques.coherence.detail': 'Respirar a 5,5 respiracoes por minuto sincroniza a frequencia cardiaca, pressao arterial e sistema nervoso \u2014 atingindo um estado chamado "coerencia" para HRV otima.',
   'techniques.triangle.detail': 'Um padrao suave de 3 fases perfeito para iniciantes. Equilibra o sistema nervoso sem retencoes de respiracao, tornando-o facil e acessivel para todos.',
-  'techniques.power.detail': 'Inspirada no Metodo Wim Hof. Respiracao rapida seguida de retencao da respiracao aumenta a energia, alcaliniza o sangue e fortalece a resposta imunitaria.',
+  'techniques.power.detail': 'Uma t\u00e9cnica avan\u00e7ada de respira\u00e7\u00e3o. Respiracao rapida seguida de retencao da respiracao aumenta a energia, alcaliniza o sangue e fortalece a resposta imunitaria.',
   'techniques.fourFourSixTwo.detail': 'A expiracao prolongada (6s) em relacao a inspiracao (4s) leva o corpo a um relaxamento profundo. A breve pausa entre ciclos reinicia o ritmo respiratorio.',
   'techniques.kapalabhati.detail': 'Tecnica yogica antiga que significa "respiracao do cranio brilhante." Expiracoes rapidas e forcadas energizam o corpo, limpam a mente e fortalecem o diafragma.',
   'techniques.twoToOne.detail': 'A expiracao e o dobro da inspiracao, maximizando a libertacao de CO\u2082 e ativando o nervo vago. Um dos padroes mais eficazes para relaxamento profundo.',

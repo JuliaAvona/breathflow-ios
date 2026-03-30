@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Objavil Stanfordsky neurovedec Dr. Andrew Huberman. Dvojity nadych nasledovany dlhym vydychom je najrychlejsi sposob ako znizit stres v realnom case.',
   'techniques.coherence.detail': 'Dychanie 5,5 nadychov za minutu synchronizuje srdcovu frekvenciu, krvny tlak a nervovy system \u2014 dosahujuc stav zvany "koherencia" pre optimalny HRV.',
   'techniques.triangle.detail': 'Jemny 3-fazovy vzor perfektny pre zaciatocnikov. Vyrovnava nervovy system bez zadrziavania dychu, co ho robi lahkym a pristupnym pre kazdaho.',
-  'techniques.power.detail': 'Inspirovane metodou Wim Hof. Rychle dychanie nasledovane zadrzanim dychu zvysuje energiu, alkalizuje krv a posilnuje imunitnu odpoved.',
+  'techniques.power.detail': 'Pokro\u010dil\u00e1 d\u00fdchacia technika. Rychle dychanie nasledovane zadrzanim dychu zvysuje energiu, alkalizuje krv a posilnuje imunitnu odpoved.',
   'techniques.fourFourSixTwo.detail': 'Predlzeny vydych (6s) voci nadychu (4s) presuva telo do hlbokej relaxacie. Kratka pauza medzi cyklami resetuje dychaci rytmus.',
   'techniques.kapalabhati.detail': 'Starodavna jogova technika znamenajuca "dych ziariacej lebky". Rychle silne vydychy energizuju telo, cistia mysel a posilnuju brinicu.',
   'techniques.twoToOne.detail': 'Vydych je dvojnasobne dlhy ako nadych, maximalizujuc uvolnenie CO\u2082 a aktivaciu vagoveho nervu. Jeden z najucinnejsich vzorov pre hlboku relaxaciu.',

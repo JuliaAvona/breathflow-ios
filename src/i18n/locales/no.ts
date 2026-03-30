@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Oppdaget av Stanford-nevroforsker Dr. Andrew Huberman. Et dobbelt innpust etterfulgt av et langt utpust er den raskeste m\u00e5ten \u00e5 redusere stress i sanntid.',
   'techniques.coherence.detail': 'Pusting med 5,5 pust per minutt synkroniserer hjerterytme, blodtrykk og nervesystem \u2014 og oppn\u00e5r en tilstand kalt \u00abkoherens\u00bb for optimal HRV.',
   'techniques.triangle.detail': 'Et mykt 3-fase-m\u00f8nster perfekt for nybegynnere. Balanserer nervesystemet uten pustestopp, noe som gj\u00f8r det enkelt og tilgjengelig for alle.',
-  'techniques.power.detail': 'Inspirert av Wim Hof-metoden. Rask pusting etterfulgt av pusteholding \u00f8ker energien, gj\u00f8r blodet basisk og styrker immunforsvaret.',
+  'techniques.power.detail': 'En avansert pusteteknikk. Rask pusting etterfulgt av pusteholding \u00f8ker energien, gj\u00f8r blodet basisk og styrker immunforsvaret.',
   'techniques.fourFourSixTwo.detail': 'Den forlengede utpusten (6s) i forhold til innpusten (4s) skifter kroppen til dyp avslapning. Den korte pausen mellom sykluser tilbakestiller pusterytmen.',
   'techniques.kapalabhati.detail': 'Gammel yogisk teknikk som betyr \u00abstr\u00e5lende hodeskalle\u00bb. Raske kraftige utpust energiserer kroppen, klarer sinnet og styrker mellomgulvet.',
   'techniques.twoToOne.detail': 'Utpusten er dobbelt s\u00e5 lang som innpusten, maksimerer CO\u2082-utslipp og aktiverer vagusnerven. Et av de mest effektive m\u00f8nstrene for dyp avslapning.',

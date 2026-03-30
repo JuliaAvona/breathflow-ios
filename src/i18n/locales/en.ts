@@ -81,7 +81,7 @@ export default {
   'techniques.physioSigh.detail': 'Discovered by Stanford neuroscientist Dr. Andrew Huberman. A double inhale followed by a long exhale is the fastest way to reduce stress in real-time.',
   'techniques.coherence.detail': 'Breathing at 5.5 breaths per minute synchronizes heart rate, blood pressure, and nervous system — achieving a state called "coherence" for optimal HRV.',
   'techniques.triangle.detail': 'A gentle 3-phase pattern perfect for beginners. Balances the nervous system without breath holds, making it easy and accessible for everyone.',
-  'techniques.power.detail': 'Inspired by Wim Hof Method. Rapid breathing followed by breath retention increases energy, alkalizes the blood, and boosts the immune response.',
+  'techniques.power.detail': 'An advanced breathwork technique. Rapid breathing followed by breath retention increases energy, oxygenates the body, and boosts the immune response.',
   'techniques.fourFourSixTwo.detail': 'The extended exhale (6s) relative to inhale (4s) shifts the body into deep relaxation. The short pause between cycles resets the breathing rhythm.',
   'techniques.kapalabhati.detail': 'Ancient yogic technique meaning "skull-shining breath." Rapid forceful exhales energize the body, clear the mind, and strengthen the diaphragm.',
   'techniques.twoToOne.detail': 'Exhale is twice the inhale length, maximizing CO₂ release and activating the vagus nerve. One of the most effective patterns for deep relaxation.',

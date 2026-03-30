@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Entdeckt vom Stanford-Neurowissenschaftler Dr. Andrew Huberman. Ein doppeltes Einatmen gefolgt von langem Ausatmen ist der schnellste Weg, Stress in Echtzeit abzubauen.',
   'techniques.coherence.detail': 'Atmen mit 5,5 Atemz\u00FCgen pro Minute synchronisiert Herzfrequenz, Blutdruck und Nervensystem \u2014 ein Zustand namens \u201EKoh\u00E4renz\u201C f\u00FCr optimale HRV.',
   'techniques.triangle.detail': 'Ein sanftes 3-Phasen-Muster, perfekt f\u00FCr Anf\u00E4nger. Balanciert das Nervensystem ohne Atemhalten und ist f\u00FCr jeden leicht zug\u00E4nglich.',
-  'techniques.power.detail': 'Inspiriert von der Wim-Hof-Methode. Schnelles Atmen gefolgt von Atemhalten steigert die Energie, alkalisiert das Blut und st\u00E4rkt die Immunabwehr.',
+  'techniques.power.detail': 'Eine fortgeschrittene Atemtechnik. Schnelles Atmen gefolgt von Atemhalten steigert die Energie, alkalisiert das Blut und st\u00E4rkt die Immunabwehr.',
   'techniques.fourFourSixTwo.detail': 'Das verl\u00E4ngerte Ausatmen (6s) im Verh\u00E4ltnis zum Einatmen (4s) versetzt den K\u00F6rper in tiefe Entspannung. Die kurze Pause zwischen den Zyklen setzt den Atemrhythmus zur\u00FCck.',
   'techniques.kapalabhati.detail': 'Alte yogische Technik, bedeutet \u201Eleuchtender Sch\u00E4del\u201C. Schnelle, kraftvolle Ausatmungen beleben den K\u00F6rper, kl\u00E4ren den Geist und st\u00E4rken das Zwerchfell.',
   'techniques.twoToOne.detail': 'Das Ausatmen ist doppelt so lang wie das Einatmen, maximiert die CO\u2082-Abgabe und aktiviert den Vagusnerv. Eines der wirksamsten Muster f\u00FCr tiefe Entspannung.',

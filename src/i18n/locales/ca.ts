@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Descobert pel neurocientífic de Stanford Dr. Andrew Huberman. Una doble inhalació seguida d\'una llarga exhalació és la manera més ràpida de reduir l\'estrès en temps real.',
   'techniques.coherence.detail': 'Respirar a 5,5 respiracions per minut sincronitza el ritme cardíac, la pressió arterial i el sistema nerviós \u2014 aconseguint un estat anomenat "coherència" per a una HRV òptima.',
   'techniques.triangle.detail': 'Un patró suau de 3 fases perfecte per a principiants. Equilibra el sistema nerviós sense retencions de la respiració, fent-lo fàcil i accessible per a tothom.',
-  'techniques.power.detail': 'Inspirat en el Mètode Wim Hof. La respiració ràpida seguida de retenció augmenta l\'energia, alcalinitza la sang i reforça la resposta immunitària.',
+  'techniques.power.detail': 'Una tècnica de respiració avançada. La respiració ràpida seguida de retenció augmenta l\'energia, alcalinitza la sang i reforça la resposta immunitària.',
   'techniques.fourFourSixTwo.detail': 'L\'exhalació prolongada (6s) en relació amb la inhalació (4s) canvia el cos a una relaxació profunda. La breu pausa entre cicles reinicia el ritme respiratori.',
   'techniques.kapalabhati.detail': 'Tècnica iogui antiga que significa "respiració del crani brillant." Les exhalacions fortes i ràpides energitzen el cos, aclareixen la ment i enforteixen el diafragma.',
   'techniques.twoToOne.detail': 'L\'exhalació és el doble de la inhalació, maximitzant l\'alliberament de CO\u2082 i activant el nervi vague. Un dels patrons més efectius per a la relaxació profunda.',

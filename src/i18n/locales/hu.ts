@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'A Stanford idegtudósa, Dr. Andrew Huberman fedezte fel. Egy dupla belégzés, majd hosszú kilégzés a leggyorsabb módja a stressz csökkentésének valós időben.',
   'techniques.coherence.detail': 'Percenként 5,5 lélegzetvétel szinkronizálja a szívritmust, a vérnyomást és az idegrendszert — eléri a "koherencia" állapotot az optimális HRV-ért.',
   'techniques.triangle.detail': 'Gyengéd 3 fázisú minta, tökéletes kezdőknek. Légzés-visszatartás nélkül egyensúlyozza az idegrendszert, mindenki számára könnyen hozzáférhető.',
-  'techniques.power.detail': 'A Wim Hof módszer ihlette. Gyors légzést követő lélegzet-visszatartás növeli az energiát, lúgosítja a vért és erősíti az immunválaszt.',
+  'techniques.power.detail': 'Haladó légzéstechnika. Gyors légzést követő lélegzet-visszatartás növeli az energiát, lúgosítja a vért és erősíti az immunválaszt.',
   'techniques.fourFourSixTwo.detail': 'A meghosszabbított kilégzés (6mp) a belégzéshez (4mp) képest mély relaxációba viszi a testet. A ciklusok közötti rövid szünet visszaállítja a légzési ritmust.',
   'techniques.kapalabhati.detail': 'Ősi jógikus technika, jelentése "koponyafénylő légzés". Gyors, erőteljes kilégzések energizálják a testet, megtisztítják az elmét és erősítik a rekeszizmot.',
   'techniques.twoToOne.detail': 'A kilégzés kétszer olyan hosszú, mint a belégzés, maximalizálva a CO₂ felszabadítást és aktiválva a vagus ideget. Az egyik leghatékonyabb minta mély relaxációhoz.',

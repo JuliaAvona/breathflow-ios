@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Avastatud Stanfordi neuroteadlase dr Andrew Hubermani poolt. Kahekordne sissehingamine j\u00e4rgnevalt pika v\u00e4ljahingamisega on kiireim viis stressi v\u00e4hendamiseks reaalajas.',
   'techniques.coherence.detail': 'Hingamine 5,5 hinget\u00f5mmet minutis s\u00fcnkroniseerib pulsisageduse, verer\u00f5hu ja n\u00e4rvis\u00fcsteemi \u2014 saavutades seisundi nimega \u201ekoherents\u201c optimaalse HRV jaoks.',
   'techniques.triangle.detail': '\u00d5rn 3-faasiline muster, mis sobib ideaalselt algajatele. Tasakaalustab n\u00e4rvis\u00fcsteemi ilma hinge peetmiseta, tehes selle lihtsaks ja k\u00e4ttesaadavaks k\u00f5igile.',
-  'techniques.power.detail': 'Inspireeritud Wim Hofi meetodist. Kiire hingamine j\u00e4rgnevalt hinge peetmisega suurendab energiat, leeliseb verd ja tugevdab immuunvastust.',
+  'techniques.power.detail': 'Edasijõudnud hingamistehnika. Kiire hingamine j\u00e4rgnevalt hinge peetmisega suurendab energiat, leeliseb verd ja tugevdab immuunvastust.',
   'techniques.fourFourSixTwo.detail': 'Pikendatud v\u00e4ljahingamine (6s) v\u00f5rreldes sissehingamisega (4s) viib keha s\u00fcvale l\u00f5\u00f5gastusele. L\u00fchike paus ts\u00fcklite vahel l\u00e4htestab hingamisr\u00fctmi.',
   'techniques.kapalabhati.detail': 'Muistne joogitehnika, mis t\u00e4hendab \u201ekoljuv\u00e4lgus hingamine\u201c. Kiired j\u00f5ulised v\u00e4ljahingamised energiseerivad keha, selgitavad meelt ja tugevdavad diafragmat.',
   'techniques.twoToOne.detail': 'V\u00e4ljahingamine on kaks korda pikem kui sissehingamine, maksimeerides CO\u2082 vabanemist ja aktiveerides vagusn\u00e4rvi. \u00dcks t\u00f5husamaid mustreid s\u00fcva l\u00f5\u00f5gastuse jaoks.',

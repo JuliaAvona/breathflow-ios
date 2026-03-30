@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Descoperita de neurocercetratorul Stanford Dr. Andrew Huberman. O dubla inspiratie urmata de o expiratie lunga este cel mai rapid mod de a reduce stresul in timp real.',
   'techniques.coherence.detail': 'Respiratia la 5,5 respiratii pe minut sincronizeaza frecventa cardiaca, tensiunea arteriala si sistemul nervos \u2014 atingand o stare numita "coerenta" pentru HRV optim.',
   'techniques.triangle.detail': 'Un model bland in 3 faze perfect pentru incepatori. Echilibreaza sistemul nervos fara retinerea respiratiei, fiind usor si accesibil pentru toata lumea.',
-  'techniques.power.detail': 'Inspirata de Metoda Wim Hof. Respiratia rapida urmata de retinerea respiratiei creste energia, alcalinizeaza sangele si stimuleaza raspunsul imunitar.',
+  'techniques.power.detail': 'O tehnica avansata de respiratie. Respiratia rapida urmata de retinerea respiratiei creste energia, alcalinizeaza sangele si stimuleaza raspunsul imunitar.',
   'techniques.fourFourSixTwo.detail': 'Expiratia prelungita (6s) fata de inspiratie (4s) aduce corpul in relaxare profunda. Scurta pauza dintre cicluri reseteaza ritmul respiratiei.',
   'techniques.kapalabhati.detail': 'Tehnica yoghina antica ce inseamna "respiratia craniului stralucitor". Expiratiile rapide si puternice energizeaza corpul, clarifica mintea si intaresc diafragma.',
   'techniques.twoToOne.detail': 'Expiratia este dubla fata de inspiratie, maximizand eliberarea de CO\u2082 si activand nervul vag. Unul dintre cele mai eficiente modele pentru relaxare profunda.',

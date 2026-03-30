@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Scoperto dal neuroscienziato di Stanford Dr. Andrew Huberman. Una doppia inspirazione seguita da una lunga espirazione è il modo più rapido per ridurre lo stress in tempo reale.',
   'techniques.coherence.detail': 'Respirare a 5,5 respiri al minuto sincronizza frequenza cardiaca, pressione sanguigna e sistema nervoso \u2014 raggiungendo uno stato chiamato "coerenza" per un HRV ottimale.',
   'techniques.triangle.detail': 'Uno schema dolce a 3 fasi perfetto per i principianti. Equilibra il sistema nervoso senza ritenzioni del respiro, rendendolo facile e accessibile a tutti.',
-  'techniques.power.detail': 'Ispirata al Metodo Wim Hof. La respirazione rapida seguita dalla ritenzione aumenta l\'energia, alcalinizza il sangue e potenzia la risposta immunitaria.',
+  'techniques.power.detail': 'Una tecnica di respirazione avanzata. La respirazione rapida seguita dalla ritenzione aumenta l\'energia, alcalinizza il sangue e potenzia la risposta immunitaria.',
   'techniques.fourFourSixTwo.detail': 'L\'espirazione prolungata (6s) rispetto all\'inspirazione (4s) porta il corpo in un rilassamento profondo. La breve pausa tra i cicli riequilibra il ritmo respiratorio.',
   'techniques.kapalabhati.detail': 'Antica tecnica yogica che significa "respiro del cranio luminoso". Espirazioni rapide e vigorose energizzano il corpo, schiariscono la mente e rafforzano il diaframma.',
   'techniques.twoToOne.detail': 'L\'espirazione è il doppio dell\'inspirazione, massimizzando il rilascio di CO\u2082 e attivando il nervo vago. Uno degli schemi più efficaci per il rilassamento profondo.',

@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Odkril Stanfordov nevroznanstvenik Dr. Andrew Huberman. Dvojni vdih, ki mu sledi dolg izdih, je najhitrejsi nacin za zmanjsanje stresa v realnem casu.',
   'techniques.coherence.detail': 'Dihanje s 5,5 vdihi na minuto sinhronizira srcni utrip, krvni tlak in zivcni sistem \u2014 doseganje stanja, imenovanega "koherenca" za optimalen HRV.',
   'techniques.triangle.detail': 'Nezen 3-fazni vzorec, popoln za zacetnike. Uravnotezi zivcni sistem brez zadrzevanja diha, kar ga naredi lahkega in dostopnega za vse.',
-  'techniques.power.detail': 'Navdihnjeno z metodo Wim Hof. Hitro dihanje, ki mu sledi zadrzanje diha, poveca energijo, alkalizira kri in okrepi imunski odziv.',
+  'techniques.power.detail': 'Napredna dihalna tehnika. Hitro dihanje, ki mu sledi zadrzanje diha, poveca energijo, alkalizira kri in okrepi imunski odziv.',
   'techniques.fourFourSixTwo.detail': 'Podaljsan izdih (6s) glede na vdih (4s) premakne telo v globoko sprostitev. Kratek premor med cikli ponastavi ritem dihanja.',
   'techniques.kapalabhati.detail': 'Starodavna jogijska tehnika, ki pomeni "dih svetlece lobanje". Hitri mocni izdihi energizirajo telo, zbistrijo um in okrepijo prepono.',
   'techniques.twoToOne.detail': 'Izdih je dvakrat daljsi od vdiha, kar maksimira sproščanje CO\u2082 in aktivira vagusni zivec. Eden najucinkovitejsih vzorcev za globoko sprostitev.',

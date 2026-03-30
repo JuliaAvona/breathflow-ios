@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Upptäckt av Stanford-neuroforskaren Dr. Andrew Huberman. En dubbel inandning följd av en lång utandning är det snabbaste sättet att minska stress i realtid.',
   'techniques.coherence.detail': 'Andning med 5,5 andetag per minut synkroniserar hjärtrytm, blodtryck och nervsystem \u2014 och uppnår ett tillstånd kallat "koherens" för optimal HRV.',
   'techniques.triangle.detail': 'Ett mjukt 3-fasmönster perfekt för nybörjare. Balanserar nervsystemet utan andningspauser, vilket gör det enkelt och tillgängligt för alla.',
-  'techniques.power.detail': 'Inspirerad av Wim Hof-metoden. Snabb andning följd av andningshållning ökar energin, gör blodet basiskt och stärker immunförsvaret.',
+  'techniques.power.detail': 'En avancerad andningsteknik. Snabb andning följd av andningshållning ökar energin, gör blodet basiskt och stärker immunförsvaret.',
   'techniques.fourFourSixTwo.detail': 'Den förlängda utandningen (6s) i förhållande till inandningen (4s) skiftar kroppen till djup avslappning. Den korta pausen mellan cykler återställer andningsrytmen.',
   'techniques.kapalabhati.detail': 'Gammal yogisk teknik som betyder "strålande-skalle-andning." Snabba kraftfulla utandningar energiserar kroppen, rensar sinnet och stärker mellangärdet.',
   'techniques.twoToOne.detail': 'Utandningen är dubbelt så lång som inandningen, maximerar CO\u2082-utsläpp och aktiverar vagusnerven. Ett av de mest effektiva mönstren för djup avslappning.',

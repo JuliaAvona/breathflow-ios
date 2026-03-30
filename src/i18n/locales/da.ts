@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Opdaget af Stanford-neuroforskeren Dr. Andrew Huberman. En dobbelt ind\u00e5nding efterfulgt af en lang ud\u00e5nding er den hurtigste m\u00e5de at reducere stress i realtid.',
   'techniques.coherence.detail': 'Vejrtr\u00e6kning med 5,5 \u00e5ndedrag pr. minut synkroniserer hjerterytme, blodtryk og nervesystem \u2014 og opn\u00e5r en tilstand kaldet "koh\u00e6rens" for optimal HRV.',
   'techniques.triangle.detail': 'Et bl\u00f8dt 3-faset m\u00f8nster perfekt til begyndere. Balancerer nervesystemet uden \u00e5ndedragspauser, s\u00e5 det er nemt og tilg\u00e6ngeligt for alle.',
-  'techniques.power.detail': 'Inspireret af Wim Hof-metoden. Hurtig vejrtr\u00e6kning efterfulgt af \u00e5ndedragstilbageholdelse \u00f8ger energien, g\u00f8r blodet basisk og styrker immunforsvaret.',
+  'techniques.power.detail': 'En avanceret åndedrætsteknik. Hurtig vejrtr\u00e6kning efterfulgt af \u00e5ndedragstilbageholdelse \u00f8ger energien, g\u00f8r blodet basisk og styrker immunforsvaret.',
   'techniques.fourFourSixTwo.detail': 'Den forl\u00e6ngede ud\u00e5nding (6s) i forhold til ind\u00e5nding (4s) skifter kroppen til dyb afslapning. Den korte pause mellem cyklusser nulstiller \u00e5ndedr\u00e6tsrytmen.',
   'techniques.kapalabhati.detail': 'Gammel yogisk teknik der betyder "str\u00e5lende kranie-\u00e5nding." Hurtige kraftige ud\u00e5ndinger energiserer kroppen, klarer sindet og styrker mellemgulvet.',
   'techniques.twoToOne.detail': 'Ud\u00e5ndingen er dobbelt s\u00e5 lang som ind\u00e5ndingen, maksimerer CO\u2082-udledning og aktiverer vagusnerven. Et af de mest effektive m\u00f8nstre for dyb afslapning.',

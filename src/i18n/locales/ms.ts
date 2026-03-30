@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Ditemui oleh ahli neurosains Stanford Dr. Andrew Huberman. Sedutan berganda diikuti hembusan panjang adalah cara terpantas untuk mengurangkan tekanan secara masa nyata.',
   'techniques.coherence.detail': 'Bernafas pada 5.5 nafas seminit menyegerakkan kadar jantung, tekanan darah, dan sistem saraf \u2014 mencapai keadaan yang dipanggil "koherensi" untuk HRV optimum.',
   'techniques.triangle.detail': 'Pola 3 fasa yang lembut, sempurna untuk pemula. Mengimbangi sistem saraf tanpa menahan nafas, menjadikannya mudah dan boleh diakses oleh semua orang.',
-  'techniques.power.detail': 'Diilhamkan oleh Kaedah Wim Hof. Pernafasan pantas diikuti penahanan nafas meningkatkan tenaga, mengalkalisasi darah, dan meningkatkan tindak balas imun.',
+  'techniques.power.detail': 'Teknik pernafasan lanjutan. Pernafasan pantas diikuti penahanan nafas meningkatkan tenaga, mengalkalisasi darah, dan meningkatkan tindak balas imun.',
   'techniques.fourFourSixTwo.detail': 'Hembusan yang dipanjangkan (6s) berbanding sedutan (4s) mengalihkan badan ke relaksasi mendalam. Jeda pendek antara kitaran menetapkan semula irama pernafasan.',
   'techniques.kapalabhati.detail': 'Teknik yoga kuno bermaksud "nafas bersinar tengkorak." Hembusan kuat yang pantas memberi tenaga kepada badan, menjernihkan minda, dan menguatkan diafragma.',
   'techniques.twoToOne.detail': 'Hembusan adalah dua kali panjang sedutan, memaksimumkan pelepasan CO\u2082 dan mengaktifkan saraf vagus. Salah satu pola paling berkesan untuk relaksasi mendalam.',

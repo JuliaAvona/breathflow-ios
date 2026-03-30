@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Atrastas Stanfordo neuromokslininko dr. Andrew Hubermano. Dvigubas ikvepimas, po kurio seka ilgas iskvepimas, yra greiciausias budas sumazinti stresa realiu laiku.',
   'techniques.coherence.detail': 'Kvepavimas 5,5 karto per minute sinchronizuoja sirdies ritma, kraujospudi ir nervu sistema — pasiekiant busena, vadinama „koherencija", optimaliam HRV.',
   'techniques.triangle.detail': 'Svelnus 3 faziu modelis, puikiai tinkantis pradedantiesiems. Subalansuoja nervu sistema be kvepavimo sulaikymu, todėl lengvas ir prieinamas visiems.',
-  'techniques.power.detail': 'Ikveptas Wim Hof metodo. Greitas kvepavimas, po kurio seka kvepavimo sulaikymas, padidina energija, sarmina krauja ir sustiprina imuninį atsaką.',
+  'techniques.power.detail': 'Pa\u017eangi kv\u0117pavimo technika. Greitas kvepavimas, po kurio seka kvepavimo sulaikymas, padidina energija, sarmina krauja ir sustiprina imuninį atsaką.',
   'techniques.fourFourSixTwo.detail': 'Pailgintas iskvepimas (6s) palyginus su ikvepimo (4s) perkelia kuna i gilu atsipalaidavima. Trumpa pauze tarp ciklu atstato kvepavimo ritma.',
   'techniques.kapalabhati.detail': 'Senovine jogos technika, reiškianti „kaules sviecianti kvepavima". Greiti galingi iskvepimai energizuoja kuna, isvalo prota ir sustiprina diafragma.',
   'techniques.twoToOne.detail': 'Iskvepimas yra dvigubai ilgesnis nei ikvepimas, maksimaliai isleisdamas CO₂ ir aktyvindamas klajokli nerva. Vienas efektyviausiu modeliu giliam atsipalaidavimui.',

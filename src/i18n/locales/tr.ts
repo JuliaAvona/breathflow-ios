@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Stanford nörobilimci Dr. Andrew Huberman tarafından keşfedilmiştir. Çift nefes alma ve ardından uzun bir nefes verme, stresi gerçek zamanlı olarak azaltmanın en hızlı yoludur.',
   'techniques.coherence.detail': 'Dakikada 5,5 nefes alarak kalp hızı, kan basıncı ve sinir sistemi senkronize olur \u2014 optimal KHD için "uyum" adı verilen bir duruma ulaşılır.',
   'techniques.triangle.detail': 'Yeni başlayanlar için mükemmel, nazik 3 aşamalı bir kalıp. Nefes tutma olmadan sinir sistemini dengeler, herkes için kolay ve erişilebilir kılar.',
-  'techniques.power.detail': 'Wim Hof Yöntemi\'nden esinlenmiştir. Hızlı nefes alma ve ardından nefes tutma enerjiyi artırır, kanı alkalize eder ve bağışıklık tepkisini güçlendirir.',
+  'techniques.power.detail': 'Geli\u015fmi\u015f bir nefes tekni\u011fi. Hızlı nefes alma ve ardından nefes tutma enerjiyi artırır, kanı alkalize eder ve bağışıklık tepkisini güçlendirir.',
   'techniques.fourFourSixTwo.detail': 'Nefes almaya (4s) göre uzatılmış nefes verme (6s) vücudu derin rahatlamaya taşır. Döngüler arasındaki kısa duraklama nefes ritmini sıfırlar.',
   'techniques.kapalabhati.detail': '"Kafatası parlatma nefesi" anlamına gelen kadim yoga tekniği. Hızlı ve kuvvetli nefes vermeler vücudu enerjilendirir, zihni berraklaştırır ve diyaframı güçlendirir.',
   'techniques.twoToOne.detail': 'Nefes verme, nefes almanın iki katı uzunluğundadır; CO\u2082 salınımını en üst düzeye çıkarır ve vagus sinirini aktive eder. Derin rahatlama için en etkili kalıplardan biridir.',

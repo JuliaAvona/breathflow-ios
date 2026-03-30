@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Atklaja Stanforda neirozinатnieks Dr. Andrew Huberman. Dubulta ieelpa, kam seko gara izelpa, ir atrakais veids, ka samazinat stresu reala laika.',
   'techniques.coherence.detail': 'Elposana ar 5,5 elpam minute sinhronize sirdsdarbibas ritmu, asinsspiedienu un nervu sistemu — sasniedzot stavokli, ko sauc par „koherenci" optimalаm HRV.',
   'techniques.triangle.detail': 'Maigs 3 fazu modelis, lieliski piemеrots iesacejiem. Lidzsvaro nervu sistemu bez elpas aizturem, padarot to vieglu un pieejamu visiem.',
-  'techniques.power.detail': 'Iedvesmots no Wim Hof metodes. Atra elposana, kam seko elpas aizture, palielina energiju, sarmina asinis un pastiprina imunо atbildi.',
+  'techniques.power.detail': 'Progres\u012bva elpo\u0161anas tehnika. Atra elposana, kam seko elpas aizture, palielina energiju, sarmina asinis un pastiprina imunо atbildi.',
   'techniques.fourFourSixTwo.detail': 'Pailginata izelpa (6s) attieciba pret ieelpu (4s) parvieto kermeni dzila relaksacija. Isa pauze starp cikliem atstata elposanas ritmu.',
   'techniques.kapalabhati.detail': 'Sena jogas tehnika, kas nozime „galvaskausa mirdzona elposana". Atras specigas izelpas energize kermeni, attira pratu un stiprina diafragmu.',
   'techniques.twoToOne.detail': 'Izelpa ir divreiz garaka par ieelpu, maksiмizejot CO₂ izdalijumu un aktivizejot vagusa nervu. Viens no efektivakajiem modeliem dzilai relaksacijai.',

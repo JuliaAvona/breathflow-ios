@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Descoberto pelo neurocientista de Stanford Dr. Andrew Huberman. Uma dupla inspiração seguida de uma longa expiração é a forma mais rápida de reduzir o estresse em tempo real.',
   'techniques.coherence.detail': 'Respirar a 5,5 respirações por minuto sincroniza frequência cardíaca, pressão arterial e sistema nervoso \u2014 atingindo um estado chamado "coerência" para VFC ideal.',
   'techniques.triangle.detail': 'Um padrão suave de 3 fases perfeito para iniciantes. Equilibra o sistema nervoso sem retenções de ar, tornando-o fácil e acessível para todos.',
-  'techniques.power.detail': 'Inspirada no Método Wim Hof. Respiração rápida seguida de retenção aumenta a energia, alcaliniza o sangue e fortalece a resposta imunológica.',
+  'techniques.power.detail': 'Uma técnica avançada de respiração. Respiração rápida seguida de retenção aumenta a energia, alcaliniza o sangue e fortalece a resposta imunológica.',
   'techniques.fourFourSixTwo.detail': 'A expiração prolongada (6s) em relação à inspiração (4s) leva o corpo ao relaxamento profundo. A breve pausa entre os ciclos reinicia o ritmo respiratório.',
   'techniques.kapalabhati.detail': 'Técnica yogue ancestral que significa "respiração do crânio brilhante". Expirações rápidas e vigorosas energizam o corpo, limpam a mente e fortalecem o diafragma.',
   'techniques.twoToOne.detail': 'A expiração é o dobro da inspiração, maximizando a liberação de CO\u2082 e ativando o nervo vago. Um dos padrões mais eficazes para relaxamento profundo.',

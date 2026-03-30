@@ -80,7 +80,7 @@ export default {
   'techniques.physioSigh.detail': 'Ditemukan oleh neurosaintis Stanford Dr. Andrew Huberman. Hirupan ganda diikuti hembusan panjang adalah cara tercepat untuk mengurangi stres secara real-time.',
   'techniques.coherence.detail': 'Bernapas dengan 5,5 napas per menit menyinkronkan detak jantung, tekanan darah, dan sistem saraf \u2014 mencapai keadaan yang disebut "koherensi" untuk HRV optimal.',
   'techniques.triangle.detail': 'Pola 3 fase yang lembut, sempurna untuk pemula. Menyeimbangkan sistem saraf tanpa menahan napas, membuatnya mudah dan dapat diakses oleh semua orang.',
-  'techniques.power.detail': 'Terinspirasi dari Metode Wim Hof. Pernapasan cepat diikuti penahanan napas meningkatkan energi, mengalkalisasi darah, dan meningkatkan respons imun.',
+  'techniques.power.detail': 'Teknik pernapasan tingkat lanjut. Pernapasan cepat diikuti penahanan napas meningkatkan energi, mengalkalisasi darah, dan meningkatkan respons imun.',
   'techniques.fourFourSixTwo.detail': 'Hembusan napas yang diperpanjang (6 detik) dibandingkan hirupan (4 detik) menggeser tubuh ke relaksasi mendalam. Jeda singkat antar siklus mengatur ulang ritme pernapasan.',
   'techniques.kapalabhati.detail': 'Teknik yoga kuno yang berarti "napas bersinar tengkorak." Hembusan kuat yang cepat memberi energi pada tubuh, menjernihkan pikiran, dan memperkuat diafragma.',
   'techniques.twoToOne.detail': 'Hembusan dua kali lipat panjang hirupan, memaksimalkan pelepasan CO\u2082 dan mengaktifkan saraf vagus. Salah satu pola paling efektif untuk relaksasi mendalam.',
