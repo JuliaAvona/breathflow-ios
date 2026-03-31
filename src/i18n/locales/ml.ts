@@ -134,6 +134,7 @@ export default {
   'session.pause': 'താൽക്കാലിക നിർത്തൽ',
   'session.resume': 'തുടരുക',
   'session.stop': 'നിർത്തുക',
+  'session.exhale': '\u0D36\u0D4D\u0D35\u0D3E\u0D38\u0D02 \u0D35\u0D3F\u0D1F\u0D41\u0D15',
   'session.stopConfirm': 'സെഷൻ അവസാനിപ്പിക്കണോ?',
   'session.stopMessage': 'നിങ്ങളുടെ പുരോഗതി സേവ് ചെയ്യപ്പെടും.',
   'session.cancel': 'റദ്ദാക്കുക',

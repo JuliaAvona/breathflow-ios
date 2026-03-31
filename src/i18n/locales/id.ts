@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Jeda',
   'session.resume': 'Lanjutkan',
   'session.stop': 'Berhenti',
+  'session.exhale': 'Buang napas',
   'session.stopConfirm': 'Akhiri sesi?',
   'session.stopMessage': 'Kemajuan Anda akan disimpan.',
   'session.cancel': 'Batal',

@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Pause',
   'session.resume': 'Fortsetzen',
   'session.stop': 'Stopp',
+  'session.exhale': 'Ausatmen',
   'session.stopConfirm': 'Sitzung beenden?',
   'session.stopMessage': 'Ihr Fortschritt wird gespeichert.',
   'session.cancel': 'Abbrechen',

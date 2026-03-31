@@ -134,6 +134,7 @@ export default {
   'session.pause': 'השהה',
   'session.resume': 'המשך',
   'session.stop': 'עצור',
+  'session.exhale': '\u05E0\u05E9\u05D9\u05E4\u05D4',
   'session.stopConfirm': 'לסיים אימון?',
   'session.stopMessage': 'ההתקדמות שלך תישמר.',
   'session.cancel': 'ביטול',

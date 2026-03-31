@@ -134,6 +134,7 @@ export default {
   'session.pause': 'இடைநிறுத்தம்',
   'session.resume': 'தொடர்',
   'session.stop': 'நிறுத்து',
+  'session.exhale': '\u0BAE\u0BC2\u0B9A\u0BCD\u0B9A\u0BC1 \u0BB5\u0BBF\u0B9F\u0BC1',
   'session.stopConfirm': 'அமர்வை முடிக்கவா?',
   'session.stopMessage': 'உங்கள் முன்னேற்றம் சேமிக்கப்படும்.',
   'session.cancel': 'ரத்து செய்',

@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Pause',
   'session.resume': 'Fortsett',
   'session.stop': 'Stopp',
+  'session.exhale': 'Pust ut',
   'session.stopConfirm': 'Avslutt \u00f8kten?',
   'session.stopMessage': 'Fremgangen din blir lagret.',
   'session.cancel': 'Avbryt',

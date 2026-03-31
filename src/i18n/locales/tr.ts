@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Duraklat',
   'session.resume': 'Devam Et',
   'session.stop': 'Durdur',
+  'session.exhale': 'Nefes ver',
   'session.stopConfirm': 'Oturum sonlandırılsın mı?',
   'session.stopMessage': 'İlerlemeniz kaydedilecek.',
   'session.cancel': 'İptal',

@@ -136,6 +136,7 @@ export default {
   'session.pause': 'Pauze',
   'session.resume': 'Testi',
   'session.stop': 'Stabdyti',
+  'session.exhale': 'I\u0161kv\u0117pti',
   'session.stopConfirm': 'Baigti sesija?',
   'session.stopMessage': 'Jusu pazanga bus issaugota.',
   'session.cancel': 'Atšaukti',

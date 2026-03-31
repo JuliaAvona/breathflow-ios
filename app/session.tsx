@@ -620,20 +620,20 @@ export default function SessionScreen() {
         )}
 
 
-        {/* Exhale button for retention */}
-        {isRetention && (
+        {/* Exhale button for active retention only */}
+        {isRetention && timerStore.isRunning && (
           <TouchableOpacity
             style={styles.exhaleButton}
             onPress={() => useTimerStore.getState().endRetention()}
             activeOpacity={0.8}
           >
-            <Text style={styles.exhaleButtonText}>{t('session.exhale', { defaultValue: 'Exhale' })}</Text>
+            <Text style={styles.exhaleButtonText}>{t('session.exhale')}</Text>
           </TouchableOpacity>
         )}
       </View>
 
-      {/* ── Bottom controls (hidden during retention and result display) ── */}
-      {!isRetention && <View style={styles.controlsRow}>
+      {/* ── Bottom controls (hidden during active retention only) ── */}
+      {!(isRetention && timerStore.isRunning) && <View style={styles.controlsRow}>
         {/* Music toggle (only if music was selected) */}
         {musicId ? (
           <TouchableOpacity

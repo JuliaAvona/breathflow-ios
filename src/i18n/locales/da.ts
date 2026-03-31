@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Pause',
   'session.resume': 'Forts\u00e6t',
   'session.stop': 'Stop',
+  'session.exhale': '\u00c5nd ud',
   'session.stopConfirm': 'Afslut session?',
   'session.stopMessage': 'Dine fremskridt gemmes.',
   'session.cancel': 'Annuller',

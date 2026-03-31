@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Pausa',
   'session.resume': 'Reprèn',
   'session.stop': 'Atura',
+  'session.exhale': 'Expirar',
   'session.stopConfirm': 'Finalitzar sessió?',
   'session.stopMessage': 'El teu progrés es guardarà.',
   'session.cancel': 'Cancel·la',

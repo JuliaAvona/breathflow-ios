@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Szünet',
   'session.resume': 'Folytatás',
   'session.stop': 'Leállítás',
+  'session.exhale': 'Kil\u00e9gz\u00e9s',
   'session.stopConfirm': 'Gyakorlat befejez\u00e9se?',
   'session.stopMessage': 'A haladásod mentésre kerül.',
   'session.cancel': 'Mégse',

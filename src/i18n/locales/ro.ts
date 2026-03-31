@@ -136,6 +136,7 @@ export default {
   'session.pause': 'Pauza',
   'session.resume': 'Continua',
   'session.stop': 'Stop',
+  'session.exhale': 'Expir\u0103',
   'session.stopConfirm': 'Inchei sesiunea?',
   'session.stopMessage': 'Progresul tau va fi salvat.',
   'session.cancel': 'Anuleaza',

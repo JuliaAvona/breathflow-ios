@@ -134,6 +134,7 @@ export default {
   'session.pause': 'పాజ్',
   'session.resume': 'కొనసాగించు',
   'session.stop': 'ఆపు',
+  'session.exhale': '\u0C36\u0C4D\u0C35\u0C3E\u0C38 \u0C35\u0C3F\u0C21\u0C41\u0C35\u0C41',
   'session.stopConfirm': 'సెషన్ ముగించాలా?',
   'session.stopMessage': 'మీ పురోగతి సేవ్ చేయబడుతుంది.',
   'session.cancel': 'రద్దు చేయి',

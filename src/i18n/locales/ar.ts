@@ -134,6 +134,7 @@ export default {
   'session.pause': '\u0625\u064A\u0642\u0627\u0641',
   'session.resume': '\u0627\u0633\u062A\u0626\u0646\u0627\u0641',
   'session.stop': '\u0625\u064A\u0642\u0627\u0641',
+  'session.exhale': '\u0632\u0641\u064A\u0631',
   'session.stopConfirm': '\u0625\u0646\u0647\u0627\u0621 \u0627\u0644\u062C\u0644\u0633\u0629\u061F',
   'session.stopMessage': '\u0633\u064A\u062A\u0645 \u062D\u0641\u0638 \u062A\u0642\u062F\u0645\u0643.',
   'session.cancel': '\u0625\u0644\u063A\u0627\u0621',

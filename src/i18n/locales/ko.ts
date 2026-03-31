@@ -134,6 +134,7 @@ export default {
   'session.pause': '\uC77C\uC2DC\uC815\uC9C0',
   'session.resume': '\uACC4\uC18D',
   'session.stop': '\uC815\uC9C0',
+  'session.exhale': '\uB0B4\uC26C\uAE30',
   'session.stopConfirm': '\uC138\uC158\uC744 \uC885\uB8CC\uD560\uAE4C\uC694?',
   'session.stopMessage': '\uC9C4\uD589 \uC0C1\uD669\uC774 \uC800\uC7A5\uB429\uB2C8\uB2E4.',
   'session.cancel': '\uCDE8\uC18C',

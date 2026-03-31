@@ -413,9 +413,8 @@ function tickPower(
   const newTotalElapsed = totalElapsed + 1;
 
   if (powerPhase === 'BREATHING') {
-    // Each tick represents ~1 second, and each breath is ~2 seconds
-    // We increment breath count every 2 ticks (1s inhale + 1s exhale)
-    const newBreathCount = breathCount + 0.5;
+    // Each tick = 1 second, each breath cycle ~1s (rapid breathing)
+    const newBreathCount = breathCount + 1;
 
     if (newBreathCount >= targetBreaths) {
       // Breathing phase done — move to retention

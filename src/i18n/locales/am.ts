@@ -134,6 +134,7 @@ export default {
   'session.pause': 'አቁም',
   'session.resume': 'ቀጥል',
   'session.stop': 'አስቁም',
+  'session.exhale': 'አውጣ',
   'session.stopConfirm': 'ክፍለ ጊዜውን አጠቃልል?',
   'session.stopMessage': 'እድገትዎ ይቀመጣል።',
   'session.cancel': 'ሰርዝ',

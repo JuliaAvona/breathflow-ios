@@ -136,6 +136,7 @@ export default {
   'session.pause': 'Pauze',
   'session.resume': 'Turpinat',
   'session.stop': 'Apturet',
+  'session.exhale': 'Izelpot',
   'session.stopConfirm': 'Beigt sesiju?',
   'session.stopMessage': 'Jusu progress tiks saglabats.',
   'session.cancel': 'Atcelt',

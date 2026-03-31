@@ -136,6 +136,7 @@ export default {
   'session.pause': 'Пауза',
   'session.resume': 'Продовжити',
   'session.stop': 'Стоп',
+  'session.exhale': '\u0412\u0438\u0434\u0438\u0445',
   'session.stopConfirm': 'Завершити сесію?',
   'session.stopMessage': 'Ваш прогрес буде збережено.',
   'session.cancel': 'Скасувати',

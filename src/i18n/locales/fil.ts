@@ -134,6 +134,7 @@ export default {
   'session.pause': 'I-pause',
   'session.resume': 'Ituloy',
   'session.stop': 'Itigil',
+  'session.exhale': 'Ilabas ang hininga',
   'session.stopConfirm': 'Tapusin ang sesyon?',
   'session.stopMessage': 'Mase-save ang iyong progreso.',
   'session.cancel': 'Kanselahin',

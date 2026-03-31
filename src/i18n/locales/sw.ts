@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Simamisha',
   'session.resume': 'Endelea',
   'session.stop': 'Simama',
+  'session.exhale': 'Pumua nje',
   'session.stopConfirm': 'Maliza kipindi?',
   'session.stopMessage': 'Maendeleo yako yatahifadhiwa.',
   'session.cancel': 'Ghairi',

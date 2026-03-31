@@ -134,6 +134,7 @@ export default {
   'session.pause': 'หยุดชั่วคราว',
   'session.resume': 'ดำเนินต่อ',
   'session.stop': 'หยุด',
+  'session.exhale': '\u0E2B\u0E32\u0E22\u0E43\u0E08\u0E2D\u0E2D\u0E01',
   'session.stopConfirm': 'จบเซสชัน?',
   'session.stopMessage': 'ความก้าวหน้าของคุณจะถูกบันทึก',
   'session.cancel': 'ยกเลิก',

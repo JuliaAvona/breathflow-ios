@@ -134,6 +134,7 @@ export default {
   'session.pause': '暂停',
   'session.resume': '继续',
   'session.stop': '停止',
+  'session.exhale': '呼气',
   'session.stopConfirm': '结束练习？',
   'session.stopMessage': '您的进度将被保存。',
   'session.cancel': '取消',

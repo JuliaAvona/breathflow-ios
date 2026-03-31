@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Paus',
   'session.resume': 'J\u00e4tka',
   'session.stop': 'Peata',
+  'session.exhale': 'V\u00e4lja hingata',
   'session.stopConfirm': 'L\u00f5peta seanss?',
   'session.stopMessage': 'Sinu edusammud salvestatakse.',
   'session.cancel': 'T\u00fchista',

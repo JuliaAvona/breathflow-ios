@@ -134,6 +134,7 @@ export default {
   'session.pause': '\u66ab\u505c',
   'session.resume': '\u7e7c\u7e8c',
   'session.stop': '\u505c\u6b62',
+  'session.exhale': '\u547C\u6C23',
   'session.stopConfirm': '\u7d50\u675f\u7df4\u7fd2\uff1f',
   'session.stopMessage': '\u60a8\u7684\u9032\u5ea6\u5c07\u6703\u88ab\u5132\u5b58\u3002',
   'session.cancel': '\u53d6\u6d88',

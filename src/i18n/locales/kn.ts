@@ -134,6 +134,7 @@ export default {
   'session.pause': 'ವಿರಮಿಸಿ',
   'session.resume': 'ಮುಂದುವರಿಸಿ',
   'session.stop': 'ನಿಲ್ಲಿಸಿ',
+  'session.exhale': '\u0C89\u0CB8\u0CBF\u0CB0\u0CC1 \u0CAC\u0CBF\u0CA1\u0CBF',
   'session.stopConfirm': 'ಅಧಿವೇಶನ ಮುಗಿಸುವುದೇ?',
   'session.stopMessage': 'ನಿಮ್ಮ ಪ್ರಗತಿ ಉಳಿಸಲಾಗುವುದು.',
   'session.cancel': 'ರದ್ದು',

@@ -136,6 +136,7 @@ export default {
   'session.pause': 'Premor',
   'session.resume': 'Nadaljuj',
   'session.stop': 'Ustavi',
+  'session.exhale': 'Izdihni',
   'session.stopConfirm': 'Koncaj sejo?',
   'session.stopMessage': 'Vas napredek bo shranjen.',
   'session.cancel': 'Preklici',

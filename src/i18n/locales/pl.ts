@@ -120,6 +120,7 @@ export default {
   'session.pause': 'Pauza',
   'session.resume': 'Wzn\u00f3w',
   'session.stop': 'Stop',
+  'session.exhale': 'Wydech',
   'session.stopConfirm': 'Zako\u0144czy\u0107 sesj\u0119?',
   'session.stopMessage': 'Tw\u00f3j post\u0119p zostanie zapisany.',
   'session.cancel': 'Anuluj',

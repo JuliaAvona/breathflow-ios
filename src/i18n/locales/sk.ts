@@ -136,6 +136,7 @@ export default {
   'session.pause': 'Pauza',
   'session.resume': 'Pokracovat',
   'session.stop': 'Stop',
+  'session.exhale': 'V\u00fddych',
   'session.stopConfirm': 'Ukoncit sedenie?',
   'session.stopMessage': 'Vas pokrok bude ulozeny.',
   'session.cancel': 'Zrusit',

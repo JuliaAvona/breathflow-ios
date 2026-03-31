@@ -134,6 +134,7 @@ export default {
   'session.pause': 'Tauko',
   'session.resume': 'Jatka',
   'session.stop': 'Lopeta',
+  'session.exhale': 'Hengit\u00e4 ulos',
   'session.stopConfirm': 'Lopeta harjoitus?',
   'session.stopMessage': 'Edistymisesi tallennetaan.',
   'session.cancel': 'Peruuta',

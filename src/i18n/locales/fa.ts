@@ -134,6 +134,7 @@ export default {
   'session.pause': 'توقف',
   'session.resume': 'ادامه',
   'session.stop': 'پایان',
+  'session.exhale': '\u0628\u0627\u0632\u062F\u0645',
   'session.stopConfirm': 'جلسه تمام شود؟',
   'session.stopMessage': 'پیشرفت شما ذخیره خواهد شد.',
   'session.cancel': 'لغو',

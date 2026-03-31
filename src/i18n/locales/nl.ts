@@ -118,6 +118,7 @@ export default {
   'session.pause': 'Pauze',
   'session.resume': 'Hervatten',
   'session.stop': 'Stop',
+  'session.exhale': 'Uitademen',
   'session.stopConfirm': 'Sessie be\u00ebindigen?',
   'session.stopMessage': 'Je voortgang wordt opgeslagen.',
   'session.cancel': 'Annuleren',

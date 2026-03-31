@@ -134,6 +134,7 @@ export default {
   'session.pause': '一時停止',
   'session.resume': '再開',
   'session.stop': '停止',
+  'session.exhale': '息を吐く',
   'session.stopConfirm': 'セッションを終了しますか？',
   'session.stopMessage': '進捗は保存されます。',
   'session.cancel': 'キャンセル',

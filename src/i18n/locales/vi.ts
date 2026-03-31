@@ -134,6 +134,7 @@ export default {
   'session.pause': 'T\u1EA1m d\u1EEBng',
   'session.resume': 'Ti\u1EBFp t\u1EE5c',
   'session.stop': 'D\u1EEBng',
+  'session.exhale': 'Th\u1EDF ra',
   'session.stopConfirm': 'K\u1EBFt th\u00FAc phi\u00EAn?',
   'session.stopMessage': 'Ti\u1EBFn tr\u00ECnh c\u1EE7a b\u1EA1n s\u1EBD \u0111\u01B0\u1EE3c l\u01B0u.',
   'session.cancel': 'H\u1EE7y',

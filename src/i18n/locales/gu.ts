@@ -134,6 +134,7 @@ export default {
   'session.pause': 'વિરામ',
   'session.resume': 'ફરી શરૂ',
   'session.stop': 'બંધ',
+  'session.exhale': '\u0AB6\u0ACD\u0AB5\u0ABE\u0AB8 \u0AAB\u0AC7\u0A82\u0A95\u0ACB',
   'session.stopConfirm': 'સત્ર સમાપ્ત કરશો?',
   'session.stopMessage': 'તમારી પ્રગતિ સાચવવામાં આવશે.',
   'session.cancel': 'રદ',
