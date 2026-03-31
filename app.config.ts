@@ -39,8 +39,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'react-native-fbsdk-next',
       {
-        appID: process.env.FACEBOOK_APP_ID ?? '1301553358545331',
-        clientToken: process.env.FACEBOOK_CLIENT_TOKEN ?? '2cda6283a81d117ce9e47798ff5e97df',
+        appID: process.env.FACEBOOK_APP_ID ?? '',
+        clientToken: process.env.FACEBOOK_CLIENT_TOKEN ?? '',
         displayName: 'BreathFlow',
         advertiserIDCollectionEnabled: true,
         autoLogAppEventsEnabled: true,
