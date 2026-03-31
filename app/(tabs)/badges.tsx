@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import Svg, { Circle } from 'react-native-svg';
 import { useBadgesStore, useSessionsStore, useSettingsStore } from '../../src/store';
 import { BadgeGrid } from '../../src/components/BadgeGrid';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
@@ -77,10 +78,10 @@ export default function AwardsScreen() {
         <LinearGradient
           colors={
             theme.isDark
-              ? [COLORS.primary, '#5BA0E8', theme.background]
-              : ['#3A73B0', COLORS.primary, theme.background]
+              ? ['#2563EB', '#4A90D9', '#7FBFDF', theme.background]
+              : ['#1E40AF', '#3B82F6', '#60A5FA', theme.background]
           }
-          locations={[0, 0.6, 1]}
+          locations={[0, 0.3, 0.6, 1]}
           style={[styles.hero, { paddingTop: insets.top + SPACING.sm }]}
         >
           <Text style={styles.heroTitle}>{t('badges.title')}</Text>
@@ -88,73 +89,79 @@ export default function AwardsScreen() {
             {unlockedCount} / {totalCount} {t('badges.unlocked')}
           </Text>
 
-          {/* Progress ring area */}
+          {/* Progress ring — SVG with glow */}
           <View style={styles.progressRingContainer}>
-            <View style={styles.progressRingOuter}>
-              <View style={[styles.progressRingTrack, { borderColor: 'rgba(255,255,255,0.2)' }]}>
-                <View style={styles.progressRingInner}>
-                  <Text style={styles.progressPercent}>{progressPercent}%</Text>
-                </View>
+            <View style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              shadowColor: '#7BC4A8',
+              shadowOpacity: 0.6,
+              shadowRadius: 25,
+              shadowOffset: { width: 0, height: 0 },
+            }}>
+              <Svg width={scale(140)} height={scale(140)}>
+                {/* Track */}
+                <Circle
+                  cx={scale(70)}
+                  cy={scale(70)}
+                  r={scale(56)}
+                  stroke="rgba(255,255,255,0.1)"
+                  strokeWidth={10}
+                  fill="none"
+                />
+                {/* Glow behind filled arc */}
+                <Circle
+                  cx={scale(70)}
+                  cy={scale(70)}
+                  r={scale(56)}
+                  stroke="#7BC4A8"
+                  strokeWidth={14}
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * scale(56)}`}
+                  strokeDashoffset={`${2 * Math.PI * scale(56) * (1 - progress)}`}
+                  transform={`rotate(-90 ${scale(70)} ${scale(70)})`}
+                  opacity={0.2}
+                />
+                {/* Filled arc */}
+                <Circle
+                  cx={scale(70)}
+                  cy={scale(70)}
+                  r={scale(56)}
+                  stroke="#7BC4A8"
+                  strokeWidth={10}
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * scale(56)}`}
+                  strokeDashoffset={`${2 * Math.PI * scale(56) * (1 - progress)}`}
+                  transform={`rotate(-90 ${scale(70)} ${scale(70)})`}
+                />
+                {/* White highlight on top */}
+                <Circle
+                  cx={scale(70)}
+                  cy={scale(70)}
+                  r={scale(56)}
+                  stroke="#FFFFFF"
+                  strokeWidth={10}
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * scale(56)}`}
+                  strokeDashoffset={`${2 * Math.PI * scale(56) * (1 - progress * 0.15)}`}
+                  transform={`rotate(-90 ${scale(70)} ${scale(70)})`}
+                  opacity={0.15}
+                />
+              </Svg>
+              <View style={styles.progressRingInner}>
+                <Text style={styles.progressPercent}>{progressPercent}</Text>
+                <Text style={styles.progressPercentSign}>%</Text>
               </View>
-              {/* Filled arc overlay — simplified as a filled border segment */}
-              <View
-                style={[
-                  styles.progressArc,
-                  {
-                    borderColor: '#FFFFFF',
-                    borderTopColor: progress >= 0.25 ? '#FFFFFF' : 'transparent',
-                    borderRightColor: progress >= 0.5 ? '#FFFFFF' : 'transparent',
-                    borderBottomColor: progress >= 0.75 ? '#FFFFFF' : 'transparent',
-                    borderLeftColor: progress >= 1 ? '#FFFFFF' : 'transparent',
-                    transform: [{ rotate: '-90deg' }],
-                  },
-                ]}
-              />
             </View>
           </View>
 
-          {/* Stats row */}
-          <View style={styles.heroStatsRow}>
-            {CATEGORIES.slice(0, 3).map((cat, idx) => {
-              const badges = grouped[cat.key];
-              const catUnlocked = badges?.filter((b) => isUnlocked(b.id)).length ?? 0;
-              const catTotal = badges?.length ?? 0;
-              return (
-                <React.Fragment key={cat.key}>
-                  {idx > 0 && <View style={styles.statDivider} />}
-                  <View style={styles.heroStat}>
-                    <Ionicons name={cat.icon} size={scale(16)} color="rgba(255,255,255,0.8)" />
-                    <Text style={styles.heroStatValue}>{catUnlocked}/{catTotal}</Text>
-                    <Text style={styles.heroStatLabel}>{t(cat.labelKey)}</Text>
-                  </View>
-                </React.Fragment>
-              );
-            })}
-          </View>
         </LinearGradient>
 
-        {/* PRO upsell for free users */}
-        {!isPro && (
-          <TouchableOpacity
-            style={[styles.proBanner, { backgroundColor: 'rgba(155,89,182,0.15)', borderColor: 'rgba(155,89,182,0.3)' }]}
-            onPress={() => router.push('/paywall')}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="diamond" size={18} color="#9B59B6" />
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.proBannerTitle, { color: theme.text }]}>
-                {t('badges.unlockBadges', { defaultValue: 'Unlock Badges with Pro' })}
-              </Text>
-              <Text style={[styles.proBannerSub, { color: theme.textSecondary }]}>
-                {t('badges.unlockBadgesDesc', { defaultValue: 'Track your achievements and earn all badges' })}
-              </Text>
-            </View>
-            <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
-          </TouchableOpacity>
-        )}
-
         {/* Category sections */}
-        {isPro && CATEGORIES.map((cat) => {
+        {CATEGORIES.map((cat) => {
           const badges = grouped[cat.key];
           if (!badges || badges.length === 0) return null;
 
@@ -182,13 +189,13 @@ export default function AwardsScreen() {
 
               {/* Progress bar */}
               <View style={[styles.progressBar, { backgroundColor: theme.isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }]}>
-                <View
+                <LinearGradient
+                  colors={[catColors.color, catColors.color + 'AA']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
                   style={[
                     styles.progressBarFill,
-                    {
-                      width: `${catProgress * 100}%`,
-                      backgroundColor: catColors.color,
-                    },
+                    { width: `${catProgress * 100}%` },
                   ]}
                 />
               </View>
@@ -239,30 +246,44 @@ const styles = StyleSheet.create({
     height: scale(100),
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#FFFFFF',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 8,
   },
   progressRingTrack: {
     width: scale(100),
     height: scale(100),
     borderRadius: scale(50),
-    borderWidth: 4,
+    borderWidth: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
   progressRingInner: {
+    position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
   },
   progressPercent: {
-    fontSize: 28,
-    fontFamily: FONTS.bold,
+    fontSize: 36,
+    fontFamily: FONTS.heavy,
     color: '#FFFFFF',
+  },
+  progressPercentSign: {
+    fontSize: 18,
+    fontFamily: FONTS.bold,
+    color: 'rgba(255,255,255,0.6)',
+    marginTop: 6,
+    marginLeft: 1,
   },
   progressArc: {
     position: 'absolute',
     width: scale(100),
     height: scale(100),
     borderRadius: scale(50),
-    borderWidth: 4,
+    borderWidth: 5,
   },
 
   // Hero stats
@@ -313,9 +334,9 @@ const styles = StyleSheet.create({
     gap: SPACING.sm,
   },
   categoryIcon: {
-    width: scale(30),
-    height: scale(30),
-    borderRadius: scale(15),
+    width: scale(34),
+    height: scale(34),
+    borderRadius: scale(17),
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -328,24 +349,24 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.semibold,
   },
   progressBar: {
-    height: 4,
-    borderRadius: 2,
+    height: 6,
+    borderRadius: 3,
     marginHorizontal: SPACING.lg,
     marginBottom: SPACING.sm,
     overflow: 'hidden',
   },
   progressBarFill: {
-    height: 4,
-    borderRadius: 2,
+    height: 6,
+    borderRadius: 3,
   },
   badgesCard: {
     marginHorizontal: SPACING.lg,
     paddingTop: SPACING.sm,
     paddingBottom: SPACING.xs,
-    borderRadius: 20,
+    borderRadius: 24,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
+    shadowOpacity: 0.03,
     shadowRadius: 8,
     elevation: 2,
   },
