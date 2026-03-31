@@ -533,8 +533,8 @@ export default function HistoryScreen() {
               </View>
             )}
 
-            {/* Mood History — graph style */}
-            {moodHistory.some(d => d.emoji) && (
+            {/* Mood History — graph style (Pro only) */}
+            {isPro && moodHistory.some(d => d.emoji) && (
               <View style={[styles.newCard, { backgroundColor: theme.card }]}>
                 <Text style={[styles.newCardTitle, { color: theme.text }]}>
                   {t('progress.moodHistory', { defaultValue: 'Your Mood' })}
@@ -1071,10 +1071,11 @@ const styles = StyleSheet.create({
   bestsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: SPACING.md,
+    gap: SPACING.sm,
   },
   bestItem: {
-    width: '46%',
+    width: '48%',
+    flexGrow: 1,
     alignItems: 'center',
     gap: 6,
     paddingVertical: SPACING.md,

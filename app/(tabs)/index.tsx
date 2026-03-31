@@ -244,7 +244,7 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
         {/* Recommended badge */}
         {isRecommended && (
           <View style={styles.recommendedBadge}>
-            <Ionicons name="star" size={9} color="#FFF" />
+            <Ionicons name="star" size={10} color="#FFF" />
           </View>
         )}
 
@@ -1109,13 +1109,14 @@ const styles = StyleSheet.create({
   recommendedBadge: {
     position: 'absolute',
     top: 8,
-    left: 8,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: 'rgba(252, 187, 48, 0.73)',
-    justifyContent: 'center',
+    right: 8,
+    flexDirection: 'row',
     alignItems: 'center',
+    gap: 3,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 10,
+    backgroundColor: 'rgba(245,166,35,0.85)',
   },
 
   // PRO badge

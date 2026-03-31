@@ -53,7 +53,7 @@ export default function PrivacyScreen() {
         <Text style={[styles.body, { color: theme.text }]}>
           BreathFlow collects the following data to provide and improve the App experience:{'\n\n'}
           {'\u2022'} Breathing session data: technique used, duration, cycles or rounds completed, retention times, timestamps, and optional mood ratings.{'\n'}
-          {'\u2022'} App settings and preferences: sound, haptics, voice guidance, timer configurations, and theme preferences.{'\n'}
+          {'\u2022'} App settings and preferences: sound style, haptics, timer configurations, and theme preferences.{'\n'}
           {'\u2022'} Achievement and streak data: badges earned and daily breathing practice streaks.{'\n'}
           {'\u2022'} Account information: anonymous user ID or Apple ID email (if you sign in with Apple).
         </Text>
@@ -122,7 +122,7 @@ export default function PrivacyScreen() {
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
           If you have any questions or concerns about this Privacy Policy, please contact us at:{'\n\n'}
-          Email: support@breathflow.app
+          Email: app.support.535@gmail.com
         </Text>
 
         <View style={styles.bottomSpacer} />

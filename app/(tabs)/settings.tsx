@@ -96,7 +96,7 @@ const TIME_COLUMNS: WheelColumn[] = [
   { min: 0, max: 55, step: 5, pad: 2 },
 ];
 
-const SUPPORT_EMAIL = 'support@breathflow.app';
+const SUPPORT_EMAIL = 'app.support.535@gmail.com';
 const APP_VERSION = '1.0.0';
 
 // ─── Main Screen ───────────────────────────────────────────────────────────
@@ -246,7 +246,7 @@ export default function SettingsScreen() {
 
   const handleRateApp = async () => {
     // expo-store-review is not installed; open App Store directly
-    const appStoreUrl = 'https://apps.apple.com/app/id0000000000'; // TODO: replace with actual App Store ID
+    const appStoreUrl = 'https://apps.apple.com/app/id6760786034';
     try {
       await Linking.openURL(appStoreUrl);
     } catch {
@@ -612,21 +612,6 @@ export default function SettingsScreen() {
             <Ionicons name="mail-outline" size={18} color={theme.textSecondary} />
           </TouchableOpacity>
 
-          {/* Reset onboarding (dev/testing) */}
-          <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
-            onPress={() => {
-              settings.setSetting('onboardingCompleted', false);
-              settings.setSetting('selectedGoal', undefined);
-              router.replace('/onboarding');
-            }}
-            accessibilityRole="button"
-          >
-            <Text style={[styles.settingLabel, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-              View Onboarding
-            </Text>
-            <Ionicons name="play-outline" size={18} color={theme.textSecondary} />
-          </TouchableOpacity>
         </View>
       </ScrollView>
 

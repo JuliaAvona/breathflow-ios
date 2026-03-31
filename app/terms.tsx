@@ -51,12 +51,11 @@ export default function TermsScreen() {
           1. Purchase Terms
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
-          BreathFlow offers optional premium features through a one-time purchase ("BreathFlow Pro").{'\n\n'}
-          {'\u2022'} Payment is charged to your Apple ID account at the confirmation of purchase.{'\n'}
-          {'\u2022'} This is a non-recurring purchase — you pay once and keep Pro features forever.{'\n'}
-          {'\u2022'} No subscription, no auto-renewal, and no recurring billing.{'\n'}
-          {'\u2022'} The purchase is non-refundable except as required by applicable law or Apple's refund policies.{'\n\n'}
-          The purchase price is $3.99 USD (or regional equivalent) and is subject to change. Any price changes will not affect existing purchases.
+          BreathFlow offers optional premium features ("BreathFlow Pro") through the following plans:{'\n\n'}
+          {'\u2022'} Weekly subscription — auto-renews weekly. Cancel anytime in App Store settings at least 24 hours before renewal.{'\n'}
+          {'\u2022'} Annual subscription — auto-renews yearly. Cancel anytime in App Store settings at least 24 hours before renewal.{'\n'}
+          {'\u2022'} Lifetime purchase — one-time payment, no subscription or renewal.{'\n\n'}
+          Payment is charged to your Apple ID account at the confirmation of purchase. Subscriptions automatically renew unless cancelled. Prices may vary by region and are subject to change. Refunds are handled by Apple according to their refund policy.
         </Text>
 
         <Text style={[styles.sectionTitle, { color: theme.text }]}>
@@ -97,7 +96,7 @@ export default function TermsScreen() {
           {'\u2022'} Personal injury or health issues arising from the use of the App, including but not limited to dizziness, lightheadedness, or hyperventilation.{'\n'}
           {'\u2022'} Any interruption or cessation of the App's functionality.{'\n'}
           {'\u2022'} Any errors or inaccuracies in breathing timer functions, session tracking, or other App features.{'\n\n'}
-          In no event shall our total liability to you exceed the amount you have paid to us for the Pro purchase.
+          In no event shall our total liability to you exceed the amount you have paid to us in the twelve (12) months preceding the claim.
         </Text>
 
         <Text style={[styles.sectionTitle, { color: theme.text }]}>
@@ -126,7 +125,7 @@ export default function TermsScreen() {
         </Text>
         <Text style={[styles.body, { color: theme.text }]}>
           If you have any questions about these Terms of Service, please contact us at:{'\n\n'}
-          Email: support@breathflow.app
+          Email: app.support.535@gmail.com
         </Text>
 
         <View style={styles.bottomSpacer} />
