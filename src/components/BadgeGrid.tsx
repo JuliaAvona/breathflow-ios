@@ -45,19 +45,27 @@ export function BadgeGrid({ badges, unlockedBadges }: BadgeGridProps) {
               {
                 marginRight: isLastInRow ? 0 : GAP,
                 backgroundColor: tintBg ?? theme.card,
-                borderColor: unlocked ? catColors.color + '30' : theme.border,
+                borderColor: unlocked ? catColors.color + '50' : theme.border,
+                borderStyle: unlocked ? 'solid' : 'dashed',
               },
             ]}
           >
             {/* Icon */}
             <View style={styles.iconCircle}>
               {unlocked ? (
-                <View style={[styles.lockCircle, { backgroundColor: theme.isDark ? catColors.cardTintDark : catColors.cardTint }]}>
-                  <Ionicons name={badge.icon as keyof typeof Ionicons.glyphMap} size={ICON_SIZE * 0.5} color={catColors.color} />
+                <View style={[styles.lockCircle, {
+                  backgroundColor: theme.isDark ? catColors.cardTintDark : catColors.cardTint,
+                  shadowColor: catColors.color,
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.4,
+                  shadowRadius: 10,
+                  elevation: 6,
+                }]}>
+                  <Ionicons name={badge.icon as keyof typeof Ionicons.glyphMap} size={ICON_SIZE * 0.55} color={catColors.color} />
                 </View>
               ) : (
                 <View style={[styles.lockCircle, { backgroundColor: theme.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)' }]}>
-                  <Ionicons name="lock-closed" size={20} color={theme.textSecondary + '40'} />
+                  <Ionicons name="lock-closed" size={24} color={theme.textSecondary + '60'} />
                 </View>
               )}
             </View>
@@ -106,11 +114,11 @@ const styles = StyleSheet.create({
   card: {
     width: CARD_WIDTH,
     alignItems: 'center',
-    paddingVertical: SPACING.sm + 4,
-    paddingHorizontal: SPACING.xs - 2,
+    paddingVertical: SPACING.sm + 6,
+    paddingHorizontal: SPACING.xs,
     overflow: 'hidden',
     marginBottom: GAP,
-    borderRadius: 10,
+    borderRadius: 14,
     borderWidth: 0.5,
   },
   iconCircle: {
@@ -132,10 +140,10 @@ const styles = StyleSheet.create({
     height: ICON_SIZE - 4,
   },
   title: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '700',
     textAlign: 'center',
-    lineHeight: 13,
+    lineHeight: 14,
     paddingHorizontal: 2,
     marginBottom: 2,
   },

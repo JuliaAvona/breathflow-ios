@@ -3,8 +3,8 @@ import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
-const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || 'https://placeholder.supabase.co';
-const SUPABASE_ANON_KEY = Constants.expoConfig?.extra?.supabaseAnonKey || 'placeholder';
+const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || '';
+const SUPABASE_ANON_KEY = Constants.expoConfig?.extra?.supabaseAnonKey || '';
 
 /** False when env vars are missing — used to skip network calls in dev without credentials */
 export const isSupabaseConfigured =

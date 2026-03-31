@@ -33,9 +33,34 @@
           <string>com.izbrodin90.breathflow</string>
         </array>
       </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb1301553358545331</string>
+        </array>
+      </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>14</string>
+    <string>1</string>
+    <key>FacebookAdvertiserIDCollectionEnabled</key>
+    <true/>
+    <key>FacebookAppID</key>
+    <string>1301553358545331</string>
+    <key>FacebookAutoInitEnabled</key>
+    <true/>
+    <key>FacebookAutoLogAppEventsEnabled</key>
+    <true/>
+    <key>FacebookClientToken</key>
+    <string>2cda6283a81d117ce9e47798ff5e97df</string>
+    <key>FacebookDisplayName</key>
+    <string>BreathFlow</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fb-messenger-api</string>
+      <string>fbauth2</string>
+      <string>fbshareextension</string>
+    </array>
     <key>LSMinimumSystemVersion</key>
     <string>12.0</string>
     <key>LSRequiresIPhoneOS</key>
@@ -50,9 +75,9 @@
     <key>NSFaceIDUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your Face ID biometric data.</string>
     <key>NSHealthShareUsageDescription</key>
-    <string>BreathFlow reads your weight and height to personalize your breathing exercises and provide accurate session insights.</string>
+    <string>BreathFlow uses Apple Health to track your mindfulness practice.</string>
     <key>NSHealthUpdateUsageDescription</key>
-    <string>BreathFlow saves your mindfulness sessions to Apple Health.</string>
+    <string>BreathFlow saves your breathing sessions as Mindful Minutes to Apple Health.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your microphone</string>
     <key>NSSupportsLiveActivities</key>
@@ -63,6 +88,17 @@
     </array>
     <key>RCTNewArchEnabled</key>
     <true/>
+    <key>SKAdNetworkItems</key>
+    <array>
+      <dict>
+        <key>SKAdNetworkIdentifier</key>
+        <string>v9wttpbfk9.skadnetwork</string>
+      </dict>
+      <dict>
+        <key>SKAdNetworkIdentifier</key>
+        <string>n38lu8286q.skadnetwork</string>
+      </dict>
+    </array>
     <key>UIBackgroundModes</key>
     <array>
       <string>audio</string>

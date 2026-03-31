@@ -15,7 +15,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.izbrodin90.breathflow',
-    buildNumber: '14',
+    buildNumber: '1',
     usesAppleSignIn: true,
     infoPlist: {
       UIBackgroundModes: ['audio'],
@@ -36,6 +36,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-router',
     'expo-apple-authentication',
     'expo-secure-store',
+    [
+      'react-native-fbsdk-next',
+      {
+        appID: process.env.FACEBOOK_APP_ID ?? '',
+        clientToken: process.env.FACEBOOK_CLIENT_TOKEN ?? '',
+        displayName: 'BreathFlow',
+        advertiserIDCollectionEnabled: true,
+        autoLogAppEventsEnabled: true,
+        isAutoInitEnabled: true,
+      },
+    ],
     [
       '@sentry/react-native/expo',
       {
