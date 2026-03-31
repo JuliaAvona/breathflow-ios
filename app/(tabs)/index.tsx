@@ -1,871 +1,1142 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
+  ScrollView,
   TouchableOpacity,
   StyleSheet,
-  Alert,
+  Dimensions,
   Animated,
-  Easing,
-  AppState,
+  Modal,
+  Pressable,
+  PanResponder,
+  ImageBackground,
+  Image,
+  LayoutAnimation,
+  UIManager,
+  Platform,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+import { LinearGradient } from 'expo-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { useTimerStore, useSettingsStore, useSessionsStore } from '../../src/store';
-import { useProfileStore } from '../../src/store/profileStore';
-import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
-import { useIntervalFeedback } from '../../src/hooks/useIntervalFeedback';
-import { ProgressRing } from '../../src/components/ProgressRing';
-import { formatTime, formatTotalTime, generateId, getToday } from '../../src/utils/time';
-import { estimateCaloriesMET } from '../../src/utils/calories';
-import {
-  isHealthKitAvailable,
-  getStepCountBetween,
-  getDistanceBetween,
-} from '../../src/utils/healthKit';
-import {
-  computePhaseTransitions,
-  schedulePhaseNotifications,
-  cancelPhaseNotifications,
-} from '../../src/utils/notifications';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SPACING, FONT_SIZE, SCREEN, scale } from '../../src/constants';
-import { startBackgroundAudio, stopBackgroundAudio } from '../../src/utils/backgroundAudio';
+import { useThemeColors } from '../../src/hooks/useColorScheme';
+import { useHaptics } from '../../src/hooks/useHaptics';
+import { useSettingsStore, useSessionsStore } from '../../src/store';
+import { TECHNIQUES } from '../../src/constants/techniques';
+import { SPACING, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
+import { getToday } from '../../src/utils/time';
+import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
+import { BreathingCircle } from '../../src/components/BreathingCircle';
+import { BreathingSquare } from '../../src/components/BreathingSquare';
+import { BreathingTriangle } from '../../src/components/BreathingTriangle';
+import { BreathingWave } from '../../src/components/BreathingWave';
+import { BreathingBurst } from '../../src/components/BreathingBurst';
+import { BreathingOval } from '../../src/components/BreathingOval';
+import { BreathingMandala } from '../../src/components/BreathingMandala';
 
-const RING_SIZE = SCREEN.width * 0.75;
+// Per-technique images (most specific)
+const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
+  box:            require('../../assets/bg_box.webp'),
+  fourSevenEight: require('../../assets/bg_478.webp'),
+  physioSigh:     require('../../assets/bg_physio_sigh.webp'),
+  coherence:      require('../../assets/bg_coherence.webp'),
+  triangle:       require('../../assets/bg_triangle.webp'),
+  power:          require('../../assets/bg_power.webp'),
+  fourFourSixTwo: require('../../assets/bg_four_four_six_two.webp'),
+  kapalabhati:    require('../../assets/bg_kapalabhati.webp'),
+  twoToOne:       require('../../assets/bg_two_to_one.webp'),
+  cyclicSigh:     require('../../assets/bg_cyclic_sigh.webp'),
+};
 
-// Module-level flag shared across all component instances to prevent duplicate session saves
-let sessionCompleteInProgress = false;
+// Category fallbacks
+const BG_IMAGES: Record<TechniqueCategory | 'all', ReturnType<typeof require>> = {
+  all:    require('../../assets/bg_focus.webp'),
+  calm:   require('../../assets/bg_focus.webp'),
+  sleep:  require('../../assets/bg_sleep.webp'),
+  focus:  require('../../assets/bg_focus.webp'),
+  energy: require('../../assets/bg_energy.webp'),
+};
 
-export default function TimerScreen() {
-  const { t } = useTranslation();
+// ─── Layout constants ────────────────────────────────────────────────────────
+
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const GRID_H_PADDING = 20;
+const GRID_GAP = 12;
+const CARD_WIDTH = (SCREEN_WIDTH - GRID_H_PADDING * 2 - GRID_GAP) / 2;
+
+// ─── Card gradient configs ───────────────────────────────────────────────────
+
+interface CardTheme {
+  bg: [string, string];
+  icon: keyof typeof Ionicons.glyphMap;
+}
+
+const CARD_THEMES: Record<string, CardTheme> = {
+  box:            { bg: ['#C2DEFF', '#8BB8F5'], icon: 'grid-outline' },
+  fourSevenEight: { bg: ['#D8C4F0', '#B896E0'], icon: 'moon-outline' },
+  physioSigh:     { bg: ['#B8E8D0', '#8AD4B0'], icon: 'leaf-outline' },
+  coherence:      { bg: ['#B8DAF0', '#7FBFDF'], icon: 'radio-outline' },
+  triangle:       { bg: ['#A8F0E8', '#70E0D4'], icon: 'triangle-outline' },
+  power:          { bg: ['#F5C4BC', '#F09888'], icon: 'flash-outline' },
+  fourFourSixTwo: { bg: ['#B8D0F0', '#88B0E0'], icon: 'water-outline' },
+  kapalabhati:    { bg: ['#FCE4A8', '#F5C85A'], icon: 'sunny-outline' },
+  twoToOne:       { bg: ['#D8C0F0', '#B890E0'], icon: 'cloudy-night-outline' },
+  cyclicSigh:     { bg: ['#B0E8C8', '#78D4A0'], icon: 'pulse-outline' },
+};
+
+// ─── Category tabs ──────────────────────────────────────────────────────────
+
+type FilterCategory = 'all' | TechniqueCategory;
+
+const CATEGORY_FILTERS: { key: FilterCategory; labelKey: string; icon: keyof typeof Ionicons.glyphMap }[] = [
+  { key: 'all', labelKey: 'home.categoryAll', icon: 'apps-outline' },
+  { key: 'calm', labelKey: 'home.categoryCalm', icon: 'leaf-outline' },
+  { key: 'sleep', labelKey: 'home.categorySleep', icon: 'moon-outline' },
+  { key: 'focus', labelKey: 'home.categoryFocus', icon: 'eye-outline' },
+  { key: 'energy', labelKey: 'home.categoryEnergy', icon: 'flash-outline' },
+];
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+// Maps instructionKey (short or full i18n key) to a display label
+const PHASE_LABELS: Record<string, string> = {
+  breatheIn: 'In',            'session.breatheIn': 'In',
+  breatheOut: 'Out',          'session.breatheOut': 'Out',
+  hold: 'Hold',               'session.hold': 'Hold',
+  holdOut: 'Hold',            'session.holdOut': 'Hold',
+  topUpInhale: 'Sip',
+};
+
+// Maps shape to a fallback icon for custom technique cards
+const SHAPE_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
+  circle:   'ellipse-outline',
+  square:   'square-outline',
+  triangle: 'triangle-outline',
+  wave:     'water-outline',
+  oval:     'ellipse-outline',
+  burst:    'flash-outline',
+};
+
+function formatDuration(totalSeconds: number): string {
+  const mins = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  if (mins === 0) return `${secs}s`;
+  if (secs === 0) return `${mins} min`;
+  return `${mins}:${String(secs).padStart(2, '0')}`;
+}
+
+function getDurationLabel(t: BreathingTechnique): string {
+  if (t.mode === 'power') {
+    const total = t.breathCount! * 2 * t.roundCount! + t.roundCount! * 90;
+    return `~${Math.round(total / 60)} min`;
+  }
+  if (t.mode === 'kapalabhati') {
+    const total = t.setCount! * t.setDuration! + (t.setCount! - 1) * t.restDuration!;
+    return formatDuration(total);
+  }
+  const cycleDur = t.phases.reduce((s, p) => s + p.duration, 0);
+  const total = t.defaultDuration ?? cycleDur * (t.defaultCycles || 6);
+  return formatDuration(total);
+}
+
+function getPatternString(technique: BreathingTechnique): string {
+  if (technique.mode === 'power') {
+    return `${technique.breathCount} breaths + hold × ${technique.roundCount} rounds`;
+  }
+  if (technique.mode === 'kapalabhati') {
+    return `${technique.setCount} × ${technique.setDuration}s rapid sets`;
+  }
+  return technique.phases
+    .map((p) => {
+      const label = PHASE_LABELS[p.instructionKey] ?? p.instructionKey;
+      const dur = p.duration % 1 === 0 ? `${p.duration}` : `${p.duration.toFixed(1)}`;
+      return `${label} ${dur}s`;
+    })
+    .join('  ·  ');
+}
+
+function getShortPattern(technique: BreathingTechnique, t: (key: string) => string): string {
+  if (technique.mode === 'power') {
+    return `${technique.breathCount} ${t('home.breaths')} · ${technique.roundCount} ${t('home.rounds')}`;
+  }
+  if (technique.mode === 'kapalabhati') {
+    return `${technique.setCount} ${t('home.sets')} · ${technique.setDuration}s`;
+  }
+  return technique.phases
+    .map((p) => (p.duration % 1 === 0 ? `${p.duration}` : `${p.duration.toFixed(1)}`))
+    .join('-');
+}
+
+// ─── TechniqueCard (grid card) ──────────────────────────────────────────────
+
+const CARD_WIDTH_FULL = SCREEN_WIDTH - GRID_H_PADDING * 2;
+
+interface TechniqueCardProps {
+  technique: BreathingTechnique;
+  isPro: boolean;
+  fullWidth?: boolean;
+  isRecommended?: boolean;
+  t: (key: string) => string;
+  onPress: (technique: BreathingTechnique) => void;
+}
+
+const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRecommended, fullWidth, t, onPress }: TechniqueCardProps) {
   const theme = useThemeColors();
-  const fontSize = useFontSize();
-  const timer = useTimerStore();
-  const settings = useSettingsStore();
-  const addSession = useSessionsStore((s) => s.addSession);
-  const healthEnabled = settings.healthIntegration && isHealthKitAvailable();
-
-  const { playIntervalSwitch, playSessionComplete, playCountdownBeep, playSessionStart } =
-    useIntervalFeedback();
-  const prevPhaseRef = useRef(timer.phase);
-
-  // Set up notification callbacks for phase transitions
-  useEffect(() => {
-    const getContent = (transition: { phase: string; round: number; totalRounds: number }) => {
-      switch (transition.phase) {
-        case 'FAST':
-          return {
-            title: t('notifications.phaseChangeToFast'),
-            body: t('notifications.phaseChangeToFastBody', {
-              round: transition.round,
-              total: transition.totalRounds,
-            }),
-          };
-        case 'SLOW':
-          return {
-            title: t('notifications.phaseChangeToSlow'),
-            body: t('notifications.phaseChangeToSlowBody', {
-              round: transition.round,
-              total: transition.totalRounds,
-            }),
-          };
-        case 'COOL_DOWN':
-          return {
-            title: t('notifications.phaseCoolDown'),
-            body: t('notifications.phaseCoolDownBody'),
-          };
-        case 'DONE':
-          return {
-            title: t('notifications.phaseComplete'),
-            body: t('notifications.phaseCompleteBody'),
-          };
-        default:
-          return { title: '', body: '' };
-      }
-    };
-
-    useTimerStore.getState().setNotificationCallbacks(
-      async (config) => {
-        await cancelPhaseNotifications();
-        const transitions = computePhaseTransitions(config);
-        await schedulePhaseNotifications(transitions, getContent);
-      },
-      () => {
-        cancelPhaseNotifications();
-      },
-    );
-  }, [t]);
-
-  // Pulse / breathing animation — varies by phase
-  const breathAnim = useRef(new Animated.Value(1)).current;
-
-  // Start button pulse ring
-  const pulseAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    breathAnim.stopAnimation();
-
-    if (timer.phase === 'FAST') {
-      // Quick energetic pulse: 0.8s cycle
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(breathAnim, {
-            toValue: 1.04,
-            duration: 400,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-          }),
-          Animated.timing(breathAnim, {
-            toValue: 1,
-            duration: 400,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-          }),
-        ]),
-      ).start();
-    } else if (timer.phase === 'SLOW') {
-      // Gentle breath: 4s cycle
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(breathAnim, {
-            toValue: 1.05,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-          }),
-          Animated.timing(breathAnim, {
-            toValue: 1,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-          }),
-        ]),
-      ).start();
-    } else if (timer.phase === 'WARM_UP' || timer.phase === 'COOL_DOWN') {
-      // Medium pulse: 2s cycle
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(breathAnim, {
-            toValue: 1.03,
-            duration: 1000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-          }),
-          Animated.timing(breathAnim, {
-            toValue: 1,
-            duration: 1000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-          }),
-        ]),
-      ).start();
-    } else {
-      Animated.timing(breathAnim, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [timer.phase]);
-
-  // Start button ripple pulse
-  useEffect(() => {
-    if (timer.phase === 'READY') {
-      Animated.loop(
-        Animated.timing(pulseAnim, {
-          toValue: 1,
-          duration: 2000,
-          easing: Easing.out(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ).start();
-    } else {
-      pulseAnim.stopAnimation();
-      pulseAnim.setValue(0);
-    }
-  }, [timer.phase]);
-
-  // Handle phase changes for feedback + Live Activity updates
-  useEffect(() => {
-    if (prevPhaseRef.current !== timer.phase) {
-      if (
-        (timer.phase === 'FAST' || timer.phase === 'SLOW') &&
-        prevPhaseRef.current !== 'READY' &&
-        prevPhaseRef.current !== 'PAUSED'
-      ) {
-        playIntervalSwitch();
-      }
-      if (
-        (timer.phase === 'WARM_UP' || timer.phase === 'FAST') &&
-        prevPhaseRef.current === 'READY'
-      ) {
-        playSessionStart();
-      }
-      if (timer.phase === 'DONE') {
-        playSessionComplete();
-        handleSessionComplete();
-      }
-
-      prevPhaseRef.current = timer.phase;
-    }
-  }, [timer.phase]);
-
-  // Timer tick — use setTimeout chain instead of setInterval to prevent double-tick
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    const activePhases = ['FAST', 'SLOW', 'WARM_UP', 'COOL_DOWN'];
-    if (!activePhases.includes(timer.phase)) return;
-
-    timeoutRef.current = setTimeout(() => {
-      const result = useTimerStore.getState().tick();
-      if (result.countdown) {
-        playCountdownBeep(result.timeRemaining);
-      }
-    }, 1000);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-    };
-  }, [timer.phase, timer.timeRemaining]);
-
-  // Background audio — keeps JS thread alive when phone is locked
-  useEffect(() => {
-    const activePhases = ['FAST', 'SLOW', 'WARM_UP', 'COOL_DOWN'];
-    if (activePhases.includes(timer.phase)) {
-      startBackgroundAudio();
-    } else {
-      stopBackgroundAudio();
-    }
-    return () => {
-      if (!activePhases.includes(useTimerStore.getState().phase)) {
-        stopBackgroundAudio();
-      }
-    };
-  }, [timer.phase]);
-
-  // Resync timer when returning from background (safety net)
-  useEffect(() => {
-    const activePhases = ['FAST', 'SLOW', 'WARM_UP', 'COOL_DOWN'];
-    const subscription = AppState.addEventListener('change', (nextState) => {
-      if (nextState === 'active') {
-        const state = useTimerStore.getState();
-        if (!activePhases.includes(state.phase) || !state.startedAt) return;
-
-        const realElapsed = Math.floor((Date.now() - state.startedAt) / 1000);
-        const drift = realElapsed - state.totalElapsed;
-
-        if (drift > 2) {
-          for (let i = 0; i < drift; i++) {
-            const current = useTimerStore.getState();
-            if (!activePhases.includes(current.phase)) break;
-            useTimerStore.getState().tick();
-          }
-
-          const synced = useTimerStore.getState();
-          if (activePhases.includes(synced.phase)) {
-            prevPhaseRef.current = synced.phase;
-          } else if (synced.phase === 'DONE') {
-            prevPhaseRef.current = 'DONE';
-            playSessionComplete();
-            handleSessionComplete();
-          }
-        }
-      }
-    });
-    return () => subscription.remove();
-  }, []);
-
-  const handleSessionComplete = useCallback(async () => {
-    if (sessionCompleteInProgress) return;
-    sessionCompleteInProgress = true;
-
-    const state = useTimerStore.getState();
-    const startedAt = state.startedAt || Date.now();
-    const completedAt = Date.now();
-
-    let steps: number | undefined;
-    let distance: number | undefined;
-    if (healthEnabled) {
-      const start = new Date(startedAt);
-      const end = new Date(completedAt);
-      steps = await getStepCountBetween(start, end) || undefined;
-      distance = await getDistanceBetween(start, end) || undefined;
-    }
-
-    const session = {
-      id: generateId(),
-      date: getToday(),
-      startedAt,
-      completedAt,
-      rounds: state.currentRound,
-      totalRounds: state.totalRounds,
-      fastDuration: state.fastElapsed,
-      slowDuration: state.slowElapsed,
-      totalDuration: state.totalElapsed,
-      estimatedCalories: estimateCaloriesMET(state.fastElapsed, state.slowElapsed, state.warmUpElapsed, state.coolDownElapsed, useProfileStore.getState().weight),
-      completed: true,
-      warmUp: state.warmUpEnabled,
-      coolDown: state.coolDownEnabled,
-      steps,
-      distance,
-    };
-    if (session.totalDuration > 0) {
-      addSession(session);
-      const saved = useSessionsStore.getState().sessions.some((s) => s.id === session.id);
-      if (!saved) {
-        sessionCompleteInProgress = false;
-        return;
-      }
-    } else {
-      sessionCompleteInProgress = false;
-      return;
-    }
-    stopBackgroundAudio();
-    router.replace({ pathname: '/summary', params: { sessionId: session.id } });
-    setTimeout(() => {
-      timer.reset();
-      sessionCompleteInProgress = false;
-    }, 300);
-  }, [healthEnabled]);
-
-  const handleStart = async () => {
-    // Request notification permission so phase change alerts work on Lock Screen
-    const { requestNotificationPermissions } = await import('../../src/utils/notifications');
-    await requestNotificationPermissions();
-
-    timer.start({
-      fastDuration: settings.fastInterval,
-      slowDuration: settings.slowInterval,
-      rounds: settings.roundCount,
-      warmUp: settings.warmUpEnabled,
-      coolDown: settings.coolDownEnabled,
-      warmUpDuration: settings.warmUpDuration,
-      coolDownDuration: settings.coolDownDuration,
-      startingPhase: settings.startingPhase,
-    });
+  const haptics = useHaptics();
+  const locked = technique.isPro && !isPro;
+  const cardTheme = CARD_THEMES[technique.id] ?? {
+    bg: [technique.color + '40', technique.color] as [string, string],
+    icon: (technique.icon ?? SHAPE_ICONS[technique.shape] ?? 'ellipse-outline') as keyof typeof Ionicons.glyphMap,
   };
 
-  const handleStop = () => {
-    Alert.alert(t('timer.endWalkTitle'), t('timer.endWalkMessage'), [
-      { text: t('timer.cancel'), style: 'cancel' },
-      {
-        text: t('timer.stop'),
-        style: 'destructive',
-        onPress: async () => {
-          if (timer.totalElapsed > 60) {
-            const state = useTimerStore.getState();
-            const startedAt = state.startedAt || Date.now();
-            const completedAt = Date.now();
+  const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[technique.category ?? 'calm'];
+  const scaleAnim = useRef(new Animated.Value(1)).current;
 
-            let steps: number | undefined;
-            let distance: number | undefined;
-            if (healthEnabled) {
-              const start = new Date(startedAt);
-              const end = new Date(completedAt);
-              steps = await getStepCountBetween(start, end) || undefined;
-              distance = await getDistanceBetween(start, end) || undefined;
-            }
+  const handlePressIn = useCallback(() => {
+    Animated.spring(scaleAnim, { toValue: 0.95, friction: 8, tension: 100, useNativeDriver: true }).start();
+  }, [scaleAnim]);
 
-            const session = {
-              id: generateId(),
-              date: getToday(),
-              startedAt,
-              completedAt,
-              rounds: state.currentRound,
-              totalRounds: state.totalRounds,
-              fastDuration: state.fastElapsed,
-              slowDuration: state.slowElapsed,
-              totalDuration: state.totalElapsed,
-              estimatedCalories: estimateCaloriesMET(state.fastElapsed, state.slowElapsed, state.warmUpElapsed, state.coolDownElapsed, useProfileStore.getState().weight),
-              completed: false,
-              warmUp: state.warmUpEnabled,
-              coolDown: state.coolDownEnabled,
-              steps,
-              distance,
-            };
-            addSession(session);
-            stopBackgroundAudio();
-            router.replace({ pathname: '/summary', params: { sessionId: session.id } });
-            setTimeout(() => timer.stop(), 300);
-          } else {
-            timer.stop();
-          }
-        },
-      },
-    ]);
-  };
+  const handlePressOut = useCallback(() => {
+    Animated.spring(scaleAnim, { toValue: 1, friction: 5, tension: 40, useNativeDriver: true }).start();
+  }, [scaleAnim]);
 
-  const isActive =
-    timer.phase === 'FAST' ||
-    timer.phase === 'SLOW' ||
-    timer.phase === 'WARM_UP' ||
-    timer.phase === 'COOL_DOWN';
-  const isPaused = timer.phase === 'PAUSED';
-  const isFast = timer.phase === 'FAST';
-  const isWarmUp = timer.phase === 'WARM_UP';
-  const isCoolDown = timer.phase === 'COOL_DOWN';
+  const handlePress = useCallback(() => {
+    haptics.light();
+    onPress(technique);
+  }, [onPress, technique, haptics]);
 
-  const getCurrentDuration = () => {
-    if (isFast) return timer.fastDuration;
-    if (isWarmUp) return timer.warmUpDuration;
-    if (isCoolDown) return timer.coolDownDuration;
-    if (isPaused) {
-      if (timer.phaseBeforePause === 'FAST') return timer.fastDuration;
-      if (timer.phaseBeforePause === 'WARM_UP') return timer.warmUpDuration;
-      if (timer.phaseBeforePause === 'COOL_DOWN') return timer.coolDownDuration;
-      return timer.slowDuration;
+  const handleLongPress = useCallback(() => {
+    haptics.medium();
+    if (!locked) {
+      router.push({ pathname: '/session', params: { techniqueId: technique.id } });
     }
-    return timer.slowDuration;
-  };
-
-  const currentDuration = getCurrentDuration();
-  const progress = isActive || isPaused ? timer.timeRemaining / currentDuration : 0;
-
-  const getPhaseColor = () => {
-    const phase = isPaused ? timer.phaseBeforePause : timer.phase;
-    if (phase === 'FAST') return theme.fast;
-    if (phase === 'WARM_UP') return theme.accentLight;
-    if (phase === 'COOL_DOWN') return theme.accentLight;
-    return theme.slow;
-  };
-
-  const ringColor = getPhaseColor();
-
-  const totalSessionTime =
-    (timer.fastDuration + timer.slowDuration) * timer.totalRounds +
-    (timer.warmUpEnabled ? timer.warmUpDuration : 0) +
-    (timer.coolDownEnabled ? timer.coolDownDuration : 0);
-
-  const getPhaseLabel = () => {
-    if (isPaused) return t('timer.paused');
-    if (isFast) return t('timer.fast');
-    if (timer.phase === 'SLOW') return t('timer.slow');
-    if (isWarmUp) return t('timer.warmUp');
-    if (isCoolDown) return t('timer.coolDown');
-    return '';
-  };
-
-  const getPhaseOverlay = () => {
-    if (isFast) return theme.fast + '14';
-    if (timer.phase === 'SLOW') return theme.slow + '14';
-    if (isWarmUp) return theme.accentLight + '14';
-    if (isCoolDown) return theme.accentLight + '14';
-    return 'transparent';
-  };
-
-  const showRound = isActive || isPaused;
-
-  // Build segmented progress bar data
-  const segments = useMemo(() => {
-    const segs: { type: 'warmup' | 'fast' | 'slow' | 'cooldown'; duration: number; round?: number }[] = [];
-    if (timer.warmUpEnabled) segs.push({ type: 'warmup', duration: timer.warmUpDuration });
-    const isSlowStart = timer.startingPhaseConfig === 'slow';
-    for (let r = 1; r <= timer.totalRounds; r++) {
-      if (isSlowStart) {
-        segs.push({ type: 'slow', duration: timer.slowDuration, round: r });
-        segs.push({ type: 'fast', duration: timer.fastDuration, round: r });
-      } else {
-        segs.push({ type: 'fast', duration: timer.fastDuration, round: r });
-        segs.push({ type: 'slow', duration: timer.slowDuration, round: r });
-      }
-    }
-    if (timer.coolDownEnabled) segs.push({ type: 'cooldown', duration: timer.coolDownDuration });
-    return segs;
-  }, [timer.warmUpEnabled, timer.coolDownEnabled, timer.warmUpDuration, timer.coolDownDuration,
-      timer.fastDuration, timer.slowDuration, timer.totalRounds, timer.startingPhaseConfig]);
-
-  // Calculate fill for each segment
-  const segmentFills = useMemo(() => {
-    if (!isActive && !isPaused) return segments.map(() => 0);
-    let elapsed = timer.totalElapsed;
-    return segments.map((seg) => {
-      if (elapsed >= seg.duration) {
-        elapsed -= seg.duration;
-        return 1;
-      }
-      const fill = elapsed / seg.duration;
-      elapsed = 0;
-      return fill;
-    });
-  }, [segments, timer.totalElapsed, isActive, isPaused]);
-
-  const getSegmentColor = (type: string) => {
-    switch (type) {
-      case 'fast': return theme.fast;
-      case 'slow': return theme.slow;
-      case 'warmup': return theme.accentLight;
-      case 'cooldown': return theme.accentLight;
-      default: return theme.fast;
-    }
-  };
+  }, [technique, locked, haptics]);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-      {(isActive || isPaused) && (
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: getPhaseOverlay() }]} pointerEvents="none" />
-      )}
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+    <TouchableOpacity
+      style={[styles.gridCard, { backgroundColor: theme.card }, fullWidth && { width: CARD_WIDTH_FULL }]}
+      onPress={handlePress}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      onLongPress={handleLongPress}
+      delayLongPress={500}
+      activeOpacity={1}
+      accessibilityLabel={t(technique.nameKey)}
+      accessibilityRole="button"
+    >
+      {/* Nature photo art area */}
+      <Image source={bgImage} style={styles.gridCardArt} resizeMode="cover" fadeDuration={0} />
+      <View style={[StyleSheet.absoluteFill, styles.gridCardArtOverlay]}>
+        <LinearGradient
+          colors={['rgba(0,0,0,0.30)', 'rgba(0,0,0,0.60)']}
+          style={StyleSheet.absoluteFill}
+        />
+        <Ionicons name={cardTheme.icon} size={36} color="rgba(255,255,255,0.75)" />
 
-      {timer.phase === 'READY' ? (
-        <>
-          <View style={styles.header}>
-            <TouchableOpacity
-              style={[styles.soundToggle, { backgroundColor: settings.soundEnabled ? theme.primary + '18' : theme.surface }]}
-              onPress={() => settings.update({ soundEnabled: !settings.soundEnabled })}
-              activeOpacity={0.7}
-            >
-              <Ionicons
-                name={settings.soundEnabled ? 'volume-high' : 'volume-mute'}
-                size={22}
-                color={settings.soundEnabled ? theme.primary : theme.textSecondary}
-              />
-            </TouchableOpacity>
+        {/* Recommended badge */}
+        {isRecommended && (
+          <View style={styles.recommendedBadge}>
+            <Ionicons name="star" size={10} color="#FFF" />
           </View>
-          <View style={styles.timerContainer}>
-            <View style={styles.readyContainer}>
-              <Text style={[styles.readyTitle, { color: theme.text, fontSize: fontSize.xxl }]} numberOfLines={2} adjustsFontSizeToFit>
-                {t('timer.readyTitle')}
-              </Text>
-              <Text style={[styles.readySubtitle, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-                {settings.startingPhase === 'slow'
-                  ? t('timer.readySubtitleSlowFirst', {
-                      rounds: settings.roundCount,
-                      fast: formatTime(settings.fastInterval),
-                      slow: formatTime(settings.slowInterval),
-                    })
-                  : t('timer.readySubtitle', {
-                      rounds: settings.roundCount,
-                      fast: formatTime(settings.fastInterval),
-                      slow: formatTime(settings.slowInterval),
-                    })}
-              </Text>
-              {(settings.warmUpEnabled || settings.coolDownEnabled) && (
-                <Text style={[styles.readyInfo, { color: theme.textSecondary }]}>
-                  {settings.warmUpEnabled ? t('timer.warmUpInfo') : ''}
-                  {settings.warmUpEnabled && settings.coolDownEnabled ? ' & ' : ''}
-                  {settings.coolDownEnabled ? t('timer.coolDownInfo') : ''}
-                </Text>
-              )}
-              <View style={styles.startButtonWrapper}>
-                <Animated.View
-                  style={[
-                    styles.startPulseRing,
-                    {
-                      borderColor: theme.primary,
-                      opacity: pulseAnim.interpolate({ inputRange: [0, 1], outputRange: [0.4, 0] }),
-                      transform: [{ scale: pulseAnim.interpolate({ inputRange: [0, 1], outputRange: [1, 1.5] }) }],
-                    },
-                  ]}
-                />
-                <TouchableOpacity
-                  style={[styles.startButton, { backgroundColor: theme.primary, shadowColor: theme.primary }]}
-                  onPress={handleStart}
-                  activeOpacity={0.8}
-                  accessibilityLabel={t('timer.start')}
-                  accessibilityRole="button"
-                >
-                  <Ionicons name="play" size={RING_SIZE * 0.18} color={COLORS.white} style={{ marginLeft: RING_SIZE * 0.02 }} />
-                </TouchableOpacity>
-              </View>
-            </View>
+        )}
+
+        {/* PRO badge */}
+        {locked && (
+          <View style={styles.proBadge}>
+            <Ionicons name="diamond" size={9} color="#FFF" />
+            <Text style={styles.proBadgeText}>PRO</Text>
           </View>
-        </>
-      ) : (
-        <>
-          <View style={styles.header}>
-            <TouchableOpacity
-              style={[styles.soundToggle, { backgroundColor: settings.soundEnabled ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.08)' }]}
-              onPress={() => settings.update({ soundEnabled: !settings.soundEnabled })}
-              activeOpacity={0.7}
-            >
-              <Ionicons
-                name={settings.soundEnabled ? 'volume-high' : 'volume-mute'}
-                size={22}
-                color={settings.soundEnabled ? ringColor : theme.textSecondary}
-              />
-            </TouchableOpacity>
-          </View>
-          {/* Active timer — single centered column */}
-          <View style={styles.activeContainer}>
-            <Text
-              style={[styles.bigPhaseLabel, { color: ringColor }]}
-              accessibilityLabel={getPhaseLabel()}
-              numberOfLines={1}
-              adjustsFontSizeToFit
-            >
-              {getPhaseLabel()}
-            </Text>
+        )}
+      </View>
 
-            {showRound && (
-              <View style={styles.roundInfoBlock}>
-                <Text style={[styles.roundLabel, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-                  {t('timer.roundOf', {
-                    current: timer.currentRound,
-                    total: timer.totalRounds,
-                  })}
-                </Text>
-                <Text style={[styles.totalOfLabel, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-                  {t('timer.totalOf', {
-                    elapsed: formatTotalTime(timer.totalElapsed),
-                    total: formatTotalTime(totalSessionTime),
-                  })}
-                </Text>
-              </View>
-            )}
+      {/* Info */}
+      <View style={styles.gridCardInfo}>
+        <Text style={[styles.gridCardName, { color: theme.text }]} numberOfLines={2}>
+          {t(technique.nameKey)}
+        </Text>
+        <Text style={[styles.gridCardDuration, { color: theme.textSecondary }]} numberOfLines={1}>
+          {getShortPattern(technique, t)}
+        </Text>
+      </View>
+    </TouchableOpacity>
+    </Animated.View>
+  );
+});
 
-            <Animated.View style={{ transform: [{ scale: breathAnim }] }}>
-              <ProgressRing
-                progress={progress}
-                size={RING_SIZE}
-                strokeWidth={12}
-                color={ringColor}
-              >
-                <Text
-                  style={[styles.timeText, { color: theme.text, fontSize: fontSize.timer }]}
-                  accessibilityLabel={t('timer.timeRemaining', { minutes: Math.floor(timer.timeRemaining / 60), seconds: timer.timeRemaining % 60 })}
-                >
-                  {formatTime(timer.timeRemaining)}
-                </Text>
-                {timer.countdownActive && (
-                  <Text style={[styles.countdownHint, { color: ringColor, fontSize: fontSize.sm }]}>
-                    {t('timer.getReady')}
-                  </Text>
-                )}
-              </ProgressRing>
-            </Animated.View>
+// ─── Shape preview helper ────────────────────────────────────────────────────
 
-            <View style={styles.controls}>
-              <TouchableOpacity
-                style={[styles.controlButton, { backgroundColor: ringColor }]}
-                onPress={isPaused ? timer.resume : timer.pause}
-                activeOpacity={0.8}
-                accessibilityLabel={isPaused ? t('timer.resume') : t('timer.pause')}
-                accessibilityRole="button"
-              >
-                <Ionicons name={isPaused ? 'play' : 'pause'} size={18} color={COLORS.white} />
-                <Text style={[styles.controlButtonText, { fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>
-                  {isPaused ? t('timer.resume') : t('timer.pause')}
-                </Text>
-              </TouchableOpacity>
+/**
+ * Renders the technique's breathing shape as a live animated preview inside
+ * the detail sheet header gradient.
+ *
+ * Design notes:
+ * - Always uses mode='standard' + phase='INHALE' so every shape component
+ *   runs its expand animation regardless of the technique's real timer mode.
+ *   (Power/Kapalabhati shapes only animate on BREATHING/RAPID_SET in their
+ *   own mode, so passing 'standard' ensures a visible preview for all shapes.)
+ * - The outer View is fixed at PREVIEW_BOX × PREVIEW_BOX with overflow hidden
+ *   so the inner shape (which may be 180–220px) is clipped and scaled without
+ *   affecting the header's layout height.
+ */
+const PREVIEW_BOX = 100;
 
-              <TouchableOpacity
-                style={[styles.controlButton, styles.endButton, { borderColor: theme.border }]}
-                onPress={handleStop}
-                activeOpacity={0.8}
-                accessibilityLabel={t('timer.stop')}
-                accessibilityRole="button"
-              >
-                <Ionicons name="stop" size={18} color={theme.textSecondary} />
-                <Text style={[styles.endButtonText, { color: theme.textSecondary, fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>{t('timer.stop')}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </>
-      )}
+function TechniqueShapePreview({ technique }: { technique: BreathingTechnique }) {
+  const shapeProps = {
+    phase: 'INHALE' as const,
+    mode: 'standard',           // always standard so INHALE path runs in every component
+    color: 'rgba(255,255,255,0.75)',
+    phaseDuration: 3,
+  };
 
+  let shape: React.ReactElement;
+  switch (technique.shape) {
+    case 'square':   shape = <BreathingSquare   {...shapeProps} />; break;
+    case 'triangle': shape = <BreathingTriangle  {...shapeProps} />; break;
+    case 'wave':     shape = <BreathingWave      {...shapeProps} />; break;
+    case 'burst':    shape = <BreathingBurst     {...shapeProps} />; break;
+    case 'oval':     shape = <BreathingOval      {...shapeProps} />; break;
+    case 'circle':
+    default:         shape = <BreathingCircle    {...shapeProps} />; break;
+  }
 
-
-      {(isActive || isPaused) && (
-        <View style={styles.segmentedBarContainer}>
-          {segments.map((seg, i) => {
-            const fill = segmentFills[i];
-            const color = getSegmentColor(seg.type);
-            const weight = seg.duration / totalSessionTime;
-            return (
-              <View
-                key={i}
-                style={[
-                  styles.segmentTrack,
-                  {
-                    flex: weight,
-                    backgroundColor: `${color}20`,
-                    marginLeft: i === 0 ? 0 : 2,
-                  },
-                ]}
-              >
-                <View
-                  style={[
-                    styles.segmentFill,
-                    {
-                      width: `${fill * 100}%`,
-                      backgroundColor: color,
-                    },
-                  ]}
-                />
-              </View>
-            );
-          })}
-        </View>
-      )}
-    </SafeAreaView>
+  return (
+    // Fixed-size clipping box — prevents the shape's layout dimensions from
+    // expanding the header gradient height.
+    <View style={shapePreviewBoxStyle}>
+      {/* Scale down and center the shape absolutely so it doesn't affect layout */}
+      <View style={shapePreviewInnerStyle} pointerEvents="none">
+        {shape}
+      </View>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
+const shapePreviewBoxStyle: import('react-native').ViewStyle = {
+  width: PREVIEW_BOX,
+  height: PREVIEW_BOX,
+  overflow: 'hidden',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const shapePreviewInnerStyle: import('react-native').ViewStyle = {
+  position: 'absolute',
+  transform: [{ scale: 0.42 }],
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+// ─── Technique Detail Sheet ─────────────────────────────────────────────────
+
+interface DetailSheetProps {
+  technique: BreathingTechnique | null;
+  visible: boolean;
+  onClose: () => void;
+  onStart: (technique: BreathingTechnique) => void;
+  isPro: boolean;
+  t: (key: string) => string;
+  theme: ReturnType<typeof useThemeColors>;
+}
+
+const DISMISS_THRESHOLD = 120;
+
+function TechniqueDetailSheet({ technique, visible, onClose, onStart, isPro, t, theme }: DetailSheetProps) {
+  const insets = useSafeAreaInsets();
+  const dragY = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (visible) {
+      dragY.setValue(0);
+      Animated.spring(slideAnim, { toValue: 1, useNativeDriver: true, damping: 20, stiffness: 200 }).start();
+    } else {
+      slideAnim.setValue(0);
+    }
+  }, [visible, slideAnim, dragY]);
+
+  const dismissSheet = useCallback(() => {
+    Animated.timing(dragY, { toValue: 600, duration: 250, useNativeDriver: true }).start(() => {
+      onClose();
+    });
+  }, [dragY, onClose]);
+
+  const panResponder = useMemo(() =>
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, g) => g.dy > 8,
+      onPanResponderMove: (_, g) => {
+        if (g.dy > 0) dragY.setValue(g.dy);
+      },
+      onPanResponderRelease: (_, g) => {
+        if (g.dy > DISMISS_THRESHOLD || g.vy > 0.5) {
+          dismissSheet();
+        } else {
+          Animated.spring(dragY, { toValue: 0, useNativeDriver: true, damping: 20, stiffness: 300 }).start();
+        }
+      },
+    }),
+  [dragY, dismissSheet]);
+
+  if (!technique) return null;
+
+  const cardTheme = CARD_THEMES[technique.id] ?? {
+    bg: [technique.color + '55', technique.color] as [string, string],
+    icon: (SHAPE_ICONS[technique.shape] ?? 'ellipse-outline') as keyof typeof Ionicons.glyphMap,
+  };
+  const locked = technique.isPro && !isPro;
+  const detailKey = `techniques.${technique.id}.detail`;
+  const hasDetail = !technique.id.startsWith('custom_');
+  const categoryLabel = t(`home.category${technique.category.charAt(0).toUpperCase() + technique.category.slice(1)}`);
+
+  const translateY = Animated.add(
+    slideAnim.interpolate({ inputRange: [0, 1], outputRange: [600, 0] }),
+    dragY,
+  );
+
+  return (
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+      <View style={sheetStyles.overlay}>
+        {/* Tapping the backdrop closes the sheet */}
+        <Pressable style={StyleSheet.absoluteFill} onPress={dismissSheet} />
+        <Animated.View
+          {...panResponder.panHandlers}
+          style={[
+            sheetStyles.sheet,
+            { backgroundColor: theme.surface, paddingBottom: insets.bottom + 16, transform: [{ translateY }] },
+          ]}
+        >
+          {/* Handle bar */}
+          <View style={sheetStyles.handleBar} />
+
+          {/* Header with gradient */}
+          <LinearGradient
+            colors={cardTheme.bg}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={sheetStyles.headerGradient}
+          >
+            <TechniqueShapePreview technique={technique} />
+            {locked && (
+              <View style={sheetStyles.proBadgeSheet}>
+                <Ionicons name="lock-closed" size={12} color="rgba(255,255,255,0.9)" />
+                <Text style={sheetStyles.proBadgeText}>{t('techniqueDetail.pro')}</Text>
+              </View>
+            )}
+          </LinearGradient>
+
+          {/* Content */}
+          <View style={sheetStyles.content}>
+            <Text style={[sheetStyles.name, { color: theme.text }]}>
+              {t(technique.nameKey)}
+            </Text>
+            <Text style={[sheetStyles.description, { color: theme.textSecondary }]}>
+              {t(technique.descriptionKey)}
+            </Text>
+
+            {/* Info pills */}
+            <View style={sheetStyles.pillsRow}>
+              <View style={[sheetStyles.infoPill, { backgroundColor: theme.background }]}>
+                <Ionicons name="time-outline" size={14} color={theme.textSecondary} />
+                <Text style={[sheetStyles.infoPillText, { color: theme.text }]}>
+                  {getDurationLabel(technique)}
+                </Text>
+              </View>
+              <View style={[sheetStyles.infoPill, { backgroundColor: theme.background }]}>
+                <Ionicons name="apps-outline" size={14} color={theme.textSecondary} />
+                <Text style={[sheetStyles.infoPillText, { color: theme.text }]}>
+                  {categoryLabel}
+                </Text>
+              </View>
+            </View>
+
+            {/* Pattern */}
+            <View style={[sheetStyles.patternBox, { backgroundColor: theme.background }]}>
+              <Text style={[sheetStyles.patternLabel, { color: theme.textSecondary }]}>
+                {t('techniqueDetail.pattern')}
+              </Text>
+              <Text style={[sheetStyles.patternValue, { color: theme.text }]}>
+                {getPatternString(technique)}
+              </Text>
+            </View>
+
+            {/* Detailed description — only for built-in techniques */}
+            {hasDetail && (
+              <Text style={[sheetStyles.detail, { color: theme.textSecondary }]}>
+                {t(detailKey)}
+              </Text>
+            )}
+
+            {/* Start / Unlock button */}
+            {locked ? (
+              <TouchableOpacity
+                style={[sheetStyles.startBtn, { backgroundColor: '#4A90D9' }]}
+                onPress={() => { onClose(); router.push('/paywall'); }}
+                activeOpacity={0.85}
+              >
+                <Ionicons name="lock-open-outline" size={20} color="#FFFFFF" />
+                <Text style={sheetStyles.startBtnText}>
+                  {t('paywall.unlockPro')}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[sheetStyles.startBtn, { backgroundColor: technique.color }]}
+                onPress={() => onStart(technique)}
+                activeOpacity={0.85}
+              >
+                <Ionicons name="play" size={20} color="#FFFFFF" />
+                <Text style={sheetStyles.startBtnText}>
+                  {t('techniqueDetail.start')}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </Animated.View>
+      </View>
+    </Modal>
+  );
+}
+
+const sheetStyles = StyleSheet.create({
+  overlay: {
     flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
+    backgroundColor: 'rgba(0,0,0,0.4)',
     justifyContent: 'flex-end',
-    paddingTop: SPACING.sm,
-    paddingHorizontal: SPACING.lg,
-    minHeight: 50,
   },
-  soundToggle: {
-    width: scale(46),
-    height: scale(46),
-    borderRadius: scale(23),
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bigPhaseLabel: {
-    fontSize: 28,
-    fontWeight: '800',
-    letterSpacing: 3,
-    textTransform: 'uppercase',
-    marginBottom: SPACING.sm,
-  },
-  activeContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: SPACING.md,
-  },
-  timerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  readyContainer: {
-    alignItems: 'center',
-  },
-  readyTitle: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: '700',
-    marginBottom: SPACING.sm,
-    textAlign: 'center',
-  },
-  readySubtitle: {
-    fontSize: FONT_SIZE.md,
-    textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: SPACING.sm,
-  },
-  readyInfo: {
-    fontSize: FONT_SIZE.sm,
-    marginBottom: SPACING.xl,
-  },
-  startButtonWrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: SPACING.md,
-    width: scale(220),
-    height: scale(220),
-  },
-  startPulseRing: {
-    position: 'absolute',
-    width: scale(160),
-    height: scale(160),
-    borderRadius: scale(80),
-    borderWidth: 3,
-  },
-  startButton: {
-    width: scale(160),
-    height: scale(160),
-    borderRadius: scale(80),
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-  startButtonText: {
-    color: COLORS.white,
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
-    letterSpacing: 2,
-  },
-  timeText: {
-    fontSize: FONT_SIZE.timer,
-    fontWeight: '800',
-    fontVariant: ['tabular-nums'],
-  },
-  roundInfoBlock: {
-    alignItems: 'center',
-    marginTop: SPACING.md,
-    marginBottom: SPACING.lg,
-  },
-  roundLabel: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '700',
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
-  totalOfLabel: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '600',
-    marginTop: SPACING.sm,
-    textAlign: 'center',
-    fontVariant: ['tabular-nums'],
-  },
-  countdownHint: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '600',
-    marginTop: SPACING.sm,
-  },
-  controls: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: SPACING.md,
-    marginTop: SPACING.xl,
-    paddingHorizontal: SPACING.lg,
-  },
-  controlButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: SPACING.xs,
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.md,
-    borderRadius: 30,
-  },
-  endButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 1.5,
-  },
-  controlButtonText: {
-    color: COLORS.white,
-    fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
-    letterSpacing: 1,
-  },
-  endButtonText: {
-    fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
-    letterSpacing: 1,
-  },
-  segmentedBarContainer: {
-    flexDirection: 'row',
-    height: 6,
-    paddingHorizontal: SPACING.md,
-    paddingBottom: SPACING.xs,
-  },
-  segmentTrack: {
-    height: 6,
-    borderRadius: 3,
+  sheet: {
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
     overflow: 'hidden',
   },
-  segmentFill: {
-    height: 6,
-    borderRadius: 3,
+  handleBar: {
+    width: 36,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: 'rgba(128,128,128,0.3)',
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 8,
   },
+  headerGradient: {
+    height: 140,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  proBadgeSheet: {
+    position: 'absolute',
+    top: 10,
+    right: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  proBadgeText: {
+    fontSize: 11,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+  content: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+  },
+  name: {
+    fontSize: 22,
+    fontFamily: FONTS.heavy,
+    letterSpacing: -0.4,
+    marginBottom: 4,
+  },
+  description: {
+    fontSize: 15,
+    fontFamily: FONTS.medium,
+    lineHeight: 21,
+    marginBottom: 14,
+  },
+  pillsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 14,
+  },
+  infoPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+  },
+  infoPillText: {
+    fontSize: 13,
+    fontFamily: FONTS.semibold,
+  },
+  patternBox: {
+    padding: 14,
+    borderRadius: 12,
+    marginBottom: 14,
+  },
+  patternLabel: {
+    fontSize: 11,
+    fontFamily: FONTS.bold,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 6,
+  },
+  patternValue: {
+    fontSize: 15,
+    fontFamily: FONTS.semibold,
+    letterSpacing: -0.2,
+  },
+  detail: {
+    fontSize: 14,
+    fontFamily: FONTS.regular,
+    lineHeight: 21,
+    marginBottom: 20,
+  },
+  startBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 16,
+    borderRadius: 16,
+  },
+  startBtnText: {
+    fontSize: 17,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+});
+
+// ─── (BreathingSphere removed — replaced by BreathingMandala in hero) ───────
+
+// ─── HomeScreen ──────────────────────────────────────────────────────────────
+
+export default function HomeScreen() {
+  const { t } = useTranslation();
+  const theme = useThemeColors();
+  const insets = useSafeAreaInsets();
+  const isPro = useSettingsStore((s) => s.isPro);
+  const selectedGoal = useSettingsStore((s) => s.selectedGoal);
+  const recommendedTechniqueId = useSettingsStore((s) => s.recommendedTechniqueId);
+  const stats = useSessionsStore((s) => s.stats);
+  const sessions = useSessionsStore((s) => s.sessions);
+
+  const todayStr = useMemo(() => getToday(), []);
+  const todaySessions = useMemo(() => sessions.filter(s => s.date === todayStr), [sessions, todayStr]);
+
+  const greeting = useMemo(() => {
+    const h = new Date().getHours();
+    if (h < 12) return t('home.goodMorning', { defaultValue: 'Good morning' });
+    if (h < 18) return t('home.goodAfternoon', { defaultValue: 'Good afternoon' });
+    return t('home.goodEvening', { defaultValue: 'Good evening' });
+  }, [t]);
+
+  const [activeCategory, setActiveCategory] = useState<FilterCategory>(
+    selectedGoal ?? 'all',
+  );
+  const [selectedTechnique, setSelectedTechnique] = useState<BreathingTechnique | null>(null);
+
+  const homeHaptics = useHaptics();
+  const handleCategoryChange = useCallback((cat: FilterCategory) => {
+    homeHaptics.light();
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setActiveCategory(cat);
+  }, [homeHaptics]);
+
+  const categoryKeys = CATEGORY_FILTERS.map((c) => c.key);
+
+  const swipePanResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, g) =>
+        Math.abs(g.dx) > 25 && Math.abs(g.dy) < 40,
+      onPanResponderRelease: (_, g) => {
+        if (Math.abs(g.dx) < 40) return;
+        setActiveCategory((current) => {
+          const idx = categoryKeys.indexOf(current);
+          if (g.dx < 0 && idx < categoryKeys.length - 1) {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            return categoryKeys[idx + 1];
+          }
+          if (g.dx > 0 && idx > 0) {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            return categoryKeys[idx - 1];
+          }
+          return current;
+        });
+      },
+    }),
+  ).current;
+
+  const filteredTechniques = useMemo(() => {
+    if (activeCategory === 'all') return TECHNIQUES;
+    return TECHNIQUES.filter((tech) => tech.category === activeCategory);
+  }, [activeCategory]);
+
+
+  const handleQuickStart = () => {
+    const id = recommendedTechniqueId ?? 'coherence';
+    router.push({ pathname: '/technique-detail', params: { techniqueId: id } });
+  };
+
+  const handleCardPress = useCallback((technique: BreathingTechnique) => {
+    router.push({ pathname: '/technique-detail', params: { techniqueId: technique.id } });
+  }, []);
+
+  const handleStartFromSheet = useCallback((technique: BreathingTechnique) => {
+    setSelectedTechnique(null);
+    router.push({ pathname: '/session', params: { techniqueId: technique.id } });
+  }, []);
+
+  const gridRows: BreathingTechnique[][] = [];
+  for (let i = 0; i < filteredTechniques.length; i += 2) {
+    gridRows.push(filteredTechniques.slice(i, i + 2));
+  }
+
+  const heroBg = BG_IMAGES['all'];
+
+  return (
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* ── Hero area with image background ── */}
+        <ImageBackground
+          source={heroBg}
+          resizeMode="cover"
+          style={[styles.heroArea, { paddingTop: insets.top + 12 }]}
+        >
+          <LinearGradient
+            colors={
+              theme.isDark
+                ? ['#000000AA', '#00000055', `${theme.background}FF`]
+                : ['#00000066', '#00000044', `${theme.background}FF`]
+            }
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+
+          {/* Top bar: greeting */}
+          <View style={styles.heroTopBar}>
+            <Text style={styles.greetingText}>{greeting}</Text>
+          </View>
+
+          {/* Mandala — tap to start quick session */}
+          <TouchableOpacity style={styles.orbWrapper} onPress={handleQuickStart} activeOpacity={0.85}>
+            <BreathingMandala phase="IDLE" color="#4A90D9" size={scale(180)} />
+          </TouchableOpacity>
+
+          {/* Tap hint — hidden after 3 sessions */}
+          {stats.totalSessions < 3 && (
+            <Text style={styles.tapHint}>{t('home.tapToBreathe', { defaultValue: 'Tap to breathe' })}</Text>
+          )}
+
+          {/* All-time stats (hidden for newcomers) */}
+          {stats.totalSessions > 0 && (
+            <View style={styles.todayCard}>
+              <View style={styles.todayStat}>
+                <Ionicons name="leaf-outline" size={16} color="#7BC4A8" />
+                <Text style={styles.todayValue}>{stats.totalSessions}</Text>
+                <Text style={styles.todayLabel}>{t('home.totalSessions', { defaultValue: 'sessions' })}</Text>
+              </View>
+              <View style={styles.todayDivider} />
+              <View style={styles.todayStat}>
+                <Ionicons name="time-outline" size={16} color="#4A90D9" />
+                <Text style={styles.todayValue}>{stats.totalMinutes}</Text>
+                <Text style={styles.todayLabel}>{t('home.totalMin', { defaultValue: 'min' })}</Text>
+              </View>
+              {stats.currentStreak > 0 && (
+                <>
+                  <View style={styles.todayDivider} />
+                  <View style={styles.todayStat}>
+                    <Ionicons name="flame-outline" size={16} color="#F5A623" />
+                    <Text style={styles.todayValue}>{stats.currentStreak}</Text>
+                    <Text style={styles.todayLabel}>{t('home.streak', { defaultValue: 'streak' })}</Text>
+                  </View>
+                </>
+              )}
+            </View>
+          )}
+
+          {/* No sessions today — tappable */}
+          {todaySessions.length === 0 && stats.totalSessions > 0 && (
+            <TouchableOpacity onPress={handleQuickStart} activeOpacity={0.7}>
+              <Text style={styles.todayEmpty}>{t('home.noSessionToday', { defaultValue: 'No sessions today — tap to breathe!' })}</Text>
+            </TouchableOpacity>
+          )}
+
+        </ImageBackground>
+
+        {/* ── Category filter tabs ── */}
+        <View style={styles.categoryRow}>
+          {CATEGORY_FILTERS.map((cat) => {
+            const isActive = cat.key === activeCategory;
+            return (
+              <TouchableOpacity
+                key={cat.key}
+                style={[
+                  styles.categoryPill,
+                  isActive
+                    ? { backgroundColor: theme.primary, borderColor: theme.primary }
+                    : {
+                        backgroundColor: theme.isDark ? 'rgba(255,255,255,0.08)' : theme.card,
+                        borderColor: theme.isDark ? 'rgba(255,255,255,0.12)' : theme.border,
+                      },
+                ]}
+                onPress={() => handleCategoryChange(cat.key)}
+                activeOpacity={0.7}
+              >
+                <Text
+                  style={[
+                    styles.categoryPillText,
+                    { color: isActive ? '#FFFFFF' : theme.isDark ? 'rgba(255,255,255,0.6)' : theme.textSecondary },
+                    isActive && { fontFamily: FONTS.bold },
+                  ]}
+                >
+                  {t(cat.labelKey)}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        {/* ── Technique grid ── */}
+        <View style={styles.grid} {...swipePanResponder.panHandlers}>
+          {gridRows.map((row, rowIndex) => (
+            <View key={rowIndex} style={styles.gridRow}>
+              {row.map((tech) => (
+                <TechniqueCard
+                  key={tech.id}
+                  technique={tech}
+                  isPro={isPro}
+                  isRecommended={tech.id === recommendedTechniqueId}
+                  t={t}
+                  onPress={handleCardPress}
+                />
+              ))}
+              {row.length === 1 && <View style={{ width: CARD_WIDTH }} />}
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+
+      {/* ── Technique detail bottom sheet ── */}
+      <TechniqueDetailSheet
+        technique={selectedTechnique}
+        visible={selectedTechnique !== null}
+        onClose={() => setSelectedTechnique(null)}
+        onStart={handleStartFromSheet}
+        isPro={isPro}
+        t={t}
+        theme={theme}
+      />
+    </View>
+  );
+}
+
+// ─── Styles ──────────────────────────────────────────────────────────────────
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  scrollContent: { paddingBottom: SPACING.xxl + SPACING.lg },
+
+  // Hero
+  heroArea: {
+    alignItems: 'center',
+    paddingBottom: 24,
+  },
+  heroTopBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 24,
+    marginBottom: 4,
+  },
+  streakBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: BORDER_RADIUS.full,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  streakText: { fontSize: 14, fontFamily: FONTS.bold, color: '#FFFFFF' },
+
+  heroTopRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  greetingText: {
+    fontSize: 20,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: -0.3,
+  },
+  orbWrapper: {
+    marginVertical: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tapHint: {
+    fontSize: 14,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.6)',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  todayCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 14,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    marginBottom: 12,
+    gap: 16,
+  },
+  todayStat: {
+    alignItems: 'center',
+  },
+  todayValue: {
+    fontSize: 20,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+  },
+  todayLabel: {
+    fontSize: 12,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.7)',
+  },
+  todayDivider: {
+    width: 1,
+    height: 28,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  todayEmpty: {
+    fontSize: 14,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.6)',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+
+  // Quick start widget
+  quickWidget: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginHorizontal: 24,
+    marginBottom: 16,
+    gap: 12,
+  },
+  quickWidgetInfo: {
+    flex: 1,
+  },
+  quickWidgetName: {
+    fontSize: 16,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+  quickWidgetPattern: {
+    fontSize: 13,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.7)',
+    marginTop: 2,
+  },
+  quickWidgetPlay: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  // Start button (legacy)
+  startButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: BORDER_RADIUS.full,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    paddingLeft: 14,
+    gap: 10,
+    marginBottom: 16,
+    minWidth: SCREEN_WIDTH * 0.6,
+    justifyContent: 'center',
+  },
+  startButtonMinutes: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: BORDER_RADIUS.full,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  startButtonMinutesText: {
+    fontSize: 14,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+  startButtonLabel: {
+    fontSize: 18,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+    letterSpacing: -0.3,
+  },
+
+  // Duration row
+  durationRow: {
+    flexDirection: 'row',
+    gap: 6,
+    justifyContent: 'center',
+  },
+  durationPill: {
+    width: 38,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  durationPillActive: {
+    backgroundColor: 'rgba(0,0,0,0.35)',
+  },
+  durationPillText: {
+    fontSize: 14,
+    fontFamily: FONTS.semibold,
+    color: 'rgba(255,255,255,0.7)',
+  },
+  durationPillTextActive: {
+    color: '#FFFFFF',
+    fontFamily: FONTS.heavy,
+  },
+
+  // Category filter
+  categoryRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 6,
+    marginTop: 8,
+    marginBottom: 16,
+    paddingHorizontal: GRID_H_PADDING,
+  },
+  categoryPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: BORDER_RADIUS.full,
+    borderWidth: 1,
+    borderColor: 'transparent',
+  },
+  categoryPillText: {
+    fontSize: 12,
+    fontFamily: FONTS.semibold,
+  },
+
+  // Grid
+  grid: {
+    paddingHorizontal: GRID_H_PADDING,
+    gap: GRID_GAP,
+  },
+  gridRow: {
+    flexDirection: 'row',
+    gap: GRID_GAP,
+  },
+
+  // Grid card
+  gridCard: {
+    width: CARD_WIDTH,
+    borderRadius: 16,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  gridCardArt: {
+    width: '100%',
+    height: CARD_WIDTH * 0.65,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  gridCardArtOverlay: {
+    height: CARD_WIDTH * 0.65,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  gridCardInfo: {
+    padding: 12,
+    paddingTop: 10,
+  },
+  gridCardName: {
+    fontSize: 14,
+    fontFamily: FONTS.bold,
+    letterSpacing: -0.2,
+    marginBottom: 2,
+  },
+  gridCardDuration: {
+    fontSize: 12,
+    fontFamily: FONTS.medium,
+  },
+
+  // Recommended badge
+  recommendedBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 10,
+    backgroundColor: 'rgba(245,166,35,0.85)',
+  },
+
+  // PRO badge
+  proBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: 10,
+    backgroundColor: 'rgba(155,89,182,0.75)',
+  },
+  proBadgeText: {
+    fontSize: 9,
+    fontFamily: FONTS.bold,
+    color: '#FFF',
+    letterSpacing: 0.5,
+  },
+
 });

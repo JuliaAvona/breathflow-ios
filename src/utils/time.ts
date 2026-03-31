@@ -20,10 +20,12 @@ export function getToday(): string {
 }
 
 export function isConsecutiveDay(date1: string, date2: string): boolean {
-  const d1 = new Date(date1);
-  const d2 = new Date(date2);
-  const diffMs = Math.abs(d2.getTime() - d1.getTime());
-  const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+  // Parse as local dates to avoid UTC timezone issues
+  const [y1, m1, day1] = date1.split('-').map(Number);
+  const [y2, m2, day2] = date2.split('-').map(Number);
+  const t1 = new Date(y1, m1 - 1, day1).getTime();
+  const t2 = new Date(y2, m2 - 1, day2).getTime();
+  const diffDays = Math.round(Math.abs(t2 - t1) / (1000 * 60 * 60 * 24));
   return diffDays === 1;
 }
 

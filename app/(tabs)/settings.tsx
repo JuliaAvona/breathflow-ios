@@ -8,25 +8,26 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { useSettingsStore, useAuthStore, useSessionsStore } from '../../src/store';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import { useSettingsStore, useAuthStore } from '../../src/store';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 import { requestHealthPermissions, isHealthKitAvailable } from '../../src/utils/healthKit';
 import { performAppleSignIn } from '../../src/utils/appleAuth';
 import { pushAll, pullAndMerge } from '../../src/services/syncService';
-import { exportSessionsAsCSV } from '../../src/utils/csvExport';
-import { COLOR_THEMES } from '../../src/constants/colorThemes';
-import * as AppleAuthentication from 'expo-apple-authentication';
 import { useHaptics } from '../../src/hooks/useHaptics';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '../../src/constants';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
 import { PickerModal } from '../../src/components/PickerModal';
 import { WheelPickerModal, WheelColumn } from '../../src/components/WheelPickerModal';
 
-interface SettingRowProps {
+// ─── Shared row components ─────────────────────────────────────────────────
+
+interface ToggleRowProps {
   label: string;
   value: boolean;
   onToggle: (val: boolean) => void;
@@ -36,7 +37,7 @@ interface SettingRowProps {
   labelSize?: number;
 }
 
-function SettingRow({ label, value, onToggle, theme, badge, onHaptic, labelSize }: SettingRowProps) {
+function ToggleRow({ label, value, onToggle, theme, badge, onHaptic, labelSize }: ToggleRowProps) {
   return (
     <View
       style={[styles.settingRow, { borderBottomColor: theme.border }]}
@@ -45,7 +46,9 @@ function SettingRow({ label, value, onToggle, theme, badge, onHaptic, labelSize 
       accessibilityState={{ checked: value }}
     >
       <View style={styles.settingLabelRow}>
-        <Text style={[styles.settingLabel, { color: theme.text }, labelSize != null && { fontSize: labelSize }]}>{label}</Text>
+        <Text style={[styles.settingLabel, { color: theme.text }, labelSize != null && { fontSize: labelSize }]}>
+          {label}
+        </Text>
         {badge && (
           <View style={styles.proBadge}>
             <Ionicons name="diamond" size={10} color={COLORS.white} />
@@ -65,29 +68,38 @@ function SettingRow({ label, value, onToggle, theme, badge, onHaptic, labelSize 
   );
 }
 
-type PickerType = 'fastInterval' | 'slowInterval' | 'rounds' | 'reminderTime' | 'stepGoal' | null;
+// ─── Picker types & constants ──────────────────────────────────────────────
 
-const ROUND_COLUMNS: WheelColumn[] = [
-  { min: 1, max: 15, step: 1, pad: 1 },
-];
-const STEP_GOAL_OPTIONS = [5000, 7500, 10000, 12500, 15000, 20000];
+type PickerType =
+  | 'soundStyle'
+  | 'darkMode'
+  | 'reminderTime'
+  | 'reminderDays'
+  | null;
 
-const INTERVAL_COLUMNS: WheelColumn[] = [
-  { min: 1, max: 5, step: 1, pad: 1 },   // minutes
-  { min: 0, max: 55, step: 5, pad: 2 },   // seconds
+const SOUND_STYLE_OPTIONS = [
+  { labelKey: 'settings.soundNature', value: 'nature' as const },
+  { labelKey: 'settings.soundVoice', value: 'voice' as const },
+  { labelKey: 'settings.soundTone', value: 'tone' as const },
 ];
+
+const DARK_MODE_OPTIONS = [
+  { labelKey: 'settings.darkModeSystem', value: 'system' as const },
+  { labelKey: 'settings.darkModeLight', value: 'light' as const },
+  { labelKey: 'settings.darkModeDark', value: 'dark' as const },
+];
+
+const DAY_KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
+
 const TIME_COLUMNS: WheelColumn[] = [
-  { min: 0, max: 23, step: 1, pad: 2 },  // hours
-  { min: 0, max: 55, step: 5, pad: 2 },  // minutes
+  { min: 0, max: 23, step: 1, pad: 2 },
+  { min: 0, max: 55, step: 5, pad: 2 },
 ];
 
-function formatInterval(seconds: number): string {
-  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
-}
+const SUPPORT_EMAIL = 'app.support.535@gmail.com';
+const APP_VERSION = '1.0.0';
 
-function formatStepGoal(goal: number): string {
-  return goal >= 1000 ? `${goal / 1000}k` : String(goal);
-}
+// ─── Main Screen ───────────────────────────────────────────────────────────
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
@@ -96,29 +108,30 @@ export default function SettingsScreen() {
   const settings = useSettingsStore();
   const haptics = useHaptics();
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [activePicker, setActivePicker] = useState<PickerType>(null);
-  const sessions = useSessionsStore((s) => s.sessions);
   const user = useAuthStore((s) => s.user);
   const isAnonymous = useAuthStore((s) => s.isAnonymous);
+  const displayName = useAuthStore((s) => s.displayName);
+
+  // ── Handlers ───────────────────────────────────────────────────────────
 
   const handleSignInWithApple = async () => {
     setIsSigningIn(true);
     try {
-      const { idToken, nonce, authorizationCode } = await performAppleSignIn();
-
+      const { idToken, nonce, authorizationCode, givenName } = await performAppleSignIn();
       if (isAnonymous && user) {
-        await useAuthStore.getState().linkAppleAccount(idToken, nonce, authorizationCode);
+        await useAuthStore.getState().linkAppleAccount(idToken, nonce, authorizationCode, givenName);
       } else {
-        await useAuthStore.getState().signInWithApple(idToken, nonce, authorizationCode);
+        await useAuthStore.getState().signInWithApple(idToken, nonce, authorizationCode, givenName);
       }
-
       await pullAndMerge();
       await pushAll();
-
       Alert.alert(t('auth.signInSuccess'), t('auth.dataSynced'));
-    } catch (error: any) {
-      if (error.code !== 'ERR_REQUEST_CANCELED') {
-        Alert.alert(t('common.error'), error.message);
+    } catch (error: unknown) {
+      const err = error as { code?: string; message?: string };
+      if (err.code !== 'ERR_REQUEST_CANCELED') {
+        Alert.alert(t('common.error'), err.message ?? '');
       }
     } finally {
       setIsSigningIn(false);
@@ -150,24 +163,38 @@ export default function SettingsScreen() {
             await useAuthStore.getState().deleteAccount();
             await useAuthStore.getState().signInAnonymously();
             Alert.alert(t('common.ok'), t('auth.deleteAccountSuccess'));
-          } catch (e: any) {
-            Alert.alert(t('common.error'), e.message);
+          } catch (e: unknown) {
+            const err = e as { message?: string };
+            Alert.alert(t('common.error'), err.message ?? '');
           }
         },
       },
     ]);
   };
 
+  const handleSyncData = async () => {
+    setIsSyncing(true);
+    try {
+      await pushAll();
+      await pullAndMerge();
+      Alert.alert(t('common.ok'), t('auth.dataSynced'));
+    } catch {
+      Alert.alert(t('common.error'), t('settings.syncFailed'));
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   const handleHealthToggle = async (val: boolean) => {
     if (val) {
       if (!isHealthKitAvailable()) {
-        settings.update({ healthIntegration: false });
+        settings.setSetting('healthSyncEnabled', false);
         return;
       }
       const granted = await requestHealthPermissions();
-      settings.update({ healthIntegration: granted });
+      settings.setSetting('healthSyncEnabled', granted);
     } else {
-      settings.update({ healthIntegration: false });
+      settings.setSetting('healthSyncEnabled', false);
     }
   };
 
@@ -177,11 +204,87 @@ export default function SettingsScreen() {
     }
   };
 
+  const handleReminderToggle = async (val: boolean) => {
+    const { scheduleBreatheReminder, cancelNotification, requestNotificationPermissions } =
+      await import('../../src/utils/notifications');
+    if (val) {
+      const granted = await requestNotificationPermissions();
+      if (!granted) return;
+      settings.setSetting('reminderEnabled', true);
+      const [h, m] = settings.reminderTime.split(':').map(Number);
+      await scheduleBreatheReminder(h, m);
+    } else {
+      settings.setSetting('reminderEnabled', false);
+      // Fall back to default 10:00 AM reminder
+      await scheduleBreatheReminder(10, 0);
+    }
+  };
+
+  const toggleReminderDay = (day: number) => {
+    const current = settings.reminderDays;
+    const updated = current.includes(day)
+      ? current.filter((d) => d !== day)
+      : [...current, day].sort();
+    if (updated.length === 0) return; // must have at least 1 day
+    settings.setSetting('reminderDays', updated);
+  };
+
+  const handleRestorePurchases = async () => {
+    try {
+      const { restorePurchases } = await import('../../src/utils/revenueCat');
+      const { isPro } = await restorePurchases();
+      if (isPro) {
+        settings.grantPro();
+        Alert.alert(t('common.ok'), t('settings.restoreSuccess'));
+      } else {
+        Alert.alert(t('common.ok'), t('settings.restoreNone'));
+      }
+    } catch {
+      Alert.alert(t('common.error'), t('settings.restoreFailed'));
+    }
+  };
+
+  const handleRateApp = async () => {
+    // expo-store-review is not installed; open App Store directly
+    const appStoreUrl = 'https://apps.apple.com/app/id6760786034';
+    try {
+      await Linking.openURL(appStoreUrl);
+    } catch {
+      // silent fail
+    }
+  };
+
+  const handleContactSupport = () => {
+    Linking.openURL(`mailto:${SUPPORT_EMAIL}`);
+  };
+
+  // ── Picker value display helpers ───────────────────────────────────────
+
+  const soundStyleLabel = (style: string): string => {
+    const opt = SOUND_STYLE_OPTIONS.find((o) => o.value === style);
+    return opt ? t(opt.labelKey) : style;
+  };
+
+
+  const darkModeLabel = (val: string): string => {
+    const opt = DARK_MODE_OPTIONS.find((o) => o.value === val);
+    return opt ? t(opt.labelKey) : val;
+  };
+
+  // ── Render ─────────────────────────────────────────────────────────────
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Header */}
         <View style={styles.titleRow}>
-          <Text style={[styles.screenTitle, { color: theme.text, fontSize: fontSize.xxl }]}>{t('settings.title')}</Text>
+          {!isAnonymous && displayName ? (
+            <Text style={[styles.greeting, { color: theme.text }]}>
+              Hi, {displayName}
+            </Text>
+          ) : (
+            <View />
+          )}
           {settings.isPro && (
             <View style={[styles.proStatusBadge, { backgroundColor: theme.accent }]}>
               <Ionicons name="diamond" size={12} color={COLORS.white} />
@@ -190,198 +293,183 @@ export default function SettingsScreen() {
           )}
         </View>
 
-        {/* Sound & Haptics */}
+        {/* PRO upgrade card */}
+        {!settings.isPro && (
+          <TouchableOpacity
+            style={[styles.proCard, { backgroundColor: theme.accent }]}
+            activeOpacity={0.8}
+            onPress={() => router.push('/paywall')}
+            accessibilityLabel={t('settings.upgradePro')}
+            accessibilityRole="button"
+          >
+            <View style={styles.proTitleRow}>
+              <Ionicons name="diamond" size={16} color={COLORS.white} />
+              <Text style={styles.proTitle}>{t('settings.upgradePro')}</Text>
+            </View>
+            <Text style={styles.proSubtitle}>{t('settings.proSubtitle')}</Text>
+          </TouchableOpacity>
+        )}
+
+        {/* ── Feedback ─────────────────────────────────────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
             {t('settings.feedback')}
           </Text>
-          <SettingRow
+
+          {/* Sound toggle */}
+          <ToggleRow
             label={t('settings.sound')}
             value={settings.soundEnabled}
-            onToggle={(val) => settings.update({ soundEnabled: val })}
+            onToggle={(val) => settings.setSetting('soundEnabled', val)}
             theme={theme}
             onHaptic={haptics.light}
             labelSize={fontSize.md}
           />
-          <SettingRow
-            label={t('settings.vibration')}
-            value={settings.vibrationEnabled}
-            onToggle={(val) => settings.update({ vibrationEnabled: val })}
-            theme={theme}
-            onHaptic={haptics.light}
-            labelSize={fontSize.md}
-          />
-          {settings.soundEnabled && (
-            <View style={styles.soundTypeRow}>
-              {(['beep', 'chime', 'voice'] as const).map((type) => (
-                <TouchableOpacity
-                  key={type}
-                  style={[
-                    styles.soundTypeOption,
-                    {
-                      backgroundColor: settings.soundType === type ? theme.primary : 'transparent',
-                      borderColor: theme.primary,
-                    },
-                  ]}
-                  onPress={() => {
-                    haptics.selection();
-                    settings.update({ soundType: type });
-                  }}
-                  activeOpacity={0.7}
-                >
-                  <Text style={[styles.soundTypeText, { color: settings.soundType === type ? COLORS.white : theme.text }]} numberOfLines={1} adjustsFontSizeToFit>
-                    {t(`settings.sound${type.charAt(0).toUpperCase() + type.slice(1)}`)}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+
+          {/* Sound style picker (only when sound is on) */}
+          {settings.soundEnabled && <TouchableOpacity
+            style={[styles.settingRow, { borderBottomColor: theme.border }]}
+            onPress={() => { haptics.selection(); setActivePicker('soundStyle'); }}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+              {t('settings.soundStyle')}
+            </Text>
+            <View style={styles.pickerValueRow}>
+              <Text style={[styles.pickerValueText, { color: theme.primary }]}>
+                {soundStyleLabel(settings.soundStyle)}
+              </Text>
+              <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
             </View>
+          </TouchableOpacity>}
+
+          {/* Haptics toggle */}
+          <ToggleRow
+            label={t('settings.haptics')}
+            value={settings.hapticsEnabled}
+            onToggle={(val) => settings.setSetting('hapticsEnabled', val)}
+            theme={theme}
+            onHaptic={haptics.light}
+            labelSize={fontSize.md}
+          />
+
+        </View>
+
+        {/* ── Appearance ───────────────────────────────────────────────── */}
+        <View style={[styles.section, { backgroundColor: theme.card }]}>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
+            {t('settings.appearance')}
+          </Text>
+
+          {/* Dark mode picker */}
+          <TouchableOpacity
+            style={[styles.settingRow, { borderBottomColor: theme.border }]}
+            onPress={() => { haptics.selection(); setActivePicker('darkMode'); }}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+              {t('settings.darkMode')}
+            </Text>
+            <View style={styles.pickerValueRow}>
+              <Text style={[styles.pickerValueText, { color: theme.primary }]}>
+                {darkModeLabel(settings.darkMode)}
+              </Text>
+              <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
+            </View>
+          </TouchableOpacity>
+
+        </View>
+
+        {/* ── Reminders ────────────────────────────────────────────────── */}
+        <View style={[styles.section, { backgroundColor: theme.card }]}>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
+            {t('settings.reminders')}
+          </Text>
+          <ToggleRow
+            label={t('settings.dailyReminder')}
+            value={settings.reminderEnabled}
+            onToggle={handleReminderToggle}
+            theme={theme}
+            onHaptic={haptics.light}
+            labelSize={fontSize.md}
+          />
+
+          {settings.reminderEnabled && (
+            <>
+              {/* Reminder time */}
+              <TouchableOpacity
+                style={[styles.settingRow, { borderBottomColor: theme.border }]}
+                onPress={() => { haptics.selection(); setActivePicker('reminderTime'); }}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+                  {t('settings.reminderTime')}
+                </Text>
+                <View style={styles.pickerValueRow}>
+                  <Text style={[styles.pickerValueText, { color: theme.primary }]}>
+                    {settings.reminderTime}
+                  </Text>
+                  <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
+                </View>
+              </TouchableOpacity>
+
+              {/* Reminder days */}
+              <View style={[styles.settingRow, { borderBottomColor: 'transparent' }]}>
+                <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+                  {t('settings.reminderDays')}
+                </Text>
+              </View>
+              <View style={styles.daysRow}>
+                {DAY_KEYS.map((dayKey, index) => {
+                  const isActive = settings.reminderDays.includes(index);
+                  return (
+                    <TouchableOpacity
+                      key={dayKey}
+                      style={[
+                        styles.dayChip,
+                        {
+                          backgroundColor: isActive ? theme.primary : 'transparent',
+                          borderColor: theme.primary,
+                        },
+                      ]}
+                      onPress={() => {
+                        haptics.selection();
+                        toggleReminderDay(index);
+                      }}
+                      activeOpacity={0.7}
+                    >
+                      <Text
+                        style={[
+                          styles.dayChipText,
+                          { color: isActive ? COLORS.white : theme.text },
+                        ]}
+                      >
+                        {t(`settings.day${dayKey.charAt(0).toUpperCase() + dayKey.slice(1)}`)}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </>
           )}
         </View>
 
-        {/* Timer */}
+        {/* ── Apple Health ─────────────────────────────────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.timer')}
+            {t('settings.appleHealth')}
           </Text>
-
-          {/* Fast Interval (PRO) */}
-          <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: theme.border }]}
-            onPress={() => { haptics.selection(); if (!settings.isPro) { handleProFeatureTap(); return; } setActivePicker('fastInterval'); }}
-            activeOpacity={0.7}
-          >
-            <View style={styles.settingLabelRow}>
-              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-                {t('sessionCard.fastInterval')}
-              </Text>
-              {!settings.isPro && (
-                <View style={styles.proBadge}>
-                  <Ionicons name="diamond" size={10} color={COLORS.white} />
-                </View>
-              )}
-            </View>
-            <View style={styles.pickerValueRow}>
-              <Text style={[styles.pickerValueText, { color: theme.primary }]}>
-                {formatInterval(settings.fastInterval)}
-              </Text>
-              <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-            </View>
-          </TouchableOpacity>
-
-          {/* Slow Interval (PRO) */}
-          <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: theme.border }]}
-            onPress={() => { haptics.selection(); if (!settings.isPro) { handleProFeatureTap(); return; } setActivePicker('slowInterval'); }}
-            activeOpacity={0.7}
-          >
-            <View style={styles.settingLabelRow}>
-              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-                {t('sessionCard.slowInterval')}
-              </Text>
-              {!settings.isPro && (
-                <View style={styles.proBadge}>
-                  <Ionicons name="diamond" size={10} color={COLORS.white} />
-                </View>
-              )}
-            </View>
-            <View style={styles.pickerValueRow}>
-              <Text style={[styles.pickerValueText, { color: theme.accent }]}>
-                {formatInterval(settings.slowInterval)}
-              </Text>
-              <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-            </View>
-          </TouchableOpacity>
-
-          {/* Rounds (PRO) */}
-          <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: theme.border }]}
-            onPress={() => { haptics.selection(); if (!settings.isPro) { handleProFeatureTap(); return; } setActivePicker('rounds'); }}
-            activeOpacity={0.7}
-          >
-            <View style={styles.settingLabelRow}>
-              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-                {t('settings.customRounds')}
-              </Text>
-              {!settings.isPro && (
-                <View style={styles.proBadge}>
-                  <Ionicons name="diamond" size={10} color={COLORS.white} />
-                </View>
-              )}
-            </View>
-            <View style={styles.pickerValueRow}>
-              <Text style={[styles.pickerValueText, { color: theme.primary }]}>
-                {settings.roundCount}
-              </Text>
-              <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-            </View>
-          </TouchableOpacity>
-
-          <SettingRow
-            label={t('settings.warmUp')}
-            value={settings.warmUpEnabled}
-            onToggle={(val) => settings.update({ warmUpEnabled: val })}
-            theme={theme}
-            onHaptic={haptics.light}
-            labelSize={fontSize.md}
-          />
-          <SettingRow
-            label={t('settings.coolDown')}
-            value={settings.coolDownEnabled}
-            onToggle={(val) => settings.update({ coolDownEnabled: val })}
-            theme={theme}
-            onHaptic={haptics.light}
-            labelSize={fontSize.md}
-          />
-        </View>
-
-        {/* Health */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
-          <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.health')}
-          </Text>
-          <SettingRow
-            label={t('settings.appleHealth')}
-            value={settings.healthIntegration}
+          <ToggleRow
+            label={t('settings.syncMindfulMinutes')}
+            value={settings.healthSyncEnabled}
             onToggle={handleHealthToggle}
             theme={theme}
             onHaptic={haptics.light}
             labelSize={fontSize.md}
           />
-          {settings.healthIntegration && (
-            <TouchableOpacity
-              style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
-              onPress={() => { haptics.selection(); setActivePicker('stepGoal'); }}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-                {t('settings.dailyStepGoalTitle')}
-              </Text>
-              <View style={styles.pickerValueRow}>
-                <Text style={[styles.pickerValueText, { color: theme.primary }]}>
-                  {formatStepGoal(settings.dailyStepGoal)}
-                </Text>
-                <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-              </View>
-            </TouchableOpacity>
-          )}
         </View>
 
-        {/* Accessibility */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
-          <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.accessibility')}
-          </Text>
-          <SettingRow
-            label={t('settings.highContrast')}
-            value={settings.highContrastMode}
-            onToggle={(val) => settings.update({ highContrastMode: val })}
-            theme={theme}
-            onHaptic={haptics.light}
-            labelSize={fontSize.md}
-          />
-        </View>
-
-        {/* Account */}
+        {/* ── Account ──────────────────────────────────────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
             {t('auth.account')}
@@ -411,234 +499,60 @@ export default function SettingsScreen() {
                 </Text>
               </View>
               <TouchableOpacity
-                style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+                style={[styles.settingRow, { borderBottomColor: theme.border }]}
                 onPress={handleSignOut}
               >
                 <Text style={[styles.settingLabel, { color: COLORS.error }]}>
                   {t('auth.signOut')}
                 </Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+                accessibilityRole="button"
+                onPress={handleDeleteAccount}
+              >
+                <Text style={[styles.settingLabel, { color: COLORS.error, fontSize: fontSize.md }]}>
+                  {t('auth.deleteAccount')}
+                </Text>
+                <Ionicons name="trash-outline" size={18} color={COLORS.error} />
+              </TouchableOpacity>
             </>
           )}
-        </View>
 
-        {/* PRO */}
-        {!settings.isPro && (
-          <TouchableOpacity
-            style={[styles.proCard, { backgroundColor: theme.accent }]}
-            activeOpacity={0.8}
-            onPress={() => router.push('/paywall')}
-            accessibilityLabel={t('settings.upgradePro')}
-            accessibilityRole="button"
-          >
-            <View style={styles.proTitleRow}>
-              <Ionicons name="diamond" size={16} color={COLORS.white} />
-              <Text style={styles.proTitle}>{t('settings.upgradePro')}</Text>
-            </View>
-            <Text style={styles.proSubtitle}>
-              {t('settings.proSubtitle')}
-            </Text>
-          </TouchableOpacity>
-        )}
-
-        {/* Reminders (PRO) */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
-          <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.reminders')}
-          </Text>
-          <TouchableOpacity
-            onPress={settings.isPro ? undefined : handleProFeatureTap}
-            activeOpacity={settings.isPro ? 1 : 0.7}
-          >
-            <SettingRow
-              label={t('settings.walkReminder')}
-              value={settings.reminderEnabled}
-              onToggle={async (val) => {
-                if (!settings.isPro) {
-                  handleProFeatureTap();
-                  return;
-                }
-                const { scheduleWalkReminder, cancelNotification, requestNotificationPermissions } = await import('../../src/utils/notifications');
-                if (val) {
-                  const granted = await requestNotificationPermissions();
-                  if (!granted) return;
-                  settings.update({ reminderEnabled: true });
-                  const [h, m] = settings.reminderTime.split(':').map(Number);
-                  await scheduleWalkReminder(h, m, t('notifications.reminderTitle'), t('notifications.reminderBody'));
-                } else {
-                  settings.update({ reminderEnabled: false });
-                  await cancelNotification('walk-reminder');
-                }
-              }}
-              theme={theme}
-              badge={settings.isPro ? undefined : t('settings.proFeature')}
-              onHaptic={haptics.light}
-              labelSize={fontSize.md}
-            />
-          </TouchableOpacity>
-          {settings.isPro && settings.reminderEnabled && (
-            <TouchableOpacity
-              style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
-              onPress={() => { haptics.selection(); setActivePicker('reminderTime'); }}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-                {t('settings.reminderTime')}
-              </Text>
-              <View style={styles.pickerValueRow}>
-                <Text style={[styles.pickerValueText, { color: theme.primary }]}>
-                  {settings.reminderTime}
-                </Text>
-                <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-              </View>
-            </TouchableOpacity>
-          )}
-        </View>
-
-        {/* Color Theme (PRO) */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
-          <View style={styles.settingLabelRow}>
-            <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-              {t('settings.colorTheme')}
-            </Text>
-            {!settings.isPro && (
-              <View style={styles.proBadge}>
-                <Ionicons name="diamond" size={10} color={COLORS.white} />
-              </View>
-            )}
-          </View>
-          <View style={styles.themeGrid}>
-            {COLOR_THEMES.map((ct) => {
-              const isSelected = settings.colorThemeId === ct.id;
-              const preview = theme.isDark ? ct.dark : ct.light;
-              return (
-                <TouchableOpacity
-                  key={ct.id}
-                  style={[
-                    styles.themePreviewCard,
-                    {
-                      backgroundColor: preview.card,
-                      borderWidth: isSelected ? 2.5 : 1,
-                      borderColor: isSelected ? ct.primary : preview.border,
-                    },
-                  ]}
-                  onPress={() => {
-                    haptics.selection();
-                    if (!settings.isPro) {
-                      handleProFeatureTap();
-                      return;
-                    }
-                    settings.update({ colorThemeId: ct.id });
-                  }}
-                  activeOpacity={0.7}
-                >
-                  <View style={[styles.themePreviewStripe, { backgroundColor: ct.primary }]} />
-                  <View style={styles.themePreviewBody}>
-                    <View style={[styles.themePreviewDot, { backgroundColor: ct.accent }]} />
-                    <View style={[styles.themePreviewLine, { backgroundColor: preview.textSecondary + '40' }]} />
-                    <View style={[styles.themePreviewLine, styles.themePreviewLineShort, { backgroundColor: preview.textSecondary + '25' }]} />
-                  </View>
-                  {isSelected && (
-                    <View style={[styles.themeCheckmark, { backgroundColor: ct.primary }]}>
-                      <Ionicons name="checkmark" size={8} color={COLORS.white} />
-                    </View>
-                  )}
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </View>
-
-        {/* Starting Phase (PRO) */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
-          <View style={styles.settingLabelRow}>
-            <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-              {t('settings.startingPhaseTitle')}
-            </Text>
-            {!settings.isPro && (
-              <View style={styles.proBadge}>
-                <Ionicons name="diamond" size={10} color={COLORS.white} />
-              </View>
-            )}
-          </View>
-          <View style={styles.phaseToggleRow}>
-            <TouchableOpacity
-              style={[
-                styles.phaseOption,
-                {
-                  backgroundColor: settings.startingPhase === 'fast' ? theme.primary : 'transparent',
-                  borderColor: theme.primary,
-                },
-              ]}
-              onPress={() => {
-                haptics.selection();
-                if (!settings.isPro) { handleProFeatureTap(); return; }
-                settings.update({ startingPhase: 'fast' });
-              }}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.phaseOptionText, { color: settings.startingPhase === 'fast' ? COLORS.white : theme.text }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('settings.startFast')}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.phaseOption,
-                {
-                  backgroundColor: settings.startingPhase === 'slow' ? theme.accent : 'transparent',
-                  borderColor: theme.accent,
-                },
-              ]}
-              onPress={() => {
-                haptics.selection();
-                if (!settings.isPro) { handleProFeatureTap(); return; }
-                settings.update({ startingPhase: 'slow' });
-              }}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.phaseOptionText, { color: settings.startingPhase === 'slow' ? COLORS.white : theme.text }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('settings.startSlow')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Export Data (PRO) */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
+          {/* Sync data */}
           <TouchableOpacity
             style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
-            onPress={async () => {
-              if (!settings.isPro) { handleProFeatureTap(); return; }
-              if (sessions.length === 0) return;
-              await exportSessionsAsCSV(sessions);
-            }}
+            onPress={handleSyncData}
             activeOpacity={0.7}
           >
-            <View style={styles.settingLabelRow}>
-              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-                {t('settings.exportData')}
-              </Text>
-              {!settings.isPro && (
-                <View style={styles.proBadge}>
-                  <Ionicons name="diamond" size={10} color={COLORS.white} />
-                </View>
-              )}
-            </View>
-            <Ionicons name="download-outline" size={20} color={theme.textSecondary} />
+            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+              {t('settings.syncData')}
+            </Text>
+            {isSyncing ? (
+              <ActivityIndicator size="small" color={theme.textSecondary} />
+            ) : (
+              <Ionicons name="sync-outline" size={20} color={theme.textSecondary} />
+            )}
           </TouchableOpacity>
         </View>
 
-        {/* About */}
+        {/* ── General ──────────────────────────────────────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.about')}
+            {t('settings.general')}
           </Text>
+
+          {/* About */}
           <View style={[styles.settingRow, { borderBottomColor: theme.border }]}>
-            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>{t('settings.version')}</Text>
+            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+              {t('settings.version')}
+            </Text>
             <Text style={[styles.settingValue, { color: theme.textSecondary }]}>
-              1.0.0
+              {APP_VERSION}
             </Text>
           </View>
+
+          {/* Privacy Policy */}
           <TouchableOpacity
             style={[styles.settingRow, { borderBottomColor: theme.border }]}
             onPress={() => router.push('/privacy')}
@@ -649,6 +563,8 @@ export default function SettingsScreen() {
             </Text>
             <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
           </TouchableOpacity>
+
+          {/* Terms of Service */}
           <TouchableOpacity
             style={[styles.settingRow, { borderBottomColor: theme.border }]}
             onPress={() => router.push('/terms')}
@@ -659,61 +575,70 @@ export default function SettingsScreen() {
             </Text>
             <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
           </TouchableOpacity>
+
+          {/* Restore purchases */}
           <TouchableOpacity
             style={[styles.settingRow, { borderBottomColor: theme.border }]}
+            onPress={handleRestorePurchases}
             accessibilityRole="button"
-            onPress={async () => {
-              try {
-                const { restorePurchases } = await import('../../src/utils/revenueCat');
-                const { isPro } = await restorePurchases();
-                if (isPro) {
-                  settings.update({ isPro: true });
-                  Alert.alert(t('common.ok'), t('settings.restoreSuccess'));
-                } else {
-                  Alert.alert(t('common.ok'), t('settings.restoreNone'));
-                }
-              } catch {
-                Alert.alert(t('common.error'), t('settings.restoreFailed'));
-              }
-            }}
           >
             <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
               {t('settings.restorePurchases')}
             </Text>
             <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
           </TouchableOpacity>
+
+          {/* Rate app */}
           <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+            style={[styles.settingRow, { borderBottomColor: theme.border }]}
+            onPress={handleRateApp}
             accessibilityRole="button"
-            onPress={handleDeleteAccount}
           >
-            <Text style={[styles.settingLabel, { color: '#D85E43', fontSize: fontSize.md }]}>
-              {t('auth.deleteAccount')}
+            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+              {t('settings.rateApp')}
             </Text>
-            <Ionicons name="trash-outline" size={18} color="#D85E43" />
+            <Ionicons name="star-outline" size={18} color={theme.textSecondary} />
           </TouchableOpacity>
+
+          {/* Contact support */}
+          <TouchableOpacity
+            style={[styles.settingRow, { borderBottomColor: theme.border }]}
+            onPress={handleContactSupport}
+            accessibilityRole="link"
+          >
+            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+              {t('settings.contactSupport')}
+            </Text>
+            <Ionicons name="mail-outline" size={18} color={theme.textSecondary} />
+          </TouchableOpacity>
+
         </View>
       </ScrollView>
 
-      {/* Wheel Picker Modals */}
-      <WheelPickerModal
-        visible={activePicker === 'fastInterval'}
-        title={t('sessionCard.fastInterval')}
-        columns={INTERVAL_COLUMNS}
-        values={[Math.floor(settings.fastInterval / 60), settings.fastInterval % 60]}
-        onConfirm={([m, s]) => settings.update({ fastInterval: m * 60 + s })}
+      {/* ── Picker Modals ──────────────────────────────────────────────── */}
+
+      {/* Sound style */}
+      <PickerModal<'tone' | 'nature' | 'voice' | 'off'>
+        visible={activePicker === 'soundStyle'}
+        title={t('settings.soundStyle')}
+        options={SOUND_STYLE_OPTIONS.map((o) => ({ label: t(o.labelKey), value: o.value }))}
+        selectedValue={settings.soundStyle}
+        onSelect={(val) => settings.setSetting('soundStyle', val)}
         onClose={() => setActivePicker(null)}
-        accentColor={theme.primary}
       />
-      <WheelPickerModal
-        visible={activePicker === 'slowInterval'}
-        title={t('sessionCard.slowInterval')}
-        columns={INTERVAL_COLUMNS}
-        values={[Math.floor(settings.slowInterval / 60), settings.slowInterval % 60]}
-        onConfirm={([m, s]) => settings.update({ slowInterval: m * 60 + s })}
+
+      {/* Dark mode */}
+      <PickerModal<'system' | 'light' | 'dark'>
+        visible={activePicker === 'darkMode'}
+        title={t('settings.darkMode')}
+        options={DARK_MODE_OPTIONS.map((o) => ({ label: t(o.labelKey), value: o.value }))}
+        selectedValue={settings.darkMode}
+        onSelect={(val) => settings.setSetting('darkMode', val)}
         onClose={() => setActivePicker(null)}
-        accentColor={theme.accent}
       />
+
+
+      {/* Reminder time */}
       <WheelPickerModal
         visible={activePicker === 'reminderTime'}
         title={t('settings.reminderTime')}
@@ -721,33 +646,19 @@ export default function SettingsScreen() {
         values={settings.reminderTime.split(':').map(Number)}
         onConfirm={async ([h, m]) => {
           const time = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-          settings.update({ reminderTime: time });
-          const { scheduleWalkReminder } = await import('../../src/utils/notifications');
-          await scheduleWalkReminder(h, m, t('notifications.reminderTitle'), t('notifications.reminderBody'));
+          settings.setSetting('reminderTime', time);
+          if (settings.reminderEnabled) {
+            const { scheduleBreatheReminder } = await import('../../src/utils/notifications');
+            await scheduleBreatheReminder(h, m);
+          }
         }}
-        onClose={() => setActivePicker(null)}
-      />
-      {/* List Picker Modals */}
-      <WheelPickerModal
-        visible={activePicker === 'rounds'}
-        title={t('settings.customRounds')}
-        columns={ROUND_COLUMNS}
-        values={[settings.roundCount]}
-        separator=""
-        onConfirm={([n]) => settings.update({ roundCount: n })}
-        onClose={() => setActivePicker(null)}
-      />
-      <PickerModal<number>
-        visible={activePicker === 'stepGoal'}
-        title={t('settings.dailyStepGoalTitle')}
-        options={STEP_GOAL_OPTIONS.map((g) => ({ label: g.toLocaleString(), value: g }))}
-        selectedValue={settings.dailyStepGoal}
-        onSelect={(val) => settings.update({ dailyStepGoal: val })}
         onClose={() => setActivePicker(null)}
       />
     </SafeAreaView>
   );
 }
+
+// ─── Styles ────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
   container: {
@@ -757,8 +668,55 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.xxl,
   },
   screenTitle: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: '700',
+    fontSize: 30,
+    fontFamily: FONTS.bold,
+    letterSpacing: -0.5,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.md,
+    paddingBottom: SPACING.lg,
+  },
+  greeting: {
+    fontSize: FONT_SIZE.xl,
+    fontFamily: FONTS.bold,
+  },
+  proStatusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: 4,
+    borderRadius: BORDER_RADIUS.md,
+  },
+  proStatusText: {
+    fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.bold,
+    color: COLORS.white,
+  },
+  proCard: {
+    marginHorizontal: SPACING.lg,
+    padding: SPACING.lg,
+    borderRadius: BORDER_RADIUS.lg,
+    marginBottom: SPACING.lg,
+  },
+  proTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.sm,
+    marginBottom: SPACING.xs,
+  },
+  proTitle: {
+    fontSize: FONT_SIZE.xl,
+    fontFamily: FONTS.bold,
+    color: COLORS.white,
+  },
+  proSubtitle: {
+    fontSize: FONT_SIZE.sm,
+    color: 'rgba(255,255,255,0.9)',
   },
   section: {
     marginHorizontal: SPACING.lg,
@@ -773,7 +731,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
     letterSpacing: 1,
     paddingHorizontal: SPACING.md,
     paddingTop: SPACING.md,
@@ -810,10 +768,14 @@ const styles = StyleSheet.create({
     height: 18,
     borderRadius: 9,
   },
-  proBadgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: COLORS.white,
+  pickerValueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  pickerValueText: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.semibold,
   },
   appleButtonContainer: {
     paddingHorizontal: SPACING.md,
@@ -824,134 +786,24 @@ const styles = StyleSheet.create({
     width: '100%' as unknown as number,
     height: 44,
   },
-  proCard: {
-    marginHorizontal: SPACING.lg,
-    padding: SPACING.lg,
-    borderRadius: BORDER_RADIUS.lg,
-    marginBottom: SPACING.lg,
-  },
-  proTitleRow: {
+  // Day-of-week selector
+  daysRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-    marginBottom: SPACING.xs,
-  },
-  proTitle: {
-    fontSize: FONT_SIZE.xl,
-    fontWeight: '700',
-    color: COLORS.white,
-  },
-  proSubtitle: {
-    fontSize: FONT_SIZE.sm,
-    color: 'rgba(255,255,255,0.9)',
-  },
-  themeGrid: {
-    flexDirection: 'row',
-    gap: 3,
-    paddingHorizontal: SPACING.xs,
-    paddingVertical: SPACING.md,
-  },
-  themePreviewCard: {
-    flex: 1,
-    flexShrink: 1,
-    height: 52,
-    borderRadius: 8,
-    overflow: 'hidden' as const,
-    position: 'relative' as const,
-  },
-  themePreviewStripe: {
-    height: 5,
-  },
-  themePreviewBody: {
-    flex: 1,
-    padding: 3,
-    gap: 3,
-  },
-  themePreviewDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 3.5,
-  },
-  themePreviewLine: {
-    height: 2,
-    borderRadius: 1,
-    width: '75%' as unknown as number,
-  },
-  themePreviewLineShort: {
-    width: '45%' as unknown as number,
-  },
-  themeCheckmark: {
-    position: 'absolute' as const,
-    top: 1,
-    right: 1,
-    width: 13,
-    height: 13,
-    borderRadius: 6.5,
-    alignItems: 'center' as const,
-    justifyContent: 'center' as const,
-  },
-  phaseToggleRow: {
-    flexDirection: 'row',
-    gap: SPACING.sm,
+    gap: SPACING.xs,
     paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.md,
-  },
-  phaseOption: {
-    flex: 1,
-    paddingVertical: SPACING.sm,
-    borderRadius: BORDER_RADIUS.md,
-    borderWidth: 1.5,
-    alignItems: 'center',
-  },
-  phaseOptionText: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '600',
-  },
-  soundTypeRow: {
-    flexDirection: 'row',
-    gap: SPACING.sm,
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.md,
-  },
-  soundTypeOption: {
-    flex: 1,
-    paddingVertical: SPACING.sm,
-    borderRadius: BORDER_RADIUS.md,
-    borderWidth: 1.5,
-    alignItems: 'center',
-  },
-  soundTypeText: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '600',
-  },
-  pickerValueRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  pickerValueText: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '600',
-  },
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-    paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.md,
     paddingBottom: SPACING.md,
+    justifyContent: 'space-between',
   },
-  proStatusBadge: {
-    flexDirection: 'row',
+  dayChip: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1.5,
     alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: 4,
-    borderRadius: BORDER_RADIUS.md,
+    justifyContent: 'center',
   },
-  proStatusText: {
+  dayChipText: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '700',
-    color: COLORS.white,
+    fontFamily: FONTS.semibold,
   },
 });

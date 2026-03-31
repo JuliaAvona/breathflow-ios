@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useThemeColors } from '../hooks/useColorScheme';
 import { SPACING, SCREEN, BADGE_CATEGORY_COLORS } from '../constants';
-import type { Badge } from '../types';
+import type { Badge, UnlockedBadge } from '../types';
 
 interface BadgeGridProps {
   badges: Badge[];
+  unlockedBadges: UnlockedBadge[];
 }
 
 // Responsive grid configuration for 3 columns
@@ -21,16 +22,16 @@ const TOTAL_GAPS = GAP * (COLUMNS - 1);
 const CARD_WIDTH = (AVAILABLE_WIDTH - TOTAL_GAPS) / COLUMNS;
 const ICON_SIZE = CARD_WIDTH * 0.85;
 
-export function BadgeGrid({ badges }: BadgeGridProps) {
+export function BadgeGrid({ badges, unlockedBadges }: BadgeGridProps) {
   const { t } = useTranslation();
   const theme = useThemeColors();
 
   return (
     <View style={styles.grid}>
       {badges.map((badge, index) => {
-        const unlocked = badge.unlockedAt !== null;
+        const unlocked = unlockedBadges.some((ub) => ub.badgeId === badge.id);
         const isLastInRow = (index + 1) % COLUMNS === 0;
-        const category = badge.category ?? badge.condition.type;
+        const category = badge.category;
         const catColors = BADGE_CATEGORY_COLORS[category] ?? BADGE_CATEGORY_COLORS.sessions;
         const tintBg = unlocked
           ? (theme.isDark ? catColors.cardTintDark : catColors.cardTint)
@@ -51,11 +52,9 @@ export function BadgeGrid({ badges }: BadgeGridProps) {
             {/* Icon */}
             <View style={styles.iconCircle}>
               {unlocked ? (
-                <Image
-                  source={badge.icon as number}
-                  style={styles.iconImage}
-                  resizeMode="contain"
-                />
+                <View style={[styles.lockCircle, { backgroundColor: theme.isDark ? catColors.cardTintDark : catColors.cardTint }]}>
+                  <Ionicons name={badge.icon as keyof typeof Ionicons.glyphMap} size={ICON_SIZE * 0.5} color={catColors.color} />
+                </View>
               ) : (
                 <View style={[styles.lockCircle, { backgroundColor: theme.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)' }]}>
                   <Ionicons name="lock-closed" size={20} color={theme.textSecondary + '40'} />
@@ -74,7 +73,7 @@ export function BadgeGrid({ badges }: BadgeGridProps) {
               ]}
               numberOfLines={2}
             >
-              {t(badge.titleKey)}
+              {t(badge.nameKey)}
             </Text>
 
             {/* Description */}

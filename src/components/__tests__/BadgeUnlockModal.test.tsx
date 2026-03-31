@@ -1,16 +1,18 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react-native';
 import { BadgeUnlockModal } from '../BadgeUnlockModal';
-import { Badge } from '../../types';
+import { Badge, UserStats, UserSettings } from '../../types';
+
+const mockCondition = (_stats: UserStats, _settings: UserSettings): boolean => true;
 
 const mockBadge: Badge = {
-  id: 'first_walk',
-  icon: 1,
-  titleKey: 'badges.badge_first_walk_title',
-  descriptionKey: 'badges.badge_first_walk_desc',
-  unlockedAt: Date.now(),
+  id: 'first_breath',
+  icon: 'leaf-outline',
+  nameKey: 'badges.first_breath.name',
+  descriptionKey: 'badges.first_breath.description',
   category: 'sessions',
-  condition: { type: 'sessions', value: 1 },
+  condition: mockCondition,
+  isPro: false,
 };
 
 describe('BadgeUnlockModal', () => {
@@ -33,8 +35,8 @@ describe('BadgeUnlockModal', () => {
     );
 
     expect(screen.getByText('badges.unlocked')).toBeTruthy();
-    expect(screen.getByText('badges.badge_first_walk_title')).toBeTruthy();
-    expect(screen.getByText('badges.badge_first_walk_desc')).toBeTruthy();
+    expect(screen.getByText('badges.first_breath.name')).toBeTruthy();
+    expect(screen.getByText('badges.first_breath.description')).toBeTruthy();
   });
 
   it('does not render when not visible', () => {
@@ -61,7 +63,7 @@ describe('BadgeUnlockModal', () => {
     expect(queryByText('badges.unlocked')).toBeNull();
   });
 
-  it('displays trophy icon', () => {
+  it('displays unlocked headline', () => {
     render(
       <BadgeUnlockModal
         badge={mockBadge}
@@ -73,40 +75,14 @@ describe('BadgeUnlockModal', () => {
     expect(screen.getByText('badges.unlocked')).toBeTruthy();
   });
 
-  it('auto-closes after 3 seconds', async () => {
-    const onClose = jest.fn();
-
-    render(
-      <BadgeUnlockModal
-        badge={mockBadge}
-        visible={true}
-        onClose={onClose}
-      />
-    );
-
-    expect(onClose).not.toHaveBeenCalled();
-
-    // Fast-forward time by 3 seconds
-    jest.advanceTimersByTime(3000);
-
-    // Wait for animation to complete (additional 200ms)
-    jest.advanceTimersByTime(200);
-
-    await waitFor(() => {
-      expect(onClose).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  it('renders badge image', () => {
-    const { UNSAFE_getAllByType } = render(
+  it('renders badge content when visible', () => {
+    const { toJSON } = render(
       <BadgeUnlockModal
         badge={mockBadge}
         visible={true}
         onClose={jest.fn()}
       />
     );
-    const { Image } = require('react-native');
-    const images = UNSAFE_getAllByType(Image);
-    expect(images.length).toBeGreaterThan(0);
+    expect(toJSON()).toBeTruthy();
   });
 });

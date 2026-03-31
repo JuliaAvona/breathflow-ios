@@ -9,6 +9,7 @@ import { useHaptics } from '../hooks/useHaptics';
 
 interface CalendarHeatmapProps {
   activeDays: Set<string>;
+  monthSessionCount?: number;
   year: number;
   month: number; // 0-indexed
   onPrevMonth: () => void;
@@ -20,6 +21,7 @@ interface CalendarHeatmapProps {
 
 export function CalendarHeatmap({
   activeDays,
+  monthSessionCount,
   year,
   month,
   onPrevMonth,
@@ -98,10 +100,10 @@ export function CalendarHeatmap({
           <Text style={[styles.monthTitle, { color: theme.text }]}>
             {monthName} {year}
           </Text>
-          {activeDaysCount > 0 && (
-            <View style={[styles.walksBadge, { backgroundColor: `${theme.primary}15` }]}>
+          {(monthSessionCount ?? activeDaysCount) > 0 && (
+            <View style={[styles.sessionsBadge, { backgroundColor: `${theme.primary}15` }]}>
               <Text style={[styles.activeDaysCount, { color: theme.primary }]}>
-                {t('calendar.walk', { count: activeDaysCount })}
+                {t('calendar.sessions', { count: monthSessionCount ?? activeDaysCount })}
               </Text>
             </View>
           )}
@@ -157,7 +159,8 @@ export function CalendarHeatmap({
                         isToday && !isActive && { backgroundColor: `${theme.primary}18`, borderWidth: 2, borderColor: theme.primary },
                         isToday && isActive && { borderWidth: 2, borderColor: COLORS.white },
                         isSelected && !isActive && !isToday && { borderWidth: 1.5, borderColor: theme.textSecondary },
-                        isSelected && isActive && { borderWidth: 2, borderColor: COLORS.white, shadowColor: theme.primary, shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.4, shadowRadius: 5, elevation: 4 },
+                        isSelected && isActive && !isToday && { borderWidth: 2, borderColor: '#04abd0' },
+                        isSelected && !isActive && isToday && { borderWidth: 2, borderColor: theme.primary },
                       ]}
                     >
                       <Text
@@ -226,7 +229,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.lg,
     fontWeight: '700',
   },
-  walksBadge: {
+  sessionsBadge: {
     paddingHorizontal: SPACING.sm,
     paddingVertical: 2,
     borderRadius: BORDER_RADIUS.full,

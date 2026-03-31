@@ -1,7 +1,40 @@
 {
   "permissions": {
     "allow": [
-      "Bash(eas secret:create --name EXPO_PUBLIC_SUPABASE_URL --value \"https://jiksiylrbeowmorcfgii.supabase.co\" --scope project --force)"
+      "Bash(eas secret:create --name EXPO_PUBLIC_SUPABASE_URL --value \"https://jiksiylrbeowmorcfgii.supabase.co\" --scope project --force)",
+      "WebFetch(domain:apps.apple.com)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:uxdesign.cc)",
+      "WebFetch(domain:codepen.io)",
+      "WebFetch(domain:www.calm.com)",
+      "WebFetch(domain:play.google.com)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:www.youtube.com)",
+      "WebFetch(domain:dribbble.com)",
+      "WebFetch(domain:blog.logrocket.com)",
+      "WebFetch(domain:alternativeto.net)",
+      "WebFetch(domain:www.creativebloq.com)",
+      "WebFetch(domain:superwall.com)",
+      "WebFetch(domain:www.reanimated2.com)",
+      "WebFetch(domain:docs.swmansion.com)",
+      "WebFetch(domain:easings.net)",
+      "Bash(~/.nvm/versions/node/v22.14.0/bin/node ./node_modules/.bin/tsc --noEmit)",
+      "Read(//Users/juliaavona/.nvm/versions/node/**)",
+      "Bash(~/.nvm/versions/node/v22.19.0/bin/node ./node_modules/.bin/tsc --noEmit)",
+      "Read(//Users/juliaavona/.claude/**)",
+      "Bash(mkdir -p ~/.claude/agents)",
+      "Bash(cp /tmp/agency-agents/engineering/engineering-mobile-app-builder.md /tmp/agency-agents/engineering/engineering-frontend-developer.md /tmp/agency-agents/engineering/engineering-senior-developer.md /tmp/agency-agents/engineering/engineering-rapid-prototyper.md /tmp/agency-agents/design/design-ux-architect.md /tmp/agency-agents/design/design-ui-designer.md /tmp/agency-agents/testing/testing-reality-checker.md /tmp/agency-agents/testing/testing-accessibility-auditor.md /tmp/agency-agents/product/product-manager.md ~/.claude/agents/)",
+      "Bash(head -40 '/Users/juliaavona/Documents/Julia/IOS/breathflow-ios/app/\\(tabs\\)/index.tsx')",
+      "Bash(head -40 '/Users/juliaavona/Documents/Julia/IOS/breathflow-ios/app/\\(tabs\\)/history.tsx')",
+      "Bash(head -40 '/Users/juliaavona/Documents/Julia/IOS/breathflow-ios/app/\\(tabs\\)/settings.tsx')",
+      "WebFetch(domain:unsplash.com)",
+      "WebFetch(domain:api.unsplash.com)",
+      "WebFetch(domain:source.unsplash.com)",
+      "Bash(curl -sI \"https://images.unsplash.com/photo-1448375240586-882707db888b?w=1080&q=80\")",
+      "Bash(curl -sI \"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&q=80\")"
+    ],
+    "additionalDirectories": [
+      "/Users/juliaavona/.claude/agents"
     ]
   }
 }

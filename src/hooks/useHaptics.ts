@@ -3,54 +3,54 @@ import * as Haptics from 'expo-haptics';
 import { useSettingsStore } from '../store';
 
 /**
- * Lightweight haptic feedback hook that respects the vibrationEnabled setting.
+ * Lightweight haptic feedback hook that respects the hapticsEnabled setting.
  * Use this for UI interactions (taps, toggles, navigation) — NOT for timer feedback
  * (useIntervalFeedback handles that with sound+haptic combos).
  */
 export function useHaptics() {
-  const vibrationEnabled = useSettingsStore((s) => s.vibrationEnabled);
+  const hapticsEnabled = useSettingsStore((s) => s.hapticsEnabled);
 
   const light = useCallback(() => {
-    if (vibrationEnabled) {
+    if (hapticsEnabled) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
-  }, [vibrationEnabled]);
+  }, [hapticsEnabled]);
 
   const medium = useCallback(() => {
-    if (vibrationEnabled) {
+    if (hapticsEnabled) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-  }, [vibrationEnabled]);
+  }, [hapticsEnabled]);
 
   const heavy = useCallback(() => {
-    if (vibrationEnabled) {
+    if (hapticsEnabled) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
-  }, [vibrationEnabled]);
+  }, [hapticsEnabled]);
 
   const selection = useCallback(() => {
-    if (vibrationEnabled) {
+    if (hapticsEnabled) {
       Haptics.selectionAsync();
     }
-  }, [vibrationEnabled]);
+  }, [hapticsEnabled]);
 
   const success = useCallback(() => {
-    if (vibrationEnabled) {
+    if (hapticsEnabled) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }
-  }, [vibrationEnabled]);
+  }, [hapticsEnabled]);
 
   const warning = useCallback(() => {
-    if (vibrationEnabled) {
+    if (hapticsEnabled) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     }
-  }, [vibrationEnabled]);
+  }, [hapticsEnabled]);
 
   const error = useCallback(() => {
-    if (vibrationEnabled) {
+    if (hapticsEnabled) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     }
-  }, [vibrationEnabled]);
+  }, [hapticsEnabled]);
 
   return { light, medium, heavy, selection, success, warning, error };
 }

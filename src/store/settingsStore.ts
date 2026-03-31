@@ -1,48 +1,90 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Settings } from '../types';
-import { TIMER_DEFAULTS } from '../constants';
+import { UserSettings } from '../types';
 
-const STORAGE_KEY = '@walkpace_settings';
+const STORAGE_KEY = '@breathflow_settings';
 
-const defaultSettings: Settings = {
+const DEFAULT_SETTINGS: UserSettings = {
+  techniqueOverrides: {},
+
   soundEnabled: true,
-  vibrationEnabled: true,
-  soundType: 'beep',
-  healthIntegration: false,
-  isPro: false,
-  onboardingCompleted: false,
-  warmUpEnabled: false,
-  coolDownEnabled: false,
-  warmUpDuration: TIMER_DEFAULTS.warmUpDuration,
-  coolDownDuration: TIMER_DEFAULTS.coolDownDuration,
-  highContrastMode: false,
-  fastInterval: TIMER_DEFAULTS.fastDuration,
-  slowInterval: TIMER_DEFAULTS.slowDuration,
-  roundCount: TIMER_DEFAULTS.totalRounds,
+  soundStyle: 'tone',
+  hapticsEnabled: true,
+
+  darkMode: 'dark',
+  textSize: 'default',
+
+  healthSyncEnabled: false,
+
   reminderEnabled: false,
   reminderTime: '08:00',
-  dailyStepGoal: 10000,
-  colorThemeId: 'default',
-  startingPhase: 'fast',
+  reminderDays: [0, 1, 2, 3, 4, 5, 6],
+
+  onboardingCompleted: false,
+  safetyAccepted: false,
+  selectedGoal: undefined,
+  recommendedTechniqueId: undefined,
+  dailyGoalMinutes: 5,
+
+  isPro: false,
 };
 
-interface SettingsStore extends Settings {
+interface SettingsStore extends UserSettings {
   _hydrated: boolean;
+
+  // Generic setter for any setting
+  setSetting: <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => void;
+
+  // Pro access — must be set via these dedicated methods (not setSetting)
+  grantPro: () => void;
+  revokePro: () => void;
+
+  // Technique overrides
+  setTechniqueOverride: (techniqueId: string, overrides: UserSettings['techniqueOverrides'][string]) => void;
+  clearTechniqueOverride: (techniqueId: string) => void;
+
+  // Hydration
   hydrate: () => Promise<void>;
-  update: (partial: Partial<Settings>) => void;
-  reset: () => void;
 }
 
-export const useSettingsStore = create<SettingsStore>((set, get) => ({
-  ...defaultSettings,
+/** Extract only UserSettings fields from the store state for persistence. */
+function extractSettings(state: SettingsStore): UserSettings {
+  return {
+    techniqueOverrides: state.techniqueOverrides,
+    soundEnabled: state.soundEnabled,
+    soundStyle: state.soundStyle,
+    hapticsEnabled: state.hapticsEnabled,
+    darkMode: state.darkMode,
+    textSize: state.textSize,
+    healthSyncEnabled: state.healthSyncEnabled,
+    reminderEnabled: state.reminderEnabled,
+    reminderTime: state.reminderTime,
+    reminderDays: state.reminderDays,
+    onboardingCompleted: state.onboardingCompleted,
+    safetyAccepted: state.safetyAccepted,
+    selectedGoal: state.selectedGoal,
+    recommendedTechniqueId: state.recommendedTechniqueId,
+    dailyGoalMinutes: state.dailyGoalMinutes,
+    isPro: state.isPro,
+  };
+}
+
+/** Persist current settings to AsyncStorage. */
+function persist(state: SettingsStore): void {
+  const data = extractSettings(state);
+  AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+export const useSettingsStore = create<SettingsStore>()((set, get) => ({
+  ...DEFAULT_SETTINGS,
   _hydrated: false,
 
   hydrate: async () => {
     try {
       const json = await AsyncStorage.getItem(STORAGE_KEY);
       if (json) {
-        set({ ...defaultSettings, ...JSON.parse(json), _hydrated: true });
+        const stored = JSON.parse(json) as Partial<UserSettings>;
+        set({ ...DEFAULT_SETTINGS, ...stored, _hydrated: true });
       } else {
         set({ _hydrated: true });
       }
@@ -51,36 +93,37 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     }
   },
 
-  update: (partial) => {
-    set(partial);
-    const state = get();
-    const settingsOnly: Settings = {
-      soundEnabled: state.soundEnabled,
-      vibrationEnabled: state.vibrationEnabled,
-      soundType: state.soundType,
-      healthIntegration: state.healthIntegration,
-      isPro: state.isPro,
-      onboardingCompleted: state.onboardingCompleted,
-      warmUpEnabled: state.warmUpEnabled,
-      coolDownEnabled: state.coolDownEnabled,
-      warmUpDuration: state.warmUpDuration,
-      coolDownDuration: state.coolDownDuration,
-      highContrastMode: state.highContrastMode,
-      fastInterval: state.fastInterval,
-      slowInterval: state.slowInterval,
-      roundCount: state.roundCount,
-      reminderEnabled: state.reminderEnabled,
-      reminderTime: state.reminderTime,
-      dailyStepGoal: state.dailyStepGoal,
-      colorThemeId: state.colorThemeId,
-      startingPhase: state.startingPhase,
-    };
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(settingsOnly));
+  setSetting: (key, value) => {
+    set({ [key]: value } as Partial<SettingsStore>);
+    persist(get());
     import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
   },
 
-  reset: () => {
-    set(defaultSettings);
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(defaultSettings));
+  grantPro: () => {
+    set({ isPro: true });
+    persist(get());
+    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
+  },
+
+  revokePro: () => {
+    set({ isPro: false });
+    persist(get());
+    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
+  },
+
+  setTechniqueOverride: (techniqueId, overrides) => {
+    const current = get().techniqueOverrides;
+    set({
+      techniqueOverrides: { ...current, [techniqueId]: overrides },
+    });
+    persist(get());
+    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
+  },
+
+  clearTechniqueOverride: (techniqueId) => {
+    const { [techniqueId]: _, ...rest } = get().techniqueOverrides;
+    set({ techniqueOverrides: rest });
+    persist(get());
+    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
   },
 }));

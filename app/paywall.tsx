@@ -7,68 +7,86 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
-  Switch,
+  ImageBackground,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, scale } from '../src/constants';
+import { useThemeColors } from '../src/hooks/useColorScheme';
+import { SPACING, FONT_SIZE, FONTS } from '../src/constants';
 import { useSettingsStore } from '../src/store';
 import {
   getOfferings,
   purchasePackage,
   restorePurchases,
-  type PurchasesPackage,
   type PurchasesOffering,
+  type PurchasesPackage,
 } from '../src/utils/revenueCat';
 
-type Plan = 'annual' | 'weekly';
+type PlanType = 'weekly' | 'annual' | 'lifetime';
+
+const FEATURES = [
+  { icon: 'flash' as const, color: '#FF6B6B', bg: 'rgba(255,107,107,0.15)', labelKey: 'paywall.feature1' },
+  { icon: 'musical-notes' as const, color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', labelKey: 'paywall.feature2' },
+  { icon: 'trophy' as const, color: '#F5A623', bg: 'rgba(245,166,35,0.15)', labelKey: 'paywall.feature3' },
+  { icon: 'stats-chart' as const, color: '#34D399', bg: 'rgba(52,211,153,0.15)', labelKey: 'paywall.feature4' },
+];
 
 export default function PaywallScreen() {
   const { t } = useTranslation();
-  const theme = useThemeColors();
-  const fontSize = useFontSize();
-  const updateSettings = useSettingsStore((s) => s.update);
-  const [selectedPlan, setSelectedPlan] = useState<Plan>('weekly');
+  useThemeColors(); // keep hook for status bar
+  const insets = useSafeAreaInsets();
+  const grantPro = useSettingsStore((s) => s.grantPro);
   const [loading, setLoading] = useState(false);
   const [offering, setOffering] = useState<PurchasesOffering | null>(null);
-  const [trialEnabled, setTrialEnabled] = useState(true);
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>('lifetime');
+  const { fromOnboarding } = useLocalSearchParams<{ fromOnboarding?: string }>();
+  const isFromOnboarding = fromOnboarding === '1';
+
+  const handleClose = () => {
+    if (isFromOnboarding) {
+      router.replace('/(tabs)');
+    } else {
+      router.canGoBack() ? router.back() : router.replace('/(tabs)');
+    }
+  };
 
   useEffect(() => {
     getOfferings().then(setOffering);
   }, []);
 
-  const getPackage = (): PurchasesPackage | undefined => {
-    if (!offering) return undefined;
-    if (selectedPlan === 'annual') return offering.annual ?? undefined;
-    return offering.weekly ?? undefined;
+  const weeklyPkg: PurchasesPackage | null = offering?.weekly ?? null;
+  const annualPkg: PurchasesPackage | null = offering?.annual ?? null;
+  const lifetimePkg: PurchasesPackage | null = offering?.lifetime ?? null;
+
+  const weeklyPrice = weeklyPkg?.product.priceString ?? '$2.99';
+  const annualPrice = annualPkg?.product.priceString ?? '$14.99';
+  const lifetimePrice = lifetimePkg?.product.priceString ?? '$19.99';
+
+  const getSelectedPkg = (): PurchasesPackage | null => {
+    if (selectedPlan === 'weekly') return weeklyPkg;
+    if (selectedPlan === 'annual') return annualPkg;
+    return lifetimePkg;
   };
 
-  const features = [
-    { emoji: '\u{1F3AF}', text: t('paywall.feature1') },
-    { emoji: '\u{1F504}', text: t('paywall.feature2') },
-    { emoji: '\u{1F4E4}', text: t('paywall.feature3') },
-    { emoji: '\u{1F514}', text: t('paywall.feature4') },
-    { emoji: '\u{1F525}', text: t('paywall.feature5') },
-    { emoji: '\u{1F3A8}', text: t('paywall.feature6') },
-  ];
-
-
-  const onSubscribe = async () => {
-    const pkg = getPackage();
+  const onPurchase = async () => {
+    const pkg = getSelectedPkg();
     if (!pkg) {
       Alert.alert(t('paywall.errorTitle'), t('paywall.errorNoProduct'));
       return;
     }
-
     setLoading(true);
     try {
       const { isPro } = await purchasePackage(pkg);
       if (isPro) {
-        updateSettings({ isPro: true });
-        router.canGoBack() ? router.back() : router.replace('/(tabs)');
+        grantPro();
+        if (isFromOnboarding) {
+          router.replace('/(tabs)');
+        } else {
+          router.canGoBack() ? router.back() : router.replace('/(tabs)');
+        }
       }
     } catch (e: any) {
       if (e.userCancelled) return;
@@ -83,9 +101,13 @@ export default function PaywallScreen() {
     try {
       const { isPro } = await restorePurchases();
       if (isPro) {
-        updateSettings({ isPro: true });
+        grantPro();
         Alert.alert(t('paywall.restoreSuccessTitle'), t('paywall.restoreSuccessMessage'));
-        router.canGoBack() ? router.back() : router.replace('/(tabs)');
+        if (isFromOnboarding) {
+          router.replace('/(tabs)');
+        } else {
+          router.canGoBack() ? router.back() : router.replace('/(tabs)');
+        }
       } else {
         Alert.alert(t('paywall.restoreTitle'), t('paywall.restoreNoPurchases'));
       }
@@ -96,415 +118,397 @@ export default function PaywallScreen() {
     }
   };
 
-  // Dynamic prices from RevenueCat (fallback to translation keys)
-  const annualPrice = offering?.annual?.product.priceString ?? t('paywall.annualPrice');
-  const weeklyPrice = offering?.weekly?.product.priceString ?? t('paywall.weeklyPrice');
-
-  // Calculate per-week cost from annual price, preserving locale currency symbol
-  const annualPerWeek = (() => {
-    const product = offering?.annual?.product;
-    if (!product) return '';
-    const perWeek = (product.price / 52).toFixed(2);
-    // Extract currency symbol from priceString (e.g. "$24.99" → "$", "₹299" → "₹")
-    const symbol = product.priceString.replace(/[\d.,\s]/g, '').trim();
-    return `${symbol}${perWeek}/wk`;
-  })();
-
-  const RadioCircle = ({ selected }: { selected: boolean }) => (
-    <View style={[styles.radio, { borderColor: selected ? theme.primary : theme.border }]}>
-      {selected && <View style={[styles.radioInner, { backgroundColor: theme.primary }]} />}
-    </View>
-  );
+  const ctaLabel = selectedPlan === 'lifetime'
+    ? t('paywall.unlockForever', { defaultValue: 'Unlock Forever' })
+    : selectedPlan === 'annual'
+      ? t('paywall.startAnnual', { defaultValue: 'Start Annual Plan' })
+      : t('paywall.startWeekly', { defaultValue: 'Start Weekly' });
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-      {/* Header row: close + restore */}
-      <View style={styles.headerRow}>
-        <TouchableOpacity
-          onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')}
-          activeOpacity={0.7}
-          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-        >
-          <Ionicons name="close" size={28} color={theme.textSecondary} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onRestore}
-          activeOpacity={0.7}
-          disabled={loading}
-        >
-          <Ionicons name="refresh" size={24} color={theme.textSecondary} />
-        </TouchableOpacity>
-      </View>
-
+    <ImageBackground
+      source={require('../assets/bg_coherence.webp')}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <LinearGradient
+        colors={['rgba(15,20,25,0.85)', 'rgba(15,20,25,0.95)', '#0F1419']}
+        locations={[0, 0.4, 0.7]}
+        style={StyleSheet.absoluteFill}
+      />
       <ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + 24 }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Icon */}
-        <View style={[styles.iconCircle, { backgroundColor: theme.primary + '15' }]}>
-          <Ionicons name="diamond" size={scale(36)} color={theme.primary} />
+        {/* Close button */}
+        <View style={[styles.headerRow, { paddingTop: insets.top + 8 }]}>
+          <TouchableOpacity
+            onPress={handleClose}
+            activeOpacity={0.7}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          >
+            <View style={styles.headerBtn}>
+              <Ionicons name="close" size={22} color="#FFFFFF" />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onRestore} activeOpacity={0.7} disabled={loading}>
+            <Text style={styles.restoreText}>{t('paywall.restore')}</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Title */}
-        <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl + 4 }]} numberOfLines={2} adjustsFontSizeToFit>
-          {t('paywall.title')}
-        </Text>
-        <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-          {t('paywall.subtitle')}
-        </Text>
+        <View style={styles.titleArea}>
+          <Text style={styles.title}>BreathFlow</Text>
+          <View style={styles.proBadge}>
+            <Ionicons name="diamond" size={12} color="#FFF" />
+            <Text style={styles.proBadgeText}>PRO</Text>
+          </View>
+        </View>
 
-        {/* Feature list */}
+        {/* Features */}
         <View style={styles.featureList}>
-          {features.map((feature, index) => (
-            <View key={index} style={styles.featureRow}>
-              <Text style={styles.featureEmoji}>{feature.emoji}</Text>
-              <Text style={[styles.featureText, { color: theme.text, fontSize: fontSize.md }]} numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.8}>
-                {feature.text}
+          {FEATURES.map((f, i) => (
+            <View key={i} style={styles.featureRow}>
+              <View style={[styles.featureIcon, { backgroundColor: f.bg }]}>
+                <Ionicons name={f.icon} size={20} color={f.color} />
+              </View>
+              <Text style={styles.featureText}>
+                {t(f.labelKey)}
               </Text>
             </View>
           ))}
         </View>
 
         {/* Plan cards */}
-        <View style={styles.plansColumn}>
-          {/* Weekly plan */}
+        <View style={styles.plansArea}>
+          {/* Weekly */}
           <TouchableOpacity
             style={[
               styles.planCard,
-              {
-                backgroundColor: selectedPlan === 'weekly' ? theme.primary + '10' : theme.card,
-                borderColor: selectedPlan === 'weekly' ? theme.primary : theme.border,
-                borderWidth: selectedPlan === 'weekly' ? 2 : 1,
-              },
+              selectedPlan === 'weekly' && styles.planCardSelected,
             ]}
             onPress={() => setSelectedPlan('weekly')}
             activeOpacity={0.8}
           >
-            <RadioCircle selected={selectedPlan === 'weekly'} />
-            <View style={styles.planInfo}>
-              <Text style={[styles.planName, { color: theme.text, fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('paywall.weeklyPlan')}
-              </Text>
-              <Text style={[styles.planTrial, { color: theme.textSecondary, fontSize: fontSize.sm }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('paywall.weeklyTrial')}
-              </Text>
+            <View style={styles.planLeft}>
+              <View style={[styles.planRadio, selectedPlan === 'weekly' && styles.planRadioSelected]}>
+                {selectedPlan === 'weekly' && <View style={styles.planRadioDot} />}
+              </View>
+              <View>
+                <Text style={styles.planTitle}>WEEKLY</Text>
+                <Text style={styles.planSub}>{t('paywall.weeklyTrial', { defaultValue: '3-day free trial' })}</Text>
+              </View>
             </View>
-            <View style={styles.planPriceBlock}>
-              <Text style={[styles.planPriceMain, { color: theme.text, fontSize: fontSize.md }]}>
-                {weeklyPrice}
-              </Text>
+            <View style={styles.planRight}>
+              <Text style={styles.planPriceLabel}>{t('paywall.then', { defaultValue: 'then' })} {weeklyPrice}</Text>
+              <Text style={styles.planPeriod}>{t('paywall.perWeek', { defaultValue: 'per week' })}</Text>
             </View>
           </TouchableOpacity>
 
-          {/* Annual plan */}
+          {/* Annual */}
           <TouchableOpacity
             style={[
               styles.planCard,
-              {
-                backgroundColor: selectedPlan === 'annual' ? theme.primary + '10' : theme.card,
-                borderColor: selectedPlan === 'annual' ? theme.primary : theme.border,
-                borderWidth: selectedPlan === 'annual' ? 2 : 1,
-              },
+              selectedPlan === 'annual' && styles.planCardSelected,
             ]}
             onPress={() => setSelectedPlan('annual')}
             activeOpacity={0.8}
           >
-            <RadioCircle selected={selectedPlan === 'annual'} />
-            <View style={styles.planInfo}>
-              <View style={styles.planNameRow}>
-                <Text style={[styles.planName, { color: theme.text, fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>
-                  {t('paywall.annualPlan')}
-                </Text>
-                <View style={[styles.saveBadge, { backgroundColor: theme.primary + '15' }]}>
-                  <Text style={[styles.saveBadgeText, { color: theme.primary }]} numberOfLines={1}>{t('paywall.annualSave')}</Text>
-                </View>
+            <View style={styles.planLeft}>
+              <View style={[styles.planRadio, selectedPlan === 'annual' && styles.planRadioSelected]}>
+                {selectedPlan === 'annual' && <View style={styles.planRadioDot} />}
               </View>
-              <Text style={[styles.planTrial, { color: theme.textSecondary, fontSize: fontSize.sm }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('paywall.annualTrial')}
-              </Text>
+              <View>
+                <Text style={styles.planTitle}>ANNUAL</Text>
+                <Text style={styles.planSub}>{t('paywall.annualTrial', { defaultValue: '7-day free trial' })}</Text>
+              </View>
             </View>
-            <View style={styles.planPriceBlock}>
-              <Text style={[styles.planPriceMain, { color: theme.text, fontSize: fontSize.md }]}>
-                {annualPerWeek}
-              </Text>
-              <Text style={[styles.planPriceTotal, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-                {annualPrice}
-              </Text>
+            <View style={styles.planRight}>
+              <Text style={styles.planPriceLabel}>{t('paywall.then', { defaultValue: 'then' })} {annualPrice}</Text>
+              <Text style={styles.planPeriod}>{t('paywall.perYear', { defaultValue: 'per year' })}</Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* Lifetime */}
+          <TouchableOpacity
+            style={[
+              styles.planCard,
+              selectedPlan === 'lifetime' && styles.planCardSelected,
+            ]}
+            onPress={() => setSelectedPlan('lifetime')}
+            activeOpacity={0.8}
+          >
+            <View style={styles.planLeft}>
+              <View style={[styles.planRadio, selectedPlan === 'lifetime' && styles.planRadioSelected]}>
+                {selectedPlan === 'lifetime' && <View style={styles.planRadioDot} />}
+              </View>
+              <View>
+                <Text style={styles.planTitle}>LIFETIME</Text>
+                <Text style={styles.planSub}>{t('paywall.oneTimePay', { defaultValue: 'one-time purchase' })}</Text>
+              </View>
+            </View>
+            <View style={styles.planRight}>
+              <Text style={styles.planPriceOnce}>{lifetimePrice}</Text>
             </View>
           </TouchableOpacity>
         </View>
 
-        {/* Free trial toggle */}
-        <View style={[styles.trialToggleRow, { borderColor: theme.border }]}>
-            <Text style={[styles.trialToggleText, { color: theme.text, fontSize: fontSize.md }]}>
-              {t('paywall.freeTrialEnabled')}
-            </Text>
-            <Switch
-              value={trialEnabled}
-              onValueChange={setTrialEnabled}
-              trackColor={{ false: theme.border, true: theme.primary }}
-              thumbColor={COLORS.white}
-            />
-        </View>
-
-        {/* CTA Button */}
+        {/* CTA */}
         <TouchableOpacity
-          style={[styles.ctaButton, { backgroundColor: theme.primary }, loading && styles.ctaButtonDisabled]}
-          onPress={onSubscribe}
-          activeOpacity={0.8}
+          style={[styles.ctaButton, loading && { opacity: 0.7 }]}
+          onPress={onPurchase}
+          activeOpacity={0.85}
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color={COLORS.white} />
+            <ActivityIndicator color="#FFF" />
           ) : (
-            <Text style={[styles.ctaButtonText, { fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>
-              {trialEnabled
-                ? t('paywall.tryForFree')
-                : t('paywall.subscribe')}
-            </Text>
+            <>
+              <Text style={styles.ctaText}>{ctaLabel}</Text>
+              <Ionicons name="chevron-forward" size={20} color="#FFFFFF" />
+            </>
           )}
         </TouchableOpacity>
 
-        {/* No payment now */}
-        {trialEnabled && (
-          <View style={styles.noPaymentRow}>
-            <Ionicons name="shield-checkmark" size={16} color={theme.textSecondary} />
-            <Text style={[styles.noPaymentText, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-              {t('paywall.noPaymentNow')}
-            </Text>
-          </View>
-        )}
-
-        {/* Legal links */}
+        {/* Legal */}
         <View style={styles.legalLinks}>
           <TouchableOpacity onPress={() => router.push('/terms')} activeOpacity={0.7}>
-            <Text style={[styles.legalLinkText, { color: theme.textSecondary }]}>
-              {t('paywall.terms')}
-            </Text>
+            <Text style={styles.legalText}>{t('paywall.terms')}</Text>
           </TouchableOpacity>
-          <Text style={[styles.legalSeparator, { color: theme.textSecondary }]}>{'  \u2022  '}</Text>
+          <Text style={styles.legalSep}>{' \u2022 '}</Text>
           <TouchableOpacity onPress={() => router.push('/privacy')} activeOpacity={0.7}>
-            <Text style={[styles.legalLinkText, { color: theme.textSecondary }]}>
-              {t('paywall.privacy')}
-            </Text>
+            <Text style={styles.legalText}>{t('paywall.privacy')}</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Disclaimer */}
-        <Text style={[styles.disclaimer, { color: theme.textSecondary + '80', fontSize: fontSize.xs }]}>
-          {t('paywall.disclaimer')}
-        </Text>
+        <TouchableOpacity onPress={handleClose} activeOpacity={0.7} style={styles.hideOptions}>
+          <Text style={styles.hideOptionsText}>{t('paywall.hideOptions', { defaultValue: 'Hide Options' })}</Text>
+        </TouchableOpacity>
       </ScrollView>
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
 
-const RADIO_SIZE = 24;
-const RADIO_INNER = 14;
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
+  scrollContent: { flexGrow: 1 },
+
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.sm,
-    paddingBottom: SPACING.xs,
+    marginBottom: SPACING.lg,
   },
-  scrollContent: {
-    paddingHorizontal: SPACING.lg,
-    paddingBottom: SPACING.xl,
+  headerBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  iconCircle: {
-    width: scale(72),
-    height: scale(72),
-    borderRadius: scale(36),
+  restoreText: {
+    fontSize: FONT_SIZE.sm,
+    fontFamily: FONTS.medium,
+    color: '#FFFFFF',
+  },
+
+  titleArea: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: SPACING.md,
-    marginTop: SPACING.sm,
+    marginBottom: SPACING.xl,
+    gap: 8,
   },
   title: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
-    textAlign: 'center',
-    marginBottom: SPACING.xs,
+    fontSize: 36,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: -0.5,
   },
-  subtitle: {
-    fontSize: FONT_SIZE.md,
-    textAlign: 'center',
-    marginBottom: SPACING.xl,
+  proBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(155,89,182,0.85)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 12,
   },
+  proBadgeText: {
+    fontSize: 13,
+    fontFamily: FONTS.heavy,
+    color: '#FFF',
+    letterSpacing: 1,
+  },
+
+  // Features
   featureList: {
-    alignSelf: 'stretch',
+    paddingHorizontal: SPACING.xl,
     marginBottom: SPACING.xl,
+    gap: 16,
   },
   featureRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.sm + 2,
+    gap: 14,
   },
-  featureEmoji: {
-    fontSize: FONT_SIZE.lg,
-    marginRight: SPACING.sm + 2,
-    width: 28,
-    textAlign: 'center',
+  featureIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   featureText: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '500',
+    fontSize: 20,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
     flex: 1,
   },
 
   // Plans
-  plansColumn: {
-    alignSelf: 'stretch',
-    gap: SPACING.sm,
+  plansArea: {
+    paddingHorizontal: SPACING.lg,
+    gap: 10,
     marginBottom: SPACING.lg,
   },
   planCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SPACING.md,
-    paddingVertical: SPACING.md + 4,
-    borderRadius: BORDER_RADIUS.lg,
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderRadius: 14,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.1)',
+    position: 'relative',
     overflow: 'hidden',
   },
-  planInfo: {
-    flex: 1,
-    marginLeft: SPACING.sm + 2,
+  planCardSelected: {
+    borderColor: '#4A90D9',
+    backgroundColor: 'rgba(155,89,182,0.1)',
   },
-  planName: {
-    fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
-  },
-  planTrial: {
-    fontSize: FONT_SIZE.sm,
-  },
-  planPriceBlock: {
-    alignItems: 'flex-end',
-    marginLeft: SPACING.xs,
-    flexShrink: 0,
-  },
-  planPrice: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '700',
-  },
-  planPriceMain: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '600',
-  },
-  planPriceTotal: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '500',
-    marginTop: 2,
-  },
-  planNameRow: {
+  planLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: SPACING.xs,
-    marginBottom: 2,
+    gap: 12,
   },
-  saveBadge: {
-    paddingHorizontal: SPACING.xs + 2,
-    paddingVertical: 2,
-    borderRadius: BORDER_RADIUS.sm,
-  },
-  saveBadgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-    letterSpacing: 0.3,
-  },
-
-  // Radio
-  radio: {
-    width: RADIO_SIZE,
-    height: RADIO_SIZE,
-    borderRadius: RADIO_SIZE / 2,
+  planRadio: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
     borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.3)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  radioInner: {
-    width: RADIO_INNER,
-    height: RADIO_INNER,
-    borderRadius: RADIO_INNER / 2,
+  planRadioSelected: {
+    borderColor: '#4A90D9',
   },
-
-  // Trial toggle
-  trialToggleRow: {
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderRadius: BORDER_RADIUS.md,
-    borderWidth: 1,
-    marginBottom: SPACING.lg,
+  planRadioDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#4A90D9',
   },
-  trialToggleText: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '500',
+  planTitle: {
+    fontSize: 16,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: 0.5,
+  },
+  planSub: {
+    fontSize: 14,
+    fontFamily: FONTS.semibold,
+    color: 'rgba(255,255,255,0.85)',
+    marginTop: 2,
+  },
+  planRight: {
+    alignItems: 'flex-end',
+  },
+  planPriceLabel: {
+    fontSize: 16,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+  },
+  planPeriod: {
+    fontSize: 13,
+    fontFamily: FONTS.bold,
+    color: 'rgba(255,255,255,0.85)',
+    marginTop: 1,
+  },
+  planPriceOnce: {
+    fontSize: 18,
+    fontFamily: FONTS.heavy,
+    color: '#4A90D9',
+  },
+  saveBadge: {
+    position: 'absolute',
+    top: -12,
+    right: 12,
+    backgroundColor: '#34D399',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    zIndex: 1,
+  },
+  saveBadgeText: {
+    fontSize: 11,
+    fontFamily: FONTS.heavy,
+    color: '#000',
+    letterSpacing: 0.5,
   },
 
   // CTA
   ctaButton: {
-    alignSelf: 'stretch',
-    paddingVertical: SPACING.md + 2,
-    borderRadius: BORDER_RADIUS.xl,
+    marginHorizontal: SPACING.lg,
+    backgroundColor: '#4A90D9',
+    borderRadius: 14,
+    paddingVertical: 18,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.sm,
-    shadowColor: '#000',
+    justifyContent: 'center',
+    gap: 6,
+    marginBottom: SPACING.md,
+    shadowColor: '#4A90D9',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.35,
     shadowRadius: 12,
     elevation: 4,
   },
-  ctaButtonDisabled: {
-    opacity: 0.7,
-  },
-  ctaButtonText: {
-    color: COLORS.white,
-    fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+  ctaText: {
+    fontSize: 22,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
     letterSpacing: 0.5,
-  },
-
-  // No payment
-  noPaymentRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.xs,
-    marginBottom: SPACING.lg,
-    marginTop: SPACING.xs,
-  },
-  noPaymentText: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '500',
   },
 
   // Legal
   legalLinks: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.md,
+    justifyContent: 'center',
+    marginBottom: SPACING.sm,
   },
-  legalLinkText: {
+  legalText: {
     fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.85)',
   },
-  legalSeparator: {
+  legalSep: {
     fontSize: FONT_SIZE.xs,
+    color: 'rgba(255,255,255,0.85)',
   },
-  disclaimer: {
-    fontSize: FONT_SIZE.xs,
-    textAlign: 'center',
-    lineHeight: 16,
-    paddingHorizontal: SPACING.sm,
+  hideOptions: {
+    alignItems: 'center',
+    paddingVertical: SPACING.sm,
+  },
+  hideOptionsText: {
+    fontSize: FONT_SIZE.sm,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.85)',
+    textDecorationLine: 'underline',
   },
 });

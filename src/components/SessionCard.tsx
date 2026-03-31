@@ -8,14 +8,15 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { Session } from '../types';
+import { BreathingSession } from '../types';
 import { formatTotalTime } from '../utils/time';
 import { useThemeColors } from '../hooks/useColorScheme';
 import { useHaptics } from '../hooks/useHaptics';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '../constants';
+import { getTechniqueById } from '../constants/techniques';
 
 interface SessionCardProps {
-  session: Session;
+  session: BreathingSession;
 }
 
 export function SessionCard({ session }: SessionCardProps) {
@@ -24,6 +25,7 @@ export function SessionCard({ session }: SessionCardProps) {
   const haptics = useHaptics();
   const locale = i18n.language;
   const [showDetail, setShowDetail] = useState(false);
+  const technique = getTechniqueById(session.techniqueId);
 
   const dateObj = new Date(session.date + 'T12:00:00');
   const dateLabel = dateObj.toLocaleDateString(locale, {
@@ -67,16 +69,9 @@ export function SessionCard({ session }: SessionCardProps) {
             <View style={[styles.statDivider, { backgroundColor: theme.border }]} />
             <View style={styles.stat}>
               <Text style={[styles.statValue, { color: theme.text }]}>
-                {session.rounds}/{session.totalRounds}
+                {session.cyclesCompleted}
               </Text>
-              <Text style={[styles.statLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>{t('sessionCard.rounds')}</Text>
-            </View>
-            <View style={[styles.statDivider, { backgroundColor: theme.border }]} />
-            <View style={styles.stat}>
-              <Text style={[styles.statValue, { color: theme.accent }]}>
-                {session.estimatedCalories}
-              </Text>
-              <Text style={[styles.statLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>{t('sessionCard.cal')}</Text>
+              <Text style={[styles.statLabel, { color: theme.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>{t('sessionCard.cycles')}</Text>
             </View>
           </View>
         </View>
@@ -101,37 +96,22 @@ export function SessionCard({ session }: SessionCardProps) {
               <View style={[styles.modalStat, { backgroundColor: `${theme.accent}12` }]}>
                 <Ionicons name="repeat-outline" size={20} color={theme.accent} />
                 <Text style={[styles.modalStatValue, { color: theme.text }]}>
-                  {session.rounds}/{session.totalRounds}
+                  {session.cyclesCompleted}
                 </Text>
-                <Text style={[styles.modalStatLabel, { color: theme.textSecondary }]}>{t('sessionCard.rounds')}</Text>
-              </View>
-              <View style={[styles.modalStat, { backgroundColor: `${COLORS.error}12` }]}>
-                <Ionicons name="flame-outline" size={20} color={COLORS.error} />
-                <Text style={[styles.modalStatValue, { color: theme.text }]}>
-                  {session.estimatedCalories}
-                </Text>
-                <Text style={[styles.modalStatLabel, { color: theme.textSecondary }]}>{t('sessionCard.cal')}</Text>
+                <Text style={[styles.modalStatLabel, { color: theme.textSecondary }]}>{t('sessionCard.cycles')}</Text>
               </View>
             </View>
 
             <View style={styles.modalDetails}>
               <View style={styles.modalDetailRow}>
-                <Text style={[styles.modalDetailLabel, { color: theme.textSecondary }]}>{t('sessionCard.fastInterval')}</Text>
-                <Text style={[styles.modalDetailValue, { color: theme.text }]}>{formatTotalTime(session.fastDuration)}</Text>
+                <Text style={[styles.modalDetailLabel, { color: theme.textSecondary }]}>{t('sessionCard.technique')}</Text>
+                <Text style={[styles.modalDetailValue, { color: theme.text }]}>
+                  {technique ? t(technique.nameKey) : session.techniqueId}
+                </Text>
               </View>
-              <View style={styles.modalDetailRow}>
-                <Text style={[styles.modalDetailLabel, { color: theme.textSecondary }]}>{t('sessionCard.slowInterval')}</Text>
-                <Text style={[styles.modalDetailValue, { color: theme.text }]}>{formatTotalTime(session.slowDuration)}</Text>
-              </View>
-              {session.warmUp && (
+              {session.completed && (
                 <View style={styles.modalDetailRow}>
-                  <Text style={[styles.modalDetailLabel, { color: theme.textSecondary }]}>{t('timer.warmUp')}</Text>
-                  <Ionicons name="checkmark" size={16} color={theme.primary} />
-                </View>
-              )}
-              {session.coolDown && (
-                <View style={styles.modalDetailRow}>
-                  <Text style={[styles.modalDetailLabel, { color: theme.textSecondary }]}>{t('timer.coolDown')}</Text>
+                  <Text style={[styles.modalDetailLabel, { color: theme.textSecondary }]}>{t('sessionCard.completed')}</Text>
                   <Ionicons name="checkmark" size={16} color={theme.primary} />
                 </View>
               )}

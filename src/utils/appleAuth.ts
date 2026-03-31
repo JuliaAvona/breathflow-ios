@@ -5,6 +5,7 @@ export async function performAppleSignIn(): Promise<{
   idToken: string;
   nonce: string;
   authorizationCode: string;
+  givenName: string | null;
 }> {
   const rawNonce = Array.from(await Crypto.getRandomBytesAsync(32))
     .map((b) => b.toString(16).padStart(2, '0'))
@@ -35,5 +36,6 @@ export async function performAppleSignIn(): Promise<{
     idToken: credential.identityToken,
     nonce: rawNonce,
     authorizationCode: credential.authorizationCode,
+    givenName: credential.fullName?.givenName ?? null,
   };
 }

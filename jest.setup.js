@@ -91,6 +91,20 @@ jest.mock('./src/services/syncService', () => ({
   pushBadges: jest.fn(() => Promise.resolve()),
 }));
 
+// Mock react-native-purchases (RevenueCat)
+jest.mock('react-native-purchases', () => ({
+  Purchases: {
+    configure: jest.fn(),
+    getCustomerInfo: jest.fn(() => Promise.resolve({ entitlements: { active: {} } })),
+    getOfferings: jest.fn(() => Promise.resolve({ current: null })),
+    purchasePackage: jest.fn(),
+    restorePurchases: jest.fn(() => Promise.resolve({ entitlements: { active: {} } })),
+    logIn: jest.fn(),
+    logOut: jest.fn(),
+  },
+  LOG_LEVEL: { DEBUG: 0 },
+}));
+
 // Mock react-i18next
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({

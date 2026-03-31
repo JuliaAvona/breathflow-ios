@@ -1,28 +1,49 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Animated, Image, ScrollView, Dimensions, AppState } from 'react-native';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  ScrollView,
+  Dimensions,
+  AppState,
+  Share,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import { captureRef } from 'react-native-view-shot';
-import * as Sharing from 'expo-sharing';
 import { useSessionsStore, useSettingsStore, useBadgesStore } from '../src/store';
 import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
 import { formatTotalTime } from '../src/utils/time';
-import { saveSessionToHealth, isHealthKitAvailable } from '../src/utils/healthKit';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, scale } from '../src/constants';
+import { writeMindfulSession, isHealthKitAvailable } from '../src/utils/healthKit';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, FONTS, scale } from '../src/constants';
+import { getTechniqueById } from '../src/constants/techniques';
 import { BadgeUnlockModal } from '../src/components/BadgeUnlockModal';
-import { Badge } from '../src/types';
-import { getCalorieEquivalent } from '../src/utils/foodEquivalents';
 import { getRandomQuoteKey } from '../src/constants/motivationalQuotes';
+import { Mood } from '../src/types';
+import { requestStoreReview } from '../src/utils/storeReview';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const CONFETTI_COLORS = ['#D85E43', '#5BA4C8', '#F5C542', '#7BC67E', '#E88B73', '#9DC8D9'];
+const CONFETTI_COLORS = ['#4A90D9', '#7BC4A8', '#F5C542', '#7B68AE', '#E85D4A', '#5BA4C8'];
 const CONFETTI_COUNT = 40;
 
+const MOOD_OPTIONS: { key: Mood; emoji: string; color: string; bg: string; labelKey: string }[] = [
+  { key: 'energized', emoji: '\u{1F929}', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
+  { key: 'happy', emoji: '\u{1F642}', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
+  { key: 'calm', emoji: '\u{1F610}', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
+  { key: 'focused', emoji: '\u{1F61E}', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
+  { key: 'anxious', emoji: '\u{1F62D}', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
+  { key: 'sleepy', emoji: '\u{1F634}', color: '#7B68AE', bg: '#7B68AE', labelKey: 'summary.moodSleepy' },
+];
+
 function ConfettiAnimation() {
-  const startXValues = useRef(Array.from({ length: CONFETTI_COUNT }, () => Math.random() * SCREEN_WIDTH)).current;
+  const startXValues = useRef(
+    Array.from({ length: CONFETTI_COUNT }, () => Math.random() * SCREEN_WIDTH),
+  ).current;
   const pieces = useRef(
     startXValues.map((startX) => ({
       x: new Animated.Value(startX),
@@ -88,29 +109,116 @@ function ConfettiAnimation() {
   );
 }
 
+function formatRetentionTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.round(seconds % 60);
+  if (mins > 0) {
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+  return `${secs}s`;
+}
+
 export default function SummaryScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
   const fontSize = useFontSize();
-  const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
+
+  const params = useLocalSearchParams<{ sessionId: string; fromOnboarding?: string; _dur?: string; _music?: string }>();
+
   const sessions = useSessionsStore((s) => s.sessions);
   const stats = useSessionsStore((s) => s.stats);
-  const healthIntegration = useSettingsStore((s) => s.healthIntegration);
+  const healthSyncEnabled = useSettingsStore((s) => s.healthSyncEnabled);
+  const settings = useSettingsStore.getState();
   const checkAndUnlock = useBadgesStore((s) => s.checkAndUnlock);
-  const session = sessions.find((s) => s.id === sessionId);
+
   const healthSaved = useRef(false);
+  const sessionId = params.sessionId ?? '';
+  const session = sessions.find((s) => s.id === sessionId);
+  const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
   const [newBadgeIds, setNewBadgeIds] = useState<string[]>([]);
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
   const [showBadgeModal, setShowBadgeModal] = useState(false);
   const badgeScale = useRef(new Animated.Value(0)).current;
   const badgeOpacity = useRef(new Animated.Value(0)).current;
-  const getBadge = useBadgesStore((s) => s.getBadge);
   const [quoteKey] = useState(getRandomQuoteKey);
   const [confettiKey, setConfettiKey] = useState(0);
-  const foodEquiv = session ? getCalorieEquivalent(session.estimatedCalories) : null;
-  const shareCardRef = useRef<View>(null);
 
-  // Replay confetti when returning from background (animation may have finished while screen was locked)
+  const techniqueId = session?.techniqueId ?? '';
+  const technique = getTechniqueById(techniqueId);
+  const totalDuration = session?.totalDuration ?? 0;
+  const cyclesCompleted = session?.cyclesCompleted ?? 0;
+  const roundsCompleted = session?.roundsCompleted ?? 0;
+  const completed = session?.completed ?? false;
+  const retentionTimes = session?.retentionTimes ?? [];
+  const bestRetention = session?.bestRetention ?? (retentionTimes.length > 0 ? Math.max(...retentionTimes) : 0);
+  const avgRetention = retentionTimes.length > 0
+    ? Math.round(retentionTimes.reduce((a, b) => a + b, 0) / retentionTimes.length)
+    : 0;
+
+  const isPowerBreathing = technique?.mode === 'power';
+  const isPersonalBest = isPowerBreathing && bestRetention > 0 && bestRetention > stats.bestRetention;
+
+  // Save to Apple Health (Mindful Minutes)
+  useEffect(() => {
+    if (healthSaved.current || !healthSyncEnabled || !isHealthKitAvailable() || !session) return;
+    healthSaved.current = true;
+
+    const startDate = new Date(session.startedAt);
+    const endDate = new Date(session.completedAt);
+    const durationMinutes = Math.ceil(session.totalDuration / 60);
+    writeMindfulSession(startDate, endDate, durationMinutes);
+  }, [healthSyncEnabled, session]);
+
+  // Check badges after session is added
+  useEffect(() => {
+    if (!session) return;
+
+    const unlocked = checkAndUnlock(stats, settings, sessions);
+    if (unlocked.length > 0) {
+      setNewBadgeIds(unlocked);
+      setCurrentBadgeIndex(0);
+      const timer = setTimeout(() => {
+        setShowBadgeModal(true);
+      }, 500);
+
+      Animated.sequence([
+        Animated.delay(400),
+        Animated.parallel([
+          Animated.spring(badgeScale, {
+            toValue: 1,
+            friction: 5,
+            tension: 50,
+            useNativeDriver: true,
+          }),
+          Animated.timing(badgeOpacity, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+      ]).start();
+
+      return () => clearTimeout(timer);
+    }
+  }, [sessions.length, stats.totalSessions]);
+
+  // Request App Store review after 2nd, 5th, 10th session
+  const reviewRequested = useRef(false);
+  useEffect(() => {
+    if (reviewRequested.current) return;
+    const total = stats.totalSessions;
+    if (total === 2 || total === 5 || total === 10) {
+      reviewRequested.current = true;
+      // Will work in production builds with expo-store-review native module
+      // In Expo Go / simulator this is a no-op
+      const timer = setTimeout(() => {
+        requestStoreReview();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [stats.totalSessions]);
+
+  // Replay confetti when returning from background
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextState) => {
       if (nextState === 'active') {
@@ -123,282 +231,393 @@ export default function SummaryScreen() {
     };
   }, []);
 
-  useEffect(() => {
-    if (session && healthIntegration && isHealthKitAvailable() && !healthSaved.current) {
-      healthSaved.current = true;
-      saveSessionToHealth(session);
-    }
-  }, [session, healthIntegration]);
-
-  useEffect(() => {
-    if (session && stats) {
-      const unlocked = checkAndUnlock(stats);
-      if (unlocked.length > 0) {
-        setNewBadgeIds(unlocked);
-        setCurrentBadgeIndex(0);
-        const timer = setTimeout(() => {
-          setShowBadgeModal(true);
-        }, 500);
-
-        Animated.sequence([
-          Animated.delay(400),
-          Animated.parallel([
-            Animated.spring(badgeScale, {
-              toValue: 1,
-              friction: 5,
-              tension: 50,
-              useNativeDriver: true,
-            }),
-            Animated.timing(badgeOpacity, {
-              toValue: 1,
-              duration: 300,
-              useNativeDriver: true,
-            }),
-          ]),
-        ]).start();
-
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [session?.id, stats.totalSessions, stats.currentStreak, stats.totalMinutes, stats.totalCalories]);
-
-  const handleBadgeModalClose = () => {
+  const handleBadgeModalClose = useCallback(() => {
     setShowBadgeModal(false);
     if (currentBadgeIndex < newBadgeIds.length - 1) {
       setTimeout(() => {
-        setCurrentBadgeIndex(currentBadgeIndex + 1);
+        setCurrentBadgeIndex((prev) => prev + 1);
         setShowBadgeModal(true);
       }, 300);
     } else {
       setConfettiKey((k) => k + 1);
     }
-  };
+  }, [currentBadgeIndex, newBadgeIds.length]);
 
-  const currentBadge = newBadgeIds[currentBadgeIndex] ? (getBadge(newBadgeIds[currentBadgeIndex]) ?? null) : null;
+  const currentBadgeId = newBadgeIds[currentBadgeIndex];
+  const currentBadgeDef = currentBadgeId
+    ? BADGE_DEFINITIONS.find((d) => d.id === currentBadgeId)
+    : null;
+  const currentBadge: import('../src/types').Badge | null = currentBadgeDef
+    ? {
+        id: currentBadgeDef.id,
+        nameKey: currentBadgeDef.nameKey,
+        descriptionKey: currentBadgeDef.descriptionKey,
+        icon: currentBadgeDef.icon,
+        category: currentBadgeDef.category,
+        condition: () => false,
+        isPro: currentBadgeDef.isPro,
+      }
+    : null;
 
-  const handleDone = () => {
+  const handleDone = useCallback(() => {
     setShowBadgeModal(false);
     setNewBadgeIds([]);
     router.replace('/(tabs)');
+  }, []);
+
+  const handleRepeat = useCallback(() => {
+    router.replace({
+      pathname: '/session',
+      params: {
+        techniqueId,
+        ...(params._dur ? { duration: params._dur } : {}),
+        ...(params._music ? { musicId: params._music } : {}),
+      },
+    });
+  }, [techniqueId, params._dur, params._music]);
+
+  const handleShare = useCallback(async () => {
+    const techniqueName = technique ? t(technique.nameKey) : techniqueId;
+    const minutes = Math.ceil(totalDuration / 60);
+    const message = t('summary.shareMessage', {
+      minutes,
+      technique: techniqueName,
+      defaultValue: `I just completed a ${minutes}-minute ${techniqueName} breathing session with BreathFlow`,
+    });
+
+    try {
+      await Share.share({ message });
+    } catch {
+      // silent fail
+    }
+  }, [technique, techniqueId, totalDuration, t]);
+
+  const handleMoodSelect = useCallback((mood: Mood) => {
+    setSelectedMood(mood);
+
+    // Defer store update so UI responds instantly
+    setTimeout(() => {
+      const { sessions: currentSessions } = useSessionsStore.getState();
+      const idx = currentSessions.findIndex((s) => s.id === sessionId);
+      if (idx !== -1) {
+        const updated = { ...currentSessions[idx], moodAfter: mood };
+        const newSessions = [...currentSessions];
+        newSessions[idx] = updated;
+        useSessionsStore.setState({ sessions: newSessions });
+      }
+    }, 0);
+  }, [sessionId]);
+
+  // Max retention bar width calculation
+  const maxRetention = retentionTimes.length > 0 ? Math.max(...retentionTimes) : 1;
+
+  const glassCard = {
+    backgroundColor: theme.isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: theme.isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)',
+    padding: 20,
+    marginBottom: 16,
+    width: '100%' as const,
+    shadowColor: 'rgba(0,0,0,0.1)',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 24,
   };
 
-  const handleShare = async () => {
-    if (!session || !shareCardRef.current) return;
-    try {
-      const uri = await captureRef(shareCardRef, { format: 'png', quality: 1 });
-      const canShare = await Sharing.isAvailableAsync();
-      if (canShare) {
-        await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: 'Share your walk' });
-      }
-    } catch {
-      // fallback — silent fail
-    }
-  };
+  const techniqueColor = technique?.color ?? '#4A90D9';
 
   if (!session) {
     return (
-      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-        <Text style={[styles.title, { color: theme.text }]}>{t('summary.sessionNotFound')}</Text>
-        <TouchableOpacity style={styles.doneButton} onPress={handleDone}>
-          <Text style={styles.doneButtonText}>{t('summary.goBack')}</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
+      <View style={styles.container}>
+        <LinearGradient
+          colors={[techniqueColor, theme.isDark ? '#0F1419' : '#F0F4F8']}
+          locations={[0, 0.5]}
+          style={StyleSheet.absoluteFill}
+        />
+        <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: SPACING.lg }}>
+          <Text style={[styles.title, { color: '#FFFFFF' }]}>{t('summary.sessionNotFound')}</Text>
+          <TouchableOpacity style={[styles.doneButton, { backgroundColor: techniqueColor }]} onPress={handleDone}>
+            <Text style={styles.doneButtonText}>{t('summary.goBack')}</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-      <ConfettiAnimation key={confettiKey} />
-      {/* Hidden share card rendered off-screen for captureRef */}
-      <View
-        ref={shareCardRef}
-        collapsable={false}
-        style={styles.shareCard}
-      >
-        {/* Header with app icon */}
-        <View style={styles.shareCardHeader}>
-          <Image source={require('../assets/icon.png')} style={styles.shareCardIcon} />
-          <Text style={styles.shareCardAppName}>WalkPace</Text>
-        </View>
+    <View style={styles.container}>
+      <LinearGradient
+        colors={[techniqueColor, theme.isDark ? '#0F1419' : '#F0F4F8']}
+        locations={[0, 0.5]}
+        style={StyleSheet.absoluteFill}
+      />
 
-        {/* Title */}
-        <Text style={styles.shareCardTitle}>
-          {session.completed ? t('summary.walkComplete') : t('summary.walkEnded')}
-        </Text>
+      {(isPersonalBest || completed) && <ConfettiAnimation key={confettiKey} />}
 
-        {/* Stats grid */}
-        <View style={styles.shareCardStatsGrid}>
-          <View style={styles.shareCardStatBox}>
-            <Text style={styles.shareCardStatValue}>{formatTotalTime(session.totalDuration)}</Text>
-            <Text style={styles.shareCardStatLabel} numberOfLines={1} adjustsFontSizeToFit>{t('summary.duration')}</Text>
-          </View>
-          <View style={styles.shareCardStatBox}>
-            <Text style={styles.shareCardStatValue}>{session.rounds}/{session.totalRounds}</Text>
-            <Text style={styles.shareCardStatLabel} numberOfLines={1} adjustsFontSizeToFit>{t('summary.rounds')}</Text>
-          </View>
-          <View style={styles.shareCardStatBox}>
-            <Text style={styles.shareCardStatValue}>{session.estimatedCalories}</Text>
-            <Text style={styles.shareCardStatLabel} numberOfLines={1} adjustsFontSizeToFit>{t('summary.calories')}</Text>
-          </View>
-        </View>
-
-        {/* Streak */}
-        {stats.currentStreak > 0 && (
-          <Text style={styles.shareCardStreak}>
-            🔥 {stats.currentStreak} {t('summary.dayStreak').toLowerCase()}
-          </Text>
-        )}
-
-        {/* Footer */}
-        <Text style={styles.shareCardFooter}>Japanese Interval Walking</Text>
-      </View>
-
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>
-          {session.completed ? t('summary.walkComplete') : t('summary.walkEnded')}
-        </Text>
-        <Text style={[styles.subtitle, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-          {session.completed
-            ? t('summary.greatJob')
-            : t('summary.partialComplete', { rounds: session.rounds, total: session.totalRounds })}
-        </Text>
-
-        <View style={styles.statsGrid}>
-          <View style={[styles.statCard, { backgroundColor: theme.card }]}>
-            <Ionicons name="time-outline" size={18} color={theme.primary} style={styles.statIcon} />
-            <Text style={[styles.statValue, { color: theme.primary, fontSize: fontSize.xl }]}>
-              {formatTotalTime(session.totalDuration)}
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          {/* Header — icon, title, technique name */}
+          <View style={styles.headerSection}>
+            {technique && (
+              <View style={[styles.techniqueIconCircle, {
+                shadowColor: technique?.color ?? '#4A90D9',
+                shadowOpacity: 0.5,
+                shadowRadius: 20,
+                shadowOffset: { width: 0, height: 0 },
+              }]}>
+                <Ionicons name={technique.icon as never} size={38} color="#FFFFFF" />
+              </View>
+            )}
+            <Text style={styles.headerTitle}>
+              {completed ? t('summary.sessionComplete') : t('summary.sessionEnded')}
             </Text>
-            <Text style={[styles.statLabel, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-              {t('summary.duration')}
+            <Text style={styles.headerSubtitle}>
+              {technique ? t(technique.nameKey) : techniqueId}
             </Text>
           </View>
 
-          <View style={[styles.statCard, { backgroundColor: theme.card }]}>
-            <Ionicons name="repeat-outline" size={18} color={theme.accent} style={styles.statIcon} />
-            <Text style={[styles.statValue, { color: theme.accent, fontSize: fontSize.xl }]}>
-              {session.rounds}/{session.totalRounds}
-            </Text>
-            <Text style={[styles.statLabel, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-              {t('summary.rounds')}
-            </Text>
-          </View>
-
-          <View style={[styles.statCard, { backgroundColor: theme.card }]}>
-            <Ionicons name="flame-outline" size={18} color={COLORS.error} style={styles.statIcon} />
-            <Text style={[styles.statValue, { color: COLORS.error, fontSize: fontSize.xl }]}>
-              {session.estimatedCalories}
-            </Text>
-            <Text style={[styles.statLabel, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-              {t('summary.calories')}
-            </Text>
-          </View>
-
-          <View style={[styles.statCard, { backgroundColor: theme.card }]}>
-            <Ionicons name="trending-up-outline" size={18} color={theme.primary} style={styles.statIcon} />
-            <Text style={[styles.statValue, { color: theme.primary, fontSize: fontSize.xl }]}>
-              {stats.currentStreak}
-            </Text>
-            <Text style={[styles.statLabel, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-              {t('summary.dayStreak')}
-            </Text>
-          </View>
-
-        </View>
-
-        {foodEquiv && (
-          <Text style={[styles.foodEquivalent, { color: theme.textSecondary, fontSize: fontSize.sm }]}>
-            {foodEquiv.emoji} {t('summary.foodEquivalentPrefix', { count: foodEquiv.count })} {t(foodEquiv.key)}
-          </Text>
-        )}
-
-        {newBadgeIds.length > 0 && (
-          <Animated.View
-            style={[
-              styles.newBadgesContainer,
-              {
-                borderColor: `${theme.primary}20`,
-                transform: [{ scale: badgeScale }],
-                opacity: badgeOpacity,
-              },
-            ]}
-          >
-            <View style={styles.newBadgeIconContainer}>
-              <Ionicons name="ribbon" size={24} color={theme.primary} />
+          {/* Stats row — glass card */}
+          <View style={[styles.statsRow, glassCard]}>
+            <View style={styles.statItem}>
+              <Text style={[styles.statValue, { color: techniqueColor }]}>
+                {formatTotalTime(totalDuration)}
+              </Text>
+              <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
+                {t('summary.duration')}
+              </Text>
             </View>
-            <Text style={[styles.newBadgeTitle, { color: theme.text }]}>
-              {t('summary.newBadge')}
-            </Text>
-            <View style={styles.badgeRevealRow}>
-              {newBadgeIds.map((id) => {
-                const def = BADGE_DEFINITIONS.find((d) => d.id === id);
-                if (!def) return null;
-                const catColor = BADGE_CATEGORY_COLORS[def.condition.type as keyof typeof BADGE_CATEGORY_COLORS];
 
-                return (
-                  <View key={id} style={styles.badgeRevealItem}>
+            <View style={[styles.statDivider, { backgroundColor: theme.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)' }]} />
+
+            <View style={styles.statItem}>
+              <Text style={[styles.statValue, { color: '#7BC4A8' }]}>
+                {isPowerBreathing ? roundsCompleted : cyclesCompleted}
+              </Text>
+              <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
+                {isPowerBreathing ? t('summary.rounds') : t('summary.cycles')}
+              </Text>
+            </View>
+
+            <View style={[styles.statDivider, { backgroundColor: theme.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)' }]} />
+
+            <View style={styles.statItem}>
+              <Text style={[styles.statValue, { color: '#F5A623' }]}>
+                {stats.currentStreak}
+              </Text>
+              <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
+                {t('summary.dayStreak')}
+              </Text>
+            </View>
+          </View>
+
+          {/* Power Breathing retention details — glass card */}
+          {isPowerBreathing && retentionTimes.length > 0 && (
+            <View style={[styles.retentionSection, glassCard]}>
+              <Text style={[styles.retentionTitle, { fontSize: fontSize.md }]}>
+                {t('summary.retentionTimes')}
+              </Text>
+
+              {retentionTimes.map((time, index) => (
+                <View key={index} style={styles.retentionRow}>
+                  <Text style={[styles.retentionRoundLabel, { fontSize: fontSize.sm }]}>
+                    {t('summary.round', { number: index + 1 })}
+                  </Text>
+                  <View style={styles.retentionBarContainer}>
                     <View
                       style={[
-                        styles.badgeRevealCircle,
+                        styles.retentionBar,
                         {
-                          backgroundColor: theme.isDark ? catColor.iconBgDark : catColor.iconBg,
-                          borderColor: catColor.color + '40',
+                          width: `${(time / maxRetention) * 100}%`,
+                          backgroundColor: time === bestRetention ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)',
                         },
                       ]}
-                    >
-                      {typeof def.icon === 'string' ? (
-                        <Text style={styles.badgeRevealIcon}>{def.icon}</Text>
-                      ) : (
-                        <Image source={def.icon} style={styles.badgeRevealImage} resizeMode="contain" />
-                      )}
-                    </View>
-                    <Text
-                      style={[styles.badgeRevealName, { color: theme.text }]}
-                      numberOfLines={2}
-                    >
-                      {t(`badges.badge_${id}_title`)}
-                    </Text>
-                    <Text
-                      style={[styles.badgeRevealDesc, { color: theme.textSecondary }]}
-                      numberOfLines={3}
-                    >
-                      {t(`badges.badge_${id}_desc`)}
-                    </Text>
+                    />
                   </View>
-                );
-              })}
+                  <Text style={[styles.retentionTimeText, { fontSize: fontSize.sm }]}>
+                    {formatRetentionTime(time)}
+                  </Text>
+                </View>
+              ))}
+
+              <View style={styles.retentionSummary}>
+                <View style={styles.retentionSummaryItem}>
+                  <Text style={[styles.retentionSummaryLabel, { fontSize: fontSize.xs }]}>
+                    {t('summary.bestRetention')}
+                  </Text>
+                  <Text style={[styles.retentionSummaryValue, { fontSize: fontSize.md }]}>
+                    {formatRetentionTime(bestRetention)}
+                  </Text>
+                  {isPersonalBest && (
+                    <Text style={[styles.personalBestBadge, { color: '#F5C542' }]}>
+                      {t('summary.personalBest')}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.retentionSummaryItem}>
+                  <Text style={[styles.retentionSummaryLabel, { fontSize: fontSize.xs }]}>
+                    {t('summary.avgRetention')}
+                  </Text>
+                  <Text style={[styles.retentionSummaryValue, { fontSize: fontSize.md }]}>
+                    {formatRetentionTime(avgRetention)}
+                  </Text>
+                </View>
+              </View>
             </View>
-          </Animated.View>
-        )}
+          )}
 
-        {healthIntegration && isHealthKitAvailable() && (
-          <Text style={[styles.healthNote, { color: theme.textSecondary }]}>
-            {t('summary.savedToHealth')}
+          {/* Mood check — glass card */}
+          <View style={[styles.moodSection, glassCard, { marginTop: SPACING.lg }]}>
+            <Text style={[styles.moodTitle, { fontSize: fontSize.md, color: theme.text }]}>
+              {t('summary.howDoYouFeel')}
+            </Text>
+            <View style={styles.moodRow}>
+              {MOOD_OPTIONS.map((mood) => (
+                <TouchableOpacity
+                  key={mood.key}
+                  style={[
+                    styles.moodButton,
+                    {
+                      backgroundColor: selectedMood === mood.key ? 'rgba(255,255,255,0.25)' : 'transparent',
+                      borderColor: selectedMood === mood.key ? 'rgba(255,255,255,0.4)' : 'transparent',
+                      transform: [{ scale: selectedMood === mood.key ? 1.2 : 1 }],
+                      opacity: selectedMood && selectedMood !== mood.key ? 0.6 : 1,
+                    },
+                  ]}
+                  onPress={() => handleMoodSelect(mood.key)}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.moodEmoji}>{mood.emoji}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+          {/* New badges — glass card */}
+          {newBadgeIds.length > 0 && (
+            <Animated.View
+              style={[
+                styles.newBadgesContainer,
+                glassCard,
+                {
+                  transform: [{ scale: badgeScale }],
+                  opacity: badgeOpacity,
+                },
+              ]}
+            >
+              <View style={styles.newBadgeIconContainer}>
+                <Ionicons name="ribbon" size={24} color="#FFFFFF" />
+              </View>
+              <Text style={styles.newBadgeTitle}>
+                {t('summary.newBadge')}
+              </Text>
+              <View style={styles.badgeRevealRow}>
+                {newBadgeIds.map((id) => {
+                  const def = BADGE_DEFINITIONS.find((d) => d.id === id);
+                  if (!def) return null;
+                  const catColor = BADGE_CATEGORY_COLORS[def.category as keyof typeof BADGE_CATEGORY_COLORS];
+
+                  return (
+                    <View key={id} style={styles.badgeRevealItem}>
+                      <View
+                        style={[
+                          styles.badgeRevealCircle,
+                          {
+                            backgroundColor: 'rgba(255,255,255,0.15)',
+                            borderColor: 'rgba(255,255,255,0.3)',
+                          },
+                        ]}
+                      >
+                        <Ionicons
+                          name={def.icon as keyof typeof Ionicons.glyphMap}
+                          size={24}
+                          color={catColor.color}
+                        />
+                      </View>
+                      <Text
+                        style={styles.badgeRevealName}
+                        numberOfLines={2}
+                      >
+                        {t(def.nameKey)}
+                      </Text>
+                      <Text
+                        style={styles.badgeRevealDesc}
+                        numberOfLines={3}
+                      >
+                        {t(def.descriptionKey)}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </View>
+            </Animated.View>
+          )}
+
+          {/* Health sync note */}
+          {healthSyncEnabled && isHealthKitAvailable() && (
+            <Text style={[styles.healthNote, { color: theme.textSecondary }]}>
+              {t('summary.savedToHealth')}
+            </Text>
+          )}
+
+          {/* Motivational quote — floating text */}
+          <Text style={[styles.motivationalQuote, { fontSize: fontSize.sm, color: theme.textSecondary }]}>
+            {t(quoteKey)}
           </Text>
-        )}
 
-        <Text style={[styles.motivationalQuote, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-          {t(quoteKey)}
-        </Text>
-      </ScrollView>
+          {/* Bottom buttons */}
+          <View style={styles.bottomButtons}>
+            <View style={styles.bottomRow}>
+              <TouchableOpacity
+                style={[styles.shareButton, {
+                  backgroundColor: theme.isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
+                  borderWidth: 1,
+                  borderColor: theme.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)',
+                }]}
+                onPress={handleShare}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="share-outline" size={20} color={theme.text} />
+              </TouchableOpacity>
 
-      <View style={styles.bottomButtons}>
-        <TouchableOpacity style={styles.shareButton} onPress={handleShare} activeOpacity={0.7}>
-          <Ionicons name="share-outline" size={20} color={theme.primary} />
-          <Text style={[styles.shareButtonText, { color: theme.primary, fontSize: fontSize.md }]}>{t('summary.share')}</Text>
-        </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.repeatButton, {
+                  backgroundColor: theme.isDark ? `${techniqueColor}14` : `${techniqueColor}14`,
+                  borderColor: theme.isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.15)',
+                }]}
+                onPress={handleRepeat}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="repeat-outline" size={18} color={theme.text} />
+                <Text style={[styles.repeatButtonText, { color: theme.text, fontSize: fontSize.md }]}>
+                  {t('summary.repeat')}
+                </Text>
+              </TouchableOpacity>
+            </View>
 
-        <TouchableOpacity style={[styles.doneButton, { backgroundColor: theme.primary }]} onPress={handleDone} activeOpacity={0.8}>
-          <Text style={[styles.doneButtonText, { fontSize: fontSize.lg }]}>{t('summary.done')}</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity
+              style={[styles.doneButton, {
+                backgroundColor: techniqueColor,
+                shadowColor: techniqueColor,
+                shadowOpacity: 0.4,
+                shadowRadius: 16,
+                shadowOffset: { width: 0, height: 4 },
+              }]}
+              onPress={handleDone}
+              activeOpacity={0.8}
+            >
+              <Text style={[styles.doneButtonText, { fontSize: fontSize.lg }]}>{t('summary.done')}</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
 
       <BadgeUnlockModal
         badge={currentBadge}
         visible={showBadgeModal}
         onClose={handleBadgeModalClose}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -409,65 +628,178 @@ const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     alignItems: 'center',
-    justifyContent: 'center',
     paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.lg,
+    paddingTop: SPACING.xl,
+    paddingBottom: SPACING.xxl,
   },
-  title: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: '700',
-    marginBottom: 4,
+
+  // Header section (no gradient block, just content)
+  headerSection: {
+    alignItems: 'center',
+    marginBottom: SPACING.xl,
+    paddingTop: SPACING.lg,
   },
-  subtitle: {
-    fontSize: FONT_SIZE.sm,
-    textAlign: 'center',
+  techniqueIconCircle: {
+    width: scale(80),
+    height: scale(80),
+    borderRadius: scale(40),
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: SPACING.md,
   },
-  statsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: SPACING.sm,
-    justifyContent: 'center',
+  headerTitle: {
+    fontSize: 32,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    marginBottom: 6,
+    textAlign: 'center',
   },
-  statCard: {
-    width: '45%',
-    paddingVertical: SPACING.md,
-    paddingHorizontal: SPACING.sm,
-    borderRadius: BORDER_RADIUS.lg,
+  headerSubtitle: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.8)',
+    textAlign: 'center',
+  },
+  // Legacy aliases kept for the "not found" state
+  title: {
+    fontSize: FONT_SIZE.xxl,
+    fontFamily: FONTS.bold,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+
+  // Stats row (layout inside glass card)
+  statsRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
+  },
+  statItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  statDivider: {
+    width: 1,
+    height: 32,
+    backgroundColor: 'rgba(255,255,255,0.15)',
   },
   statValue: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
+    fontSize: 32,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
     marginBottom: 2,
   },
   statLabel: {
     fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.regular,
+    color: 'rgba(255,255,255,0.6)',
   },
-  healthNote: {
+
+  // Power Breathing retention section (layout inside glass card)
+  retentionSection: {
+    // width and padding come from glassCard
+  },
+  retentionTitle: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+    marginBottom: SPACING.sm,
+  },
+  retentionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: SPACING.xs,
+  },
+  retentionRoundLabel: {
+    width: scale(60),
     fontSize: FONT_SIZE.sm,
-    marginTop: SPACING.lg,
+    color: 'rgba(255,255,255,0.6)',
   },
+  retentionBarContainer: {
+    flex: 1,
+    height: scale(16),
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: BORDER_RADIUS.sm,
+    marginHorizontal: SPACING.xs,
+    overflow: 'hidden',
+  },
+  retentionBar: {
+    height: '100%',
+    borderRadius: BORDER_RADIUS.sm,
+    minWidth: 4,
+  },
+  retentionTimeText: {
+    width: scale(48),
+    textAlign: 'right',
+    fontFamily: FONTS.semibold,
+    fontSize: FONT_SIZE.sm,
+    color: '#FFFFFF',
+  },
+  retentionSummary: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: SPACING.sm,
+    paddingTop: SPACING.sm,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: 'rgba(255,255,255,0.15)',
+  },
+  retentionSummaryItem: {
+    alignItems: 'center',
+  },
+  retentionSummaryLabel: {
+    fontSize: FONT_SIZE.xs,
+    color: 'rgba(255,255,255,0.6)',
+    marginBottom: 2,
+  },
+  retentionSummaryValue: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+  },
+  personalBestBadge: {
+    fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.bold,
+    marginTop: 2,
+  },
+
+  // Mood section (layout inside glass card)
+  moodSection: {
+    alignItems: 'center',
+  },
+  moodTitle: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.semibold,
+    color: '#FFFFFF',
+    marginBottom: SPACING.sm,
+  },
+  moodRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  moodButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    borderWidth: 1.5,
+    width: 48,
+    height: 48,
+  },
+  moodEmoji: {
+    fontSize: 26,
+  },
+
+  // Badges (layout inside glass card)
   newBadgesContainer: {
     alignItems: 'center',
-    marginTop: SPACING.md,
-    paddingVertical: SPACING.sm,
-    paddingHorizontal: SPACING.md,
-    borderRadius: BORDER_RADIUS.xl,
-    width: '90%',
-    borderWidth: 1,
   },
   newBadgeIconContainer: {
-    marginBottom: 2,
+    marginBottom: 4,
   },
   newBadgeTitle: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
     marginBottom: SPACING.sm,
     textAlign: 'center',
   },
@@ -487,151 +819,89 @@ const styles = StyleSheet.create({
     borderRadius: scale(24),
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
+    borderWidth: 1.5,
     marginBottom: SPACING.xs,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  badgeRevealIcon: {
-    fontSize: 24,
-  },
-  badgeRevealImage: {
-    width: scale(36),
-    height: scale(36),
   },
   badgeRevealName: {
     fontSize: FONT_SIZE.sm,
-    fontWeight: '700',
+    fontFamily: FONTS.bold,
     textAlign: 'center',
+    color: '#FFFFFF',
     marginBottom: 2,
   },
   badgeRevealDesc: {
     fontSize: FONT_SIZE.xs,
-    fontWeight: '400',
+    fontFamily: FONTS.regular,
     textAlign: 'center',
     lineHeight: 16,
+    color: 'rgba(255,255,255,0.6)',
   },
-  statIcon: {
-    marginBottom: 2,
-  },
-  foodEquivalent: {
-    fontSize: FONT_SIZE.xs,
-    textAlign: 'center',
+
+  // Health note
+  healthNote: {
+    fontSize: FONT_SIZE.sm,
+    color: 'rgba(255,255,255,0.6)',
     marginTop: SPACING.sm,
   },
+
+  // Quote — floating, no card
   motivationalQuote: {
-    fontSize: FONT_SIZE.xs,
+    fontSize: FONT_SIZE.sm,
     fontStyle: 'italic',
     textAlign: 'center',
-    paddingHorizontal: SPACING.md,
+    paddingHorizontal: SPACING.xl,
     marginTop: SPACING.md,
+    marginBottom: SPACING.md,
+    color: 'rgba(255,255,255,0.5)',
   },
+
+  // Bottom buttons
   bottomButtons: {
-    paddingHorizontal: SPACING.lg,
-    paddingBottom: SPACING.md,
+    width: '100%',
+    paddingTop: SPACING.xl,
+    paddingBottom: SPACING.lg,
+  },
+  bottomRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: SPACING.md,
+    marginBottom: SPACING.lg,
   },
   shareButton: {
+    width: scale(48),
+    height: scale(48),
+    borderRadius: scale(24),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  repeatButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: SPACING.sm,
-    marginBottom: SPACING.sm,
-    gap: SPACING.sm,
+    paddingHorizontal: SPACING.lg,
+    borderRadius: BORDER_RADIUS.xl,
+    borderWidth: 1.5,
+    gap: SPACING.xs,
   },
-  shareButtonText: {
+  repeatButtonText: {
     fontSize: FONT_SIZE.md,
-    fontWeight: '600',
+    fontFamily: FONTS.semibold,
   },
   doneButton: {
-    paddingVertical: SPACING.md,
-    borderRadius: BORDER_RADIUS.xl,
+    height: 56,
+    justifyContent: 'center',
+    borderRadius: 20,
     alignItems: 'center',
+    shadowColor: 'rgba(0,0,0,0.3)',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
   },
   doneButtonText: {
-    color: COLORS.white,
+    color: '#FFFFFF',
     fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
-  },
-
-  // Share card (rendered off-screen for capture)
-  shareCard: {
-    position: 'absolute',
-    top: -2000,
-    left: 0,
-    width: 360,
-    height: 360,
-    backgroundColor: COLORS.primary,
-    borderRadius: 24,
-    padding: 28,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  shareCardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  shareCardIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-  },
-  shareCardAppName: {
-    color: COLORS.white,
-    fontSize: 18,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-  shareCardTitle: {
-    color: COLORS.white,
-    fontSize: 22,
-    fontWeight: '800',
-    textAlign: 'center',
-  },
-  shareCardStatsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    width: '100%',
-  },
-  shareCardStatBox: {
-    flex: 1,
-    minWidth: '40%',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    alignItems: 'center',
-  },
-  shareCardStatValue: {
-    color: COLORS.white,
-    fontSize: 20,
-    fontWeight: '800',
-    marginBottom: 2,
-  },
-  shareCardStatLabel: {
-    color: 'rgba(255,255,255,0.7)',
-    fontSize: 10,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    textAlign: 'center',
-  },
-  shareCardStreak: {
-    color: COLORS.white,
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  shareCardSteps: {
-    color: 'rgba(255,255,255,0.85)',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  shareCardFooter: {
-    color: 'rgba(255,255,255,0.5)',
-    fontSize: 11,
-    letterSpacing: 0.5,
+    fontFamily: FONTS.bold,
   },
 });

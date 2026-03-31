@@ -1,30 +1,30 @@
 import { useSessionsStore } from '../sessionsStore';
-import { Session } from '../../types';
+import { BreathingSession, UserStats } from '../../types';
 
-const createMockSession = (overrides: Partial<Session> = {}): Session => ({
+const createMockSession = (overrides: Partial<BreathingSession> = {}): BreathingSession => ({
   id: `session-${Date.now()}-${Math.random()}`,
+  userId: 'user-1',
   date: '2026-02-19',
-  startedAt: Date.now(),
-  completedAt: Date.now() + 1800000,
-  rounds: 5,
-  totalRounds: 5,
-  fastDuration: 180,
-  slowDuration: 180,
-  totalDuration: 1800,
-  estimatedCalories: 120,
+  startedAt: new Date('2026-02-19T10:00:00').toISOString(),
+  completedAt: new Date('2026-02-19T10:30:00').toISOString(),
   completed: true,
-  warmUp: false,
-  coolDown: false,
+  techniqueId: 'box_breathing',
+  cyclesCompleted: 6,
+  totalDuration: 1800,
   ...overrides,
 });
 
-const defaultStats = {
+const defaultStats: UserStats = {
   currentStreak: 0,
   longestStreak: 0,
   totalSessions: 0,
   totalMinutes: 0,
-  totalCalories: 0,
-  lastSessionDate: null,
+  totalBreaths: 0,
+  bestRetention: 0,
+  avgRetention: 0,
+  lastSessionDate: '',
+  favoriteTechniqueId: '',
+  sessionsPerTechnique: {},
 };
 
 describe('sessionsStore', () => {
@@ -55,7 +55,7 @@ describe('sessionsStore', () => {
           ...defaultStats,
           totalSessions: 3,
           totalMinutes: 90,
-          totalCalories: 360,
+          totalBreaths: 36,
           currentStreak: 2,
           longestStreak: 5,
         },
@@ -64,7 +64,7 @@ describe('sessionsStore', () => {
       const { stats } = useSessionsStore.getState();
       expect(stats.totalSessions).toBe(3);
       expect(stats.totalMinutes).toBe(90);
-      expect(stats.totalCalories).toBe(360);
+      expect(stats.totalBreaths).toBe(36);
       expect(stats.currentStreak).toBe(2);
       expect(stats.longestStreak).toBe(5);
     });
@@ -73,40 +73,40 @@ describe('sessionsStore', () => {
       const { sessions, stats } = useSessionsStore.getState();
       expect(sessions).toHaveLength(0);
       expect(stats.totalSessions).toBe(0);
-      expect(stats.totalCalories).toBe(0);
-      expect(stats.lastSessionDate).toBeNull();
+      expect(stats.totalBreaths).toBe(0);
+      expect(stats.lastSessionDate).toBe('');
     });
   });
 
-  describe('getSessionsByMonth', () => {
-    it('returns sessions for the given month', () => {
+  describe('getSessionsByDate', () => {
+    it('returns sessions for the given date', () => {
       useSessionsStore.setState({
         sessions: [
-          createMockSession({ id: 'feb', date: '2026-02-15' }),
-          createMockSession({ id: 'jan', date: '2026-01-10' }),
-          createMockSession({ id: 'feb2', date: '2026-02-20' }),
+          createMockSession({ id: 'feb15', date: '2026-02-15' }),
+          createMockSession({ id: 'jan10', date: '2026-01-10' }),
+          createMockSession({ id: 'feb15b', date: '2026-02-15' }),
         ],
       });
 
-      const febSessions = useSessionsStore.getState().getSessionsByMonth(2026, 1);
-      expect(febSessions).toHaveLength(2);
-      expect(febSessions.map(s => s.id).sort()).toEqual(['feb', 'feb2']);
+      const feb15Sessions = useSessionsStore.getState().getSessionsByDate('2026-02-15');
+      expect(feb15Sessions).toHaveLength(2);
+      expect(feb15Sessions.map((s: BreathingSession) => s.id).sort()).toEqual(['feb15', 'feb15b']);
 
-      const janSessions = useSessionsStore.getState().getSessionsByMonth(2026, 0);
-      expect(janSessions).toHaveLength(1);
-      expect(janSessions[0].id).toBe('jan');
+      const jan10Sessions = useSessionsStore.getState().getSessionsByDate('2026-01-10');
+      expect(jan10Sessions).toHaveLength(1);
+      expect(jan10Sessions[0].id).toBe('jan10');
     });
 
-    it('returns empty array for month with no sessions', () => {
+    it('returns empty array for date with no sessions', () => {
       useSessionsStore.setState({
         sessions: [createMockSession({ date: '2026-02-15' })],
       });
 
-      const marSessions = useSessionsStore.getState().getSessionsByMonth(2026, 2);
+      const marSessions = useSessionsStore.getState().getSessionsByDate('2026-03-01');
       expect(marSessions).toHaveLength(0);
     });
 
-    it('filters by year correctly', () => {
+    it('filters by exact date correctly', () => {
       useSessionsStore.setState({
         sessions: [
           createMockSession({ id: 's2026', date: '2026-02-15' }),
@@ -114,48 +114,40 @@ describe('sessionsStore', () => {
         ],
       });
 
-      const results2026 = useSessionsStore.getState().getSessionsByMonth(2026, 1);
+      const results2026 = useSessionsStore.getState().getSessionsByDate('2026-02-15');
       expect(results2026).toHaveLength(1);
       expect(results2026[0].id).toBe('s2026');
 
-      const results2025 = useSessionsStore.getState().getSessionsByMonth(2025, 1);
+      const results2025 = useSessionsStore.getState().getSessionsByDate('2025-02-15');
       expect(results2025).toHaveLength(1);
       expect(results2025[0].id).toBe('s2025');
     });
   });
 
-  describe('getActiveDays', () => {
-    it('returns set of unique dates with sessions', () => {
+  describe('getSessionsByTechnique', () => {
+    it('returns sessions for the given technique', () => {
       useSessionsStore.setState({
         sessions: [
-          createMockSession({ date: '2026-02-19' }),
-          createMockSession({ date: '2026-02-19' }),
-          createMockSession({ date: '2026-02-18' }),
+          createMockSession({ id: 'box1', techniqueId: 'box_breathing' }),
+          createMockSession({ id: 'wim1', techniqueId: 'wim_hof' }),
+          createMockSession({ id: 'box2', techniqueId: 'box_breathing' }),
         ],
       });
 
-      const days = useSessionsStore.getState().getActiveDays();
-      expect(days.size).toBe(2);
-      expect(days.has('2026-02-19')).toBe(true);
-      expect(days.has('2026-02-18')).toBe(true);
+      const boxSessions = useSessionsStore.getState().getSessionsByTechnique('box_breathing');
+      expect(boxSessions).toHaveLength(2);
+
+      const wimSessions = useSessionsStore.getState().getSessionsByTechnique('wim_hof');
+      expect(wimSessions).toHaveLength(1);
     });
 
-    it('returns empty set when no sessions', () => {
-      const days = useSessionsStore.getState().getActiveDays();
-      expect(days.size).toBe(0);
-    });
-
-    it('handles multiple months', () => {
+    it('returns empty array for unknown technique', () => {
       useSessionsStore.setState({
-        sessions: [
-          createMockSession({ date: '2026-01-05' }),
-          createMockSession({ date: '2026-02-10' }),
-          createMockSession({ date: '2026-02-15' }),
-        ],
+        sessions: [createMockSession({ techniqueId: 'box_breathing' })],
       });
 
-      const days = useSessionsStore.getState().getActiveDays();
-      expect(days.size).toBe(3);
+      const results = useSessionsStore.getState().getSessionsByTechnique('unknown');
+      expect(results).toHaveLength(0);
     });
   });
 });

@@ -1,778 +1,801 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
-  ViewToken,
-  TextInput,
   Animated,
   Easing,
-  Linking,
+  ScrollView,
+  ImageBackground,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { router } from 'expo-router';
+import * as Notifications from 'expo-notifications';
 import { useSettingsStore } from '../../src/store';
-import { useProfileStore } from '../../src/store/profileStore';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, scale } from '../../src/constants';
-import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
-import { isHealthKitAvailable, requestHealthPermissions } from '../../src/utils/healthKit';
+import { TechniqueCategory } from '../../src/types';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
+import { BreathingMandala } from '../../src/components/BreathingMandala';
 
-const { width, height } = Dimensions.get('window');
-const isCompact = height < 850; // iPhone 12/13/14 (non-Max) = 844pt
+// ── Data ──────────────────────────────────────────────────────────────────────
 
-interface OnboardingPage {
-  id: string;
-  iconName?: keyof typeof Ionicons.glyphMap;
-  titleKey?: string;
-  descriptionKey?: string;
-  type: 'info' | 'promise' | 'features' | 'profile' | 'health' | 'loading';
-}
+type GoalOption = {
+  category: TechniqueCategory;
+  icon: keyof typeof Ionicons.glyphMap;
+  color: string;
+  labelKey: string;
+  subKey: string;
+};
 
-const pages: OnboardingPage[] = [
-  {
-    id: '1',
-    type: 'info',
-    iconName: 'footsteps-outline',
-    titleKey: 'onboarding.page1Title',
-    descriptionKey: 'onboarding.page1Description',
-  },
-  {
-    id: '2',
-    type: 'features',
-  },
-  {
-    id: '3',
-    type: 'profile',
-    titleKey: 'onboarding.page4Title',
-    descriptionKey: 'onboarding.page4Description',
-  },
-  {
-    id: '4',
-    type: 'health',
-  },
-  {
-    id: '5',
-    type: 'loading',
-  },
+const GOAL_OPTIONS: GoalOption[] = [
+  { category: 'calm',   icon: 'leaf-outline',  color: '#7BC4A8', labelKey: 'onboarding.goalCalmLabel',   subKey: 'onboarding.goalCalmSub' },
+  { category: 'sleep',  icon: 'moon-outline',  color: '#7B68AE', labelKey: 'onboarding.goalSleepLabel',  subKey: 'onboarding.goalSleepSub' },
+  { category: 'focus',  icon: 'eye-outline',   color: '#4A90D9', labelKey: 'onboarding.goalFocusLabel',  subKey: 'onboarding.goalFocusSub' },
+  { category: 'energy', icon: 'flash-outline', color: '#F5A623', labelKey: 'onboarding.goalEnergyLabel', subKey: 'onboarding.goalEnergySub' },
 ];
 
-const STEP_GOAL_OPTIONS = [5000, 8000, 10000, 15000] as const;
+const COMMIT_OPTIONS = [3, 5, 10, 15];
 
-const FEATURES = [
-  { icon: 'timer-outline', titleKey: 'onboarding.feature1Title', descKey: 'onboarding.feature1Desc' },
-  { icon: 'bar-chart-outline', titleKey: 'onboarding.feature2Title', descKey: 'onboarding.feature2Desc' },
-  { icon: 'notifications-outline', titleKey: 'onboarding.feature3Title', descKey: 'onboarding.feature3Desc' },
-  { icon: 'ribbon-outline', titleKey: 'onboarding.feature4Title', descKey: 'onboarding.feature4Desc' },
-] as const;
+type PlanEntry = {
+  titleKey: string;
+  techniqueId: string;
+  techniqueNameKey: string;
+  color: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  b1Key: string; b2Key: string; b3Key: string;
+};
+
+const PLAN_CONTENT: Record<string, PlanEntry> = {
+  calm:   { titleKey: 'onboarding.planTitleCalm',   techniqueId: 'coherence',      techniqueNameKey: 'techniques.coherence.name',      color: '#7BC4A8', icon: 'radio-outline',  b1Key: 'onboarding.planCalmB1',   b2Key: 'onboarding.planCalmB2',   b3Key: 'onboarding.planCalmB3'   },
+  sleep:  { titleKey: 'onboarding.planTitleSleep',  techniqueId: 'fourSevenEight', techniqueNameKey: 'techniques.fourSevenEight.name', color: '#7B68AE', icon: 'moon-outline',   b1Key: 'onboarding.planSleepB1',  b2Key: 'onboarding.planSleepB2',  b3Key: 'onboarding.planSleepB3'  },
+  focus:  { titleKey: 'onboarding.planTitleFocus',  techniqueId: 'box',            techniqueNameKey: 'techniques.box.name',            color: '#4A90D9', icon: 'cube-outline',   b1Key: 'onboarding.planFocusB1',  b2Key: 'onboarding.planFocusB2',  b3Key: 'onboarding.planFocusB3'  },
+  energy: { titleKey: 'onboarding.planTitleEnergy', techniqueId: 'triangle',       techniqueNameKey: 'techniques.triangle.name',       color: '#F5A623', icon: 'flash-outline',  b1Key: 'onboarding.planEnergyB1', b2Key: 'onboarding.planEnergyB2', b3Key: 'onboarding.planEnergyB3' },
+};
+const DEFAULT_PLAN = PLAN_CONTENT.focus;
+
+const SAFETY_ITEMS = ['onboarding.safety1', 'onboarding.safety2', 'onboarding.safety3', 'onboarding.safety4'];
+
+// ── Shared glass colours ──────────────────────────────────────────────────────
+const GLASS_BG       = 'rgba(255,255,255,0.09)';
+const GLASS_BORDER   = 'rgba(255,255,255,0.18)';
+const GLASS_SEL_BG   = 'rgba(255,255,255,0.20)';
+const GLASS_SEL_BORDER = 'rgba(255,255,255,0.55)';
+const TEXT_PRIMARY   = '#FFFFFF';
+const TEXT_SECONDARY = 'rgba(255,255,255,0.65)';
+
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export default function OnboardingScreen() {
   const { t } = useTranslation();
-  const theme = useThemeColors();
-  const fontSize = useFontSize();
-  const flatListRef = useRef<FlatList>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const update = useSettingsStore((s) => s.update);
-  const profileUpdate = useProfileStore((s) => s.update);
+  const setSetting = useSettingsStore((s) => s.setSetting);
+  const insets = useSafeAreaInsets();
+  const [page, setPage] = useState(0);
+  const [selectedGoal, setSelectedGoal]     = useState<TechniqueCategory | undefined>(undefined);
+  const [selectedMinutes, setSelectedMinutes] = useState<number | undefined>(undefined);
+  const [safetyChecked, setSafetyChecked]   = useState(false);
 
-  const [stepGoal, setStepGoal] = useState(5000);
-  const [weightUnit, setWeightUnit] = useState<'kg' | 'lbs'>('kg');
-  const [weight, setWeight] = useState('');
-  const [age, setAge] = useState('');
-  const [weightError, setWeightError] = useState('');
-  const [ageError, setAgeError] = useState('');
-  const [loadingProgress, setLoadingProgress] = useState(0);
-  const loadingStarted = useRef(false);
-  const progressAnim = useRef(new Animated.Value(0)).current;
+  const fadeAnim  = useRef(new Animated.Value(1)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
 
-  const onViewableItemsChanged = useRef(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      if (viewableItems.length > 0 && viewableItems[0].index !== null) {
-        setCurrentIndex(viewableItems[0].index);
-      }
-    },
-  ).current;
+  // Hook animation
+  const hookLabelOpacity = useRef(new Animated.Value(1)).current;
+  const [hookBreathDir, setHookBreathDir] = useState<'in' | 'out'>('in');
 
-  const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+  // Commit section slide-in
+  const commitAnim = useRef(new Animated.Value(1)).current;
+  const commitOpacity = useRef(new Animated.Value(1)).current;
 
-  const saveProfileAndFinish = useCallback(() => {
-    let weightKg: number | undefined;
-    if (weight) {
-      const parsed = parseFloat(weight);
-      weightKg = weightUnit === 'lbs' ? Math.round(parsed * 0.453592 * 10) / 10 : parsed;
-    }
-    profileUpdate({
-      weight: weightKg,
-      age: age ? parseInt(age, 10) : undefined,
-    });
-    update({ onboardingCompleted: true, dailyStepGoal: stepGoal });
-    router.replace('/paywall');
-  }, [weight, weightUnit, age, stepGoal, profileUpdate, update]);
+  // Apple Health pulse
+  const heartPulse = useRef(new Animated.Value(1)).current;
+  const ringPulse  = useRef(new Animated.Value(1)).current;
 
-  // Loading animation — starts when last page becomes visible
   useEffect(() => {
-    if (currentIndex === pages.length - 1 && !loadingStarted.current) {
-      loadingStarted.current = true;
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.random() * 6 + 2;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          setTimeout(() => saveProfileAndFinish(), 400);
-        }
-        setLoadingProgress(Math.min(100, Math.round(progress)));
-        Animated.timing(progressAnim, {
-          toValue: Math.min(100, Math.round(progress)),
-          duration: 180,
-          easing: Easing.out(Easing.ease),
-          useNativeDriver: false,
-        }).start();
-      }, 200);
-      return () => clearInterval(interval);
-    }
-  }, [currentIndex, saveProfileAndFinish, progressAnim]);
+    if (page !== 2) return;
+    const pulse = Animated.loop(
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(heartPulse, { toValue: 1.12, duration: 500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+          Animated.timing(ringPulse,  { toValue: 1.18, duration: 500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+        ]),
+        Animated.parallel([
+          Animated.timing(heartPulse, { toValue: 1.0,  duration: 600, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+          Animated.timing(ringPulse,  { toValue: 1.0,  duration: 600, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+        ]),
+        Animated.delay(800),
+      ]),
+    );
+    pulse.start();
+    return () => pulse.stop();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
-  const handleNext = () => {
-    if (currentIndex === 2) {
-      // Profile page — validate before proceeding
-      let hasError = false;
-      if (weight) {
-        const w = parseFloat(weight);
-        const minW = weightUnit === 'lbs' ? 44 : 20;
-        const maxW = weightUnit === 'lbs' ? 1100 : 500;
-        if (isNaN(w) || w < minW || w > maxW) {
-          setWeightError(t('onboarding.weightError'));
-          hasError = true;
-        }
-      }
-      if (age) {
-        const a = parseInt(age, 10);
-        if (isNaN(a) || a < 5 || a > 120) {
-          setAgeError(t('onboarding.ageError'));
-          hasError = true;
-        }
-      }
-      if (hasError) return;
-    }
-    if (currentIndex < pages.length - 1) {
-      flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
-    }
-  };
+  // Building steps
+  const step1Opacity = useRef(new Animated.Value(0)).current;
+  const step2Opacity = useRef(new Animated.Value(0)).current;
+  const step3Opacity = useRef(new Animated.Value(0)).current;
 
-  const handleSkip = () => {
-    update({ onboardingCompleted: true });
-    router.replace('/(tabs)');
-  };
+  const plan: PlanEntry = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
 
-  const handleConnectHealth = async () => {
-    if (!isHealthKitAvailable()) {
-      update({ healthIntegration: false });
-      handleNext();
-      return;
+  // ── Navigation ───────────────────────────────────────────────────────────────
+
+  const goToPage = useCallback((nextPage: number, direction = 1) => {
+    Animated.parallel([
+      Animated.timing(fadeAnim,  { toValue: 0,   duration: 130, useNativeDriver: true }),
+      Animated.timing(slideAnim, { toValue: -28 * direction, duration: 130, useNativeDriver: true }),
+    ]).start(() => {
+      setPage(nextPage);
+      slideAnim.setValue(28 * direction);
+      Animated.parallel([
+        Animated.timing(fadeAnim,  { toValue: 1, duration: 200, useNativeDriver: true }),
+        Animated.timing(slideAnim, { toValue: 0, duration: 200, useNativeDriver: true }),
+      ]).start();
+    });
+  }, [fadeAnim, slideAnim]);
+
+  const goNext = useCallback(() => goToPage(page + 1, 1),  [page, goToPage]);
+  const goBack = useCallback(() => goToPage(page - 1, -1), [page, goToPage]);
+
+  // Hook breath cycle — matches mandala slow cycle (8800ms)
+  useEffect(() => {
+    if (page !== 0) return;
+    const HALF = 4400;
+    hookLabelOpacity.setValue(1);
+    setHookBreathDir('in');
+    const loop = Animated.loop(Animated.sequence([
+      Animated.timing(hookLabelOpacity, { toValue: 0.35, duration: HALF, useNativeDriver: true }),
+      Animated.timing(hookLabelOpacity, { toValue: 1,    duration: HALF, useNativeDriver: true }),
+    ]));
+    loop.start();
+    const interval = setInterval(() => setHookBreathDir((d) => d === 'in' ? 'out' : 'in'), HALF);
+    return () => { loop.stop(); clearInterval(interval); };
+  }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+  // Building auto-advance
+  useEffect(() => {
+    if (page !== 4) return;
+    step1Opacity.setValue(0); step2Opacity.setValue(0); step3Opacity.setValue(0);
+    const seq = Animated.sequence([
+      Animated.delay(400),
+      Animated.timing(step1Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
+      Animated.delay(600),
+      Animated.timing(step2Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
+      Animated.delay(600),
+      Animated.timing(step3Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
+      Animated.delay(800),
+    ]);
+    seq.start(() => goToPage(5, 1));
+    return () => seq.stop();
+  }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Handlers ─────────────────────────────────────────────────────────────────
+
+  const handleGoalSelect = useCallback((category: TechniqueCategory) => {
+    setSelectedGoal(category);
+    setSetting('selectedGoal', category);
+    // Auto-advance if minutes already selected
+    if (selectedMinutes != null) {
+      setTimeout(() => goNext(), 300);
     }
-    const granted = await requestHealthPermissions();
-    update({ healthIntegration: granted });
-    handleNext();
-  };
+  }, [setSetting, selectedMinutes, goNext]);
 
-  const renderInfoPage = (item: OnboardingPage) => (
-    <View style={[styles.page, { width }]}>
-      {item.iconName && (
-        <Ionicons name={item.iconName} size={isCompact ? scale(60) : scale(80)} color={theme.primary} style={styles.icon} />
-      )}
-      <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]}>{t(item.titleKey!)}</Text>
-      <Text style={[styles.description, { color: theme.textSecondary, fontSize: fontSize.md }]}>
-        {t(item.descriptionKey!)}
-      </Text>
-      {item.id === '1' && (
-        <TouchableOpacity
-          style={styles.studyLink}
-          onPress={() => Linking.openURL('https://pubmed.ncbi.nlm.nih.gov/17605959/')}
-          activeOpacity={0.7}
-        >
-          <Ionicons name="open-outline" size={14} color={theme.primary} />
-          <Text style={[styles.studyLinkText, { color: theme.primary, fontSize: fontSize.sm }]}>
-            {t('onboarding.studyLink')}
-          </Text>
+  const handleCommitSelect = useCallback((min: number) => {
+    setSelectedMinutes(min);
+    setSetting('dailyGoalMinutes', min);
+    // Auto-advance if goal already selected
+    if (selectedGoal != null) {
+      setTimeout(() => goNext(), 300);
+    }
+  }, [setSetting, selectedGoal, goNext]);
+
+  const handleEnableNotifications = useCallback(() => {
+    Notifications.requestPermissionsAsync().catch(() => {});
+    goNext();
+  }, [goNext]);
+
+  const handleConnectHealth = useCallback(() => {
+    setSetting('healthSyncEnabled', true);
+    goNext();
+  }, [setSetting, goNext]);
+
+  const finishOnboarding = useCallback(() => {
+    setSetting('onboardingCompleted', true);
+    setSetting('safetyAccepted', true);
+    setSetting('recommendedTechniqueId', plan.techniqueId);
+    router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
+  }, [setSetting, plan]);
+
+  const skipToApp = useCallback(() => {
+    setSetting('onboardingCompleted', true);
+    router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
+  }, [setSetting, plan]);
+
+  // ── Progress ──────────────────────────────────────────────────────────────────
+  const progressVisible = page > 0 && page !== 4;
+  const progressStep    = page < 4 ? page : page - 1;
+  const progressPct     = progressStep / 5;
+
+  // ── Page 0 — Hook ─────────────────────────────────────────────────────────────
+
+  const renderHook = () => (
+    <View style={{ flex: 1 }}>
+      <LinearGradient
+        colors={['transparent', 'rgba(5,10,30,0.70)', 'rgba(5,10,30,0.92)']}
+        style={StyleSheet.absoluteFillObject}
+        start={{ x: 0.5, y: 0.35 }}
+        end={{ x: 0.5, y: 1 }}
+        pointerEvents="none"
+      />
+
+      {/* Title at top */}
+      <View style={[styles.hookTop, { paddingTop: insets.top + SPACING.xl }]}>
+        <Text style={styles.hookTitle}>{t('onboarding.hookTitle')}</Text>
+      </View>
+
+      {/* Mandala centered */}
+      <View style={styles.hookCenter}>
+        <BreathingMandala phase="IDLE" color="#4A90D9" size={scale(260)} bright slow />
+        <Animated.Text style={[styles.hookBreathLabel, { opacity: hookLabelOpacity, marginTop: SPACING.md }]}>
+          {hookBreathDir === 'in' ? t('phase.breatheIn') : t('phase.breatheOut')}
+        </Animated.Text>
+      </View>
+
+      {/* Button at bottom */}
+      <View style={styles.hookContent}>
+        <TouchableOpacity style={styles.primaryBtn} onPress={goNext} activeOpacity={0.85}>
+          <Text style={styles.primaryBtnText}>{t('onboarding.getStarted')}</Text>
         </TouchableOpacity>
-      )}
+      </View>
     </View>
   );
 
-  const renderFeatures = () => (
-    <View style={[styles.page, { width }]}>
-      <View style={[styles.featuresBadge, { backgroundColor: theme.primary + '15' }]}>
-        <Ionicons name="sparkles" size={16} color={theme.primary} />
-        <Text style={[styles.featuresBadgeText, { color: theme.primary, fontSize: fontSize.sm }]}>{t('onboarding.featuresTitle')}</Text>
+  // ── Page 3 — Goal + Commit (combined) ────────────────────────────────────────
+
+  const renderGoalAndCommit = () => (
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1 }]} showsVerticalScrollIndicator={false}>
+      <Text style={styles.pageTitle}>{t('onboarding.chooseGoal')}</Text>
+      <View style={styles.optionList}>
+        {GOAL_OPTIONS.map((g) => {
+          const sel = selectedGoal === g.category;
+          return (
+            <TouchableOpacity
+              key={g.category}
+              style={[styles.optionRow, sel && styles.optionRowSelected]}
+              onPress={() => handleGoalSelect(g.category)}
+              activeOpacity={0.75}
+            >
+              <View style={[styles.optionIconCircle, { backgroundColor: g.color + '30' }]}>
+                <Ionicons name={g.icon} size={22} color={g.color} />
+              </View>
+              <View style={styles.optionTexts}>
+                <Text style={styles.optionLabel}>{t(g.labelKey)}</Text>
+              </View>
+              {sel
+                ? <View style={[styles.checkCircle, { backgroundColor: g.color }]}><Ionicons name="checkmark" size={13} color="#FFF" /></View>
+                : <Ionicons name="chevron-forward" size={17} color="rgba(255,255,255,0.4)" />}
+            </TouchableOpacity>
+          );
+        })}
       </View>
-      <Text style={[styles.featuresHeadline, { color: theme.text, fontSize: fontSize.xl, lineHeight: fontSize.xl * 1.3 }]} numberOfLines={3} adjustsFontSizeToFit minimumFontScale={0.8}>
-        {t('onboarding.featuresHeadline')}
-      </Text>
-      <View style={[styles.featuresList, { marginTop: SPACING.sm, gap: SPACING.xs }]}>
-        {FEATURES.map((f, i) => (
-          <View key={i} style={[styles.featureRow, { backgroundColor: theme.surface, paddingVertical: SPACING.sm, paddingHorizontal: SPACING.md }]}>
-            <View style={[styles.featureIconWrap, { backgroundColor: theme.primary + '20', width: scale(40), height: scale(40), borderRadius: BORDER_RADIUS.lg }]}>
-              <Ionicons name={f.icon} size={20} color={theme.primary} />
-            </View>
-            <View style={styles.featureText}>
-              <Text style={[styles.featureTitle, { color: theme.text, fontSize: fontSize.sm }]}>{t(f.titleKey)}</Text>
-              <Text style={[styles.featureDesc, { color: theme.textSecondary, fontSize: fontSize.xs }]} numberOfLines={2}>{t(f.descKey)}</Text>
-            </View>
-          </View>
+
+      {/* Minutes — slides in after goal selected */}
+      <Animated.View style={{ opacity: commitOpacity, transform: [{ translateY: commitAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
+        <Text style={[styles.pageTitle, { fontSize: FONT_SIZE.xl, marginTop: SPACING.lg }]}>{t('onboarding.commitTitle')}</Text>
+        <View style={styles.commitRow}>
+          {COMMIT_OPTIONS.map((min) => {
+            const sel = selectedMinutes != null && selectedMinutes === min;
+            return (
+              <TouchableOpacity
+                key={min}
+                style={[styles.commitChip, sel && styles.commitChipSelected]}
+                onPress={() => handleCommitSelect(min)}
+                activeOpacity={0.75}
+              >
+                <Text style={[styles.commitChipNum, sel && { color: '#FFF' }]}>{min}</Text>
+                <Text style={[styles.commitChipUnit, sel && { color: 'rgba(255,255,255,0.8)' }]}>min</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </Animated.View>
+    </ScrollView>
+  );
+
+  // ── Page 3 — Building ─────────────────────────────────────────────────────────
+
+  const renderBuilding = () => (
+    <View style={[styles.pageContent, { justifyContent: 'center' }]}>
+      <View style={{ alignItems: 'center', marginBottom: SPACING.lg }}>
+        <BreathingMandala phase="IDLE" color={plan.color} size={scale(160)} bright slow />
+      </View>
+      <Text style={[styles.pageTitle, { textAlign: 'center', marginBottom: SPACING.xl }]}>{t('onboarding.buildingTitle')}</Text>
+      <View style={{ gap: SPACING.md }}>
+        {([
+          { opacity: step1Opacity, key: 'onboarding.buildingStep1' },
+          { opacity: step2Opacity, key: 'onboarding.buildingStep2' },
+          { opacity: step3Opacity, key: 'onboarding.buildingStep3' },
+        ] as const).map((s, i) => (
+          <Animated.View key={i} style={[styles.bulletRow, { opacity: s.opacity }]}>
+            <View style={[styles.stepDot, { backgroundColor: plan.color }]}><Ionicons name="checkmark" size={12} color="#FFF" /></View>
+            <Text style={styles.bulletText}>{t(s.key)}</Text>
+          </Animated.View>
         ))}
       </View>
     </View>
   );
 
-  const renderProfile = (item: OnboardingPage) => (
-    <View style={[styles.page, { width }]}>
-      <Ionicons name="person-circle-outline" size={isCompact ? 40 : 56} color={theme.primary} style={{ marginBottom: isCompact ? SPACING.sm : SPACING.md }} />
-      <Text style={[styles.title, { color: theme.text, fontSize: isCompact ? fontSize.xxl : fontSize.xxl + 2 }]}>{t(item.titleKey!)}</Text>
-      <Text style={[styles.description, { color: theme.textSecondary, marginBottom: isCompact ? SPACING.md : SPACING.xl, fontSize: isCompact ? fontSize.sm : fontSize.md }]}>
-        {t(item.descriptionKey!)}
-      </Text>
+  // ── Page 4 — Plan ─────────────────────────────────────────────────────────────
 
-      <View style={styles.calibrationContainer}>
-        <View style={styles.weightRow}>
-          <TextInput
-            style={[styles.inputLarge, styles.weightInput, { borderColor: weightError ? COLORS.error : theme.border, color: theme.text, backgroundColor: theme.surface }]}
-            placeholder={t('onboarding.weightPlaceholder')}
-            placeholderTextColor={theme.textSecondary}
-            keyboardType="numeric"
-            maxLength={5}
-            value={weight}
-            onChangeText={(v) => { const clean = v.replace(/[^0-9.]/g, ''); setWeight(clean); setWeightError(''); }}
-          />
-          <View style={[styles.unitToggle, { backgroundColor: theme.surface, borderColor: theme.border }]}>
-            {(['kg', 'lbs'] as const).map((unit) => (
-              <TouchableOpacity
-                key={unit}
-                style={[
-                  styles.unitButton,
-                  weightUnit === unit && { backgroundColor: theme.primary },
-                ]}
-                onPress={() => { setWeightUnit(unit); setWeight(''); setWeightError(''); }}
-              >
-                <Text style={[styles.unitText, { color: theme.text }, weightUnit === unit && { color: COLORS.white }]}>
-                  {unit}
-                </Text>
-              </TouchableOpacity>
-            ))}
+  const renderPlan = () => (
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1, justifyContent: 'center', paddingBottom: 32 }]} showsVerticalScrollIndicator={false}>
+      {/* Badge */}
+      <View style={[styles.planBadge, { backgroundColor: plan.color, borderColor: 'transparent' }]}>
+        <Ionicons name="sparkles" size={14} color="#FFFFFF" />
+        <Text style={[styles.planBadgeText, { color: '#FFFFFF' }]}>{t('onboarding.planBadge')}</Text>
+      </View>
+
+      {/* Title */}
+      <Text style={styles.pageTitle}>{t(plan.titleKey)}</Text>
+
+      {/* Technique inline */}
+      <View style={[styles.techniquePill, { backgroundColor: plan.color + '20', borderColor: plan.color + '40' }]}>
+        <Ionicons name={plan.icon} size={15} color={plan.color} />
+        <Text style={[styles.techniquePillText, { color: plan.color }]}>{t(plan.techniqueNameKey)}</Text>
+      </View>
+
+      {/* Bullets */}
+      <View style={{ gap: SPACING.lg, marginTop: SPACING.xl, marginBottom: SPACING.xl }}>
+        {[plan.b1Key, plan.b2Key, plan.b3Key].map((key, i) => (
+          <View key={i} style={styles.bulletRow}>
+            <Ionicons name="checkmark-circle" size={20} color={plan.color} />
+            <Text style={styles.bulletText}>{t(key)}</Text>
+          </View>
+        ))}
+      </View>
+
+      <TouchableOpacity style={styles.primaryBtn} onPress={goNext} activeOpacity={0.85}>
+        <Text style={styles.primaryBtnText}>{t('onboarding.continue')}</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
+
+  // ── Page 5 — Notifications ────────────────────────────────────────────────────
+
+  const renderNotifications = () => (
+    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
+      {/* Top: title */}
+      <View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm, marginBottom: 6, paddingRight: SPACING.lg }}>
+          <Ionicons name="notifications" size={28} color="#4A90D9" />
+          <Text style={[styles.pageTitle, { flex: 1 }]}>{t('onboarding.notificationsTitle')}</Text>
+        </View>
+        <Text style={styles.pageSub}>{t('onboarding.notificationsSub')}</Text>
+      </View>
+
+      {/* Middle: notification bubbles */}
+      <View style={{ gap: SPACING.sm }}>
+        {/* Notification 1 */}
+        <View style={[styles.glassCard, { marginBottom: 0, marginRight: SPACING.xl }]}>
+          <View style={styles.notifRow}>
+            <View style={[styles.notifBubbleIcon, { backgroundColor: COLORS.primary }]}>
+              <Ionicons name="leaf" size={16} color="#FFF" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <View style={styles.notifHeader}>
+                <Text style={styles.notifAppName}>BREATHFLOW</Text>
+                <Text style={styles.notifTime}>9:00 AM</Text>
+              </View>
+              <Text style={styles.notifTitle}>Time to breathe 🌿</Text>
+              <Text style={styles.notifMessage}>Your daily session is ready. Take 5 minutes for yourself.</Text>
+            </View>
           </View>
         </View>
-        {!!weightError && (
-          <Text style={[styles.fieldError, { fontSize: fontSize.xs }]}>{weightError}</Text>
-        )}
 
-        <TextInput
-          style={[styles.inputLarge, styles.ageInput, { borderColor: ageError ? COLORS.error : theme.border, color: theme.text, backgroundColor: theme.surface }]}
-          placeholder={t('onboarding.agePlaceholder')}
-          placeholderTextColor={theme.textSecondary}
-          keyboardType="number-pad"
-          maxLength={3}
-          value={age}
-          onChangeText={(v) => { const clean = v.replace(/[^0-9]/g, ''); setAge(clean); setAgeError(''); }}
-        />
-        {!!ageError && (
-          <Text style={[styles.fieldError, { fontSize: fontSize.xs, marginBottom: SPACING.sm }]}>{ageError}</Text>
-        )}
+        {/* Notification 2 — shifted right */}
+        <View style={[styles.glassCard, { marginBottom: 0, marginLeft: SPACING.xl, opacity: 0.6 }]}>
+          <View style={styles.notifRow}>
+            <View style={[styles.notifBubbleIcon, { backgroundColor: COLORS.primary }]}>
+              <Ionicons name="leaf" size={16} color="#FFF" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <View style={styles.notifHeader}>
+                <Text style={styles.notifAppName}>BREATHFLOW</Text>
+                <Text style={styles.notifTime}>Yesterday</Text>
+              </View>
+              <Text style={styles.notifTitle}>3-day streak! 🔥</Text>
+              <Text style={styles.notifMessage}>Keep it up — consistency is everything.</Text>
+            </View>
+          </View>
+        </View>
+      </View>
 
-        <Text style={[styles.sectionLabel, { color: theme.text, fontSize: fontSize.md, marginTop: isCompact ? SPACING.sm : SPACING.md }]}>
-          {t('onboarding.stepGoalTitle')}
-        </Text>
-        <View style={styles.stepGoalRow}>
-          {STEP_GOAL_OPTIONS.map((goal) => (
-            <TouchableOpacity
-              key={goal}
-              style={[
-                styles.stepGoalButton,
-                { borderColor: theme.border, backgroundColor: theme.surface },
-                stepGoal === goal && [styles.stepGoalButtonActive, { backgroundColor: theme.primary, borderColor: theme.primary }],
-              ]}
-              onPress={() => setStepGoal(goal)}
-            >
-              <Text style={[styles.stepGoalValue, { color: theme.text }, stepGoal === goal && { color: COLORS.white }]}>
-                {goal >= 1000 ? `${goal / 1000}k` : goal}
-              </Text>
-              <Text style={[styles.stepGoalLabel, { color: theme.textSecondary }, stepGoal === goal && { color: 'rgba(255,255,255,0.7)' }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('onboarding.stepsLabel')}
-              </Text>
-            </TouchableOpacity>
+      {/* Bottom: button */}
+      <View>
+        <TouchableOpacity
+          style={[styles.primaryBtn, styles.glowBtn, { flexDirection: 'row', gap: 8 }]}
+          onPress={handleEnableNotifications}
+          activeOpacity={0.85}
+        >
+          <Ionicons name="notifications-outline" size={18} color="#FFF" />
+          <Text style={styles.primaryBtnText}>{t('onboarding.notificationsEnable')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.skipLink} onPress={goNext}>
+          <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  // ── Page 6 — Apple Health ─────────────────────────────────────────────────────
+
+  const renderAppleHealth = () => (
+    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
+      {/* Top: title */}
+      <View>
+        <Text style={[styles.pageTitle, { marginTop: SPACING.sm }]}>{t('onboarding.appleHealthTitle')}</Text>
+        <Text style={styles.pageSub}>{t('onboarding.appleHealthSub')}</Text>
+      </View>
+
+      {/* Middle: heart with ripple rings */}
+      <View style={styles.healthRippleWrap}>
+        <Animated.View style={[styles.healthRing, { width: scale(200), height: scale(200), borderRadius: scale(100), opacity: 0.08, transform: [{ scale: ringPulse }] }]} />
+        <Animated.View style={[styles.healthRing, { width: scale(158), height: scale(158), borderRadius: scale(79), opacity: 0.14, transform: [{ scale: ringPulse }] }]} />
+        <Animated.View style={[styles.healthRing, { width: scale(118), height: scale(118), borderRadius: scale(59), opacity: 0.22, transform: [{ scale: ringPulse }] }]} />
+        <Animated.View style={[styles.healthIconCircle, { transform: [{ scale: heartPulse }] }]}>
+          <Ionicons name="heart" size={scale(44)} color="#FFF" />
+        </Animated.View>
+      </View>
+
+      {/* Bullets — no card */}
+      <View style={{ gap: SPACING.md }}>
+        {([
+          { icon: 'sync-outline'        as const, key: 'onboarding.appleHealthBullet1' },
+          { icon: 'trending-up-outline' as const, key: 'onboarding.appleHealthBullet2' },
+          { icon: 'lock-closed-outline' as const, key: 'onboarding.appleHealthBullet3' },
+        ]).map((b, i) => (
+          <View key={i} style={styles.bulletRow}>
+            <Ionicons name={b.icon} size={18} color="#FF3B30" />
+            <Text style={styles.bulletText}>{t(b.key)}</Text>
+          </View>
+        ))}
+      </View>
+
+      {/* Bottom: button */}
+      <View>
+        <TouchableOpacity style={[styles.primaryBtn, styles.glowBtn, { backgroundColor: '#FF3B30', flexDirection: 'row', gap: 8, shadowColor: '#FF3B30' }]} onPress={handleConnectHealth} activeOpacity={0.85}>
+          <Ionicons name="heart" size={18} color="#FFF" />
+          <Text style={styles.primaryBtnText}>{t('onboarding.appleHealthConnect')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.skipLink} onPress={goNext}>
+          <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  // ── Page 7 — Safety ───────────────────────────────────────────────────────────
+
+  const renderSafety = () => (
+    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
+      {/* Top */}
+      <View>
+        <Text style={[styles.pageTitle, { marginTop: SPACING.sm }]}>{t('onboarding.safety')}</Text>
+        <Text style={[styles.pageSub, { marginBottom: SPACING.xl }]}>{'Read before starting your first session'}</Text>
+
+        {/* Bullets — no card */}
+        <View style={{ gap: SPACING.lg }}>
+          {SAFETY_ITEMS.map((key, i) => (
+            <View key={i} style={styles.bulletRow}>
+              <View style={styles.safetyDot}>
+                <Text style={styles.safetyDotNum}>{i + 1}</Text>
+              </View>
+              <Text style={styles.bulletText}>{t(key)}</Text>
+            </View>
           ))}
         </View>
       </View>
-    </View>
-  );
 
-  const renderHealth = () => (
-    <View style={[styles.page, { width }]}>
-      <Ionicons name="heart-circle-outline" size={isCompact ? scale(60) : scale(80)} color={theme.primary} style={styles.icon} />
-      <Text style={[styles.title, { color: theme.text, fontSize: fontSize.xxl }]} numberOfLines={2} adjustsFontSizeToFit>{t('onboarding.healthTitle')}</Text>
-      <Text style={[styles.description, { color: theme.textSecondary, marginBottom: SPACING.xl, fontSize: fontSize.md }]} numberOfLines={4} adjustsFontSizeToFit>
-        {t('onboarding.healthDescription')}
-      </Text>
-
-      <TouchableOpacity style={[styles.connectHealthButton, { backgroundColor: theme.primary }]} onPress={handleConnectHealth} activeOpacity={0.8}>
-        <Ionicons name="heart" size={20} color={COLORS.white} style={{ marginRight: SPACING.sm }} />
-        <Text style={[styles.connectHealthText, { fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>{t('onboarding.connectHealth')}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.skipLink} onPress={handleNext}>
-        <Text style={[styles.skipLinkText, { color: theme.textSecondary }]}>
-          {t('onboarding.skipHealth')}
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  const LOADING_STEPS = [
-    { key: 'onboarding.loadingStep1', threshold: 0 },
-    { key: 'onboarding.loadingStep2', threshold: 25 },
-    { key: 'onboarding.loadingStep3', threshold: 50 },
-    { key: 'onboarding.loadingStep4', threshold: 75 },
-  ];
-
-  const stepAnims = useRef(LOADING_STEPS.map(() => new Animated.Value(0))).current;
-
-  useEffect(() => {
-    LOADING_STEPS.forEach((step, i) => {
-      if (loadingProgress >= step.threshold) {
-        Animated.timing(stepAnims[i], {
-          toValue: 1,
-          duration: 400,
-          easing: Easing.out(Easing.ease),
-          useNativeDriver: true,
-        }).start();
-      }
-    });
-  }, [loadingProgress, stepAnims]);
-
-  const renderLoading = () => {
-    const progressWidth = progressAnim.interpolate({
-      inputRange: [0, 100],
-      outputRange: ['0%', '100%'],
-    });
-
-    return (
-      <View style={[styles.page, { width, backgroundColor: theme.primary }]}>
-        <Ionicons name="walk-outline" size={36} color="rgba(255,255,255,0.5)" style={styles.loadingWalkIcon} />
-        <View style={[styles.loadingCircleOuter, isCompact && { width: scale(130), height: scale(130), borderRadius: scale(65) }]}>
-          <View style={[styles.loadingCircle, isCompact && { width: scale(110), height: scale(110), borderRadius: scale(55) }]}>
-            <Text style={styles.loadingPercent} numberOfLines={1} adjustsFontSizeToFit>{loadingProgress}%</Text>
+      {/* Bottom */}
+      <View>
+        {/* Checkbox styled as a full-width tappable row */}
+        <TouchableOpacity
+          style={[styles.safetyCheckRow, safetyChecked && { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '15' }]}
+          onPress={() => setSafetyChecked((v) => !v)}
+          activeOpacity={0.7}
+        >
+          <View style={[styles.safetyCheckBox, safetyChecked && { backgroundColor: COLORS.primary, borderColor: COLORS.primary }]}>
+            {safetyChecked && <Ionicons name="checkmark" size={14} color="#FFF" />}
           </View>
-        </View>
-        <Text style={[styles.loadingTitle, { fontSize: fontSize.xxl + 2 }]}>{t('onboarding.loadingTitle')}</Text>
-        <Text style={[styles.loadingSubtitle, { fontSize: fontSize.md }]}>{t('onboarding.loadingSubtitle')}</Text>
+          <Text style={styles.checkboxLabel}>{t('onboarding.understand')}</Text>
+        </TouchableOpacity>
 
-        <View style={styles.loadingSteps}>
-          {LOADING_STEPS.map((step, i) => {
-            const done = loadingProgress >= (LOADING_STEPS[i + 1]?.threshold ?? 100);
-            return (
-              <Animated.View
-                key={i}
-                style={[
-                  styles.loadingStepRow,
-                  {
-                    opacity: stepAnims[i],
-                    transform: [{ translateY: stepAnims[i].interpolate({ inputRange: [0, 1], outputRange: [12, 0] }) }],
-                  },
-                ]}
-              >
-                <Ionicons
-                  name={done ? 'checkmark-circle' : 'ellipse-outline'}
-                  size={18}
-                  color={done ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.45)'}
-                />
-                <Text style={[styles.loadingStepText, done && styles.loadingStepTextDone]}>
-                  {t(step.key)}
-                </Text>
-              </Animated.View>
-            );
-          })}
-        </View>
-
-        <View style={styles.loadingBarBg}>
-          <Animated.View style={[styles.loadingBarFill, { width: progressWidth }]} />
-        </View>
+        <TouchableOpacity
+          style={[styles.primaryBtn, { marginTop: SPACING.md }, !safetyChecked && { backgroundColor: 'rgba(255,255,255,0.15)' }]}
+          onPress={finishOnboarding}
+          disabled={!safetyChecked}
+          activeOpacity={0.85}
+        >
+          <Text style={[styles.primaryBtnText, { opacity: safetyChecked ? 1 : 0.4 }]}>{t('onboarding.startBreathing')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.skipLink} onPress={skipToApp}>
+          <Text style={styles.skipText}>{t('onboarding.skipToApp')}</Text>
+        </TouchableOpacity>
       </View>
-    );
-  };
+    </View>
+  );
 
-  const renderItem = ({ item }: { item: OnboardingPage }) => {
-    switch (item.type) {
-      case 'info':
-      case 'promise':
-        return renderInfoPage(item);
-      case 'features':
-        return renderFeatures();
-      case 'profile':
-        return renderProfile(item);
-      case 'health':
-        return renderHealth();
-      case 'loading':
-        return renderLoading();
-      default:
-        return null;
+  const renderPage = () => {
+    switch (page) {
+      case 0: return renderHook();
+      case 1: return renderNotifications();
+      case 2: return renderAppleHealth();
+      case 3: return renderGoalAndCommit();
+      case 4: return renderBuilding();
+      case 5: return renderPlan();
+      case 6: return renderSafety();
+      default: return null;
     }
   };
 
-  const isLoadingPage = currentIndex === pages.length - 1;
-  const isHealthPage = currentIndex === pages.length - 2;
-  const showSkip = currentIndex <= 1; // Show skip on pages 1-2
+  // ── Root ──────────────────────────────────────────────────────────────────────
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: isLoadingPage ? theme.primary : theme.background }]}>
-      <View style={styles.skipContainer}>
-        {showSkip && (
-          <TouchableOpacity onPress={handleSkip}>
-            <Text style={[styles.skipText, { color: theme.textSecondary, fontSize: fontSize.md }]}>{t('onboarding.skip')}</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+    <ImageBackground
+      source={require('../../assets/bg_sleep.webp')}
+      style={{ flex: 1 }}
+      resizeMode="cover"
+    >
+      {/* Global dark overlay */}
+      <View style={styles.overlay} />
 
-      <FlatList
-        ref={flatListRef}
-        data={pages}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onViewableItemsChanged={onViewableItemsChanged}
-        viewabilityConfig={viewabilityConfig}
-        scrollEnabled={!isLoadingPage}
-      />
-
-      {!isLoadingPage && !isHealthPage && (
-        <View style={styles.footer}>
-          <View style={styles.dots}>
-            {pages.slice(0, -1).map((_, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.dot,
-                  {
-                    backgroundColor:
-                      i === currentIndex ? theme.primary : theme.border,
-                  },
-                ]}
-              />
-            ))}
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: 'transparent' }}
+        edges={page === 0 ? ['left', 'right', 'bottom'] : ['top', 'left', 'right', 'bottom']}
+      >
+        {/* Back + Forward buttons */}
+        {page > 0 && page !== 4 && (
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.backBtn} onPress={goBack} activeOpacity={0.7}>
+              <Ionicons name="chevron-back" size={22} color="#FFFFFF" />
+              <Text style={styles.backText}>{t('onboarding.back')}</Text>
+            </TouchableOpacity>
+            {page !== 6 && (
+              <TouchableOpacity style={styles.forwardBtn} onPress={goNext} activeOpacity={0.7}>
+                <Text style={styles.backText}>{t('onboarding.skip')}</Text>
+                <Ionicons name="chevron-forward" size={22} color="#FFFFFF" />
+              </TouchableOpacity>
+            )}
           </View>
+        )}
 
-          <TouchableOpacity
-            style={[styles.nextButton, { backgroundColor: theme.primary }]}
-            onPress={handleNext}
-            activeOpacity={0.8}
-          >
-            <Text style={[styles.nextButtonText, { fontSize: fontSize.lg }]} numberOfLines={1} adjustsFontSizeToFit>
-              {t('onboarding.next')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </SafeAreaView>
+        {/* Progress bar */}
+        {progressVisible && (
+          <View style={styles.progressTrack}>
+            <View style={[styles.progressFill, { width: `${progressPct * 100}%` }]} />
+          </View>
+        )}
+
+        {/* Page */}
+        <Animated.View style={[{ flex: 1 }, { opacity: fadeAnim, transform: [{ translateX: slideAnim }] }]}>
+          {renderPage()}
+        </Animated.View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
+// ── Styles ────────────────────────────────────────────────────────────────────
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  skipContainer: {
-    alignItems: 'flex-end',
-    paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.sm,
-    height: 40,
-  },
-  skipText: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '500',
-  },
-  page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: SPACING.xl,
-    overflow: 'hidden',
-  },
-  icon: {
-    marginBottom: SPACING.xl,
-  },
-  title: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: '700',
-    textAlign: 'center',
-    marginBottom: SPACING.md,
-  },
-  description: {
-    fontSize: FONT_SIZE.md,
-    textAlign: 'center',
-    lineHeight: 24,
-  },
-  studyLink: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.xs,
-    marginTop: SPACING.md,
-  },
-  studyLinkText: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '600',
-  },
-  footer: {
-    paddingHorizontal: SPACING.lg,
-    paddingBottom: SPACING.xl,
-  },
-  dots: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: SPACING.sm,
-    marginBottom: SPACING.lg,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  nextButton: {
-    paddingVertical: SPACING.md,
-    borderRadius: BORDER_RADIUS.xl,
-    alignItems: 'center',
-  },
-  nextButtonText: {
-    color: COLORS.white,
-    fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
+  // Root
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(5, 10, 30, 0.72)',
   },
 
-  // Features
-  featuresBadge: {
+  // Header
+  header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 5,
-    paddingHorizontal: SPACING.sm + 2,
-    paddingVertical: SPACING.xs,
-    borderRadius: BORDER_RADIUS.full,
+    paddingHorizontal: SPACING.md,
+    paddingTop: SPACING.md,
+    paddingBottom: 2,
+    minHeight: 44,
+  },
+  backBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 2,
+    paddingRight: 12, paddingVertical: 4,
+  },
+  forwardBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 2,
+    paddingLeft: 12, paddingVertical: 4,
+  },
+  backText: { fontSize: FONT_SIZE.md, fontFamily: FONTS.medium, color: '#FFFFFF' },
+
+  // Progress
+  progressTrack: {
+    height: 3,
+    marginHorizontal: SPACING.lg,
+    borderRadius: 2,
     marginBottom: SPACING.sm,
-  },
-  featuresBadgeText: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  featuresHeadline: {
-    fontWeight: '800',
-    textAlign: 'center',
-    marginBottom: SPACING.xs,
-    lineHeight: 32,
-  },
-  featuresList: {
-    alignSelf: 'stretch',
-    marginTop: SPACING.xl,
-    gap: SPACING.sm + 2,
-  },
-  featureRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm + 2,
-    paddingVertical: SPACING.sm,
-    paddingHorizontal: SPACING.sm + 2,
-    borderRadius: BORDER_RADIUS.lg,
-  },
-  featureIconWrap: {
-    width: scale(40),
-    height: scale(40),
-    borderRadius: BORDER_RADIUS.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  featureText: {
-    flex: 1,
-  },
-  featureTitle: {
-    fontWeight: '700',
-    marginBottom: 3,
-  },
-  featureDesc: {
-    lineHeight: 18,
-  },
-
-  // Profile / Calibration
-  calibrationContainer: {
-    paddingHorizontal: SPACING.md,
-    width: '100%',
-    alignItems: 'center',
-  },
-  sectionLabel: {
-    fontSize: FONT_SIZE.md,
-    fontWeight: '700',
-    marginBottom: SPACING.sm + 2,
-    alignSelf: 'flex-start',
-  },
-  weightRow: {
-    flexDirection: 'row',
-    gap: SPACING.sm,
-    width: '100%',
-    alignItems: 'center',
-    marginBottom: SPACING.xs,
-  },
-  weightInput: {
-    flex: 1,
-  },
-  unitToggle: {
-    flexDirection: 'row',
-    borderWidth: 1.5,
-    borderRadius: BORDER_RADIUS.lg,
+    backgroundColor: 'rgba(255,255,255,0.15)',
     overflow: 'hidden',
   },
-  unitButton: {
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.md,
-  },
-  unitText: {
-    fontSize: FONT_SIZE.sm,
-    fontWeight: '700',
-  },
-  ageInput: {
-    width: '100%',
-    marginBottom: SPACING.xs,
-  },
-  inputLarge: {
-    borderWidth: 1.5,
-    borderRadius: BORDER_RADIUS.lg,
-    padding: SPACING.md,
-    fontSize: FONT_SIZE.lg,
-    textAlign: 'center',
-    fontWeight: '500',
-  },
-  fieldError: {
-    color: COLORS.error,
-    fontSize: FONT_SIZE.xs,
-    marginTop: SPACING.xs,
-    textAlign: 'center',
-  },
-  stepGoalRow: {
-    flexDirection: 'row',
-    gap: SPACING.sm,
-    marginBottom: SPACING.lg,
-  },
-  stepGoalButton: {
+  progressFill: { height: 3, borderRadius: 2, backgroundColor: '#FFFFFF' },
+
+  // Page content
+  pageContent: {
     flex: 1,
-    alignItems: 'center',
-    paddingVertical: SPACING.md,
-    borderRadius: BORDER_RADIUS.lg,
-    borderWidth: 1.5,
-  },
-  stepGoalButtonActive: {},
-  stepGoalValue: {
-    fontSize: FONT_SIZE.xl,
-    fontWeight: '800',
-  },
-  stepGoalLabel: {
-    fontSize: FONT_SIZE.xs,
-    marginTop: 2,
+    paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.md,
+    paddingBottom: SPACING.md,
   },
 
-  // Health
-  connectHealthButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: SPACING.md,
-    paddingHorizontal: SPACING.xl,
-    borderRadius: BORDER_RADIUS.xl,
+  // Shared text
+  pageTitle: {
+    fontFamily: FONTS.heavy,
+    fontSize: FONT_SIZE.xxl + 2,
+    letterSpacing: -0.4,
+    marginBottom: 6,
+    color: TEXT_PRIMARY,
+  },
+  pageSub: {
+    fontFamily: FONTS.medium,
+    fontSize: FONT_SIZE.sm,
+    lineHeight: 20,
     marginBottom: SPACING.lg,
+    color: TEXT_SECONDARY,
   },
-  connectHealthText: {
-    color: COLORS.white,
-    fontSize: FONT_SIZE.lg,
-    fontWeight: '700',
-  },
-  skipLink: {
+
+  // Bottom area
+  bottomArea: { marginTop: 'auto', paddingTop: SPACING.md },
+
+  // Buttons
+  primaryBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    borderRadius: 14,
+    backgroundColor: COLORS.primary,
     marginTop: SPACING.sm,
   },
-  skipLinkText: {
-    fontSize: FONT_SIZE.sm,
-    textDecorationLine: 'underline',
+  primaryBtnText: { color: '#FFFFFF', fontFamily: FONTS.bold, fontSize: FONT_SIZE.md + 1 },
+  skipLink: { alignItems: 'center', paddingVertical: SPACING.md },
+  skipText: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, color: TEXT_SECONDARY, textDecorationLine: 'underline' },
+
+  // Hook page
+  hookTop: { paddingHorizontal: SPACING.lg, alignItems: 'center' },
+  hookCenter: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: SPACING.lg },
+  hookContent: { paddingHorizontal: SPACING.lg, paddingBottom: SPACING.lg },
+  hookTitle: { fontFamily: FONTS.heavy, fontSize: FONT_SIZE.xxl + 4, textAlign: 'center', letterSpacing: -0.5, color: TEXT_PRIMARY, marginBottom: 6 },
+  hookSub: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, textAlign: 'center', lineHeight: 20, color: TEXT_SECONDARY, marginBottom: SPACING.md },
+  hookBreathLabel: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.lg, color: 'rgba(255,255,255,0.75)', letterSpacing: 1.5, textTransform: 'uppercase' },
+  pillsRow: { flexDirection: 'row', gap: 6, justifyContent: 'center', flexWrap: 'wrap', marginBottom: SPACING.md },
+  pill: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 6, borderRadius: BORDER_RADIUS.full },
+  pillText: { fontSize: FONT_SIZE.xs, fontFamily: FONTS.bold },
+
+  // Option rows
+  optionList: { gap: 6, marginBottom: SPACING.md },
+  optionRow: {
+    flexDirection: 'row', alignItems: 'center',
+    paddingVertical: 10, paddingHorizontal: SPACING.md,
+    borderRadius: 14, gap: SPACING.md,
+    backgroundColor: GLASS_BG,
+    borderWidth: 1, borderColor: GLASS_BORDER,
+  },
+  optionRowSelected: { backgroundColor: GLASS_SEL_BG, borderColor: GLASS_SEL_BORDER },
+  optionIconCircle: { width: 38, height: 38, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  optionTexts: { flex: 1 },
+  optionLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
+  optionSub: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
+  checkCircle: { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  commitNum: { fontFamily: FONTS.heavy, fontSize: 20 },
+  commitRow: { flexDirection: 'row', gap: SPACING.sm, marginBottom: SPACING.md },
+  commitChip: {
+    flex: 1, alignItems: 'center', justifyContent: 'center',
+    paddingVertical: 14, borderRadius: 14,
+    backgroundColor: GLASS_BG, borderWidth: 1, borderColor: GLASS_BORDER,
+  },
+  commitChipSelected: { backgroundColor: COLORS.primary, borderColor: COLORS.primary },
+  commitChipNum: { fontFamily: FONTS.heavy, fontSize: 22, color: TEXT_PRIMARY },
+  commitChipUnit: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
+
+  // Hint
+  hintBox: {
+    flexDirection: 'row', alignItems: 'center', gap: 10,
+    padding: SPACING.md, borderRadius: 12, borderWidth: 1,
+    backgroundColor: 'rgba(245,166,35,0.10)',
+    borderColor: 'rgba(245,166,35,0.25)',
+    marginBottom: SPACING.sm,
+  },
+  hintText: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.xs, flex: 1, lineHeight: 18, color: 'rgba(255,255,255,0.85)' },
+
+  // Glass card
+  glassCard: {
+    backgroundColor: GLASS_BG,
+    borderWidth: 1,
+    borderColor: GLASS_BORDER,
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginBottom: SPACING.md,
   },
 
-  // Loading
-  loadingWalkIcon: {
-    marginBottom: SPACING.lg,
+  // Bullet rows
+  bulletRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: SPACING.md },
+  bulletText: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.lg, flex: 1, lineHeight: 24, color: TEXT_PRIMARY },
+
+  // Building
+  buildingOrb: { width: scale(90), height: scale(90), borderRadius: scale(45), alignItems: 'center', justifyContent: 'center' },
+  stepDot: { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+
+  // Plan
+  planBadge: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 10, paddingVertical: 5, borderRadius: BORDER_RADIUS.full, alignSelf: 'flex-start', marginBottom: SPACING.sm },
+  planBadgeText: { fontFamily: FONTS.bold, fontSize: FONT_SIZE.xs, textTransform: 'uppercase', letterSpacing: 0.5 },
+  techniqueCard: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, paddingVertical: SPACING.md, paddingRight: SPACING.md },
+  techniqueAccent: { width: 4, alignSelf: 'stretch', borderRadius: 2 },
+  techniqueIcon: { width: 42, height: 42, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  techniqueLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.xs, textTransform: 'uppercase', letterSpacing: 0.3, color: TEXT_SECONDARY, marginBottom: 2 },
+  techniqueName: { fontFamily: FONTS.bold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
+  techniquePill: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 6, borderRadius: BORDER_RADIUS.full, borderWidth: 1, marginTop: 6, marginBottom: 4 },
+  techniquePillText: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.sm },
+  freeBadge: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: BORDER_RADIUS.full, backgroundColor: '#7BC4A820', borderWidth: 1, borderColor: '#7BC4A840' },
+  freeBadgeText: { fontFamily: FONTS.bold, fontSize: 10, color: '#7BC4A8', letterSpacing: 0.5 },
+
+  // Notifications
+  notifIconWrap: { alignSelf: 'center', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  notifIconGlow: {
+    position: 'absolute',
+    width: scale(100), height: scale(100), borderRadius: scale(50),
+    backgroundColor: '#4A90D9',
+    opacity: 0.12,
   },
-  loadingCircleOuter: {
-    width: scale(160),
-    height: scale(160),
-    borderRadius: scale(80),
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: SPACING.xl,
+  notifIconCircle: {
+    width: scale(72), height: scale(72), borderRadius: scale(36),
+    backgroundColor: '#4A90D920',
+    borderWidth: 1, borderColor: '#4A90D940',
+    alignItems: 'center', justifyContent: 'center',
   },
-  loadingCircle: {
-    width: scale(136),
-    height: scale(136),
-    borderRadius: scale(68),
-    borderWidth: 4,
-    borderColor: 'rgba(255,255,255,0.3)',
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: SPACING.md,
+  notifBadgeIcon: { width: 44, height: 44, borderRadius: 12, borderWidth: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  notifBubbleRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm },
+  notifBubbleIcon: { width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center' },
+  notifHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 },
+  notifAppIconRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  notifAppIcon: { width: 18, height: 18, borderRadius: 4, alignItems: 'center', justifyContent: 'center' },
+  notifAppName: { fontFamily: FONTS.bold, fontSize: 10, color: TEXT_SECONDARY, letterSpacing: 0.5 },
+  notifTime: { fontFamily: FONTS.regular, fontSize: 11, color: TEXT_SECONDARY },
+  notifBody: { paddingHorizontal: SPACING.md, paddingBottom: SPACING.sm },
+  notifTitle: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.sm, color: TEXT_PRIMARY, marginBottom: 2 },
+  notifMessage: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, lineHeight: 17 },
+  notifRow: { flexDirection: 'row', alignItems: 'flex-start', gap: SPACING.sm, padding: SPACING.md },
+  glowBtn: {
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 12,
+    elevation: 8,
   },
-  loadingPercent: {
-    fontSize: FONT_SIZE.xxxl + 4,
-    fontWeight: '800',
-    color: COLORS.white,
-  },
-  loadingTitle: {
-    fontSize: FONT_SIZE.xxl,
-    fontWeight: '800',
-    color: COLORS.white,
-    textAlign: 'center',
-    marginBottom: SPACING.xs,
-  },
-  loadingSubtitle: {
-    fontSize: FONT_SIZE.md,
-    color: 'rgba(255,255,255,0.7)',
-    textAlign: 'center',
-    marginBottom: SPACING.lg,
-  },
-  loadingSteps: {
-    alignSelf: 'stretch',
-    paddingHorizontal: SPACING.xxl + SPACING.md,
-    marginBottom: SPACING.xl,
-    gap: SPACING.sm + 2,
-  },
-  loadingStepRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-  },
-  loadingStepText: {
-    fontSize: FONT_SIZE.md,
-    color: 'rgba(255,255,255,0.5)',
-    fontWeight: '500',
-  },
-  loadingStepTextDone: {
-    color: 'rgba(255,255,255,0.95)',
-  },
-  loadingBarBg: {
-    width: '70%',
-    height: 6,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 3,
-    overflow: 'hidden',
-  },
-  loadingBarFill: {
-    height: '100%',
-    backgroundColor: COLORS.white,
-    borderRadius: 3,
-  },
+
+  // Big icon circle
+  bigIconCircle: { width: scale(96), height: scale(96), borderRadius: scale(48), alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginBottom: SPACING.lg, marginTop: SPACING.sm },
+
+  // Apple Health ripple
+  healthRippleWrap: { alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
+  healthRing: { position: 'absolute', backgroundColor: '#FF3B30' },
+  healthIconCircle: { width: scale(88), height: scale(88), borderRadius: scale(44), backgroundColor: '#FF3B30', alignItems: 'center', justifyContent: 'center' },
+
+  // Safety screen
+  safetyIconRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm, marginBottom: 6 },
+  safetyIconCircle: { width: 44, height: 44, borderRadius: 12, backgroundColor: '#7BC4A820', borderWidth: 1, borderColor: '#7BC4A840', alignItems: 'center', justifyContent: 'center' },
+  safetyDot: { width: 26, height: 26, borderRadius: 13, backgroundColor: '#7BC4A820', borderWidth: 1, borderColor: '#7BC4A840', alignItems: 'center', justifyContent: 'center' },
+  safetyDotNum: { fontFamily: FONTS.bold, fontSize: 12, color: '#7BC4A8' },
+  safetyCheckRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, padding: SPACING.md, borderRadius: 14, borderWidth: 1, borderColor: GLASS_BORDER, backgroundColor: GLASS_BG },
+  safetyCheckBox: { width: 22, height: 22, borderRadius: 6, borderWidth: 2, borderColor: 'rgba(255,255,255,0.4)', alignItems: 'center', justifyContent: 'center' },
+
+  // Checkbox
+  checkboxRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.sm, paddingHorizontal: 2 },
+  checkboxLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.sm, flex: 1, lineHeight: 20, color: TEXT_PRIMARY },
 });

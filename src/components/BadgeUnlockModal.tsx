@@ -4,11 +4,11 @@ import {
   Text,
   StyleSheet,
   Modal,
-  Image,
   Animated,
   Dimensions,
   Pressable,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useThemeColors } from '../hooks/useColorScheme';
 import { useHaptics } from '../hooks/useHaptics';
@@ -120,7 +120,7 @@ export function BadgeUnlockModal({ badge, visible, onClose }: BadgeUnlockModalPr
 
   if (!badge) return null;
 
-  const category = badge.category ?? badge.condition.type;
+  const category = badge.category;
   const catColors = BADGE_CATEGORY_COLORS[category] ?? BADGE_CATEGORY_COLORS.sessions;
   const glowColor = catColors.color;
 
@@ -167,17 +167,17 @@ export function BadgeUnlockModal({ badge, visible, onClose }: BadgeUnlockModalPr
                   },
                 ]}
               />
-              <Image
-                source={badge.icon as number}
-                style={styles.badgeImage}
-                resizeMode="contain"
+              <Ionicons
+                name={badge.icon as keyof typeof Ionicons.glyphMap}
+                size={BADGE_SIZE * 0.6}
+                color={glowColor}
               />
             </View>
 
             {/* Badge name */}
             <Animated.View style={{ opacity: nameFade, transform: [{ translateY: nameSlide }] }}>
               <Text style={[styles.badgeName, { color: theme.text }]} numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.7}>
-                {t(badge.titleKey)}
+                {t(badge.nameKey)}
               </Text>
             </Animated.View>
 
