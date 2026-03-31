@@ -161,9 +161,12 @@ export default function AwardsScreen() {
         </LinearGradient>
 
         {/* Category sections */}
-        {CATEGORIES.map((cat) => {
+        {CATEGORIES.map((cat, catIdx) => {
           const badges = grouped[cat.key];
           if (!badges || badges.length === 0) return null;
+
+          const isFreeCategory = catIdx < 2; // sessions, streak = free
+          if (!isFreeCategory && !isPro) return null;
 
           const catColors = BADGE_CATEGORY_COLORS[cat.key];
           const catUnlocked = badges.filter((b) => isUnlocked(b.id)).length;
@@ -207,6 +210,26 @@ export default function AwardsScreen() {
             </View>
           );
         })}
+
+        {/* PRO upsell */}
+        {!isPro && (
+          <TouchableOpacity
+            style={[styles.proBanner, { backgroundColor: 'rgba(155,89,182,0.15)', borderColor: 'rgba(155,89,182,0.3)' }]}
+            onPress={() => router.push('/paywall')}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="diamond" size={18} color="#9B59B6" />
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.proBannerTitle, { color: theme.text }]}>
+                {t('badges.unlockBadges', { defaultValue: 'Unlock All Badges' })}
+              </Text>
+              <Text style={[styles.proBannerSub, { color: theme.textSecondary }]}>
+                {t('badges.unlockBadgesDesc', { defaultValue: '4 more categories with Pro' })}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+          </TouchableOpacity>
+        )}
       </ScrollView>
     </View>
   );
