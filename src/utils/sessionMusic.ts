@@ -52,7 +52,7 @@ export function startMusic(trackId: string, volume = 0.4, startFromSec = 0): voi
     musicPlayer.play();
     currentTrackId = trackId;
   } catch (e) {
-    console.warn('[SessionMusic] failed to start:', trackId, e);
+    if (__DEV__) console.warn('[SessionMusic] failed to start:', trackId, e);
   }
 }
 

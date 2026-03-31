@@ -80,7 +80,7 @@ function playSound(source: keyof typeof SOUNDS, volume = 0.7): void {
     player.play();
     activePlayers.push(player);
   } catch (e) {
-    console.warn('[SessionAudio] failed to play:', source, e);
+    if (__DEV__) console.warn('[SessionAudio] failed to play:', source, e);
   }
 }
 
