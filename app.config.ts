@@ -37,17 +37,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-apple-authentication',
     'expo-secure-store',
     [
-      'react-native-fbsdk-next',
-      {
-        appID: process.env.FACEBOOK_APP_ID ?? '',
-        clientToken: process.env.FACEBOOK_CLIENT_TOKEN ?? '',
-        displayName: 'BreathFlow',
-        advertiserIDCollectionEnabled: true,
-        autoLogAppEventsEnabled: true,
-        isAutoInitEnabled: true,
-      },
-    ],
-    [
       '@sentry/react-native/expo',
       {
         organization: 'breathflow',
