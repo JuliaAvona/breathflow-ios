@@ -41,7 +41,9 @@
       "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh bn ta te ur)",
       "Bash(sips -g pixelWidth -g pixelHeight /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/raw/ar/1_framed.png)",
       "Bash(head -3 ls /System/Library/Fonts/*Bengali* /System/Library/Fonts/*Bangla*)",
-      "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh zh-Hant gu kn ml mr od pa)"
+      "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh zh-Hant gu kn ml mr od pa)",
+      "Bash(git -C /Users/juliaavona/Documents/Julia/IOS/breathflow-ios check-ignore screenshot-temp/)",
+      "Bash(eas --version)"
     ],
     "additionalDirectories": [
       "/Users/juliaavona/.claude/agents",
