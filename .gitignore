@@ -19,3 +19,11 @@ docs/rendered/*.png
 
 # Coverage
 coverage/
+
+# Generated screenshots
+screenshot-temp/raw/
+screenshot-temp/framed/
+screenshot-temp/background.png
+screenshot-temp/font*.otf
+screenshot-temp/font*.ttf
+screenshot-temp/font*.ttc
