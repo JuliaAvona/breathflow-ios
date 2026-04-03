@@ -1,5 +1,6 @@
 node_modules/
 .expo/
+.mcp.json
 dist/
 *.jks
 *.p8
