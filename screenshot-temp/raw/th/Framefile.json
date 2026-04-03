@@ -1,0 +1,69 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "keyword": {
+      "font": "../font-noto-th.ttf",
+      "color": "#FFFFFF",
+      "font_size": 140
+    },
+    "title": {
+      "font": "../font-noto-th.ttf",
+      "color": "#FFFFFF",
+      "font_size": 100
+    },
+    "background": "../background.png",
+    "padding": "3%x3%",
+    "stack_title": true,
+    "show_complete_frame": true,
+    "title_below_image": false,
+    "font_scale_factor": 0.15,
+    "interline_spacing": -80
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "หายใจ"
+      },
+      "title": {
+        "text": "ดีขึ้น รู้สึกดีขึ้น"
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "หลับ"
+      },
+      "title": {
+        "text": "ภายในไม่กี่นาที"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "ผ่อนคลาย"
+      },
+      "title": {
+        "text": "ที่ไหนก็ได้ เมื่อไหร่ก็ได้"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "โฟกัส"
+      },
+      "title": {
+        "text": "อย่างมืออาชีพ"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "ติดตาม"
+      },
+      "title": {
+        "text": "ความก้าวหน้าของคุณ"
+      }
+    }
+  ]
+}

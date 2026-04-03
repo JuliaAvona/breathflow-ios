@@ -1,0 +1,69 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "keyword": {
+      "font": "../font.otf",
+      "color": "#FFFFFF",
+      "font_size": 140
+    },
+    "title": {
+      "font": "../font.otf",
+      "color": "#FFFFFF",
+      "font_size": 100
+    },
+    "background": "../background.png",
+    "padding": "3%x3%",
+    "stack_title": true,
+    "show_complete_frame": true,
+    "title_below_image": false,
+    "font_scale_factor": 0.15,
+    "interline_spacing": -80
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "RESPIRA"
+      },
+      "title": {
+        "text": "Mejor. Siéntete bien."
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "DUERME"
+      },
+      "title": {
+        "text": "En pocos minutos"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "RELAJA"
+      },
+      "title": {
+        "text": "Donde sea, cuando sea"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "ENFOCA"
+      },
+      "title": {
+        "text": "Como un profesional"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "SIGUE"
+      },
+      "title": {
+        "text": "Tu progreso"
+      }
+    }
+  ]
+}

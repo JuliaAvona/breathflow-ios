@@ -1,0 +1,64 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "title": {
+      "font": "../font.otf",
+      "color": "#FFFFFF"
+    },
+    "keyword": {
+      "font": "../font.otf",
+      "color": "#FFFFFF"
+    },
+    "background": "#1D3A5E",
+    "padding": 50,
+    "show_complete_frame": false,
+    "title_below_image": false
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "BREATHE"
+      },
+      "title": {
+        "text": "Better. Feel Better."
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "SLEEP"
+      },
+      "title": {
+        "text": "In Minutes"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "RELAX"
+      },
+      "title": {
+        "text": "Anywhere, Anytime"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "FOCUS"
+      },
+      "title": {
+        "text": "Like Navy SEALs"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "TRACK"
+      },
+      "title": {
+        "text": "Your Progress"
+      }
+    }
+  ]
+}

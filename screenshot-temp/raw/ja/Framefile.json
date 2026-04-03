@@ -1,0 +1,69 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "keyword": {
+      "font": "../font-noto.ttf",
+      "color": "#FFFFFF",
+      "font_size": 140
+    },
+    "title": {
+      "font": "../font-noto.ttf",
+      "color": "#FFFFFF",
+      "font_size": 100
+    },
+    "background": "../background.png",
+    "padding": "3%x3%",
+    "stack_title": true,
+    "show_complete_frame": true,
+    "title_below_image": false,
+    "font_scale_factor": 0.15,
+    "interline_spacing": -80
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "呼吸する"
+      },
+      "title": {
+        "text": "もっと良く。気分も良く。"
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "眠る"
+      },
+      "title": {
+        "text": "数分で"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "リラックス"
+      },
+      "title": {
+        "text": "いつでもどこでも"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "集中する"
+      },
+      "title": {
+        "text": "プロのように"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "記録する"
+      },
+      "title": {
+        "text": "あなたの進捗"
+      }
+    }
+  ]
+}

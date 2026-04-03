@@ -1,0 +1,69 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "keyword": {
+      "font": "../font-noto.ttf",
+      "color": "#FFFFFF",
+      "font_size": 140
+    },
+    "title": {
+      "font": "../font-noto.ttf",
+      "color": "#FFFFFF",
+      "font_size": 100
+    },
+    "background": "../background.png",
+    "padding": "3%x3%",
+    "stack_title": true,
+    "show_complete_frame": true,
+    "title_below_image": false,
+    "font_scale_factor": 0.15,
+    "interline_spacing": -80
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "呼吸"
+      },
+      "title": {
+        "text": "更好地感受自己"
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "入睡"
+      },
+      "title": {
+        "text": "几分钟内"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "放松"
+      },
+      "title": {
+        "text": "随时随地"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "专注"
+      },
+      "title": {
+        "text": "像专业人士一样"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "追踪"
+      },
+      "title": {
+        "text": "你的进步"
+      }
+    }
+  ]
+}

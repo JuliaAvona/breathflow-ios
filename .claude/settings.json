@@ -31,10 +31,22 @@
       "WebFetch(domain:api.unsplash.com)",
       "WebFetch(domain:source.unsplash.com)",
       "Bash(curl -sI \"https://images.unsplash.com/photo-1448375240586-882707db888b?w=1080&q=80\")",
-      "Bash(curl -sI \"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&q=80\")"
+      "Bash(curl -sI \"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&q=80\")",
+      "Bash(sips -g pixelWidth -g pixelHeight screenshots/final/ar/01-breathe-better.jpg)",
+      "Bash(gem list:*)",
+      "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh all)",
+      "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh ja ko zh-Hans ar)",
+      "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh nl pl ro th hi da no fi cs hu)",
+      "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh ar he sv sk hr sl el vi id ms ca)",
+      "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh bn ta te ur)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/raw/ar/1_framed.png)",
+      "Bash(head -3 ls /System/Library/Fonts/*Bengali* /System/Library/Fonts/*Bangla*)",
+      "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh zh-Hant gu kn ml mr od pa)"
     ],
     "additionalDirectories": [
-      "/Users/juliaavona/.claude/agents"
+      "/Users/juliaavona/.claude/agents",
+      "/Users/juliaavona/Downloads/Noto_Sans/static",
+      "/Users/juliaavona/Downloads/Noto_Sans,Noto_Sans_JP/Noto_Sans_JP/static"
     ]
   }
 }

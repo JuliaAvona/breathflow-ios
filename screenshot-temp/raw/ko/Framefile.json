@@ -1,0 +1,69 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "keyword": {
+      "font": "../font-noto-kr.ttf",
+      "color": "#FFFFFF",
+      "font_size": 140
+    },
+    "title": {
+      "font": "../font-noto-kr.ttf",
+      "color": "#FFFFFF",
+      "font_size": 100
+    },
+    "background": "../background.png",
+    "padding": "3%x3%",
+    "stack_title": true,
+    "show_complete_frame": true,
+    "title_below_image": false,
+    "font_scale_factor": 0.15,
+    "interline_spacing": -80
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "호흡하세요"
+      },
+      "title": {
+        "text": "더 나은 기분을 느끼세요"
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "잠드세요"
+      },
+      "title": {
+        "text": "몇 분 만에"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "쉬세요"
+      },
+      "title": {
+        "text": "언제 어디서나"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "집중하세요"
+      },
+      "title": {
+        "text": "전문가처럼"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "기록하세요"
+      },
+      "title": {
+        "text": "당신의 진행 상황"
+      }
+    }
+  ]
+}
