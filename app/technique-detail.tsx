@@ -263,7 +263,7 @@ export default function TechniqueDetailScreen() {
             return (
               <TouchableOpacity
                 key={opt.value}
-                style={styles.durationItem}
+                style={[styles.durationItem, isActive && styles.durationItemActive]}
                 onPress={() => setSelectedRounds(opt.value)}
                 activeOpacity={0.7}
               >
@@ -280,7 +280,7 @@ export default function TechniqueDetailScreen() {
             return (
               <TouchableOpacity
                 key={opt.value}
-                style={styles.durationItem}
+                style={[styles.durationItem, isActive && styles.durationItemActive]}
                 onPress={() => setSelectedSets(opt.value)}
                 activeOpacity={0.7}
               >
@@ -297,7 +297,7 @@ export default function TechniqueDetailScreen() {
             return (
               <TouchableOpacity
                 key={opt.value}
-                style={styles.durationItem}
+                style={[styles.durationItem, isActive && styles.durationItemActive]}
                 onPress={() => setSelectedDuration(opt.value)}
                 activeOpacity={0.7}
               >
@@ -568,8 +568,12 @@ const styles = StyleSheet.create({
   durationItem: {
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 4,
+    paddingVertical: 8,
     gap: 6,
+    borderRadius: 24,
+  },
+  durationItemActive: {
+    backgroundColor: 'rgba(255,255,255,0.25)',
   },
   durationLabel: {
     fontSize: 15,
@@ -584,9 +588,9 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.65)',
   },
   durationDot: {
-    width: 5,
-    height: 5,
-    borderRadius: 2.5,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
   // Phase intervals
   phasesRow: {
