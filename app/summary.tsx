@@ -32,12 +32,12 @@ const CONFETTI_COLORS = ['#4A90D9', '#7BC4A8', '#F5C542', '#7B68AE', '#E85D4A', 
 const CONFETTI_COUNT = 40;
 
 const MOOD_OPTIONS: { key: Mood; emoji: string; color: string; bg: string; labelKey: string }[] = [
-  { key: 'energized', emoji: '\u{1F929}', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
-  { key: 'happy', emoji: '\u{1F642}', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
-  { key: 'calm', emoji: '\u{1F610}', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
-  { key: 'focused', emoji: '\u{1F61E}', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
-  { key: 'anxious', emoji: '\u{1F62D}', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
   { key: 'sleepy', emoji: '\u{1F634}', color: '#7B68AE', bg: '#7B68AE', labelKey: 'summary.moodSleepy' },
+  { key: 'anxious', emoji: '\u{1F62D}', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
+  { key: 'focused', emoji: '\u{1F61E}', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
+  { key: 'calm', emoji: '\u{1F610}', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
+  { key: 'happy', emoji: '\u{1F642}', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
+  { key: 'energized', emoji: '\u{1F929}', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
 ];
 
 function ConfettiAnimation() {
