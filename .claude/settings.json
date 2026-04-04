@@ -43,7 +43,9 @@
       "Bash(head -3 ls /System/Library/Fonts/*Bengali* /System/Library/Fonts/*Bangla*)",
       "Bash(zsh /Users/juliaavona/Documents/Julia/IOS/breathflow-ios/screenshot-temp/make_screenshots.sh zh-Hant gu kn ml mr od pa)",
       "Bash(git -C /Users/juliaavona/Documents/Julia/IOS/breathflow-ios check-ignore screenshot-temp/)",
-      "Bash(eas --version)"
+      "Bash(eas --version)",
+      "Bash(xcodebuild -exportArchive -archivePath /tmp/BreathFlow.xcarchive -exportOptionsPlist /tmp/ExportOptions.plist -exportPath /tmp/BreathFlowExport -allowProvisioningUpdates)",
+      "Bash(echo \"EXIT: $?\")"
     ],
     "additionalDirectories": [
       "/Users/juliaavona/.claude/agents",

@@ -15,7 +15,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.izbrodin90.breathflow',
-    buildNumber: '15',
+    buildNumber: '16',
     usesAppleSignIn: true,
     infoPlist: {
       UIBackgroundModes: ['audio'],
