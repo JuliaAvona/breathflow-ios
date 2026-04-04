@@ -229,7 +229,7 @@ export const BADGE_DEFINITIONS = [
     descriptionKey: 'badges.technique_master.description',
     icon: 'school-outline',
     category: 'exploration' as BadgeCategory,
-    isPro: false,
+    isPro: true,
   },
 
   // Minutes / retention progress
@@ -247,7 +247,7 @@ export const BADGE_DEFINITIONS = [
     descriptionKey: 'badges.hour_power.description',
     icon: 'hourglass-outline',
     category: 'minutes' as BadgeCategory,
-    isPro: false,
+    isPro: true,
   },
   {
     id: 'iron_lungs',
@@ -263,7 +263,7 @@ export const BADGE_DEFINITIONS = [
     descriptionKey: 'badges.deep_diver.description',
     icon: 'water-outline',
     category: 'retention' as BadgeCategory,
-    isPro: false,
+    isPro: true,
   },
   {
     id: 'superhuman',
@@ -271,7 +271,7 @@ export const BADGE_DEFINITIONS = [
     descriptionKey: 'badges.superhuman.description',
     icon: 'flash-outline',
     category: 'retention' as BadgeCategory,
-    isPro: false,
+    isPro: true,
   },
 
   // Streaks
@@ -289,7 +289,7 @@ export const BADGE_DEFINITIONS = [
     descriptionKey: 'badges.month_master.description',
     icon: 'calendar-outline',
     category: 'streak' as BadgeCategory,
-    isPro: false,
+    isPro: true,
   },
   {
     id: 'year_legend',
@@ -297,7 +297,7 @@ export const BADGE_DEFINITIONS = [
     descriptionKey: 'badges.year_legend.description',
     icon: 'ribbon-outline',
     category: 'streak' as BadgeCategory,
-    isPro: false,
+    isPro: true,
   },
   {
     id: 'century',
@@ -305,7 +305,7 @@ export const BADGE_DEFINITIONS = [
     descriptionKey: 'badges.century.description',
     icon: 'trophy-outline',
     category: 'sessions' as BadgeCategory,
-    isPro: false,
+    isPro: true,
   },
   {
     id: 'zen_master',
@@ -313,7 +313,7 @@ export const BADGE_DEFINITIONS = [
     descriptionKey: 'badges.zen_master.description',
     icon: 'flower-outline',
     category: 'minutes' as BadgeCategory,
-    isPro: false,
+    isPro: true,
   },
 
   // Special — time-of-day & features

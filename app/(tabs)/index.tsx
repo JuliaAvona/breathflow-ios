@@ -645,9 +645,7 @@ export default function HomeScreen() {
     return t('home.goodEvening', { defaultValue: 'Good evening' });
   }, [t]);
 
-  const [activeCategory, setActiveCategory] = useState<FilterCategory>(
-    selectedGoal ?? 'all',
-  );
+  const [activeCategory, setActiveCategory] = useState<FilterCategory>('all');
   const [selectedTechnique, setSelectedTechnique] = useState<BreathingTechnique | null>(null);
 
   const homeHaptics = useHaptics();

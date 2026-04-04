@@ -1,0 +1,69 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "keyword": {
+      "font": "../font-noto-hi.ttf",
+      "color": "#FFFFFF",
+      "font_size": 140
+    },
+    "title": {
+      "font": "../font-noto-hi.ttf",
+      "color": "#FFFFFF",
+      "font_size": 100
+    },
+    "background": "../background.png",
+    "padding": "3%x3%",
+    "stack_title": true,
+    "show_complete_frame": true,
+    "title_below_image": false,
+    "font_scale_factor": 0.15,
+    "interline_spacing": -80
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "साँस लो"
+      },
+      "title": {
+        "text": "बेहतर महसूस करो"
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "सो जाओ"
+      },
+      "title": {
+        "text": "कुछ ही मिनटों में"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "आराम"
+      },
+      "title": {
+        "text": "कहीं भी, कभी भी"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "ध्यान दो"
+      },
+      "title": {
+        "text": "पेशेवर की तरह"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "ट्रैक"
+      },
+      "title": {
+        "text": "अपनी प्रगति"
+      }
+    }
+  ]
+}

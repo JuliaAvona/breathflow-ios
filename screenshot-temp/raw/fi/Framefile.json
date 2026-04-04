@@ -1,0 +1,69 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "keyword": {
+      "font": "../font.otf",
+      "color": "#FFFFFF",
+      "font_size": 140
+    },
+    "title": {
+      "font": "../font.otf",
+      "color": "#FFFFFF",
+      "font_size": 100
+    },
+    "background": "../background.png",
+    "padding": "3%x3%",
+    "stack_title": true,
+    "show_complete_frame": true,
+    "title_below_image": false,
+    "font_scale_factor": 0.15,
+    "interline_spacing": -80
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "HENGIT"
+      },
+      "title": {
+        "text": "Paremmin. Voi hyvin."
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "NUKU"
+      },
+      "title": {
+        "text": "Muutamassa minuutissa"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "RENTO"
+      },
+      "title": {
+        "text": "Missä ja milloin vain"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "KESKIT"
+      },
+      "title": {
+        "text": "Kuin ammattilainen"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "SEURAA"
+      },
+      "title": {
+        "text": "Edistymistäsi"
+      }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "keyword": {
+      "font": "../font.otf",
+      "color": "#FFFFFF",
+      "font_size": 140
+    },
+    "title": {
+      "font": "../font.otf",
+      "color": "#FFFFFF",
+      "font_size": 100
+    },
+    "background": "../background.png",
+    "padding": "3%x3%",
+    "stack_title": true,
+    "show_complete_frame": true,
+    "title_below_image": false,
+    "font_scale_factor": 0.15,
+    "interline_spacing": -80
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "ADEM"
+      },
+      "title": {
+        "text": "Beter. Voel je goed."
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "SLAAP"
+      },
+      "title": {
+        "text": "Binnen minuten"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "ONTSP"
+      },
+      "title": {
+        "text": "Altijd en overal"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "FOCUS"
+      },
+      "title": {
+        "text": "Als een professional"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "VOLG"
+      },
+      "title": {
+        "text": "Je voortgang"
+      }
+    }
+  ]
+}

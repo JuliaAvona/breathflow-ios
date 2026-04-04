@@ -1,0 +1,9 @@
+.git
+screenshot-temp
+screenshots
+assets/screenshots
+assets/competitor
+ios/Pods
+ios/build
+docs
+coverage

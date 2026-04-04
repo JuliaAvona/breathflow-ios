@@ -5,7 +5,7 @@ import { View, ActivityIndicator, StyleSheet, LogBox } from 'react-native';
 // expo-notifications' native module tries to call getRegistrationInfoAsync during
 // init on iOS Simulator where the APNs keychain entitlement is absent.
 // This is a simulator-only false positive — suppress the dev overlay.
-LogBox.ignoreLogs(['getRegistrationInfoAsync', 'Keychain access failed']);
+LogBox.ignoreLogs(['getRegistrationInfoAsync', 'Keychain access failed', 'Open debugger']);
 import { setAudioModeAsync } from 'expo-audio';
 import { useTranslation } from 'react-i18next';
 import { useSettingsStore, useSessionsStore, useAuthStore, useBadgesStore } from '../src/store';

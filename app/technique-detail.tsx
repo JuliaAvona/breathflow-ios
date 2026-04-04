@@ -8,6 +8,7 @@ import {
   ImageBackground,
   StatusBar,
   PanResponder,
+  Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -104,17 +105,42 @@ export default function TechniqueDetailScreen() {
   const [descExpanded, setDescExpanded] = useState(false);
 
   const handleMusicSelect = (trackId: string | null) => {
-    setSelectedMusic(trackId);
-    if (trackId) {
-      startMusic(trackId, 0.4, 10);
-    } else {
+    if (!trackId) {
+      setSelectedMusic(null);
       stopMusic();
+      return;
     }
+
+    if (!settingsStore.soundEnabled || settingsStore.soundStyle === 'off') {
+      Alert.alert(
+        t('techniqueDetail.soundOffTitle', { defaultValue: 'Sound is off' }),
+        t('techniqueDetail.soundOffMessage', { defaultValue: 'Turn on sound to play music?' }),
+        [
+          {
+            text: t('common.no', { defaultValue: 'No' }),
+            style: 'cancel',
+          },
+          {
+            text: t('common.yes', { defaultValue: 'Yes' }),
+            onPress: () => {
+              settingsStore.setSetting('soundEnabled', true);
+              if (settingsStore.soundStyle === 'off') settingsStore.setSetting('soundStyle', 'tone');
+              setSelectedMusic(trackId);
+              startMusic(trackId, 0.4, 10);
+            },
+          },
+        ],
+      );
+      return;
+    }
+
+    setSelectedMusic(trackId);
+    startMusic(trackId, 0.4, 10);
   };
 
-  // Auto-play music if carried from previous technique
+  // Auto-play music if carried from previous technique (only if sound is on)
   useEffect(() => {
-    if (_music) {
+    if (_music && settingsStore.soundEnabled && settingsStore.soundStyle !== 'off') {
       startMusic(_music, 0.4, 10);
     }
     return () => { stopMusic(); };
@@ -208,10 +234,10 @@ export default function TechniqueDetailScreen() {
 
       {/* ── Side nav arrows (vertically centered) ── */}
       <TouchableOpacity style={styles.navArrowLeft} onPress={() => navigateTo(currentIndex - 1)}>
-        <Ionicons name="chevron-back" size={28} color="rgba(255,255,255,0.55)" />
+        <Ionicons name="chevron-back" size={28} color="rgba(255,255,255,0.9)" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.navArrowRight} onPress={() => navigateTo(currentIndex + 1)}>
-        <Ionicons name="chevron-forward" size={28} color="rgba(255,255,255,0.55)" />
+        <Ionicons name="chevron-forward" size={28} color="rgba(255,255,255,0.9)" />
       </TouchableOpacity>
 
       {/* ── Mandala ── */}
@@ -237,7 +263,7 @@ export default function TechniqueDetailScreen() {
             return (
               <TouchableOpacity
                 key={opt.value}
-                style={styles.durationItem}
+                style={[styles.durationItem, isActive && styles.durationItemActive]}
                 onPress={() => setSelectedRounds(opt.value)}
                 activeOpacity={0.7}
               >
@@ -254,7 +280,7 @@ export default function TechniqueDetailScreen() {
             return (
               <TouchableOpacity
                 key={opt.value}
-                style={styles.durationItem}
+                style={[styles.durationItem, isActive && styles.durationItemActive]}
                 onPress={() => setSelectedSets(opt.value)}
                 activeOpacity={0.7}
               >
@@ -271,7 +297,7 @@ export default function TechniqueDetailScreen() {
             return (
               <TouchableOpacity
                 key={opt.value}
-                style={styles.durationItem}
+                style={[styles.durationItem, isActive && styles.durationItemActive]}
                 onPress={() => setSelectedDuration(opt.value)}
                 activeOpacity={0.7}
               >
@@ -471,6 +497,8 @@ const styles = StyleSheet.create({
     top: '50%',
     zIndex: 10,
     padding: 8,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 20,
   },
   navArrowRight: {
     position: 'absolute',
@@ -478,6 +506,8 @@ const styles = StyleSheet.create({
     top: '50%',
     zIndex: 10,
     padding: 8,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 20,
   },
   topTitle: {
     textAlign: 'center',
@@ -538,8 +568,12 @@ const styles = StyleSheet.create({
   durationItem: {
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 4,
+    paddingVertical: 8,
     gap: 6,
+    borderRadius: 24,
+  },
+  durationItemActive: {
+    backgroundColor: 'rgba(255,255,255,0.25)',
   },
   durationLabel: {
     fontSize: 15,
@@ -554,9 +588,9 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.65)',
   },
   durationDot: {
-    width: 5,
-    height: 5,
-    borderRadius: 2.5,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
   // Phase intervals
   phasesRow: {

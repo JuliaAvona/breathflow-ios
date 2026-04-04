@@ -19,6 +19,7 @@ import { useSettingsStore } from '../../src/store';
 import { TechniqueCategory } from '../../src/types';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
 import { BreathingMandala } from '../../src/components/BreathingMandala';
+import { requestHealthPermissions } from '../../src/utils/healthKit';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -196,8 +197,9 @@ export default function OnboardingScreen() {
     goNext();
   }, [goNext]);
 
-  const handleConnectHealth = useCallback(() => {
+  const handleConnectHealth = useCallback(async () => {
     setSetting('healthSyncEnabled', true);
+    await requestHealthPermissions();
     goNext();
   }, [setSetting, goNext]);
 

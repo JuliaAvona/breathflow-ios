@@ -32,12 +32,12 @@ const CONFETTI_COLORS = ['#4A90D9', '#7BC4A8', '#F5C542', '#7B68AE', '#E85D4A', 
 const CONFETTI_COUNT = 40;
 
 const MOOD_OPTIONS: { key: Mood; emoji: string; color: string; bg: string; labelKey: string }[] = [
-  { key: 'energized', emoji: '\u{1F929}', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
-  { key: 'happy', emoji: '\u{1F642}', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
-  { key: 'calm', emoji: '\u{1F610}', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
-  { key: 'focused', emoji: '\u{1F61E}', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
-  { key: 'anxious', emoji: '\u{1F62D}', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
   { key: 'sleepy', emoji: '\u{1F634}', color: '#7B68AE', bg: '#7B68AE', labelKey: 'summary.moodSleepy' },
+  { key: 'anxious', emoji: '\u{1F62D}', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
+  { key: 'focused', emoji: '\u{1F61E}', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
+  { key: 'calm', emoji: '\u{1F610}', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
+  { key: 'happy', emoji: '\u{1F642}', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
+  { key: 'energized', emoji: '\u{1F929}', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
 ];
 
 function ConfettiAnimation() {
@@ -313,11 +313,11 @@ export default function SummaryScreen() {
 
   const glassCard = {
     backgroundColor: theme.isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-    borderRadius: 24,
+    borderRadius: 22,
     borderWidth: 1,
     borderColor: theme.isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)',
-    padding: 20,
-    marginBottom: 16,
+    padding: 18,
+    marginBottom: 14,
     width: '100%' as const,
     shadowColor: 'rgba(0,0,0,0.1)',
     shadowOffset: { width: 0, height: 8 },
@@ -366,7 +366,7 @@ export default function SummaryScreen() {
                 shadowRadius: 20,
                 shadowOffset: { width: 0, height: 0 },
               }]}>
-                <Ionicons name={technique.icon as never} size={38} color="#FFFFFF" />
+                <Ionicons name={technique.icon as never} size={34} color="#FFFFFF" />
               </View>
             )}
             <Text style={styles.headerTitle}>
@@ -467,7 +467,7 @@ export default function SummaryScreen() {
           )}
 
           {/* Mood check — glass card */}
-          <View style={[styles.moodSection, glassCard, { marginTop: SPACING.lg }]}>
+          <View style={[styles.moodSection, glassCard, { marginTop: SPACING.xs }]}>
             <Text style={[styles.moodTitle, { fontSize: fontSize.md, color: theme.text }]}>
               {t('summary.howDoYouFeel')}
             </Text>
@@ -629,27 +629,27 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.xl,
-    paddingBottom: SPACING.xxl,
+    paddingTop: SPACING.sm,
+    paddingBottom: SPACING.lg,
   },
 
   // Header section (no gradient block, just content)
   headerSection: {
     alignItems: 'center',
-    marginBottom: SPACING.xl,
-    paddingTop: SPACING.lg,
+    marginBottom: SPACING.md,
+    paddingTop: SPACING.xs,
   },
   techniqueIconCircle: {
-    width: scale(80),
-    height: scale(80),
-    borderRadius: scale(40),
+    width: scale(70),
+    height: scale(70),
+    borderRadius: scale(35),
     backgroundColor: 'rgba(255,255,255,0.15)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: SPACING.md,
+    marginBottom: SPACING.xs,
   },
   headerTitle: {
-    fontSize: 32,
+    fontSize: 30,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     marginBottom: 6,
@@ -684,7 +684,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.15)',
   },
   statValue: {
-    fontSize: 32,
+    fontSize: 26,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     marginBottom: 2,
@@ -780,13 +780,13 @@ const styles = StyleSheet.create({
   moodButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 16,
+    borderRadius: 14,
     borderWidth: 1.5,
-    width: 48,
-    height: 48,
+    width: 42,
+    height: 42,
   },
   moodEmoji: {
-    fontSize: 26,
+    fontSize: 22,
   },
 
   // Badges (layout inside glass card)
@@ -890,9 +890,9 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.semibold,
   },
   doneButton: {
-    height: 56,
+    height: 50,
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: 18,
     alignItems: 'center',
     shadowColor: 'rgba(0,0,0,0.3)',
     shadowOffset: { width: 0, height: 4 },

@@ -1,0 +1,69 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "keyword": {
+      "font": "../font.otf",
+      "color": "#FFFFFF",
+      "font_size": 140
+    },
+    "title": {
+      "font": "../font.otf",
+      "color": "#FFFFFF",
+      "font_size": 100
+    },
+    "background": "../background.png",
+    "padding": "3%x3%",
+    "stack_title": true,
+    "show_complete_frame": true,
+    "title_below_image": false,
+    "font_scale_factor": 0.15,
+    "interline_spacing": -80
+  },
+  "data": [
+    {
+      "filter": "1",
+      "keyword": {
+        "text": "ΑΝΑΣΑ"
+      },
+      "title": {
+        "text": "Καλύτερα. Νιώσε."
+      }
+    },
+    {
+      "filter": "2",
+      "keyword": {
+        "text": "ΚΟΙΜΗΣ"
+      },
+      "title": {
+        "text": "Σε λίγα λεπτά"
+      }
+    },
+    {
+      "filter": "3",
+      "keyword": {
+        "text": "ΧΑΛΑΡΩ"
+      },
+      "title": {
+        "text": "Οπουδήποτε"
+      }
+    },
+    {
+      "filter": "4",
+      "keyword": {
+        "text": "ΕΣΤΙΑΣ"
+      },
+      "title": {
+        "text": "Σαν επαγγελματίας"
+      }
+    },
+    {
+      "filter": "5",
+      "keyword": {
+        "text": "ΠΑΡΑΚΟ"
+      },
+      "title": {
+        "text": "Την πρόοδό σου"
+      }
+    }
+  ]
+}
