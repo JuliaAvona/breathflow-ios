@@ -46,7 +46,16 @@
       "Bash(eas --version)",
       "Bash(xcodebuild -exportArchive -archivePath /tmp/BreathFlow.xcarchive -exportOptionsPlist /tmp/ExportOptions.plist -exportPath /tmp/BreathFlowExport -allowProvisioningUpdates)",
       "Bash(echo \"EXIT: $?\")",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "Bash(git stash:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/support.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/privacy.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/terms.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/docs/support.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/docs/privacy.html)"
     ],
     "additionalDirectories": [
       "/Users/juliaavona/.claude/agents",
