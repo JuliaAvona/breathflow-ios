@@ -45,7 +45,8 @@
       "Bash(git -C /Users/juliaavona/Documents/Julia/IOS/breathflow-ios check-ignore screenshot-temp/)",
       "Bash(eas --version)",
       "Bash(xcodebuild -exportArchive -archivePath /tmp/BreathFlow.xcarchive -exportOptionsPlist /tmp/ExportOptions.plist -exportPath /tmp/BreathFlowExport -allowProvisioningUpdates)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(gh api:*)"
     ],
     "additionalDirectories": [
       "/Users/juliaavona/.claude/agents",
