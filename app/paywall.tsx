@@ -269,6 +269,16 @@ export default function PaywallScreen() {
           )}
         </TouchableOpacity>
 
+        {/* Subscription auto-renewal disclaimer (Apple Guideline 3.1.2c) */}
+        {(selectedPlan === 'weekly' || selectedPlan === 'annual') && (
+          <Text style={styles.subscriptionDisclaimer}>
+            {t('paywall.subscriptionDisclaimer', {
+              defaultValue:
+                'Payment will be charged to your Apple ID account at confirmation of purchase. Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage subscriptions in App Store settings.',
+            })}
+          </Text>
+        )}
+
         {/* Legal */}
         <View style={styles.legalLinks}>
           <TouchableOpacity onPress={() => router.push('/terms')} activeOpacity={0.7}>
@@ -483,6 +493,17 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: 0.5,
+  },
+
+  // Subscription disclaimer
+  subscriptionDisclaimer: {
+    fontSize: 11,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.5)',
+    textAlign: 'center',
+    marginHorizontal: SPACING.xl,
+    marginBottom: SPACING.md,
+    lineHeight: 15,
   },
 
   // Legal

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { View, Animated, StyleSheet, Easing } from 'react-native';
 
 interface Props {
@@ -19,6 +19,11 @@ export function PulseRings({ phase, color, size = 240 }: Props) {
 
   const centerScale = useRef(new Animated.Value(0.8)).current;
   const centerOpacity = useRef(new Animated.Value(0.9)).current;
+  const glowMultiplier = useRef(new Animated.Value(0.35)).current;
+  const glowOpacity = useMemo(
+    () => Animated.multiply(centerOpacity, glowMultiplier),
+    [centerOpacity, glowMultiplier],
+  );
 
   const isActive = phase === 'BREATHING' || phase === 'RAPID_SET';
   const isRetention = phase === 'RETENTION';
@@ -167,7 +172,7 @@ export function PulseRings({ phase, color, size = 240 }: Props) {
             borderRadius: size * 0.35,
             backgroundColor: 'rgba(255,255,255,0.35)',
             transform: [{ scale: centerScale }],
-            opacity: Animated.multiply(centerOpacity, new Animated.Value(0.35)),
+            opacity: glowOpacity,
           },
         ]}
       />

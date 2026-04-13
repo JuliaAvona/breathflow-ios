@@ -42,11 +42,9 @@ export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
     }
   }, [visible]);
 
-  if (!visible) return null;
-
-  return (
-    <View style={styles.container} pointerEvents="none">
-      {pieces.map((piece, i) => {
+  const interpolations = useMemo(
+    () =>
+      pieces.map((piece) => {
         const drift = (Math.random() - 0.5) * 80;
         const delay = Math.random() * 0.3;
 
@@ -71,6 +69,18 @@ export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
           inputRange: [0, 1],
           outputRange: [`${piece.rotation}deg`, `${piece.rotation + 360}deg`],
         });
+
+        return { translateY, translateX, opacity, rotate };
+      }),
+    [animValue, pieces],
+  );
+
+  if (!visible) return null;
+
+  return (
+    <View style={styles.container} pointerEvents="none">
+      {pieces.map((piece, i) => {
+        const { translateY, translateX, opacity, rotate } = interpolations[i];
 
         return (
           <Animated.View

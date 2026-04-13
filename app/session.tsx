@@ -239,12 +239,14 @@ export default function SessionScreen() {
     if (currentPhaseVal === 'INHALE' || currentPhaseVal === 'EXHALE') {
       // Standard: rhythmic vibration during breathe in/out
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      if (hapticIntervalRef.current) { clearInterval(hapticIntervalRef.current); hapticIntervalRef.current = null; }
       hapticIntervalRef.current = setInterval(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       }, 300);
     } else if (currentPhaseVal === 'BREATHING' || currentPhaseVal === 'RAPID_SET') {
       // Power/Kapalabhati: light pulse during rapid breathing
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      if (hapticIntervalRef.current) { clearInterval(hapticIntervalRef.current); hapticIntervalRef.current = null; }
       hapticIntervalRef.current = setInterval(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       }, 500);
@@ -254,6 +256,7 @@ export default function SessionScreen() {
     } else if (currentPhaseVal === 'RECOVERY' || currentPhaseVal === 'REST') {
       // Recovery/Rest: gentle slow pulse
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      if (hapticIntervalRef.current) { clearInterval(hapticIntervalRef.current); hapticIntervalRef.current = null; }
       hapticIntervalRef.current = setInterval(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       }, 1000);
@@ -267,12 +270,21 @@ export default function SessionScreen() {
       stopMusic();
       if (hapticIntervalRef.current) {
         clearInterval(hapticIntervalRef.current);
+        hapticIntervalRef.current = null;
+      }
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, []);
 
   // Tick — stable interval, checks isRunning inside
   useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
     intervalRef.current = setInterval(() => {
       const state = useTimerStore.getState();
       if (state.isRunning) {

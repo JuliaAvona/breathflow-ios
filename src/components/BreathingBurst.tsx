@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import type { TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../types';
 
@@ -79,33 +79,39 @@ export function BreathingBurst({ phase, mode, color, phaseDuration }: Props) {
     }
   }, [phase, mode, phaseDuration, scaleAnim, burstAnim]);
 
-  const dots = Array.from({ length: DOT_COUNT }, (_, i) => {
-    const angle = (i / DOT_COUNT) * 2 * Math.PI;
-    const baseRadius = SIZE * 0.28;
-    const expandRadius = SIZE * 0.12;
+  const dotInterpolations = useMemo(
+    () =>
+      Array.from({ length: DOT_COUNT }, (_, i) => {
+        const angle = (i / DOT_COUNT) * 2 * Math.PI;
+        const baseRadius = SIZE * 0.28;
+        const expandRadius = SIZE * 0.12;
 
-    const translateX = burstAnim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [Math.cos(angle) * baseRadius, Math.cos(angle) * (baseRadius + expandRadius)],
-    });
-    const translateY = burstAnim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [Math.sin(angle) * baseRadius, Math.sin(angle) * (baseRadius + expandRadius)],
-    });
+        const translateX = burstAnim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [Math.cos(angle) * baseRadius, Math.cos(angle) * (baseRadius + expandRadius)],
+        });
+        const translateY = burstAnim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [Math.sin(angle) * baseRadius, Math.sin(angle) * (baseRadius + expandRadius)],
+        });
 
-    return (
-      <Animated.View
-        key={i}
-        style={[
-          styles.dot,
-          {
-            backgroundColor: color,
-            transform: [{ translateX }, { translateY }],
-          },
-        ]}
-      />
-    );
-  });
+        return { translateX, translateY };
+      }),
+    [burstAnim],
+  );
+
+  const dots = dotInterpolations.map((interp, i) => (
+    <Animated.View
+      key={i}
+      style={[
+        styles.dot,
+        {
+          backgroundColor: color,
+          transform: [{ translateX: interp.translateX }, { translateY: interp.translateY }],
+        },
+      ]}
+    />
+  ));
 
   return (
     <Animated.View style={[styles.container, { transform: [{ scale: scaleAnim }] }]}>

@@ -32,12 +32,7 @@ import { TECHNIQUES } from '../../src/constants/techniques';
 import { SPACING, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
 import { getToday } from '../../src/utils/time';
 import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
-import { BreathingCircle } from '../../src/components/BreathingCircle';
-import { BreathingSquare } from '../../src/components/BreathingSquare';
-import { BreathingTriangle } from '../../src/components/BreathingTriangle';
-import { BreathingWave } from '../../src/components/BreathingWave';
-import { BreathingBurst } from '../../src/components/BreathingBurst';
-import { BreathingOval } from '../../src/components/BreathingOval';
+import { StaticShapePreview } from '../../src/components/StaticShapePreview';
 import { BreathingMandala } from '../../src/components/BreathingMandala';
 
 // Per-technique images (most specific)
@@ -288,36 +283,28 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
  */
 const PREVIEW_BOX = 100;
 
-function TechniqueShapePreview({ technique }: { technique: BreathingTechnique }) {
-  const shapeProps = {
-    phase: 'INHALE' as const,
-    mode: 'standard',           // always standard so INHALE path runs in every component
-    color: 'rgba(255,255,255,0.75)',
-    phaseDuration: 3,
-  };
-
-  let shape: React.ReactElement;
-  switch (technique.shape) {
-    case 'square':   shape = <BreathingSquare   {...shapeProps} />; break;
-    case 'triangle': shape = <BreathingTriangle  {...shapeProps} />; break;
-    case 'wave':     shape = <BreathingWave      {...shapeProps} />; break;
-    case 'burst':    shape = <BreathingBurst     {...shapeProps} />; break;
-    case 'oval':     shape = <BreathingOval      {...shapeProps} />; break;
-    case 'circle':
-    default:         shape = <BreathingCircle    {...shapeProps} />; break;
-  }
-
+/**
+ * Static (non-animated) shape preview for technique cards.
+ * Uses plain View elements instead of Animated components to avoid
+ * running 10+ concurrent animation loops on the home screen.
+ * Wrapped in React.memo — technique data never changes at runtime.
+ */
+const TechniqueShapePreview = React.memo(function TechniqueShapePreview({
+  technique,
+}: {
+  technique: BreathingTechnique;
+}) {
   return (
-    // Fixed-size clipping box — prevents the shape's layout dimensions from
-    // expanding the header gradient height.
-    <View style={shapePreviewBoxStyle}>
-      {/* Scale down and center the shape absolutely so it doesn't affect layout */}
-      <View style={shapePreviewInnerStyle} pointerEvents="none">
-        {shape}
+    <View style={shapePreviewBoxStyle} pointerEvents="none">
+      <View style={shapePreviewInnerStyle}>
+        <StaticShapePreview
+          shape={technique.shape}
+          color="rgba(255,255,255,0.75)"
+        />
       </View>
     </View>
   );
-}
+});
 
 const shapePreviewBoxStyle: import('react-native').ViewStyle = {
   width: PREVIEW_BOX,

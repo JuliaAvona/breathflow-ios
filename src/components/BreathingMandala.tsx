@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated, Easing, View } from 'react-native';
 import type { TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../types';
 
@@ -64,6 +64,8 @@ export function BreathingMandala({
   const opacityAnim = useRef(new Animated.Value(0.82)).current;
   // --- Single linear value for smooth cosine IDLE loop ---
   const breathCycle = useRef(new Animated.Value(0)).current;
+  // --- Ref for the phase-specific loop (IDLE breathCycle, BREATHING pulse, RAPID_SET pulse) ---
+  const phaseLoopRef = useRef<Animated.CompositeAnimation | null>(null);
 
   const rotateStr = rotateAnim.interpolate({
     inputRange: [0, 1],
@@ -94,6 +96,10 @@ export function BreathingMandala({
 
   // Phase-driven scale + orbit + opacity
   useEffect(() => {
+    // Always stop the previous phase loop before starting a new one
+    phaseLoopRef.current?.stop();
+    phaseLoopRef.current = null;
+
     const dur = (phaseDuration ?? 4) * 1000;
 
     if (phase === 'IDLE' || phase === 'READY') {
@@ -107,8 +113,12 @@ export function BreathingMandala({
           useNativeDriver: true,
         }),
       );
+      phaseLoopRef.current = loop;
       loop.start();
-      return () => loop.stop();
+      return () => {
+        phaseLoopRef.current?.stop();
+        phaseLoopRef.current = null;
+      };
     }
 
     if (phase === 'PAUSED' || phase === 'DONE') {
@@ -170,8 +180,12 @@ export function BreathingMandala({
             ]),
           ]),
         );
+        phaseLoopRef.current = loop;
         loop.start();
-        return () => loop.stop();
+        return () => {
+          phaseLoopRef.current?.stop();
+          phaseLoopRef.current = null;
+        };
       } else if (phase === 'RETENTION') {
         startRotation(22000);
         Animated.parallel([
@@ -208,8 +222,12 @@ export function BreathingMandala({
             ]),
           ]),
         );
+        phaseLoopRef.current = loop;
         loop.start();
-        return () => loop.stop();
+        return () => {
+          phaseLoopRef.current?.stop();
+          phaseLoopRef.current = null;
+        };
       } else if (phase === 'REST') {
         startRotation(16000);
         Animated.parallel([
@@ -239,6 +257,17 @@ export function BreathingMandala({
   const renderScale   = isIdle ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleScaleOut }) : outerScale;
   const renderOpacity = isIdle ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleOpacityOut }) : opacityAnim;
 
+  // Memoize circle interpolation data to avoid recreating 16 interpolation objects per render
+  const circleTranslations = useMemo(() => {
+    return CIRCLES.map((c) => ({
+      idleTx: breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleOrbitOut.map(v => v * c.cos * orbitFull) }),
+      idleTy: breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleOrbitOut.map(v => v * c.sin * orbitFull) }),
+      activeTx: orbitSpread.interpolate({ inputRange: [0, 1], outputRange: [0, c.cos * orbitFull] }),
+      activeTy: orbitSpread.interpolate({ inputRange: [0, 1], outputRange: [0, c.sin * orbitFull] }),
+    }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orbitFull, slow, bright]);
+
   return (
     <Animated.View
       style={{
@@ -249,13 +278,10 @@ export function BreathingMandala({
       }}
     >
       {/* Orbit petals */}
-      {CIRCLES.map((c, i) => {
-        const tx = isIdle
-          ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleOrbitOut.map(v => v * c.cos * orbitFull) })
-          : orbitSpread.interpolate({ inputRange: [0, 1], outputRange: [0, c.cos * orbitFull] });
-        const ty = isIdle
-          ? breathCycle.interpolate({ inputRange: COS_INPUT, outputRange: idleOrbitOut.map(v => v * c.sin * orbitFull) })
-          : orbitSpread.interpolate({ inputRange: [0, 1], outputRange: [0, c.sin * orbitFull] });
+      {CIRCLES.map((_c, i) => {
+        const ct = circleTranslations[i];
+        const tx = isIdle ? ct.idleTx : ct.activeTx;
+        const ty = isIdle ? ct.idleTy : ct.activeTy;
         return (
           <Animated.View
             key={i}
