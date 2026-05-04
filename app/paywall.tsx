@@ -46,7 +46,7 @@ export default function PaywallScreen() {
   const grantPro = useSettingsStore((s) => s.grantPro);
   const [loading, setLoading] = useState(false);
   const [offering, setOffering] = useState<PurchasesOffering | null>(null);
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>('lifetime');
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>('annual');
   const { fromOnboarding } = useLocalSearchParams<{ fromOnboarding?: string }>();
   const isFromOnboarding = fromOnboarding === '1';
 

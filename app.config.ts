@@ -1,5 +1,9 @@
 import { ExpoConfig, ConfigContext } from 'expo/config';
 
+// Load .env explicitly so subprocess invocations (e.g. EAS CLI calling
+// `npx expo config`) reliably see the EXPO_PUBLIC_* vars.
+require('dotenv').config();
+
 // SKAdNetwork IDs required for Meta Ads attribution on iOS 14.5+
 // Source: https://developers.facebook.com/docs/SKAdNetwork
 const META_SKADNETWORK_IDS = [
@@ -70,7 +74,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'BreathFlow — Breathing Exercises',
   slug: 'breathflow',
-  version: '1.0.0',
+  version: '1.0.1',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
