@@ -24,6 +24,11 @@ import {
   type PurchasesOffering,
   type PurchasesPackage,
 } from '../src/utils/revenueCat';
+import {
+  logInitiatedCheckout,
+  logPurchase,
+  logStartTrial,
+} from '../src/utils/facebookEvents';
 
 type PlanType = 'weekly' | 'annual' | 'lifetime';
 
@@ -78,10 +83,17 @@ export default function PaywallScreen() {
       return;
     }
     setLoading(true);
+    const price = pkg.product.price ?? 0;
+    const currency = pkg.product.currencyCode ?? 'USD';
+    logInitiatedCheckout(selectedPlan, price, currency);
     try {
       const { isPro } = await purchasePackage(pkg);
       if (isPro) {
         grantPro();
+        logPurchase(price, selectedPlan, currency);
+        if (selectedPlan === 'weekly' || selectedPlan === 'annual') {
+          logStartTrial(selectedPlan, price, currency);
+        }
         if (isFromOnboarding) {
           router.replace('/(tabs)');
         } else {

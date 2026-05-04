@@ -20,6 +20,7 @@ import { TechniqueCategory } from '../../src/types';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
 import { BreathingMandala } from '../../src/components/BreathingMandala';
 import { requestHealthPermissions } from '../../src/utils/healthKit';
+import { logCompletedRegistration } from '../../src/utils/facebookEvents';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -207,11 +208,13 @@ export default function OnboardingScreen() {
     setSetting('onboardingCompleted', true);
     setSetting('safetyAccepted', true);
     setSetting('recommendedTechniqueId', plan.techniqueId);
+    logCompletedRegistration('onboarding');
     router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
   }, [setSetting, plan]);
 
   const skipToApp = useCallback(() => {
     setSetting('onboardingCompleted', true);
+    logCompletedRegistration('onboarding_skipped');
     router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
   }, [setSetting, plan]);
 

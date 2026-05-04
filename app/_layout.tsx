@@ -12,6 +12,7 @@ import { useSettingsStore, useSessionsStore, useAuthStore, useBadgesStore } from
 import { useSync } from '../src/hooks/useSync';
 import { initSentry } from '../src/utils/sentry';
 import { initRevenueCat, checkSubscriptionStatus, identifyUser } from '../src/utils/revenueCat';
+import { initFacebookSdk } from '../src/utils/facebookEvents';
 import * as Notifications from 'expo-notifications';
 import {
   scheduleStreakProtection,
@@ -78,6 +79,10 @@ export default function RootLayout() {
       }
 
       setReady(true);
+
+      // Initialize Meta SDK after first frame so the ATT prompt
+      // doesn't appear on a black launch screen.
+      initFacebookSdk().catch(() => {});
     };
 
     hydrateStores();

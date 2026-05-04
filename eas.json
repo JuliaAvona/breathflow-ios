@@ -19,7 +19,10 @@
     },
     "production": {
       "env": {
-        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true",
+        "EXPO_PUBLIC_FACEBOOK_APP_ID": "1301553358545331",
+        "EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN": "2cda6283a81d117ce9e47798ff5e97df",
+        "EXPO_PUBLIC_FACEBOOK_DISPLAY_NAME": "BreathFlow"
       },
       "ios": {
         "distribution": "store"

@@ -55,7 +55,9 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/terms.html)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/docs/support.html)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/docs/privacy.html)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://juliaavona.github.io/breathflow-ios/docs/privacy.html)",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(npx expo *)"
     ],
     "additionalDirectories": [
       "/Users/juliaavona/.claude/agents",
