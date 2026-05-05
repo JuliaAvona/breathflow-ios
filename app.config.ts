@@ -85,7 +85,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.izbrodin90.breathflow',
-    buildNumber: '18',
+    buildNumber: '19',
     usesAppleSignIn: true,
     appleTeamId: '9B587AMM75',
     infoPlist: {
