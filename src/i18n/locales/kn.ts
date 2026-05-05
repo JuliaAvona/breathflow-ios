@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': 'ಸ್ವಯಂಚಾಲಿತ Mindful Minutes ಲಾಗಿಂಗ್',
   'onboarding.appleHealthBullet2': 'HRV ಡೇಟಾ ಟ್ರ್ಯಾಕಿಂಗ್',
   'onboarding.appleHealthBullet3': 'ನಿಮ್ಮ ಡೇಟಾ ಖಾಸಗಿಯಾಗಿ ಉಳಿಯುತ್ತದೆ',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'ಉತ್ತಮವಾಗಿ ಉಸಿರಾಡುವ 1,000+ ಜನರೊಂದಿಗೆ ಸೇರಿ',
+  'onboarding.socialProofSub': 'ನಿಜವಾದ ಜನರು, ನಿಜವಾದ ಫಲಿತಾಂಶಗಳು.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'ಮಾರ್ಕೆಟಿಂಗ್ ನಿರ್ದೇಶಕಿ, NYC',
+  'onboarding.t1Text': '“ನಾನು ಹಾಸಿಗೆಯಲ್ಲಿ 4-7-8 ಮಾಡುತ್ತೇನೆ ಮತ್ತು 5 ನಿಮಿಷದಲ್ಲಿ ನಿದ್ರಿಸುತ್ತೇನೆ.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'ಸಾಫ್ಟ್‌ವೇರ್ ಎಂಜಿನಿಯರ್',
+  'onboarding.t2Text': '“ಆಳ ಕೆಲಸದ ಮೊದಲು ಬಾಕ್ಸ್ ಬ್ರೀಥಿಂಗ್ ಮಾನಸಿಕ ವಾರ್ಮ್-ಅಪ್‌ನಂತೆ.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'ಚಿಕಿತ್ಸಕಿ',
+  'onboarding.t3Text': '“ಪ್ಯಾನಿಕ್ ಡಿಸಾರ್ಡರ್ ಹೊಂದಿರುವ ಗ್ರಾಹಕರಿಗೆ ನಾನು BreathFlow ಶಿಫಾರಸು ಮಾಡುತ್ತೇನೆ.”',
+  'onboarding.rateTitle': 'BreathFlow ಭವಿಷ್ಯವನ್ನು ರೂಪಿಸಲು ಸಹಾಯ ಮಾಡಿ',
+  'onboarding.rateSub': 'ನಿಮ್ಮ ಆಲೋಚನೆಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ ಮತ್ತು ನಮ್ಮ ಸೇವೆಯನ್ನು ಸುಧಾರಿಸಲು ಸಹಾಯ ಮಾಡಿ.',
+  'onboarding.rateCta': 'ಮುಂದೆ',
   'onboarding.connectHealth': 'Apple Health ಸಂಪರ್ಕಿಸಿ',
   'onboarding.healthSkip': 'ಬಿಟ್ಟುಬಿಡಿ',
 

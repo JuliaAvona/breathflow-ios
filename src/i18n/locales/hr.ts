@@ -606,6 +606,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Pracenje napretka kroz vrijeme',
   'onboarding.appleHealthBullet3': 'Vasi podaci ostaju privatni',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Pridruži se 1.000+ ljudi koji bolje dišu',
+  'onboarding.socialProofSub': 'Pravi ljudi, pravi rezultati.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Direktorica marketinga, NYC',
+  'onboarding.t1Text': '„Radim 4-7-8 u krevetu i zaspim za 5 minuta. Nakon godina nesanice, ovo je nevjerojatno.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Softverski inženjer',
+  'onboarding.t2Text': '„Box disanje prije dubokog rada je poput mentalnog zagrijavanja.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeutkinja',
+  'onboarding.t3Text': '„Preporučujem BreathFlow klijentima s paničnim poremećajem.“',
+  'onboarding.rateTitle': 'Pomozi oblikovati budućnost BreathFlow-a',
+  'onboarding.rateSub': 'Podijeli svoje misli i pomozi nam da uslugu učinimo još boljom — korisnijom, ugodnijom i prilagođenijom tvojim potrebama.',
+  'onboarding.rateCta': 'Dalje',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Od stresa do mira \u2014 za nekoliko minuta',
   'paywall.heroSleep': 'Zaspite za minute, ne sate',

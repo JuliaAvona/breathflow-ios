@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Registro automatico de Mindful Minutes',
   'onboarding.appleHealthBullet2': 'Seguimiento de datos de HRV',
   'onboarding.appleHealthBullet3': 'Tus datos permanecen privados',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Únete a más de 1.000 personas que respiran mejor',
+  'onboarding.socialProofSub': 'Gente real, resultados reales.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Directora de marketing, NYC',
+  'onboarding.t1Text': '«Hago 4-7-8 en la cama y caigo dormida en 5 minutos. Tras años de insomnio, es increíble.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Ingeniero de software',
+  'onboarding.t2Text': '«La respiración cuadrada antes del trabajo profundo es como un calentamiento mental.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeuta',
+  'onboarding.t3Text': '«Recomiendo BreathFlow a clientes con trastorno de pánico. El suspiro fisiológico funciona en segundos.»',
+  'onboarding.rateTitle': 'Ayuda a dar forma al futuro de BreathFlow',
+  'onboarding.rateSub': 'Comparte tus ideas y ayúdanos a mejorar nuestro servicio — más útil, más agradable y más adaptado a tus necesidades.',
+  'onboarding.rateCta': 'Siguiente',
   'onboarding.connectHealth': 'Conectar Apple Health',
   'onboarding.healthSkip': 'Omitir',
 

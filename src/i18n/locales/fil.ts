@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Awtomatikong pag-log ng Mindful Minutes',
   'onboarding.appleHealthBullet2': 'Pagsubaybay ng data ng HRV',
   'onboarding.appleHealthBullet3': 'Ang iyong data ay nananatiling pribado',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Sumali sa 1,000+ na mas mahusay na humihinga',
+  'onboarding.socialProofSub': 'Tunay na tao, tunay na resulta.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketing director, NYC',
+  'onboarding.t1Text': '“Ginagawa ko ang 4-7-8 sa kama at natutulog ako sa loob ng 5 minuto.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Software engineer',
+  'onboarding.t2Text': '“Ang box breathing bago ang mahalagang trabaho ay parang mental warm-up.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Therapist',
+  'onboarding.t3Text': '“Inirerekomenda ko ang BreathFlow sa mga kliyenteng may panic disorder.”',
+  'onboarding.rateTitle': 'Tumulong na hubugin ang kinabukasan ng BreathFlow',
+  'onboarding.rateSub': 'Ibahagi ang iyong mga saloobin at tulungan kaming gawing mas mahusay ang aming serbisyo.',
+  'onboarding.rateCta': 'Susunod',
   'onboarding.connectHealth': 'Ikonekta ang Apple Health',
   'onboarding.healthSkip': 'Laktawan',
 

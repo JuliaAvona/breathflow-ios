@@ -615,6 +615,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Zaman içindeki ilerlemeyi takip edin',
   'onboarding.appleHealthBullet3': 'Verileriniz gizli kalır',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Daha iyi nefes alan 1.000+ kişiye katıl',
+  'onboarding.socialProofSub': 'Gerçek insanlar, gerçek sonuçlar.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Pazarlama direktörü, NYC',
+  'onboarding.t1Text': '“Yatakta 4-7-8 yapıyorum ve 5 dakikada uyuyorum. Yıllarca uykusuzluktan sonra inanılmaz.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Yazılım mühendisi',
+  'onboarding.t2Text': '“Derin işten önce kutu nefesi mental bir ısınma gibi.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapist',
+  'onboarding.t3Text': "“Panik bozukluğu olan danışanlarıma BreathFlow'u öneriyorum.”",
+  'onboarding.rateTitle': "BreathFlow'un geleceğini şekillendirmeye yardım et",
+  'onboarding.rateSub': 'Düşüncelerini paylaş ve hizmetimizi daha iyi yapmamıza yardım et — daha faydalı, keyifli ve ihtiyaçlarına uygun.',
+  'onboarding.rateCta': 'İleri',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Stresten sakinliğe — dakikalar içinde',
   'paywall.heroSleep': 'Saatler değil, dakikalar içinde uykuya dalın',

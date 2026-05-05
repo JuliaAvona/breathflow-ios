@@ -604,6 +604,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Lacak kemajuan dari waktu ke waktu',
   'onboarding.appleHealthBullet3': 'Data Anda tetap pribadi',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Bergabunglah dengan 1.000+ orang yang bernapas lebih baik',
+  'onboarding.socialProofSub': 'Orang nyata, hasil nyata.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Direktur Pemasaran, NYC',
+  'onboarding.t1Text': '“Saya melakukan 4-7-8 di tempat tidur dan tertidur dalam 5 menit. Setelah bertahun-tahun insomnia, ini luar biasa.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Insinyur perangkat lunak',
+  'onboarding.t2Text': '“Box breathing sebelum kerja mendalam seperti pemanasan mental.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapis',
+  'onboarding.t3Text': '“Saya merekomendasikan BreathFlow kepada klien dengan gangguan panik.”',
+  'onboarding.rateTitle': 'Bantu Bentuk Masa Depan BreathFlow',
+  'onboarding.rateSub': 'Bagikan pendapatmu dan bantu kami membuat layanan ini lebih baik — lebih berguna, menyenangkan, dan sesuai kebutuhanmu.',
+  'onboarding.rateCta': 'Berikutnya',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Dari stres ke ketenangan — dalam beberapa menit',
   'paywall.heroSleep': 'Tertidur dalam menit, bukan jam',

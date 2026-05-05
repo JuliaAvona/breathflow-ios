@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': 'ራስ-ሰር Mindful Minutes ምዝገባ',
   'onboarding.appleHealthBullet2': 'HRV ዳታ ክትትል',
   'onboarding.appleHealthBullet3': 'ዳታዎ ሚስጢራዊ ይቆያል',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'ከ1,000+ የተሻለ የሚተነፍሱ ጋር ይቀላቀሉ',
+  'onboarding.socialProofSub': 'እውነተኛ ሰዎች፣ እውነተኛ ውጤቶች።',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'የግብይት ዳይሬክተር፣ NYC',
+  'onboarding.t1Text': '“በአልጋ ላይ 4-7-8 አደርጋለሁ እና በ5 ደቂቃ ውስጥ እተኛለሁ።”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'የሶፍትዌር መሐንዲስ',
+  'onboarding.t2Text': '“ቦክስ መተንፈስ ከጥልቀት ሥራ በፊት የአዕምሮ ዝግጅት ነው።”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'ቴራፒስት',
+  'onboarding.t3Text': '“BreathFlow ለፓኒክ ዲሶርደር ያላቸው ደንበኞች አምርቻለሁ።”',
+  'onboarding.rateTitle': 'የBreathFlow የወደፊት ቅርጽ ያግዙ',
+  'onboarding.rateSub': 'ሀሳቦችዎን ያጋሩ እና አገልግሎታችንን የበለጠ ጠቃሚ፣ አስደሳች እና ለፍላጎቶችዎ የተበጀ እንዲሆን ያግዙን።',
+  'onboarding.rateCta': 'ቀጣይ',
   'onboarding.connectHealth': 'Apple Health ያዛምዱ',
   'onboarding.healthSkip': 'ዝለሉ',
 

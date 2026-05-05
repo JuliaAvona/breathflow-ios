@@ -604,6 +604,22 @@ export default {
   'onboarding.appleHealthBullet2': '\u03a0\u03b1\u03c1\u03b1\u03ba\u03bf\u03bb\u03bf\u03cd\u03b8\u03b7\u03c3\u03b7 \u03c0\u03c1\u03bf\u03cc\u03b4\u03bf\u03c5 \u03bc\u03b5 \u03c4\u03b7\u03bd \u03c0\u03ac\u03c1\u03bf\u03b4\u03bf \u03c4\u03bf\u03c5 \u03c7\u03c1\u03cc\u03bd\u03bf\u03c5',
   'onboarding.appleHealthBullet3': '\u03a4\u03b1 \u03b4\u03b5\u03b4\u03bf\u03bc\u03ad\u03bd\u03b1 \u03c3\u03b1\u03c2 \u03c0\u03b1\u03c1\u03b1\u03bc\u03ad\u03bd\u03bf\u03c5\u03bd \u03b9\u03b4\u03b9\u03c9\u03c4\u03b9\u03ba\u03ac',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Έλα μαζί με 1.000+ που αναπνέουν καλύτερα',
+  'onboarding.socialProofSub': 'Πραγματικοί άνθρωποι, πραγματικά αποτελέσματα.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Διευθύντρια Marketing, NYC',
+  'onboarding.t1Text': '«Κάνω 4-7-8 στο κρεβάτι και κοιμάμαι σε 5 λεπτά. Μετά από χρόνια αϋπνίας, είναι απίστευτο.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Μηχανικός λογισμικού',
+  'onboarding.t2Text': '«Η αναπνοή κουτιού πριν από βαθιά εργασία είναι σαν διανοητική προθέρμανση.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Θεραπεύτρια',
+  'onboarding.t3Text': '«Συστήνω το BreathFlow σε πελάτες με διαταραχή πανικού. Ο φυσιολογικός αναστεναγμός λειτουργεί σε δευτερόλεπτα.»',
+  'onboarding.rateTitle': 'Βοήθησε να διαμορφώσουμε το μέλλον του BreathFlow',
+  'onboarding.rateSub': 'Μοιράσου τις σκέψεις σου και βοήθησέ μας να κάνουμε την υπηρεσία μας ακόμα καλύτερη — πιο χρήσιμη, πιο ευχάριστη και πιο προσαρμοσμένη στις ανάγκες σου.',
+  'onboarding.rateCta': 'Επόμενο',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': '\u0391\u03c0\u03cc \u03c4\u03bf \u03ac\u03b3\u03c7\u03bf\u03c2 \u03c3\u03c4\u03b7 \u03b3\u03b1\u03bb\u03ae\u03bd\u03b7 \u2014 \u03c3\u03b5 \u03bb\u03af\u03b3\u03b1 \u03bb\u03b5\u03c0\u03c4\u03ac',
   'paywall.heroSleep': '\u039a\u03bf\u03b9\u03bc\u03b7\u03b8\u03b5\u03af\u03c4\u03b5 \u03c3\u03b5 \u03bb\u03b5\u03c0\u03c4\u03ac, \u03cc\u03c7\u03b9 \u03ce\u03c1\u03b5\u03c2',

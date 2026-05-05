@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': 'ثبت خودکار Mindful Minutes',
   'onboarding.appleHealthBullet2': 'ردیابی داده‌های HRV',
   'onboarding.appleHealthBullet3': 'داده‌های شما خصوصی می‌ماند',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'به بیش از ۱۰۰۰ نفر که بهتر نفس می‌کشند بپیوندید',
+  'onboarding.socialProofSub': 'افراد واقعی، نتایج واقعی.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'مدیر بازاریابی، نیویورک',
+  'onboarding.t1Text': '«من 4-7-8 را در رختخواب انجام می‌دهم و در ۵ دقیقه می‌خوابم.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'مهندس نرم‌افزار',
+  'onboarding.t2Text': '«تنفس جعبه‌ای قبل از کار عمیق مثل گرم کردن ذهنی است.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'درمانگر',
+  'onboarding.t3Text': '«BreathFlow را به مراجعان مبتلا به اختلال هراس توصیه می‌کنم.»',
+  'onboarding.rateTitle': 'به شکل‌دهی آینده BreathFlow کمک کنید',
+  'onboarding.rateSub': 'نظرات خود را به اشتراک بگذارید و به ما کمک کنید سرویس را بهتر کنیم.',
+  'onboarding.rateCta': 'بعدی',
   'onboarding.connectHealth': 'اتصال به Apple Health',
   'onboarding.healthSkip': 'رد کردن',
 

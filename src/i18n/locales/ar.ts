@@ -615,6 +615,22 @@ export default {
   'onboarding.appleHealthBullet2': '\u062A\u062A\u0628\u0639 \u0627\u0644\u062A\u0642\u062F\u0645 \u0639\u0628\u0631 \u0627\u0644\u0632\u0645\u0646',
   'onboarding.appleHealthBullet3': '\u0628\u064A\u0627\u0646\u0627\u062A\u0643 \u062A\u0628\u0642\u0649 \u062E\u0627\u0635\u0629',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'انضم إلى أكثر من 1,000 شخص يتنفسون بشكل أفضل',
+  'onboarding.socialProofSub': 'أشخاص حقيقيون، نتائج حقيقية.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'مديرة تسويق، نيويورك',
+  'onboarding.t1Text': '«أمارس 4-7-8 في السرير وأنام خلال 5 دقائق. بعد سنوات من الأرق، هذا مذهل.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'مهندس برمجيات',
+  'onboarding.t2Text': '«التنفس المربع قبل العمل العميق مثل إحماء عقلي. كنت أحتاج 3 أكواب قهوة، الآن 1.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'معالجة نفسية',
+  'onboarding.t3Text': '«أوصي BreathFlow لعملائي المصابين بنوبات الهلع. التنهد الفسيولوجي يعمل في ثوانٍ.»',
+  'onboarding.rateTitle': 'ساعد في تشكيل مستقبل BreathFlow',
+  'onboarding.rateSub': 'شارك أفكارك وساعدنا في جعل خدمتنا أفضل — أكثر فائدة ومتعة وملاءمة لاحتياجاتك.',
+  'onboarding.rateCta': 'التالي',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': '\u0645\u0646 \u0627\u0644\u062A\u0648\u062A\u0631 \u0625\u0644\u0649 \u0627\u0644\u0647\u062F\u0648\u0621 \u2014 \u0641\u064A \u062F\u0642\u0627\u0626\u0642',
   'paywall.heroSleep': '\u0646\u0645 \u0641\u064A \u062F\u0642\u0627\u0626\u0642 \u0648\u0644\u064A\u0633 \u0633\u0627\u0639\u0627\u062A',

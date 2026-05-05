@@ -615,6 +615,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Fortschritt im Zeitverlauf verfolgen',
   'onboarding.appleHealthBullet3': 'Ihre Daten bleiben privat',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Schließe dich 1.000+ Menschen an, die besser atmen',
+  'onboarding.socialProofSub': 'Echte Menschen, echte Ergebnisse.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketing-Direktorin, NYC',
+  'onboarding.t1Text': '„Ich mache 4-7-8 im Bett und schlafe in 5 Minuten ein. Nach Jahren der Schlaflosigkeit ist das unglaublich.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Software-Ingenieur',
+  'onboarding.t2Text': '„Box-Atmung vor konzentrierter Arbeit ist wie ein mentales Warm-up.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Therapeutin',
+  'onboarding.t3Text': '„Ich empfehle BreathFlow Klienten mit Panikstörung. Der physiologische Seufzer wirkt in Sekunden.“',
+  'onboarding.rateTitle': 'Hilf mit, die Zukunft von BreathFlow zu gestalten',
+  'onboarding.rateSub': 'Teile deine Gedanken und hilf uns, unseren Service noch besser zu machen — nützlicher, angenehmer und besser auf deine Bedürfnisse zugeschnitten.',
+  'onboarding.rateCta': 'Weiter',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Von gestresst zu ruhig — in Minuten',
   'paywall.heroSleep': 'In Minuten einschlafen, nicht Stunden',

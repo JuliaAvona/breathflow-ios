@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Kurekodi Mindful Minutes kiotomatiki',
   'onboarding.appleHealthBullet2': 'Ufuatiliaji wa data ya HRV',
   'onboarding.appleHealthBullet3': 'Data yako inabaki ya siri',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Jiunge na zaidi ya 1,000 wanaopumua vizuri',
+  'onboarding.socialProofSub': 'Watu halisi, matokeo halisi.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Mkurugenzi wa masoko, NYC',
+  'onboarding.t1Text': '“Ninafanya 4-7-8 kitandani na ninalala kwa dakika 5.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Mhandisi wa programu',
+  'onboarding.t2Text': '“Kupumua kwa sanduku kabla ya kazi ya kina ni kama mazoezi ya akili.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Mtaalamu wa tiba',
+  'onboarding.t3Text': '“Napendekeza BreathFlow kwa wateja wenye matatizo ya hofu.”',
+  'onboarding.rateTitle': 'Saidia kuunda mustakabali wa BreathFlow',
+  'onboarding.rateSub': 'Shiriki mawazo yako na utusaidie kuboresha huduma yetu.',
+  'onboarding.rateCta': 'Endelea',
   'onboarding.connectHealth': 'Unganisha Apple Health',
   'onboarding.healthSkip': 'Ruka',
 

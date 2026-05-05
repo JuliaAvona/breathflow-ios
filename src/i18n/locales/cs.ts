@@ -617,6 +617,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Sledujte pokrok v čase',
   'onboarding.appleHealthBullet3': 'Vaše data zůstávají soukromá',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Přidej se k 1 000+ lidem, kteří dýchají lépe',
+  'onboarding.socialProofSub': 'Skuteční lidé, skutečné výsledky.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketingová ředitelka, NYC',
+  'onboarding.t1Text': '„Dělám 4-7-8 v posteli a usnu za 5 minut. Po letech nespavosti je to neuvěřitelné.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Softwarový inženýr',
+  'onboarding.t2Text': '„Box breathing před hlubokou prací je jako mentální rozcvička.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeutka',
+  'onboarding.t3Text': '„Doporučuji BreathFlow klientům s panickou poruchou. Fyziologický povzdech funguje během sekund.“',
+  'onboarding.rateTitle': 'Pomoz utvářet budoucnost BreathFlow',
+  'onboarding.rateSub': 'Sdílej své myšlenky a pomoz nám naši službu zlepšit — užitečnější, příjemnější a více přizpůsobenou tvým potřebám.',
+  'onboarding.rateCta': 'Další',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Od stresu ke klidu — během minut',
   'paywall.heroSleep': 'Usněte za minuty, ne hodiny',

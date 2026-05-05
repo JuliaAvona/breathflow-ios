@@ -604,6 +604,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Spor fremgang over tid',
   'onboarding.appleHealthBullet3': 'Dataene dine forblir private',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Bli med 1 000+ som puster bedre',
+  'onboarding.socialProofSub': 'Ekte mennesker, ekte resultater.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Markedsdirektør, NYC',
+  'onboarding.t1Text': '«Jeg gjør 4-7-8 i sengen og sovner på 5 minutter. Etter år med søvnløshet er det utrolig.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Programvareingeniør',
+  'onboarding.t2Text': '«Box breathing før dypt arbeid er som en mental oppvarming.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeut',
+  'onboarding.t3Text': '«Jeg anbefaler BreathFlow til klienter med panikkangst.»',
+  'onboarding.rateTitle': 'Hjelp til å forme fremtiden til BreathFlow',
+  'onboarding.rateSub': 'Del tankene dine og hjelp oss å gjøre tjenesten enda bedre — mer nyttig, behagelig og tilpasset dine behov.',
+  'onboarding.rateCta': 'Neste',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Fra stress til ro — på minutter',
   'paywall.heroSleep': 'Sovne p\u00e5 minutter, ikke timer',

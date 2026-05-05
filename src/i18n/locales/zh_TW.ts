@@ -615,6 +615,22 @@ export default {
   'onboarding.appleHealthBullet2': '追蹤長期進展',
   'onboarding.appleHealthBullet3': '你的資料保持私密',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': '加入1,000+人，更好地呼吸',
+  'onboarding.socialProofSub': '真實的人，真實的結果。',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': '行銷總監，紐約',
+  'onboarding.t1Text': '「我在床上做4-7-8，5分鐘內就能入睡。多年失眠後，這真是不可思議。」',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': '軟體工程師',
+  'onboarding.t2Text': '「深度工作前的盒式呼吸就像心理熱身。」',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': '治療師',
+  'onboarding.t3Text': '「我向恐慌症患者推薦BreathFlow。生理性嘆息幾秒鐘內就能起效。」',
+  'onboarding.rateTitle': '幫助塑造BreathFlow的未來',
+  'onboarding.rateSub': '分享您的想法，幫助我們讓服務更好——更有用、更愉悅、更貼合您的需求。',
+  'onboarding.rateCta': '下一步',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': '從壓力到平靜 — 幾分鐘內',
   'paywall.heroSleep': '幾分鐘入睡，而非幾小時',

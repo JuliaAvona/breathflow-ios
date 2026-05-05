@@ -604,6 +604,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Theo d\u00F5i ti\u1EBFn tr\u00ECnh theo th\u1EDDi gian',
   'onboarding.appleHealthBullet3': 'D\u1EEF li\u1EC7u c\u1EE7a b\u1EA1n v\u1EABn ri\u00EAng t\u01B0',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Tham gia cùng 1.000+ người hít thở tốt hơn',
+  'onboarding.socialProofSub': 'Người thật, kết quả thật.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Giám đốc tiếp thị, NYC',
+  'onboarding.t1Text': '“Tôi làm 4-7-8 trên giường và ngủ trong 5 phút. Sau nhiều năm mất ngủ, điều này thật tuyệt.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Kỹ sư phần mềm',
+  'onboarding.t2Text': '“Thở hộp trước khi làm việc sâu giống như khởi động tinh thần.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Nhà trị liệu',
+  'onboarding.t3Text': '“Tôi khuyên BreathFlow cho khách hàng bị rối loạn hoảng sợ.”',
+  'onboarding.rateTitle': 'Giúp định hình tương lai của BreathFlow',
+  'onboarding.rateSub': 'Chia sẻ suy nghĩ và giúp chúng tôi cải thiện dịch vụ — hữu ích hơn, thú vị hơn và phù hợp hơn với nhu cầu của bạn.',
+  'onboarding.rateCta': 'Tiếp theo',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'T\u1EEB c\u0103ng th\u1EB3ng \u0111\u1EBFn b\u00ECnh t\u0129nh \u2014 trong v\u00E0i ph\u00FAt',
   'paywall.heroSleep': 'Ng\u1EE7 trong v\u00E0i ph\u00FAt, kh\u00F4ng ph\u1EA3i v\u00E0i gi\u1EDD',

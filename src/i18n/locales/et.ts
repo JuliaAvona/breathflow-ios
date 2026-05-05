@@ -604,6 +604,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Edenemise j\u00e4lgimine aja jooksul',
   'onboarding.appleHealthBullet3': 'Sinu andmed j\u00e4\u00e4vad privaatseks',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Liitu 1000+ inimesega, kes hingavad paremini',
+  'onboarding.socialProofSub': 'Päris inimesed, päris tulemused.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Turundusdirektor, NYC',
+  'onboarding.t1Text': '„Teen voodis 4-7-8 ja jään 5 minutiga magama. Pärast aastaid unetust on see ulme.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Tarkvarainsener',
+  'onboarding.t2Text': '„Kasti hingamine enne sügavat tööd on nagu vaimne soojendus.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeut',
+  'onboarding.t3Text': '„Soovitan BreathFlow paanikahäiretega klientidele. Füsioloogiline ohe töötab sekunditega.“',
+  'onboarding.rateTitle': 'Aita kujundada BreathFlow tulevikku',
+  'onboarding.rateSub': 'Jaga oma mõtteid ja aita meil teenust paremaks muuta — kasulikumaks, nauditavamaks ja sinu vajadustele kohandatumaks.',
+  'onboarding.rateCta': 'Edasi',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': 'Hinga s\u00fcgava rahu jaoks',
   'paywall.heroSleep': 'Uinu minutitega',

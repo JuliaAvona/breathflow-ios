@@ -617,6 +617,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Відстежуйте прогрес з часом',
   'onboarding.appleHealthBullet3': 'Ваші дані залишаються конфіденційними',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Приєднуйся до 1 000+ людей, які дихають краще',
+  'onboarding.socialProofSub': 'Справжні люди, справжні результати.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Директорка з маркетингу, Нью-Йорк',
+  'onboarding.t1Text': '«Роблю 4-7-8 у ліжку і засинаю за 5 хвилин. Після років безсоння — це неймовірно.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Програмний інженер',
+  'onboarding.t2Text': '«Коробкове дихання перед глибокою роботою — як ментальна розминка.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Психотерапевтка',
+  'onboarding.t3Text': '«Рекомендую BreathFlow клієнтам з панічним розладом.»',
+  'onboarding.rateTitle': 'Допоможи сформувати майбутнє BreathFlow',
+  'onboarding.rateSub': 'Поділись думками й допоможи покращити сервіс — кориснішим, приємнішим і більш адаптованим до твоїх потреб.',
+  'onboarding.rateCta': 'Далі',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Від стресу до спокою \u2014 за хвилини',
   'paywall.heroSleep': 'Засни за хвилини, не години',

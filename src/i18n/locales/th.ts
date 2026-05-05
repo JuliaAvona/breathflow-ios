@@ -604,6 +604,22 @@ export default {
   'onboarding.appleHealthBullet2': 'ติดตามความก้าวหน้าตามเวลา',
   'onboarding.appleHealthBullet3': 'ข้อมูลของคุณยังคงเป็นส่วนตัว',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'เข้าร่วมกับผู้คนกว่า 1,000 คนที่หายใจได้ดีขึ้น',
+  'onboarding.socialProofSub': 'ผู้คนจริง ผลลัพธ์จริง',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'ผู้อำนวยการการตลาด NYC',
+  'onboarding.t1Text': '“ฉันทำ 4-7-8 บนเตียงและหลับใน 5 นาที หลังจากนอนไม่หลับมาหลายปี นี่มันเหลือเชื่อ”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'วิศวกรซอฟต์แวร์',
+  'onboarding.t2Text': '“การหายใจกล่องก่อนงานเชิงลึกเหมือนการอุ่นเครื่องทางจิตใจ”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'นักบำบัด',
+  'onboarding.t3Text': '“ฉันแนะนำ BreathFlow ให้ลูกค้าที่มีโรคแพนิค”',
+  'onboarding.rateTitle': 'ช่วยกำหนดอนาคตของ BreathFlow',
+  'onboarding.rateSub': 'แบ่งปันความคิดของคุณและช่วยเราปรับปรุงบริการ — มีประโยชน์ สนุกสนาน และเหมาะกับคุณมากขึ้น',
+  'onboarding.rateCta': 'ถัดไป',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'จากความเครียดสู่ความสงบ — ในไม่กี่นาที',
   'paywall.heroSleep': 'นอนหลับในนาที ไม่ใช่ชั่วโมง',

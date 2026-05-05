@@ -615,6 +615,22 @@ export default {
   'onboarding.appleHealthBullet2': '時間の経過とともに進捗を追跡',
   'onboarding.appleHealthBullet3': 'データはプライベートのまま',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'より良く呼吸する1,000人以上に参加しよう',
+  'onboarding.socialProofSub': '実在の人、実在の結果。',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'マーケティングディレクター、NYC',
+  'onboarding.t1Text': '「ベッドで4-7-8をやると5分で眠れる。何年もの不眠症の後、これはすごい。」',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'ソフトウェアエンジニア',
+  'onboarding.t2Text': '「集中作業前のボックス呼吸はメンタルウォームアップのよう。」',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'セラピスト',
+  'onboarding.t3Text': '「パニック障害のクライアントにBreathFlowを勧めています。生理的ため息は数秒で効きます。」',
+  'onboarding.rateTitle': 'BreathFlowの未来を一緒に形作ろう',
+  'onboarding.rateSub': 'あなたの感想を共有して、サービスをより便利・楽しい・あなたに合ったものにする手助けをしてください。',
+  'onboarding.rateCta': '次へ',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'ストレスから穏やかさへ — わずか数分で',
   'paywall.heroSleep': '何時間も寝返りを打たず、数分で眠りに',

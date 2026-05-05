@@ -606,6 +606,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Urmareste progresul in timp',
   'onboarding.appleHealthBullet3': 'Datele tale raman private',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Alătură-te celor 1.000+ care respiră mai bine',
+  'onboarding.socialProofSub': 'Oameni reali, rezultate reale.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Director de marketing, NYC',
+  'onboarding.t1Text': '„Fac 4-7-8 în pat și adorm în 5 minute. După ani de insomnie, e incredibil.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Inginer software',
+  'onboarding.t2Text': '„Respirația pătrată înainte de muncă profundă e ca o încălzire mentală.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeută',
+  'onboarding.t3Text': '„Recomand BreathFlow clienților cu tulburare de panică.”',
+  'onboarding.rateTitle': 'Ajută la modelarea viitorului BreathFlow',
+  'onboarding.rateSub': 'Împărtășește-ți gândurile și ajută-ne să îmbunătățim serviciul — mai util, mai plăcut și mai adaptat nevoilor tale.',
+  'onboarding.rateCta': 'Următor',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'De la stres la calm \u2014 in cateva minute',
   'paywall.heroSleep': 'Adormi in minute, nu ore',

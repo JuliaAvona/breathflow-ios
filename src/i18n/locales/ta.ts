@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': 'தானியங்கி Mindful Minutes பதிவு',
   'onboarding.appleHealthBullet2': 'HRV தரவு கண்காணிப்பு',
   'onboarding.appleHealthBullet3': 'உங்கள் தரவு தனிப்பட்டதாக இருக்கும்',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'சிறப்பாக சுவாசிக்கும் 1,000+ பேரோடு சேருங்கள்',
+  'onboarding.socialProofSub': 'உண்மையான மக்கள், உண்மையான முடிவுகள்.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'மார்க்கெட்டிங் இயக்குனர், NYC',
+  'onboarding.t1Text': '“நான் படுக்கையில் 4-7-8 செய்து 5 நிமிடத்தில் தூங்குகிறேன்.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'மென்பொருள் பொறியாளர்',
+  'onboarding.t2Text': '“ஆழமான வேலைக்கு முன் பாக்ஸ் சுவாசம் மனித மானசிக சூடாக்கம் போல.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'சிகிச்சையாளர்',
+  'onboarding.t3Text': '“பேனிக் டிசார்டர் உள்ள வாடிக்கையாளர்களுக்கு BreathFlow பரிந்துரைக்கிறேன்.”',
+  'onboarding.rateTitle': 'BreathFlow-இன் எதிர்காலத்தை வடிவமைக்க உதவுங்கள்',
+  'onboarding.rateSub': 'உங்கள் கருத்துக்களைப் பகிர்ந்து சேவையை சிறப்பாக்க உதவுங்கள்.',
+  'onboarding.rateCta': 'அடுத்து',
   'onboarding.connectHealth': 'Apple Health இணைக்கவும்',
   'onboarding.healthSkip': 'தவிர்',
 

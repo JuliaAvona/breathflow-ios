@@ -604,6 +604,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Seuraa edistymist\u00e4 ajan my\u00f6t\u00e4',
   'onboarding.appleHealthBullet3': 'Tietosi pysyv\u00e4t yksityisin\u00e4',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Liity yli 1 000 ihmiseen, jotka hengittävät paremmin',
+  'onboarding.socialProofSub': 'Aitoja ihmisiä, aitoja tuloksia.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Markkinointijohtaja, NYC',
+  'onboarding.t1Text': '”Teen 4-7-8 sängyssä ja nukahdan 5 minuutissa. Vuosien unettomuuden jälkeen tämä on uskomatonta.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Ohjelmistoinsinööri',
+  'onboarding.t2Text': '”Box-hengitys ennen syvätyötä on kuin henkinen lämmittely.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeutti',
+  'onboarding.t3Text': '”Suosittelen BreathFlow-sovellusta paniikkihäiriöstä kärsiville asiakkaille.”',
+  'onboarding.rateTitle': 'Auta muotoilemaan BreathFlown tulevaisuutta',
+  'onboarding.rateSub': 'Jaa ajatuksesi ja auta meitä tekemään palvelustamme entistä parempi — hyödyllisempi, miellyttävämpi ja paremmin tarpeitasi vastaava.',
+  'onboarding.rateCta': 'Seuraava',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': 'Stressist\u00e4 rauhaan \u2014 minuuteissa',
   'paywall.heroSleep': 'Nukahtaa minuuteissa, ei tunneissa',

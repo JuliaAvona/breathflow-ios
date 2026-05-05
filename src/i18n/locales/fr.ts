@@ -615,6 +615,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Suivez vos progrès dans le temps',
   'onboarding.appleHealthBullet3': 'Vos données restent privées',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Rejoins 1 000+ personnes qui respirent mieux',
+  'onboarding.socialProofSub': 'Vraies personnes, vrais résultats.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Directrice marketing, NYC',
+  'onboarding.t1Text': "« Je fais 4-7-8 au lit et je m'endors en 5 minutes. Après des années d'insomnie, c'est incroyable. »",
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Ingénieur logiciel',
+  'onboarding.t2Text': "« La respiration carrée avant un travail intense, c'est comme un échauffement mental. »",
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Thérapeute',
+  'onboarding.t3Text': '« Je recommande BreathFlow à mes clients souffrant de troubles paniques. Le soupir physiologique agit en quelques secondes. »',
+  'onboarding.rateTitle': "Aide à façonner l'avenir de BreathFlow",
+  'onboarding.rateSub': 'Partage tes idées et aide-nous à améliorer notre service — plus utile, plus agréable et mieux adapté à tes besoins.',
+  'onboarding.rateCta': 'Suivant',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Du stress au calme — en quelques minutes',
   'paywall.heroSleep': 'Endormez-vous en minutes, pas en heures',

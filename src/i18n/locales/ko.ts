@@ -615,6 +615,22 @@ export default {
   'onboarding.appleHealthBullet2': '시간에 따른 진행 상황 추적',
   'onboarding.appleHealthBullet3': '내 데이터는 비공개로 유지됩니다',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': '더 잘 호흡하는 1,000명 이상에 합류하세요',
+  'onboarding.socialProofSub': '실제 사람, 실제 결과.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': '마케팅 디렉터, NYC',
+  'onboarding.t1Text': '“침대에서 4-7-8을 하면 5분 안에 잠들어요. 수년간의 불면증 후, 정말 놀랍습니다.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': '소프트웨어 엔지니어',
+  'onboarding.t2Text': '“깊은 작업 전 박스 호흡은 정신적 워밍업 같아요.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': '치료사',
+  'onboarding.t3Text': '“공황장애 고객에게 BreathFlow를 추천합니다. 생리학적 한숨은 몇 초 만에 효과가 있어요.”',
+  'onboarding.rateTitle': 'BreathFlow의 미래를 함께 만들어 주세요',
+  'onboarding.rateSub': '여러분의 의견을 공유하고 서비스를 더 유용하고 즐겁고 맞춤화되도록 도와주세요.',
+  'onboarding.rateCta': '다음',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': '스트레스에서 평온으로 — 몇 분 안에',
   'paywall.heroSleep': '몇 시간이 아닌 몇 분 만에 잠들기',

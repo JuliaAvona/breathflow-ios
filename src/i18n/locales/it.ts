@@ -615,6 +615,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Monitori i progressi nel tempo',
   'onboarding.appleHealthBullet3': 'I Suoi dati rimangono privati',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Unisciti a 1.000+ persone che respirano meglio',
+  'onboarding.socialProofSub': 'Persone vere, risultati veri.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Direttrice marketing, NYC',
+  'onboarding.t1Text': '«Faccio 4-7-8 a letto e mi addormento in 5 minuti. Dopo anni di insonnia, è incredibile.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Ingegnere del software',
+  'onboarding.t2Text': '«La respirazione quadrata prima del lavoro profondo è come un riscaldamento mentale.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeuta',
+  'onboarding.t3Text': '«Consiglio BreathFlow ai clienti con disturbo di panico. Il sospiro fisiologico funziona in pochi secondi.»',
+  'onboarding.rateTitle': 'Aiutaci a plasmare il futuro di BreathFlow',
+  'onboarding.rateSub': 'Condividi i tuoi pensieri e aiutaci a migliorare il nostro servizio — più utile, piacevole e adatto alle tue esigenze.',
+  'onboarding.rateCta': 'Avanti',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Dallo stress alla calma — in pochi minuti',
   'paywall.heroSleep': 'Addormentati in minuti, non ore',

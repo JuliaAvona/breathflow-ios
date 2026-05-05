@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': '\u09B8\u09CD\u09AC\u09AF\u09BC\u0982\u0995\u09CD\u09B0\u09BF\u09AF\u09BC Mindful Minutes \u09B2\u0997\u09BF\u0982',
   'onboarding.appleHealthBullet2': 'HRV \u09A1\u09C7\u099F\u09BE \u099F\u09CD\u09B0\u09CD\u09AF\u09BE\u0995\u09BF\u0982',
   'onboarding.appleHealthBullet3': '\u0986\u09AA\u09A8\u09BE\u09B0 \u09A1\u09C7\u099F\u09BE \u09AC\u09CD\u09AF\u0995\u09CD\u09A4\u09BF\u0997\u09A4 \u09A5\u09BE\u0995\u09C7',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': '১,০০০+ মানুষের সাথে যোগ দিন যারা ভালোভাবে শ্বাস নেয়',
+  'onboarding.socialProofSub': 'বাস্তব মানুষ, বাস্তব ফলাফল।',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'মার্কেটিং পরিচালক, NYC',
+  'onboarding.t1Text': '“আমি বিছানায় 4-7-8 করি এবং ৫ মিনিটে ঘুমিয়ে পড়ি।”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'সফটওয়্যার ইঞ্জিনিয়ার',
+  'onboarding.t2Text': '“গভীর কাজের আগে বক্স ব্রিদিং মানসিক ওয়ার্ম-আপের মতো।”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'থেরাপিস্ট',
+  'onboarding.t3Text': '“আতঙ্কের ব্যাধিতে আক্রান্ত ক্লায়েন্টদের আমি BreathFlow সুপারিশ করি।”',
+  'onboarding.rateTitle': 'BreathFlow-এর ভবিষ্যত গঠনে সাহায্য করুন',
+  'onboarding.rateSub': 'আপনার মতামত শেয়ার করুন এবং আমাদের পরিষেবা আরও ভালো করতে সাহায্য করুন।',
+  'onboarding.rateCta': 'পরবর্তী',
   'onboarding.connectHealth': 'Apple Health \u09B8\u0982\u09AF\u09C1\u0995\u09CD\u09A4 \u0995\u09B0\u09C1\u09A8',
   'onboarding.healthSkip': '\u098F\u09DC\u09BF\u09AF\u09BC\u09C7 \u09AF\u09BE\u09A8',
 

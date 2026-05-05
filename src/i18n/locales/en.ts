@@ -384,6 +384,24 @@ export default {
   'onboarding.appleHealthBullet2': 'Track progress over time',
   'onboarding.appleHealthBullet3': 'Your data stays private',
 
+  // Social proof (testimonials)
+  'onboarding.socialProofTitle': 'Join 1,000+ who breathe better',
+  'onboarding.socialProofSub': 'Real people, real results.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketing director, NYC',
+  'onboarding.t1Text': '“I do 4-7-8 in bed and I\'m out in 5 minutes. After years of insomnia, this is wild.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Software engineer',
+  'onboarding.t2Text': '“Box breathing before deep work is like a mental warm-up. I used to need 3 coffees, now 1.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Therapist',
+  'onboarding.t3Text': '“I recommend BreathFlow to clients with panic disorder. The Physiological Sigh works in seconds.”',
+
+  // Rating ask
+  'onboarding.rateTitle': 'Help Shape the Future of BreathFlow',
+  'onboarding.rateSub': 'Share your thoughts and help us make our service even better — more useful, more enjoyable, and more tailored to your needs.',
+  'onboarding.rateCta': 'Next',
+
   // Badges
   'badges.first_breath.name': 'First Breath',
   'badges.first_breath.description': 'Complete your first session',

@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': 'רישום אוטומטי של Mindful Minutes',
   'onboarding.appleHealthBullet2': 'מעקב נתוני HRV',
   'onboarding.appleHealthBullet3': 'הנתונים שלך נשארים פרטיים',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'הצטרפו ל-1,000+ אנשים שנושמים טוב יותר',
+  'onboarding.socialProofSub': 'אנשים אמיתיים, תוצאות אמיתיות.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'מנהלת שיווק, ניו יורק',
+  'onboarding.t1Text': '״אני עושה 4-7-8 במיטה ונרדמת תוך 5 דקות. אחרי שנים של נדודי שינה, זה מטורף.״',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'מהנדס תוכנה',
+  'onboarding.t2Text': '״נשימת קופסה לפני עבודה עמוקה זה כמו חימום מנטלי.״',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'מטפלת',
+  'onboarding.t3Text': '״אני ממליצה על BreathFlow ללקוחות עם הפרעת פאניקה.״',
+  'onboarding.rateTitle': 'עזרו לעצב את העתיד של BreathFlow',
+  'onboarding.rateSub': 'שתפו את המחשבות שלכם ועזרו לנו לשפר את השירות שלנו.',
+  'onboarding.rateCta': 'הבא',
   'onboarding.connectHealth': 'חבר Apple Health',
   'onboarding.healthSkip': 'דלג',
 

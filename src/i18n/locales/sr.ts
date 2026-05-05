@@ -606,6 +606,22 @@ export default {
   'onboarding.appleHealthBullet2': '\u041F\u0440\u0430\u045B\u0435\u045A\u0435 \u043D\u0430\u043F\u0440\u0435\u0442\u043A\u0430 \u043A\u0440\u043E\u0437 \u0432\u0440\u0435\u043C\u0435',
   'onboarding.appleHealthBullet3': '\u0412\u0430\u0448\u0438 \u043F\u043E\u0434\u0430\u0446\u0438 \u043E\u0441\u0442\u0430\u0458\u0443 \u043F\u0440\u0438\u0432\u0430\u0442\u043D\u0438',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Придружи се са 1.000+ људи који боље дишу',
+  'onboarding.socialProofSub': 'Прави људи, прави резултати.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Директорка маркетинга, NYC',
+  'onboarding.t1Text': '„Радим 4-7-8 у кревету и заспим за 5 минута. После година несанице, ово је невероватно.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Софтверски инжењер',
+  'onboarding.t2Text': '„Бокс дисање пре дубоког рада је као ментално загревање.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Терапеуткиња',
+  'onboarding.t3Text': '„Препоручујем BreathFlow клијентима са паничним поремећајем.“',
+  'onboarding.rateTitle': 'Помози да обликујемо будућност BreathFlow-a',
+  'onboarding.rateSub': 'Подели своје мисли и помози нам да услугу учинимо бољом — кориснијом, пријатнијом и прилагођенијом твојим потребама.',
+  'onboarding.rateCta': 'Даље',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': '\u041E\u0434 \u0441\u0442\u0440\u0435\u0441\u0430 \u0434\u043E \u043C\u0438\u0440\u0430 \u2014 \u0437\u0430 \u043D\u0435\u043A\u043E\u043B\u0438\u043A\u043E \u043C\u0438\u043D\u0443\u0442\u0430',
   'paywall.heroSleep': '\u0417\u0430\u0441\u043F\u0438\u0442\u0435 \u0437\u0430 \u043C\u0438\u043D\u0443\u0442\u0435, \u043D\u0435 \u0441\u0430\u0442\u0435',

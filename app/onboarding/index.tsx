@@ -21,6 +21,7 @@ import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../../s
 import { BreathingMandala } from '../../src/components/BreathingMandala';
 import { requestHealthPermissions } from '../../src/utils/healthKit';
 import { logCompletedRegistration } from '../../src/utils/facebookEvents';
+import { requestStoreReview } from '../../src/utils/storeReview';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -59,6 +60,12 @@ const PLAN_CONTENT: Record<string, PlanEntry> = {
 const DEFAULT_PLAN = PLAN_CONTENT.focus;
 
 const SAFETY_ITEMS = ['onboarding.safety1', 'onboarding.safety2', 'onboarding.safety3', 'onboarding.safety4'];
+
+const TESTIMONIALS: { nameKey: string; tagKey: string; textKey: string; color: string }[] = [
+  { nameKey: 'onboarding.t1Name', tagKey: 'onboarding.t1Tag', textKey: 'onboarding.t1Text', color: '#7B68AE' },
+  { nameKey: 'onboarding.t2Name', tagKey: 'onboarding.t2Tag', textKey: 'onboarding.t2Text', color: '#4A90D9' },
+  { nameKey: 'onboarding.t3Name', tagKey: 'onboarding.t3Tag', textKey: 'onboarding.t3Text', color: '#7BC4A8' },
+];
 
 // ── Shared glass colours ──────────────────────────────────────────────────────
 const GLASS_BG       = 'rgba(255,255,255,0.09)';
@@ -119,6 +126,10 @@ export default function OnboardingScreen() {
   const step2Opacity = useRef(new Animated.Value(0)).current;
   const step3Opacity = useRef(new Animated.Value(0)).current;
 
+  // Rating screen — 5 stars stagger
+  const starAnims = useRef([0, 1, 2, 3, 4].map(() => new Animated.Value(0))).current;
+  const ratingGlow = useRef(new Animated.Value(0)).current;
+
   const plan: PlanEntry = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
 
   // ── Navigation ───────────────────────────────────────────────────────────────
@@ -156,9 +167,9 @@ export default function OnboardingScreen() {
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
-  // Building auto-advance
+  // Building auto-advance (page 5)
   useEffect(() => {
-    if (page !== 4) return;
+    if (page !== 5) return;
     step1Opacity.setValue(0); step2Opacity.setValue(0); step3Opacity.setValue(0);
     const seq = Animated.sequence([
       Animated.delay(400),
@@ -169,9 +180,42 @@ export default function OnboardingScreen() {
       Animated.timing(step3Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
       Animated.delay(800),
     ]);
-    seq.start(() => goToPage(5, 1));
+    seq.start(() => goToPage(6, 1));
     return () => seq.stop();
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Rating screen: stars stagger-in + glow pulse (page 7)
+  useEffect(() => {
+    if (page !== 7) return;
+    starAnims.forEach((v) => v.setValue(0));
+    ratingGlow.setValue(0);
+
+    Animated.stagger(
+      90,
+      starAnims.map((v) =>
+        Animated.spring(v, { toValue: 1, friction: 5, tension: 80, useNativeDriver: true }),
+      ),
+    ).start();
+
+    const glow = Animated.loop(
+      Animated.sequence([
+        Animated.timing(ratingGlow, { toValue: 1, duration: 1400, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(ratingGlow, { toValue: 0, duration: 1400, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      ]),
+    );
+    glow.start();
+    return () => glow.stop();
+  }, [page, starAnims, ratingGlow]);
+
+  // Rating ask (page 7) — auto-trigger native review prompt; advance only on
+  // explicit user action (Next button), never auto-skip.
+  useEffect(() => {
+    if (page !== 7) return;
+    const promptTimer = setTimeout(() => {
+      requestStoreReview().catch(() => {});
+    }, 500);
+    return () => clearTimeout(promptTimer);
+  }, [page]);
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
 
@@ -219,9 +263,11 @@ export default function OnboardingScreen() {
   }, [setSetting, plan]);
 
   // ── Progress ──────────────────────────────────────────────────────────────────
-  const progressVisible = page > 0 && page !== 4;
-  const progressStep    = page < 4 ? page : page - 1;
-  const progressPct     = progressStep / 5;
+  const progressVisible = page > 0 && page !== 5 && page !== 7;
+  // Pages: 0 Hook, 1 Notif, 2 Health, 3 Goal, 4 Social, 5 Building, 6 Plan, 7 Rating, 8 Safety
+  // Hidden steps: 5 (Building), 7 (Rating). Visible step count: 7.
+  const progressStep    = page < 5 ? page : page < 7 ? page - 1 : page - 2;
+  const progressPct     = progressStep / 6;
 
   // ── Page 0 — Hook ─────────────────────────────────────────────────────────────
 
@@ -532,15 +578,119 @@ export default function OnboardingScreen() {
     </View>
   );
 
+  // ── Page — Social Proof (testimonials) ────────────────────────────────────────
+
+  const renderSocialProof = () => (
+    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.pageTitle}>{t('onboarding.socialProofTitle')}</Text>
+        <Text style={styles.pageSub}>{t('onboarding.socialProofSub')}</Text>
+        <View style={{ gap: SPACING.sm }}>
+          {TESTIMONIALS.map((tm, i) => (
+            <View key={i} style={[styles.glassCard, { marginBottom: 0, padding: SPACING.md }]}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: 6 }}>
+                <View style={[styles.testimonialAvatar, { backgroundColor: tm.color }]}>
+                  <Text style={styles.testimonialAvatarLetter}>{t(tm.nameKey).charAt(0)}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.testimonialName}>{t(tm.nameKey)}</Text>
+                  <Text style={styles.testimonialTag}>{t(tm.tagKey)}</Text>
+                </View>
+                <View style={{ flexDirection: 'row', gap: 1 }}>
+                  {[0,1,2,3,4].map((s) => <Ionicons key={s} name="star" size={11} color="#F5A623" />)}
+                </View>
+              </View>
+              <Text style={styles.testimonialText}>{t(tm.textKey)}</Text>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+
+      <TouchableOpacity style={styles.primaryBtn} onPress={goNext} activeOpacity={0.85}>
+        <Text style={styles.primaryBtnText}>{t('onboarding.continue')}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  // ── Page — Rating ask (auto-prompt) ──────────────────────────────────────────
+
+  const renderRating = () => {
+    const glowScale   = ratingGlow.interpolate({ inputRange: [0, 1], outputRange: [0.95, 1.12] });
+    const glowOpacity = ratingGlow.interpolate({ inputRange: [0, 1], outputRange: [0.18, 0.42] });
+
+    return (
+      <View style={[styles.pageContent, { justifyContent: 'space-between', paddingBottom: SPACING.xl }]}>
+        {/* Top spacer */}
+        <View />
+
+        {/* Hero block */}
+        <View style={{ alignItems: 'center', gap: SPACING.lg }}>
+          {/* Glowing halo behind stars */}
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Animated.View
+              style={[
+                styles.ratingHalo,
+                { opacity: glowOpacity, transform: [{ scale: glowScale }] },
+              ]}
+              pointerEvents="none"
+            />
+
+            {/* 5-star row with stagger fade-in */}
+            <View style={styles.ratingStarsRow}>
+              {starAnims.map((v, i) => (
+                <Animated.View
+                  key={i}
+                  style={{
+                    opacity: v,
+                    transform: [
+                      { scale: v.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1] }) },
+                      { translateY: v.interpolate({ inputRange: [0, 1], outputRange: [12, 0] }) },
+                    ],
+                  }}
+                >
+                  <Ionicons name="star" size={42} color="#F5C542" />
+                </Animated.View>
+              ))}
+            </View>
+          </View>
+
+          {/* App-Store-style rating badge */}
+          <View style={styles.ratingBadge}>
+            <Ionicons name="logo-apple" size={13} color="#FFF" />
+            <Text style={styles.ratingBadgeText}>4.9 on the App Store</Text>
+          </View>
+
+          <Text style={[styles.pageTitle, { textAlign: 'center', fontSize: FONT_SIZE.xxl, marginBottom: 4 }]}>
+            {t('onboarding.rateTitle')}
+          </Text>
+          <Text style={[styles.pageSub, { textAlign: 'center', marginBottom: 0, paddingHorizontal: SPACING.sm }]}>
+            {t('onboarding.rateSub')}
+          </Text>
+        </View>
+
+        {/* CTA */}
+        <TouchableOpacity
+          style={[styles.primaryBtn, styles.glowBtn, { backgroundColor: '#F5A623', shadowColor: '#F5A623' }]}
+          onPress={() => goToPage(8, 1)}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.primaryBtnText}>{t('onboarding.rateCta')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   const renderPage = () => {
     switch (page) {
       case 0: return renderHook();
       case 1: return renderNotifications();
       case 2: return renderAppleHealth();
       case 3: return renderGoalAndCommit();
-      case 4: return renderBuilding();
-      case 5: return renderPlan();
-      case 6: return renderSafety();
+      case 4: return renderSocialProof();
+      case 5: return renderBuilding();
+      case 6: return renderPlan();
+      case 7: return renderRating();
+      case 8: return renderSafety();
       default: return null;
     }
   };
@@ -561,13 +711,13 @@ export default function OnboardingScreen() {
         edges={page === 0 ? ['left', 'right', 'bottom'] : ['top', 'left', 'right', 'bottom']}
       >
         {/* Back + Forward buttons */}
-        {page > 0 && page !== 4 && (
+        {page > 0 && page !== 5 && page !== 7 && (
           <View style={styles.header}>
             <TouchableOpacity style={styles.backBtn} onPress={goBack} activeOpacity={0.7}>
               <Ionicons name="chevron-back" size={22} color="#FFFFFF" />
               <Text style={styles.backText}>{t('onboarding.back')}</Text>
             </TouchableOpacity>
-            {page !== 6 && (
+            {page !== 8 && (
               <TouchableOpacity style={styles.forwardBtn} onPress={goNext} activeOpacity={0.7}>
                 <Text style={styles.backText}>{t('onboarding.skip')}</Text>
                 <Ionicons name="chevron-forward" size={22} color="#FFFFFF" />
@@ -803,4 +953,38 @@ const styles = StyleSheet.create({
   // Checkbox
   checkboxRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.sm, paddingHorizontal: 2 },
   checkboxLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.sm, flex: 1, lineHeight: 20, color: TEXT_PRIMARY },
+
+  // Testimonials
+  testimonialAvatar:       { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  testimonialAvatarLetter: { fontFamily: FONTS.heavy, fontSize: 16, color: '#FFF' },
+  testimonialName:         { fontFamily: FONTS.bold, fontSize: FONT_SIZE.sm, color: TEXT_PRIMARY },
+  testimonialTag:          { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
+  testimonialText:         { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, color: 'rgba(255,255,255,0.92)', lineHeight: 20 },
+
+  // Rating screen
+  ratingHalo: {
+    position: 'absolute',
+    width: scale(280),
+    height: scale(280),
+    borderRadius: scale(140),
+    backgroundColor: '#F5C542',
+  },
+  ratingStarsRow: { flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center' },
+  ratingBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: BORDER_RADIUS.full,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
+  },
+  ratingBadgeText: {
+    fontFamily: FONTS.bold,
+    fontSize: FONT_SIZE.xs,
+    color: '#FFFFFF',
+    letterSpacing: 0.3,
+  },
 });

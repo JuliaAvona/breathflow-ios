@@ -604,6 +604,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Haladás nyomon követése idővel',
   'onboarding.appleHealthBullet3': 'Adataid privát maradnak',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Csatlakozz 1000+ emberhez, akik jobban lélegeznek',
+  'onboarding.socialProofSub': 'Valódi emberek, valódi eredmények.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketing igazgató, NYC',
+  'onboarding.t1Text': '„4-7-8-at csinálok az ágyban és 5 perc alatt elalszom. Évek álmatlansága után hihetetlen.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Szoftvermérnök',
+  'onboarding.t2Text': '„A box légzés mély munka előtt olyan, mint egy mentális bemelegítés.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeuta',
+  'onboarding.t3Text': '„Pánikbetegségben szenvedő klienseimnek ajánlom a BreathFlow-t.”',
+  'onboarding.rateTitle': 'Segíts alakítani a BreathFlow jövőjét',
+  'onboarding.rateSub': 'Oszd meg gondolataidat, és segíts, hogy szolgáltatásunk még jobb legyen — hasznosabb, élvezetesebb és személyre szabottabb.',
+  'onboarding.rateCta': 'Tovább',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Stressztől a nyugalomig — percek alatt',
   'paywall.heroSleep': 'Aludj el percek, ne órák alatt',

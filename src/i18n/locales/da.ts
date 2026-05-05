@@ -615,6 +615,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Spor fremskridt over tid',
   'onboarding.appleHealthBullet3': 'Dine data forbliver private',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Bliv en del af 1.000+ der trækker vejret bedre',
+  'onboarding.socialProofSub': 'Rigtige mennesker, rigtige resultater.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketingdirektør, NYC',
+  'onboarding.t1Text': '»Jeg laver 4-7-8 i sengen og falder i søvn på 5 minutter. Efter års søvnløshed er det vildt.«',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Softwareingeniør',
+  'onboarding.t2Text': '»Box breathing før dybt arbejde er som en mental opvarmning.«',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeut',
+  'onboarding.t3Text': '»Jeg anbefaler BreathFlow til klienter med panikanfald. Det fysiologiske suk virker på sekunder.«',
+  'onboarding.rateTitle': 'Hjælp med at forme BreathFlows fremtid',
+  'onboarding.rateSub': 'Del dine tanker og hjælp os med at gøre tjenesten bedre — mere nyttig, behagelig og skræddersyet til dine behov.',
+  'onboarding.rateCta': 'Næste',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': 'Fra stress til ro \u2014 p\u00e5 minutter',
   'paywall.heroSleep': 'Fald i s\u00f8vn p\u00e5 minutter, ikke timer',

@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Registre automàtic de Mindful Minutes',
   'onboarding.appleHealthBullet2': 'Seguiment de dades HRV',
   'onboarding.appleHealthBullet3': 'Les teves dades es mantenen privades',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Uneix-te a més de 1.000 persones que respiren millor',
+  'onboarding.socialProofSub': 'Persones reals, resultats reals.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Directora de màrqueting, NYC',
+  'onboarding.t1Text': "«Faig 4-7-8 al llit i caic adormida en 5 minuts. Després d'anys d'insomni, és increïble.»",
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Enginyer de programari',
+  'onboarding.t2Text': '«Box breathing abans del treball profund és com un escalfament mental.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeuta',
+  'onboarding.t3Text': '«Recomano BreathFlow als clients amb trastorn de pànic. El sospir fisiològic funciona en segons.»',
+  'onboarding.rateTitle': 'Ajuda a donar forma al futur de BreathFlow',
+  'onboarding.rateSub': "Comparteix la teva opinió i ajuda'ns a millorar el nostre servei — més útil, agradable i adaptat a les teves necessitats.",
+  'onboarding.rateCta': 'Següent',
   'onboarding.connectHealth': 'Connecta Apple Health',
   'onboarding.healthSkip': 'Ometre',
 

@@ -207,7 +207,7 @@ export default function SummaryScreen() {
   useEffect(() => {
     if (reviewRequested.current) return;
     const total = stats.totalSessions;
-    if (total === 2 || total === 5 || total === 10) {
+    if (total === 2 || total === 5) {
       reviewRequested.current = true;
       // Will work in production builds with expo-store-review native module
       // In Expo Go / simulator this is a no-op

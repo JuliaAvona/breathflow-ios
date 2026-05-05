@@ -593,6 +593,22 @@ export default {
   'onboarding.appleHealthBullet1': '\u0938\u094D\u0935\u091A\u093E\u0932\u093F\u0924 Mindful Minutes \u0932\u0949\u0917\u093F\u0902\u0917',
   'onboarding.appleHealthBullet2': 'HRV \u0921\u0947\u091F\u093E \u091F\u094D\u0930\u0948\u0915\u093F\u0902\u0917',
   'onboarding.appleHealthBullet3': '\u0906\u092A\u0915\u093E \u0921\u0947\u091F\u093E \u0928\u093F\u091C\u0940 \u0930\u0939\u0924\u093E \u0939\u0948',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': '1,000+ लोगों से जुड़ें जो बेहतर साँस लेते हैं',
+  'onboarding.socialProofSub': 'असली लोग, असली परिणाम।',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'मार्केटिंग डायरेक्टर, NYC',
+  'onboarding.t1Text': '“मैं बिस्तर में 4-7-8 करती हूँ और 5 मिनट में सो जाती हूँ।”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'सॉफ्टवेयर इंजीनियर',
+  'onboarding.t2Text': '“गहरे काम से पहले बॉक्स ब्रीदिंग मानसिक वार्म-अप जैसा है।”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'थेरेपिस्ट',
+  'onboarding.t3Text': '“मैं पैनिक डिसऑर्डर वाले क्लाइंट्स को BreathFlow की सलाह देती हूँ।”',
+  'onboarding.rateTitle': 'BreathFlow के भविष्य को आकार देने में मदद करें',
+  'onboarding.rateSub': 'अपने विचार साझा करें और हमारी सेवा को बेहतर बनाने में मदद करें।',
+  'onboarding.rateCta': 'अगला',
   'onboarding.connectHealth': 'Apple Health \u0938\u0947 \u091C\u094B\u0921\u093C\u0947\u0902',
   'onboarding.healthSkip': '\u091B\u094B\u0921\u093C\u0947\u0902',
 
