@@ -7,7 +7,7 @@ import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
 const API_KEY = Constants.expoConfig?.extra?.revenueCatApiKey ?? '';
-const ENTITLEMENT_ID = 'pro';
+const ENTITLEMENT_ID = 'BreathFlow Pro';
 
 let isConfigured = false;
 
