@@ -74,7 +74,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'BreathFlow — Breathing Exercises',
   slug: 'breathflow',
-  version: '1.0.2',
+  version: '1.2',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
