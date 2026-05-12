@@ -84,12 +84,16 @@ export function logInitiatedCheckout(plan: string, price: number, currency = 'US
   });
 }
 
-/** User completed purchase (Meta standard purchase event). */
+/** User completed purchase (Meta standard purchase event + custom event for redundancy). */
 export function logPurchase(price: number, plan: string, currency = 'USD'): void {
   if (!AppEventsLogger) return;
   AppEventsLogger.logPurchase(price, currency, {
     fb_content_id: plan,
     fb_content_type: plan,
+  });
+  AppEventsLogger.logEvent(plan === 'lifetime' ? 'Purchase' : 'Subscribe', price, {
+    fb_content_id: plan,
+    fb_currency: currency,
   });
 }
 
