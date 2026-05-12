@@ -24,6 +24,7 @@ import { getToday } from '../src/utils/time';
 import { playPhaseTransition, playSessionComplete, playCountdownTick, releaseAllSessionAudio } from '../src/utils/sessionAudio';
 import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
 import { startMusic, stopMusic, pauseMusic, resumeMusic, isMusicPlaying } from '../src/utils/sessionMusic';
+import { logSessionCompleted } from '../src/utils/facebookEvents';
 import { BreathingMandala } from '../src/components/BreathingMandala';
 import { PulseRings } from '../src/components/PulseRings';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase, BreathingShape as ShapeType } from '../src/types';
@@ -341,6 +342,7 @@ export default function SessionScreen() {
     stopBackgroundAudio();
     stopMusic();
     addSession(session);
+    logSessionCompleted(session.techniqueId, session.totalDuration);
     timerStore.reset();
     router.replace({ pathname: '/summary', params: { sessionId: session.id, fromOnboarding: fromOnboarding ?? '', _dur: durationParam ?? '', _music: musicId ?? '' } });
     // eslint-disable-next-line react-hooks/exhaustive-deps

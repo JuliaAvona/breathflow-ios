@@ -202,15 +202,15 @@ export default function SummaryScreen() {
     }
   }, [sessions.length, stats.totalSessions]);
 
-  // Request App Store review after 2nd, 5th, 10th session
+  // Request App Store review after 3rd, 7th, 15th completed session.
+  // 3rd: user has clearly returned (commitment signal); 7th and 15th
+  // cover power users. Apple allows up to 3 prompts per year per app.
   const reviewRequested = useRef(false);
   useEffect(() => {
     if (reviewRequested.current) return;
     const total = stats.totalSessions;
-    if (total === 2 || total === 5) {
+    if (total === 3 || total === 7 || total === 15) {
       reviewRequested.current = true;
-      // Will work in production builds with expo-store-review native module
-      // In Expo Go / simulator this is a no-op
       const timer = setTimeout(() => {
         requestStoreReview();
       }, 2000);

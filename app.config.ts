@@ -85,7 +85,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.izbrodin90.breathflow',
-    buildNumber: '20',
+    buildNumber: '21',
     usesAppleSignIn: true,
     appleTeamId: '9B587AMM75',
     infoPlist: {
@@ -162,14 +162,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         autoLogAppEventsEnabled: true,
         isAutoInitEnabled: false,
         iosUserTrackingPermission:
-          'This identifier will be used to deliver personalized ads to you.',
+          'Allow tracking to help us keep BreathFlow free of ads and bring you more breathing techniques. Your data is never sold.',
       },
     ],
     [
       'expo-tracking-transparency',
       {
         userTrackingPermission:
-          'This identifier will be used to deliver personalized ads to you.',
+          'Allow tracking to help us keep BreathFlow free of ads and bring you more breathing techniques. Your data is never sold.',
       },
     ],
   ],

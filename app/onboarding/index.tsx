@@ -20,8 +20,7 @@ import { TechniqueCategory } from '../../src/types';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
 import { BreathingMandala } from '../../src/components/BreathingMandala';
 import { requestHealthPermissions } from '../../src/utils/healthKit';
-import { logCompletedRegistration } from '../../src/utils/facebookEvents';
-import { requestStoreReview } from '../../src/utils/storeReview';
+import { logCompletedRegistration, requestAttPermission } from '../../src/utils/facebookEvents';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -126,10 +125,6 @@ export default function OnboardingScreen() {
   const step2Opacity = useRef(new Animated.Value(0)).current;
   const step3Opacity = useRef(new Animated.Value(0)).current;
 
-  // Rating screen — 5 stars stagger
-  const starAnims = useRef([0, 1, 2, 3, 4].map(() => new Animated.Value(0))).current;
-  const ratingGlow = useRef(new Animated.Value(0)).current;
-
   const plan: PlanEntry = selectedGoal ? (PLAN_CONTENT[selectedGoal] ?? DEFAULT_PLAN) : DEFAULT_PLAN;
 
   // ── Navigation ───────────────────────────────────────────────────────────────
@@ -184,39 +179,6 @@ export default function OnboardingScreen() {
     return () => seq.stop();
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Rating screen: stars stagger-in + glow pulse (page 7)
-  useEffect(() => {
-    if (page !== 7) return;
-    starAnims.forEach((v) => v.setValue(0));
-    ratingGlow.setValue(0);
-
-    Animated.stagger(
-      90,
-      starAnims.map((v) =>
-        Animated.spring(v, { toValue: 1, friction: 5, tension: 80, useNativeDriver: true }),
-      ),
-    ).start();
-
-    const glow = Animated.loop(
-      Animated.sequence([
-        Animated.timing(ratingGlow, { toValue: 1, duration: 1400, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-        Animated.timing(ratingGlow, { toValue: 0, duration: 1400, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-      ]),
-    );
-    glow.start();
-    return () => glow.stop();
-  }, [page, starAnims, ratingGlow]);
-
-  // Rating ask (page 7) — auto-trigger native review prompt; advance only on
-  // explicit user action (Next button), never auto-skip.
-  useEffect(() => {
-    if (page !== 7) return;
-    const promptTimer = setTimeout(() => {
-      requestStoreReview().catch(() => {});
-    }, 500);
-    return () => clearTimeout(promptTimer);
-  }, [page]);
-
   // ── Handlers ─────────────────────────────────────────────────────────────────
 
   const handleGoalSelect = useCallback((category: TechniqueCategory) => {
@@ -248,25 +210,27 @@ export default function OnboardingScreen() {
     goNext();
   }, [setSetting, goNext]);
 
-  const finishOnboarding = useCallback(() => {
+  const finishOnboarding = useCallback(async () => {
     setSetting('onboardingCompleted', true);
     setSetting('safetyAccepted', true);
     setSetting('recommendedTechniqueId', plan.techniqueId);
     logCompletedRegistration('onboarding');
+    await requestAttPermission();
     router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
   }, [setSetting, plan]);
 
-  const skipToApp = useCallback(() => {
+  const skipToApp = useCallback(async () => {
     setSetting('onboardingCompleted', true);
     logCompletedRegistration('onboarding_skipped');
+    await requestAttPermission();
     router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
   }, [setSetting, plan]);
 
   // ── Progress ──────────────────────────────────────────────────────────────────
-  const progressVisible = page > 0 && page !== 5 && page !== 7;
-  // Pages: 0 Hook, 1 Notif, 2 Health, 3 Goal, 4 Social, 5 Building, 6 Plan, 7 Rating, 8 Safety
-  // Hidden steps: 5 (Building), 7 (Rating). Visible step count: 7.
-  const progressStep    = page < 5 ? page : page < 7 ? page - 1 : page - 2;
+  const progressVisible = page > 0 && page !== 5;
+  // Pages: 0 Hook, 1 Notif, 2 Health, 3 Goal, 4 Social, 5 Building, 6 Plan, 7 Safety
+  // Hidden step: 5 (Building). Visible step count: 7.
+  const progressStep    = page < 5 ? page : page - 1;
   const progressPct     = progressStep / 6;
 
   // ── Page 0 — Hook ─────────────────────────────────────────────────────────────
@@ -612,74 +576,6 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  // ── Page — Rating ask (auto-prompt) ──────────────────────────────────────────
-
-  const renderRating = () => {
-    const glowScale   = ratingGlow.interpolate({ inputRange: [0, 1], outputRange: [0.95, 1.12] });
-    const glowOpacity = ratingGlow.interpolate({ inputRange: [0, 1], outputRange: [0.18, 0.42] });
-
-    return (
-      <View style={[styles.pageContent, { justifyContent: 'space-between', paddingBottom: SPACING.xl }]}>
-        {/* Top spacer */}
-        <View />
-
-        {/* Hero block */}
-        <View style={{ alignItems: 'center', gap: SPACING.lg }}>
-          {/* Glowing halo behind stars */}
-          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Animated.View
-              style={[
-                styles.ratingHalo,
-                { opacity: glowOpacity, transform: [{ scale: glowScale }] },
-              ]}
-              pointerEvents="none"
-            />
-
-            {/* 5-star row with stagger fade-in */}
-            <View style={styles.ratingStarsRow}>
-              {starAnims.map((v, i) => (
-                <Animated.View
-                  key={i}
-                  style={{
-                    opacity: v,
-                    transform: [
-                      { scale: v.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1] }) },
-                      { translateY: v.interpolate({ inputRange: [0, 1], outputRange: [12, 0] }) },
-                    ],
-                  }}
-                >
-                  <Ionicons name="star" size={42} color="#F5C542" />
-                </Animated.View>
-              ))}
-            </View>
-          </View>
-
-          {/* App-Store-style rating badge */}
-          <View style={styles.ratingBadge}>
-            <Ionicons name="logo-apple" size={13} color="#FFF" />
-            <Text style={styles.ratingBadgeText}>4.9 on the App Store</Text>
-          </View>
-
-          <Text style={[styles.pageTitle, { textAlign: 'center', fontSize: FONT_SIZE.xxl, marginBottom: 4 }]}>
-            {t('onboarding.rateTitle')}
-          </Text>
-          <Text style={[styles.pageSub, { textAlign: 'center', marginBottom: 0, paddingHorizontal: SPACING.sm }]}>
-            {t('onboarding.rateSub')}
-          </Text>
-        </View>
-
-        {/* CTA */}
-        <TouchableOpacity
-          style={[styles.primaryBtn, styles.glowBtn, { backgroundColor: '#F5A623', shadowColor: '#F5A623' }]}
-          onPress={() => goToPage(8, 1)}
-          activeOpacity={0.85}
-        >
-          <Text style={styles.primaryBtnText}>{t('onboarding.rateCta')}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
   const renderPage = () => {
     switch (page) {
       case 0: return renderHook();
@@ -689,8 +585,7 @@ export default function OnboardingScreen() {
       case 4: return renderSocialProof();
       case 5: return renderBuilding();
       case 6: return renderPlan();
-      case 7: return renderRating();
-      case 8: return renderSafety();
+      case 7: return renderSafety();
       default: return null;
     }
   };
@@ -711,7 +606,7 @@ export default function OnboardingScreen() {
         edges={page === 0 ? ['left', 'right', 'bottom'] : ['top', 'left', 'right', 'bottom']}
       >
         {/* Back + Forward buttons */}
-        {page > 0 && page !== 5 && page !== 7 && (
+        {page > 0 && page !== 5 && (
           <View style={styles.header}>
             <TouchableOpacity style={styles.backBtn} onPress={goBack} activeOpacity={0.7}>
               <Ionicons name="chevron-back" size={22} color="#FFFFFF" />

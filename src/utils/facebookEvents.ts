@@ -24,11 +24,10 @@ try {
 let initialized = false;
 
 /**
- * Initialize Meta SDK and request App Tracking Transparency permission.
- * Must be called after the first frame is shown so the ATT prompt
- * doesn't appear over a black launch screen. Auto-init is disabled in
- * Info.plist; we drive initialization manually here only after the user
- * has answered the ATT prompt, to comply with Apple's policy.
+ * Initialize Meta SDK without prompting for ATT. We init with previously
+ * granted state (if any) so events can flow immediately; the ATT prompt
+ * is deferred to `requestAttPermission()` after the user has seen the
+ * app's value (post-onboarding) to maximize opt-in rate.
  */
 export async function initFacebookSdk(): Promise<void> {
   if (initialized || !Settings) return;
@@ -37,12 +36,7 @@ export async function initFacebookSdk(): Promise<void> {
   try {
     if (Platform.OS === 'ios') {
       const current = await getTrackingPermissionsAsync();
-      let status = current.status;
-      if (status === 'undetermined') {
-        const result = await requestTrackingPermissionsAsync();
-        status = result.status;
-      }
-      Settings.setAdvertiserTrackingEnabled(status === 'granted');
+      Settings.setAdvertiserTrackingEnabled(current.status === 'granted');
     } else {
       Settings.setAdvertiserTrackingEnabled(true);
     }
@@ -53,6 +47,22 @@ export async function initFacebookSdk(): Promise<void> {
     AppEventsLogger?.logEvent('app_launched');
   } catch {
     // Swallow — SDK init must never crash the app.
+  }
+}
+
+/**
+ * Request App Tracking Transparency permission. Should be called after
+ * onboarding so the user has context for why we ask.
+ */
+export async function requestAttPermission(): Promise<void> {
+  if (Platform.OS !== 'ios' || !Settings) return;
+  try {
+    const current = await getTrackingPermissionsAsync();
+    if (current.status !== 'undetermined') return;
+    const result = await requestTrackingPermissionsAsync();
+    Settings.setAdvertiserTrackingEnabled(result.status === 'granted');
+  } catch {
+    // Non-critical.
   }
 }
 
