@@ -13,12 +13,15 @@ let isConfigured = false;
 
 export async function initRevenueCat(): Promise<void> {
   if (!API_KEY || isConfigured) return;
-
-  Purchases.configure({
-    apiKey: API_KEY,
-    appUserID: null, // anonymous until identified
-  });
-  isConfigured = true;
+  try {
+    Purchases.configure({
+      apiKey: API_KEY,
+      appUserID: null, // anonymous until identified
+    });
+    isConfigured = true;
+  } catch {
+    // Config failures (e.g. no network) should not crash the app.
+  }
 }
 
 /** Link RevenueCat user to Supabase user ID for cross-device restore */
@@ -36,8 +39,12 @@ export async function logOutRevenueCat(): Promise<void> {
 /** Fetch available offerings (packages) */
 export async function getOfferings(): Promise<PurchasesOffering | null> {
   if (!isConfigured) return null;
-  const offerings = await Purchases.getOfferings();
-  return offerings.current;
+  try {
+    const offerings = await Purchases.getOfferings();
+    return offerings.current;
+  } catch {
+    return null;
+  }
 }
 
 /** Purchase a specific package */
@@ -57,8 +64,12 @@ export async function restorePurchases(): Promise<{ isPro: boolean }> {
 /** Check if user has active pro entitlement */
 export async function checkSubscriptionStatus(): Promise<boolean> {
   if (!isConfigured) return false;
-  const customerInfo = await Purchases.getCustomerInfo();
-  return checkProEntitlement(customerInfo);
+  try {
+    const customerInfo = await Purchases.getCustomerInfo();
+    return checkProEntitlement(customerInfo);
+  } catch {
+    return false;
+  }
 }
 
 function checkProEntitlement(info: CustomerInfo): boolean {

@@ -40,7 +40,7 @@ import '../src/i18n';
 
 // Initialize Sentry and RevenueCat as early as possible
 initSentry();
-initRevenueCat();
+initRevenueCat().catch(() => {});
 
 export default function RootLayout() {
   const [ready, setReady] = useState(false);

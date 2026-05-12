@@ -59,7 +59,7 @@ export default function PaywallScreen() {
   };
 
   useEffect(() => {
-    getOfferings().then(setOffering);
+    getOfferings().then(setOffering).catch(() => setOffering(null));
   }, []);
 
   const weeklyPkg: PurchasesPackage | null = offering?.weekly ?? null;
