@@ -581,4 +581,29 @@ export default {
   'paywall.row5Pro': 'Wszystkie motywy i odznaki \u2713',
   'paywall.anchor': 'Mniej ni\u017c kawa. Efekty, kt\u00f3re trwaj\u0105.',
   'paywall.continueFree': 'Kontynuuj z darmow\u0105 wersj\u0105',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Weźmy razem jeden oddech",
+  'onboarding.demoSub': "Podążaj za okręgiem — wdech przez nos, powolny wydech.",
+  'onboarding.demoDone': "Zauważ, jak się czujesz.",
+  'onboarding.demoReady': "Przygotuj się…",
+  'onboarding.demoCounter': "Oddech {{n}} z {{total}}",
+  'summary.habitTitle': "Zamień to w nawyk",
+  'summary.habitReminderTitle': "Codzienne przypomnienie",
+  'summary.habitReminderSub': "Delikatne przypomnienie, by codziennie oddychać",
+  'summary.habitHealthTitle': "Apple Zdrowie",
+  'summary.habitHealthSub': "Zapisuj sesje jako Minuty uważności",
+  'settings.resetOnboarding': "Zresetuj wprowadzenie",
+  'settings.resetOnboardingConfirm': "Odtworzyć ponownie proces wprowadzenia? To również ponownie aktywuje ekran bezpieczeństwa pierwszej sesji.",
+  'settings.resetOnboardingConfirmCta': "Resetuj",
+  'settings.developer': "Deweloper",
+  'paywall.errorGeneric': "Coś poszło nie tak. Spróbuj ponownie.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Wycisz muzykę",
+  'session.musicOff': "Odtwórz muzykę",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Zwiększ",
+  'common.decrease': "Zmniejsz",
 };

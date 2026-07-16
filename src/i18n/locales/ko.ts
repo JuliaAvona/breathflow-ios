@@ -655,4 +655,29 @@ export default {
   'paywall.row5Pro': '모든 색상 테마 & 배지 ✓',
   'paywall.anchor': '커피 한 잔보다 저렴. 지속적인 효과.',
   'paywall.continueFree': '무료 버전으로 계속하기',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "함께 한 번 호흡해 볼까요",
+  'onboarding.demoSub': "원을 따라가세요 — 코로 들이쉬고, 천천히 내쉬세요.",
+  'onboarding.demoDone': "지금 느낌이 어떤지 살펴보세요.",
+  'onboarding.demoReady': "준비하세요…",
+  'onboarding.demoCounter': "{{total}} 중 {{n}}번째 호흡",
+  'summary.habitTitle': "습관으로 만들어보세요",
+  'summary.habitReminderTitle': "매일 알림",
+  'summary.habitReminderSub': "매일 호흡할 수 있도록 부드럽게 알려드려요",
+  'summary.habitHealthTitle': "Apple 건강",
+  'summary.habitHealthSub': "세션을 마음챙김 분으로 저장하세요",
+  'settings.resetOnboarding': "온보딩 재설정",
+  'settings.resetOnboardingConfirm': "온보딩 과정을 다시 재생할까요? 첫 세션 안전 화면도 다시 활성화됩니다.",
+  'settings.resetOnboardingConfirmCta': "재설정",
+  'settings.developer': "개발자",
+  'paywall.errorGeneric': "문제가 발생했습니다. 다시 시도해 주세요.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "음악 음소거",
+  'session.musicOff': "음악 재생",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "증가",
+  'common.decrease': "감소",
 };

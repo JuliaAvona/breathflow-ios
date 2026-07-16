@@ -655,4 +655,29 @@ export default {
   'paywall.row5Pro': '\u062C\u0645\u064A\u0639 \u0627\u0644\u062B\u064A\u0645\u0627\u062A \u0648\u0627\u0644\u0634\u0627\u0631\u0627\u062A \u2713',
   'paywall.anchor': '\u0623\u0642\u0644 \u0645\u0646 \u0642\u0647\u0648\u0629. \u0646\u062A\u0627\u0626\u062C \u062A\u062F\u0648\u0645.',
   'paywall.continueFree': '\u0627\u0644\u0627\u0633\u062A\u0645\u0631\u0627\u0631 \u0628\u0627\u0644\u0646\u0633\u062E\u0629 \u0627\u0644\u0645\u062C\u0627\u0646\u064A\u0629',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "لنأخذ نفسًا واحدًا معًا",
+  'onboarding.demoSub': "اتبع الدائرة — استنشق من الأنف وازفر ببطء.",
+  'onboarding.demoDone': "لاحظ شعورك الآن.",
+  'onboarding.demoReady': "استعد…",
+  'onboarding.demoCounter': "النفس {{n}} من {{total}}",
+  'summary.habitTitle': "اجعلها عادة",
+  'summary.habitReminderTitle': "تذكير يومي",
+  'summary.habitReminderSub': "تذكير لطيف للتنفس كل يوم",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "احفظ الجلسات كدقائق تأمل",
+  'settings.resetOnboarding': "إعادة تعيين التعريف بالتطبيق",
+  'settings.resetOnboardingConfirm': "هل تريد إعادة تشغيل عملية التعريف بالتطبيق؟ سيؤدي ذلك أيضًا إلى إعادة تفعيل شاشة السلامة للجلسة الأولى.",
+  'settings.resetOnboardingConfirmCta': "إعادة تعيين",
+  'settings.developer': "المطوّر",
+  'paywall.errorGeneric': "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "كتم الموسيقى",
+  'session.musicOff': "تشغيل الموسيقى",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "زيادة",
+  'common.decrease': "تقليل",
 };

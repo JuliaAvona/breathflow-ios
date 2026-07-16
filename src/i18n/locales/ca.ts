@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'Fins i tot 5 minuts de respiració conscient canvien l\'estat d\'ànim.',
   'notifications.tip6': 'La respiració lenta activa el sistema nerviós parasimpàtic.',
   'notifications.tip7': 'La pràctica consistent construeix resiliència al llarg del temps.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Fem una respiració junts",
+  'onboarding.demoSub': "Segueix el cercle: inspira pel nas, expira lentament.",
+  'onboarding.demoDone': "Fixa't com et sents.",
+  'onboarding.demoReady': "Prepara't…",
+  'onboarding.demoCounter': "Respiració {{n}} de {{total}}",
+  'summary.habitTitle': "Converteix-ho en un hàbit",
+  'summary.habitReminderTitle': "Recordatori diari",
+  'summary.habitReminderSub': "Un petit recordatori per respirar cada dia",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Desa les sessions com a Minuts d'atenció plena",
+  'settings.resetOnboarding': "Reinicia la introducció",
+  'settings.resetOnboardingConfirm': "Vols tornar a veure la introducció? Això també torna a activar la pantalla de seguretat de la primera sessió.",
+  'settings.resetOnboardingConfirmCta': "Reinicia",
+  'settings.developer': "Desenvolupador",
+  'paywall.errorGeneric': "Alguna cosa ha fallat. Torna-ho a provar.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Silencia la música",
+  'session.musicOff': "Reprodueix música",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Augmenta",
+  'common.decrease': "Disminueix",
 };

@@ -52,6 +52,7 @@ jest.mock('expo-constants', () => ({
     extra: {
       supabaseUrl: 'https://test.supabase.co',
       supabaseAnonKey: 'test-anon-key',
+      revenueCatApiKey: 'test-revenuecat-key',
     },
   },
 }));
@@ -91,9 +92,15 @@ jest.mock('./src/services/syncService', () => ({
   pushBadges: jest.fn(() => Promise.resolve()),
 }));
 
-// Mock react-native-purchases (RevenueCat)
+// Mock react-native-purchases (RevenueCat).
+// The real package's default export IS the Purchases class with static methods
+// (see node_modules/react-native-purchases/dist/purchases.d.ts) — the mock must
+// mirror that shape (`default: {...}`, not a nested `Purchases: {...}` key),
+// otherwise `import Purchases from 'react-native-purchases'` resolves to an
+// object without `.configure`/`.getOfferings`/etc.
 jest.mock('react-native-purchases', () => ({
-  Purchases: {
+  __esModule: true,
+  default: {
     configure: jest.fn(),
     getCustomerInfo: jest.fn(() => Promise.resolve({ entitlements: { active: {} } })),
     getOfferings: jest.fn(() => Promise.resolve({ current: null })),

@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'אפילו 5 דקות של נשימה מודעת משנות את מצב הרוח.',
   'notifications.tip6': 'נשימה איטית מפעילה את מערכת העצבים הפאראסימפתטית.',
   'notifications.tip7': 'תרגול עקבי בונה חוסן לאורך זמן.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "בואו ניקח נשימה אחת יחד",
+  'onboarding.demoSub': "עקבו אחרי העיגול — שאפו דרך האף, נשפו לאט.",
+  'onboarding.demoDone': "שימו לב איך אתם מרגישים.",
+  'onboarding.demoReady': "התכוננו…",
+  'onboarding.demoCounter': "נשימה {{n}} מתוך {{total}}",
+  'summary.habitTitle': "הפכו את זה להרגל",
+  'summary.habitReminderTitle': "תזכורת יומית",
+  'summary.habitReminderSub': "תזכורת עדינה לנשום כל יום",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "שמרו את התרגולים כדקות מיינדפולנס",
+  'settings.resetOnboarding': "איפוס תהליך ההיכרות",
+  'settings.resetOnboardingConfirm': "להפעיל שוב את תהליך ההיכרות? פעולה זו גם תפעיל מחדש את מסך הבטיחות של הטיפול הראשון.",
+  'settings.resetOnboardingConfirmCta': "איפוס",
+  'settings.developer': "מפתח",
+  'paywall.errorGeneric': "משהו השתבש. נסו שוב.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "השתקת מוזיקה",
+  'session.musicOff': "הפעלת מוזיקה",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "הגדלה",
+  'common.decrease': "הקטנה",
 };

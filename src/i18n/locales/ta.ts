@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'வெறும் 5 நிமிட உணர்வுடன் சுவாசிப்பது மனநிலையை மாற்றும்.',
   'notifications.tip6': 'மெதுவான சுவாசம் parasympathetic nervous system ஐ செயல்படுத்துகிறது.',
   'notifications.tip7': 'தொடர்ச்சியான பயிற்சி காலப்போக்கில் மன உறுதியை கட்டமைக்கிறது.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "ஒன்றாக ஒரு மூச்சு எடுப்போம்",
+  'onboarding.demoSub': "வட்டத்தைப் பின்பற்றுங்கள் — மூக்கு வழியாக மூச்சை இழுத்து, மெதுவாக விடுங்கள்.",
+  'onboarding.demoDone': "உங்களுக்கு எப்படி இருக்கிறது என்பதைக் கவனியுங்கள்.",
+  'onboarding.demoReady': "தயாராகுங்கள்…",
+  'onboarding.demoCounter': "மூச்சு {{n}} / {{total}}",
+  'summary.habitTitle': "இதை ஒரு பழக்கமாக்குங்கள்",
+  'summary.habitReminderTitle': "தினசரி நினைவூட்டல்",
+  'summary.habitReminderSub': "ஒவ்வொரு நாளும் மூச்சு விடுவதற்கான மென்மையான நினைவூட்டல்",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "அமர்வுகளை மைண்ட்ஃபுல் நிமிடங்களாகச் சேமிக்கவும்",
+  'settings.resetOnboarding': "ஆன்போர்டிங்கை மீட்டமைக்கவும்",
+  'settings.resetOnboardingConfirm': "ஆன்போர்டிங் ஓட்டத்தை மீண்டும் இயக்கவா? இது முதல் அமர்வின் பாதுகாப்பு திரையையும் மீண்டும் செயல்படுத்தும்.",
+  'settings.resetOnboardingConfirmCta': "மீட்டமை",
+  'settings.developer': "டெவலப்பர்",
+  'paywall.errorGeneric': "ஏதோ தவறு நடந்தது. மீண்டும் முயற்சிக்கவும்.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "இசையை முடக்கு",
+  'session.musicOff': "இசையை இயக்கு",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "அதிகரி",
+  'common.decrease': "குறை",
 };

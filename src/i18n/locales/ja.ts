@@ -655,4 +655,29 @@ export default {
   'paywall.row5Pro': 'すべてのカラーテーマ & バッジ ✓',
   'paywall.anchor': 'コーヒー1杯以下の価格。効果はずっと続く。',
   'paywall.continueFree': '無料バージョンで続ける',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "一緒にひと呼吸してみましょう",
+  'onboarding.demoSub': "円に合わせて — 鼻から吸って、ゆっくり吐きましょう。",
+  'onboarding.demoDone': "今の気持ちに意識を向けてみましょう。",
+  'onboarding.demoReady': "準備をしましょう…",
+  'onboarding.demoCounter': "{{total}}回中{{n}}回目",
+  'summary.habitTitle': "習慣にしましょう",
+  'summary.habitReminderTitle': "毎日のリマインダー",
+  'summary.habitReminderSub': "毎日呼吸をするための優しいお知らせ",
+  'summary.habitHealthTitle': "ヘルスケア",
+  'summary.habitHealthSub': "セッションをマインドフル分数として記録",
+  'settings.resetOnboarding': "オンボーディングをリセット",
+  'settings.resetOnboardingConfirm': "オンボーディングをもう一度再生しますか？これにより初回セッションの安全確認画面も再表示されます。",
+  'settings.resetOnboardingConfirmCta': "リセット",
+  'settings.developer': "開発者",
+  'paywall.errorGeneric': "問題が発生しました。もう一度お試しください。",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "音楽をミュート",
+  'session.musicOff': "音楽を再生",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "増やす",
+  'common.decrease': "減らす",
 };

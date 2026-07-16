@@ -655,4 +655,29 @@ export default {
   'notifications.tip5': 'A 5,5 légvétel/perc ritmusú légzés optimalizálja a szívritmus-variabilitást.',
   'notifications.tip6': 'Már 1 perc tudatos légzés is változást hoz.',
   'notifications.tip7': 'A meghosszabbított kilégzés jelzi a testednek, hogy biztonságos lazítani.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Vegyünk együtt egy lélegzetet",
+  'onboarding.demoSub': "Kövesd a kört — belégzés orron át, lassú kilégzés.",
+  'onboarding.demoDone': "Figyeld meg, hogyan érzed magad.",
+  'onboarding.demoReady': "Készülj…",
+  'onboarding.demoCounter': "Légzés: {{n}}/{{total}}",
+  'summary.habitTitle': "Alakítsd szokássá",
+  'summary.habitReminderTitle': "Napi emlékeztető",
+  'summary.habitReminderSub': "Egy kedves emlékeztető, hogy minden nap lélegezz",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Mentsd el a munkameneteket Mindfulness percekként",
+  'settings.resetOnboarding': "Bevezető visszaállítása",
+  'settings.resetOnboardingConfirm': "Újraindítod a bevezető folyamatot? Ez az első munkamenet biztonsági képernyőjét is újra aktiválja.",
+  'settings.resetOnboardingConfirmCta': "Visszaállítás",
+  'settings.developer': "Fejlesztő",
+  'paywall.errorGeneric': "Hiba történt. Kérjük, próbáld újra.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Zene némítása",
+  'session.musicOff': "Zene lejátszása",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Növelés",
+  'common.decrease': "Csökkentés",
 };

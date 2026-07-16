@@ -657,4 +657,29 @@ export default {
   'paywall.row5Pro': 'Усі кольорові теми та значки \u2713',
   'paywall.anchor': 'Дешевше чашки кави. Результати на все життя.',
   'paywall.continueFree': 'Продовжити з безкоштовною версією',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Зробімо один вдих разом",
+  'onboarding.demoSub': "Слідкуйте за колом — вдих через ніс, повільний видих.",
+  'onboarding.demoDone': "Зверніть увагу на свої відчуття.",
+  'onboarding.demoReady': "Приготуйтеся…",
+  'onboarding.demoCounter': "Вдих {{n}} з {{total}}",
+  'summary.habitTitle': "Зробіть це звичкою",
+  'summary.habitReminderTitle': "Щоденне нагадування",
+  'summary.habitReminderSub': "Легке нагадування дихати щодня",
+  'summary.habitHealthTitle': "Apple Здоров’я",
+  'summary.habitHealthSub': "Зберігайте сесії як хвилини усвідомленості",
+  'settings.resetOnboarding': "Скинути онбординг",
+  'settings.resetOnboardingConfirm': "Повторити онбординг? Це також знову активує екран безпеки першої сесії.",
+  'settings.resetOnboardingConfirmCta': "Скинути",
+  'settings.developer': "Розробник",
+  'paywall.errorGeneric': "Щось пішло не так. Спробуйте ще раз.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Вимкнути музику",
+  'session.musicOff': "Увімкнути музику",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Збільшити",
+  'common.decrease': "Зменшити",
 };

@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': '\u0938\u091A\u0947\u0924 \u0938\u093E\u0901\u0938 \u0915\u0947 \u0938\u093F\u0930\u094D\u092B 5 \u092E\u093F\u0928\u091F \u092D\u0940 \u092E\u0942\u0921 \u092C\u0926\u0932 \u0926\u0947\u0924\u0947 \u0939\u0948\u0902\u0964',
   'notifications.tip6': '\u0927\u0940\u092E\u0940 \u0938\u093E\u0901\u0938 \u0932\u0947\u0928\u0947 \u0938\u0947 parasympathetic nervous system \u0938\u0915\u094D\u0930\u093F\u092F \u0939\u094B\u0924\u093E \u0939\u0948\u0964',
   'notifications.tip7': '\u0928\u093F\u0930\u0902\u0924\u0930 \u0905\u092D\u094D\u092F\u093E\u0938 \u0938\u092E\u092F \u0915\u0947 \u0938\u093E\u0925 \u0932\u091A\u0940\u0932\u093E\u092A\u0928 \u092C\u0928\u093E\u0924\u093E \u0939\u0948\u0964',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "आइए साथ मिलकर एक सांस लें",
+  'onboarding.demoSub': "वृत्त का अनुसरण करें — नाक से सांस लें, धीरे-धीरे छोड़ें।",
+  'onboarding.demoDone': "ध्यान दें कि आप कैसा महसूस कर रहे हैं।",
+  'onboarding.demoReady': "तैयार हो जाइए…",
+  'onboarding.demoCounter': "सांस {{n}} में से {{total}}",
+  'summary.habitTitle': "इसे एक आदत बनाएं",
+  'summary.habitReminderTitle': "दैनिक अनुस्मारक",
+  'summary.habitReminderSub': "हर दिन सांस लेने के लिए एक हल्की याद",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "सत्रों को माइंडफुल मिनट्स के रूप में सहेजें",
+  'settings.resetOnboarding': "ऑनबोर्डिंग रीसेट करें",
+  'settings.resetOnboardingConfirm': "ऑनबोर्डिंग फ्लो को फिर से चलाएं? इससे पहले सत्र की सुरक्षा स्क्रीन भी फिर से सक्रिय हो जाएगी।",
+  'settings.resetOnboardingConfirmCta': "रीसेट करें",
+  'settings.developer': "डेवलपर",
+  'paywall.errorGeneric': "कुछ गलत हो गया। कृपया फिर से प्रयास करें।",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "संगीत म्यूट करें",
+  'session.musicOff': "संगीत चलाएं",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "बढ़ाएं",
+  'common.decrease': "घटाएं",
 };

@@ -657,4 +657,29 @@ export default {
   'notifications.tip5': 'Dihanje s 5,5 vdihi/min optimizira variabilnost srcnega utripa.',
   'notifications.tip6': 'Ze 1 minuta zavestnega dihanja naredi razliko.',
   'notifications.tip7': 'Podaljsani izdihi sporocajo telesu, da je varno, da se sprosti.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Vzemimo skupaj en vdih",
+  'onboarding.demoSub': "Sledi krogu — vdih skozi nos, počasen izdih.",
+  'onboarding.demoDone': "Opazi, kako se počutiš.",
+  'onboarding.demoReady': "Pripravi se…",
+  'onboarding.demoCounter': "Vdih {{n}} od {{total}}",
+  'summary.habitTitle': "Naredi si navado",
+  'summary.habitReminderTitle': "Dnevni opomnik",
+  'summary.habitReminderSub': "Nežen opomnik, da dihaš vsak dan",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Shrani seje kot minute pozornosti",
+  'settings.resetOnboarding': "Ponastavi uvod",
+  'settings.resetOnboardingConfirm': "Ponovno predvajati uvodni postopek? To ponovno aktivira tudi varnostni zaslon prve seje.",
+  'settings.resetOnboardingConfirmCta': "Ponastavi",
+  'settings.developer': "Razvijalec",
+  'paywall.errorGeneric': "Nekaj je šlo narobe. Poskusite znova.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Utišaj glasbo",
+  'session.musicOff': "Predvajaj glasbo",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Povečaj",
+  'common.decrease': "Zmanjšaj",
 };

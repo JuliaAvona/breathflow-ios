@@ -655,4 +655,29 @@ export default {
   'notifications.tip5': 'Bernapas dengan 5,5 napas/menit mengoptimalkan variabilitas detak jantung.',
   'notifications.tip6': 'Bahkan 1 menit pernapasan sadar membuat perbedaan.',
   'notifications.tip7': 'Embusan napas panjang memberi tahu tubuh bahwa aman untuk rileks.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Mari bernapas bersama sekali",
+  'onboarding.demoSub': "Ikuti lingkaran — tarik napas lewat hidung, embuskan perlahan.",
+  'onboarding.demoDone': "Perhatikan bagaimana perasaanmu.",
+  'onboarding.demoReady': "Bersiaplah…",
+  'onboarding.demoCounter': "Napas {{n}} dari {{total}}",
+  'summary.habitTitle': "Jadikan kebiasaan",
+  'summary.habitReminderTitle': "Pengingat harian",
+  'summary.habitReminderSub': "Pengingat lembut untuk bernapas setiap hari",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Simpan sesi sebagai Menit Mindful",
+  'settings.resetOnboarding': "Atur Ulang Onboarding",
+  'settings.resetOnboardingConfirm': "Putar ulang alur onboarding? Ini juga akan mengaktifkan kembali layar keamanan sesi pertama.",
+  'settings.resetOnboardingConfirmCta': "Atur Ulang",
+  'settings.developer': "Pengembang",
+  'paywall.errorGeneric': "Terjadi kesalahan. Silakan coba lagi.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Bisukan musik",
+  'session.musicOff': "Putar musik",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Tambah",
+  'common.decrease': "Kurangi",
 };

@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'కేవలం 5 నిమిషాల సచేతన శ్వాసక్రియ మూడ్ మారుస్తుంది.',
   'notifications.tip6': 'నెమ్మదిగా శ్వాసించడం parasympathetic nervous system ని సక్రియం చేస్తుంది.',
   'notifications.tip7': 'నిరంతర అభ్యాసం కాలక్రమేణా స్థితిస్థాపకత నిర్మిస్తుంది.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "కలిసి ఒక శ్వాస తీసుకుందాం",
+  'onboarding.demoSub': "వృత్తాన్ని అనుసరించండి — ముక్కు ద్వారా పీల్చి, నెమ్మదిగా వదలండి.",
+  'onboarding.demoDone': "మీకు ఎలా అనిపిస్తుందో గమనించండి.",
+  'onboarding.demoReady': "సిద్ధంగా ఉండండి…",
+  'onboarding.demoCounter': "శ్వాస {{n}} / {{total}}",
+  'summary.habitTitle': "దీన్ని అలవాటుగా చేసుకోండి",
+  'summary.habitReminderTitle': "రోజువారీ రిమైండర్",
+  'summary.habitReminderSub': "ప్రతిరోజూ శ్వాస తీసుకోవడానికి ఒక సున్నితమైన రిమైండర్",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "సెషన్‌లను మైండ్‌ఫుల్ నిమిషాలుగా సేవ్ చేయండి",
+  'settings.resetOnboarding': "ఆన్‌బోర్డింగ్‌ను రీసెట్ చేయండి",
+  'settings.resetOnboardingConfirm': "ఆన్‌బోర్డింగ్ ఫ్లోను మళ్లీ ప్లే చేయాలా? ఇది మొదటి సెషన్ భద్రతా స్క్రీన్‌ను కూడా మళ్లీ యాక్టివేట్ చేస్తుంది.",
+  'settings.resetOnboardingConfirmCta': "రీసెట్",
+  'settings.developer': "డెవలపర్",
+  'paywall.errorGeneric': "ఏదో తప్పు జరిగింది. దయచేసి మళ్లీ ప్రయత్నించండి.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "సంగీతాన్ని మ్యూట్ చేయండి",
+  'session.musicOff': "సంగీతం ప్లే చేయండి",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "పెంచు",
+  'common.decrease': "తగ్గించు",
 };

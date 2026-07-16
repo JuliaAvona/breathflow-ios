@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'ಕೇವಲ 5 ನಿಮಿಷ ಪ್ರಜ್ಞಾಪೂರ್ವಕ ಉಸಿರಾಟ ಮನಸ್ಥಿತಿ ಬದಲಿಸುತ್ತದೆ.',
   'notifications.tip6': 'ನಿಧಾನ ಉಸಿರಾಟ parasympathetic nervous system ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ.',
   'notifications.tip7': 'ನಿರಂತರ ಅಭ್ಯಾಸ ಕ್ರಮೇಣ ಸ್ಥಿತಿಸ್ಥಾಪಕತ್ವ ನಿರ್ಮಿಸುತ್ತದೆ.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "ಒಟ್ಟಿಗೆ ಒಂದು ಉಸಿರು ತೆಗೆದುಕೊಳ್ಳೋಣ",
+  'onboarding.demoSub': "ವೃತ್ತವನ್ನು ಅನುಸರಿಸಿ — ಮೂಗಿನ ಮೂಲಕ ಉಸಿರಾಡಿ, ನಿಧಾನವಾಗಿ ಬಿಡಿ.",
+  'onboarding.demoDone': "ನಿಮಗೆ ಹೇಗೆ ಅನಿಸುತ್ತಿದೆ ಎಂದು ಗಮನಿಸಿ.",
+  'onboarding.demoReady': "ಸಿದ್ಧರಾಗಿ…",
+  'onboarding.demoCounter': "ಉಸಿರು {{n}} ರಲ್ಲಿ {{total}}",
+  'summary.habitTitle': "ಇದನ್ನು ಅಭ್ಯಾಸವಾಗಿಸಿ",
+  'summary.habitReminderTitle': "ದೈನಂದಿನ ಜ್ಞಾಪನೆ",
+  'summary.habitReminderSub': "ಪ್ರತಿದಿನ ಉಸಿರಾಡಲು ಒಂದು ಮೃದುವಾದ ಜ್ಞಾಪನೆ",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "ಸೆಶನ್‌ಗಳನ್ನು ಮೈಂಡ್‌ಫುಲ್ ನಿಮಿಷಗಳಾಗಿ ಉಳಿಸಿ",
+  'settings.resetOnboarding': "ಆನ್‌ಬೋರ್ಡಿಂಗ್ ಮರುಹೊಂದಿಸಿ",
+  'settings.resetOnboardingConfirm': "ಆನ್‌ಬೋರ್ಡಿಂಗ್ ಹರಿವನ್ನು ಮತ್ತೆ ಪ್ಲೇ ಮಾಡುವುದೇ? ಇದು ಮೊದಲ ಸೆಶನ್‌ನ ಸುರಕ್ಷತಾ ಪರದೆಯನ್ನೂ ಮರುಸಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ.",
+  'settings.resetOnboardingConfirmCta': "ಮರುಹೊಂದಿಸಿ",
+  'settings.developer': "ಡೆವಲಪರ್",
+  'paywall.errorGeneric': "ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "ಸಂಗೀತವನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿ",
+  'session.musicOff': "ಸಂಗೀತವನ್ನು ಪ್ಲೇ ಮಾಡಿ",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "ಹೆಚ್ಚಿಸಿ",
+  'common.decrease': "ಕಡಿಮೆ ಮಾಡಿ",
 };

@@ -89,6 +89,8 @@ export function CalendarHeatmap({
     return { weeks, monthName: name, activeDaysCount: count };
   }, [year, month, activeDays, locale]);
 
+  const todayStr = getToday();
+
   return (
     <View style={styles.container}>
       {/* Month header with navigation */}
@@ -141,7 +143,6 @@ export function CalendarHeatmap({
           {week.map((day, di) => {
             const dateStr = day ? formatDateStr(year, month, day) : '';
             const isActive = day ? activeDays.has(dateStr) : false;
-            const todayStr = getToday();
             const isToday = day !== null && dateStr === todayStr;
             const isSelected = day !== null && dateStr === selectedDate;
 

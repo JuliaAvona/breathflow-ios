@@ -73,8 +73,7 @@ export async function checkSubscriptionStatus(): Promise<boolean> {
 }
 
 function checkProEntitlement(info: CustomerInfo): boolean {
-  if (info.entitlements.active[ENTITLEMENT_ID] !== undefined) return true;
-  return Object.keys(info.entitlements.active).length > 0;
+  return info.entitlements.active[ENTITLEMENT_ID] !== undefined;
 }
 
 export { Purchases, type PurchasesPackage, type PurchasesOffering };

@@ -661,4 +661,29 @@ export default {
   'paywall.row5Pro': 'Все цветовые темы и значки ✓',
   'paywall.anchor': 'Дешевле чашки кофе — а эффект на всю жизнь.',
   'paywall.continueFree': 'Продолжить с бесплатной версией',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Давайте сделаем один вдох вместе",
+  'onboarding.demoSub': "Следите за кругом — вдох через нос, медленный выдох.",
+  'onboarding.demoDone': "Обратите внимание на своё самочувствие.",
+  'onboarding.demoReady': "Приготовьтесь…",
+  'onboarding.demoCounter': "Вдох {{n}} из {{total}}",
+  'summary.habitTitle': "Сделайте это привычкой",
+  'summary.habitReminderTitle': "Ежедневное напоминание",
+  'summary.habitReminderSub': "Мягкое напоминание дышать каждый день",
+  'summary.habitHealthTitle': "Apple Здоровье",
+  'summary.habitHealthSub': "Сохраняйте сессии как минуты осознанности",
+  'settings.resetOnboarding': "Сбросить онбординг",
+  'settings.resetOnboardingConfirm': "Повторить онбординг? Это также заново активирует экран безопасности первой сессии.",
+  'settings.resetOnboardingConfirmCta': "Сбросить",
+  'settings.developer': "Разработчик",
+  'paywall.errorGeneric': "Что-то пошло не так. Пожалуйста, попробуйте снова.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Выключить музыку",
+  'session.musicOff': "Включить музыку",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Увеличить",
+  'common.decrease': "Уменьшить",
 };

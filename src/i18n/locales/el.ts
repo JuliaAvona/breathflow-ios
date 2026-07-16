@@ -655,4 +655,29 @@ export default {
   'notifications.tip5': '\u0397 \u03b1\u03bd\u03b1\u03c0\u03bd\u03bf\u03ae \u03bc\u03b5 5,5 \u03b1\u03bd\u03b1\u03c0\u03bd\u03bf\u03ad\u03c2/\u03bb\u03b5\u03c0\u03c4\u03cc \u03b2\u03b5\u03bb\u03c4\u03b9\u03c3\u03c4\u03bf\u03c0\u03bf\u03b9\u03b5\u03af \u03c4\u03b7 \u03bc\u03b5\u03c4\u03b1\u03b2\u03bb\u03b7\u03c4\u03cc\u03c4\u03b7\u03c4\u03b1 \u03ba\u03b1\u03c1\u03b4\u03b9\u03b1\u03ba\u03bf\u03cd \u03c1\u03c5\u03b8\u03bc\u03bf\u03cd.',
   'notifications.tip6': '\u0391\u03ba\u03cc\u03bc\u03b7 \u03ba\u03b1\u03b9 1 \u03bb\u03b5\u03c0\u03c4\u03cc \u03c3\u03c5\u03bd\u03b5\u03b9\u03b4\u03b7\u03c4\u03ae\u03c2 \u03b1\u03bd\u03b1\u03c0\u03bd\u03bf\u03ae\u03c2 \u03ba\u03ac\u03bd\u03b5\u03b9 \u03c4\u03b7 \u03b4\u03b9\u03b1\u03c6\u03bf\u03c1\u03ac.',
   'notifications.tip7': '\u0397 \u03c0\u03b1\u03c1\u03b1\u03c4\u03b5\u03c4\u03b1\u03bc\u03ad\u03bd\u03b7 \u03b5\u03ba\u03c0\u03bd\u03bf\u03ae \u03bb\u03ad\u03b5\u03b9 \u03c3\u03c4\u03bf \u03c3\u03ce\u03bc\u03b1 \u03c3\u03b1\u03c2 \u03cc\u03c4\u03b9 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b1\u03c3\u03c6\u03b1\u03bb\u03ad\u03c2 \u03bd\u03b1 \u03c7\u03b1\u03bb\u03b1\u03c1\u03ce\u03c3\u03b5\u03b9.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Ας πάρουμε μια ανάσα μαζί",
+  'onboarding.demoSub': "Ακολούθησε τον κύκλο — εισέπνευσε από τη μύτη, εκπνεύσε αργά.",
+  'onboarding.demoDone': "Παρατήρησε πώς νιώθεις.",
+  'onboarding.demoReady': "Ετοιμάσου…",
+  'onboarding.demoCounter': "Αναπνοή {{n}} από {{total}}",
+  'summary.habitTitle': "Κάν' το συνήθεια",
+  'summary.habitReminderTitle': "Καθημερινή υπενθύμιση",
+  'summary.habitReminderSub': "Μια απαλή υπενθύμιση να αναπνέεις κάθε μέρα",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Αποθήκευσε τις συνεδρίες ως Λεπτά Ενσυνειδητότητας",
+  'settings.resetOnboarding': "Επαναφορά εισαγωγικού οδηγού",
+  'settings.resetOnboardingConfirm': "Επανάληψη της εισαγωγικής διαδικασίας; Αυτό επαναφέρει και την οθόνη ασφαλείας της πρώτης συνεδρίας.",
+  'settings.resetOnboardingConfirmCta': "Επαναφορά",
+  'settings.developer': "Προγραμματιστής",
+  'paywall.errorGeneric': "Κάτι πήγε στραβά. Δοκιμάστε ξανά.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Σίγαση μουσικής",
+  'session.musicOff': "Αναπαραγωγή μουσικής",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Αύξηση",
+  'common.decrease': "Μείωση",
 };

@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': '5 ደቂቃ ንቃተ-ህሊና ያለው መተንፈሻ ስሜትን ይቀይራል.',
   'notifications.tip6': 'ዝግ ያለ መተንፈሻ parasympathetic nervous system ያነቃቃል.',
   'notifications.tip7': 'ቀጣይ ልምምድ ከጊዜ ጋር ጥንካሬ ይፈጥራል.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "አንድ ትንፋሽ አብረን እንውሰድ",
+  'onboarding.demoSub': "ክቡን ተከተሉ — በአፍንጫ ወደ ውስጥ ይተንፍሱ ቀስ ብለው ወደ ውጭ ይተንፍሱ።",
+  'onboarding.demoDone': "እንዴት እንደተሰማዎት ልብ ይበሉ።",
+  'onboarding.demoReady': "ይዘጋጁ…",
+  'onboarding.demoCounter': "ትንፋሽ {{n}} ከ{{total}}",
+  'summary.habitTitle': "የዕለት ተግባር ያድርጉት",
+  'summary.habitReminderTitle': "ዕለታዊ ማስታወሻ",
+  'summary.habitReminderSub': "በየቀኑ ለመተንፈስ ገር ማሳሰቢያ",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "ክፍለ ጊዜዎችን እንደ ማይንድፉል ደቂቃዎች ያስቀምጡ",
+  'settings.resetOnboarding': "ኦንቦርዲንግን ዳግም አስጀምር",
+  'settings.resetOnboardingConfirm': "የኦንቦርዲንግ ፍሰቱን እንደገና ማጫወት ይፈልጋሉ? ይህ የመጀመሪያ-ክፍለ ጊዜ የደህንነት ማያ ገጽንም እንደገና ያዘጋጃል።",
+  'settings.resetOnboardingConfirmCta': "ዳግም አስጀምር",
+  'settings.developer': "ገንቢ",
+  'paywall.errorGeneric': "የሆነ ችግር ተፈጥሯል። እባክዎ እንደገና ይሞክሩ።",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "ሙዚቃ ድምጸት አጥፋ",
+  'session.musicOff': "ሙዚቃ አጫውት",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "ጨምር",
+  'common.decrease': "ቀንስ",
 };

@@ -655,4 +655,29 @@ export default {
   'paywall.row5Pro': 'Alle farvetemaer & badges \u2713',
   'paywall.anchor': 'Mindre end en kaffe. Resultater der varer.',
   'paywall.continueFree': 'Forts\u00e6t med gratis version',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Lad os tage et åndedrag sammen",
+  'onboarding.demoSub': "Følg cirklen — indånd gennem næsen, ånd langsomt ud.",
+  'onboarding.demoDone': "Læg mærke til, hvordan du har det.",
+  'onboarding.demoReady': "Gør dig klar…",
+  'onboarding.demoCounter': "Åndedrag {{n}} af {{total}}",
+  'summary.habitTitle': "Gør det til en vane",
+  'summary.habitReminderTitle': "Daglig påmindelse",
+  'summary.habitReminderSub': "Et lille skub til at trække vejret hver dag",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Gem sessioner som Mindfulness-minutter",
+  'settings.resetOnboarding': "Nulstil onboarding",
+  'settings.resetOnboardingConfirm': "Vil du afspille onboarding-forløbet igen? Dette genaktiverer også sikkerhedsskærmen for den første session.",
+  'settings.resetOnboardingConfirmCta': "Nulstil",
+  'settings.developer': "Udvikler",
+  'paywall.errorGeneric': "Der gik noget galt. Prøv venligst igen.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Slå musik fra",
+  'session.musicOff': "Afspil musik",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Forøg",
+  'common.decrease': "Formindsk",
 };

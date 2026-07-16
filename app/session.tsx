@@ -9,6 +9,7 @@ import {
   Alert,
   PanResponder,
   ImageBackground,
+  AccessibilityInfo,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,7 +17,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { useTimerStore, useSettingsStore, useSessionsStore } from '../src/store';
+import { useTimerStore, useSettingsStore, useSessionsStore, useAuthStore } from '../src/store';
 import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
@@ -271,9 +272,12 @@ export default function SessionScreen() {
     }
   }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, soundOn, settingsStore.soundStyle]);
 
-  // Stop background audio + music on unmount
+  // Stop background audio + music on unmount — covers every exit path (Stop
+  // button, back-swipe, backgrounding, natural DONE-triggered navigation),
+  // since this screen always unmounts when the user leaves it one way or another.
   useEffect(() => {
     return () => {
+      releaseAllSessionAudio();
       stopBackgroundAudio();
       stopMusic();
       if (hapticIntervalRef.current) {
@@ -323,7 +327,7 @@ export default function SessionScreen() {
 
     const session: BreathingSession = {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
-      userId: '',
+      userId: useAuthStore.getState().user?.id ?? '',
       date: getToday(),
       startedAt: timerStore.startedAt ?? new Date().toISOString(),
       completedAt: new Date().toISOString(),
@@ -442,6 +446,9 @@ export default function SessionScreen() {
         duration: 300,
         useNativeDriver: true,
       }).start();
+      // The phase change is otherwise purely visual (shape animation + fading
+      // text) — announce it so VoiceOver users get the same cue with eyes closed.
+      AccessibilityInfo.announceForAccessibility(phaseLabel);
     }
   }, [phaseLabel, phaseLabelOpacity]);
 
@@ -562,10 +569,10 @@ export default function SessionScreen() {
               </View>
             ))}
           </View>
-          <TouchableOpacity style={[styles.safetyGateBtn, { backgroundColor: techniqueColor }]} onPress={acceptSafety} activeOpacity={0.85}>
+          <TouchableOpacity style={[styles.safetyGateBtn, { backgroundColor: techniqueColor }]} onPress={acceptSafety} activeOpacity={0.85} accessibilityRole="button">
             <Text style={styles.safetyGateBtnText}>{t('onboarding.understand')}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.safetyGateBack} onPress={() => router.back()} activeOpacity={0.7}>
+          <TouchableOpacity style={styles.safetyGateBack} onPress={() => router.back()} activeOpacity={0.7} accessibilityRole="button">
             <Text style={styles.safetyGateBackText}>{t('onboarding.back')}</Text>
           </TouchableOpacity>
         </View>
@@ -622,6 +629,8 @@ export default function SessionScreen() {
           style={styles.stopBtn}
           onPress={handleStop}
           activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={t('common.close')}
         >
           <Ionicons name="close" size={22} color="#FFFFFF" />
         </TouchableOpacity>
@@ -681,6 +690,7 @@ export default function SessionScreen() {
             style={styles.exhaleButton}
             onPress={() => useTimerStore.getState().endRetention()}
             activeOpacity={0.8}
+            accessibilityRole="button"
           >
             <Text style={styles.exhaleButtonText}>{t('session.exhale')}</Text>
           </TouchableOpacity>
@@ -695,6 +705,8 @@ export default function SessionScreen() {
             style={styles.controlBtnSmall}
             onPress={toggleMusic}
             activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={musicOn ? t('session.musicOn') : t('session.musicOff')}
           >
             <Ionicons name={musicOn ? 'musical-notes' : 'musical-notes-outline'} size={22} color={musicOn ? '#FFFFFF' : 'rgba(255,255,255,0.5)'} />
           </TouchableOpacity>
@@ -706,6 +718,8 @@ export default function SessionScreen() {
             style={styles.controlBtn}
             onPress={() => { useTimerStore.getState().pause(); if (musicOn) pauseMusic(); }}
             activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={t('session.pause')}
           >
             <Ionicons name="pause" size={28} color="#FFFFFF" />
           </TouchableOpacity>
@@ -714,6 +728,8 @@ export default function SessionScreen() {
             style={[styles.controlBtn, styles.controlBtnActive]}
             onPress={() => { useTimerStore.getState().resume(); if (musicOn) resumeMusic(); }}
             activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={t('session.resume')}
           >
             <Ionicons name="play" size={28} color="#FFFFFF" />
           </TouchableOpacity>

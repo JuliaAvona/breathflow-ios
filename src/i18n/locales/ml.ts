@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'ബോധ ശ്വസനത്തിന്റെ 5 മിനിറ്റ് മാത്രം മൂഡ് മാറ്റും.',
   'notifications.tip6': 'സാവധാനം ശ്വസിക്കൽ parasympathetic nervous system സജീവമാക്കുന്നു.',
   'notifications.tip7': 'സ്ഥിരമായ പരിശീലനം കാലക്രമേണ ദൃഢത നിർമ്മിക്കുന്നു.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "നമുക്ക് ഒരുമിച്ച് ഒരു ശ്വാസം എടുക്കാം",
+  'onboarding.demoSub': "വൃത്തം പിന്തുടരുക — മൂക്കിലൂടെ ശ്വസിക്കുക, പതുക്കെ പുറത്തേക്ക് വിടുക.",
+  'onboarding.demoDone': "നിങ്ങൾക്ക് എങ്ങനെ തോന്നുന്നു എന്ന് ശ്രദ്ധിക്കൂ.",
+  'onboarding.demoReady': "തയ്യാറാകൂ…",
+  'onboarding.demoCounter': "ശ്വാസം {{n}} / {{total}}",
+  'summary.habitTitle': "ഇത് ഒരു ശീലമാക്കൂ",
+  'summary.habitReminderTitle': "ദിവസേനയുള്ള ഓർമ്മപ്പെടുത്തൽ",
+  'summary.habitReminderSub': "ദിവസവും ശ്വസിക്കാനുള്ള ഒരു മൃദുവായ ഓർമ്മപ്പെടുത്തൽ",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "സെഷനുകൾ മൈൻഡ്‌ഫുൾ മിനിറ്റുകളായി സേവ് ചെയ്യുക",
+  'settings.resetOnboarding': "ഓൺബോർഡിംഗ് പുനഃസജ്ജമാക്കുക",
+  'settings.resetOnboardingConfirm': "ഓൺബോർഡിംഗ് ഫ്ലോ വീണ്ടും പ്ലേ ചെയ്യണോ? ഇത് ആദ്യ സെഷന്റെ സുരക്ഷാ സ്ക്രീനും വീണ്ടും സജീവമാക്കും.",
+  'settings.resetOnboardingConfirmCta': "പുനഃസജ്ജമാക്കുക",
+  'settings.developer': "ഡെവലപ്പർ",
+  'paywall.errorGeneric': "എന്തോ പിഴവ് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "സംഗീതം മ്യൂട്ട് ചെയ്യുക",
+  'session.musicOff': "സംഗീതം പ്ലേ ചെയ്യുക",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "വർദ്ധിപ്പിക്കുക",
+  'common.decrease': "കുറയ്ക്കുക",
 };

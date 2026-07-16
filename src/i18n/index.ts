@@ -2,116 +2,70 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { getLocales } from 'expo-localization';
 
-import en from './locales/en';
-import ar from './locales/ar';
-import am from './locales/am';
-import bg from './locales/bg';
-import bn from './locales/bn';
-import ca from './locales/ca';
-import cs from './locales/cs';
-import da from './locales/da';
-import de from './locales/de';
-import el from './locales/el';
-import es from './locales/es';
-import es419 from './locales/es_419';
-import et from './locales/et';
-import fa from './locales/fa';
-import fi from './locales/fi';
-import fil from './locales/fil';
-import fr from './locales/fr';
-import gu from './locales/gu';
-import he from './locales/he';
-import hi from './locales/hi';
-import hr from './locales/hr';
-import hu from './locales/hu';
-import id from './locales/id';
-import it from './locales/it';
-import ja from './locales/ja';
-import kn from './locales/kn';
-import ko from './locales/ko';
-import lt from './locales/lt';
-import lv from './locales/lv';
-import ml from './locales/ml';
-import mr from './locales/mr';
-import ms from './locales/ms';
-import nl from './locales/nl';
-import no from './locales/no';
-import pl from './locales/pl';
-import ptBR from './locales/pt_BR';
-import ptPT from './locales/pt_PT';
-import ro from './locales/ro';
-import ru from './locales/ru';
-import sk from './locales/sk';
-import sl from './locales/sl';
-import sr from './locales/sr';
-import sv from './locales/sv';
-import sw from './locales/sw';
-import ta from './locales/ta';
-import te from './locales/te';
-import th from './locales/th';
-import tr from './locales/tr';
-import uk from './locales/uk';
-import vi from './locales/vi';
-import zhCN from './locales/zh_CN';
-import zhTW from './locales/zh_TW';
-
 // Non-English locales still use nested format; cast loosely until migrated
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const resources: Record<string, { translation: any }> = {
-  en: { translation: en },
-  ar: { translation: ar },
-  am: { translation: am },
-  bg: { translation: bg },
-  bn: { translation: bn },
-  ca: { translation: ca },
-  cs: { translation: cs },
-  da: { translation: da },
-  de: { translation: de },
-  el: { translation: el },
-  es: { translation: es },
-  'es-419': { translation: es419 },
-  et: { translation: et },
-  fa: { translation: fa },
-  fi: { translation: fi },
-  fil: { translation: fil },
-  fr: { translation: fr },
-  gu: { translation: gu },
-  he: { translation: he },
-  hi: { translation: hi },
-  hr: { translation: hr },
-  hu: { translation: hu },
-  id: { translation: id },
-  it: { translation: it },
-  ja: { translation: ja },
-  kn: { translation: kn },
-  ko: { translation: ko },
-  lt: { translation: lt },
-  lv: { translation: lv },
-  ml: { translation: ml },
-  mr: { translation: mr },
-  ms: { translation: ms },
-  nl: { translation: nl },
-  no: { translation: no },
-  pl: { translation: pl },
-  'pt-BR': { translation: ptBR },
-  'pt-PT': { translation: ptPT },
-  pt: { translation: ptPT },
-  ro: { translation: ro },
-  ru: { translation: ru },
-  sk: { translation: sk },
-  sl: { translation: sl },
-  sr: { translation: sr },
-  sv: { translation: sv },
-  sw: { translation: sw },
-  ta: { translation: ta },
-  te: { translation: te },
-  th: { translation: th },
-  tr: { translation: tr },
-  uk: { translation: uk },
-  vi: { translation: vi },
-  'zh-CN': { translation: zhCN },
-  'zh-TW': { translation: zhTW },
-  zh: { translation: zhCN },
+type LocaleModule = any;
+
+// Lazy loaders, one per locale file. Metro still bundles every locale into the
+// single app binary (there's no network chunk-loading for a standalone RN app),
+// but wrapping each in a function means the object literal is only constructed
+// when actually called — and since the app has no in-app language switcher
+// (locale is auto-detected once at startup from the OS), only the detected
+// locale + the English fallback are ever built and held in memory, instead of
+// eagerly constructing and retaining all 52 for the life of the app.
+const LOCALE_LOADERS: Record<string, () => LocaleModule> = {
+  en: () => require('./locales/en').default,
+  ar: () => require('./locales/ar').default,
+  am: () => require('./locales/am').default,
+  bg: () => require('./locales/bg').default,
+  bn: () => require('./locales/bn').default,
+  ca: () => require('./locales/ca').default,
+  cs: () => require('./locales/cs').default,
+  da: () => require('./locales/da').default,
+  de: () => require('./locales/de').default,
+  el: () => require('./locales/el').default,
+  es: () => require('./locales/es').default,
+  'es-419': () => require('./locales/es_419').default,
+  et: () => require('./locales/et').default,
+  fa: () => require('./locales/fa').default,
+  fi: () => require('./locales/fi').default,
+  fil: () => require('./locales/fil').default,
+  fr: () => require('./locales/fr').default,
+  gu: () => require('./locales/gu').default,
+  he: () => require('./locales/he').default,
+  hi: () => require('./locales/hi').default,
+  hr: () => require('./locales/hr').default,
+  hu: () => require('./locales/hu').default,
+  id: () => require('./locales/id').default,
+  it: () => require('./locales/it').default,
+  ja: () => require('./locales/ja').default,
+  kn: () => require('./locales/kn').default,
+  ko: () => require('./locales/ko').default,
+  lt: () => require('./locales/lt').default,
+  lv: () => require('./locales/lv').default,
+  ml: () => require('./locales/ml').default,
+  mr: () => require('./locales/mr').default,
+  ms: () => require('./locales/ms').default,
+  nl: () => require('./locales/nl').default,
+  no: () => require('./locales/no').default,
+  pl: () => require('./locales/pl').default,
+  'pt-BR': () => require('./locales/pt_BR').default,
+  'pt-PT': () => require('./locales/pt_PT').default,
+  ro: () => require('./locales/ro').default,
+  ru: () => require('./locales/ru').default,
+  sk: () => require('./locales/sk').default,
+  sl: () => require('./locales/sl').default,
+  sr: () => require('./locales/sr').default,
+  sv: () => require('./locales/sv').default,
+  sw: () => require('./locales/sw').default,
+  ta: () => require('./locales/ta').default,
+  te: () => require('./locales/te').default,
+  th: () => require('./locales/th').default,
+  tr: () => require('./locales/tr').default,
+  uk: () => require('./locales/uk').default,
+  vi: () => require('./locales/vi').default,
+  'zh-CN': () => require('./locales/zh_CN').default,
+  'zh-TW': () => require('./locales/zh_TW').default,
 };
 
 function detectLanguage(): string {
@@ -122,7 +76,7 @@ function detectLanguage(): string {
   const code = locale.languageCode ?? 'en';
 
   // Exact tag match (e.g. pt-BR, es-419)
-  if (tag && tag in resources) return tag;
+  if (tag && tag in LOCALE_LOADERS) return tag;
 
   // Chinese: distinguish Simplified vs Traditional
   if (code === 'zh') {
@@ -147,14 +101,28 @@ function detectLanguage(): string {
   }
 
   // Base language code match
-  if (code in resources) return code;
+  if (code in LOCALE_LOADERS) return code;
 
   return 'en';
 }
 
+const activeLng = detectLanguage();
+
+// Only the detected locale + English fallback are ever loaded.
+const resources: Record<string, { translation: LocaleModule }> = {
+  en: { translation: LOCALE_LOADERS.en() },
+};
+if (activeLng !== 'en') {
+  resources[activeLng] = { translation: LOCALE_LOADERS[activeLng]() };
+}
+// Bare-language aliases (no dedicated file) so a base-code lookup inside
+// i18next still resolves to the right regional variant if it's ever hit.
+if (activeLng === 'pt-PT' || activeLng === 'pt-BR') resources.pt = resources[activeLng];
+if (activeLng === 'zh-CN' || activeLng === 'zh-TW') resources.zh = resources[activeLng];
+
 i18n.use(initReactI18next).init({
   resources,
-  lng: detectLanguage(),
+  lng: activeLng,
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,

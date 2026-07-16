@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': '\u09AE\u09BE\u09A4\u09CD\u09B0 \u09EB \u09AE\u09BF\u09A8\u09BF\u099F \u09B8\u099A\u09C7\u09A4\u09A8 \u09B6\u09CD\u09AC\u09BE\u09B8\u0993 \u09AE\u09C7\u099C\u09BE\u099C \u09AC\u09A6\u09B2\u09C7 \u09A6\u09C7\u09AF\u09BC\u0964',
   'notifications.tip6': '\u09A7\u09C0\u09B0 \u09B6\u09CD\u09AC\u09BE\u09B8 parasympathetic nervous system \u09B8\u0995\u09CD\u09B0\u09BF\u09AF\u09BC \u0995\u09B0\u09C7\u0964',
   'notifications.tip7': '\u09A7\u09BE\u09B0\u09BE\u09AC\u09BE\u09B9\u09BF\u0995 \u0985\u09A8\u09C1\u09B6\u09C0\u09B2\u09A8 \u09B8\u09AE\u09AF\u09BC\u09C7\u09B0 \u09B8\u09BE\u09A5\u09C7 \u09B8\u09CD\u09A5\u09BF\u09A4\u09BF\u09B8\u09CD\u09A5\u09BE\u09AA\u0995\u09A4\u09BE \u09A4\u09C8\u09B0\u09BF \u0995\u09B0\u09C7\u0964',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "চলুন একসাথে একটি শ্বাস নিই",
+  'onboarding.demoSub': "বৃত্তটি অনুসরণ করুন — নাক দিয়ে শ্বাস নিন, ধীরে ধীরে ছাড়ুন।",
+  'onboarding.demoDone': "লক্ষ্য করুন আপনার কেমন লাগছে।",
+  'onboarding.demoReady': "প্রস্তুত হোন…",
+  'onboarding.demoCounter': "শ্বাস {{n}} এর {{total}}",
+  'summary.habitTitle': "এটি অভ্যাসে পরিণত করুন",
+  'summary.habitReminderTitle': "দৈনিক অনুস্মারক",
+  'summary.habitReminderSub': "প্রতিদিন শ্বাস নেওয়ার জন্য একটি মৃদু অনুস্মারক",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "সেশনগুলো মাইন্ডফুল মিনিটস হিসেবে সংরক্ষণ করুন",
+  'settings.resetOnboarding': "অনবোর্ডিং রিসেট করুন",
+  'settings.resetOnboardingConfirm': "অনবোর্ডিং ফ্লো আবার চালাতে চান? এটি প্রথম সেশনের সুরক্ষা স্ক্রিনও পুনরায় সক্রিয় করবে।",
+  'settings.resetOnboardingConfirmCta': "রিসেট",
+  'settings.developer': "ডেভেলপার",
+  'paywall.errorGeneric': "কিছু ভুল হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "সঙ্গীত নিঃশব্দ করুন",
+  'session.musicOff': "সঙ্গীত চালু করুন",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "বাড়ান",
+  'common.decrease': "কমান",
 };

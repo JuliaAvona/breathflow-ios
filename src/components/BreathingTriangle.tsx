@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import type { TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../types';
 
@@ -64,10 +64,10 @@ export function BreathingTriangle({ phase, mode, color, phaseDuration }: Props) 
     }
   }, [phase, mode, phaseDuration, scaleAnim, rotateAnim]);
 
-  const rotate = rotateAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '120deg'],
-  });
+  const rotate = useMemo(
+    () => rotateAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '120deg'] }),
+    [rotateAnim],
+  );
 
   return (
     <Animated.View

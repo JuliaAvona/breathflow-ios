@@ -655,4 +655,29 @@ export default {
   'notifications.tip5': 'Th\u1EDF v\u1EDBi 5,5 h\u01A1i/ph\u00FAt t\u1ED1i \u01B0u h\u00F3a bi\u1EBFn thi\u00EAn nh\u1ECBp tim.',
   'notifications.tip6': 'Ngay c\u1EA3 1 ph\u00FAt th\u1EDF c\u00F3 \u00FD th\u1EE9c c\u0169ng t\u1EA1o ra s\u1EF1 kh\u00E1c bi\u1EC7t.',
   'notifications.tip7': 'Th\u1EDF ra d\u00E0i n\u00F3i v\u1EDBi c\u01A1 th\u1EC3 r\u1EB1ng an to\u00E0n \u0111\u1EC3 th\u01B0 gi\u00E3n.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Hãy cùng nhau hít thở một lần",
+  'onboarding.demoSub': "Theo dõi vòng tròn — hít vào bằng mũi, thở ra thật chậm.",
+  'onboarding.demoDone': "Hãy chú ý cảm giác của bạn.",
+  'onboarding.demoReady': "Chuẩn bị…",
+  'onboarding.demoCounter': "Hơi thở {{n}}/{{total}}",
+  'summary.habitTitle': "Biến nó thành thói quen",
+  'summary.habitReminderTitle': "Nhắc nhở hàng ngày",
+  'summary.habitReminderSub': "Một lời nhắc nhẹ nhàng để thở mỗi ngày",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Lưu các buổi tập dưới dạng Phút Chánh niệm",
+  'settings.resetOnboarding': "Đặt lại hướng dẫn ban đầu",
+  'settings.resetOnboardingConfirm': "Phát lại quy trình giới thiệu? Thao tác này cũng sẽ kích hoạt lại màn hình an toàn của buổi tập đầu tiên.",
+  'settings.resetOnboardingConfirmCta': "Đặt lại",
+  'settings.developer': "Nhà phát triển",
+  'paywall.errorGeneric': "Đã xảy ra sự cố. Vui lòng thử lại.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Tắt tiếng nhạc",
+  'session.musicOff': "Phát nhạc",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Tăng",
+  'common.decrease': "Giảm",
 };

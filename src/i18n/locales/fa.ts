@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'حتی ۵ دقیقه تنفس آگاهانه خلق‌وخو را تغییر می‌دهد.',
   'notifications.tip6': 'تنفس آهسته سیستم عصبی پاراسمپاتیک را فعال می‌کند.',
   'notifications.tip7': 'تمرین مداوم در طول زمان تاب‌آوری ایجاد می‌کند.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "بیایید با هم یک نفس بکشیم",
+  'onboarding.demoSub': "دایره را دنبال کنید — از بینی نفس بکشید، آرام بازدم کنید.",
+  'onboarding.demoDone': "به احساس خود توجه کنید.",
+  'onboarding.demoReady': "آماده شوید…",
+  'onboarding.demoCounter': "نفس {{n}} از {{total}}",
+  'summary.habitTitle': "آن را به یک عادت تبدیل کنید",
+  'summary.habitReminderTitle': "یادآوری روزانه",
+  'summary.habitReminderSub': "یادآوری ملایم برای تنفس هر روز",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "جلسات را به‌عنوان دقایق ذهن‌آگاهی ذخیره کنید",
+  'settings.resetOnboarding': "بازنشانی آموزش اولیه",
+  'settings.resetOnboardingConfirm': "آیا فرآیند آموزش اولیه دوباره اجرا شود؟ این کار صفحه ایمنی جلسه اول را نیز دوباره فعال می‌کند.",
+  'settings.resetOnboardingConfirmCta': "بازنشانی",
+  'settings.developer': "توسعه‌دهنده",
+  'paywall.errorGeneric': "مشکلی پیش آمد. لطفاً دوباره امتحان کنید.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "قطع صدای موسیقی",
+  'session.musicOff': "پخش موسیقی",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "افزایش",
+  'common.decrease': "کاهش",
 };

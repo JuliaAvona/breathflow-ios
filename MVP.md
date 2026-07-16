@@ -105,7 +105,7 @@ interface BreathPhase {
 
 ### The 10 Techniques
 
-#### FREE (5 techniques)
+#### FREE (4 techniques)
 
 **1. Box Breathing** — Focus & Calm
 ```
@@ -125,7 +125,7 @@ Developed by: Dr. Andrew Weil
 Best for: Falling asleep, panic attacks
 ```
 
-**3. Physiological Sigh** — Instant Stress Relief
+**3. Physiological Sigh** — Instant Stress Relief (Pro — shipped as a Pro technique, not free)
 ```
 Category: calm | Shape: wave | Color: #7BC4A8 (green)
 Pattern: 2s inhale nose → 1s second inhale (top-up) → 6s slow exhale mouth
@@ -151,7 +151,7 @@ Cycles: 8 (~1.5 min) | Adjustable: yes (3-6s)
 Best for: Beginners, gentle introduction to breathwork
 ```
 
-#### PRO (5 techniques)
+#### PRO (6 techniques, including #3 above)
 
 **6. Power Breathing** — Energy & Cold Tolerance
 ```
@@ -525,7 +525,7 @@ All tables have RLS: `auth.uid() = user_id`.
 ## Monetization
 
 ### Free (generous — no ads)
-- 5 techniques (Box, 4-7-8, Physiological Sigh, Coherence, Triangle)
+- 4 techniques (Box, 4-7-8, Coherence, Triangle)
 - Unlimited sessions & cycles
 - 7 days history
 - Streaks
@@ -533,20 +533,17 @@ All tables have RLS: `auth.uid() = user_id`.
 - 1 color theme
 - Apple Health sync
 
-### Pro (one-time $3.99)
-- All 10 techniques
+### Pro — "BreathFlow Pro" entitlement (RevenueCat)
+Shipped as: **Weekly** ($2.99, 3-day trial) / **Annual** ($14.99, 7-day trial, default) /
+**Lifetime** ($19.99 one-time). See `CLAUDE.md` → Monetization for the current source of truth
+— pricing lives in App Store Connect / RevenueCat, not here.
+- All 10 techniques (including Physiological Sigh, #3 above)
 - Custom technique builder
 - Full history + progress charts
 - All color themes
 - All badges
 - Mood tracking
 - Export data
-
-**Why one-time, not subscription:**
-- WHM's #1 complaint is forced subscription
-- iBreathe uses ads (annoying) — we use neither
-- "No subscription, no ads" is a powerful marketing message
-- Lower barrier → more installs → better reviews → better ASO ranking
 
 ---
 

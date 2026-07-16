@@ -655,4 +655,29 @@ export default {
   'paywall.row5Pro': '全部顏色主題與徽章 ✓',
   'paywall.anchor': '不到一杯咖啡的價格，持久的效果。',
   'paywall.continueFree': '繼續使用免費版',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "讓我們一起做一次呼吸",
+  'onboarding.demoSub': "跟隨圓圈——用鼻子吸氣，緩緩吐氣。",
+  'onboarding.demoDone': "留意一下你現在的感覺。",
+  'onboarding.demoReady': "準備好…",
+  'onboarding.demoCounter': "第 {{n}} / {{total}} 次呼吸",
+  'summary.habitTitle': "讓它成為一種習慣",
+  'summary.habitReminderTitle': "每日提醒",
+  'summary.habitReminderSub': "每天溫柔地提醒你呼吸",
+  'summary.habitHealthTitle': "Apple 健康",
+  'summary.habitHealthSub': "將練習記錄為正念分鐘",
+  'settings.resetOnboarding': "重置引導流程",
+  'settings.resetOnboardingConfirm': "重新播放引導流程？這也會重新啟用首次練習的安全提示畫面。",
+  'settings.resetOnboardingConfirmCta': "重置",
+  'settings.developer': "開發者",
+  'paywall.errorGeneric': "發生錯誤，請再試一次。",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "靜音音樂",
+  'session.musicOff': "播放音樂",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "增加",
+  'common.decrease': "減少",
 };

@@ -657,4 +657,29 @@ export default {
   'notifications.tip5': 'Dychanie 5,5 nadychmi/min optimalizuje variabilitu srdcovej frekvencie.',
   'notifications.tip6': 'Dokonca aj 1 minuta vedomeho dychania robi rozdiel.',
   'notifications.tip7': 'Predlzene vydychy hovoria vasmu telu, ze je bezpecne relaxovat.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Poďme sa spolu nadýchnuť",
+  'onboarding.demoSub': "Sleduj kruh — nádych nosom, pomalý výdych.",
+  'onboarding.demoDone': "Všimni si, ako sa cítiš.",
+  'onboarding.demoReady': "Priprav sa…",
+  'onboarding.demoCounter': "Nádych {{n}} z {{total}}",
+  'summary.habitTitle': "Urob si z toho zvyk",
+  'summary.habitReminderTitle': "Denná pripomienka",
+  'summary.habitReminderSub': "Jemná pripomienka dýchať každý deň",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Ukladaj relácie ako Minúty všímavosti",
+  'settings.resetOnboarding': "Resetovať úvod",
+  'settings.resetOnboardingConfirm': "Znova prehrať úvodný proces? Týmto sa znova aktivuje aj bezpečnostná obrazovka prvej relácie.",
+  'settings.resetOnboardingConfirmCta': "Resetovať",
+  'settings.developer': "Vývojár",
+  'paywall.errorGeneric': "Niečo sa pokazilo. Skúste to znova.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Stlmiť hudbu",
+  'session.musicOff': "Prehrať hudbu",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Zvýšiť",
+  'common.decrease': "Znížiť",
 };

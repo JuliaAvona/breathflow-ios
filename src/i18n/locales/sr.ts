@@ -657,4 +657,29 @@ export default {
   'notifications.tip5': '\u0414\u0438\u0441\u0430\u045A\u0435 \u0441\u0430 5,5 \u0443\u0434\u0438\u0441\u0430\u0458\u0430/\u043C\u0438\u043D \u043E\u043F\u0442\u0438\u043C\u0438\u0437\u0443\u0458\u0435 \u0432\u0430\u0440\u0438\u0458\u0430\u0431\u0438\u043B\u043D\u043E\u0441\u0442 \u0441\u0440\u0447\u0430\u043D\u043E\u0433 \u0440\u0438\u0442\u043C\u0430.',
   'notifications.tip6': '\u0427\u0430\u043A \u0438 1 \u043C\u0438\u043D\u0443\u0442\u0430 \u0441\u0432\u0435\u0441\u043D\u043E\u0433 \u0434\u0438\u0441\u0430\u045A\u0430 \u043F\u0440\u0430\u0432\u0438 \u0440\u0430\u0437\u043B\u0438\u043A\u0443.',
   'notifications.tip7': '\u041F\u0440\u043E\u0434\u0443\u0436\u0435\u043D\u0438 \u0438\u0437\u0434\u0438\u0441\u0430\u0458\u0438 \u0433\u043E\u0432\u043E\u0440\u0435 \u0442\u0435\u043B\u0443 \u0434\u0430 \u0458\u0435 \u0431\u0435\u0437\u0431\u0435\u0434\u043D\u043E \u043E\u043F\u0443\u0441\u0442\u0438\u0442\u0438 \u0441\u0435.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Хајде да заједно удахнемо једном",
+  'onboarding.demoSub': "Пратите круг — удахните на нос, полако издахните.",
+  'onboarding.demoDone': "Приметите како се осећате.",
+  'onboarding.demoReady': "Спреми се…",
+  'onboarding.demoCounter': "Удах {{n}} од {{total}}",
+  'summary.habitTitle': "Претворите то у навику",
+  'summary.habitReminderTitle': "Дневни подсетник",
+  'summary.habitReminderSub': "Благи подсетник да дишете сваки дан",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Сачувајте сесије као минуте свесности",
+  'settings.resetOnboarding': "Ресетуј уводни водич",
+  'settings.resetOnboardingConfirm': "Поново пустити уводни ток? Ово такође поново активира безбедносни екран прве сесије.",
+  'settings.resetOnboardingConfirmCta': "Ресетуј",
+  'settings.developer': "Развојни програмер",
+  'paywall.errorGeneric': "Нешто није у реду. Покушајте поново.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Утишај музику",
+  'session.musicOff': "Пусти музику",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Повећај",
+  'common.decrease': "Смањи",
 };

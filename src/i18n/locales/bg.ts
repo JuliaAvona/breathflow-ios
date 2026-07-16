@@ -657,4 +657,29 @@ export default {
   'paywall.row5Pro': '\u0412\u0441\u0438\u0447\u043A\u0438 \u0446\u0432\u0435\u0442\u043E\u0432\u0438 \u0442\u0435\u043C\u0438 \u0438 \u0437\u043D\u0430\u0447\u043A\u0438 \u2713',
   'paywall.anchor': '\u041F\u043E-\u043C\u0430\u043B\u043A\u043E \u043E\u0442 \u0435\u0434\u043D\u043E \u043A\u0430\u0444\u0435. \u0422\u0440\u0430\u0439\u043D\u0438 \u0440\u0435\u0437\u0443\u043B\u0442\u0430\u0442\u0438.',
   'paywall.continueFree': '\u041F\u0440\u043E\u0434\u044A\u043B\u0436\u0438 \u0441 \u0431\u0435\u0437\u043F\u043B\u0430\u0442\u043D\u0430\u0442\u0430 \u0432\u0435\u0440\u0441\u0438\u044F',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Нека си поемем един дъх заедно",
+  'onboarding.demoSub': "Следвай кръга — вдишай през носа, издишай бавно.",
+  'onboarding.demoDone': "Забележи как се чувстваш.",
+  'onboarding.demoReady': "Приготви се…",
+  'onboarding.demoCounter': "Дъх {{n}} от {{total}}",
+  'summary.habitTitle': "Превърни го в навик",
+  'summary.habitReminderTitle': "Ежедневно напомняне",
+  'summary.habitReminderSub': "Леко напомняне да дишаш всеки ден",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Запази сесиите като Минути на осъзнатост",
+  'settings.resetOnboarding': "Нулиране на въведението",
+  'settings.resetOnboardingConfirm': "Да пуснем ли отново въведението? Това също връща екрана за безопасност на първата сесия.",
+  'settings.resetOnboardingConfirmCta': "Нулиране",
+  'settings.developer': "Разработчик",
+  'paywall.errorGeneric': "Нещо се обърка. Моля, опитайте отново.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Заглуши музиката",
+  'session.musicOff': "Пусни музика",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Увеличи",
+  'common.decrease': "Намали",
 };

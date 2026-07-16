@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useThemeColors } from '../hooks/useColorScheme';
 import { useHaptics } from '../hooks/useHaptics';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS } from '../constants';
 import { Badge } from '../types';
 import { ConfettiOverlay } from './ConfettiOverlay';
@@ -30,6 +31,7 @@ export function BadgeUnlockModal({ badge, visible, onClose }: BadgeUnlockModalPr
   const { t } = useTranslation();
   const theme = useThemeColors();
   const { success } = useHaptics();
+  const reduceMotion = useReducedMotion();
 
   const overlayFade = useRef(new Animated.Value(0)).current;
   const badgeScale = useRef(new Animated.Value(0)).current;
@@ -88,7 +90,13 @@ export function BadgeUnlockModal({ badge, visible, onClose }: BadgeUnlockModalPr
         ]),
       ]).start();
 
-      // Glow pulse loop
+      // Glow pulse loop — purely decorative, so skip it for Reduce Motion users
+      // and hold the ring at a fixed, still-visible opacity instead.
+      if (reduceMotion) {
+        glowPulse.setValue(0.6);
+        return;
+      }
+
       const pulseLoop = Animated.loop(
         Animated.sequence([
           Animated.timing(glowPulse, {
@@ -107,7 +115,7 @@ export function BadgeUnlockModal({ badge, visible, onClose }: BadgeUnlockModalPr
 
       return () => pulseLoop.stop();
     }
-  }, [visible, badge]);
+  }, [visible, badge, reduceMotion]);
 
   const handleClose = () => {
     Animated.parallel([
@@ -133,6 +141,7 @@ export function BadgeUnlockModal({ badge, visible, onClose }: BadgeUnlockModalPr
     >
       <Pressable style={styles.pressableOverlay} onPress={handleClose}>
         <Animated.View
+          accessibilityViewIsModal
           style={[styles.overlay, { opacity: overlayFade }]}
         >
           {/* Confetti */}

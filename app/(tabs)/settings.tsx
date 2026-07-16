@@ -236,7 +236,7 @@ export default function SettingsScreen() {
       if (!granted) return;
       settings.setSetting('reminderEnabled', true);
       const [h, m] = settings.reminderTime.split(':').map(Number);
-      await scheduleBreatheReminder(h, m);
+      await scheduleBreatheReminder(h, m, settings.reminderDays);
     } else {
       settings.setSetting('reminderEnabled', false);
       // Fall back to default 10:00 AM reminder
@@ -244,13 +244,18 @@ export default function SettingsScreen() {
     }
   };
 
-  const toggleReminderDay = (day: number) => {
+  const toggleReminderDay = async (day: number) => {
     const current = settings.reminderDays;
     const updated = current.includes(day)
       ? current.filter((d) => d !== day)
       : [...current, day].sort();
     if (updated.length === 0) return; // must have at least 1 day
     settings.setSetting('reminderDays', updated);
+    if (settings.reminderEnabled) {
+      const { scheduleBreatheReminder } = await import('../../src/utils/notifications');
+      const [h, m] = settings.reminderTime.split(':').map(Number);
+      await scheduleBreatheReminder(h, m, updated);
+    }
   };
 
   const handleRestorePurchases = async () => {
@@ -694,7 +699,7 @@ export default function SettingsScreen() {
           settings.setSetting('reminderTime', time);
           if (settings.reminderEnabled) {
             const { scheduleBreatheReminder } = await import('../../src/utils/notifications');
-            await scheduleBreatheReminder(h, m);
+            await scheduleBreatheReminder(h, m, settings.reminderDays);
           }
         }}
         onClose={() => setActivePicker(null)}

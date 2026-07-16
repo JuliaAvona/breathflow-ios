@@ -655,4 +655,29 @@ export default {
   'notifications.tip5': 'Hengitt\u00e4minen 5,5 hengityksell\u00e4/min optimoi sy\u00e4men sykevaihtelun.',
   'notifications.tip6': 'Jopa 1 minuutti tietoista hengityst\u00e4 tekee eron.',
   'notifications.tip7': 'Pidennetty uloshengitys kertoo kehollesi, ett\u00e4 on turvallista rentoutua.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Otetaan yhdessä yksi hengitys",
+  'onboarding.demoSub': "Seuraa ympyrää — hengitä sisään nenän kautta, hengitä hitaasti ulos.",
+  'onboarding.demoDone': "Huomaa, miltä sinusta tuntuu.",
+  'onboarding.demoReady': "Valmistaudu…",
+  'onboarding.demoCounter': "Hengitys {{n}}/{{total}}",
+  'summary.habitTitle': "Tee siitä tapa",
+  'summary.habitReminderTitle': "Päivittäinen muistutus",
+  'summary.habitReminderSub': "Pehmeä muistutus hengittää joka päivä",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Tallenna istunnot Mindfulness-minuutteina",
+  'settings.resetOnboarding': "Nollaa käyttöönotto",
+  'settings.resetOnboardingConfirm': "Toistetaanko käyttöönottoprosessi? Tämä aktivoi myös ensimmäisen istunnon turvallisuusnäytön uudelleen.",
+  'settings.resetOnboardingConfirmCta': "Nollaa",
+  'settings.developer': "Kehittäjä",
+  'paywall.errorGeneric': "Jokin meni pieleen. Yritä uudelleen.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Mykistä musiikki",
+  'session.musicOff': "Toista musiikkia",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Lisää",
+  'common.decrease': "Vähennä",
 };

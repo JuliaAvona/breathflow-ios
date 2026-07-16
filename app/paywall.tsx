@@ -100,9 +100,10 @@ export default function PaywallScreen() {
           router.canGoBack() ? router.back() : router.replace('/(tabs)');
         }
       }
-    } catch (e: any) {
-      if (e.userCancelled) return;
-      Alert.alert(t('paywall.errorTitle'), e.message);
+    } catch (e: unknown) {
+      const err = e as { userCancelled?: boolean; message?: string } | null | undefined;
+      if (err?.userCancelled) return;
+      Alert.alert(t('paywall.errorTitle'), err?.message || t('paywall.errorGeneric', { defaultValue: 'Something went wrong. Please try again.' }));
     } finally {
       setLoading(false);
     }
@@ -123,8 +124,9 @@ export default function PaywallScreen() {
       } else {
         Alert.alert(t('paywall.restoreTitle'), t('paywall.restoreNoPurchases'));
       }
-    } catch (e: any) {
-      Alert.alert(t('paywall.errorTitle'), e.message);
+    } catch (e: unknown) {
+      const err = e as { message?: string } | null | undefined;
+      Alert.alert(t('paywall.errorTitle'), err?.message || t('paywall.errorGeneric', { defaultValue: 'Something went wrong. Please try again.' }));
     } finally {
       setLoading(false);
     }

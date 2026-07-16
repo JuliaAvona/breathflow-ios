@@ -655,4 +655,29 @@ export default {
   'notifications.tip5': 'Pusting på 5,5 pust/min optimaliserer hjertefrekvensvariabilitet.',
   'notifications.tip6': 'Selv 1 minutt med bevisst pust gjør en forskjell.',
   'notifications.tip7': 'Forlenget utpust forteller kroppen din at det er trygt å slappe av.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "La oss ta ett pust sammen",
+  'onboarding.demoSub': "Følg sirkelen — pust inn gjennom nesen, pust sakte ut.",
+  'onboarding.demoDone': "Legg merke til hvordan du har det.",
+  'onboarding.demoReady': "Gjør deg klar…",
+  'onboarding.demoCounter': "Pust {{n}} av {{total}}",
+  'summary.habitTitle': "Gjør det til en vane",
+  'summary.habitReminderTitle': "Daglig påminnelse",
+  'summary.habitReminderSub': "Et vennlig dytt til å puste hver dag",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Lagre økter som Mindfulness-minutter",
+  'settings.resetOnboarding': "Tilbakestill onboarding",
+  'settings.resetOnboardingConfirm': "Spille av onboarding-flyten på nytt? Dette aktiverer også sikkerhetsskjermen for den første økten på nytt.",
+  'settings.resetOnboardingConfirmCta': "Tilbakestill",
+  'settings.developer': "Utvikler",
+  'paywall.errorGeneric': "Noe gikk galt. Vennligst prøv igjen.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Demp musikk",
+  'session.musicOff': "Spill av musikk",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Øk",
+  'common.decrease': "Reduser",
 };

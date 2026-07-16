@@ -662,4 +662,29 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Let's take one breath together",
+  'onboarding.demoSub': "Follow the circle — in through the nose, slowly out.",
+  'onboarding.demoDone': "Notice how you feel.",
+  'onboarding.demoReady': "Get ready…",
+  'onboarding.demoCounter': "Breath {{n}} of {{total}}",
+  'summary.habitTitle': "Make it a habit",
+  'summary.habitReminderTitle': "Daily reminder",
+  'summary.habitReminderSub': "A gentle nudge to breathe each day",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Save sessions as Mindful Minutes",
+  'settings.resetOnboarding': "Reset Onboarding",
+  'settings.resetOnboardingConfirm': "Replay the onboarding flow? This also re-arms the first-session safety screen.",
+  'settings.resetOnboardingConfirmCta': "Reset",
+  'settings.developer': "Developer",
+  'paywall.errorGeneric': "Something went wrong. Please try again.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Mute music",
+  'session.musicOff': "Play music",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Increase",
+  'common.decrease': "Decrease",
 };

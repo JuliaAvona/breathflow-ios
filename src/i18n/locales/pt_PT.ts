@@ -655,4 +655,29 @@ export default {
   'notifications.tip5': 'Respirar a 5,5 respiracoes/min otimiza a variabilidade da frequencia cardiaca.',
   'notifications.tip6': 'Mesmo 1 minuto de respiracao consciente faz a diferenca.',
   'notifications.tip7': 'Expiracoes prolongadas dizem ao seu corpo que e seguro relaxar.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Vamos respirar juntos uma vez",
+  'onboarding.demoSub': "Siga o círculo: inspire pelo nariz, expire devagar.",
+  'onboarding.demoDone': "Repare em como se sente.",
+  'onboarding.demoReady': "Prepare-se…",
+  'onboarding.demoCounter': "Respiração {{n}} de {{total}}",
+  'summary.habitTitle': "Transforme isso num hábito",
+  'summary.habitReminderTitle': "Lembrete diário",
+  'summary.habitReminderSub': "Um lembrete gentil para respirar todos os dias",
+  'summary.habitHealthTitle': "Apple Saúde",
+  'summary.habitHealthSub': "Guarde as sessões como Minutos de Atenção Plena",
+  'settings.resetOnboarding': "Reiniciar integração",
+  'settings.resetOnboardingConfirm': "Reproduzir novamente o fluxo de integração? Isto também reativa o ecrã de segurança da primeira sessão.",
+  'settings.resetOnboardingConfirmCta': "Reiniciar",
+  'settings.developer': "Developer",
+  'paywall.errorGeneric': "Algo correu mal. Tente novamente.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Silenciar música",
+  'session.musicOff': "Reproduzir música",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Aumentar",
+  'common.decrease': "Diminuir",
 };

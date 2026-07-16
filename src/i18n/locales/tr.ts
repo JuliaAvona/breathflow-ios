@@ -655,4 +655,29 @@ export default {
   'paywall.row5Pro': 'Tüm renk temaları ve rozetler ✓',
   'paywall.anchor': 'Bir kahveden az. Kalıcı sonuçlar.',
   'paywall.continueFree': 'Ücretsiz sürümle devam et',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Hadi birlikte bir nefes alalım",
+  'onboarding.demoSub': "Çemberi takip edin — burundan nefes alın, yavaşça verin.",
+  'onboarding.demoDone': "Kendini nasıl hissettiğine dikkat et.",
+  'onboarding.demoReady': "Hazırlan…",
+  'onboarding.demoCounter': "Nefes {{n}}/{{total}}",
+  'summary.habitTitle': "Bunu bir alışkanlık haline getir",
+  'summary.habitReminderTitle': "Günlük hatırlatma",
+  'summary.habitReminderSub': "Her gün nefes almak için nazik bir hatırlatma",
+  'summary.habitHealthTitle': "Apple Sağlık",
+  'summary.habitHealthSub': "Seansları Farkındalık Dakikaları olarak kaydet",
+  'settings.resetOnboarding': "Tanıtımı Sıfırla",
+  'settings.resetOnboardingConfirm': "Tanıtım akışı yeniden oynatılsın mı? Bu, ilk oturum güvenlik ekranını da yeniden etkinleştirir.",
+  'settings.resetOnboardingConfirmCta': "Sıfırla",
+  'settings.developer': "Geliştirici",
+  'paywall.errorGeneric': "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Müziği sessize al",
+  'session.musicOff': "Müziği çal",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Artır",
+  'common.decrease': "Azalt",
 };

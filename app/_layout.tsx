@@ -105,10 +105,10 @@ export default function RootLayout() {
       scheduleWeeklySummary(stats.totalSessions, stats.totalMinutes);
 
       // Default daily reminder at 10:00 if user hasn't set a custom one
-      const { reminderEnabled, reminderTime } = useSettingsStore.getState();
+      const { reminderEnabled, reminderTime, reminderDays } = useSettingsStore.getState();
       if (reminderEnabled) {
         const [h, m] = reminderTime.split(':').map(Number);
-        scheduleBreatheReminder(h, m);
+        scheduleBreatheReminder(h, m, reminderDays);
       } else {
         scheduleBreatheReminder(10, 0);
       }

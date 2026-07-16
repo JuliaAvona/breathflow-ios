@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': '\u092b\u0915\u094d\u0924 5 \u092e\u093f\u0928\u093f\u091f\u0947 \u0938\u091c\u0917 \u0936\u094d\u0935\u093e\u0938 \u0918\u0947\u0923\u0947 \u092e\u0942\u0921 \u092c\u0926\u0932\u0924\u0947.',
   'notifications.tip6': '\u0939\u0933\u0942 \u0936\u094d\u0935\u093e\u0938 parasympathetic nervous system \u0938\u0915\u094d\u0930\u093f\u092f \u0915\u0930\u0924\u094b.',
   'notifications.tip7': '\u0938\u0941\u0938\u0902\u0917\u0924 \u0938\u0930\u093e\u0935 \u0915\u093e\u0932\u093e\u0902\u0924\u0930\u093e\u0928\u0947 \u0932\u0935\u091a\u093f\u0915\u0924\u093e \u0928\u093f\u0930\u094d\u092e\u093e\u0923 \u0915\u0930\u0924\u094b.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "चला एकत्र एक श्वास घेऊया",
+  'onboarding.demoSub': "वर्तुळाचे अनुसरण करा — नाकाने श्वास घ्या, हळूहळू सोडा.",
+  'onboarding.demoDone': "तुम्हाला कसे वाटते ते लक्षात घ्या.",
+  'onboarding.demoReady': "तयार व्हा…",
+  'onboarding.demoCounter': "श्वास {{n}} पैकी {{total}}",
+  'summary.habitTitle': "याची सवय करा",
+  'summary.habitReminderTitle': "दैनिक स्मरणपत्र",
+  'summary.habitReminderSub': "दररोज श्वास घेण्यासाठी एक सौम्य आठवण",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "सत्रे माइंडफुल मिनिट्स म्हणून जतन करा",
+  'settings.resetOnboarding': "ऑनबोर्डिंग रीसेट करा",
+  'settings.resetOnboardingConfirm': "ऑनबोर्डिंग प्रवाह पुन्हा प्ले करायचा? यामुळे पहिल्या सत्राची सुरक्षा स्क्रीन देखील पुन्हा सक्रिय होईल.",
+  'settings.resetOnboardingConfirmCta': "रीसेट करा",
+  'settings.developer': "डेव्हलपर",
+  'paywall.errorGeneric': "काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "संगीत म्यूट करा",
+  'session.musicOff': "संगीत प्ले करा",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "वाढवा",
+  'common.decrease': "कमी करा",
 };

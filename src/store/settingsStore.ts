@@ -32,6 +32,10 @@ const DEFAULT_SETTINGS: UserSettings = {
 interface SettingsStore extends UserSettings {
   _hydrated: boolean;
 
+  // Epoch ms of the last local settings change — used by syncService to decide
+  // whether a synced row is stale (last-write-wins), local-only, not pushed.
+  settingsUpdatedAt: number;
+
   // Generic setter for any setting
   setSetting: <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => void;
 
@@ -69,61 +73,53 @@ function extractSettings(state: SettingsStore): UserSettings {
   };
 }
 
-/** Persist current settings to AsyncStorage. */
+/** Persist current settings (+ local change timestamp) to AsyncStorage. */
 function persist(state: SettingsStore): void {
-  const data = extractSettings(state);
+  const data = { ...extractSettings(state), settingsUpdatedAt: state.settingsUpdatedAt };
   AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-export const useSettingsStore = create<SettingsStore>()((set, get) => ({
-  ...DEFAULT_SETTINGS,
-  _hydrated: false,
+export const useSettingsStore = create<SettingsStore>()((set, get) => {
+  /** Apply a partial settings change, stamp it, persist, and push to the cloud. */
+  const applyAndSync = (partial: Partial<UserSettings>) => {
+    set({ ...partial, settingsUpdatedAt: Date.now() } as Partial<SettingsStore>);
+    persist(get());
+    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
+  };
 
-  hydrate: async () => {
-    try {
-      const json = await AsyncStorage.getItem(STORAGE_KEY);
-      if (json) {
-        const stored = JSON.parse(json) as Partial<UserSettings>;
-        set({ ...DEFAULT_SETTINGS, ...stored, _hydrated: true });
-      } else {
+  return {
+    ...DEFAULT_SETTINGS,
+    settingsUpdatedAt: 0,
+    _hydrated: false,
+
+    hydrate: async () => {
+      try {
+        const json = await AsyncStorage.getItem(STORAGE_KEY);
+        if (json) {
+          const stored = JSON.parse(json) as Partial<UserSettings> & { settingsUpdatedAt?: number };
+          set({ ...DEFAULT_SETTINGS, ...stored, _hydrated: true });
+        } else {
+          set({ _hydrated: true });
+        }
+      } catch {
         set({ _hydrated: true });
       }
-    } catch {
-      set({ _hydrated: true });
-    }
-  },
+    },
 
-  setSetting: (key, value) => {
-    set({ [key]: value } as Partial<SettingsStore>);
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
+    setSetting: (key, value) => applyAndSync({ [key]: value } as Partial<UserSettings>),
 
-  grantPro: () => {
-    set({ isPro: true });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
+    grantPro: () => applyAndSync({ isPro: true }),
 
-  revokePro: () => {
-    set({ isPro: false });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
+    revokePro: () => applyAndSync({ isPro: false }),
 
-  setTechniqueOverride: (techniqueId, overrides) => {
-    const current = get().techniqueOverrides;
-    set({
-      techniqueOverrides: { ...current, [techniqueId]: overrides },
-    });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
+    setTechniqueOverride: (techniqueId, overrides) => {
+      const current = get().techniqueOverrides;
+      applyAndSync({ techniqueOverrides: { ...current, [techniqueId]: overrides } });
+    },
 
-  clearTechniqueOverride: (techniqueId) => {
-    const { [techniqueId]: _, ...rest } = get().techniqueOverrides;
-    set({ techniqueOverrides: rest });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
-}));
+    clearTechniqueOverride: (techniqueId) => {
+      const { [techniqueId]: _, ...rest } = get().techniqueOverrides;
+      applyAndSync({ techniqueOverrides: rest });
+    },
+  };
+});

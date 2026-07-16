@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'Kahit 5 minuto lamang ng maingat na paghinga ay nagbabago ng mood.',
   'notifications.tip6': 'Ang mabagal na paghinga ay nag-a-activate ng parasympathetic nervous system.',
   'notifications.tip7': 'Ang konsistenteng pagsasanay ay nagtatayo ng katatagan sa paglipas ng panahon.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Huminga tayo nang sabay",
+  'onboarding.demoSub': "Sundin ang bilog — huminga sa ilong, dahan-dahang buga.",
+  'onboarding.demoDone': "Pansinin mo kung ano ang nararamdaman mo.",
+  'onboarding.demoReady': "Maghanda…",
+  'onboarding.demoCounter': "Hininga {{n}} ng {{total}}",
+  'summary.habitTitle': "Gawin itong ugali",
+  'summary.habitReminderTitle': "Araw-araw na paalala",
+  'summary.habitReminderSub': "Isang magandang paalala na huminga araw-araw",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "I-save ang mga sesyon bilang Mindful Minutes",
+  'settings.resetOnboarding': "I-reset ang Onboarding",
+  'settings.resetOnboardingConfirm': "Ulitin ang onboarding flow? Ire-reactivate din nito ang safety screen ng unang sesyon.",
+  'settings.resetOnboardingConfirmCta': "I-reset",
+  'settings.developer': "Developer",
+  'paywall.errorGeneric': "May naganap na problema. Pakisubukang muli.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "I-mute ang musika",
+  'session.musicOff': "I-play ang musika",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Dagdagan",
+  'common.decrease': "Bawasan",
 };

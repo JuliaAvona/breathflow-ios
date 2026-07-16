@@ -657,4 +657,29 @@ export default {
   'paywall.row5Pro': 'Všechna barevná témata & odznaky ✓',
   'paywall.anchor': 'Méně než káva. Výsledky, které vydrží.',
   'paywall.continueFree': 'Pokračovat s bezplatnou verzí',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Pojďme se společně nadechnout",
+  'onboarding.demoSub': "Sleduj kruh — nádech nosem, pomalý výdech.",
+  'onboarding.demoDone': "Všimni si, jak se cítíš.",
+  'onboarding.demoReady': "Připrav se…",
+  'onboarding.demoCounter': "Nádech {{n}} z {{total}}",
+  'summary.habitTitle': "Udělej si z toho zvyk",
+  'summary.habitReminderTitle': "Denní připomenutí",
+  'summary.habitReminderSub': "Jemné připomenutí, abys každý den dýchal/a",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Ukládej relace jako Minuty všímavosti",
+  'settings.resetOnboarding': "Resetovat úvod",
+  'settings.resetOnboardingConfirm': "Přehrát znovu úvodní proces? Tím se také znovu aktivuje bezpečnostní obrazovka první relace.",
+  'settings.resetOnboardingConfirmCta': "Resetovat",
+  'settings.developer': "Vývojář",
+  'paywall.errorGeneric': "Něco se pokazilo. Zkuste to prosím znovu.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Ztlumit hudbu",
+  'session.musicOff': "Přehrát hudbu",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Zvýšit",
+  'common.decrease': "Snížit",
 };

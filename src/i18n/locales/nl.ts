@@ -579,4 +579,29 @@ export default {
   'paywall.row5Pro': "Alle kleurthema's & badges \u2713",
   'paywall.anchor': 'Minder dan een koffie. Resultaten die blijven.',
   'paywall.continueFree': 'Doorgaan met gratis versie',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Laten we samen één keer ademhalen",
+  'onboarding.demoSub': "Volg de cirkel — adem in door je neus, adem langzaam uit.",
+  'onboarding.demoDone': "Merk op hoe je je voelt.",
+  'onboarding.demoReady': "Maak je klaar…",
+  'onboarding.demoCounter': "Ademhaling {{n}} van {{total}}",
+  'summary.habitTitle': "Maak er een gewoonte van",
+  'summary.habitReminderTitle': "Dagelijkse herinnering",
+  'summary.habitReminderSub': "Een zachte herinnering om elke dag te ademen",
+  'summary.habitHealthTitle': "Apple Gezondheid",
+  'summary.habitHealthSub': "Sla sessies op als Mindful-minuten",
+  'settings.resetOnboarding': "Onboarding resetten",
+  'settings.resetOnboardingConfirm': "Onboarding opnieuw afspelen? Dit activeert ook het veiligheidsscherm van de eerste sessie opnieuw.",
+  'settings.resetOnboardingConfirmCta': "Reset",
+  'settings.developer': "Ontwikkelaar",
+  'paywall.errorGeneric': "Er is iets misgegaan. Probeer het opnieuw.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Muziek dempen",
+  'session.musicOff': "Muziek afspelen",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Verhogen",
+  'common.decrease': "Verlagen",
 };

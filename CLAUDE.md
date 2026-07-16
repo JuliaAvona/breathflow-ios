@@ -179,7 +179,7 @@ READY -> RAPID_SET -> REST -> repeat sets -> DONE
 |---|-----------|---------|----------|-------|------|
 | 1 | Box Breathing | 4-4-4-4 | focus | square | Yes |
 | 2 | 4-7-8 Relaxing | 4-7-8 | sleep | triangle | Yes |
-| 3 | Physiological Sigh | 2+1-6 | calm | wave | Yes |
+| 3 | Physiological Sigh | 2+1-6 | calm | wave | Pro |
 | 4 | Coherence Breathing | 5.5-5.5 | calm | circle | Yes |
 | 5 | Triangle Breathing | 4-4-4 | calm | triangle | Yes |
 | 6 | Power Breathing | 30 breaths + hold | advanced | burst | Pro |
@@ -277,7 +277,7 @@ All tables have RLS: `auth.uid() = user_id`.
 
 ## Monetization
 
-**Free (no ads):** 5 techniques (Box, 4-7-8, Physiological Sigh, Coherence, Triangle), unlimited sessions, 7-day history, streaks, Apple Health.
+**Free (no ads):** 4 techniques (Box, 4-7-8, Coherence, Triangle), unlimited sessions, 7-day history, streaks, Apple Health.
 
 **Pro — `BreathFlow Pro` entitlement (RevenueCat `current` offering).** Three packages:
 - **Weekly** — 3-day free trial, then $2.99/week

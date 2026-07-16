@@ -655,4 +655,29 @@ export default {
   'paywall.row5Pro': 'Todos os temas & medalhas ✓',
   'paywall.anchor': 'Menos que um café. Resultados que duram.',
   'paywall.continueFree': 'Continuar com a versão gratuita',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Vamos respirar juntos uma vez",
+  'onboarding.demoSub': "Siga o círculo: inspire pelo nariz, expire devagar.",
+  'onboarding.demoDone': "Perceba como você se sente.",
+  'onboarding.demoReady': "Prepare-se…",
+  'onboarding.demoCounter': "Respiração {{n}} de {{total}}",
+  'summary.habitTitle': "Transforme isso em hábito",
+  'summary.habitReminderTitle': "Lembrete diário",
+  'summary.habitReminderSub': "Um lembrete gentil para respirar todos os dias",
+  'summary.habitHealthTitle': "Apple Saúde",
+  'summary.habitHealthSub': "Salve as sessões como Minutos de Atenção Plena",
+  'settings.resetOnboarding': "Reiniciar integração",
+  'settings.resetOnboardingConfirm': "Reproduzir novamente o fluxo de integração? Isso também reativa a tela de segurança da primeira sessão.",
+  'settings.resetOnboardingConfirmCta': "Reiniciar",
+  'settings.developer': "Desenvolvedor",
+  'paywall.errorGeneric': "Algo deu errado. Tente novamente.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Silenciar música",
+  'session.musicOff': "Tocar música",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Aumentar",
+  'common.decrease': "Diminuir",
 };

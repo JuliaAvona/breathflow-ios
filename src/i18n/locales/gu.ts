@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'ફક્ત 5 મિનિટ સભાન શ્વાસ પણ મૂડ બદલી શકે.',
   'notifications.tip6': 'ધીમો શ્વાસ parasympathetic nervous system સક્રિય કરે.',
   'notifications.tip7': 'સતત અભ્યાસ સમય સાથે સ્થિતિ-સ્થાપકતા બનાવે.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "ચાલો સાથે મળીને એક શ્વાસ લઈએ",
+  'onboarding.demoSub': "વર્તુળને અનુસરો — નાક દ્વારા શ્વાસ લો, ધીમે ધીમે છોડો.",
+  'onboarding.demoDone': "તમને કેવું લાગે છે તે નોંધો.",
+  'onboarding.demoReady': "તૈયાર થાઓ…",
+  'onboarding.demoCounter': "શ્વાસ {{n}} માંથી {{total}}",
+  'summary.habitTitle': "તેને ટેવ બનાવો",
+  'summary.habitReminderTitle': "દૈનિક રિમાઇન્ડર",
+  'summary.habitReminderSub': "દરરોજ શ્વાસ લેવા માટે એક હળવો સંકેત",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "સેશનને માઇન્ડફુલ મિનિટ્સ તરીકે સાચવો",
+  'settings.resetOnboarding': "ઓનબોર્ડિંગ રીસેટ કરો",
+  'settings.resetOnboardingConfirm': "ઓનબોર્ડિંગ ફ્લો ફરીથી ચલાવવો છે? આ પ્રથમ સેશનની સુરક્ષા સ્ક્રીનને પણ ફરીથી સક્રિય કરે છે.",
+  'settings.resetOnboardingConfirmCta': "રીસેટ કરો",
+  'settings.developer': "ડેવલપર",
+  'paywall.errorGeneric': "કંઈક ખોટું થયું. કૃપા કરી ફરી પ્રયાસ કરો.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "સંગીત મ્યૂટ કરો",
+  'session.musicOff': "સંગીત વગાડો",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "વધારો",
+  'common.decrease': "ઘટાડો",
 };

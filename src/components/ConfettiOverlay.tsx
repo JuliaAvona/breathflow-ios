@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { Animated, StyleSheet, Dimensions, View } from 'react-native';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CONFETTI_COUNT = 40;
@@ -18,6 +19,7 @@ interface Piece {
 }
 
 export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
+  const reduceMotion = useReducedMotion();
   const animValue = useRef(new Animated.Value(0)).current;
 
   const pieces: Piece[] = useMemo(
@@ -32,15 +34,20 @@ export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
   );
 
   useEffect(() => {
-    if (visible) {
-      animValue.setValue(0);
-      Animated.timing(animValue, {
-        toValue: 1,
-        duration: 2200,
-        useNativeDriver: true,
-      }).start(() => onComplete?.());
+    if (!visible) return;
+    if (reduceMotion) {
+      // Skip the falling-confetti animation for Reduce Motion users; still
+      // fire onComplete so callers relying on it (e.g. dismiss flows) proceed.
+      onComplete?.();
+      return;
     }
-  }, [visible]);
+    animValue.setValue(0);
+    Animated.timing(animValue, {
+      toValue: 1,
+      duration: 2200,
+      useNativeDriver: true,
+    }).start(() => onComplete?.());
+  }, [visible, reduceMotion]);
 
   const interpolations = useMemo(
     () =>
@@ -75,7 +82,7 @@ export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
     [animValue, pieces],
   );
 
-  if (!visible) return null;
+  if (!visible || reduceMotion) return null;
 
   return (
     <View style={styles.container} pointerEvents="none">

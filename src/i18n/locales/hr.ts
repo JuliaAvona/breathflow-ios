@@ -657,4 +657,29 @@ export default {
   'notifications.tip5': 'Disanje od 5,5 udaha/min optimizira varijabilnost srcanog ritma.',
   'notifications.tip6': 'Cak i 1 minuta svjesnog disanja cini razliku.',
   'notifications.tip7': 'Produljeni izdisaji govore tijelu da je sigurno opustiti se.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Zajedno udahnimo jednom",
+  'onboarding.demoSub': "Prati krug — udahni kroz nos, polako izdahni.",
+  'onboarding.demoDone': "Primijeti kako se osjećaš.",
+  'onboarding.demoReady': "Pripremi se…",
+  'onboarding.demoCounter': "Udah {{n}} od {{total}}",
+  'summary.habitTitle': "Pretvori to u naviku",
+  'summary.habitReminderTitle': "Dnevni podsjetnik",
+  'summary.habitReminderSub': "Blagi podsjetnik da dišeš svaki dan",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Spremi sesije kao minute svjesnosti",
+  'settings.resetOnboarding': "Poništi uvodni postupak",
+  'settings.resetOnboardingConfirm': "Ponovno pokrenuti uvodni postupak? Time se ponovno aktivira i sigurnosni zaslon prve sesije.",
+  'settings.resetOnboardingConfirmCta': "Poništi",
+  'settings.developer': "Razvojni programer",
+  'paywall.errorGeneric': "Nešto je pošlo po zlu. Pokušajte ponovno.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Isključi glazbu",
+  'session.musicOff': "Pokreni glazbu",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Povećaj",
+  'common.decrease': "Smanji",
 };

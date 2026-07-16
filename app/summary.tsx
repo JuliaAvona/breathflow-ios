@@ -340,10 +340,10 @@ export default function SummaryScreen() {
     const { requestNotificationPermissions, scheduleBreatheReminder } = await import('../src/utils/notifications');
     const granted = await requestNotificationPermissions();
     if (granted) {
-      const { setSetting, reminderTime } = useSettingsStore.getState();
+      const { setSetting, reminderTime, reminderDays } = useSettingsStore.getState();
       setSetting('reminderEnabled', true);
       const [h, m] = reminderTime.split(':').map(Number);
-      await scheduleBreatheReminder(h, m);
+      await scheduleBreatheReminder(h, m, reminderDays);
     }
     setReminderPromptDone(true);
   }, []);

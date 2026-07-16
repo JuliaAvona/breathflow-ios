@@ -657,4 +657,29 @@ export default {
   'notifications.tip5': 'Respiratia la 5,5 respiratii/min optimizeaza variabilitatea frecventei cardiace.',
   'notifications.tip6': 'Chiar si 1 minut de respiratie constienta face diferenta.',
   'notifications.tip7': 'Expiratiile prelungite spun corpului tau ca e sigur sa se relaxeze.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Hai să respirăm împreună o dată",
+  'onboarding.demoSub': "Urmărește cercul — inspiră pe nas, expiră lent.",
+  'onboarding.demoDone': "Observă cum te simți.",
+  'onboarding.demoReady': "Pregătește-te…",
+  'onboarding.demoCounter': "Respirația {{n}} din {{total}}",
+  'summary.habitTitle': "Transformă asta într-un obicei",
+  'summary.habitReminderTitle': "Memento zilnic",
+  'summary.habitReminderSub': "Un mic memento să respiri în fiecare zi",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Salvează sesiunile ca Minute de mindfulness",
+  'settings.resetOnboarding': "Resetează integrarea",
+  'settings.resetOnboardingConfirm': "Redai din nou fluxul de integrare? Aceasta reactivează și ecranul de siguranță al primei sesiuni.",
+  'settings.resetOnboardingConfirmCta': "Resetează",
+  'settings.developer': "Dezvoltator",
+  'paywall.errorGeneric': "Ceva nu a mers bine. Încearcă din nou.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Dezactivează muzica",
+  'session.musicOff': "Redă muzica",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Crește",
+  'common.decrease': "Scade",
 };

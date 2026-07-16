@@ -655,4 +655,29 @@ export default {
   'paywall.row5Pro': 'Tous les thèmes & badges ✓',
   'paywall.anchor': 'Moins qu\'un café. Des résultats durables.',
   'paywall.continueFree': 'Continuer avec la version gratuite',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Respirons ensemble, une fois",
+  'onboarding.demoSub': "Suis le cercle : inspire par le nez, expire lentement.",
+  'onboarding.demoDone': "Remarque comment tu te sens.",
+  'onboarding.demoReady': "Prépare-toi…",
+  'onboarding.demoCounter': "Respiration {{n}} sur {{total}}",
+  'summary.habitTitle': "Fais-en une habitude",
+  'summary.habitReminderTitle': "Rappel quotidien",
+  'summary.habitReminderSub': "Un petit rappel pour respirer chaque jour",
+  'summary.habitHealthTitle': "Apple Santé",
+  'summary.habitHealthSub': "Enregistre les séances comme minutes de pleine conscience",
+  'settings.resetOnboarding': "Réinitialiser l'intégration",
+  'settings.resetOnboardingConfirm': "Rejouer le parcours d'intégration ? Cela réactive aussi l'écran de sécurité de la première séance.",
+  'settings.resetOnboardingConfirmCta': "Réinitialiser",
+  'settings.developer': "Développeur",
+  'paywall.errorGeneric': "Une erreur est survenue. Veuillez réessayer.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Couper la musique",
+  'session.musicOff': "Jouer de la musique",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Augmenter",
+  'common.decrease': "Diminuer",
 };

@@ -9,6 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { useThemeColors } from '../hooks/useColorScheme';
 import { SPACING, FONT_SIZE, BORDER_RADIUS } from '../constants';
 
@@ -42,6 +43,7 @@ export function WheelPickerModal({
   onClose,
   accentColor,
 }: WheelPickerModalProps) {
+  const { t } = useTranslation();
   const theme = useThemeColors();
   const slideAnim = useRef(new Animated.Value(SHEET_HEIGHT)).current;
   const overlayFade = useRef(new Animated.Value(0)).current;
@@ -118,10 +120,11 @@ export function WheelPickerModal({
     <Modal visible={visible} transparent animationType="none" onRequestClose={handleClose}>
       <View style={styles.root}>
         <Animated.View style={[styles.overlay, { opacity: overlayFade }]}>
-          <Pressable style={StyleSheet.absoluteFill} onPress={handleClose} />
+          <Pressable style={StyleSheet.absoluteFill} onPress={handleClose} accessible={false} />
         </Animated.View>
 
         <Animated.View
+          accessibilityViewIsModal
           style={[
             styles.sheet,
             {
@@ -135,6 +138,16 @@ export function WheelPickerModal({
           </View>
 
           <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
+
+          <TouchableOpacity
+            style={styles.closeBtn}
+            onPress={handleClose}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.close')}
+          >
+            <Ionicons name="close" size={20} color={theme.textSecondary} />
+          </TouchableOpacity>
 
           {/* Display value */}
           <View style={[styles.displayRow, { backgroundColor: theme.background, borderColor: theme.border }]}>
@@ -157,6 +170,8 @@ export function WheelPickerModal({
                     style={[styles.arrowButton, { backgroundColor: theme.background }]}
                     onPress={() => increment(colIndex)}
                     activeOpacity={0.6}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('common.increase')}
                   >
                     <Ionicons name="chevron-up" size={24} color={color} />
                   </TouchableOpacity>
@@ -171,6 +186,8 @@ export function WheelPickerModal({
                     style={[styles.arrowButton, { backgroundColor: theme.background }]}
                     onPress={() => decrement(colIndex)}
                     activeOpacity={0.6}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('common.decrease')}
                   >
                     <Ionicons name="chevron-down" size={24} color={color} />
                   </TouchableOpacity>
@@ -184,6 +201,8 @@ export function WheelPickerModal({
             style={[styles.confirmButton, { backgroundColor: color }]}
             onPress={handleConfirm}
             activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.save')}
           >
             <Ionicons name="checkmark" size={22} color="#fff" />
           </TouchableOpacity>
@@ -221,6 +240,12 @@ const styles = StyleSheet.create({
     width: 36,
     height: 4,
     borderRadius: 2,
+  },
+  closeBtn: {
+    position: 'absolute',
+    top: SPACING.sm,
+    right: SPACING.md,
+    padding: 4,
   },
   title: {
     fontSize: FONT_SIZE.lg,

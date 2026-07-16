@@ -653,4 +653,29 @@ export default {
   'notifications.tip5': 'Juba 5 minutit teadlikku hingamist muudab meeleolu.',
   'notifications.tip6': 'Aeglane hingamine aktiveerib paras\u00fcmpaatilise n\u00e4rvis\u00fcsteemi.',
   'notifications.tip7': 'J\u00e4rjepidev harjutamine loob aja jooksul vastupidavust.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Võtame koos ühe hingetõmbe",
+  'onboarding.demoSub': "Jälgi ringi — hinga sisse läbi nina, hinga aeglaselt välja.",
+  'onboarding.demoDone': "Pane tähele, kuidas end tunned.",
+  'onboarding.demoReady': "Valmistu…",
+  'onboarding.demoCounter': "Hingetõmme {{n}} / {{total}}",
+  'summary.habitTitle': "Muuda see harjumuseks",
+  'summary.habitReminderTitle': "Igapäevane meeldetuletus",
+  'summary.habitReminderSub': "Õrn meeldetuletus iga päev hingata",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Salvesta seansid teadveloleku minutitena",
+  'settings.resetOnboarding': "Lähtesta sissejuhatus",
+  'settings.resetOnboardingConfirm': "Kas käivitada sissejuhatus uuesti? See aktiveerib uuesti ka esimese seansi turvakuva.",
+  'settings.resetOnboardingConfirmCta': "Lähtesta",
+  'settings.developer': "Arendaja",
+  'paywall.errorGeneric': "Midagi läks valesti. Palun proovi uuesti.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Vaigista muusika",
+  'session.musicOff': "Esita muusikat",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Suurenda",
+  'common.decrease': "Vähenda",
 };

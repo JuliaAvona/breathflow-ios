@@ -666,4 +666,29 @@ export default {
   'notifications.tip5': 'Net 5 minutes samoningo kvepavimo keicia nuotaika.',
   'notifications.tip6': 'Letas kvepavimas aktyvina parasimpatine nervu sistema.',
   'notifications.tip7': 'Nuosekli praktika ilgainiu ugdo atsparuma.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Pakvėpuokime kartu",
+  'onboarding.demoSub': "Sek ratą — įkvėpk pro nosį, lėtai iškvėpk.",
+  'onboarding.demoDone': "Atkreipk dėmesį, kaip jautiesi.",
+  'onboarding.demoReady': "Pasiruošk…",
+  'onboarding.demoCounter': "Kvėpavimas {{n}} iš {{total}}",
+  'summary.habitTitle': "Paversk tai įpročiu",
+  'summary.habitReminderTitle': "Kasdienis priminimas",
+  'summary.habitReminderSub': "Švelnus priminimas kvėpuoti kiekvieną dieną",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Išsaugok seansus kaip Sąmoningumo minutes",
+  'settings.resetOnboarding': "Iš naujo pradėti supažindinimą",
+  'settings.resetOnboardingConfirm': "Ar dar kartą paleisti supažindinimo procesą? Tai taip pat iš naujo aktyvuoja pirmojo seanso saugos ekraną.",
+  'settings.resetOnboardingConfirmCta': "Iš naujo",
+  'settings.developer': "Kūrėjas",
+  'paywall.errorGeneric': "Kažkas nutiko ne taip. Bandykite dar kartą.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Nutildyti muziką",
+  'session.musicOff': "Groti muziką",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Padidinti",
+  'common.decrease': "Sumažinti",
 };

@@ -258,7 +258,10 @@ export const useTimerStore = create<TimerStore>()((set, get) => ({
       let restoredPhase: PowerBreathingPhase = 'BREATHING';
       if (state.recoveryTimeRemaining > 0) {
         restoredPhase = 'RECOVERY';
-      } else if (state.retentionTime > 0 && state.breathCount >= state.targetBreaths) {
+      } else if (state.breathCount >= state.targetBreaths) {
+        // breathCount reaches targetBreaths exactly when RETENTION begins and only
+        // resets to 0 at the start of the next round's BREATHING — so this alone
+        // identifies RETENTION, even in the first tick when retentionTime is still 0.
         restoredPhase = 'RETENTION';
       }
       set({ isRunning: true, powerPhase: restoredPhase });

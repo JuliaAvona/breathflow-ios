@@ -655,4 +655,29 @@ export default {
   'notifications.tip5': 'การหายใจ 5.5 ครั้ง/นาทีจะเพิ่มประสิทธิภาพ HRV',
   'notifications.tip6': 'แม้แต่ 1 นาทีของการหายใจอย่างมีสติก็สร้างความแตกต่างได้',
   'notifications.tip7': 'การหายใจออกยาวๆ บอกให้ร่างกายรู้ว่าปลอดภัยที่จะผ่อนคลาย',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "มาหายใจด้วยกันสักครั้ง",
+  'onboarding.demoSub': "ทำตามวงกลม — หายใจเข้าทางจมูก ผ่อนออกช้าๆ",
+  'onboarding.demoDone': "สังเกตความรู้สึกของคุณ",
+  'onboarding.demoReady': "เตรียมตัวให้พร้อม…",
+  'onboarding.demoCounter': "ลมหายใจที่ {{n}} จาก {{total}}",
+  'summary.habitTitle': "ทำให้เป็นนิสัย",
+  'summary.habitReminderTitle': "การแจ้งเตือนรายวัน",
+  'summary.habitReminderSub': "การเตือนเบาๆ ให้หายใจทุกวัน",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "บันทึกเซสชันเป็นนาทีแห่งสติ",
+  'settings.resetOnboarding': "รีเซ็ตการแนะนำการใช้งาน",
+  'settings.resetOnboardingConfirm': "เล่นขั้นตอนแนะนำการใช้งานซ้ำหรือไม่? การทำเช่นนี้จะเปิดใช้งานหน้าจอความปลอดภัยของเซสชันแรกอีกครั้งด้วย",
+  'settings.resetOnboardingConfirmCta': "รีเซ็ต",
+  'settings.developer': "นักพัฒนา",
+  'paywall.errorGeneric': "เกิดข้อผิดพลาด โปรดลองอีกครั้ง",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "ปิดเสียงเพลง",
+  'session.musicOff': "เล่นเพลง",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "เพิ่ม",
+  'common.decrease': "ลด",
 };

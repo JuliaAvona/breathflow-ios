@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import type { TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../types';
 
@@ -65,9 +65,14 @@ export function BreathingWave({ phase, mode, color, phaseDuration }: Props) {
     }
   }, [phase, mode, phaseDuration, scaleAnim, waveAnim]);
 
-  const wave1Y = waveAnim.interpolate({ inputRange: [0, 1], outputRange: [0, -12] });
-  const wave2Y = waveAnim.interpolate({ inputRange: [0, 1], outputRange: [0, 8] });
-  const wave3Y = waveAnim.interpolate({ inputRange: [0, 1], outputRange: [0, -6] });
+  const { wave1Y, wave2Y, wave3Y } = useMemo(
+    () => ({
+      wave1Y: waveAnim.interpolate({ inputRange: [0, 1], outputRange: [0, -12] }),
+      wave2Y: waveAnim.interpolate({ inputRange: [0, 1], outputRange: [0, 8] }),
+      wave3Y: waveAnim.interpolate({ inputRange: [0, 1], outputRange: [0, -6] }),
+    }),
+    [waveAnim],
+  );
 
   return (
     <Animated.View style={[styles.container, { transform: [{ scale: scaleAnim }] }]}>

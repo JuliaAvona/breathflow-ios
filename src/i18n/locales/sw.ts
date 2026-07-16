@@ -645,4 +645,29 @@ export default {
   'notifications.tip5': 'Hata dakika 5 za kupumua kwa makini hubadilisha hisia.',
   'notifications.tip6': 'Kupumua polepole huamsha mfumo wa neva wa parasympathetic.',
   'notifications.tip7': 'Mazoezi ya mara kwa mara hujenga ustahimilivu kwa muda.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Hebu tuvute pumzi moja pamoja",
+  'onboarding.demoSub': "Fuata mduara — vuta pumzi kwa pua, toa polepole.",
+  'onboarding.demoDone': "Angalia jinsi unavyohisi.",
+  'onboarding.demoReady': "Jitayarishe…",
+  'onboarding.demoCounter': "Pumzi {{n}} kati ya {{total}}",
+  'summary.habitTitle': "Ifanye kuwa tabia",
+  'summary.habitReminderTitle': "Kikumbusho cha kila siku",
+  'summary.habitReminderSub': "Kikumbusho laini cha kupumua kila siku",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Hifadhi vipindi kama Dakika za Mindful",
+  'settings.resetOnboarding': "Weka Upya Onboarding",
+  'settings.resetOnboardingConfirm': "Cheza tena mtiririko wa onboarding? Hii pia itawasha upya skrini ya usalama ya kipindi cha kwanza.",
+  'settings.resetOnboardingConfirmCta': "Weka Upya",
+  'settings.developer': "Mtengenezaji",
+  'paywall.errorGeneric': "Hitilafu imetokea. Tafadhali jaribu tena.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Zima muziki",
+  'session.musicOff': "Cheza muziki",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Ongeza",
+  'common.decrease': "Punguza",
 };

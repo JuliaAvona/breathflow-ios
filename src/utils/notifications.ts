@@ -103,24 +103,34 @@ export async function scheduleWeeklySummary(
   });
 }
 
+const BREATHE_REMINDER_IDS = [0, 1, 2, 3, 4, 5, 6].map((d) => `breathe-reminder-${d}`);
+const ALL_DAYS = [0, 1, 2, 3, 4, 5, 6];
+
 export async function scheduleBreatheReminder(
   hour: number,
   minute: number,
+  days: number[] = ALL_DAYS,
 ): Promise<void> {
-  await cancelNotification('breathe-reminder');
+  await Promise.all(BREATHE_REMINDER_IDS.map((id) => cancelNotification(id)));
 
-  await Notifications.scheduleNotificationAsync({
-    identifier: 'breathe-reminder',
-    content: {
-      title: i18n.t('notifications.reminderTitle'),
-      body: getDailyTip(),
-    },
-    trigger: {
-      type: Notifications.SchedulableTriggerInputTypes.DAILY,
-      hour,
-      minute,
-    },
-  });
+  const body = getDailyTip();
+  await Promise.all(
+    days.map((day) =>
+      Notifications.scheduleNotificationAsync({
+        identifier: `breathe-reminder-${day}`,
+        content: {
+          title: i18n.t('notifications.reminderTitle'),
+          body,
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
+          weekday: day + 1, // expo-notifications: 1 = Sunday, matching reminderDays' 0 = Sunday
+          hour,
+          minute,
+        },
+      }),
+    ),
+  );
 }
 
 export async function scheduleSessionComplete(techniqueName: string): Promise<void> {

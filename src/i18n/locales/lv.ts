@@ -666,4 +666,29 @@ export default {
   'notifications.tip5': 'Pat 5 minutes apzinatas elposanas maina garastavokli.',
   'notifications.tip6': 'Lena elposana aktivize parasimpatisko nervu sistemu.',
   'notifications.tip7': 'Konsekventa prakse laika gaita veido notieribu.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'onboarding.demoTitle': "Ieelposimies kopā",
+  'onboarding.demoSub': "Seko aplim — ieelpo caur degunu, lēni izelpo.",
+  'onboarding.demoDone': "Pievērs uzmanību, kā jūties.",
+  'onboarding.demoReady': "Sagatavojies…",
+  'onboarding.demoCounter': "Elpa {{n}} no {{total}}",
+  'summary.habitTitle': "Padari to par ieradumu",
+  'summary.habitReminderTitle': "Ikdienas atgādinājums",
+  'summary.habitReminderSub': "Maigs atgādinājums elpot katru dienu",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Saglabā sesijas kā Apzinātības minūtes",
+  'settings.resetOnboarding': "Atiestatīt ievadu",
+  'settings.resetOnboardingConfirm': "Vai atskaņot ievada procesu vēlreiz? Tas arī atkārtoti aktivizē pirmās sesijas drošības ekrānu.",
+  'settings.resetOnboardingConfirmCta': "Atiestatīt",
+  'settings.developer': "Izstrādātājs",
+  'paywall.errorGeneric': "Kaut kas nogāja greizi. Lūdzu, mēģiniet vēlreiz.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Izslēgt mūzikas skaņu",
+  'session.musicOff': "Atskaņot mūziku",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Palielināt",
+  'common.decrease': "Samazināt",
 };
