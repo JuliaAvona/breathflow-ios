@@ -9,6 +9,7 @@ const SYNC_THROTTLE_MS = 5 * 60 * 1000; // 5 minutes
 
 async function resyncEntitlement(): Promise<void> {
   const isPro = await checkSubscriptionStatus();
+  if (isPro === null) return; // couldn't confirm (offline/RC error) — leave local state alone
   const settings = useSettingsStore.getState();
   if (isPro && !settings.isPro) settings.grantPro();
   else if (!isPro && settings.isPro) settings.revokePro();

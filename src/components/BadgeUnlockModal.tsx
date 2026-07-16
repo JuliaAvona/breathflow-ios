@@ -32,6 +32,12 @@ export function BadgeUnlockModal({ badge, visible, onClose }: BadgeUnlockModalPr
   const theme = useThemeColors();
   const { success } = useHaptics();
   const reduceMotion = useReducedMotion();
+  // AccessibilityInfo.isReduceMotionEnabled() resolves asynchronously; reading
+  // it via a ref (instead of putting it in the entrance effect's deps) means a
+  // late resolution doesn't re-run the whole one-shot entrance sequence below
+  // — which would replay the unlock haptic and restart every animation mid-flight.
+  const reduceMotionRef = useRef(reduceMotion);
+  useEffect(() => { reduceMotionRef.current = reduceMotion; }, [reduceMotion]);
 
   const overlayFade = useRef(new Animated.Value(0)).current;
   const badgeScale = useRef(new Animated.Value(0)).current;
@@ -92,7 +98,7 @@ export function BadgeUnlockModal({ badge, visible, onClose }: BadgeUnlockModalPr
 
       // Glow pulse loop — purely decorative, so skip it for Reduce Motion users
       // and hold the ring at a fixed, still-visible opacity instead.
-      if (reduceMotion) {
+      if (reduceMotionRef.current) {
         glowPulse.setValue(0.6);
         return;
       }
@@ -115,7 +121,9 @@ export function BadgeUnlockModal({ badge, visible, onClose }: BadgeUnlockModalPr
 
       return () => pulseLoop.stop();
     }
-  }, [visible, badge, reduceMotion]);
+    // reduceMotion intentionally excluded — see reduceMotionRef comment above.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, badge]);
 
   const handleClose = () => {
     Animated.parallel([

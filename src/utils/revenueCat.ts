@@ -61,14 +61,20 @@ export async function restorePurchases(): Promise<{ isPro: boolean }> {
   return { isPro: checkProEntitlement(customerInfo) };
 }
 
-/** Check if user has active pro entitlement */
-export async function checkSubscriptionStatus(): Promise<boolean> {
-  if (!isConfigured) return false;
+/**
+ * Check if the user has an active Pro entitlement.
+ * Returns `null` (not `false`) when the check couldn't actually be performed
+ * (RevenueCat not configured, network error) — callers must treat that as
+ * "unknown, leave local Pro state alone", not as "confirmed not Pro", or a
+ * transient network blip would strip Pro access from a paying subscriber.
+ */
+export async function checkSubscriptionStatus(): Promise<boolean | null> {
+  if (!isConfigured) return null;
   try {
     const customerInfo = await Purchases.getCustomerInfo();
     return checkProEntitlement(customerInfo);
   } catch {
-    return false;
+    return null;
   }
 }
 

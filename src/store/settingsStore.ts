@@ -73,8 +73,14 @@ function extractSettings(state: SettingsStore): UserSettings {
   };
 }
 
-/** Persist current settings (+ local change timestamp) to AsyncStorage. */
-function persist(state: SettingsStore): void {
+/**
+ * Persist current settings (+ local change timestamp) to AsyncStorage.
+ * Exported so syncService can persist a remote-merged snapshot too — without
+ * this, a merge applied via setState() only lives in memory and reverts to
+ * the last locally-persisted copy (including a stale settingsUpdatedAt) on
+ * the next app restart, before it's ever pushed back out.
+ */
+export function persist(state: SettingsStore): void {
   const data = { ...extractSettings(state), settingsUpdatedAt: state.settingsUpdatedAt };
   AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
@@ -84,7 +90,9 @@ export const useSettingsStore = create<SettingsStore>()((set, get) => {
   const applyAndSync = (partial: Partial<UserSettings>) => {
     set({ ...partial, settingsUpdatedAt: Date.now() } as Partial<SettingsStore>);
     persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
+    try {
+      require('../services/syncService').pushSettings().catch(() => {});
+    } catch {}
   };
 
   return {
@@ -108,9 +116,20 @@ export const useSettingsStore = create<SettingsStore>()((set, get) => {
 
     setSetting: (key, value) => applyAndSync({ [key]: value } as Partial<UserSettings>),
 
-    grantPro: () => applyAndSync({ isPro: true }),
+    // No-op when already in the target state: callers like app/_layout.tsx's
+    // cold-launch entitlement check call one of these unconditionally on every
+    // launch, and bumping settingsUpdatedAt every time would make local settings
+    // look "newer" than the synced row on almost every sync, starving the
+    // last-write-wins merge in syncService.pullSettings() of ever applying.
+    grantPro: () => {
+      if (get().isPro) return;
+      applyAndSync({ isPro: true });
+    },
 
-    revokePro: () => applyAndSync({ isPro: false }),
+    revokePro: () => {
+      if (!get().isPro) return;
+      applyAndSync({ isPro: false });
+    },
 
     setTechniqueOverride: (techniqueId, overrides) => {
       const current = get().techniqueOverrides;

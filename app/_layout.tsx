@@ -71,12 +71,14 @@ export default function RootLayout() {
       if (authState.user?.id) {
         await identifyUser(authState.user.id).catch(() => {});
       }
-      const isProFromRC = await checkSubscriptionStatus().catch(() => false);
-      if (isProFromRC) {
+      const isProFromRC = await checkSubscriptionStatus().catch(() => null);
+      if (isProFromRC === true) {
         useSettingsStore.getState().grantPro();
-      } else {
+      } else if (isProFromRC === false) {
         useSettingsStore.getState().revokePro();
       }
+      // isProFromRC === null (RC not configured / network error): leave
+      // local Pro state as-is rather than treating "couldn't check" as "not Pro".
 
       setReady(true);
 
@@ -131,7 +133,9 @@ export default function RootLayout() {
     // Navigate to home when user taps breathe reminder notification
     const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
       const id = response.notification.request.identifier;
-      if (id === 'breathe-reminder') {
+      // 'breathe-reminder' is the legacy single-identifier scheme; per-day
+      // reminders now use 'breathe-reminder-0'..'breathe-reminder-6'.
+      if (id === 'breathe-reminder' || id.startsWith('breathe-reminder-')) {
         router.replace('/(tabs)');
       }
     });

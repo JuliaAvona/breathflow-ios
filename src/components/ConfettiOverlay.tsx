@@ -20,6 +20,11 @@ interface Piece {
 
 export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
   const reduceMotion = useReducedMotion();
+  // Read via a ref so a late async resolution of Reduce Motion doesn't re-run
+  // this one-shot effect and fire onComplete a second time while the previous
+  // Animated.timing from the first run is still in flight.
+  const reduceMotionRef = useRef(reduceMotion);
+  useEffect(() => { reduceMotionRef.current = reduceMotion; }, [reduceMotion]);
   const animValue = useRef(new Animated.Value(0)).current;
 
   const pieces: Piece[] = useMemo(
@@ -35,7 +40,7 @@ export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
 
   useEffect(() => {
     if (!visible) return;
-    if (reduceMotion) {
+    if (reduceMotionRef.current) {
       // Skip the falling-confetti animation for Reduce Motion users; still
       // fire onComplete so callers relying on it (e.g. dismiss flows) proceed.
       onComplete?.();
@@ -47,7 +52,9 @@ export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
       duration: 2200,
       useNativeDriver: true,
     }).start(() => onComplete?.());
-  }, [visible, reduceMotion]);
+    // reduceMotion intentionally excluded — see reduceMotionRef comment above.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible]);
 
   const interpolations = useMemo(
     () =>

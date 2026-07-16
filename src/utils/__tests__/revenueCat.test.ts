@@ -42,9 +42,9 @@ describe('revenueCat', () => {
       expect(await checkSubscriptionStatus()).toBe(false);
     });
 
-    it('returns false when getCustomerInfo rejects', async () => {
+    it('returns null (not false) when getCustomerInfo rejects, so a network blip cannot revoke Pro', async () => {
       mockedGetCustomerInfo.mockRejectedValueOnce(new Error('network error'));
-      expect(await checkSubscriptionStatus()).toBe(false);
+      expect(await checkSubscriptionStatus()).toBe(null);
     });
 
     it('purchasePackage resolves isPro from the purchase result', async () => {

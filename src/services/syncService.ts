@@ -1,7 +1,7 @@
 import { supabase } from '../utils/supabase';
 import { useAuthStore } from '../store/authStore';
 import { useSessionsStore } from '../store/sessionsStore';
-import { useSettingsStore } from '../store/settingsStore';
+import { useSettingsStore, persist as persistSettings } from '../store/settingsStore';
 import { useBadgesStore } from '../store/badgesStore';
 import { Sentry } from '../utils/sentry';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -270,6 +270,7 @@ async function pullSettings(userId: string): Promise<void> {
   // instead of letting a stale remote row clobber them.
   if (local.settingsUpdatedAt > remoteUpdatedAt) {
     useSettingsStore.setState(ratchetFields);
+    persistSettings(useSettingsStore.getState());
     return;
   }
 
@@ -294,6 +295,7 @@ async function pullSettings(userId: string): Promise<void> {
   };
 
   useSettingsStore.setState(mergedSettings);
+  persistSettings(useSettingsStore.getState());
 }
 
 async function pullBadges(userId: string): Promise<void> {

@@ -111,7 +111,10 @@ export async function scheduleBreatheReminder(
   minute: number,
   days: number[] = ALL_DAYS,
 ): Promise<void> {
-  await Promise.all(BREATHE_REMINDER_IDS.map((id) => cancelNotification(id)));
+  // Also cancel the legacy single-identifier reminder ('breathe-reminder') so
+  // installs upgrading from before per-day scheduling don't end up with both
+  // the old daily notification and the new per-day ones firing side by side.
+  await Promise.all([...BREATHE_REMINDER_IDS, 'breathe-reminder'].map((id) => cancelNotification(id)));
 
   const body = getDailyTip();
   await Promise.all(
