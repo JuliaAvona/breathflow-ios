@@ -18,7 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSessionsStore, useSettingsStore, useBadgesStore } from '../src/store';
 import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
 import { formatTotalTime } from '../src/utils/time';
-import { writeMindfulSession, isHealthKitAvailable } from '../src/utils/healthKit';
+import { writeMindfulSession, isHealthKitAvailable, requestHealthPermissions } from '../src/utils/healthKit';
 import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, FONTS, scale } from '../src/constants';
 import { getTechniqueById } from '../src/constants/techniques';
 import { BadgeUnlockModal } from '../src/components/BadgeUnlockModal';
@@ -128,6 +128,7 @@ export default function SummaryScreen() {
   const sessions = useSessionsStore((s) => s.sessions);
   const stats = useSessionsStore((s) => s.stats);
   const healthSyncEnabled = useSettingsStore((s) => s.healthSyncEnabled);
+  const reminderEnabled = useSettingsStore((s) => s.reminderEnabled);
   const settings = useSettingsStore.getState();
   const checkAndUnlock = useBadgesStore((s) => s.checkAndUnlock);
 
@@ -142,6 +143,8 @@ export default function SummaryScreen() {
   const badgeOpacity = useRef(new Animated.Value(0)).current;
   const [quoteKey] = useState(getRandomQuoteKey);
   const [confettiKey, setConfettiKey] = useState(0);
+  const [reminderPromptDone, setReminderPromptDone] = useState(false);
+  const [healthPromptDone, setHealthPromptDone] = useState(false);
 
   const techniqueId = session?.techniqueId ?? '';
   const technique = getTechniqueById(techniqueId);
@@ -326,6 +329,30 @@ export default function SummaryScreen() {
   };
 
   const techniqueColor = technique?.color ?? '#4A90D9';
+
+  // First-session prompts: reminders + Apple Health (deferred from onboarding).
+  const isFirstSession = stats.totalSessions <= 1;
+  const showReminderRow = isFirstSession && !reminderEnabled && !reminderPromptDone;
+  const showHealthRow = isFirstSession && !healthSyncEnabled && isHealthKitAvailable() && !healthPromptDone;
+  const showHabitCard = showReminderRow || showHealthRow;
+
+  const handleEnableReminders = useCallback(async () => {
+    const { requestNotificationPermissions, scheduleBreatheReminder } = await import('../src/utils/notifications');
+    const granted = await requestNotificationPermissions();
+    if (granted) {
+      const { setSetting, reminderTime } = useSettingsStore.getState();
+      setSetting('reminderEnabled', true);
+      const [h, m] = reminderTime.split(':').map(Number);
+      await scheduleBreatheReminder(h, m);
+    }
+    setReminderPromptDone(true);
+  }, []);
+
+  const handleEnableHealth = useCallback(async () => {
+    const granted = await requestHealthPermissions();
+    useSettingsStore.getState().setSetting('healthSyncEnabled', granted);
+    setHealthPromptDone(true);
+  }, []);
 
   if (!session) {
     return (
@@ -558,6 +585,51 @@ export default function SummaryScreen() {
             <Text style={[styles.healthNote, { color: theme.textSecondary }]}>
               {t('summary.savedToHealth')}
             </Text>
+          )}
+
+          {/* First-session prompts — reminders + Apple Health (deferred from onboarding) */}
+          {showHabitCard && (
+            <View style={[glassCard, { marginTop: SPACING.xs }]}>
+              <Text style={[styles.habitTitle, { color: theme.text, fontSize: fontSize.md }]}>
+                {t('summary.habitTitle', { defaultValue: 'Make it a habit' })}
+              </Text>
+              {showReminderRow && (
+                <TouchableOpacity
+                  style={[styles.habitRow, { borderColor: theme.isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)' }]}
+                  onPress={handleEnableReminders}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="notifications-outline" size={22} color={techniqueColor} />
+                  <View style={styles.habitTextWrap}>
+                    <Text style={[styles.habitRowTitle, { color: theme.text, fontSize: fontSize.sm }]}>
+                      {t('summary.habitReminderTitle', { defaultValue: 'Daily reminder' })}
+                    </Text>
+                    <Text style={[styles.habitRowSub, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
+                      {t('summary.habitReminderSub', { defaultValue: 'A gentle nudge to breathe each day' })}
+                    </Text>
+                  </View>
+                  <Ionicons name="add-circle" size={26} color={techniqueColor} />
+                </TouchableOpacity>
+              )}
+              {showHealthRow && (
+                <TouchableOpacity
+                  style={[styles.habitRow, { borderColor: theme.isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)' }]}
+                  onPress={handleEnableHealth}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="heart-outline" size={22} color="#FF3B30" />
+                  <View style={styles.habitTextWrap}>
+                    <Text style={[styles.habitRowTitle, { color: theme.text, fontSize: fontSize.sm }]}>
+                      {t('summary.habitHealthTitle', { defaultValue: 'Apple Health' })}
+                    </Text>
+                    <Text style={[styles.habitRowSub, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
+                      {t('summary.habitHealthSub', { defaultValue: 'Save sessions as Mindful Minutes' })}
+                    </Text>
+                  </View>
+                  <Ionicons name="add-circle" size={26} color="#FF3B30" />
+                </TouchableOpacity>
+              )}
+            </View>
           )}
 
           {/* Motivational quote — floating text */}
@@ -903,5 +975,29 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: FONT_SIZE.lg,
     fontFamily: FONTS.bold,
+  },
+
+  // First-session habit prompts
+  habitTitle: {
+    fontFamily: FONTS.bold,
+    marginBottom: SPACING.sm,
+  },
+  habitRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: SPACING.sm,
+    borderTopWidth: 1,
+  },
+  habitTextWrap: {
+    flex: 1,
+  },
+  habitRowTitle: {
+    fontFamily: FONTS.semibold,
+    marginBottom: 1,
+  },
+  habitRowSub: {
+    fontFamily: FONTS.regular,
+    lineHeight: 16,
   },
 });

@@ -157,6 +157,12 @@ export default function SessionScreen() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hapticIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [countdown, setCountdown] = useState<number | null>(3);
+  // Safety acknowledgement is deferred from onboarding to the first session.
+  const [showSafetyGate, setShowSafetyGate] = useState(!settingsStore.safetyAccepted);
+  const acceptSafety = useCallback(() => {
+    useSettingsStore.getState().setSetting('safetyAccepted', true);
+    setShowSafetyGate(false);
+  }, []);
   const countdownScale = useRef(new Animated.Value(1)).current;
   const countdownOpacity = useRef(new Animated.Value(1)).current;
   const hapticsEnabled = settingsStore.hapticsEnabled;
@@ -166,6 +172,7 @@ export default function SessionScreen() {
   // 3-2-1 countdown
   useEffect(() => {
     if (!technique || countdown === null) return;
+    if (showSafetyGate) return; // hold the 3-2-1 countdown until safety is acknowledged
     if (countdown <= 0) {
       setCountdown(null);
       timerStore.startSession(
@@ -212,7 +219,7 @@ export default function SessionScreen() {
     const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [technique, countdown]);
+  }, [technique, countdown, showSafetyGate]);
 
   // Haptic on inhale/exhale
   const prevPhaseRef = useRef<string | null>(null);
@@ -531,6 +538,40 @@ export default function SessionScreen() {
 
   const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[technique.category];
   const overlayColor = isRetention ? COLORS.retention : techniqueColor;
+
+  // First-session safety acknowledgement (deferred from onboarding).
+  if (showSafetyGate) {
+    return (
+      <ImageBackground source={bgImage} style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 16 }]} resizeMode="cover">
+        <LinearGradient
+          colors={[overlayColor + 'E6', '#000000CC', '#000000F2']}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
+        <View style={styles.safetyGate}>
+          <Ionicons name="shield-checkmark-outline" size={scale(44)} color="#FFFFFF" />
+          <Text style={styles.safetyGateTitle}>{t('onboarding.safety')}</Text>
+          <View style={styles.safetyGateList}>
+            {['onboarding.safety1', 'onboarding.safety2', 'onboarding.safety3', 'onboarding.safety4'].map((k, i) => (
+              <View key={i} style={styles.safetyGateRow}>
+                <View style={styles.safetyGateDot}>
+                  <Text style={styles.safetyGateDotNum}>{i + 1}</Text>
+                </View>
+                <Text style={styles.safetyGateText}>{t(k)}</Text>
+              </View>
+            ))}
+          </View>
+          <TouchableOpacity style={[styles.safetyGateBtn, { backgroundColor: techniqueColor }]} onPress={acceptSafety} activeOpacity={0.85}>
+            <Text style={styles.safetyGateBtnText}>{t('onboarding.understand')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.safetyGateBack} onPress={() => router.back()} activeOpacity={0.7}>
+            <Text style={styles.safetyGateBackText}>{t('onboarding.back')}</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    );
+  }
 
   // Show countdown overlay
   if (countdown !== null && countdown > 0) {
@@ -888,5 +929,72 @@ const styles = StyleSheet.create({
   ghostBtnText: {
     fontSize: 14,
     fontFamily: FONTS.medium,
+  },
+
+  // First-session safety gate
+  safetyGate: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: SPACING.lg,
+  },
+  safetyGateTitle: {
+    fontSize: 28,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: -0.4,
+    marginTop: SPACING.md,
+    marginBottom: SPACING.xl,
+  },
+  safetyGateList: {
+    gap: SPACING.lg,
+    marginBottom: SPACING.xl,
+  },
+  safetyGateRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  safetyGateDot: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  safetyGateDotNum: {
+    fontFamily: FONTS.bold,
+    fontSize: 12,
+    color: '#FFFFFF',
+  },
+  safetyGateText: {
+    flex: 1,
+    fontFamily: FONTS.medium,
+    fontSize: 16,
+    lineHeight: 23,
+    color: '#FFFFFF',
+  },
+  safetyGateBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    borderRadius: 14,
+  },
+  safetyGateBtnText: {
+    color: '#FFFFFF',
+    fontFamily: FONTS.bold,
+    fontSize: 17,
+  },
+  safetyGateBack: {
+    alignItems: 'center',
+    paddingVertical: SPACING.md,
+  },
+  safetyGateBackText: {
+    fontFamily: FONTS.medium,
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.65)',
+    textDecorationLine: 'underline',
   },
 });

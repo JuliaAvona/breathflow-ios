@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Animated,
-  Easing,
   ScrollView,
   ImageBackground,
 } from 'react-native';
@@ -14,12 +13,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
-import * as Notifications from 'expo-notifications';
 import { useSettingsStore } from '../../src/store';
 import { TechniqueCategory } from '../../src/types';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
 import { BreathingMandala } from '../../src/components/BreathingMandala';
-import { requestHealthPermissions } from '../../src/utils/healthKit';
 import { logCompletedRegistration, requestAttPermission } from '../../src/utils/facebookEvents';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -58,8 +55,6 @@ const PLAN_CONTENT: Record<string, PlanEntry> = {
 };
 const DEFAULT_PLAN = PLAN_CONTENT.focus;
 
-const SAFETY_ITEMS = ['onboarding.safety1', 'onboarding.safety2', 'onboarding.safety3', 'onboarding.safety4'];
-
 const TESTIMONIALS: { nameKey: string; tagKey: string; textKey: string; color: string }[] = [
   { nameKey: 'onboarding.t1Name', tagKey: 'onboarding.t1Tag', textKey: 'onboarding.t1Text', color: '#7B68AE' },
   { nameKey: 'onboarding.t2Name', tagKey: 'onboarding.t2Tag', textKey: 'onboarding.t2Text', color: '#4A90D9' },
@@ -70,7 +65,6 @@ const TESTIMONIALS: { nameKey: string; tagKey: string; textKey: string; color: s
 const GLASS_BG       = 'rgba(255,255,255,0.09)';
 const GLASS_BORDER   = 'rgba(255,255,255,0.18)';
 const GLASS_SEL_BG   = 'rgba(255,255,255,0.20)';
-const GLASS_SEL_BORDER = 'rgba(255,255,255,0.55)';
 const TEXT_PRIMARY   = '#FFFFFF';
 const TEXT_SECONDARY = 'rgba(255,255,255,0.65)';
 
@@ -83,7 +77,8 @@ export default function OnboardingScreen() {
   const [page, setPage] = useState(0);
   const [selectedGoal, setSelectedGoal]     = useState<TechniqueCategory | undefined>(undefined);
   const [selectedMinutes, setSelectedMinutes] = useState<number | undefined>(undefined);
-  const [safetyChecked, setSafetyChecked]   = useState(false);
+  const [demoPhase, setDemoPhase] = useState<'IDLE' | 'INHALE' | 'EXHALE' | 'DONE'>('IDLE');
+  const [demoCycle, setDemoCycle] = useState(1);
 
   const fadeAnim  = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
@@ -95,30 +90,6 @@ export default function OnboardingScreen() {
   // Commit section slide-in
   const commitAnim = useRef(new Animated.Value(1)).current;
   const commitOpacity = useRef(new Animated.Value(1)).current;
-
-  // Apple Health pulse
-  const heartPulse = useRef(new Animated.Value(1)).current;
-  const ringPulse  = useRef(new Animated.Value(1)).current;
-
-  useEffect(() => {
-    if (page !== 2) return;
-    const pulse = Animated.loop(
-      Animated.sequence([
-        Animated.parallel([
-          Animated.timing(heartPulse, { toValue: 1.12, duration: 500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-          Animated.timing(ringPulse,  { toValue: 1.18, duration: 500, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-        ]),
-        Animated.parallel([
-          Animated.timing(heartPulse, { toValue: 1.0,  duration: 600, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-          Animated.timing(ringPulse,  { toValue: 1.0,  duration: 600, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-        ]),
-        Animated.delay(800),
-      ]),
-    );
-    pulse.start();
-    return () => pulse.stop();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
 
   // Building steps
   const step1Opacity = useRef(new Animated.Value(0)).current;
@@ -162,9 +133,9 @@ export default function OnboardingScreen() {
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
-  // Building auto-advance (page 5)
+  // Building auto-advance (page 4)
   useEffect(() => {
-    if (page !== 5) return;
+    if (page !== 4) return;
     step1Opacity.setValue(0); step2Opacity.setValue(0); step3Opacity.setValue(0);
     const seq = Animated.sequence([
       Animated.delay(400),
@@ -175,8 +146,34 @@ export default function OnboardingScreen() {
       Animated.timing(step3Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
       Animated.delay(800),
     ]);
-    seq.start(() => goToPage(6, 1));
+    seq.start(() => goToPage(5, 1));
     return () => seq.stop();
+  }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Breathing demo — auto-runs a guided cycle, then auto-advances (page 2)
+  useEffect(() => {
+    if (page !== 2) return;
+    const CYCLES = 3, INHALE_MS = 4000, EXHALE_MS = 6000;
+    let cancelled = false;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const at = (fn: () => void, ms: number) => {
+      timers.push(setTimeout(() => { if (!cancelled) fn(); }, ms));
+    };
+
+    setDemoCycle(1);
+    setDemoPhase('IDLE');
+    let tAcc = 700; // brief lead-in on IDLE before the first inhale
+    for (let c = 1; c <= CYCLES; c++) {
+      at(() => { setDemoCycle(c); setDemoPhase('INHALE'); }, tAcc);
+      tAcc += INHALE_MS;
+      at(() => setDemoPhase('EXHALE'), tAcc);
+      tAcc += EXHALE_MS;
+    }
+    at(() => setDemoPhase('DONE'), tAcc);
+    tAcc += 1500;
+    at(() => goToPage(3, 1), tAcc);
+
+    return () => { cancelled = true; timers.forEach(clearTimeout); };
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
@@ -199,39 +196,18 @@ export default function OnboardingScreen() {
     }
   }, [setSetting, selectedGoal, goNext]);
 
-  const handleEnableNotifications = useCallback(() => {
-    Notifications.requestPermissionsAsync().catch(() => {});
-    goNext();
-  }, [goNext]);
-
-  const handleConnectHealth = useCallback(async () => {
-    setSetting('healthSyncEnabled', true);
-    await requestHealthPermissions();
-    goNext();
-  }, [setSetting, goNext]);
-
   const finishOnboarding = useCallback(async () => {
     setSetting('onboardingCompleted', true);
-    setSetting('safetyAccepted', true);
     setSetting('recommendedTechniqueId', plan.techniqueId);
     logCompletedRegistration('onboarding');
     await requestAttPermission();
     router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
   }, [setSetting, plan]);
 
-  const skipToApp = useCallback(async () => {
-    setSetting('onboardingCompleted', true);
-    logCompletedRegistration('onboarding_skipped');
-    await requestAttPermission();
-    router.replace({ pathname: '/paywall', params: { fromOnboarding: '1' } });
-  }, [setSetting, plan]);
-
   // ── Progress ──────────────────────────────────────────────────────────────────
-  const progressVisible = page > 0 && page !== 5;
-  // Pages: 0 Hook, 1 Notif, 2 Health, 3 Goal, 4 Social, 5 Building, 6 Plan, 7 Safety
-  // Hidden step: 5 (Building). Visible step count: 7.
-  const progressStep    = page < 5 ? page : page - 1;
-  const progressPct     = progressStep / 6;
+  // Pages: 0 Hook, 1 Goal+Commit, 2 Demo, 3 Social, 4 Building (hidden), 5 Plan
+  const progressVisible = page === 1 || page === 2 || page === 3 || page === 5;
+  const progressPct     = page / 5;
 
   // ── Page 0 — Hook ─────────────────────────────────────────────────────────────
 
@@ -270,35 +246,38 @@ export default function OnboardingScreen() {
   // ── Page 3 — Goal + Commit (combined) ────────────────────────────────────────
 
   const renderGoalAndCommit = () => (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, { flexGrow: 1 }]} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, styles.goalScroll]} showsVerticalScrollIndicator={false}>
       <Text style={styles.pageTitle}>{t('onboarding.chooseGoal')}</Text>
+      <Text style={[styles.pageSub, { marginBottom: SPACING.lg }]}>{t('onboarding.chooseGoalSub')}</Text>
       <View style={styles.optionList}>
         {GOAL_OPTIONS.map((g) => {
           const sel = selectedGoal === g.category;
           return (
             <TouchableOpacity
               key={g.category}
-              style={[styles.optionRow, sel && styles.optionRowSelected]}
+              style={[styles.optionRow, sel && styles.optionRowSelected, sel && { borderColor: g.color }]}
               onPress={() => handleGoalSelect(g.category)}
-              activeOpacity={0.75}
+              activeOpacity={0.8}
             >
-              <View style={[styles.optionIconCircle, { backgroundColor: g.color + '30' }]}>
-                <Ionicons name={g.icon} size={22} color={g.color} />
+              <View style={[styles.optionIconCircle, { backgroundColor: g.color + (sel ? '40' : '24') }]}>
+                <Ionicons name={g.icon} size={23} color={g.color} />
               </View>
               <View style={styles.optionTexts}>
                 <Text style={styles.optionLabel}>{t(g.labelKey)}</Text>
+                <Text style={styles.optionSub}>{t(g.subKey)}</Text>
               </View>
               {sel
-                ? <View style={[styles.checkCircle, { backgroundColor: g.color }]}><Ionicons name="checkmark" size={13} color="#FFF" /></View>
-                : <Ionicons name="chevron-forward" size={17} color="rgba(255,255,255,0.4)" />}
+                ? <View style={[styles.checkCircle, { backgroundColor: g.color }]}><Ionicons name="checkmark" size={14} color="#FFF" /></View>
+                : <Ionicons name="chevron-forward" size={18} color="rgba(255,255,255,0.35)" />}
             </TouchableOpacity>
           );
         })}
       </View>
 
-      {/* Minutes — slides in after goal selected */}
+      {/* Minutes */}
       <Animated.View style={{ opacity: commitOpacity, transform: [{ translateY: commitAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
-        <Text style={[styles.pageTitle, { fontSize: FONT_SIZE.xl, marginTop: SPACING.lg }]}>{t('onboarding.commitTitle')}</Text>
+        <Text style={styles.commitTitle}>{t('onboarding.commitTitle')}</Text>
+        <Text style={[styles.pageSub, { marginBottom: SPACING.md }]}>{t('onboarding.commitSub')}</Text>
         <View style={styles.commitRow}>
           {COMMIT_OPTIONS.map((min) => {
             const sel = selectedMinutes != null && selectedMinutes === min;
@@ -307,10 +286,10 @@ export default function OnboardingScreen() {
                 key={min}
                 style={[styles.commitChip, sel && styles.commitChipSelected]}
                 onPress={() => handleCommitSelect(min)}
-                activeOpacity={0.75}
+                activeOpacity={0.8}
               >
                 <Text style={[styles.commitChipNum, sel && { color: '#FFF' }]}>{min}</Text>
-                <Text style={[styles.commitChipUnit, sel && { color: 'rgba(255,255,255,0.8)' }]}>min</Text>
+                <Text style={[styles.commitChipUnit, sel && { color: 'rgba(255,255,255,0.85)' }]}>min</Text>
               </TouchableOpacity>
             );
           })}
@@ -371,197 +350,36 @@ export default function OnboardingScreen() {
         ))}
       </View>
 
-      <TouchableOpacity style={styles.primaryBtn} onPress={goNext} activeOpacity={0.85}>
+      <TouchableOpacity style={styles.primaryBtn} onPress={finishOnboarding} activeOpacity={0.85}>
         <Text style={styles.primaryBtnText}>{t('onboarding.continue')}</Text>
       </TouchableOpacity>
     </ScrollView>
-  );
-
-  // ── Page 5 — Notifications ────────────────────────────────────────────────────
-
-  const renderNotifications = () => (
-    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
-      {/* Top: title */}
-      <View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm, marginBottom: 6, paddingRight: SPACING.lg }}>
-          <Ionicons name="notifications" size={28} color="#4A90D9" />
-          <Text style={[styles.pageTitle, { flex: 1 }]}>{t('onboarding.notificationsTitle')}</Text>
-        </View>
-        <Text style={styles.pageSub}>{t('onboarding.notificationsSub')}</Text>
-      </View>
-
-      {/* Middle: notification bubbles */}
-      <View style={{ gap: SPACING.sm }}>
-        {/* Notification 1 */}
-        <View style={[styles.glassCard, { marginBottom: 0, marginRight: SPACING.xl }]}>
-          <View style={styles.notifRow}>
-            <View style={[styles.notifBubbleIcon, { backgroundColor: COLORS.primary }]}>
-              <Ionicons name="leaf" size={16} color="#FFF" />
-            </View>
-            <View style={{ flex: 1 }}>
-              <View style={styles.notifHeader}>
-                <Text style={styles.notifAppName}>BREATHFLOW</Text>
-                <Text style={styles.notifTime}>9:00 AM</Text>
-              </View>
-              <Text style={styles.notifTitle}>Time to breathe 🌿</Text>
-              <Text style={styles.notifMessage}>Your daily session is ready. Take 5 minutes for yourself.</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Notification 2 — shifted right */}
-        <View style={[styles.glassCard, { marginBottom: 0, marginLeft: SPACING.xl, opacity: 0.6 }]}>
-          <View style={styles.notifRow}>
-            <View style={[styles.notifBubbleIcon, { backgroundColor: COLORS.primary }]}>
-              <Ionicons name="leaf" size={16} color="#FFF" />
-            </View>
-            <View style={{ flex: 1 }}>
-              <View style={styles.notifHeader}>
-                <Text style={styles.notifAppName}>BREATHFLOW</Text>
-                <Text style={styles.notifTime}>Yesterday</Text>
-              </View>
-              <Text style={styles.notifTitle}>3-day streak! 🔥</Text>
-              <Text style={styles.notifMessage}>Keep it up — consistency is everything.</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-
-      {/* Bottom: button */}
-      <View>
-        <TouchableOpacity
-          style={[styles.primaryBtn, styles.glowBtn, { flexDirection: 'row', gap: 8 }]}
-          onPress={handleEnableNotifications}
-          activeOpacity={0.85}
-        >
-          <Ionicons name="notifications-outline" size={18} color="#FFF" />
-          <Text style={styles.primaryBtnText}>{t('onboarding.notificationsEnable')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.skipLink} onPress={goNext}>
-          <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-
-  // ── Page 6 — Apple Health ─────────────────────────────────────────────────────
-
-  const renderAppleHealth = () => (
-    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
-      {/* Top: title */}
-      <View>
-        <Text style={[styles.pageTitle, { marginTop: SPACING.sm }]}>{t('onboarding.appleHealthTitle')}</Text>
-        <Text style={styles.pageSub}>{t('onboarding.appleHealthSub')}</Text>
-      </View>
-
-      {/* Middle: heart with ripple rings */}
-      <View style={styles.healthRippleWrap}>
-        <Animated.View style={[styles.healthRing, { width: scale(200), height: scale(200), borderRadius: scale(100), opacity: 0.08, transform: [{ scale: ringPulse }] }]} />
-        <Animated.View style={[styles.healthRing, { width: scale(158), height: scale(158), borderRadius: scale(79), opacity: 0.14, transform: [{ scale: ringPulse }] }]} />
-        <Animated.View style={[styles.healthRing, { width: scale(118), height: scale(118), borderRadius: scale(59), opacity: 0.22, transform: [{ scale: ringPulse }] }]} />
-        <Animated.View style={[styles.healthIconCircle, { transform: [{ scale: heartPulse }] }]}>
-          <Ionicons name="heart" size={scale(44)} color="#FFF" />
-        </Animated.View>
-      </View>
-
-      {/* Bullets — no card */}
-      <View style={{ gap: SPACING.md }}>
-        {([
-          { icon: 'sync-outline'        as const, key: 'onboarding.appleHealthBullet1' },
-          { icon: 'trending-up-outline' as const, key: 'onboarding.appleHealthBullet2' },
-          { icon: 'lock-closed-outline' as const, key: 'onboarding.appleHealthBullet3' },
-        ]).map((b, i) => (
-          <View key={i} style={styles.bulletRow}>
-            <Ionicons name={b.icon} size={18} color="#FF3B30" />
-            <Text style={styles.bulletText}>{t(b.key)}</Text>
-          </View>
-        ))}
-      </View>
-
-      {/* Bottom: button */}
-      <View>
-        <TouchableOpacity style={[styles.primaryBtn, styles.glowBtn, { backgroundColor: '#FF3B30', flexDirection: 'row', gap: 8, shadowColor: '#FF3B30' }]} onPress={handleConnectHealth} activeOpacity={0.85}>
-          <Ionicons name="heart" size={18} color="#FFF" />
-          <Text style={styles.primaryBtnText}>{t('onboarding.appleHealthConnect')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.skipLink} onPress={goNext}>
-          <Text style={styles.skipText}>{t('onboarding.maybeSkip')}</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-
-  // ── Page 7 — Safety ───────────────────────────────────────────────────────────
-
-  const renderSafety = () => (
-    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
-      {/* Top */}
-      <View>
-        <Text style={[styles.pageTitle, { marginTop: SPACING.sm }]}>{t('onboarding.safety')}</Text>
-        <Text style={[styles.pageSub, { marginBottom: SPACING.xl }]}>{'Read before starting your first session'}</Text>
-
-        {/* Bullets — no card */}
-        <View style={{ gap: SPACING.lg }}>
-          {SAFETY_ITEMS.map((key, i) => (
-            <View key={i} style={styles.bulletRow}>
-              <View style={styles.safetyDot}>
-                <Text style={styles.safetyDotNum}>{i + 1}</Text>
-              </View>
-              <Text style={styles.bulletText}>{t(key)}</Text>
-            </View>
-          ))}
-        </View>
-      </View>
-
-      {/* Bottom */}
-      <View>
-        {/* Checkbox styled as a full-width tappable row */}
-        <TouchableOpacity
-          style={[styles.safetyCheckRow, safetyChecked && { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '15' }]}
-          onPress={() => setSafetyChecked((v) => !v)}
-          activeOpacity={0.7}
-        >
-          <View style={[styles.safetyCheckBox, safetyChecked && { backgroundColor: COLORS.primary, borderColor: COLORS.primary }]}>
-            {safetyChecked && <Ionicons name="checkmark" size={14} color="#FFF" />}
-          </View>
-          <Text style={styles.checkboxLabel}>{t('onboarding.understand')}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.primaryBtn, { marginTop: SPACING.md }, !safetyChecked && { backgroundColor: 'rgba(255,255,255,0.15)' }]}
-          onPress={finishOnboarding}
-          disabled={!safetyChecked}
-          activeOpacity={0.85}
-        >
-          <Text style={[styles.primaryBtnText, { opacity: safetyChecked ? 1 : 0.4 }]}>{t('onboarding.startBreathing')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.skipLink} onPress={skipToApp}>
-          <Text style={styles.skipText}>{t('onboarding.skipToApp')}</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
   );
 
   // ── Page — Social Proof (testimonials) ────────────────────────────────────────
 
   const renderSocialProof = () => (
     <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: SPACING.sm }}>
         <Text style={styles.pageTitle}>{t('onboarding.socialProofTitle')}</Text>
         <Text style={styles.pageSub}>{t('onboarding.socialProofSub')}</Text>
-        <View style={{ gap: SPACING.sm }}>
+        <View style={{ gap: SPACING.md }}>
           {TESTIMONIALS.map((tm, i) => (
-            <View key={i} style={[styles.glassCard, { marginBottom: 0, padding: SPACING.md }]}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: 6 }}>
+            <View key={i} style={[styles.testimonialCard, { borderColor: tm.color + '40', borderLeftColor: tm.color }]}>
+              <Text style={[styles.testimonialQuoteMark, { color: tm.color + '4D' }]}>{'“'}</Text>
+              <View style={styles.testimonialHeader}>
                 <View style={[styles.testimonialAvatar, { backgroundColor: tm.color }]}>
                   <Text style={styles.testimonialAvatarLetter}>{t(tm.nameKey).charAt(0)}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.testimonialName}>{t(tm.nameKey)}</Text>
+                  <View style={styles.testimonialNameRow}>
+                    <Text style={styles.testimonialName}>{t(tm.nameKey)}</Text>
+                    <Ionicons name="checkmark-circle" size={14} color={tm.color} />
+                  </View>
                   <Text style={styles.testimonialTag}>{t(tm.tagKey)}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', gap: 1 }}>
-                  {[0,1,2,3,4].map((s) => <Ionicons key={s} name="star" size={11} color="#F5A623" />)}
+                <View style={styles.testimonialStars}>
+                  {[0,1,2,3,4].map((s) => <Ionicons key={s} name="star" size={12} color="#F5C542" />)}
                 </View>
               </View>
               <Text style={styles.testimonialText}>{t(tm.textKey)}</Text>
@@ -576,16 +394,44 @@ export default function OnboardingScreen() {
     </View>
   );
 
+  // ── Page 2 — Breathing demo (live guided breath) ──────────────────────────────
+
+  const renderDemo = () => {
+    const phaseDur = demoPhase === 'INHALE' ? 4 : demoPhase === 'EXHALE' ? 6 : undefined;
+    const label =
+      demoPhase === 'INHALE' ? t('session.breatheIn')
+      : demoPhase === 'EXHALE' ? t('session.breatheOut')
+      : demoPhase === 'DONE' ? t('onboarding.demoDone', { defaultValue: 'Notice how you feel.' })
+      : t('onboarding.demoReady', { defaultValue: 'Get ready…' });
+    return (
+      <View style={[styles.pageContent, { alignItems: 'center' }]}>
+        <Text style={[styles.pageTitle, { textAlign: 'center', marginTop: SPACING.sm }]}>
+          {t('onboarding.demoTitle', { defaultValue: "Let's take one breath together" })}
+        </Text>
+        <Text style={[styles.pageSub, { textAlign: 'center' }]}>
+          {t('onboarding.demoSub', { defaultValue: 'Follow the circle — in through the nose, slowly out.' })}
+        </Text>
+        <View style={styles.demoStage}>
+          <BreathingMandala phase={demoPhase} color={plan.color} size={scale(220)} bright phaseDuration={phaseDur} />
+          <Text style={styles.demoPhaseLabel}>{label}</Text>
+          <Text style={styles.demoCounter}>
+            {demoPhase === 'INHALE' || demoPhase === 'EXHALE'
+              ? t('onboarding.demoCounter', { defaultValue: 'Breath {{n}} of {{total}}', n: demoCycle, total: 3 })
+              : ' '}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
   const renderPage = () => {
     switch (page) {
       case 0: return renderHook();
-      case 1: return renderNotifications();
-      case 2: return renderAppleHealth();
-      case 3: return renderGoalAndCommit();
-      case 4: return renderSocialProof();
-      case 5: return renderBuilding();
-      case 6: return renderPlan();
-      case 7: return renderSafety();
+      case 1: return renderGoalAndCommit();
+      case 2: return renderDemo();
+      case 3: return renderSocialProof();
+      case 4: return renderBuilding();
+      case 5: return renderPlan();
       default: return null;
     }
   };
@@ -605,19 +451,17 @@ export default function OnboardingScreen() {
         style={{ flex: 1, backgroundColor: 'transparent' }}
         edges={page === 0 ? ['left', 'right', 'bottom'] : ['top', 'left', 'right', 'bottom']}
       >
-        {/* Back + Forward buttons */}
-        {page > 0 && page !== 5 && (
+        {/* Back + Skip buttons — Goal, Demo, Social Proof */}
+        {(page >= 1 && page <= 3) && (
           <View style={styles.header}>
             <TouchableOpacity style={styles.backBtn} onPress={goBack} activeOpacity={0.7}>
               <Ionicons name="chevron-back" size={22} color="#FFFFFF" />
               <Text style={styles.backText}>{t('onboarding.back')}</Text>
             </TouchableOpacity>
-            {page !== 8 && (
-              <TouchableOpacity style={styles.forwardBtn} onPress={goNext} activeOpacity={0.7}>
-                <Text style={styles.backText}>{t('onboarding.skip')}</Text>
-                <Ionicons name="chevron-forward" size={22} color="#FFFFFF" />
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity style={styles.forwardBtn} onPress={goNext} activeOpacity={0.7}>
+              <Text style={styles.backText}>{t('onboarding.skip')}</Text>
+              <Ionicons name="chevron-forward" size={22} color="#FFFFFF" />
+            </TouchableOpacity>
           </View>
         )}
 
@@ -728,31 +572,38 @@ const styles = StyleSheet.create({
   pill: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 6, borderRadius: BORDER_RADIUS.full },
   pillText: { fontSize: FONT_SIZE.xs, fontFamily: FONTS.bold },
 
+  // Breathing demo
+  demoStage: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  demoPhaseLabel: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.lg, color: 'rgba(255,255,255,0.85)', letterSpacing: 1.5, textTransform: 'uppercase', marginTop: SPACING.xl },
+  demoCounter: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, color: TEXT_SECONDARY, marginTop: SPACING.sm },
+
   // Option rows
-  optionList: { gap: 6, marginBottom: SPACING.md },
+  goalScroll: { flexGrow: 1, justifyContent: 'center', paddingBottom: SPACING.xl },
+  optionList: { gap: 10, marginBottom: SPACING.xl },
   optionRow: {
     flexDirection: 'row', alignItems: 'center',
-    paddingVertical: 10, paddingHorizontal: SPACING.md,
-    borderRadius: 14, gap: SPACING.md,
+    paddingVertical: 14, paddingHorizontal: SPACING.md,
+    borderRadius: 16, gap: SPACING.md,
     backgroundColor: GLASS_BG,
     borderWidth: 1, borderColor: GLASS_BORDER,
   },
-  optionRowSelected: { backgroundColor: GLASS_SEL_BG, borderColor: GLASS_SEL_BORDER },
-  optionIconCircle: { width: 38, height: 38, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  optionRowSelected: { backgroundColor: GLASS_SEL_BG },
+  optionIconCircle: { width: 44, height: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   optionTexts: { flex: 1 },
-  optionLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
-  optionSub: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
-  checkCircle: { width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  optionLabel: { fontFamily: FONTS.bold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
+  optionSub: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 2 },
+  checkCircle: { width: 24, height: 24, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   commitNum: { fontFamily: FONTS.heavy, fontSize: 20 },
+  commitTitle: { fontFamily: FONTS.heavy, fontSize: FONT_SIZE.xl, letterSpacing: -0.3, color: TEXT_PRIMARY, marginBottom: 6 },
   commitRow: { flexDirection: 'row', gap: SPACING.sm, marginBottom: SPACING.md },
   commitChip: {
     flex: 1, alignItems: 'center', justifyContent: 'center',
-    paddingVertical: 14, borderRadius: 14,
+    paddingVertical: 18, borderRadius: 16,
     backgroundColor: GLASS_BG, borderWidth: 1, borderColor: GLASS_BORDER,
   },
   commitChipSelected: { backgroundColor: COLORS.primary, borderColor: COLORS.primary },
-  commitChipNum: { fontFamily: FONTS.heavy, fontSize: 22, color: TEXT_PRIMARY },
-  commitChipUnit: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
+  commitChipNum: { fontFamily: FONTS.heavy, fontSize: 24, color: TEXT_PRIMARY },
+  commitChipUnit: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 2 },
 
   // Hint
   hintBox: {
@@ -764,15 +615,6 @@ const styles = StyleSheet.create({
   },
   hintText: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.xs, flex: 1, lineHeight: 18, color: 'rgba(255,255,255,0.85)' },
 
-  // Glass card
-  glassCard: {
-    backgroundColor: GLASS_BG,
-    borderWidth: 1,
-    borderColor: GLASS_BORDER,
-    borderRadius: 16,
-    overflow: 'hidden',
-    marginBottom: SPACING.md,
-  },
 
   // Bullet rows
   bulletRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: SPACING.md },
@@ -850,11 +692,24 @@ const styles = StyleSheet.create({
   checkboxLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.sm, flex: 1, lineHeight: 20, color: TEXT_PRIMARY },
 
   // Testimonials
-  testimonialAvatar:       { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
-  testimonialAvatarLetter: { fontFamily: FONTS.heavy, fontSize: 16, color: '#FFF' },
-  testimonialName:         { fontFamily: FONTS.bold, fontSize: FONT_SIZE.sm, color: TEXT_PRIMARY },
+  testimonialCard: {
+    backgroundColor: GLASS_BG,
+    borderWidth: 1,
+    borderColor: GLASS_BORDER,
+    borderLeftWidth: 3,
+    borderRadius: 16,
+    padding: SPACING.md,
+    overflow: 'hidden',
+  },
+  testimonialQuoteMark:    { position: 'absolute', top: -10, right: 14, fontSize: 72, fontFamily: FONTS.heavy, lineHeight: 84 },
+  testimonialHeader:       { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: 10 },
+  testimonialAvatar:       { width: 46, height: 46, borderRadius: 23, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: 'rgba(255,255,255,0.22)' },
+  testimonialAvatarLetter: { fontFamily: FONTS.heavy, fontSize: 18, color: '#FFF' },
+  testimonialNameRow:      { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  testimonialName:         { fontFamily: FONTS.bold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
   testimonialTag:          { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
-  testimonialText:         { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, color: 'rgba(255,255,255,0.92)', lineHeight: 20 },
+  testimonialStars:        { flexDirection: 'row', gap: 1, alignSelf: 'flex-start', marginTop: 2 },
+  testimonialText:         { fontFamily: FONTS.medium, fontSize: FONT_SIZE.md, color: 'rgba(255,255,255,0.95)', lineHeight: 23 },
 
   // Rating screen
   ratingHalo: {

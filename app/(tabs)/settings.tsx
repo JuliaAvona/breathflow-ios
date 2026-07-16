@@ -204,6 +204,30 @@ export default function SettingsScreen() {
     }
   };
 
+  // Dev/test only: replay the onboarding flow and re-arm the first-session safety gate.
+  const handleResetOnboarding = () => {
+    Alert.alert(
+      t('settings.resetOnboarding', { defaultValue: 'Reset Onboarding' }),
+      t('settings.resetOnboardingConfirm', {
+        defaultValue: 'Replay the onboarding flow? This also re-arms the first-session safety screen.',
+      }),
+      [
+        { text: t('common.cancel', { defaultValue: 'Cancel' }), style: 'cancel' },
+        {
+          text: t('settings.resetOnboardingConfirmCta', { defaultValue: 'Reset' }),
+          style: 'destructive',
+          onPress: () => {
+            settings.setSetting('onboardingCompleted', false);
+            settings.setSetting('safetyAccepted', false);
+            settings.setSetting('selectedGoal', undefined);
+            settings.setSetting('recommendedTechniqueId', undefined);
+            router.replace('/onboarding');
+          },
+        },
+      ],
+    );
+  };
+
   const handleReminderToggle = async (val: boolean) => {
     const { scheduleBreatheReminder, cancelNotification, requestNotificationPermissions } =
       await import('../../src/utils/notifications');
@@ -613,6 +637,27 @@ export default function SettingsScreen() {
           </TouchableOpacity>
 
         </View>
+
+        {/* ── Developer (dev/test builds only) ───────────────────────────── */}
+        {__DEV__ && (
+          <View style={[styles.section, { backgroundColor: theme.card }]}>
+            <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
+              {t('settings.developer', { defaultValue: 'Developer' })}
+            </Text>
+
+            {/* Reset onboarding */}
+            <TouchableOpacity
+              style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+              onPress={handleResetOnboarding}
+              accessibilityRole="button"
+            >
+              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+                {t('settings.resetOnboarding', { defaultValue: 'Reset Onboarding' })}
+              </Text>
+              <Ionicons name="refresh-outline" size={20} color={theme.textSecondary} />
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
 
       {/* ── Picker Modals ──────────────────────────────────────────────── */}

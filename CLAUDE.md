@@ -11,7 +11,7 @@ This project is scaffolded from WalkPace (Japanese interval walking timer). The 
 ### Phase 1: Clean & Rename (scaffold to BreathFlow)
 
 1. **Rename the app** everywhere:
-   - `app.config.ts`: name to "BreathFlow", slug to "breathflow", bundleIdentifier to "com.breathflow.app", buildNumber to "1"
+   - `app.config.ts`: name "BreathFlow — Breathing Exercises", slug "breathflow", iOS bundleIdentifier "com.izbrodin90.breathflow", Android package "com.breathflow.app"
    - Update iOS project files (Xcode project name, schemes, Info.plist display name)
    - Update `package.json` name field
 
@@ -31,7 +31,7 @@ This project is scaffolded from WalkPace (Japanese interval walking timer). The 
    - i18n setup + 53 locale file structure (replace all translation keys)
    - Color theme system (new default palette from MVP.md Design System)
    - Badge system structure (new badge definitions from MVP.md)
-   - RevenueCat integration (change to one-time purchase instead of subscription)
+   - RevenueCat integration (Pro entitlement: Weekly/Annual subscriptions with free trials + Lifetime one-time IAP)
    - Background audio keepalive (reuse for breathing sounds)
    - Notification system (adapt content)
    - Onboarding flow structure (new screens)
@@ -86,7 +86,7 @@ All shapes use React Native Animated API with `useNativeDriver: true`.
 
 - Sound assets for inhale/exhale/hold cues (tone, bell, nature, tibetan bowl)
 - Apple Health: write Mindful Minutes after each session
-- RevenueCat: one-time purchase ($3.99) for Pro techniques + custom builder + full history
+- RevenueCat: "BreathFlow Pro" entitlement — Weekly ($2.99, 3-day trial) / Annual ($14.99, 7-day trial, default) / Lifetime ($19.99 one-time) unlocks all Pro features
 - i18n: translate all 53 locale files
 - Badges: implement all badge definitions from MVP.md
 - Lock screen widget for quick technique launch
@@ -99,7 +99,7 @@ All shapes use React Native Animated API with `useNativeDriver: true`.
 - **State**: Zustand 5 + AsyncStorage (offline-first)
 - **Backend**: Supabase (Auth + PostgreSQL with RLS)
 - **Routing**: Expo Router v6 (file-based, `app/` directory)
-- **Bundle ID**: `com.breathflow.app`
+- **Bundle ID**: `com.izbrodin90.breathflow` (iOS) / `com.breathflow.app` (Android package)
 - **Min iOS**: 15.1
 - **Node**: >= 18 (recommended 22)
 - **Full spec**: See `MVP.md`
@@ -233,7 +233,7 @@ src/
     time.ts                # Time formatting (reuse)
     supabase.ts            # Supabase client (reuse)
     sentry.ts              # Sentry setup (reuse)
-    revenueCat.ts          # RevenueCat — one-time purchase (adapt)
+    revenueCat.ts          # RevenueCat — "BreathFlow Pro" (subscriptions + lifetime IAP)
     appleAuth.ts           # Apple Sign-In (reuse)
     backgroundAudio.ts     # Background audio keepalive (reuse)
     notifications.ts       # Notifications (adapt)
@@ -279,7 +279,12 @@ All tables have RLS: `auth.uid() = user_id`.
 
 **Free (no ads):** 5 techniques (Box, 4-7-8, Physiological Sigh, Coherence, Triangle), unlimited sessions, 7-day history, streaks, Apple Health.
 
-**Pro (one-time $3.99):** All 10 techniques, custom technique builder, full history + charts, all color themes, all badges, mood tracking, data export.
+**Pro — `BreathFlow Pro` entitlement (RevenueCat `current` offering).** Three packages:
+- **Weekly** — 3-day free trial, then $2.99/week
+- **Annual** — 7-day free trial, then $14.99/year (default selection)
+- **Lifetime** — $19.99 one-time purchase
+
+Unlocks: all 10 techniques, custom technique builder, full history + charts, all color themes, all badges, mood tracking, data export. Prices are set in App Store Connect / RevenueCat; the values above are the in-code fallback strings in `app/paywall.tsx`. `logStartTrial` fires for weekly/annual; the auto-renewal disclaimer (Apple 3.1.2c) shows for those two plans.
 
 ## Conventions
 
@@ -312,6 +317,6 @@ All tables have RLS: `auth.uid() = user_id`.
 - Do not hardcode strings — use i18next translation keys
 - Do not modify `ios/Pods/` or `ios/build/` — these are generated
 - Do not commit `.env` or Supabase keys to git
-- Do not use subscriptions — this app uses one-time purchase only
+- Do not change the monetization model without also updating App Store Connect + RevenueCat — Pro ships as Weekly/Annual auto-renewing subscriptions (with free trials) **and** a Lifetime one-time purchase
 - Do not add ads — the app is ad-free by design
 - Do not keep WalkPace-specific code — remove all walking references
