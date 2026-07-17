@@ -67,10 +67,10 @@ export function BreathingMandala({
   // --- Ref for the phase-specific loop (IDLE breathCycle, BREATHING pulse, RAPID_SET pulse) ---
   const phaseLoopRef = useRef<Animated.CompositeAnimation | null>(null);
 
-  const rotateStr = rotateAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
+  const rotateStr = useMemo(
+    () => rotateAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }),
+    [rotateAnim],
+  );
 
   // Start rotation once, just change speed via restarting
   const startRotation = (durationMs: number) => {

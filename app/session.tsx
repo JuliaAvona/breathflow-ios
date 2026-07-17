@@ -17,6 +17,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { useShallow } from 'zustand/react/shallow';
 import { useTimerStore, useSettingsStore, useSessionsStore, useAuthStore } from '../src/store';
 import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
@@ -115,7 +116,18 @@ export default function SessionScreen() {
   const requestedDuration = durationParam ? parseInt(durationParam, 10) : undefined;
 
   const timerStore = useTimerStore();
-  const settingsStore = useSettingsStore();
+  // Selective subscription: this screen only reads these 4 fields, but a
+  // whole-store useSettingsStore() would re-render the entire session screen
+  // whenever ANY setting changes anywhere in the app (dark mode, reminders,
+  // isPro, etc.), not just these.
+  const settingsStore = useSettingsStore(
+    useShallow((s) => ({
+      techniqueOverrides: s.techniqueOverrides,
+      safetyAccepted: s.safetyAccepted,
+      hapticsEnabled: s.hapticsEnabled,
+      soundStyle: s.soundStyle,
+    })),
+  );
   const addSession = useSessionsStore((s) => s.addSession);
 
   const technique = useMemo(() => {
@@ -415,26 +427,16 @@ export default function SessionScreen() {
   const isRetention = timerStore.mode === 'power' &&
     (timerStore.powerPhase === 'RETENTION' || (timerStore.powerPhase === 'PAUSED' && timerStore.retentionTime > 0 && timerStore.breathCount >= timerStore.targetBreaths));
 
-  // Guard
-  if (!technique) {
-    return (
-      <View style={[styles.container, { backgroundColor: theme.background, paddingTop: insets.top }]}>
-        <View style={styles.centerFull}>
-          <Text style={[styles.notFoundText, { color: theme.text }]}>
-            {t('session.techniqueNotFound')}
-          </Text>
-          <TouchableOpacity style={[styles.ghostBtn, { borderColor: theme.border }]} onPress={() => router.back()}>
-            <Text style={[styles.ghostBtnText, { color: theme.textSecondary }]}>{t('session.goBack')}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-
   const phaseLabel = t(getPhaseLabel(currentPhase));
   const phaseColor = '#FFFFFF';
 
-  // Fade animation for phase label transitions
+  // Fade animation for phase label transitions. Hoisted above the `!technique`
+  // guard below — phaseLabel only depends on currentPhase/timerStore, not on
+  // technique, and hooks can't be called conditionally: if techniqueId ever
+  // resolved to undefined after this screen already rendered with a valid
+  // technique (e.g. router.setParams to a bad id without a remount), these
+  // hooks previously sat after the early return and would throw "Rendered
+  // fewer hooks than expected."
   const phaseLabelOpacity = useRef(new Animated.Value(1)).current;
   const prevPhaseLabelRef = useRef(phaseLabel);
   useEffect(() => {
@@ -451,6 +453,22 @@ export default function SessionScreen() {
       AccessibilityInfo.announceForAccessibility(phaseLabel);
     }
   }, [phaseLabel, phaseLabelOpacity]);
+
+  // Guard
+  if (!technique) {
+    return (
+      <View style={[styles.container, { backgroundColor: theme.background, paddingTop: insets.top }]}>
+        <View style={styles.centerFull}>
+          <Text style={[styles.notFoundText, { color: theme.text }]}>
+            {t('session.techniqueNotFound')}
+          </Text>
+          <TouchableOpacity style={[styles.ghostBtn, { borderColor: theme.border }]} onPress={() => router.back()}>
+            <Text style={[styles.ghostBtnText, { color: theme.textSecondary }]}>{t('session.goBack')}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 
   // Sub-info
   const getSubInfo = (): string | null => {

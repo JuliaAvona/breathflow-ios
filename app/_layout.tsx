@@ -55,16 +55,23 @@ export default function RootLayout() {
       shouldPlayInBackground: true,
     });
 
-    // Hydrate stores from AsyncStorage
+    // Hydrate stores from AsyncStorage. All four are independent local reads —
+    // running them together (instead of badges after the others) shaves one
+    // sequential AsyncStorage round-trip off time-to-interactive.
     const hydrateStores = async () => {
       await Promise.all([
         useSettingsStore.getState().hydrate(),
         useSessionsStore.getState().hydrate(),
         useAuthStore.getState().hydrate(),
+        useBadgesStore.getState().hydrate(),
       ]);
 
-      // Hydrate badges store
-      await useBadgesStore.getState().hydrate();
+      // The Pro badge already reflects the last-known state from the settings
+      // hydration above, so the RevenueCat network round-trip below only needs
+      // to *correct* it — it doesn't need to block the loading spinner from
+      // dismissing. Fire it after setReady() so users see the app immediately;
+      // useSync's resyncEntitlement() re-confirms this again on every foreground too.
+      setReady(true);
 
       // Identify RevenueCat user if logged in & sync entitlements
       const authState = useAuthStore.getState();
@@ -79,8 +86,6 @@ export default function RootLayout() {
       }
       // isProFromRC === null (RC not configured / network error): leave
       // local Pro state as-is rather than treating "couldn't check" as "not Pro".
-
-      setReady(true);
 
       // Initialize Meta SDK after first frame so the ATT prompt
       // doesn't appear on a black launch screen.

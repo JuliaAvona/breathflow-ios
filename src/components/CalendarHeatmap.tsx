@@ -19,7 +19,7 @@ interface CalendarHeatmapProps {
 }
 
 
-export function CalendarHeatmap({
+function CalendarHeatmapBase({
   activeDays,
   monthSessionCount,
   year,
@@ -193,6 +193,12 @@ export function CalendarHeatmap({
     </View>
   );
 }
+
+// history.tsx already passes stable props (useMemo'd activeDays, useCallback'd
+// handlers) — memo lets month-navigation/day-selection state changes in the
+// parent skip re-rendering this grid (up to 42 cells with inline styles/closures)
+// when none of this component's own props actually changed.
+export const CalendarHeatmap = React.memo(CalendarHeatmapBase);
 
 function formatDateStr(year: number, month: number, day: number): string {
   const m = String(month + 1).padStart(2, '0');

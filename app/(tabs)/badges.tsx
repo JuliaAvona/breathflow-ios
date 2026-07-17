@@ -47,10 +47,19 @@ export default function AwardsScreen() {
     [],
   );
 
-  const isUnlocked = (badgeId: string) =>
-    unlockedBadges.some((u) => u.badgeId === badgeId);
+  // A Set gives O(1) lookups instead of re-scanning unlockedBadges (an array)
+  // for every badge on every render — isUnlocked() is called once per badge
+  // per category section below.
+  const unlockedSet = useMemo(
+    () => new Set(unlockedBadges.map((u) => u.badgeId)),
+    [unlockedBadges],
+  );
+  const isUnlocked = (badgeId: string) => unlockedSet.has(badgeId);
 
-  const unlockedCount = allBadges.filter((b) => isUnlocked(b.id)).length;
+  const unlockedCount = useMemo(
+    () => allBadges.filter((b) => unlockedSet.has(b.id)).length,
+    [allBadges, unlockedSet],
+  );
   const totalCount = allBadges.length;
   const progress = totalCount > 0 ? unlockedCount / totalCount : 0;
   const progressPercent = Math.round(progress * 100);
