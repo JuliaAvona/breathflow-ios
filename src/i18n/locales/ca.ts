@@ -670,4 +670,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Augmenta",
   'common.decrease': "Disminueix",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "ESTALVIA {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/setmana",
+  'paywall.startTrialWeekly': "Prova-ho gratis 3 dies",
+  'paywall.startTrialAnnual': "Prova-ho gratis 7 dies",
+  'paywall.cancelAnytime': "Cancel·la quan vulguis · Sense compromís",
 };

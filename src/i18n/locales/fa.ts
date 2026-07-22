@@ -670,4 +670,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "افزایش",
   'common.decrease': "کاهش",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% تخفیف",
+  'paywall.perWeekApprox': "≈ {{price}}/هفته",
+  'paywall.startTrialWeekly': "۳ روز رایگان امتحان کنید",
+  'paywall.startTrialAnnual': "۷ روز رایگان امتحان کنید",
+  'paywall.cancelAnytime': "هر زمان لغو کنید · بدون تعهد",
 };

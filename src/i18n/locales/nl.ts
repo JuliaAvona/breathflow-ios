@@ -604,4 +604,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Verhogen",
   'common.decrease': "Verlagen",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "BESPAAR {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/week",
+  'paywall.startTrialWeekly': "3 dagen gratis proberen",
+  'paywall.startTrialAnnual': "7 dagen gratis proberen",
+  'paywall.cancelAnytime': "Altijd opzegbaar · Geen verplichting",
 };

@@ -670,4 +670,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Ongeza",
   'common.decrease': "Punguza",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "OKOA {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/wiki",
+  'paywall.startTrialWeekly': "Jaribu Bure kwa Siku 3",
+  'paywall.startTrialAnnual': "Jaribu Bure kwa Siku 7",
+  'paywall.cancelAnytime': "Ghairi wakati wowote · Hakuna commitment",
 };

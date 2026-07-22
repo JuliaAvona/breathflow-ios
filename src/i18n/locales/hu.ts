@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Növelés",
   'common.decrease': "Csökkentés",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "TAKARÍTS MEG {{percent}}%-OT",
+  'paywall.perWeekApprox': "≈ {{price}}/hét",
+  'paywall.startTrialWeekly': "Próbáld ki ingyen 3 napig",
+  'paywall.startTrialAnnual': "Próbáld ki ingyen 7 napig",
+  'paywall.cancelAnytime': "Bármikor lemondható · Kötelezettség nélkül",
 };

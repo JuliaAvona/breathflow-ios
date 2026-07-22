@@ -71,6 +71,41 @@ describe('badgesStore', () => {
     expect(unlocked).toContain('first_breath');
   });
 
+  it(
+    'does not unlock early_bird from an incomplete (Stop before finishing) session, ' +
+      'only from a completed one at the same early hour',
+    () => {
+      const { result } = renderHook(() => useBadgesStore());
+      const earlySession = (overrides: Partial<BreathingSession>): BreathingSession => ({
+        id: `s-${Math.random()}`,
+        userId: 'user-1',
+        date: '2026-02-19',
+        startedAt: new Date('2026-02-19T05:30:00').toISOString(),
+        completedAt: new Date('2026-02-19T05:35:00').toISOString(),
+        completed: true,
+        techniqueId: 'box_breathing',
+        cyclesCompleted: 6,
+        totalDuration: 300,
+        ...overrides,
+      });
+
+      let unlocked: string[] = [];
+      act(() => {
+        unlocked = result.current.checkAndUnlock(mockStats, mockSettings, [
+          earlySession({ id: 'abandoned-early', completed: false }),
+        ]);
+      });
+      expect(unlocked).not.toContain('early_bird');
+
+      act(() => {
+        unlocked = result.current.checkAndUnlock(mockStats, mockSettings, [
+          earlySession({ id: 'finished-early', completed: true }),
+        ]);
+      });
+      expect(unlocked).toContain('early_bird');
+    },
+  );
+
   it('unlocks explorer badge with 5 techniques used', () => {
     const { result } = renderHook(() => useBadgesStore());
 

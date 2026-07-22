@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Forøg",
   'common.decrease': "Formindsk",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "SPAR {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/uge",
+  'paywall.startTrialWeekly': "Prøv gratis i 3 dage",
+  'paywall.startTrialAnnual': "Prøv gratis i 7 dage",
+  'paywall.cancelAnytime': "Opsig når som helst · Ingen binding",
 };

@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "زيادة",
   'common.decrease': "تقليل",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "وفّر {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/أسبوع",
+  'paywall.startTrialWeekly': "جرّب مجانًا لمدة 3 أيام",
+  'paywall.startTrialAnnual': "جرّب مجانًا لمدة 7 أيام",
+  'paywall.cancelAnytime': "ألغِ في أي وقت · بلا التزام",
 };

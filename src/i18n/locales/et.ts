@@ -678,4 +678,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Suurenda",
   'common.decrease': "Vähenda",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "SÄÄSTA {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/nädal",
+  'paywall.startTrialWeekly': "Proovi 3 päeva tasuta",
+  'paywall.startTrialAnnual': "Proovi 7 päeva tasuta",
+  'paywall.cancelAnytime': "Tühista igal ajal · Kohustusteta",
 };

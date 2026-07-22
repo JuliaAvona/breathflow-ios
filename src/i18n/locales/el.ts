@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Αύξηση",
   'common.decrease': "Μείωση",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "ΕΞΟΙΚΟΝΟΜΗΣΗ {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/εβδομάδα",
+  'paywall.startTrialWeekly': "Δοκιμάστε δωρεάν για 3 ημέρες",
+  'paywall.startTrialAnnual': "Δοκιμάστε δωρεάν για 7 ημέρες",
+  'paywall.cancelAnytime': "Ακύρωση οποιαδήποτε στιγμή · Χωρίς δέσμευση",
 };

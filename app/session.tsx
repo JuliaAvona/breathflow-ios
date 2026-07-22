@@ -406,6 +406,43 @@ export default function SessionScreen() {
           releaseAllSessionAudio();
           stopBackgroundAudio();
           stopMusic();
+
+          // Save what was actually done as an incomplete session — honoring
+          // "Your progress will be saved" instead of silently discarding it.
+          // computeStats()/checkAndUnlock() both filter to completed-only
+          // sessions, so this never inflates stats/streaks/badges.
+          const state = useTimerStore.getState();
+          if (technique && state.startedAt) {
+            const session: BreathingSession = {
+              id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+              userId: useAuthStore.getState().user?.id ?? '',
+              date: getToday(),
+              startedAt: state.startedAt,
+              completedAt: new Date().toISOString(),
+              completed: false,
+              techniqueId: technique.id,
+              cyclesCompleted: state.mode === 'standard' ? state.currentCycle
+                : state.mode === 'kapalabhati' ? state.currentSet : 0,
+              totalDuration: state.totalElapsed,
+              roundsCompleted: state.mode === 'power' ? state.currentRound
+                : state.mode === 'kapalabhati' ? state.currentSet : undefined,
+              retentionTimes: state.mode === 'power' ? state.retentionTimes : undefined,
+              bestRetention:
+                state.mode === 'power' && state.retentionTimes.length > 0
+                  ? Math.max(...state.retentionTimes)
+                  : undefined,
+              avgRetention:
+                state.mode === 'power' && state.retentionTimes.length > 0
+                  ? Math.round(state.retentionTimes.reduce((a, b) => a + b, 0) / state.retentionTimes.length)
+                  : undefined,
+              breathsPerRound: state.mode === 'power' ? state.targetBreaths : undefined,
+            };
+            addSession(session);
+            useTimerStore.getState().stop();
+            router.replace({ pathname: '/summary', params: { sessionId: session.id, fromOnboarding: fromOnboarding ?? '', _dur: durationParam ?? '', _music: musicId ?? '' } });
+            return;
+          }
+
           useTimerStore.getState().stop();
           if (router.canGoBack()) {
             router.back();
@@ -415,7 +452,7 @@ export default function SessionScreen() {
         },
       },
     ]);
-  }, [t]);
+  }, [t, technique, addSession, fromOnboarding, durationParam, musicId]);
 
   // Derived
   const currentPhase = useMemo(() => {

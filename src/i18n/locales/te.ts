@@ -670,4 +670,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "పెంచు",
   'common.decrease': "తగ్గించు",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% పొదుపు",
+  'paywall.perWeekApprox': "≈ {{price}}/వారం",
+  'paywall.startTrialWeekly': "3 రోజులు ఉచితంగా ప్రయత్నించండి",
+  'paywall.startTrialAnnual': "7 రోజులు ఉచితంగా ప్రయత్నించండి",
+  'paywall.cancelAnytime': "ఎప్పుడైనా రద్దు చేసుకోండి · ఎలాంటి బాధ్యత లేదు",
 };

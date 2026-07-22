@@ -670,4 +670,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Dagdagan",
   'common.decrease': "Bawasan",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "MAKATIPID NG {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/linggo",
+  'paywall.startTrialWeekly': "Subukan nang Libre sa loob ng 3 Araw",
+  'paywall.startTrialAnnual': "Subukan nang Libre sa loob ng 7 Araw",
+  'paywall.cancelAnytime': "Kanselahin anumang oras · Walang commitment",
 };

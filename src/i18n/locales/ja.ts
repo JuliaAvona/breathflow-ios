@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "増やす",
   'common.decrease': "減らす",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}%お得",
+  'paywall.perWeekApprox': "≈ 週{{price}}",
+  'paywall.startTrialWeekly': "3日間無料でお試し",
+  'paywall.startTrialAnnual': "7日間無料でお試し",
+  'paywall.cancelAnytime': "いつでもキャンセル可能・縛りなし",
 };

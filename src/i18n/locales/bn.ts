@@ -670,4 +670,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "বাড়ান",
   'common.decrease': "কমান",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% সাশ্রয়",
+  'paywall.perWeekApprox': "≈ {{price}}/সপ্তাহ",
+  'paywall.startTrialWeekly': "৩ দিন বিনামূল্যে ব্যবহার করুন",
+  'paywall.startTrialAnnual': "৭ দিন বিনামূল্যে ব্যবহার করুন",
+  'paywall.cancelAnytime': "যেকোনো সময় বাতিল করুন · কোনো প্রতিশ্রুতি নেই",
 };

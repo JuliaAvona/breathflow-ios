@@ -682,4 +682,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Збільшити",
   'common.decrease': "Зменшити",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "ЗАОЩАДЬТЕ {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/тиж.",
+  'paywall.startTrialWeekly': "Спробуйте безкоштовно 3 дні",
+  'paywall.startTrialAnnual': "Спробуйте безкоштовно 7 днів",
+  'paywall.cancelAnytime': "Скасування будь-коли · Без зобов’язань",
 };

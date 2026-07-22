@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Artır",
   'common.decrease': "Azalt",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "%{{percent}} TASARRUF",
+  'paywall.perWeekApprox': "≈ {{price}}/hafta",
+  'paywall.startTrialWeekly': "3 Gün Ücretsiz Dene",
+  'paywall.startTrialAnnual': "7 Gün Ücretsiz Dene",
+  'paywall.cancelAnytime': "İstediğin zaman iptal et · Taahhüt yok",
 };

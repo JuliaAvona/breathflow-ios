@@ -682,4 +682,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Povečaj",
   'common.decrease': "Zmanjšaj",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "PRIHRANITE {{percent}} %",
+  'paywall.perWeekApprox': "≈ {{price}}/teden",
+  'paywall.startTrialWeekly': "Preizkusite brezplačno 3 dni",
+  'paywall.startTrialAnnual': "Preizkusite brezplačno 7 dni",
+  'paywall.cancelAnytime': "Prekličite kadarkoli · Brez obveznosti",
 };

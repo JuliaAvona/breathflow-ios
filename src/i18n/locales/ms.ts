@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Tambah",
   'common.decrease': "Kurangkan",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "JIMAT {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/minggu",
+  'paywall.startTrialWeekly': "Cuba Percuma selama 3 Hari",
+  'paywall.startTrialAnnual': "Cuba Percuma selama 7 Hari",
+  'paywall.cancelAnytime': "Batalkan bila-bila masa · Tiada komitmen",
 };

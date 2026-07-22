@@ -682,4 +682,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Zvýšit",
   'common.decrease': "Snížit",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "UŠETŘETE {{percent}} %",
+  'paywall.perWeekApprox': "≈ {{price}}/týden",
+  'paywall.startTrialWeekly': "Vyzkoušejte zdarma na 3 dny",
+  'paywall.startTrialAnnual': "Vyzkoušejte zdarma na 7 dní",
+  'paywall.cancelAnytime': "Kdykoliv zrušte · Bez závazků",
 };

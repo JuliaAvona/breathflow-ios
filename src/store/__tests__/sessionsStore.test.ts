@@ -76,6 +76,25 @@ describe('sessionsStore', () => {
       expect(stats.totalBreaths).toBe(0);
       expect(stats.lastSessionDate).toBe('');
     });
+
+    it(
+      'excludes incomplete sessions (Stop before finishing) from totals/streaks, ' +
+        'so an abandoned session never inflates stats or gates achievements',
+      () => {
+        useSessionsStore.setState({
+          sessions: [
+            createMockSession({ id: 'done-1', completed: true, totalDuration: 300 }),
+            createMockSession({ id: 'abandoned', completed: false, totalDuration: 12, cyclesCompleted: 1 }),
+          ],
+        });
+
+        useSessionsStore.getState().recalculateStats();
+
+        const { stats } = useSessionsStore.getState();
+        expect(stats.totalSessions).toBe(1);
+        expect(stats.totalMinutes).toBe(5); // only the completed 300s session
+      },
+    );
   });
 
   describe('getSessionsByDate', () => {

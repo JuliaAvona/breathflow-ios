@@ -670,4 +670,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "वाढवा",
   'common.decrease': "कमी करा",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% बचत",
+  'paywall.perWeekApprox': "≈ {{price}}/आठवडा",
+  'paywall.startTrialWeekly': "3 दिवस मोफत वापरून पहा",
+  'paywall.startTrialAnnual': "7 दिवस मोफत वापरून पहा",
+  'paywall.cancelAnytime': "कधीही रद्द करा · कोणतीही बांधिलकी नाही",
 };

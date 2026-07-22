@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "เพิ่ม",
   'common.decrease': "ลด",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "ประหยัด {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/สัปดาห์",
+  'paywall.startTrialWeekly': "ทดลองใช้ฟรี 3 วัน",
+  'paywall.startTrialAnnual': "ทดลองใช้ฟรี 7 วัน",
+  'paywall.cancelAnytime': "ยกเลิกได้ทุกเมื่อ · ไม่มีข้อผูกมัด",
 };

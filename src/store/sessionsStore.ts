@@ -36,7 +36,12 @@ interface SessionsStore {
   hydrate: () => Promise<void>;
 }
 
-function computeStats(sessions: BreathingSession[]): UserStats {
+function computeStats(allSessions: BreathingSession[]): UserStats {
+  // Sessions saved from a Stop-before-finishing (completed: false) are kept so
+  // the user gets an honest summary of what they actually did, but they don't
+  // count toward totals/streaks/badges — only genuinely finished sessions do.
+  const sessions = allSessions.filter((s) => s.completed);
+
   if (sessions.length === 0) {
     return { ...defaultStats };
   }

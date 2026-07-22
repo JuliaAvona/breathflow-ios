@@ -691,4 +691,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Palielināt",
   'common.decrease': "Samazināt",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "IETAUPI {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/nedēļā",
+  'paywall.startTrialWeekly': "Izmēģini bez maksas 3 dienas",
+  'paywall.startTrialAnnual': "Izmēģini bez maksas 7 dienas",
+  'paywall.cancelAnytime': "Atceļams jebkurā laikā · Bez saistībām",
 };

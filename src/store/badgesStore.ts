@@ -98,11 +98,16 @@ export const useBadgesStore = create<BadgesStore>((set, get) => ({
     const unlockedIds = new Set(unlockedBadges.map((b) => b.badgeId));
     const newlyUnlocked: string[] = [];
     const now = new Date().toISOString();
+    // Abandoned sessions (Stop before finishing) are saved for an honest
+    // summary screen, but shouldn't count toward achievements — otherwise
+    // early_bird/night_owl/mood_tracker could be earned by starting and
+    // immediately stopping a session.
+    const completedSessions = sessions.filter((s) => s.completed);
 
     for (const def of BADGE_DEFINITIONS) {
       if (unlockedIds.has(def.id)) continue;
 
-      const earned = evaluateCondition(def.id, stats, settings, sessions);
+      const earned = evaluateCondition(def.id, stats, settings, completedSessions);
       if (earned) {
         newlyUnlocked.push(def.id);
       }

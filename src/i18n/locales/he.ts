@@ -670,4 +670,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "הגדלה",
   'common.decrease': "הקטנה",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "חיסכון של {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/שבוע",
+  'paywall.startTrialWeekly': "נסו בחינם ל-3 ימים",
+  'paywall.startTrialAnnual': "נסו בחינם ל-7 ימים",
+  'paywall.cancelAnytime': "ביטול בכל עת · ללא התחייבות",
 };

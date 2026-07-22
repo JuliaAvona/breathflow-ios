@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Tambah",
   'common.decrease': "Kurangi",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "HEMAT {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/minggu",
+  'paywall.startTrialWeekly': "Coba Gratis selama 3 Hari",
+  'paywall.startTrialAnnual': "Coba Gratis selama 7 Hari",
+  'paywall.cancelAnytime': "Batalkan kapan saja · Tanpa komitmen",
 };

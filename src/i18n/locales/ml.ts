@@ -670,4 +670,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "വർദ്ധിപ്പിക്കുക",
   'common.decrease': "കുറയ്ക്കുക",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% ലാഭം",
+  'paywall.perWeekApprox': "≈ {{price}}/ആഴ്ച",
+  'paywall.startTrialWeekly': "3 ദിവസം സൗജന്യമായി പരീക്ഷിക്കൂ",
+  'paywall.startTrialAnnual': "7 ദിവസം സൗജന്യമായി പരീക്ഷിക്കൂ",
+  'paywall.cancelAnytime': "എപ്പോൾ വേണമെങ്കിലും റദ്ദാക്കാം · പ്രതിബദ്ധതയില്ല",
 };

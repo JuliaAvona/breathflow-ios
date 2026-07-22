@@ -70,6 +70,25 @@ export default function PaywallScreen() {
   const annualPrice = annualPkg?.product.priceString ?? '$14.99';
   const lifetimePrice = lifetimePkg?.product.priceString ?? '$19.99';
 
+  // Numeric prices (not the pre-formatted priceString) so we can derive the
+  // weekly-equivalent and savings-vs-weekly figures below, formatted through
+  // the package's own currency so this works correctly outside the US too.
+  const weeklyPriceNum = weeklyPkg?.product.price ?? 2.99;
+  const annualPriceNum = annualPkg?.product.price ?? 14.99;
+  const currencyCode = annualPkg?.product.currencyCode ?? weeklyPkg?.product.currencyCode ?? 'USD';
+  const formatCurrency = (amount: number): string => {
+    try {
+      return new Intl.NumberFormat(undefined, { style: 'currency', currency: currencyCode }).format(amount);
+    } catch {
+      return `$${amount.toFixed(2)}`;
+    }
+  };
+  const annualWeeklyEquivalent = formatCurrency(annualPriceNum / 52);
+  const annualSavingsPercent = Math.max(
+    0,
+    Math.round((1 - annualPriceNum / (weeklyPriceNum * 52)) * 100),
+  );
+
   const getSelectedPkg = (): PurchasesPackage | null => {
     if (selectedPlan === 'weekly') return weeklyPkg;
     if (selectedPlan === 'annual') return annualPkg;
@@ -135,8 +154,8 @@ export default function PaywallScreen() {
   const ctaLabel = selectedPlan === 'lifetime'
     ? t('paywall.unlockForever', { defaultValue: 'Unlock Forever' })
     : selectedPlan === 'annual'
-      ? t('paywall.startAnnual', { defaultValue: 'Start Annual Plan' })
-      : t('paywall.startWeekly', { defaultValue: 'Start Weekly' });
+      ? t('paywall.startTrialAnnual')
+      : t('paywall.startTrialWeekly');
 
   return (
     <ImageBackground
@@ -218,29 +237,42 @@ export default function PaywallScreen() {
             </View>
           </TouchableOpacity>
 
-          {/* Annual */}
-          <TouchableOpacity
-            style={[
-              styles.planCard,
-              selectedPlan === 'annual' && styles.planCardSelected,
-            ]}
-            onPress={() => setSelectedPlan('annual')}
-            activeOpacity={0.8}
-          >
-            <View style={styles.planLeft}>
-              <View style={[styles.planRadio, selectedPlan === 'annual' && styles.planRadioSelected]}>
-                {selectedPlan === 'annual' && <View style={styles.planRadioDot} />}
-              </View>
-              <View>
-                <Text style={styles.planTitle}>ANNUAL</Text>
-                <Text style={styles.planSub}>{t('paywall.annualTrial', { defaultValue: '7-day free trial' })}</Text>
-              </View>
+          {/* Annual — featured: permanently accented border (not just on
+              selection) + a "SAVE X%" ribbon, so it reads as the recommended
+              plan even if the user taps over to Weekly/Lifetime first. */}
+          <View style={styles.annualCardWrap}>
+            <View style={styles.saveBadge}>
+              <Text style={styles.saveBadgeText}>
+                {t('paywall.saveBadge', { percent: annualSavingsPercent })}
+              </Text>
             </View>
-            <View style={styles.planRight}>
-              <Text style={styles.planPriceLabel}>{t('paywall.then', { defaultValue: 'then' })} {annualPrice}</Text>
-              <Text style={styles.planPeriod}>{t('paywall.perYear', { defaultValue: 'per year' })}</Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.planCard,
+                styles.planCardFeatured,
+                selectedPlan === 'annual' && styles.planCardSelected,
+              ]}
+              onPress={() => setSelectedPlan('annual')}
+              activeOpacity={0.8}
+            >
+              <View style={styles.planLeft}>
+                <View style={[styles.planRadio, selectedPlan === 'annual' && styles.planRadioSelected]}>
+                  {selectedPlan === 'annual' && <View style={styles.planRadioDot} />}
+                </View>
+                <View>
+                  <Text style={styles.planTitle}>ANNUAL</Text>
+                  <Text style={styles.planSub}>{t('paywall.annualTrial', { defaultValue: '7-day free trial' })}</Text>
+                </View>
+              </View>
+              <View style={styles.planRight}>
+                <Text style={styles.planPriceLabel}>{t('paywall.then', { defaultValue: 'then' })} {annualPrice}</Text>
+                <Text style={styles.planPeriod}>{t('paywall.perYear', { defaultValue: 'per year' })}</Text>
+                <Text style={styles.planPerWeek}>
+                  {t('paywall.perWeekApprox', { price: annualWeeklyEquivalent })}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
 
           {/* Lifetime */}
           <TouchableOpacity
@@ -282,6 +314,10 @@ export default function PaywallScreen() {
             </>
           )}
         </TouchableOpacity>
+
+        {(selectedPlan === 'weekly' || selectedPlan === 'annual') && (
+          <Text style={styles.cancelAnytime}>{t('paywall.cancelAnytime')}</Text>
+        )}
 
         {/* Subscription auto-renewal disclaimer (Apple Guideline 3.1.2c) */}
         {(selectedPlan === 'weekly' || selectedPlan === 'annual') && (
@@ -414,6 +450,16 @@ const styles = StyleSheet.create({
     borderColor: '#4A90D9',
     backgroundColor: 'rgba(155,89,182,0.1)',
   },
+  // Annual stays visually "featured" (warm accent border) even when the user
+  // taps over to another plan — the selected-state blue border above still
+  // takes precedence when it IS selected, since style arrays merge in order.
+  annualCardWrap: {
+    position: 'relative',
+    marginTop: 14,
+  },
+  planCardFeatured: {
+    borderColor: 'rgba(245,166,35,0.6)',
+  },
   planLeft: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -468,20 +514,31 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.heavy,
     color: '#4A90D9',
   },
+  planPerWeek: {
+    fontSize: 12,
+    fontFamily: FONTS.semibold,
+    color: 'rgba(255,255,255,0.55)',
+    marginTop: 2,
+  },
   saveBadge: {
     position: 'absolute',
     top: -12,
-    right: 12,
-    backgroundColor: '#34D399',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-    zIndex: 1,
+    alignSelf: 'center',
+    backgroundColor: '#F5A623',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    zIndex: 2,
+    shadowColor: '#F5A623',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 6,
+    elevation: 3,
   },
   saveBadgeText: {
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: FONTS.heavy,
-    color: '#000',
+    color: '#1A1200',
     letterSpacing: 0.5,
   },
 
@@ -507,6 +564,13 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: 0.5,
+  },
+  cancelAnytime: {
+    fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.55)',
+    textAlign: 'center',
+    marginBottom: SPACING.sm,
   },
 
   // Subscription disclaimer

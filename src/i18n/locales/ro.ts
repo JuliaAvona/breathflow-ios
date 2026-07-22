@@ -682,4 +682,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Crește",
   'common.decrease': "Scade",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "ECONOMISEȘTI {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/săptămână",
+  'paywall.startTrialWeekly': "Încearcă gratuit 3 zile",
+  'paywall.startTrialAnnual': "Încearcă gratuit 7 zile",
+  'paywall.cancelAnytime': "Anulează oricând · Fără angajament",
 };

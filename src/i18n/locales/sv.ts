@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Öka",
   'common.decrease': "Minska",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "SPARA {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/vecka",
+  'paywall.startTrialWeekly': "Prova gratis i 3 dagar",
+  'paywall.startTrialAnnual': "Prova gratis i 7 dagar",
+  'paywall.cancelAnytime': "Avsluta när som helst · Inga bindningstider",
 };

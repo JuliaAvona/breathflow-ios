@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "증가",
   'common.decrease': "감소",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% 절약",
+  'paywall.perWeekApprox': "≈ 주 {{price}}",
+  'paywall.startTrialWeekly': "3일 무료 체험하기",
+  'paywall.startTrialAnnual': "7일 무료 체험하기",
+  'paywall.cancelAnytime': "언제든지 취소 가능 · 약정 없음",
 };

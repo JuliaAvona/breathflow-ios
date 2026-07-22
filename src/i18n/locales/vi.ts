@@ -680,4 +680,11 @@ export default {
   // Onboarding demo / summary habit prompts / dev settings (backfill)
   'common.increase': "Tăng",
   'common.decrease': "Giảm",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "TIẾT KIỆM {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/tuần",
+  'paywall.startTrialWeekly': "Dùng thử miễn phí 3 ngày",
+  'paywall.startTrialAnnual': "Dùng thử miễn phí 7 ngày",
+  'paywall.cancelAnytime': "Hủy bất cứ lúc nào · Không ràng buộc",
 };
