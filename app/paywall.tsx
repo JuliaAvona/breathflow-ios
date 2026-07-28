@@ -8,6 +8,7 @@ import {
   Alert,
   ActivityIndicator,
   ImageBackground,
+  Modal,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -47,10 +48,20 @@ export default function PaywallScreen() {
   const [loading, setLoading] = useState(false);
   const [offering, setOffering] = useState<PurchasesOffering | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<PlanType>('annual');
+  const [showWelcome, setShowWelcome] = useState(false);
   const { fromOnboarding } = useLocalSearchParams<{ fromOnboarding?: string }>();
   const isFromOnboarding = fromOnboarding === '1';
 
   const handleClose = () => {
+    if (isFromOnboarding) {
+      router.replace('/(tabs)');
+    } else {
+      router.canGoBack() ? router.back() : router.replace('/(tabs)');
+    }
+  };
+
+  const handleWelcomeContinue = () => {
+    setShowWelcome(false);
     if (isFromOnboarding) {
       router.replace('/(tabs)');
     } else {
@@ -113,11 +124,7 @@ export default function PaywallScreen() {
         if (selectedPlan === 'weekly' || selectedPlan === 'annual') {
           logStartTrial(selectedPlan, price, currency);
         }
-        if (isFromOnboarding) {
-          router.replace('/(tabs)');
-        } else {
-          router.canGoBack() ? router.back() : router.replace('/(tabs)');
-        }
+        setShowWelcome(true);
       }
     } catch (e: unknown) {
       const err = e as { userCancelled?: boolean; message?: string } | null | undefined;
@@ -344,6 +351,37 @@ export default function PaywallScreen() {
           <Text style={styles.hideOptionsText}>{t('paywall.hideOptions', { defaultValue: 'Hide Options' })}</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      {/* Purchase success — the moment that actually tells them they're Pro now */}
+      <Modal visible={showWelcome} transparent animationType="fade" statusBarTranslucent>
+        <View style={styles.welcomeOverlay}>
+          <View style={styles.welcomeCard}>
+            <View style={styles.welcomeIconWrap}>
+              <View style={styles.welcomeRing1} />
+              <View style={styles.welcomeRing2} />
+              <LinearGradient
+                colors={['#FFE066', '#FFC940', '#F5A623']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.welcomeIconBadge}
+              >
+                <Ionicons name="diamond" size={30} color="#1A2332" />
+              </LinearGradient>
+            </View>
+
+            <Text style={styles.welcomeTitle}>{t('paywall.welcomeTitle')}</Text>
+            <Text style={styles.welcomeMessage}>{t('paywall.welcomeMessage')}</Text>
+
+            <TouchableOpacity
+              style={styles.welcomeCta}
+              onPress={handleWelcomeContinue}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.welcomeCtaText}>{t('paywall.welcomeCta')}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ImageBackground>
   );
 }
@@ -609,5 +647,85 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     color: 'rgba(255,255,255,0.85)',
     textDecorationLine: 'underline',
+  },
+
+  // Purchase success modal
+  welcomeOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15,20,25,0.88)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: SPACING.xl,
+  },
+  welcomeCard: {
+    width: '100%',
+    maxWidth: 340,
+    backgroundColor: '#1A2332',
+    borderRadius: 24,
+    paddingVertical: SPACING.xl,
+    paddingHorizontal: SPACING.lg,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,201,64,0.25)',
+  },
+  welcomeIconWrap: {
+    width: 96,
+    height: 96,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: SPACING.lg,
+  },
+  welcomeRing1: {
+    position: 'absolute',
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,201,64,0.25)',
+  },
+  welcomeRing2: {
+    position: 'absolute',
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,201,64,0.35)',
+  },
+  welcomeIconBadge: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  welcomeTitle: {
+    fontSize: FONT_SIZE.xxl,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: -0.3,
+    marginBottom: SPACING.sm,
+    textAlign: 'center',
+  },
+  welcomeMessage: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.7)',
+    textAlign: 'center',
+    lineHeight: 22,
+    marginBottom: SPACING.xl,
+  },
+  welcomeCta: {
+    width: '100%',
+    backgroundColor: '#4A90D9',
+    borderRadius: 14,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  welcomeCtaText: {
+    fontSize: FONT_SIZE.lg,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: 0.3,
   },
 });

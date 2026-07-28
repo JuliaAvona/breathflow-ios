@@ -719,6 +719,12 @@ export default function HomeScreen() {
           {/* Top bar: greeting */}
           <View style={styles.heroTopBar}>
             <Text style={styles.greetingText}>{greeting}</Text>
+            {isPro && (
+              <View style={styles.proHeroBadge}>
+                <Ionicons name="diamond" size={12} color="#7BC4A8" />
+                <Text style={styles.proHeroBadgeText}>PRO</Text>
+              </View>
+            )}
           </View>
 
           {/* Mandala — tap to start quick session */}
@@ -853,7 +859,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 4,
   },
-  streakBadge: {
+  proHeroBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
@@ -861,13 +867,14 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: BORDER_RADIUS.full,
     backgroundColor: 'rgba(0,0,0,0.3)',
+    borderWidth: 1,
+    borderColor: 'rgba(123,196,168,0.5)',
   },
-  streakText: { fontSize: 14, fontFamily: FONTS.bold, color: '#FFFFFF' },
-
-  heroTopRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  proHeroBadgeText: {
+    fontSize: 13,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+    letterSpacing: 0.5,
   },
   greetingText: {
     fontSize: 20,
