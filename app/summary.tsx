@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import {
   View,
   Text,
+  Image,
   TouchableOpacity,
   StyleSheet,
   Animated,
@@ -20,6 +21,7 @@ import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
 import { formatTotalTime } from '../src/utils/time';
 import { writeMindfulSession, isHealthKitAvailable, requestHealthPermissions } from '../src/utils/healthKit';
 import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, FONTS, scale, COLORS } from '../src/constants';
+import { MOOD_EMOJI_IMAGES } from '../src/constants/moodEmoji';
 import { getTechniqueById } from '../src/constants/techniques';
 import { BadgeUnlockModal } from '../src/components/BadgeUnlockModal';
 import { getRandomQuoteKey } from '../src/constants/motivationalQuotes';
@@ -31,13 +33,13 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 const CONFETTI_COLORS = ['#4A90D9', '#7BC4A8', '#F5C542', '#7B68AE', '#E85D4A', '#5BA4C8'];
 const CONFETTI_COUNT = 40;
 
-const MOOD_OPTIONS: { key: Mood; emoji: string; color: string; bg: string; labelKey: string }[] = [
-  { key: 'sleepy', emoji: '\u{1F634}', color: '#7B68AE', bg: '#7B68AE', labelKey: 'summary.moodSleepy' },
-  { key: 'anxious', emoji: '\u{1F62D}', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
-  { key: 'focused', emoji: '\u{1F61E}', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
-  { key: 'calm', emoji: '\u{1F610}', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
-  { key: 'happy', emoji: '\u{1F642}', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
-  { key: 'energized', emoji: '\u{1F929}', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
+const MOOD_OPTIONS: { key: Mood; color: string; bg: string; labelKey: string }[] = [
+  { key: 'sleepy', color: '#7B68AE', bg: '#7B68AE', labelKey: 'summary.moodSleepy' },
+  { key: 'anxious', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
+  { key: 'focused', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
+  { key: 'calm', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
+  { key: 'happy', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
+  { key: 'energized', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
 ];
 
 function ConfettiAnimation() {
@@ -519,7 +521,7 @@ export default function SummaryScreen() {
                   onPress={() => handleMoodSelect(mood.key)}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.moodEmoji}>{mood.emoji}</Text>
+                  <Image source={MOOD_EMOJI_IMAGES[mood.key]} style={styles.moodEmoji} resizeMode="contain" />
                 </TouchableOpacity>
               ))}
             </View>
@@ -876,7 +878,8 @@ const styles = StyleSheet.create({
     height: 42,
   },
   moodEmoji: {
-    fontSize: 22,
+    width: 28,
+    height: 28,
   },
 
   // Badges (layout inside glass card)

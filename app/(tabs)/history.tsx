@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, Animated, RefreshControl, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, Animated, RefreshControl, TouchableOpacity, ImageBackground } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,19 +11,11 @@ import { CalendarHeatmap } from '../../src/components/CalendarHeatmap';
 import { getTechniqueById } from '../../src/constants/techniques';
 import { formatTime, getToday } from '../../src/utils/time';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
+import { MOOD_EMOJI_IMAGES } from '../../src/constants/moodEmoji';
 import type { BreathingSession } from '../../src/types';
 
 // Must match the same constant in awards.tsx and settings.tsx — see the note there.
 const HERO_CONTENT_HEIGHT = 100;
-
-const MOOD_EMOJI: Record<string, string> = {
-  energized: '\u{1F929}',
-  happy: '\u{1F642}',
-  calm: '\u{1F610}',
-  focused: '\u{1F61E}',
-  anxious: '\u{1F62D}',
-  sleepy: '\u{1F634}',
-};
 
 // Fixed display order for the mood distribution pills — most-logged first is
 // handled at render time via sorting, this just sets a stable tie-break order.
@@ -192,7 +184,7 @@ export default function HistoryScreen() {
       ? `${session.roundsCompleted} ${t('history.rounds')}`
       : `${session.cyclesCompleted} ${t('history.cycles')}`;
     const timeOfDay = formatTimeOfDay(session.startedAt);
-    const moodEmoji = session.moodAfter ? MOOD_EMOJI[session.moodAfter] : null;
+    const moodEmojiSrc = session.moodAfter ? MOOD_EMOJI_IMAGES[session.moodAfter] : null;
 
     return (
       <View key={session.id} style={[styles.sessionCard, { backgroundColor: theme.card }]}>
@@ -223,7 +215,7 @@ export default function HistoryScreen() {
               </Text>
             </View>
           )}
-          {moodEmoji && <Text style={{ fontSize: 14 }}>{moodEmoji}</Text>}
+          {moodEmojiSrc && <Image source={moodEmojiSrc} style={{ width: 16, height: 16 }} resizeMode="contain" />}
         </View>
         {!session.completed && (
           <View style={[styles.incompleteBadge, { backgroundColor: `${theme.textSecondary}18` }]}>
@@ -516,6 +508,7 @@ export default function HistoryScreen() {
                     const pct = Math.round(item.percent * 100);
                     return (
                       <View key={item.mood} style={styles.moodPillCol}>
+                        <Image source={MOOD_EMOJI_IMAGES[item.mood]} style={styles.moodPillEmoji} resizeMode="contain" />
                         <View
                           style={[
                             styles.moodPillTrack,
@@ -963,6 +956,11 @@ const styles = StyleSheet.create({
   moodPillCol: {
     flex: 1,
     alignItems: 'center',
+  },
+  moodPillEmoji: {
+    width: 30,
+    height: 30,
+    marginBottom: 8,
   },
   moodPillTrack: {
     width: 44,
