@@ -52,9 +52,15 @@ function ToggleRow({ label, value, onToggle, theme, badge, onHaptic, labelSize }
           {label}
         </Text>
         {badge && (
-          <View style={styles.proBadge}>
-            <Ionicons name="diamond" size={10} color={COLORS.white} />
-          </View>
+          <LinearGradient
+            colors={['#FFE066', '#FFC940', '#F5A623']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.proBadge}
+          >
+            <Ionicons name="diamond" size={9} color={COLORS.black} />
+            <Text style={styles.proBadgeText}>PRO</Text>
+          </LinearGradient>
         )}
       </View>
       <Switch
@@ -430,14 +436,21 @@ export default function SettingsScreen() {
             </View>
           </TouchableOpacity>
 
-          {/* Apple Health sync toggle */}
+          {/* Apple Health sync toggle — Pro-gated */}
           <ToggleRow
             label={t('settings.syncMindfulMinutes')}
             value={settings.healthSyncEnabled}
-            onToggle={handleHealthToggle}
+            onToggle={(val) => {
+              if (!settings.isPro) {
+                handleProFeatureTap();
+                return;
+              }
+              handleHealthToggle(val);
+            }}
             theme={theme}
             onHaptic={haptics.light}
             labelSize={fontSize.md}
+            badge={!settings.isPro ? 'pro' : undefined}
           />
         </View>
 
@@ -913,12 +926,19 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
   },
   proBadge: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.proBadge,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+    gap: 3,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: BORDER_RADIUS.sm,
+  },
+  proBadgeText: {
+    fontSize: 10,
+    fontFamily: FONTS.bold,
+    color: COLORS.black,
+    letterSpacing: 0.3,
   },
   pickerValueRow: {
     flexDirection: 'row',

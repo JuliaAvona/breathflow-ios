@@ -277,14 +277,14 @@ All tables have RLS: `auth.uid() = user_id`.
 
 ## Monetization
 
-**Free (no ads):** 4 techniques (Box, 4-7-8, Coherence, Triangle), unlimited sessions, 7-day history, streaks, Apple Health.
+**Free (no ads):** 4 techniques (Box, 4-7-8, Coherence, Triangle), unlimited sessions, 7-day history, streaks.
 
 **Pro — `BreathFlow Pro` entitlement (RevenueCat `current` offering).** Three packages:
 - **Weekly** — 3-day free trial, then $2.99/week
 - **Annual** — 7-day free trial, then $14.99/year (default selection)
 - **Lifetime** — $19.99 one-time purchase
 
-Unlocks: all 10 techniques, custom technique builder, full history + charts, all color themes, all badges, mood tracking, data export. Prices are set in App Store Connect / RevenueCat; the values above are the in-code fallback strings in `app/paywall.tsx`. `logStartTrial` fires for weekly/annual; the auto-renewal disclaimer (Apple 3.1.2c) shows for those two plans.
+Unlocks: all 10 techniques, custom technique builder, full history + charts, all color themes, all badges, mood tracking, data export, Apple Health sync. Prices are set in App Store Connect / RevenueCat; the values above are the in-code fallback strings in `app/paywall.tsx`. `logStartTrial` fires for weekly/annual; the auto-renewal disclaimer (Apple 3.1.2c) shows for those two plans.
 
 ## Conventions
 

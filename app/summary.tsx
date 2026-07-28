@@ -19,7 +19,7 @@ import { useSessionsStore, useSettingsStore, useBadgesStore } from '../src/store
 import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
 import { formatTotalTime } from '../src/utils/time';
 import { writeMindfulSession, isHealthKitAvailable, requestHealthPermissions } from '../src/utils/healthKit';
-import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, FONTS, scale } from '../src/constants';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, FONTS, scale, COLORS } from '../src/constants';
 import { getTechniqueById } from '../src/constants/techniques';
 import { BadgeUnlockModal } from '../src/components/BadgeUnlockModal';
 import { getRandomQuoteKey } from '../src/constants/motivationalQuotes';
@@ -128,6 +128,7 @@ export default function SummaryScreen() {
   const sessions = useSessionsStore((s) => s.sessions);
   const stats = useSessionsStore((s) => s.stats);
   const healthSyncEnabled = useSettingsStore((s) => s.healthSyncEnabled);
+  const isPro = useSettingsStore((s) => s.isPro);
   const reminderEnabled = useSettingsStore((s) => s.reminderEnabled);
   const settings = useSettingsStore.getState();
   const checkAndUnlock = useBadgesStore((s) => s.checkAndUnlock);
@@ -161,16 +162,16 @@ export default function SummaryScreen() {
   const isPowerBreathing = technique?.mode === 'power';
   const isPersonalBest = isPowerBreathing && bestRetention > 0 && bestRetention > stats.bestRetention;
 
-  // Save to Apple Health (Mindful Minutes)
+  // Save to Apple Health (Mindful Minutes) — Pro-gated
   useEffect(() => {
-    if (healthSaved.current || !healthSyncEnabled || !isHealthKitAvailable() || !session) return;
+    if (healthSaved.current || !healthSyncEnabled || !isPro || !isHealthKitAvailable() || !session) return;
     healthSaved.current = true;
 
     const startDate = new Date(session.startedAt);
     const endDate = new Date(session.completedAt);
     const durationMinutes = Math.ceil(session.totalDuration / 60);
     writeMindfulSession(startDate, endDate, durationMinutes);
-  }, [healthSyncEnabled, session]);
+  }, [healthSyncEnabled, isPro, session]);
 
   // Check badges after session is added
   useEffect(() => {
@@ -349,6 +350,10 @@ export default function SummaryScreen() {
   }, []);
 
   const handleEnableHealth = useCallback(async () => {
+    if (!useSettingsStore.getState().isPro) {
+      router.push('/paywall');
+      return;
+    }
     const granted = await requestHealthPermissions();
     useSettingsStore.getState().setSetting('healthSyncEnabled', granted);
     setHealthPromptDone(true);
@@ -619,9 +624,22 @@ export default function SummaryScreen() {
                 >
                   <Ionicons name="heart-outline" size={22} color="#FF3B30" />
                   <View style={styles.habitTextWrap}>
-                    <Text style={[styles.habitRowTitle, { color: theme.text, fontSize: fontSize.sm }]}>
-                      {t('summary.habitHealthTitle', { defaultValue: 'Apple Health' })}
-                    </Text>
+                    <View style={styles.habitTitleRow}>
+                      <Text style={[styles.habitRowTitle, { color: theme.text, fontSize: fontSize.sm }]}>
+                        {t('summary.habitHealthTitle', { defaultValue: 'Apple Health' })}
+                      </Text>
+                      {!isPro && (
+                        <LinearGradient
+                          colors={['#FFE066', '#FFC940', '#F5A623']}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          style={styles.habitProTag}
+                        >
+                          <Ionicons name="diamond" size={9} color={COLORS.black} />
+                          <Text style={styles.habitProTagText}>PRO</Text>
+                        </LinearGradient>
+                      )}
+                    </View>
                     <Text style={[styles.habitRowSub, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
                       {t('summary.habitHealthSub', { defaultValue: 'Save sessions as Mindful Minutes' })}
                     </Text>
@@ -991,6 +1009,25 @@ const styles = StyleSheet.create({
   },
   habitTextWrap: {
     flex: 1,
+  },
+  habitTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  habitProTag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: BORDER_RADIUS.sm,
+  },
+  habitProTagText: {
+    fontSize: 9,
+    fontFamily: FONTS.bold,
+    color: COLORS.black,
+    letterSpacing: 0.3,
   },
   habitRowTitle: {
     fontFamily: FONTS.semibold,

@@ -38,6 +38,7 @@ const FEATURES = [
   { icon: 'musical-notes' as const, color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', labelKey: 'paywall.feature2' },
   { icon: 'trophy' as const, color: '#F5A623', bg: 'rgba(245,166,35,0.15)', labelKey: 'paywall.feature3' },
   { icon: 'stats-chart' as const, color: '#34D399', bg: 'rgba(52,211,153,0.15)', labelKey: 'paywall.feature4' },
+  { icon: 'heart' as const, color: '#FF6B9D', bg: 'rgba(255,107,157,0.15)', labelKey: 'paywall.featureAppleHealth' },
 ];
 
 export default function PaywallScreen() {

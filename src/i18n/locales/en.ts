@@ -497,6 +497,7 @@ export default {
   'paywall.feature2': 'All Music Tracks',
   'paywall.feature3': 'Unlock All Badges',
   'paywall.feature4': 'Full History & Stats',
+  'paywall.featureAppleHealth': 'Apple Health Sync',
   'paywall.feature5': 'Mood tracking',
   'paywall.feature6': 'All badges',
 
@@ -569,7 +570,7 @@ export default {
   'settings.restoreNone': 'No purchases to restore.',
   'settings.restoreFailed': 'Restore failed. Please try again.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Sync Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Apple Health Sync',
   'settings.privacyPolicy': 'Privacy Policy',
   'settings.termsOfService': 'Terms of Service',
   'settings.restorePurchases': 'Restore Purchases',
