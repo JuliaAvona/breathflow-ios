@@ -150,10 +150,13 @@ export default function TechniqueDetailScreen() {
 
   const currentIndex = allTechniques.findIndex(t => t.id === techniqueId);
 
+  // Capture-phase handlers so this claims horizontal swipes before children
+  // (the duration/music ScrollViews, buttons) get a chance to steal them —
+  // taps are unaffected since they never cross the dx/dy movement threshold.
   const swipePanResponder = useMemo(() =>
     PanResponder.create({
-      onMoveShouldSetPanResponder: (_, g) =>
-        Math.abs(g.dx) > 30 && Math.abs(g.dy) < 40,
+      onMoveShouldSetPanResponderCapture: (_, g) =>
+        Math.abs(g.dx) > 20 && Math.abs(g.dy) < 40,
       onPanResponderRelease: (_, g) => {
         if (g.dx < -50) navigateTo(currentIndex + 1);
         else if (g.dx > 50) navigateTo(currentIndex - 1);
@@ -204,7 +207,7 @@ export default function TechniqueDetailScreen() {
   const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[category];
 
   return (
-    <ImageBackground source={bgImage} style={styles.container} resizeMode="cover" {...swipePanResponder.panHandlers}>
+    <ImageBackground source={bgImage} style={styles.container} resizeMode="cover">
       {/* Vignette overlay: dark at top/bottom, transparent in mandala zone */}
       <LinearGradient
         colors={['#000000DD', '#00000055', '#00000022', '#000000BB', '#000000EE']}
@@ -213,46 +216,50 @@ export default function TechniqueDetailScreen() {
       />
       <StatusBar barStyle="light-content" />
 
-      {/* ── Top bar: [spacer] [center: title + PRO] [close] ── */}
-      <View style={[styles.topBar, { paddingTop: insets.top + 8 }]}>
-        <View style={styles.topBarSide} />
-        <View style={styles.topTitleRow}>
-          <Text style={styles.topTitle} numberOfLines={1}>
-            {t(technique.nameKey)}
-          </Text>
-          {isPro && (
-            <LinearGradient
-              colors={['#FFE066', '#FFC940', '#F5A623']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={[styles.proBadge, { marginLeft: 6 }]}
-            >
-              <Ionicons name="diamond" size={12} color="#1A2332" />
-              <Text style={styles.proText}>PRO</Text>
-            </LinearGradient>
-          )}
+      {/* Swipe zone: top bar + mandala only — kept off the pickers below so
+          their own horizontal ScrollViews still scroll normally. */}
+      <View style={{ flex: 1 }} {...swipePanResponder.panHandlers}>
+        {/* ── Top bar: [spacer] [center: title + PRO] [close] ── */}
+        <View style={[styles.topBar, { paddingTop: insets.top + 8 }]}>
+          <View style={styles.topBarSide} />
+          <View style={styles.topTitleRow}>
+            <Text style={styles.topTitle} numberOfLines={1}>
+              {t(technique.nameKey)}
+            </Text>
+            {isPro && (
+              <LinearGradient
+                colors={['#FFE066', '#FFC940', '#F5A623']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={[styles.proBadge, { marginLeft: 6 }]}
+              >
+                <Ionicons name="diamond" size={12} color="#1A2332" />
+                <Text style={styles.proText}>PRO</Text>
+              </LinearGradient>
+            )}
+          </View>
+          <TouchableOpacity style={styles.closeBtn} onPress={() => router.back()}>
+            <Ionicons name="close" size={22} color="rgba(255,255,255,0.85)" />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.closeBtn} onPress={() => router.back()}>
-          <Ionicons name="close" size={22} color="rgba(255,255,255,0.85)" />
+
+        {/* ── Side nav arrows (vertically centered) ── */}
+        <TouchableOpacity style={styles.navArrowLeft} onPress={() => navigateTo(currentIndex - 1)}>
+          <Ionicons name="chevron-back" size={28} color="rgba(255,255,255,0.9)" />
         </TouchableOpacity>
-      </View>
+        <TouchableOpacity style={styles.navArrowRight} onPress={() => navigateTo(currentIndex + 1)}>
+          <Ionicons name="chevron-forward" size={28} color="rgba(255,255,255,0.9)" />
+        </TouchableOpacity>
 
-      {/* ── Side nav arrows (vertically centered) ── */}
-      <TouchableOpacity style={styles.navArrowLeft} onPress={() => navigateTo(currentIndex - 1)}>
-        <Ionicons name="chevron-back" size={28} color="rgba(255,255,255,0.9)" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.navArrowRight} onPress={() => navigateTo(currentIndex + 1)}>
-        <Ionicons name="chevron-forward" size={28} color="rgba(255,255,255,0.9)" />
-      </TouchableOpacity>
-
-      {/* ── Mandala ── */}
-      <View style={styles.mandalaArea}>
-        <BreathingMandala
-          phase="IDLE"
-          color={accentColor}
-          size={scale(310)}
-          bright
-        />
+        {/* ── Mandala ── */}
+        <View style={styles.mandalaArea}>
+          <BreathingMandala
+            phase="IDLE"
+            color={accentColor}
+            size={scale(310)}
+            bright
+          />
+        </View>
       </View>
 
       {/* ── Duration / Rounds / Sets picker ── */}

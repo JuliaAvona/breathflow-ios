@@ -518,7 +518,7 @@ export default function HistoryScreen() {
                           <View
                             style={[
                               styles.moodPillFill,
-                              { height: `${Math.max(pct, 10)}%`, backgroundColor: meta.color },
+                              { height: `${pct}%`, backgroundColor: meta.color },
                             ]}
                           >
                             <Text style={styles.moodPillPercent}>{pct}%</Text>
@@ -965,13 +965,14 @@ const styles = StyleSheet.create({
   moodPillTrack: {
     width: 44,
     height: 150,
-    borderRadius: 22,
+    borderRadius: 14,
     overflow: 'hidden',
     justifyContent: 'flex-end',
   },
   moodPillFill: {
     width: '100%',
-    borderRadius: 22,
+    minHeight: 28,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingBottom: 8,
