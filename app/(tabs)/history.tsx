@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, Animated, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Animated, RefreshControl, TouchableOpacity, ImageBackground } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,6 +13,9 @@ import { getTechniqueById } from '../../src/constants/techniques';
 import { formatTime, getToday } from '../../src/utils/time';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
 import type { BreathingSession } from '../../src/types';
+
+// Must match the same constant in awards.tsx and settings.tsx — see the note there.
+const HERO_CONTENT_HEIGHT = 100;
 
 const MOOD_EMOJI: Record<string, string> = {
   energized: '\u{1F929}',
@@ -253,17 +256,23 @@ export default function HistoryScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme.primary} colors={[theme.primary]} />
         }
       >
-        {/* ── Hero gradient header ── */}
-        <LinearGradient
-          colors={
-            theme.isDark
-              ? ['#4A90D9', '#7FBFDF', theme.background]
-              : ['#3A73B0', '#4A90D9', theme.background]
-          }
-          start={{ x: 0.5, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
-          style={[styles.heroArea, { paddingTop: insets.top + 12 }]}
+        {/* ── Hero header ── */}
+        <ImageBackground
+          source={require('../../assets/bg_focus.webp')}
+          resizeMode="cover"
+          style={[styles.heroArea, { paddingTop: insets.top + SPACING.sm, height: insets.top + HERO_CONTENT_HEIGHT }]}
         >
+          <LinearGradient
+            colors={
+              theme.isDark
+                ? ['#000000AA', '#00000055', `${theme.background}FF`]
+                : ['#00000077', '#00000044', `${theme.background}FF`]
+            }
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+
           {/* Title + streak */}
           <View style={styles.heroTitleRow}>
             <Text style={styles.heroTitle}>{t('history.title')}</Text>
@@ -274,28 +283,29 @@ export default function HistoryScreen() {
               </View>
             )}
           </View>
+        </ImageBackground>
 
-          {/* All-time stats (same as Breathe screen) */}
-          <View style={styles.heroStatsRow}>
-            <View style={styles.heroStat}>
-              <Ionicons name="leaf-outline" size={16} color="rgba(255,255,255,0.85)" />
-              <Text style={styles.heroStatValue}>{stats.totalSessions}</Text>
-              <Text style={styles.heroStatLabel}>{t('home.totalSessions')}</Text>
-            </View>
-            <View style={styles.heroStatDivider} />
-            <View style={styles.heroStat}>
-              <Ionicons name="time-outline" size={16} color="#95f5fb" />
-              <Text style={styles.heroStatValue}>{stats.totalMinutes}</Text>
-              <Text style={styles.heroStatLabel}>{t('home.totalMin')}</Text>
-            </View>
-            <View style={styles.heroStatDivider} />
-            <View style={styles.heroStat}>
-              <Ionicons name="flame-outline" size={16} color="#F5A623" />
-              <Text style={styles.heroStatValue}>{stats.currentStreak}</Text>
-              <Text style={styles.heroStatLabel}>{t('home.streak')}</Text>
-            </View>
+        {/* All-time stats — floats over the hero/background transition, same
+            treatment as the "today" card on the Breathe tab */}
+        <View style={styles.heroStatsRow}>
+          <View style={styles.heroStat}>
+            <Ionicons name="leaf-outline" size={16} color="rgba(255,255,255,0.85)" />
+            <Text style={styles.heroStatValue}>{stats.totalSessions}</Text>
+            <Text style={styles.heroStatLabel}>{t('home.totalSessions')}</Text>
           </View>
-        </LinearGradient>
+          <View style={styles.heroStatDivider} />
+          <View style={styles.heroStat}>
+            <Ionicons name="time-outline" size={16} color="#95f5fb" />
+            <Text style={styles.heroStatValue}>{stats.totalMinutes}</Text>
+            <Text style={styles.heroStatLabel}>{t('home.totalMin')}</Text>
+          </View>
+          <View style={styles.heroStatDivider} />
+          <View style={styles.heroStat}>
+            <Ionicons name="flame-outline" size={16} color="#F5A623" />
+            <Text style={styles.heroStatValue}>{stats.currentStreak}</Text>
+            <Text style={styles.heroStatLabel}>{t('home.streak')}</Text>
+          </View>
+        </View>
 
         {isEmpty ? (
           <View style={styles.emptyContainer}>
@@ -625,6 +635,7 @@ const styles = StyleSheet.create({
   heroArea: {
     paddingBottom: 28,
     paddingHorizontal: 24,
+    overflow: 'hidden',
   },
   heroTitleRow: {
     flexDirection: 'row',
@@ -633,7 +644,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   heroTitle: {
-    fontSize: 28,
+    fontSize: 30,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: -0.5,
@@ -656,6 +667,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 16,
     paddingHorizontal: 8,
+    marginHorizontal: SPACING.lg,
+    marginTop: -24,
+    marginBottom: SPACING.md,
   },
   heroStat: {
     flex: 1,

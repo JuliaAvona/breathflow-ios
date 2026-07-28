@@ -9,21 +9,22 @@ import {
   Alert,
   ActivityIndicator,
   Linking,
+  ImageBackground,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { useSettingsStore, useAuthStore } from '../../src/store';
+import { useSettingsStore, useAuthStore, useBadgesStore } from '../../src/store';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 import { requestHealthPermissions, isHealthKitAvailable } from '../../src/utils/healthKit';
 import { playPhaseTransition } from '../../src/utils/sessionAudio';
 import { performAppleSignIn } from '../../src/utils/appleAuth';
 import { pushAll, pullAndMerge } from '../../src/services/syncService';
 import { useHaptics } from '../../src/hooks/useHaptics';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, BADGE_DEFINITIONS } from '../../src/constants';
 import { PickerModal } from '../../src/components/PickerModal';
 import { WheelPickerModal, WheelColumn } from '../../src/components/WheelPickerModal';
 import { ProUpgradeBanner } from '../../src/components/ProUpgradeBanner';
@@ -107,13 +108,19 @@ const TIME_COLUMNS: WheelColumn[] = [
 
 const SUPPORT_EMAIL = 'app.support.535@gmail.com';
 
+// Must match the same constant in awards.tsx and history.tsx — see the note there.
+const HERO_CONTENT_HEIGHT = 100;
+
 // ─── Main Screen ───────────────────────────────────────────────────────────
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
   const fontSize = useFontSize();
+  const insets = useSafeAreaInsets();
   const settings = useSettingsStore();
+  const unlockBadge = useBadgesStore((s) => s.unlockBadge);
+  const unlockedBadgeCount = useBadgesStore((s) => s.unlockedBadges.length);
   const haptics = useHaptics();
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -236,6 +243,14 @@ export default function SettingsScreen() {
     );
   };
 
+  // Dev/test only: unlock every badge locally so the earned/unlocked visual
+  // state can be previewed across the whole grid without real usage.
+  const handleUnlockAllBadges = () => {
+    for (const def of BADGE_DEFINITIONS) {
+      unlockBadge(def.id);
+    }
+  };
+
   const handleReminderToggle = async (val: boolean) => {
     const { scheduleBreatheReminder, cancelNotification, requestNotificationPermissions } =
       await import('../../src/utils/notifications');
@@ -311,25 +326,42 @@ export default function SettingsScreen() {
   // ── Render ─────────────────────────────────────────────────────────────
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header */}
-        <View style={styles.titleRow}>
-          <View style={styles.titleLeftGroup}>
-            <Text style={[styles.screenTitle, { color: theme.text }]}>{t('settings.title')}</Text>
-            {settings.isPro && (
-              <View style={[styles.proStatusBadge, { backgroundColor: theme.accent }]}>
-                <Ionicons name="diamond" size={11} color={COLORS.white} />
-                <Text style={styles.proStatusText}>PRO</Text>
-              </View>
+        {/* Hero header */}
+        <ImageBackground
+          source={require('../../assets/bg_focus.webp')}
+          resizeMode="cover"
+          style={[styles.heroArea, { paddingTop: insets.top + SPACING.sm, height: insets.top + HERO_CONTENT_HEIGHT }]}
+        >
+          <LinearGradient
+            colors={
+              theme.isDark
+                ? ['#000000AA', '#00000055', `${theme.background}FF`]
+                : ['#00000077', '#00000044', `${theme.background}FF`]
+            }
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+
+          <View style={styles.titleRow}>
+            <View style={styles.titleLeftGroup}>
+              <Text style={styles.screenTitle}>{t('settings.title')}</Text>
+              {settings.isPro && (
+                <View style={[styles.proStatusBadge, { backgroundColor: theme.accent }]}>
+                  <Ionicons name="diamond" size={11} color={COLORS.white} />
+                  <Text style={styles.proStatusText}>PRO</Text>
+                </View>
+              )}
+            </View>
+            {!isAnonymous && displayName && (
+              <Text style={styles.greeting}>
+                Hi, {displayName}
+              </Text>
             )}
           </View>
-          {!isAnonymous && displayName && (
-            <Text style={[styles.greeting, { color: theme.textSecondary }]}>
-              Hi, {displayName}
-            </Text>
-          )}
-        </View>
+        </ImageBackground>
 
         {/* PRO upgrade banner */}
         {!settings.isPro && (
@@ -652,6 +684,20 @@ export default function SettingsScreen() {
               onHaptic={haptics.light}
               labelSize={fontSize.md}
             />
+
+            {/* Unlock all badges — writes real unlock records via the badges store */}
+            <TouchableOpacity
+              style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+              onPress={handleUnlockAllBadges}
+              accessibilityRole="button"
+            >
+              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+                {t('settings.unlockAllBadges', { defaultValue: 'Unlock All Badges' })}
+              </Text>
+              <Text style={[styles.settingValue, { color: theme.textSecondary }]}>
+                {unlockedBadgeCount} / {BADGE_DEFINITIONS.length}
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
       </ScrollView>
@@ -699,7 +745,7 @@ export default function SettingsScreen() {
         }}
         onClose={() => setActivePicker(null)}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -712,19 +758,23 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: SPACING.xxl,
   },
+  heroArea: {
+    paddingHorizontal: SPACING.lg,
+    paddingBottom: SPACING.xxl,
+    marginBottom: SPACING.md,
+    overflow: 'hidden',
+  },
   screenTitle: {
     fontSize: 30,
     lineHeight: 34,
-    fontFamily: FONTS.bold,
+    fontFamily: FONTS.heavy,
     letterSpacing: -0.5,
+    color: '#FFFFFF',
   },
   titleRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.md,
-    paddingBottom: SPACING.lg,
   },
   titleLeftGroup: {
     flexDirection: 'row',
@@ -734,6 +784,7 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: FONT_SIZE.md,
     fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.8)',
   },
   proStatusBadge: {
     flexDirection: 'row',

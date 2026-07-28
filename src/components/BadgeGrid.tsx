@@ -77,11 +77,21 @@ export function BadgeGrid({ badges, unlockedBadges, isPro }: BadgeGridProps) {
                     { backgroundColor: theme.isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' },
                   ]}
                 >
-                  <Ionicons
-                    name={badge.icon as keyof typeof Ionicons.glyphMap}
-                    size={ICON_SIZE * 0.48}
-                    color={theme.textSecondary + '80'}
-                  />
+                  {needsPro ? (
+                    // Keep the actual badge icon a mystery for non-Pro users —
+                    // a "?" is more inviting to unlock than a plain padlock.
+                    <Ionicons
+                      name="help"
+                      size={ICON_SIZE * 0.44}
+                      color={theme.textSecondary + '80'}
+                    />
+                  ) : (
+                    <Ionicons
+                      name={badge.icon as keyof typeof Ionicons.glyphMap}
+                      size={ICON_SIZE * 0.48}
+                      color={theme.textSecondary + '80'}
+                    />
+                  )}
                 </View>
               )}
 

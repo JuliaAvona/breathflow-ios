@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, ImageBackground } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,12 @@ import { ProUpgradeBanner } from '../../src/components/ProUpgradeBanner';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { SPACING, FONT_SIZE, BADGE_DEFINITIONS, FONTS } from '../../src/constants';
 import type { BadgeCategory } from '../../src/constants';
+
+// Must match the same constant in history.tsx and settings.tsx — the three
+// screens share bg_focus.webp as a hero background, and resizeMode="cover"
+// crops differently per container height. Keeping this identical everywhere
+// stops the photo from visibly "jumping" to a different crop when switching tabs.
+const HERO_CONTENT_HEIGHT = 100;
 
 export default function AwardsScreen() {
   const { t } = useTranslation();
@@ -40,21 +46,27 @@ export default function AwardsScreen() {
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-        {/* Gradient Hero */}
-        <LinearGradient
-          colors={
-            theme.isDark
-              ? ['#2563EB', '#4A90D9', '#7FBFDF', theme.background]
-              : ['#1E40AF', '#3B82F6', '#60A5FA', theme.background]
-          }
-          locations={[0, 0.3, 0.6, 1]}
-          style={[styles.hero, { paddingTop: insets.top + SPACING.sm }]}
+        {/* Hero — summit photo doubles as the "reaching the top" metaphor for awards */}
+        <ImageBackground
+          source={require('../../assets/bg_focus.webp')}
+          resizeMode="cover"
+          style={[styles.hero, { paddingTop: insets.top + SPACING.sm, height: insets.top + HERO_CONTENT_HEIGHT }]}
         >
+          <LinearGradient
+            colors={
+              theme.isDark
+                ? ['#000000AA', '#00000055', `${theme.background}FF`]
+                : ['#00000077', '#00000044', `${theme.background}FF`]
+            }
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
           <Text style={styles.heroTitle}>{t('badges.title')}</Text>
           <Text style={styles.heroSubtitle}>
             {unlockedCount} / {totalCount} {t('badges.unlocked')}
           </Text>
-        </LinearGradient>
+        </ImageBackground>
 
         {/* PRO upsell — the whole feature is Pro-only */}
         {!isPro && <ProUpgradeBanner />}
@@ -75,12 +87,13 @@ const styles = StyleSheet.create({
   // Hero
   hero: {
     paddingHorizontal: SPACING.lg,
-    paddingBottom: SPACING.xl,
+    paddingBottom: SPACING.xxl,
     marginBottom: SPACING.md,
+    overflow: 'hidden',
   },
   heroTitle: {
     fontSize: 30,
-    fontFamily: FONTS.bold,
+    fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: -0.5,
   },
