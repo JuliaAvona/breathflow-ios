@@ -19,6 +19,7 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import { useSettingsStore, useAuthStore } from '../../src/store';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 import { requestHealthPermissions, isHealthKitAvailable } from '../../src/utils/healthKit';
+import { playPhaseTransition } from '../../src/utils/sessionAudio';
 import { performAppleSignIn } from '../../src/utils/appleAuth';
 import { pushAll, pullAndMerge } from '../../src/services/syncService';
 import { useHaptics } from '../../src/hooks/useHaptics';
@@ -307,18 +308,19 @@ export default function SettingsScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <View style={styles.titleRow}>
-          {!isAnonymous && displayName ? (
-            <Text style={[styles.greeting, { color: theme.text }]}>
+          <View style={styles.titleLeftGroup}>
+            <Text style={[styles.screenTitle, { color: theme.text }]}>{t('settings.title')}</Text>
+            {settings.isPro && (
+              <View style={[styles.proStatusBadge, { backgroundColor: theme.accent }]}>
+                <Ionicons name="diamond" size={11} color={COLORS.white} />
+                <Text style={styles.proStatusText}>PRO</Text>
+              </View>
+            )}
+          </View>
+          {!isAnonymous && displayName && (
+            <Text style={[styles.greeting, { color: theme.textSecondary }]}>
               Hi, {displayName}
             </Text>
-          ) : (
-            <View />
-          )}
-          {settings.isPro && (
-            <View style={[styles.proStatusBadge, { backgroundColor: theme.accent }]}>
-              <Ionicons name="diamond" size={12} color={COLORS.white} />
-              <Text style={styles.proStatusText}>PRO</Text>
-            </View>
           )}
         </View>
 
@@ -657,7 +659,7 @@ export default function SettingsScreen() {
 
             {/* Reset onboarding */}
             <TouchableOpacity
-              style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+              style={[styles.settingRow, { borderBottomColor: theme.border }]}
               onPress={handleResetOnboarding}
               accessibilityRole="button"
             >
@@ -666,6 +668,17 @@ export default function SettingsScreen() {
               </Text>
               <Ionicons name="refresh-outline" size={20} color={theme.textSecondary} />
             </TouchableOpacity>
+
+            {/* Simulate Pro — local toggle only, does NOT touch RevenueCat.
+                Lets you preview Pro-gated UI without a sandbox purchase. */}
+            <ToggleRow
+              label={t('settings.simulatePro', { defaultValue: 'Simulate Pro' })}
+              value={settings.isPro}
+              onToggle={(val) => (val ? settings.grantPro() : settings.revokePro())}
+              theme={theme}
+              onHaptic={haptics.light}
+              labelSize={fontSize.md}
+            />
           </View>
         )}
       </ScrollView>
@@ -678,8 +691,12 @@ export default function SettingsScreen() {
         title={t('settings.soundStyle')}
         options={SOUND_STYLE_OPTIONS.map((o) => ({ label: t(o.labelKey), value: o.value }))}
         selectedValue={settings.soundStyle}
-        onSelect={(val) => settings.setSetting('soundStyle', val)}
+        onSelect={(val) => {
+          settings.setSetting('soundStyle', val);
+          playPhaseTransition(val);
+        }}
         onClose={() => setActivePicker(null)}
+        closeOnSelect={false}
       />
 
       {/* Dark mode */}
@@ -724,6 +741,7 @@ const styles = StyleSheet.create({
   },
   screenTitle: {
     fontSize: 30,
+    lineHeight: 34,
     fontFamily: FONTS.bold,
     letterSpacing: -0.5,
   },
@@ -735,22 +753,35 @@ const styles = StyleSheet.create({
     paddingTop: SPACING.md,
     paddingBottom: SPACING.lg,
   },
+  titleLeftGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.sm,
+  },
   greeting: {
-    fontSize: FONT_SIZE.xl,
-    fontFamily: FONTS.bold,
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.medium,
   },
   proStatusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
     paddingHorizontal: SPACING.sm,
-    paddingVertical: 4,
-    borderRadius: BORDER_RADIUS.md,
+    paddingVertical: 5,
+    borderRadius: BORDER_RADIUS.full,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.35)',
+    shadowColor: COLORS.accentDark,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 6,
+    elevation: 3,
   },
   proStatusText: {
     fontSize: FONT_SIZE.xs,
     fontFamily: FONTS.bold,
     color: COLORS.white,
+    letterSpacing: 0.4,
   },
   proCardWrapper: {
     marginHorizontal: SPACING.lg,

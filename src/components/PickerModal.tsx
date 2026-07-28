@@ -28,6 +28,8 @@ interface PickerModalProps<T> {
   onSelect: (value: T) => void;
   onClose: () => void;
   accentColor?: string;
+  /** When false, selecting an option doesn't dismiss the sheet — only the close button/backdrop does. Defaults to true. */
+  closeOnSelect?: boolean;
 }
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -41,6 +43,7 @@ export function PickerModal<T>({
   onSelect,
   onClose,
   accentColor,
+  closeOnSelect = true,
 }: PickerModalProps<T>) {
   const { t } = useTranslation();
   const theme = useThemeColors();
@@ -85,7 +88,7 @@ export function PickerModal<T>({
 
   const handleSelect = (value: T) => {
     onSelect(value);
-    handleClose();
+    if (closeOnSelect) handleClose();
   };
 
   return (

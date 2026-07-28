@@ -350,21 +350,45 @@ export default function PaywallScreen() {
         <TouchableOpacity onPress={handleClose} activeOpacity={0.7} style={styles.hideOptions}>
           <Text style={styles.hideOptionsText}>{t('paywall.hideOptions', { defaultValue: 'Hide Options' })}</Text>
         </TouchableOpacity>
+
+        {/* Dev/test only: preview the success modal without a real purchase */}
+        {__DEV__ && (
+          <TouchableOpacity
+            onPress={() => setShowWelcome(true)}
+            activeOpacity={0.7}
+            style={styles.devPreviewBtn}
+          >
+            <Text style={styles.devPreviewBtnText}>DEV: Preview Success Modal</Text>
+          </TouchableOpacity>
+        )}
       </ScrollView>
 
       {/* Purchase success — the moment that actually tells them they're Pro now */}
       <Modal visible={showWelcome} transparent animationType="fade" statusBarTranslucent>
         <View style={styles.welcomeOverlay}>
-          <View style={styles.welcomeCard}>
+          <LinearGradient
+            colors={['#232B3D', '#171E2A', '#12171F']}
+            style={styles.welcomeCard}
+          >
             <View style={styles.welcomeIconWrap}>
+              <View style={styles.welcomeGlowOuter} />
+              <View style={styles.welcomeGlowInner} />
               <View style={styles.welcomeRing1} />
               <View style={styles.welcomeRing2} />
+              <View style={styles.welcomeRing3} />
+
               <LinearGradient
                 colors={['#FFE066', '#FFC940', '#F5A623']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.welcomeIconBadge}
               >
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.55)', 'rgba(255,255,255,0)']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 0, y: 1 }}
+                  style={styles.welcomeIconShine}
+                />
                 <Ionicons name="diamond" size={30} color="#1A2332" />
               </LinearGradient>
             </View>
@@ -373,13 +397,20 @@ export default function PaywallScreen() {
             <Text style={styles.welcomeMessage}>{t('paywall.welcomeMessage')}</Text>
 
             <TouchableOpacity
-              style={styles.welcomeCta}
               onPress={handleWelcomeContinue}
               activeOpacity={0.85}
+              style={styles.welcomeCtaWrapper}
             >
-              <Text style={styles.welcomeCtaText}>{t('paywall.welcomeCta')}</Text>
+              <LinearGradient
+                colors={['#FFE066', '#FFC940', '#F5A623']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.welcomeCta}
+              >
+                <Text style={styles.welcomeCtaText}>{t('paywall.welcomeCta')}</Text>
+              </LinearGradient>
             </TouchableOpacity>
-          </View>
+          </LinearGradient>
         </View>
       </Modal>
     </ImageBackground>
@@ -648,6 +679,21 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.85)',
     textDecorationLine: 'underline',
   },
+  devPreviewBtn: {
+    alignSelf: 'center',
+    marginTop: SPACING.md,
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.xs,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: 'rgba(255,201,64,0.5)',
+  },
+  devPreviewBtnText: {
+    fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.medium,
+    color: '#FFC940',
+  },
 
   // Purchase success modal
   welcomeOverlay: {
@@ -660,43 +706,84 @@ const styles = StyleSheet.create({
   welcomeCard: {
     width: '100%',
     maxWidth: 340,
-    backgroundColor: '#1A2332',
-    borderRadius: 24,
+    borderRadius: 28,
     paddingVertical: SPACING.xl,
     paddingHorizontal: SPACING.lg,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(255,201,64,0.25)',
+    borderColor: 'rgba(255,201,64,0.22)',
+    shadowColor: '#F5A623',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.25,
+    shadowRadius: 30,
+    elevation: 10,
   },
   welcomeIconWrap: {
-    width: 96,
-    height: 96,
+    width: 128,
+    height: 128,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.lg,
   },
+  welcomeGlowOuter: {
+    position: 'absolute',
+    width: 128,
+    height: 128,
+    borderRadius: 64,
+    backgroundColor: 'rgba(255,255,255,0.05)',
+  },
+  welcomeGlowInner: {
+    position: 'absolute',
+    width: 92,
+    height: 92,
+    borderRadius: 46,
+    backgroundColor: 'rgba(255,201,64,0.12)',
+  },
   welcomeRing1: {
     position: 'absolute',
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    borderWidth: 1.5,
-    borderColor: 'rgba(255,201,64,0.25)',
+    width: 128,
+    height: 128,
+    borderRadius: 64,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
   },
   welcomeRing2: {
     position: 'absolute',
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
     borderWidth: 1.5,
-    borderColor: 'rgba(255,201,64,0.35)',
+    borderColor: 'rgba(255,255,255,0.16)',
+  },
+  welcomeRing3: {
+    position: 'absolute',
+    width: 74,
+    height: 74,
+    borderRadius: 37,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,201,64,0.45)',
   },
   welcomeIconBadge: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.4)',
+    shadowColor: '#F5A623',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  welcomeIconShine: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '55%',
   },
   welcomeTitle: {
     fontSize: FONT_SIZE.xxl,
@@ -714,9 +801,17 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     marginBottom: SPACING.xl,
   },
+  welcomeCtaWrapper: {
+    width: '100%',
+    borderRadius: 14,
+    shadowColor: '#F5A623',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
+    elevation: 6,
+  },
   welcomeCta: {
     width: '100%',
-    backgroundColor: '#4A90D9',
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',
@@ -725,7 +820,7 @@ const styles = StyleSheet.create({
   welcomeCtaText: {
     fontSize: FONT_SIZE.lg,
     fontFamily: FONTS.heavy,
-    color: '#FFFFFF',
+    color: '#1A2332',
     letterSpacing: 0.3,
   },
 });
