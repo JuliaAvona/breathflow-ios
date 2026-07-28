@@ -410,6 +410,7 @@ export default {
   'history.noSessionsOnDay': 'Нет сессий в этот день',
   'history.allTimeStats': 'Общая статистика',
   'history.unlockFullHistory': 'Откройте полную историю с Pro',
+  'history.unlockFullHistoryDesc': 'Смотрите полный прогресс и статистику за всё время',
   'history.weeklyActivity': 'Активность за неделю',
   'history.badges': 'Значки',
 

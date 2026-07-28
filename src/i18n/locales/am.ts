@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'በዚህ ቀን ክፍለ ጊዜዎች የሉም',
   'history.allTimeStats': 'ጠቅላላ ስታቲስቲክስ',
   'history.unlockFullHistory': 'በ Pro ሙሉ ታሪክ ይክፈቱ',
+  'history.unlockFullHistoryDesc': 'ሙሉ እድገትዎን እና የሁሉንም ጊዜ ስታትስቲክስ ይመልከቱ',
   'history.weeklyActivity': 'ሳምንታዊ እንቅስቃሴ',
   'history.badges': 'ሜዳሊያዎች',
 

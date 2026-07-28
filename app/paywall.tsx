@@ -199,10 +199,15 @@ export default function PaywallScreen() {
         {/* Title */}
         <View style={styles.titleArea}>
           <Text style={styles.title}>BreathFlow</Text>
-          <View style={styles.proBadge}>
-            <Ionicons name="diamond" size={12} color="#FFF" />
+          <LinearGradient
+            colors={['#FFE066', '#FFC940', '#F5A623']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.proBadge}
+          >
+            <Ionicons name="diamond" size={12} color="#1A2332" />
             <Text style={styles.proBadgeText}>PRO</Text>
-          </View>
+          </LinearGradient>
         </View>
 
         {/* Features */}
@@ -460,7 +465,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: 'rgba(155,89,182,0.85)',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 12,
@@ -468,7 +472,7 @@ const styles = StyleSheet.create({
   proBadgeText: {
     fontSize: 13,
     fontFamily: FONTS.heavy,
-    color: '#FFF',
+    color: '#1A2332',
     letterSpacing: 1,
   },
 

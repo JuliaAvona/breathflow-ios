@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Ezen a napon nincs gyakorlat',
   'history.allTimeStats': 'Összesített statisztikák',
   'history.unlockFullHistory': 'Teljes előzmény feloldása Pro-val',
+  'history.unlockFullHistoryDesc': 'Nézd meg a teljes fejlődésedet és az összesített statisztikákat',
   'history.weeklyActivity': 'Heti aktivitás',
   'history.badges': 'Jelvények',
 

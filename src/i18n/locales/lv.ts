@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Saja diena sesiju nav',
   'history.allTimeStats': 'Visu Laiku Statistika',
   'history.unlockFullHistory': 'Atbloket pilnu vesturi ar Pro',
+  'history.unlockFullHistoryDesc': 'Skatiet savu pilnīgo progresu un visu laiku statistiku',
   'history.weeklyActivity': 'Nedelas Aktivitate',
   'history.badges': 'Nozimites',
 

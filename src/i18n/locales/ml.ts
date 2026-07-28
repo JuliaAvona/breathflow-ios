@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'ഈ ദിവസം സെഷനുകളില്ല',
   'history.allTimeStats': 'മൊത്തം സ്ഥിതിവിവരക്കണക്കുകൾ',
   'history.unlockFullHistory': 'Pro ഉപയോഗിച്ച് പൂർണ്ണ ചരിത്രം അൺലോക്ക് ചെയ്യൂ',
+  'history.unlockFullHistoryDesc': 'നിങ്ങളുടെ പൂർണ്ണമായ പുരോഗതിയും എക്കാലത്തെയും സ്ഥിതിവിവരക്കണക്കുകളും കാണുക',
   'history.weeklyActivity': 'ആഴ്ചതോറുമുള്ള പ്രവർത്തനം',
   'history.badges': 'ബാഡ്ജുകൾ',
 

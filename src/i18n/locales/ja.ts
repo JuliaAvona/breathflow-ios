@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'この日のセッションはありません',
   'history.allTimeStats': '累計統計',
   'history.unlockFullHistory': 'Proで完全な履歴を解除',
+  'history.unlockFullHistoryDesc': 'すべての進捗と歴代の統計を確認できます',
   'history.weeklyActivity': '週間アクティビティ',
   'history.badges': 'バッジ',
 

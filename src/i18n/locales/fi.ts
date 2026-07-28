@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Ei harjoituksia t\u00e4n\u00e4 p\u00e4iv\u00e4n\u00e4',
   'history.allTimeStats': 'Kokonaistilastot',
   'history.unlockFullHistory': 'Avaa t\u00e4ysi historia Prolla',
+  'history.unlockFullHistoryDesc': 'Näe koko edistymisesi ja kaikkien aikojen tilastot',
   'history.weeklyActivity': 'Viikottainen Aktiivisuus',
   'history.badges': 'Merkit',
 

@@ -8,6 +8,7 @@ import { router } from 'expo-router';
 import { useSessionsStore, useSettingsStore } from '../../src/store';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { CalendarHeatmap } from '../../src/components/CalendarHeatmap';
+import { ProUpgradeBanner } from '../../src/components/ProUpgradeBanner';
 import { getTechniqueById } from '../../src/constants/techniques';
 import { formatTime, getToday } from '../../src/utils/time';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
@@ -607,17 +608,7 @@ export default function HistoryScreen() {
 
             {/* All-time stats */}
             {!isPro && sessions.length > 0 && (
-              <TouchableOpacity
-                style={[styles.proHistoryBanner, { backgroundColor: 'rgba(155,89,182,0.15)', borderColor: 'rgba(155,89,182,0.3)' }]}
-                onPress={() => router.push('/paywall')}
-                activeOpacity={0.7}
-              >
-                <Ionicons name="diamond" size={16} color="#9B59B6" />
-                <Text style={[styles.proHistoryText, { color: theme.text }]}>
-                  {t('history.unlockFullHistory', { defaultValue: 'Unlock full history & all-time stats' })}
-                </Text>
-                <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-              </TouchableOpacity>
+              <ProUpgradeBanner />
             )}
           </>
         )}
@@ -899,22 +890,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   proUpsellText: {
-    flex: 1,
-    fontSize: FONT_SIZE.sm,
-    fontFamily: FONTS.semibold,
-  },
-  proHistoryBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.md,
-    borderRadius: BORDER_RADIUS.lg,
-    borderWidth: 1,
-    gap: 10,
-    marginHorizontal: SPACING.lg,
-    marginBottom: SPACING.lg,
-  },
-  proHistoryText: {
     flex: 1,
     fontSize: FONT_SIZE.sm,
     fontFamily: FONTS.semibold,

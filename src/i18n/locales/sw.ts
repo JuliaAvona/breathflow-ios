@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Hakuna vipindi siku hii',
   'history.allTimeStats': 'Takwimu za Wakati Wote',
   'history.unlockFullHistory': 'Fungua historia kamili na Pro',
+  'history.unlockFullHistoryDesc': 'Tazama maendeleo yako kamili na takwimu za nyakati zote',
   'history.weeklyActivity': 'Shughuli za Wiki',
   'history.badges': 'Beji',
 

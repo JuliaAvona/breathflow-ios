@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Sem sessoes neste dia',
   'history.allTimeStats': 'Estatisticas Totais',
   'history.unlockFullHistory': 'Desbloqueia o historico completo com Pro',
+  'history.unlockFullHistoryDesc': 'Veja o seu progresso completo e as estatísticas globais',
   'history.weeklyActivity': 'Atividade Semanal',
   'history.badges': 'Emblemas',
 

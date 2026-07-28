@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'אין אימונים ביום זה',
   'history.allTimeStats': 'סטטיסטיקות כל הזמנים',
   'history.unlockFullHistory': 'פתח היסטוריה מלאה עם Pro',
+  'history.unlockFullHistoryDesc': 'צפה בהתקדמות המלאה שלך ובסטטיסטיקות כל הזמנים',
   'history.weeklyActivity': 'פעילות שבועית',
   'history.badges': 'תגים',
 

@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'આ દિવસે કોઈ સત્ર નથી',
   'history.allTimeStats': 'કુલ આંકડા',
   'history.unlockFullHistory': 'Pro સાથે સંપૂર્ણ ઇતિહાસ અનલૉક કરો',
+  'history.unlockFullHistoryDesc': 'તમારી સંપૂર્ણ પ્રગતિ અને સર્વકાલીન આંકડા જુઓ',
   'history.weeklyActivity': 'સાપ્તાહિક પ્રવૃત્તિ',
   'history.badges': 'બેજ',
 

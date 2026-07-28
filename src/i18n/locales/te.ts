@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'ఈ రోజు సెషన్లు లేవు',
   'history.allTimeStats': 'మొత్తం గణాంకాలు',
   'history.unlockFullHistory': 'Pro తో పూర్తి చరిత్ర అన్‌లాక్ చేయండి',
+  'history.unlockFullHistoryDesc': 'మీ పూర్తి పురోగతిని మరియు అన్ని కాలాల గణాంకాలను చూడండి',
   'history.weeklyActivity': 'వారపు కార్యకలాపం',
   'history.badges': 'బ్యాడ్జ్‌లు',
 

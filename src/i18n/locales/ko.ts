@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': '\uC774 \uB0A0\uC5D0\uB294 \uC138\uC158\uC774 \uC5C6\uC2B5\uB2C8\uB2E4',
   'history.allTimeStats': '\uC804\uCCB4 \uD1B5\uACC4',
   'history.unlockFullHistory': 'Pro\uB85C \uC804\uCCB4 \uAE30\uB85D\uC744 \uC7A0\uAE08 \uD574\uC81C\uD558\uC138\uC694',
+  'history.unlockFullHistoryDesc': '전체 진행 상황과 역대 통계를 확인하세요',
   'history.weeklyActivity': '\uC8FC\uAC04 \uD65C\uB3D9',
   'history.badges': '\uBC30\uC9C0',
 

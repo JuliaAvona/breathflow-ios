@@ -26,6 +26,7 @@ import { useHaptics } from '../../src/hooks/useHaptics';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
 import { PickerModal } from '../../src/components/PickerModal';
 import { WheelPickerModal, WheelColumn } from '../../src/components/WheelPickerModal';
+import { ProUpgradeBanner } from '../../src/components/ProUpgradeBanner';
 
 // ─── Shared row components ─────────────────────────────────────────────────
 
@@ -330,50 +331,9 @@ export default function SettingsScreen() {
           )}
         </View>
 
-        {/* PRO upgrade card */}
+        {/* PRO upgrade banner */}
         {!settings.isPro && (
-          <TouchableOpacity
-            style={styles.proCardWrapper}
-            activeOpacity={0.88}
-            onPress={() => router.push('/paywall')}
-            accessibilityLabel={t('settings.upgradePro')}
-            accessibilityRole="button"
-          >
-            <LinearGradient
-              colors={['#FFE066', '#FFC940', '#F5A623']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.proCard}
-            >
-              {/* Breathing rings — the app's own bloom motif, not a generic blur glow */}
-              <View style={styles.proRings} pointerEvents="none">
-                <View style={styles.proRing1} />
-                <View style={styles.proRing2} />
-              </View>
-
-              {/* Glossy top highlight */}
-              <LinearGradient
-                colors={['rgba(255,255,255,0.4)', 'rgba(255,255,255,0)']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0, y: 1 }}
-                style={styles.proShine}
-                pointerEvents="none"
-              />
-
-              <View style={styles.proIconBadge}>
-                <Ionicons name="diamond" size={20} color={COLORS.black} />
-              </View>
-
-              <View style={styles.proTextContainer}>
-                <Text style={styles.proTitle}>{t('settings.upgradePro')}</Text>
-                <Text style={styles.proSubtitle}>{t('settings.proSubtitle')}</Text>
-              </View>
-
-              <View style={styles.proChevronBadge}>
-                <Ionicons name="chevron-forward" size={16} color={COLORS.black} />
-              </View>
-            </LinearGradient>
-          </TouchableOpacity>
+          <ProUpgradeBanner />
         )}
 
         {/* ── Preferences (sound, haptics, theme, health) ─────────────────── */}
@@ -795,93 +755,6 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.bold,
     color: COLORS.white,
     letterSpacing: 0.4,
-  },
-  proCardWrapper: {
-    marginHorizontal: SPACING.lg,
-    marginBottom: SPACING.lg,
-    borderRadius: BORDER_RADIUS.lg,
-    shadowColor: '#E0940B',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.35,
-    shadowRadius: 12,
-    elevation: 6,
-  },
-  proCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: SPACING.md,
-    borderRadius: BORDER_RADIUS.lg,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.5)',
-  },
-  proShine: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: '55%',
-  },
-  proRings: {
-    position: 'absolute',
-    top: -50,
-    right: -50,
-    width: 160,
-    height: 160,
-  },
-  proRing1: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: 160,
-    height: 160,
-    borderRadius: 80,
-    borderWidth: 1.5,
-    borderColor: 'rgba(255,255,255,0.3)',
-  },
-  proRing2: {
-    position: 'absolute',
-    top: 26,
-    left: 26,
-    width: 108,
-    height: 108,
-    borderRadius: 54,
-    borderWidth: 1.5,
-    borderColor: 'rgba(26,35,50,0.12)',
-  },
-  proIconBadge: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(26,35,50,0.12)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: SPACING.md,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.5)',
-  },
-  proTextContainer: {
-    flex: 1,
-  },
-  proTitle: {
-    fontSize: FONT_SIZE.lg,
-    fontFamily: FONTS.bold,
-    color: COLORS.black,
-    marginBottom: 2,
-    letterSpacing: 0.2,
-  },
-  proSubtitle: {
-    fontSize: FONT_SIZE.sm,
-    color: 'rgba(26,35,50,0.72)',
-  },
-  proChevronBadge: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: 'rgba(26,35,50,0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: SPACING.sm,
   },
   section: {
     marginHorizontal: SPACING.lg,

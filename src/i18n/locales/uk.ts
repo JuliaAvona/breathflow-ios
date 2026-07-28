@@ -406,6 +406,7 @@ export default {
   'history.noSessionsOnDay': 'Немає сесій у цей день',
   'history.allTimeStats': 'Загальна статистика',
   'history.unlockFullHistory': 'Відкрийте повну історію з Pro',
+  'history.unlockFullHistoryDesc': 'Перегляньте повний прогрес і статистику за весь час',
   'history.weeklyActivity': 'Активність за тиждень',
   'history.badges': 'Значки',
 

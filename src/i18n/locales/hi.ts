@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': '\u0907\u0938 \u0926\u093F\u0928 \u0915\u094B\u0908 \u0938\u0924\u094D\u0930 \u0928\u0939\u0940\u0902',
   'history.allTimeStats': '\u0938\u092E\u094D\u092A\u0942\u0930\u094D\u0923 \u0906\u0901\u0915\u0921\u093C\u0947',
   'history.unlockFullHistory': 'Pro \u0915\u0947 \u0938\u093E\u0925 \u092A\u0942\u0930\u093E \u0907\u0924\u093F\u0939\u093E\u0938 \u0905\u0928\u0932\u0949\u0915 \u0915\u0930\u0947\u0902',
+  'history.unlockFullHistoryDesc': 'अपनी पूरी प्रगति और सभी समय के आँकड़े देखें',
   'history.weeklyActivity': '\u0938\u093E\u092A\u094D\u0924\u093E\u0939\u093F\u0915 \u0917\u0924\u093F\u0935\u093F\u0927\u093F',
   'history.badges': '\u092C\u0948\u091C',
 

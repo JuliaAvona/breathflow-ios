@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import Svg, { Circle } from 'react-native-svg';
 import { useBadgesStore, useSessionsStore, useSettingsStore } from '../../src/store';
 import { BadgeGrid } from '../../src/components/BadgeGrid';
+import { ProUpgradeBanner } from '../../src/components/ProUpgradeBanner';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
-import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS, BADGE_DEFINITIONS, FONTS, scale, COLORS } from '../../src/constants';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_CATEGORY_COLORS, BADGE_DEFINITIONS, FONTS, scale } from '../../src/constants';
 import type { BadgeCategory } from '../../src/constants';
 
 const CATEGORIES: {
@@ -222,22 +222,7 @@ export default function AwardsScreen() {
 
         {/* PRO upsell */}
         {!isPro && (
-          <TouchableOpacity
-            style={[styles.proBanner, { backgroundColor: 'rgba(155,89,182,0.15)', borderColor: 'rgba(155,89,182,0.3)' }]}
-            onPress={() => router.push('/paywall')}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="diamond" size={18} color="#9B59B6" />
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.proBannerTitle, { color: theme.text }]}>
-                {t('badges.unlockBadges', { defaultValue: 'Unlock All Badges' })}
-              </Text>
-              <Text style={[styles.proBannerSub, { color: theme.textSecondary }]}>
-                {t('badges.unlockBadgesDesc', { defaultValue: '4 more categories with Pro' })}
-              </Text>
-            </View>
-            <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
-          </TouchableOpacity>
+          <ProUpgradeBanner />
         )}
       </ScrollView>
     </View>
@@ -401,25 +386,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.03,
     shadowRadius: 8,
     elevation: 2,
-  },
-  proBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: SPACING.lg,
-    marginBottom: SPACING.lg,
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.md,
-    borderRadius: BORDER_RADIUS.lg,
-    borderWidth: 1,
-    gap: 10,
-  },
-  proBannerTitle: {
-    fontSize: FONT_SIZE.md,
-    fontFamily: FONTS.semibold,
-  },
-  proBannerSub: {
-    fontSize: FONT_SIZE.sm,
-    fontFamily: FONTS.regular,
-    marginTop: 2,
   },
 });

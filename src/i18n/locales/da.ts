@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Ingen sessioner denne dag',
   'history.allTimeStats': 'Samlet statistik',
   'history.unlockFullHistory': 'L\u00e5s fuld historik op med Pro',
+  'history.unlockFullHistoryDesc': 'Se din fulde fremgang og alle tiders statistik',
   'history.weeklyActivity': 'Ugentlig aktivitet',
   'history.badges': 'Badges',
 

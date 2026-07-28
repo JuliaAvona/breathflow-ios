@@ -406,6 +406,7 @@ export default {
   'history.noSessionsOnDay': '\u041D\u044F\u043C\u0430 \u0441\u0435\u0441\u0438\u0438 \u0432 \u0442\u043E\u0437\u0438 \u0434\u0435\u043D',
   'history.allTimeStats': '\u041E\u0431\u0449\u0430 \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430',
   'history.unlockFullHistory': '\u041E\u0442\u043A\u043B\u044E\u0447\u0435\u0442\u0435 \u043F\u044A\u043B\u043D\u0430 \u0438\u0441\u0442\u043E\u0440\u0438\u044F \u0441 Pro',
+  'history.unlockFullHistoryDesc': 'Вижте пълния си напредък и статистика за цялото време',
   'history.weeklyActivity': '\u0421\u0435\u0434\u043C\u0438\u0447\u043D\u0430 \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442',
   'history.badges': '\u0417\u043D\u0430\u0447\u043A\u0438',
 

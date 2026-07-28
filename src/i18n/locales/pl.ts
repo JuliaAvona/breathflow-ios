@@ -370,6 +370,7 @@ export default {
   'history.noSessionsOnDay': 'Brak sesji w tym dniu',
   'history.allTimeStats': 'Statystyki og\u00f3lne',
   'history.unlockFullHistory': 'Odblokuj pe\u0142n\u0105 histori\u0119 z Pro',
+  'history.unlockFullHistoryDesc': 'Zobacz pełne postępy i statystyki wszech czasów',
   'history.weeklyActivity': 'Aktywno\u015b\u0107 tygodniowa',
   'history.badges': 'Odznaki',
   'customTechnique.title': 'Stw\u00f3rz technik\u0119',

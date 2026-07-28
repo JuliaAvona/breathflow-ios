@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Sia diena sesiju nera',
   'history.allTimeStats': 'Visu Laiku Statistika',
   'history.unlockFullHistory': 'Atrakinti visa istorija su Pro',
+  'history.unlockFullHistoryDesc': 'Peržiūrėkite visą savo pažangą ir visų laikų statistiką',
   'history.weeklyActivity': 'Savaitine Veikla',
   'history.badges': 'Zenkleliai',
 

@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Walang sesyon sa araw na ito',
   'history.allTimeStats': 'Lahat ng Oras na Stats',
   'history.unlockFullHistory': 'I-unlock ang buong history gamit ang Pro',
+  'history.unlockFullHistoryDesc': 'Tingnan ang buong pag-unlad at all-time stats mo',
   'history.weeklyActivity': 'Lingguhang Aktibidad',
   'history.badges': 'Mga Badge',
 

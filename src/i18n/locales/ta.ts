@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'இந்த நாளில் அமர்வுகள் இல்லை',
   'history.allTimeStats': 'எல்லா நேர புள்ளிவிவரங்கள்',
   'history.unlockFullHistory': 'Pro மூலம் முழு வரலாற்றைத் திறக்கவும்',
+  'history.unlockFullHistoryDesc': 'உங்கள் முழு முன்னேற்றத்தையும் எல்லா காலத்தின் புள்ளிவிவரங்களையும் காணுங்கள்',
   'history.weeklyActivity': 'வாராந்திர செயல்பாடு',
   'history.badges': 'பதக்கங்கள்',
 

@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Kh\u00F4ng c\u00F3 phi\u00EAn n\u00E0o v\u00E0o ng\u00E0y n\u00E0y',
   'history.allTimeStats': 'Th\u1ED1ng k\u00EA m\u1ECDi th\u1EDDi \u0111\u1EA1i',
   'history.unlockFullHistory': 'M\u1EDF kh\u00F3a l\u1ECBch s\u1EED \u0111\u1EA7y \u0111\u1EE7 v\u1EDBi Pro',
+  'history.unlockFullHistoryDesc': 'Xem toàn bộ tiến trình và số liệu thống kê mọi thời điểm của bạn',
   'history.weeklyActivity': 'Ho\u1EA1t \u0111\u1ED9ng h\u00E0ng tu\u1EA7n',
   'history.badges': 'Huy hi\u1EC7u',
 

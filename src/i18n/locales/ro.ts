@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Nicio sesiune in aceasta zi',
   'history.allTimeStats': 'Statistici Totale',
   'history.unlockFullHistory': 'Deblocheaza istoricul complet cu Pro',
+  'history.unlockFullHistoryDesc': 'Vezi progresul tău complet și statisticile de tot timpul',
   'history.weeklyActivity': 'Activitate Saptamanala',
   'history.badges': 'Insigne',
 

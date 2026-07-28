@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Tiada sesi pada hari ini',
   'history.allTimeStats': 'Statistik Sepanjang Masa',
   'history.unlockFullHistory': 'Buka kunci sejarah penuh dengan Pro',
+  'history.unlockFullHistoryDesc': 'Lihat kemajuan penuh dan statistik sepanjang masa anda',
   'history.weeklyActivity': 'Aktiviti Mingguan',
   'history.badges': 'Lencana',
 

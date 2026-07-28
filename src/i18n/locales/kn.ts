@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'ಈ ದಿನ ಅಧಿವೇಶನಗಳಿಲ್ಲ',
   'history.allTimeStats': 'ಒಟ್ಟು ಅಂಕಿಅಂಶಗಳು',
   'history.unlockFullHistory': 'Pro ಯೊಂದಿಗೆ ಪೂರ್ಣ ಇತಿಹಾಸ ಅನ್‌ಲಾಕ್ ಮಾಡಿ',
+  'history.unlockFullHistoryDesc': 'ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಪ್ರಗತಿ ಮತ್ತು ಸರ್ವಕಾಲಿಕ ಅಂಕಿಅಂಶಗಳನ್ನು ವೀಕ್ಷಿಸಿ',
   'history.weeklyActivity': 'ಸಾಪ್ತಾಹಿಕ ಚಟುವಟಿಕೆ',
   'history.badges': 'ಬ್ಯಾಡ್ಜ್‌ಗಳು',
 

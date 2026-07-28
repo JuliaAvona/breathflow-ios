@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Nema sesija na ovaj dan',
   'history.allTimeStats': 'Ukupna statistika',
   'history.unlockFullHistory': 'Otkljucajte potpunu povijest s Pro',
+  'history.unlockFullHistoryDesc': 'Pogledajte svoj potpuni napredak i sveukupnu statistiku',
   'history.weeklyActivity': 'Tjedna aktivnost',
   'history.badges': 'Znacke',
 

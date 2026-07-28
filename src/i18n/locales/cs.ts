@@ -406,6 +406,7 @@ export default {
   'history.noSessionsOnDay': '\u017d\u00e1dn\u00e1 cvi\u010den\u00ed v tento den',
   'history.allTimeStats': 'Celkov\u00e9 statistiky',
   'history.unlockFullHistory': 'Odemkn\u011bte celou historii s Pro',
+  'history.unlockFullHistoryDesc': 'Zobrazte si svůj úplný pokrok a celkové statistiky',
   'history.weeklyActivity': 'T\u00fddenn\u00ed aktivita',
   'history.badges': 'Odznaky',
 

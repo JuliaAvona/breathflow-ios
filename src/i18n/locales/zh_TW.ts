@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': '\u7576\u5929\u7121\u7df4\u7fd2\u8a18\u9304',
   'history.allTimeStats': '\u6b77\u53f2\u7d71\u8a08',
   'history.unlockFullHistory': '\u5347\u7d1a Pro \u89e3\u9396\u5b8c\u6574\u6b77\u53f2\u8a18\u9304',
+  'history.unlockFullHistoryDesc': '查看你的完整進度和歷史統計數據',
   'history.weeklyActivity': '\u6bcf\u9031\u6d3b\u52d5',
   'history.badges': '\u5fbd\u7ae0',
 

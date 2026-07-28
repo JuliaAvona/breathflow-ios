@@ -368,6 +368,7 @@ export default {
   'history.noSessionsOnDay': 'Geen sessies op deze dag',
   'history.allTimeStats': 'Totale statistieken',
   'history.unlockFullHistory': 'Ontgrendel volledige geschiedenis met Pro',
+  'history.unlockFullHistoryDesc': 'Bekijk je volledige voortgang en all-time statistieken',
   'history.weeklyActivity': 'Wekelijkse activiteit',
   'history.badges': 'Badges',
   'customTechnique.title': 'Techniek maken',

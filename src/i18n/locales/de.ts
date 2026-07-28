@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Keine Sitzungen an diesem Tag',
   'history.allTimeStats': 'Gesamtstatistik',
   'history.unlockFullHistory': 'Vollst\u00E4ndigen Verlauf mit Pro freischalten',
+  'history.unlockFullHistoryDesc': 'Sieh dir deinen vollständigen Fortschritt und alle Statistiken an',
   'history.weeklyActivity': 'Wochenaktivit\u00E4t',
   'history.badges': 'Abzeichen',
 

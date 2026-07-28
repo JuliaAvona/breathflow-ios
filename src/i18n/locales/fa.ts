@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'در این روز جلسه‌ای نیست',
   'history.allTimeStats': 'آمار کلی',
   'history.unlockFullHistory': 'تاریخچه کامل را با Pro باز کنید',
+  'history.unlockFullHistoryDesc': 'پیشرفت کامل و آمار همه‌دوران خود را ببینید',
   'history.weeklyActivity': 'فعالیت هفتگی',
   'history.badges': 'نشان‌ها',
 

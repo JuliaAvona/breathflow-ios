@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Sel p\u00e4eval seansse pole',
   'history.allTimeStats': 'K\u00f5ikide Aegade Statistika',
   'history.unlockFullHistory': 'Ava t\u00e4isajalugu Proga',
+  'history.unlockFullHistoryDesc': 'Vaata oma täielikku edenemist ja kõikaegset statistikat',
   'history.weeklyActivity': 'N\u00e4dalik Aktiivsus',
   'history.badges': 'M\u00e4rgised',
 

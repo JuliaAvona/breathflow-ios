@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': '\u0644\u0627 \u062A\u0648\u062C\u062F \u062C\u0644\u0633\u0627\u062A \u0641\u064A \u0647\u0630\u0627 \u0627\u0644\u064A\u0648\u0645',
   'history.allTimeStats': '\u0625\u062D\u0635\u0627\u0626\u064A\u0627\u062A \u0643\u0644\u064A\u0629',
   'history.unlockFullHistory': '\u0627\u0641\u062A\u062D \u0627\u0644\u0633\u062C\u0644 \u0627\u0644\u0643\u0627\u0645\u0644 \u0645\u0639 Pro',
+  'history.unlockFullHistoryDesc': 'شاهد تقدمك الكامل وإحصائيات كل الأوقات',
   'history.weeklyActivity': '\u0627\u0644\u0646\u0634\u0627\u0637 \u0627\u0644\u0623\u0633\u0628\u0648\u0639\u064A',
   'history.badges': '\u0627\u0644\u0634\u0627\u0631\u0627\u062A',
 

@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': '这一天没有练习记录',
   'history.allTimeStats': '全部统计',
   'history.unlockFullHistory': '升级Pro解锁完整历史记录',
+  'history.unlockFullHistoryDesc': '查看你的完整进度和历史统计数据',
   'history.weeklyActivity': '每周活动',
   'history.badges': '成就',
 

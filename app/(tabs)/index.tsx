@@ -245,10 +245,15 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
 
         {/* PRO badge */}
         {locked && (
-          <View style={styles.proBadge}>
-            <Ionicons name="diamond" size={9} color="#FFF" />
+          <LinearGradient
+            colors={['#FFE066', '#FFC940', '#F5A623']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.proBadge}
+          >
+            <Ionicons name="diamond" size={9} color="#1A2332" />
             <Text style={styles.proBadgeText}>PRO</Text>
-          </View>
+          </LinearGradient>
         )}
       </View>
 
@@ -463,16 +468,23 @@ function TechniqueDetailSheet({ technique, visible, onClose, onStart, isPro, t, 
 
             {/* Start / Unlock button */}
             {locked ? (
-              <TouchableOpacity
-                style={[sheetStyles.startBtn, { backgroundColor: '#4A90D9' }]}
-                onPress={() => { onClose(); router.push('/paywall'); }}
-                activeOpacity={0.85}
+              <LinearGradient
+                colors={['#FFE066', '#FFC940', '#F5A623']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ borderRadius: 16 }}
               >
-                <Ionicons name="lock-open-outline" size={20} color="#FFFFFF" />
-                <Text style={sheetStyles.startBtnText}>
-                  {t('paywall.unlockPro')}
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={sheetStyles.startBtn}
+                  onPress={() => { onClose(); router.push('/paywall'); }}
+                  activeOpacity={0.85}
+                >
+                  <Ionicons name="lock-open-outline" size={20} color="#1A2332" />
+                  <Text style={[sheetStyles.startBtnText, { color: '#1A2332' }]}>
+                    {t('paywall.unlockPro')}
+                  </Text>
+                </TouchableOpacity>
+              </LinearGradient>
             ) : (
               <TouchableOpacity
                 style={[sheetStyles.startBtn, { backgroundColor: technique.color }]}
@@ -1122,12 +1134,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
     paddingVertical: 3,
     borderRadius: 10,
-    backgroundColor: 'rgba(155,89,182,0.75)',
   },
   proBadgeText: {
     fontSize: 9,
     fontFamily: FONTS.bold,
-    color: '#FFF',
+    color: '#1A2332',
     letterSpacing: 0.5,
   },
 

@@ -404,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Bu günde oturum yok',
   'history.allTimeStats': 'Tüm Zamanlar İstatistikleri',
   'history.unlockFullHistory': 'Pro ile tam geçmişi açın',
+  'history.unlockFullHistoryDesc': 'Tüm ilerlemenizi ve tüm zamanların istatistiklerini görün',
   'history.weeklyActivity': 'Haftalık Aktivite',
   'history.badges': 'Rozetler',
 

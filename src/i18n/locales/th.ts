@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'ไม่มีเซสชันในวันนี้',
   'history.allTimeStats': 'สถิติตลอดกาล',
   'history.unlockFullHistory': 'ปลดล็อกประวัติทั้งหมดด้วย Pro',
+  'history.unlockFullHistoryDesc': 'ดูความคืบหน้าทั้งหมดและสถิติตลอดกาลของคุณ',
   'history.weeklyActivity': 'กิจกรรมรายสัปดาห์',
   'history.badges': 'ตรา',
 

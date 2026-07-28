@@ -221,10 +221,15 @@ export default function TechniqueDetailScreen() {
             {t(technique.nameKey)}
           </Text>
           {isPro && (
-            <View style={[styles.proBadge, { marginLeft: 6 }]}>
-              <Ionicons name="diamond" size={12} color="#fff" />
+            <LinearGradient
+              colors={['#FFE066', '#FFC940', '#F5A623']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={[styles.proBadge, { marginLeft: 6 }]}
+            >
+              <Ionicons name="diamond" size={12} color="#1A2332" />
               <Text style={styles.proText}>PRO</Text>
-            </View>
+            </LinearGradient>
           )}
         </View>
         <TouchableOpacity style={styles.closeBtn} onPress={() => router.back()}>
@@ -428,7 +433,7 @@ export default function TechniqueDetailScreen() {
       <View style={[styles.bottomArea, { paddingBottom: insets.bottom + 16 }]}>
         {isPro ? (
           <LinearGradient
-            colors={['#9B59B6', '#7B68AE']}
+            colors={['#FFE066', '#FFC940', '#F5A623']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.startBtnGradient}
@@ -438,8 +443,8 @@ export default function TechniqueDetailScreen() {
               onPress={() => router.push('/paywall')}
               activeOpacity={0.85}
             >
-              <Ionicons name="diamond" size={18} color="#fff" style={{ marginRight: 8 }} />
-              <Text style={styles.startBtnText}>{t('paywall.unlockPro')}</Text>
+              <Ionicons name="diamond" size={18} color="#1A2332" style={{ marginRight: 8 }} />
+              <Text style={[styles.startBtnText, { color: '#1A2332' }]}>{t('paywall.unlockPro')}</Text>
             </TouchableOpacity>
           </LinearGradient>
         ) : (
@@ -520,7 +525,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: 'rgba(155,89,182,0.8)',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: BORDER_RADIUS.full,
@@ -528,7 +532,7 @@ const styles = StyleSheet.create({
   proText: {
     fontSize: 10,
     fontFamily: FONTS.bold,
-    color: '#fff',
+    color: '#1A2332',
   },
   mandalaArea: {
     alignItems: 'center',

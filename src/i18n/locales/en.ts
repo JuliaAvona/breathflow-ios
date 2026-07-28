@@ -512,6 +512,7 @@ export default {
   'history.noSessionsOnDay': 'No sessions on this day',
   'history.allTimeStats': 'All-Time Stats',
   'history.unlockFullHistory': 'Unlock full history with Pro',
+  'history.unlockFullHistoryDesc': 'See your complete progress and all-time stats',
   'history.weeklyActivity': 'Weekly Activity',
   'history.badges': 'Badges',
 

@@ -402,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'No hi ha sessions en aquest dia',
   'history.allTimeStats': 'Estadístiques totals',
   'history.unlockFullHistory': 'Desbloqueja l\'historial complet amb Pro',
+  'history.unlockFullHistoryDesc': 'Consulta el teu progrés complet i les estadístiques totals',
   'history.weeklyActivity': 'Activitat setmanal',
   'history.badges': 'Insígnies',
 
