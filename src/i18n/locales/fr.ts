@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'R\u00e9glages',
+  'settings.preferences': 'Préférences',
   'settings.feedback': 'Sons',
   'settings.sound': 'Son',
   'settings.soundStyle': 'Style de son',

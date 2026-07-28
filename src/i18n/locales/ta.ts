@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'அமைப்புகள்',
+  'settings.preferences': 'விருப்பங்கள்',
   'settings.feedback': 'ஒலிகள்',
   'settings.sound': 'ஒலி',
   'settings.soundStyle': 'ஒலி நடை',

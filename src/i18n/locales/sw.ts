@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Mipangilio',
+  'settings.preferences': 'Mapendeleo',
   'settings.feedback': 'Sauti',
   'settings.sound': 'Sauti',
   'settings.soundStyle': 'Mtindo wa Sauti',

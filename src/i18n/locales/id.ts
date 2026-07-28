@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Pengaturan',
+  'settings.preferences': 'Preferensi',
   'settings.feedback': 'Suara',
   'settings.sound': 'Suara',
   'settings.soundStyle': 'Gaya Suara',

@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Seaded',
+  'settings.preferences': 'Eelistused',
   'settings.feedback': 'Helid',
   'settings.sound': 'Heli',
   'settings.soundStyle': 'Helisliil',

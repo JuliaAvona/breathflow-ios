@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
+  'settings.preferences': 'ಆದ್ಯತೆಗಳು',
   'settings.feedback': 'ಶಬ್ದಗಳು',
   'settings.sound': 'ಶಬ್ದ',
   'settings.soundStyle': 'ಶಬ್ದ ಶೈಲಿ',

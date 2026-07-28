@@ -98,7 +98,6 @@ const TIME_COLUMNS: WheelColumn[] = [
 ];
 
 const SUPPORT_EMAIL = 'app.support.535@gmail.com';
-const APP_VERSION = '1.0.0';
 
 // ─── Main Screen ───────────────────────────────────────────────────────────
 
@@ -369,10 +368,10 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         )}
 
-        {/* ── Feedback ─────────────────────────────────────────────────── */}
+        {/* ── Preferences (sound, haptics, theme, health) ─────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.feedback')}
+            {t('settings.preferences')}
           </Text>
 
           {/* Sound toggle */}
@@ -412,14 +411,6 @@ export default function SettingsScreen() {
             labelSize={fontSize.md}
           />
 
-        </View>
-
-        {/* ── Appearance ───────────────────────────────────────────────── */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
-          <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.appearance')}
-          </Text>
-
           {/* Dark mode picker */}
           <TouchableOpacity
             style={[styles.settingRow, { borderBottomColor: theme.border }]}
@@ -437,6 +428,15 @@ export default function SettingsScreen() {
             </View>
           </TouchableOpacity>
 
+          {/* Apple Health sync toggle */}
+          <ToggleRow
+            label={t('settings.syncMindfulMinutes')}
+            value={settings.healthSyncEnabled}
+            onToggle={handleHealthToggle}
+            theme={theme}
+            onHaptic={haptics.light}
+            labelSize={fontSize.md}
+          />
         </View>
 
         {/* ── Reminders ────────────────────────────────────────────────── */}
@@ -513,21 +513,6 @@ export default function SettingsScreen() {
           )}
         </View>
 
-        {/* ── Apple Health ─────────────────────────────────────────────── */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
-          <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.appleHealth')}
-          </Text>
-          <ToggleRow
-            label={t('settings.syncMindfulMinutes')}
-            value={settings.healthSyncEnabled}
-            onToggle={handleHealthToggle}
-            theme={theme}
-            onHaptic={haptics.light}
-            labelSize={fontSize.md}
-          />
-        </View>
-
         {/* ── Account ──────────────────────────────────────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
@@ -595,21 +580,11 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* ── General ──────────────────────────────────────────────────── */}
+        {/* ── About ────────────────────────────────────────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.general')}
+            {t('settings.about')}
           </Text>
-
-          {/* About */}
-          <View style={[styles.settingRow, { borderBottomColor: theme.border }]}>
-            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-              {t('settings.version')}
-            </Text>
-            <Text style={[styles.settingValue, { color: theme.textSecondary }]}>
-              {APP_VERSION}
-            </Text>
-          </View>
 
           {/* Privacy Policy */}
           <TouchableOpacity

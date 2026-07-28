@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Tetapan',
+  'settings.preferences': 'Keutamaan',
   'settings.feedback': 'Bunyi',
   'settings.sound': 'Bunyi',
   'settings.soundStyle': 'Gaya Bunyi',

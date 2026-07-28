@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'ቅንብሮች',
+  'settings.preferences': 'ምርጫዎች',
   'settings.feedback': 'ድምፆች',
   'settings.sound': 'ድምፅ',
   'settings.soundStyle': 'የድምፅ ዘይቤ',

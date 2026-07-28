@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Beállítások',
+  'settings.preferences': 'Preferenciák',
   'settings.feedback': 'Hangok',
   'settings.sound': 'Hang',
   'settings.soundStyle': 'Hangstílus',

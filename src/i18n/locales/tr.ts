@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Ayarlar',
+  'settings.preferences': 'Tercihler',
   'settings.feedback': 'Sesler',
   'settings.sound': 'Ses',
   'settings.soundStyle': 'Ses Stili',

@@ -200,6 +200,7 @@ export default {
   'calendar.sessions_one': '{{count}} sesja',
   'calendar.sessions_other': '{{count}} sesji',
   'settings.title': 'Ustawienia',
+  'settings.preferences': 'Preferencje',
   'settings.feedback': 'D\u017awi\u0119ki',
   'settings.sound': 'D\u017awi\u0119k',
   'settings.soundStyle': 'Styl d\u017awi\u0119ku',

@@ -226,6 +226,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Nastaven\u00ed',
+  'settings.preferences': 'Předvolby',
   'settings.feedback': 'Zvuky',
   'settings.sound': 'Zvuk',
   'settings.soundStyle': 'Styl zvuku',

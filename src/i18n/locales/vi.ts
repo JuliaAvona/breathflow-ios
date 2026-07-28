@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'C\u00E0i \u0111\u1EB7t',
+  'settings.preferences': 'Tùy chọn',
   'settings.feedback': '\u00C2m thanh',
   'settings.sound': '\u00C2m thanh',
   'settings.soundStyle': 'Ki\u1EC3u \u00E2m thanh',

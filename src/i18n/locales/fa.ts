@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'تنظیمات',
+  'settings.preferences': 'ترجیحات',
   'settings.feedback': 'صداها',
   'settings.sound': 'صدا',
   'settings.soundStyle': 'سبک صدا',

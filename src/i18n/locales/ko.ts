@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': '\uC124\uC815',
+  'settings.preferences': '환경설정',
   'settings.feedback': '사운드',
   'settings.sound': '\uC0AC\uC6B4\uB4DC',
   'settings.soundStyle': '\uC0AC\uC6B4\uB4DC \uC2A4\uD0C0\uC77C',

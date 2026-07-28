@@ -230,6 +230,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Настройки',
+  'settings.preferences': 'Предпочтения',
   'settings.feedback': 'Звуки',
   'settings.sound': 'Звук',
   'settings.soundStyle': 'Стиль звука',

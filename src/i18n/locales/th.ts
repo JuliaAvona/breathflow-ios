@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'การตั้งค่า',
+  'settings.preferences': 'ค่ากำหนด',
   'settings.feedback': 'เสียง',
   'settings.sound': 'เสียง',
   'settings.soundStyle': 'สไตล์เสียง',

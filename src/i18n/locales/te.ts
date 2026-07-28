@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'సెట్టింగ్‌లు',
+  'settings.preferences': 'ప్రాధాన్యతలు',
   'settings.feedback': 'శబ్దాలు',
   'settings.sound': 'శబ్దం',
   'settings.soundStyle': 'శబ్ద శైలి',

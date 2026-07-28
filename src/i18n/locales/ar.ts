@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u0627\u0644\u0625\u0639\u062F\u0627\u062F\u0627\u062A',
+  'settings.preferences': 'التفضيلات',
   'settings.feedback': '\u0627\u0644\u0623\u0635\u0648\u0627\u062A',
   'settings.sound': '\u0627\u0644\u0635\u0648\u062A',
   'settings.soundStyle': '\u0646\u0645\u0637 \u0627\u0644\u0635\u0648\u062A',

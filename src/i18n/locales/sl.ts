@@ -226,6 +226,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Nastavitve',
+  'settings.preferences': 'Možnosti',
   'settings.feedback': 'Zvoki',
   'settings.sound': 'Zvok',
   'settings.soundStyle': 'Slog zvoka',

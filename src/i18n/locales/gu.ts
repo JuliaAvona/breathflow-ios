@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'સેટિંગ્સ',
+  'settings.preferences': 'પસંદગીઓ',
   'settings.feedback': 'અવાજ',
   'settings.sound': 'અવાજ',
   'settings.soundStyle': 'અવાજ શૈલી',

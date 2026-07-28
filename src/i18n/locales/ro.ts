@@ -226,6 +226,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Setari',
+  'settings.preferences': 'Preferințe',
   'settings.feedback': 'Sunete',
   'settings.sound': 'Sunet',
   'settings.soundStyle': 'Stil Sunet',

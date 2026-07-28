@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u09B8\u09C7\u099F\u09BF\u0982\u09B8',
+  'settings.preferences': 'পছন্দসমূহ',
   'settings.feedback': '\u09B6\u09AC\u09CD\u09A6',
   'settings.sound': '\u09B6\u09AC\u09CD\u09A6',
   'settings.soundStyle': '\u09B6\u09AC\u09CD\u09A6 \u09B6\u09C8\u09B2\u09C0',

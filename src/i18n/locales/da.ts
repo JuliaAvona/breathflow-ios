@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Indstillinger',
+  'settings.preferences': 'Præferencer',
   'settings.feedback': 'Lyde',
   'settings.sound': 'Lyd',
   'settings.soundStyle': 'Lydstil',

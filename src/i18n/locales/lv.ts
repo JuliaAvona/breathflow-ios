@@ -226,6 +226,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Iestatijumi',
+  'settings.preferences': 'Preferences',
   'settings.feedback': 'Skanas',
   'settings.sound': 'Skana',
   'settings.soundStyle': 'Skanas Stils',

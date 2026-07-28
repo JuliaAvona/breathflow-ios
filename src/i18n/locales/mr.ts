@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u0938\u0947\u091f\u093f\u0902\u0917\u094d\u0938',
+  'settings.preferences': 'प्राधान्ये',
   'settings.feedback': '\u0927\u094d\u0935\u0928\u0940',
   'settings.sound': '\u0906\u0935\u093e\u091c',
   'settings.soundStyle': '\u0906\u0935\u093e\u091c \u0936\u0948\u0932\u0940',

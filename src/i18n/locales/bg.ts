@@ -226,6 +226,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438',
+  'settings.preferences': 'Предпочитания',
   'settings.feedback': '\u0417\u0432\u0443\u0446\u0438',
   'settings.sound': '\u0417\u0432\u0443\u043A',
   'settings.soundStyle': '\u0421\u0442\u0438\u043B \u043D\u0430 \u0437\u0432\u0443\u043A\u0430',

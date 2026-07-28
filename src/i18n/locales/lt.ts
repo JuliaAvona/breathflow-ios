@@ -226,6 +226,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Nustatymai',
+  'settings.preferences': 'Nuostatos',
   'settings.feedback': 'Garsai',
   'settings.sound': 'Garsas',
   'settings.soundStyle': 'Garso stilius',

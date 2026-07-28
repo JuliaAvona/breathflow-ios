@@ -198,6 +198,7 @@ export default {
   'calendar.sessions_one': '{{count}} sessie',
   'calendar.sessions_other': '{{count}} sessies',
   'settings.title': 'Instellingen',
+  'settings.preferences': 'Voorkeuren',
   'settings.feedback': 'Geluiden',
   'settings.sound': 'Geluid',
   'settings.soundStyle': 'Geluidsstijl',

@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u03a1\u03c5\u03b8\u03bc\u03af\u03c3\u03b5\u03b9\u03c2',
+  'settings.preferences': 'Προτιμήσεις',
   'settings.feedback': '\u0389\u03c7\u03bf\u03b9',
   'settings.sound': '\u0389\u03c7\u03bf\u03c2',
   'settings.soundStyle': '\u03a3\u03c4\u03c5\u03bb \u0389\u03c7\u03bf\u03c5',

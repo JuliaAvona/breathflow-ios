@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Asetukset',
+  'settings.preferences': 'Mieltymykset',
   'settings.feedback': '\u00c4\u00e4net',
   'settings.sound': '\u00c4\u00e4ni',
   'settings.soundStyle': '\u00c4\u00e4nityyli',

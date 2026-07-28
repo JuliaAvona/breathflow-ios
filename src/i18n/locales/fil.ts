@@ -224,6 +224,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Mga Setting',
+  'settings.preferences': 'Kagustuhan',
   'settings.feedback': 'Mga Tunog',
   'settings.sound': 'Tunog',
   'settings.soundStyle': 'Estilo ng Tunog',
