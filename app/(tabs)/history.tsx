@@ -5,10 +5,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
-import { useSessionsStore, useSettingsStore } from '../../src/store';
+import { useSessionsStore } from '../../src/store';
 import { useThemeColors } from '../../src/hooks/useColorScheme';
 import { CalendarHeatmap } from '../../src/components/CalendarHeatmap';
-import { ProUpgradeBanner } from '../../src/components/ProUpgradeBanner';
 import { getTechniqueById } from '../../src/constants/techniques';
 import { formatTime, getToday } from '../../src/utils/time';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
@@ -26,6 +25,19 @@ const MOOD_EMOJI: Record<string, string> = {
   sleepy: '\u{1F634}',
 };
 
+// Fixed display order for the mood distribution pills — most-logged first is
+// handled at render time via sorting, this just sets a stable tie-break order.
+const MOOD_ORDER = ['happy', 'calm', 'energized', 'focused', 'anxious', 'sleepy'] as const;
+
+const MOOD_META: Record<string, { color: string; labelKey: string }> = {
+  happy: { color: '#F5A623', labelKey: 'summary.moodHappy' },
+  calm: { color: '#7BC4A8', labelKey: 'summary.moodCalm' },
+  energized: { color: '#FF6B6B', labelKey: 'summary.moodEnergized' },
+  focused: { color: '#4A90D9', labelKey: 'summary.moodFocused' },
+  anxious: { color: '#E85D4A', labelKey: 'summary.moodAnxious' },
+  sleepy: { color: '#7B68AE', labelKey: 'summary.moodSleepy' },
+};
+
 function formatTimeOfDay(isoString: string): string {
   const d = new Date(isoString);
   return d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
@@ -38,16 +50,9 @@ export default function HistoryScreen() {
   const stats = useSessionsStore((s) => s.stats);
   const allSessions = useSessionsStore((s) => s.sessions);
   const hydrate = useSessionsStore((s) => s.hydrate);
-  const isPro = useSettingsStore((s) => s.isPro);
 
-  // Free users: last 7 days only; Pro: all sessions
-  const sessions = useMemo(() => {
-    if (isPro) return allSessions;
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 7);
-    const cutoffStr = cutoff.toISOString().split('T')[0];
-    return allSessions.filter((s) => s.date >= cutoffStr);
-  }, [allSessions, isPro]);
+  // Progress is fully free — no history window restriction.
+  const sessions = allSessions;
 
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
@@ -107,38 +112,22 @@ export default function HistoryScreen() {
     return { longestSession };
   }, [sessions]);
 
-  // Mood scores for graph Y position (higher = better mood)
-  const MOOD_SCORE: Record<string, number> = {
-    energized: 5, happy: 4, calm: 3, focused: 2, anxious: 1, sleepy: 0,
-  };
-  const MOOD_GRAPH_HEIGHT = 140;
-
-  // Mood history — last 7 days with mood emoji + score
-  const moodHistory = useMemo(() => {
-    const today = new Date();
-    const days: { label: string; emoji: string | null; score: number | null; dateStr: string }[] = [];
-    for (let d = 6; d >= 0; d--) {
-      const day = new Date(today.getFullYear(), today.getMonth(), today.getDate() - d);
-      const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-      const label = day.toLocaleDateString(i18n.language, { weekday: 'short' }).slice(0, 3).toUpperCase();
-      const daySessions = allSessions.filter(s => s.date === dateStr && s.moodAfter);
-      let topMood: string | null = null;
-      if (daySessions.length > 0) {
-        const counts: Record<string, number> = {};
-        for (const s of daySessions) {
-          if (s.moodAfter) counts[s.moodAfter] = (counts[s.moodAfter] || 0) + 1;
-        }
-        topMood = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+  // Mood distribution — share of logged moods per emotion, across all sessions
+  const moodDistribution = useMemo(() => {
+    const counts: Record<string, number> = {};
+    let total = 0;
+    for (const s of sessions) {
+      if (s.moodAfter) {
+        counts[s.moodAfter] = (counts[s.moodAfter] || 0) + 1;
+        total++;
       }
-      days.push({
-        label,
-        emoji: topMood ? MOOD_EMOJI[topMood] ?? null : null,
-        score: topMood ? MOOD_SCORE[topMood] ?? null : null,
-        dateStr,
-      });
     }
-    return days;
-  }, [allSessions, i18n.language]);
+    const items = MOOD_ORDER
+      .filter((mood) => counts[mood] > 0)
+      .map((mood) => ({ mood, count: counts[mood], percent: total > 0 ? counts[mood] / total : 0 }))
+      .sort((a, b) => b.count - a.count);
+    return { items, total };
+  }, [sessions]);
 
   // Daily sessions data for week chart (last 7 days, uses allSessions to match calendar)
   const weeklyData = useMemo(() => {
@@ -273,39 +262,10 @@ export default function HistoryScreen() {
             style={StyleSheet.absoluteFill}
           />
 
-          {/* Title + streak */}
-          <View style={styles.heroTitleRow}>
-            <Text style={styles.heroTitle}>{t('history.title')}</Text>
-            {stats.currentStreak > 0 && (
-              <View style={styles.streakBadge}>
-                <Ionicons name="flame" size={14} color="#FFFFFF" />
-                <Text style={styles.streakText}>{stats.currentStreak}</Text>
-              </View>
-            )}
-          </View>
+          {/* Title — streak/session totals already live in the banner and
+              Personal Bests below, so the hero doesn't repeat them. */}
+          <Text style={styles.heroTitle}>{t('history.title')}</Text>
         </ImageBackground>
-
-        {/* All-time stats — floats over the hero/background transition, same
-            treatment as the "today" card on the Breathe tab */}
-        <View style={styles.heroStatsRow}>
-          <View style={styles.heroStat}>
-            <Ionicons name="leaf-outline" size={16} color="rgba(255,255,255,0.85)" />
-            <Text style={styles.heroStatValue}>{stats.totalSessions}</Text>
-            <Text style={styles.heroStatLabel}>{t('home.totalSessions')}</Text>
-          </View>
-          <View style={styles.heroStatDivider} />
-          <View style={styles.heroStat}>
-            <Ionicons name="time-outline" size={16} color="#95f5fb" />
-            <Text style={styles.heroStatValue}>{stats.totalMinutes}</Text>
-            <Text style={styles.heroStatLabel}>{t('home.totalMin')}</Text>
-          </View>
-          <View style={styles.heroStatDivider} />
-          <View style={styles.heroStat}>
-            <Ionicons name="flame-outline" size={16} color="#F5A623" />
-            <Text style={styles.heroStatValue}>{stats.currentStreak}</Text>
-            <Text style={styles.heroStatLabel}>{t('home.streak')}</Text>
-          </View>
-        </View>
 
         {isEmpty ? (
           <View style={styles.emptyContainer}>
@@ -457,8 +417,8 @@ export default function HistoryScreen() {
               </View>
             )}
 
-            {/* 5. Technique Distribution (Pro only) */}
-            {isPro && techniqueDistribution.items.length > 0 && (
+            {/* 5. Technique Distribution */}
+            {techniqueDistribution.items.length > 0 && (
               <View style={[styles.newCard, { backgroundColor: theme.card }]}>
                 <Text style={[styles.newCardTitle, { color: theme.text }]}>
                   {t('progress.techniqueBreakdown', { defaultValue: 'Your Practice' })}
@@ -544,81 +504,41 @@ export default function HistoryScreen() {
               </View>
             )}
 
-            {/* Mood History — graph style (Pro only) */}
-            {isPro && moodHistory.some(d => d.emoji) && (
+            {/* Mood distribution — one pill per emotion, filled to its share of logged moods */}
+            {moodDistribution.items.length > 0 && (
               <View style={[styles.newCard, { backgroundColor: theme.card }]}>
                 <Text style={[styles.newCardTitle, { color: theme.text }]}>
                   {t('progress.moodHistory', { defaultValue: 'Your Mood' })}
                 </Text>
-                <View style={styles.moodGraphContainer}>
-                  <View style={{ flexDirection: 'row' }}>
-                  {/* Y-axis emoji scale */}
-                  <View style={styles.moodYAxis}>
-                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.energized}</Text>
-                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.happy}</Text>
-                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.calm}</Text>
-                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.focused}</Text>
-                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.anxious}</Text>
-                    <Text style={styles.moodYEmoji}>{MOOD_EMOJI.sleepy}</Text>
-                  </View>
-                  {/* Graph area */}
-                  <View style={[styles.moodGraphArea, { flex: 1 }]}>
-                    {/* Horizontal grid lines */}
-                    {[0, 1, 2, 3, 4].map(i => (
-                      <View key={i} style={[styles.moodGridLine, {
-                        bottom: (i + 0.5) * (MOOD_GRAPH_HEIGHT / 5),
-                        backgroundColor: theme.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
-                      }]} />
-                    ))}
-                    {/* Mood emoji dots */}
-                    {moodHistory.map((day, idx) => {
-                      const colW = 100 / 7;
-                      const x = idx * colW + colW / 2;
-                      const padding = 16;
-                      const graphH = MOOD_GRAPH_HEIGHT - padding * 2;
-                      const y = day.score != null
-                        ? padding + graphH - (day.score / 5) * graphH - 14
-                        : MOOD_GRAPH_HEIGHT / 2 - 6;
-                      return day.emoji ? (
-                        <View key={`dot-${idx}`} style={{
-                          position: 'absolute',
-                          left: `${x - 5}%`,
-                          top: y,
-                        }}>
-                          <Text style={{ fontSize: 28 }}>{day.emoji}</Text>
+                <View style={styles.moodPillsRow}>
+                  {moodDistribution.items.map((item) => {
+                    const meta = MOOD_META[item.mood];
+                    const pct = Math.round(item.percent * 100);
+                    return (
+                      <View key={item.mood} style={styles.moodPillCol}>
+                        <View
+                          style={[
+                            styles.moodPillTrack,
+                            { backgroundColor: theme.isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' },
+                          ]}
+                        >
+                          <View
+                            style={[
+                              styles.moodPillFill,
+                              { height: `${Math.max(pct, 10)}%`, backgroundColor: meta.color },
+                            ]}
+                          >
+                            <Text style={styles.moodPillPercent}>{pct}%</Text>
+                          </View>
                         </View>
-                      ) : (
-                        <View key={`dot-${idx}`} style={{
-                          position: 'absolute',
-                          left: `${x - 1.5}%`,
-                          top: MOOD_GRAPH_HEIGHT / 2 - 6,
-                          width: 12,
-                          height: 12,
-                          borderRadius: 6,
-                          borderWidth: 2,
-                          borderColor: theme.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)',
-                          backgroundColor: theme.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
-                        }} />
-                      );
-                    })}
-                  </View>
-                  </View>
-                  {/* Day labels */}
-                  <View style={[styles.moodGraphLabels, { marginLeft: 30 }]}>
-                    {moodHistory.map((day, idx) => (
-                      <Text key={idx} style={[styles.moodGraphLabel, {
-                        color: idx === 6 ? theme.primary : theme.textSecondary,
-                        fontFamily: idx === 6 ? FONTS.bold : FONTS.medium,
-                      }]}>{day.label}</Text>
-                    ))}
-                  </View>
+                        <Text style={[styles.moodPillLabel, { color: theme.text }]} numberOfLines={1}>
+                          {t(meta.labelKey)}
+                        </Text>
+                      </View>
+                    );
+                  })}
                 </View>
               </View>
-            )}
-
-            {/* All-time stats */}
-            {!isPro && sessions.length > 0 && (
-              <ProUpgradeBanner />
             )}
           </>
         )}
@@ -637,60 +557,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     overflow: 'hidden',
   },
-  heroTitleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
   heroTitle: {
     fontSize: 30,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: -0.5,
-  },
-  streakBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: BORDER_RADIUS.full,
-    backgroundColor: 'rgba(255,255,255,0.25)',
-  },
-  streakText: { fontSize: 14, fontFamily: FONTS.bold, color: '#FFFFFF' },
-
-  // Hero stats
-  heroStatsRow: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    borderRadius: 20,
-    paddingVertical: 16,
-    paddingHorizontal: 8,
-    marginHorizontal: SPACING.lg,
-    marginTop: -24,
-    marginBottom: SPACING.md,
-  },
-  heroStat: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  heroStatValue: {
-    fontSize: 26,
-    fontFamily: FONTS.heavy,
-    color: '#FFFFFF',
-    marginBottom: 2,
-  },
-  heroStatLabel: {
-    fontSize: 11,
-    fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.85)',
-    textAlign: 'center',
-  },
-  heroStatDivider: {
-    width: 1,
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    marginVertical: 4,
   },
 
   // Empty state
@@ -1084,37 +955,38 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  // Mood Graph
-  moodGraphContainer: {
-    marginTop: 4,
-  },
-  moodYAxis: {
-    width: 30,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  moodYEmoji: {
-    fontSize: 14,
-  },
-  moodGraphArea: {
-    height: 140,
-    position: 'relative',
-  },
-  moodGridLine: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    height: 1,
-  },
-  moodGraphLabels: {
+  // Mood distribution pills
+  moodPillsRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     marginTop: 8,
   },
-  moodGraphLabel: {
-    fontSize: 11,
+  moodPillCol: {
     flex: 1,
+    alignItems: 'center',
+  },
+  moodPillTrack: {
+    width: 44,
+    height: 150,
+    borderRadius: 22,
+    overflow: 'hidden',
+    justifyContent: 'flex-end',
+  },
+  moodPillFill: {
+    width: '100%',
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 8,
+  },
+  moodPillPercent: {
+    fontSize: 12,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+  },
+  moodPillLabel: {
+    fontSize: 11,
+    fontFamily: FONTS.medium,
+    marginTop: 8,
     textAlign: 'center',
   },
 });
