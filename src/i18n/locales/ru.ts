@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Главная',
   'tabs.breathe': 'Дышать',
   'tabs.history': 'Прогресс',
-  'tabs.badges': 'Значки',
+  'tabs.badges': 'Награды',
   'tabs.settings': 'Настройки',
 
   // Home screen
@@ -364,7 +364,7 @@ export default {
   'badges.year_legend.description': 'Серия 365 дней',
 
   // Badges screen
-  'badges.title': 'Значки',
+  'badges.title': 'Награды',
   'badges.unlocked': 'Открыто',
   'badges.unlockBadges': 'Откройте значки с Pro',
   'badges.unlockBadgesDesc': 'Отслеживайте достижения и зарабатывайте все значки',

@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'ഹോം',
   'tabs.breathe': 'ശ്വസിക്കൂ',
   'tabs.history': 'പുരോഗതി',
-  'tabs.badges': 'ബാഡ്ജുകൾ',
+  'tabs.badges': 'അവാർഡുകൾ',
   'tabs.settings': 'ക്രമീകരണങ്ങൾ',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-ദിവസ സ്ട്രീക്ക്',
 
   // Badges screen
-  'badges.title': 'ബാഡ്ജുകൾ',
+  'badges.title': 'അവാർഡുകൾ',
   'badges.unlocked': 'അൺലോക്ക് ചെയ്തവ',
   'badges.locked': 'ലോക്ക് ചെയ്തവ',
   'badges.progress': '{{total}} ബാഡ്ജുകളിൽ {{unlocked}}',

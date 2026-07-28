@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Laman Utama',
   'tabs.breathe': 'Bernafas',
   'tabs.history': 'Kemajuan',
-  'tabs.badges': 'Lencana',
+  'tabs.badges': 'Anugerah',
   'tabs.settings': 'Tetapan',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'Streak 365 hari',
 
   // Badges screen
-  'badges.title': 'Lencana',
+  'badges.title': 'Anugerah',
   'badges.unlocked': 'Dibuka',
   'badges.locked': 'Dikunci',
   'badges.progress': '{{unlocked}} daripada {{total}} lencana',

@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Inici',
   'tabs.breathe': 'Respirar',
   'tabs.history': 'Progrés',
-  'tabs.badges': 'Insígnies',
+  'tabs.badges': 'Premis',
   'tabs.settings': 'Ajustos',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'Ratxa de 365 dies',
 
   // Badges screen
-  'badges.title': 'Insígnies',
+  'badges.title': 'Premis',
   'badges.unlocked': 'Desbloquejades',
   'badges.locked': 'Bloquejades',
   'badges.progress': '{{unlocked}} de {{total}} insígnies',

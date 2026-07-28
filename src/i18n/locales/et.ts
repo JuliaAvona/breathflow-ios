@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Avaleht',
   'tabs.breathe': 'Hinga',
   'tabs.history': 'Edenemine',
-  'tabs.badges': 'M\u00e4rgised',
+  'tabs.badges': 'Autasud',
   'tabs.settings': 'Seaded',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-p\u00e4evane seeria',
 
   // Badges screen
-  'badges.title': 'M\u00e4rgised',
+  'badges.title': 'Autasud',
   'badges.unlocked': 'Avatud',
   'badges.locked': 'Lukustatud',
   'badges.progress': '{{unlocked}} / {{total}} m\u00e4rgist',

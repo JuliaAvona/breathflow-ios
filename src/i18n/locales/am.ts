@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'መነሻ',
   'tabs.breathe': 'ተንፈስ',
   'tabs.history': 'እድገት',
-  'tabs.badges': 'ሜዳሊያዎች',
+  'tabs.badges': 'ሽልማቶች',
   'tabs.settings': 'ቅንብሮች',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'የ365 ቀን ሰንሰለት',
 
   // Badges screen
-  'badges.title': 'ሜዳሊያዎች',
+  'badges.title': 'ሽልማቶች',
   'badges.unlocked': 'ተከፍቷል',
   'badges.locked': 'ተቆልፏል',
   'badges.progress': 'ከ {{total}} ሜዳሊያዎች {{unlocked}}',

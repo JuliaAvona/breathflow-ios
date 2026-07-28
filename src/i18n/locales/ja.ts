@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'ホーム',
   'tabs.breathe': '呼吸',
   'tabs.history': '記録',
-  'tabs.badges': 'バッジ',
+  'tabs.badges': '実績',
   'tabs.settings': '設定',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365日間連続達成',
 
   // Badges screen
-  'badges.title': 'バッジ',
+  'badges.title': '実績',
   'badges.unlocked': '獲得済み',
   'badges.unlockBadges': 'Proでバッジを解放',
   'badges.unlockBadgesDesc': '実績を追跡し、すべてのバッジを獲得しよう',

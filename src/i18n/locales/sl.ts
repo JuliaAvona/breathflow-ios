@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Domov',
   'tabs.breathe': 'Dihaj',
   'tabs.history': 'Napredek',
-  'tabs.badges': 'Znacke',
+  'tabs.badges': 'Nagrade',
   'tabs.settings': 'Nastavitve',
 
   // Home screen
@@ -360,7 +360,7 @@ export default {
   'badges.year_legend.description': 'Niz 365 dni',
 
   // Badges screen
-  'badges.title': 'Znacke',
+  'badges.title': 'Nagrade',
   'badges.unlocked': 'Odkleniene',
   'badges.locked': 'Zaklenjene',
   'badges.progress': '{{unlocked}} od {{total}} znack',

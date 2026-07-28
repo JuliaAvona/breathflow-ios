@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'હોમ',
   'tabs.breathe': 'શ્વાસ',
   'tabs.history': 'પ્રગતિ',
-  'tabs.badges': 'બેજ',
+  'tabs.badges': 'પુરસ્કારો',
   'tabs.settings': 'સેટિંગ્સ',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-દિવસ સ્ટ્રીક',
 
   // Badges screen
-  'badges.title': 'બેજ',
+  'badges.title': 'પુરસ્કારો',
   'badges.unlocked': 'અનલૉક',
   'badges.locked': 'લૉક',
   'badges.progress': '{{total}} માંથી {{unlocked}} બેજ',

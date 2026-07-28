@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'خانه',
   'tabs.breathe': 'تنفس',
   'tabs.history': 'پیشرفت',
-  'tabs.badges': 'نشان‌ها',
+  'tabs.badges': 'جوایز',
   'tabs.settings': 'تنظیمات',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'رشته 365 روزه',
 
   // Badges screen
-  'badges.title': 'نشان‌ها',
+  'badges.title': 'جوایز',
   'badges.unlocked': 'باز شده',
   'badges.locked': 'قفل',
   'badges.progress': '{{unlocked}} از {{total}} نشان',

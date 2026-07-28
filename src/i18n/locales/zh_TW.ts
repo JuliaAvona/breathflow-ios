@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u9996\u9801',
   'tabs.breathe': '\u547c\u5438',
   'tabs.history': '\u9032\u5ea6',
-  'tabs.badges': '\u5fbd\u7ae0',
+  'tabs.badges': '成就',
   'tabs.settings': '\u8a2d\u5b9a',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '\u9023\u7e8c 365 \u5929',
 
   // Badges screen
-  'badges.title': '\u5fbd\u7ae0',
+  'badges.title': '成就',
   'badges.unlocked': '\u5df2\u89e3\u9396',
   'badges.unlockBadges': '使用Pro解鎖徽章',
   'badges.unlockBadgesDesc': '追蹤你的成就並獲得所有徽章',

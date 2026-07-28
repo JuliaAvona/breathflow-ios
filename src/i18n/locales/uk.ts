@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Головна',
   'tabs.breathe': 'Дихати',
   'tabs.history': 'Прогрес',
-  'tabs.badges': 'Значки',
+  'tabs.badges': 'Нагороди',
   'tabs.settings': 'Налаштування',
 
   // Home screen
@@ -360,7 +360,7 @@ export default {
   'badges.year_legend.description': 'Серія 365 днів',
 
   // Badges screen
-  'badges.title': 'Значки',
+  'badges.title': 'Нагороди',
   'badges.unlocked': 'Відкрито',
   'badges.unlockBadges': 'Відкрийте значки з Pro',
   'badges.unlockBadgesDesc': 'Відстежуйте досягнення та заробляйте всі значки',

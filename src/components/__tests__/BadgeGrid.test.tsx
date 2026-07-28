@@ -37,7 +37,7 @@ const mockBadges: Badge[] = [
 
 describe('BadgeGrid', () => {
   it('renders all badges', () => {
-    render(<BadgeGrid badges={mockBadges} unlockedBadges={[]} />);
+    render(<BadgeGrid badges={mockBadges} unlockedBadges={[]} isPro />);
 
     expect(screen.getByText('badges.first_breath.name')).toBeTruthy();
     expect(screen.getByText('badges.explorer.name')).toBeTruthy();
@@ -45,26 +45,26 @@ describe('BadgeGrid', () => {
   });
 
   it('displays badge descriptions', () => {
-    render(<BadgeGrid badges={mockBadges} unlockedBadges={[]} />);
+    render(<BadgeGrid badges={mockBadges} unlockedBadges={[]} isPro />);
 
     expect(screen.getByText('badges.first_breath.description')).toBeTruthy();
     expect(screen.getByText('badges.explorer.description')).toBeTruthy();
   });
 
   it('renders empty grid when no badges provided', () => {
-    const { queryByText } = render(<BadgeGrid badges={[]} unlockedBadges={[]} />);
+    const { queryByText } = render(<BadgeGrid badges={[]} unlockedBadges={[]} isPro />);
 
     expect(queryByText(/badges\./)).toBeNull();
   });
 
   it('handles single badge correctly', () => {
-    render(<BadgeGrid badges={[mockBadges[0]]} unlockedBadges={[]} />);
+    render(<BadgeGrid badges={[mockBadges[0]]} unlockedBadges={[]} isPro />);
 
     expect(screen.getByText('badges.first_breath.name')).toBeTruthy();
   });
 
   it('renders correct number of badge items', () => {
-    const { toJSON } = render(<BadgeGrid badges={mockBadges} unlockedBadges={[]} />);
+    const { toJSON } = render(<BadgeGrid badges={mockBadges} unlockedBadges={[]} isPro />);
     expect(toJSON()).toBeTruthy();
   });
 });

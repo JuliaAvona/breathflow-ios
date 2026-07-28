@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Hjem',
   'tabs.breathe': 'Pust',
   'tabs.history': 'Fremskridt',
-  'tabs.badges': 'Badges',
+  'tabs.badges': 'Præmier',
   'tabs.settings': 'Indstillinger',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-dages serie',
 
   // Badges screen
-  'badges.title': 'Badges',
+  'badges.title': 'Præmier',
   'badges.unlocked': 'L\u00e5st op',
   'badges.unlockBadges': 'L\u00e5s badges op med Pro',
   'badges.unlockBadgesDesc': 'Spor pr\u00e6stationer og optjen alle badges',

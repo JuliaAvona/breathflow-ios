@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Home',
   'tabs.breathe': 'Breathe',
   'tabs.history': 'Progress',
-  'tabs.badges': 'Badges',
+  'tabs.badges': 'Awards',
   'tabs.settings': 'Settings',
 
   // Home screen
@@ -442,7 +442,7 @@ export default {
   'badges.year_legend.description': '365-day streak',
 
   // Badges screen
-  'badges.title': 'Badges',
+  'badges.title': 'Awards',
   'badges.unlocked': 'Unlocked',
   'badges.unlockBadges': 'Unlock Badges with Pro',
   'badges.unlockBadgesDesc': 'Track your achievements and earn all badges',

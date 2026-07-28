@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\uD648',
   'tabs.breathe': '\uD638\uD761',
   'tabs.history': '\uC9C4\uD589 \uC0C1\uD669',
-  'tabs.badges': '\uBC30\uC9C0',
+  'tabs.badges': '업적',
   'tabs.settings': '\uC124\uC815',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365\uC77C \uC5F0\uC18D',
 
   // Badges screen
-  'badges.title': '\uBC30\uC9C0',
+  'badges.title': '업적',
   'badges.unlocked': '\uD68D\uB4DD',
   'badges.unlockBadges': 'Pro로 배지 잠금 해제',
   'badges.unlockBadgesDesc': '성취를 추적하고 모든 배지를 획득하세요',

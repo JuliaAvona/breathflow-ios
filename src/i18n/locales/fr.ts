@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Accueil',
   'tabs.breathe': 'Respirer',
   'tabs.history': 'Progr\u00e8s',
-  'tabs.badges': 'Badges',
+  'tabs.badges': 'Récompenses',
   'tabs.settings': 'R\u00e9glages',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'S\u00e9rie de 365 jours',
 
   // Badges screen
-  'badges.title': 'Badges',
+  'badges.title': 'Récompenses',
   'badges.unlocked': 'D\u00e9bloqu\u00e9s',
   'badges.unlockBadges': 'Débloquez les badges avec Pro',
   'badges.unlockBadgesDesc': 'Suivez vos réalisations et gagnez tous les badges',

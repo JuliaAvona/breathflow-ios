@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Kezd\u0151lap',
   'tabs.breathe': 'L\u00e9gz\u00e9s',
   'tabs.history': 'Halad\u00e1s',
-  'tabs.badges': 'Jelv\u00e9nyek',
+  'tabs.badges': 'Díjak',
   'tabs.settings': 'Be\u00e1ll\u00edt\u00e1sok',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365 napos sorozat',
 
   // Badges screen
-  'badges.title': 'Jelvények',
+  'badges.title': 'Díjak',
   'badges.unlocked': 'Feloldva',
   'badges.locked': 'Zárolva',
   'badges.progress': '{{unlocked}} / {{total}} jelvény',

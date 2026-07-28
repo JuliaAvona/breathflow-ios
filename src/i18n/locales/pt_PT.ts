@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Inicio',
   'tabs.breathe': 'Respirar',
   'tabs.history': 'Progresso',
-  'tabs.badges': 'Emblemas',
+  'tabs.badges': 'Conquistas',
   'tabs.settings': 'Definicoes',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'Sequencia de 365 dias',
 
   // Badges screen
-  'badges.title': 'Emblemas',
+  'badges.title': 'Conquistas',
   'badges.unlocked': 'Desbloqueado',
   'badges.locked': 'Bloqueado',
   'badges.progress': '{{unlocked}} de {{total}} emblemas',

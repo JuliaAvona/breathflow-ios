@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Hjem',
   'tabs.breathe': 'Pust',
   'tabs.history': 'Fremgang',
-  'tabs.badges': 'Merker',
+  'tabs.badges': 'Utmerkelser',
   'tabs.settings': 'Innstillinger',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-dagers serie',
 
   // Badges screen
-  'badges.title': 'Merker',
+  'badges.title': 'Utmerkelser',
   'badges.unlocked': 'L\u00e5st opp',
   'badges.locked': 'L\u00e5st',
   'badges.progress': '{{unlocked}} av {{total}} merker',

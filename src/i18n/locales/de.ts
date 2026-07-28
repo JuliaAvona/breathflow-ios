@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Start',
   'tabs.breathe': 'Atmen',
   'tabs.history': 'Fortschritt',
-  'tabs.badges': 'Abzeichen',
+  'tabs.badges': 'Auszeichnungen',
   'tabs.settings': 'Einstellungen',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-Tage-Serie',
 
   // Badges screen
-  'badges.title': 'Abzeichen',
+  'badges.title': 'Auszeichnungen',
   'badges.unlocked': 'Freigeschaltet',
   'badges.unlockBadges': 'Abzeichen mit Pro freischalten',
   'badges.unlockBadgesDesc': 'Verfolgen Sie Ihre Erfolge und verdienen Sie alle Abzeichen',

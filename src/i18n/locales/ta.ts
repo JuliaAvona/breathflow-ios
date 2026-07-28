@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'முகப்பு',
   'tabs.breathe': 'சுவாசி',
   'tabs.history': 'முன்னேற்றம்',
-  'tabs.badges': 'பதக்கங்கள்',
+  'tabs.badges': 'விருதுகள்',
   'tabs.settings': 'அமைப்புகள்',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-நாள் தொடர்',
 
   // Badges screen
-  'badges.title': 'பதக்கங்கள்',
+  'badges.title': 'விருதுகள்',
   'badges.unlocked': 'திறக்கப்பட்டது',
   'badges.locked': 'பூட்டப்பட்டது',
   'badges.progress': '{{total}} பதக்கங்களில் {{unlocked}}',

@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Hem',
   'tabs.breathe': 'Andas',
   'tabs.history': 'Framsteg',
-  'tabs.badges': 'Märken',
+  'tabs.badges': 'Utmärkelser',
   'tabs.settings': 'Inställningar',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-dagars serie',
 
   // Badges screen
-  'badges.title': 'Märken',
+  'badges.title': 'Utmärkelser',
   'badges.unlocked': 'Upplåsta',
   'badges.locked': 'Låsta',
   'badges.progress': '{{unlocked}} av {{total}} märken',

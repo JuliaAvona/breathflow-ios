@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Domov',
   'tabs.breathe': 'Dychaj',
   'tabs.history': 'Pokrok',
-  'tabs.badges': 'Odznaky',
+  'tabs.badges': 'Ocenenia',
   'tabs.settings': 'Nastavenia',
 
   // Home screen
@@ -360,7 +360,7 @@ export default {
   'badges.year_legend.description': 'Seria 365 dni',
 
   // Badges screen
-  'badges.title': 'Odznaky',
+  'badges.title': 'Ocenenia',
   'badges.unlocked': 'Odomknute',
   'badges.locked': 'Zamknute',
   'badges.progress': '{{unlocked}} z {{total}} odznakov',

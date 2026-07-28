@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u0627\u0644\u0631\u0626\u064A\u0633\u064A\u0629',
   'tabs.breathe': '\u062A\u0646\u0641\u0633',
   'tabs.history': '\u0627\u0644\u062A\u0642\u062F\u0645',
-  'tabs.badges': '\u0627\u0644\u0634\u0627\u0631\u0627\u062A',
+  'tabs.badges': 'الجوائز',
   'tabs.settings': '\u0627\u0644\u0625\u0639\u062F\u0627\u062F\u0627\u062A',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '\u0633\u0644\u0633\u0644\u0629 365 \u064A\u0648\u0645\u0627\u064B',
 
   // Badges screen
-  'badges.title': '\u0627\u0644\u0634\u0627\u0631\u0627\u062A',
+  'badges.title': 'الجوائز',
   'badges.unlocked': '\u0645\u0641\u062A\u0648\u062D\u0629',
   'badges.unlockBadges': '\u0627\u0641\u062A\u062D \u0627\u0644\u0634\u0627\u0631\u0627\u062A \u0645\u0639 Pro',
   'badges.unlockBadgesDesc': '\u062A\u062A\u0628\u0639 \u0627\u0644\u0625\u0646\u062C\u0627\u0632\u0627\u062A \u0648\u0627\u0643\u0633\u0628 \u062C\u0645\u064A\u0639 \u0627\u0644\u0634\u0627\u0631\u0627\u062A',

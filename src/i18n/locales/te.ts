@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'హోమ్',
   'tabs.breathe': 'శ్వాసించు',
   'tabs.history': 'పురోగతి',
-  'tabs.badges': 'బ్యాడ్జ్‌లు',
+  'tabs.badges': 'అవార్డులు',
   'tabs.settings': 'సెట్టింగ్‌లు',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-రోజుల స్ట్రీక్',
 
   // Badges screen
-  'badges.title': 'బ్యాడ్జ్‌లు',
+  'badges.title': 'అవార్డులు',
   'badges.unlocked': 'అన్‌లాక్',
   'badges.locked': 'లాక్',
   'badges.progress': '{{total}} బ్యాడ్జ్‌లలో {{unlocked}}',

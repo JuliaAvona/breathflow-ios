@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Pradzia',
   'tabs.breathe': 'Kvepuok',
   'tabs.history': 'Pazanga',
-  'tabs.badges': 'Zenkleliai',
+  'tabs.badges': 'Apdovanojimai',
   'tabs.settings': 'Nustatymai',
 
   // Home screen
@@ -360,7 +360,7 @@ export default {
   'badges.year_legend.description': '365 dienu serija',
 
   // Badges screen
-  'badges.title': 'Zenkleliai',
+  'badges.title': 'Apdovanojimai',
   'badges.unlocked': 'Atrakinta',
   'badges.locked': 'Uzrakinta',
   'badges.progress': '{{unlocked}} is {{total}} zenkleliu',

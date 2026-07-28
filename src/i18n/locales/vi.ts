@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Trang ch\u1EE7',
   'tabs.breathe': 'Th\u1EDF',
   'tabs.history': 'Ti\u1EBFn tr\u00ECnh',
-  'tabs.badges': 'Huy hi\u1EC7u',
+  'tabs.badges': 'Giải thưởng',
   'tabs.settings': 'C\u00E0i \u0111\u1EB7t',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'Chu\u1ED7i 365 ng\u00E0y',
 
   // Badges screen
-  'badges.title': 'Huy hi\u1EC7u',
+  'badges.title': 'Giải thưởng',
   'badges.unlocked': '\u0110\u00E3 m\u1EDF kh\u00F3a',
   'badges.locked': '\u0110ang kh\u00F3a',
   'badges.progress': '{{unlocked}} tr\u00EAn {{total}} huy hi\u1EC7u',

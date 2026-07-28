@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'หน้าแรก',
   'tabs.breathe': 'หายใจ',
   'tabs.history': 'ความก้าวหน้า',
-  'tabs.badges': 'ตรา',
+  'tabs.badges': 'รางวัล',
   'tabs.settings': 'การตั้งค่า',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'ต่อเนื่อง 365 วัน',
 
   // Badges screen
-  'badges.title': 'ตรา',
+  'badges.title': 'รางวัล',
   'badges.unlocked': 'ปลดล็อกแล้ว',
   'badges.locked': 'ล็อกอยู่',
   'badges.progress': '{{unlocked}} จาก {{total}} ตรา',

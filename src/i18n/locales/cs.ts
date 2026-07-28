@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Dom\u016f',
   'tabs.breathe': 'D\u00fdch\u00e1n\u00ed',
   'tabs.history': 'Pokrok',
-  'tabs.badges': 'Odznaky',
+  'tabs.badges': 'Ocenění',
   'tabs.settings': 'Nastaven\u00ed',
 
   // Home screen
@@ -360,7 +360,7 @@ export default {
   'badges.year_legend.description': '365denn\u00ed s\u00e9rie',
 
   // Badges screen
-  'badges.title': 'Odznaky',
+  'badges.title': 'Ocenění',
   'badges.unlocked': 'Odemknut\u00e9',
   'badges.unlockBadges': 'Odemkněte odznaky s Pro',
   'badges.unlockBadgesDesc': 'Sledujte své úspěchy a získejte všechny odznaky',

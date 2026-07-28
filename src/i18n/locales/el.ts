@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u0391\u03c1\u03c7\u03b9\u03ba\u03ae',
   'tabs.breathe': '\u0391\u03bd\u03b1\u03c0\u03bd\u03bf\u03ae',
   'tabs.history': '\u03a0\u03c1\u03cc\u03bf\u03b4\u03bf\u03c2',
-  'tabs.badges': '\u03a3\u03ae\u03bc\u03b1\u03c4\u03b1',
+  'tabs.badges': 'Βραβεία',
   'tabs.settings': '\u03a1\u03c5\u03b8\u03bc\u03af\u03c3\u03b5\u03b9\u03c2',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '\u03a3\u03b5\u03b9\u03c1\u03ac 365 \u03b7\u03bc\u03b5\u03c1\u03ce\u03bd',
 
   // Badges screen
-  'badges.title': '\u03a3\u03ae\u03bc\u03b1\u03c4\u03b1',
+  'badges.title': 'Βραβεία',
   'badges.unlocked': '\u039e\u03b5\u03ba\u03bb\u03b5\u03af\u03b4\u03c9\u03c4\u03b1',
   'badges.locked': '\u039a\u03bb\u03b5\u03b9\u03b4\u03c9\u03bc\u03ad\u03bd\u03b1',
   'badges.progress': '{{unlocked}} \u03b1\u03c0\u03cc {{total}} \u03c3\u03ae\u03bc\u03b1\u03c4\u03b1',

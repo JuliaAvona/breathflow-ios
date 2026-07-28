@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Sakums',
   'tabs.breathe': 'Elpo',
   'tabs.history': 'Progress',
-  'tabs.badges': 'Nozimites',
+  'tabs.badges': 'Apbalvojumi',
   'tabs.settings': 'Iestatijumi',
 
   // Home screen
@@ -360,7 +360,7 @@ export default {
   'badges.year_legend.description': '365 dienu serija',
 
   // Badges screen
-  'badges.title': 'Nozimites',
+  'badges.title': 'Apbalvojumi',
   'badges.unlocked': 'Atblokets',
   'badges.locked': 'Aizslеgts',
   'badges.progress': '{{unlocked}} no {{total}} nozimitеm',

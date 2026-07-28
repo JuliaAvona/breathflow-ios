@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Acasa',
   'tabs.breathe': 'Respira',
   'tabs.history': 'Progres',
-  'tabs.badges': 'Insigne',
+  'tabs.badges': 'Premii',
   'tabs.settings': 'Setari',
 
   // Home screen
@@ -360,7 +360,7 @@ export default {
   'badges.year_legend.description': 'Serie de 365 de zile',
 
   // Badges screen
-  'badges.title': 'Insigne',
+  'badges.title': 'Premii',
   'badges.unlocked': 'Deblocate',
   'badges.locked': 'Blocate',
   'badges.progress': '{{unlocked}} din {{total}} insigne',

@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u09B9\u09CB\u09AE',
   'tabs.breathe': '\u09B6\u09CD\u09AC\u09BE\u09B8',
   'tabs.history': '\u0985\u0997\u09CD\u09B0\u0997\u09A4\u09BF',
-  'tabs.badges': '\u09AC\u09CD\u09AF\u09BE\u099C',
+  'tabs.badges': 'পুরস্কার',
   'tabs.settings': '\u09B8\u09C7\u099F\u09BF\u0982\u09B8',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-\u09A6\u09BF\u09A8\u09C7\u09B0 \u09B8\u09CD\u099F\u09CD\u09B0\u09BF\u0995',
 
   // Badges screen
-  'badges.title': '\u09AC\u09CD\u09AF\u09BE\u099C',
+  'badges.title': 'পুরস্কার',
   'badges.unlocked': '\u0986\u09A8\u09B2\u0995',
   'badges.locked': '\u09B2\u0995',
   'badges.progress': '{{total}}-\u098F\u09B0 \u09AE\u09A7\u09CD\u09AF\u09C7 {{unlocked}} \u09AC\u09CD\u09AF\u09BE\u099C',

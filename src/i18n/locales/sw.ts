@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Nyumbani',
   'tabs.breathe': 'Pumua',
   'tabs.history': 'Maendeleo',
-  'tabs.badges': 'Beji',
+  'tabs.badges': 'Tuzo',
   'tabs.settings': 'Mipangilio',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'Mfululizo wa siku 365',
 
   // Badges screen
-  'badges.title': 'Beji',
+  'badges.title': 'Tuzo',
   'badges.unlocked': 'Imefunguliwa',
   'badges.locked': 'Imefungwa',
   'badges.progress': '{{unlocked}} kati ya {{total}} beji',

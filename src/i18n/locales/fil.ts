@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Home',
   'tabs.breathe': 'Huminga',
   'tabs.history': 'Progreso',
-  'tabs.badges': 'Mga Badge',
+  'tabs.badges': 'Mga Parangal',
   'tabs.settings': 'Mga Setting',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-araw na streak',
 
   // Badges screen
-  'badges.title': 'Mga Badge',
+  'badges.title': 'Mga Parangal',
   'badges.unlocked': 'Na-unlock',
   'badges.locked': 'Naka-lock',
   'badges.progress': '{{unlocked}} sa {{total}} badge',

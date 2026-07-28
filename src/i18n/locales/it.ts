@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Inizio',
   'tabs.breathe': 'Respira',
   'tabs.history': 'Progressi',
-  'tabs.badges': 'Traguardi',
+  'tabs.badges': 'Premi',
   'tabs.settings': 'Impostazioni',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'Serie di 365 giorni',
 
   // Badges screen
-  'badges.title': 'Traguardi',
+  'badges.title': 'Premi',
   'badges.unlocked': 'Sbloccati',
   'badges.unlockBadges': 'Sblocchi i traguardi con Pro',
   'badges.unlockBadgesDesc': 'Monitori i Suoi risultati e guadagni tutti i traguardi',

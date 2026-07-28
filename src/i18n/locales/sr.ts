@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u0413\u043B\u0430\u0432\u043D\u0430',
   'tabs.breathe': '\u0414\u0438\u0448\u0438',
   'tabs.history': '\u041D\u0430\u043F\u0440\u0435\u0434\u0430\u043A',
-  'tabs.badges': '\u0417\u043D\u0430\u0447\u043A\u0435',
+  'tabs.badges': 'Награде',
   'tabs.settings': '\u041F\u043E\u0434\u0435\u0448\u0430\u0432\u0430\u045A\u0430',
 
   // Home screen
@@ -360,7 +360,7 @@ export default {
   'badges.year_legend.description': '\u041D\u0438\u0437 \u043E\u0434 365 \u0434\u0430\u043D\u0430',
 
   // Badges screen
-  'badges.title': '\u0417\u043D\u0430\u0447\u043A\u0435',
+  'badges.title': 'Награде',
   'badges.unlocked': '\u041E\u0442\u043A\u0459\u0443\u0447\u0430\u043D\u0435',
   'badges.locked': '\u0417\u0430\u043A\u0459\u0443\u0447\u0430\u043D\u0435',
   'badges.progress': '{{unlocked}} \u043E\u0434 {{total}} \u0437\u043D\u0430\u0447\u043A\u0438',

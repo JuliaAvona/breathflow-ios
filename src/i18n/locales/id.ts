@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Beranda',
   'tabs.breathe': 'Bernapas',
   'tabs.history': 'Kemajuan',
-  'tabs.badges': 'Lencana',
+  'tabs.badges': 'Penghargaan',
   'tabs.settings': 'Pengaturan',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'Rangkaian 365 hari',
 
   // Badges screen
-  'badges.title': 'Lencana',
+  'badges.title': 'Penghargaan',
   'badges.unlocked': 'Terbuka',
   'badges.locked': 'Terkunci',
   'badges.progress': '{{unlocked}} dari {{total}} lencana',

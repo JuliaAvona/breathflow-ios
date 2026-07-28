@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Inicio',
   'tabs.breathe': 'Respirar',
   'tabs.history': 'Progreso',
-  'tabs.badges': 'Insignias',
+  'tabs.badges': 'Logros',
   'tabs.settings': 'Ajustes',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'Racha de 365 d\u00edas',
 
   // Badges screen
-  'badges.title': 'Insignias',
+  'badges.title': 'Logros',
   'badges.unlocked': 'Desbloqueadas',
   'badges.unlockBadges': 'Desbloquea insignias con Pro',
   'badges.unlockBadgesDesc': 'Siga sus logros y gane todas las insignias',

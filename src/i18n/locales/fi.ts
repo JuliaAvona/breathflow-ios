@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Koti',
   'tabs.breathe': 'Hengit\u00e4',
   'tabs.history': 'Edistyminen',
-  'tabs.badges': 'Merkit',
+  'tabs.badges': 'Palkinnot',
   'tabs.settings': 'Asetukset',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365 p\u00e4iv\u00e4n putki',
 
   // Badges screen
-  'badges.title': 'Merkit',
+  'badges.title': 'Palkinnot',
   'badges.unlocked': 'Avattu',
   'badges.locked': 'Lukittu',
   'badges.progress': '{{unlocked}} / {{total}} merkki\u00e4',

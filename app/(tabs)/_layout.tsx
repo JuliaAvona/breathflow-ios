@@ -1,3 +1,4 @@
+import { View, StyleSheet } from 'react-native';
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
@@ -46,32 +47,54 @@ function HistoryIcon({ color, size }: { color: string; size: number }) {
   );
 }
 
-function BadgesIcon({ color, size }: { color: string; size: number }) {
+function BadgesIcon({
+  color,
+  size,
+  showPro,
+  cutoutColor,
+}: {
+  color: string;
+  size: number;
+  showPro?: boolean;
+  cutoutColor: string;
+}) {
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      {/* Medal ribbon */}
-      <Path
-        d="M8 2L12 10L16 2"
-        stroke={color}
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {/* Medal circle */}
-      <Path
-        d="M12 22C15.866 22 19 18.866 19 15C19 11.134 15.866 8 12 8C8.13401 8 5 11.134 5 15C5 18.866 8.13401 22 12 22Z"
-        stroke={color}
-        strokeWidth={2}
-      />
-      {/* Star */}
-      <Path
-        d="M12 11.5L13.09 13.71L15.5 14.06L13.75 15.77L14.18 18.17L12 17.01L9.82 18.17L10.25 15.77L8.5 14.06L10.91 13.71L12 11.5Z"
-        stroke={color}
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </Svg>
+    <View style={{ width: size, height: size }}>
+      <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        {/* Medal ribbon */}
+        <Path
+          d="M8 2L12 10L16 2"
+          stroke={color}
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* Medal circle */}
+        <Path
+          d="M12 22C15.866 22 19 18.866 19 15C19 11.134 15.866 8 12 8C8.13401 8 5 11.134 5 15C5 18.866 8.13401 22 12 22Z"
+          stroke={color}
+          strokeWidth={2}
+        />
+        {/* Star */}
+        <Path
+          d="M12 11.5L13.09 13.71L15.5 14.06L13.75 15.77L14.18 18.17L12 17.01L9.82 18.17L10.25 15.77L8.5 14.06L10.91 13.71L12 11.5Z"
+          stroke={color}
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </Svg>
+      {showPro && (
+        <View style={[styles.proDot, { borderColor: cutoutColor }]}>
+          <Svg width={11} height={11} viewBox="0 0 24 24">
+            <Path
+              d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 2h14v2H5v-2z"
+              fill="#1A2332"
+            />
+          </Svg>
+        </View>
+      )}
+    </View>
   );
 }
 
@@ -98,6 +121,7 @@ export default function TabLayout() {
   const { t } = useTranslation();
   const theme = useThemeColors();
   const vibrationEnabled = useSettingsStore((s) => s.hapticsEnabled);
+  const isPro = useSettingsStore((s) => s.isPro);
 
   return (
     <Tabs
@@ -134,10 +158,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="badges"
+        name="awards"
         options={{
           title: t('tabs.badges'),
-          tabBarIcon: ({ color }) => <BadgesIcon color={color} size={24} />,
+          tabBarIcon: ({ color }) => (
+            <BadgesIcon color={color} size={24} showPro={!isPro} cutoutColor={theme.background} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -150,3 +176,18 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  proDot: {
+    position: 'absolute',
+    top: -6,
+    right: -8,
+    width: 17,
+    height: 17,
+    borderRadius: 8.5,
+    backgroundColor: '#FFC940',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+  },
+});

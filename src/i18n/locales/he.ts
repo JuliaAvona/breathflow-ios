@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'בית',
   'tabs.breathe': 'נשימה',
   'tabs.history': 'התקדמות',
-  'tabs.badges': 'תגים',
+  'tabs.badges': 'פרסים',
   'tabs.settings': 'הגדרות',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': 'רצף של 365 ימים',
 
   // Badges screen
-  'badges.title': 'תגים',
+  'badges.title': 'פרסים',
   'badges.unlocked': 'פתוח',
   'badges.locked': 'נעול',
   'badges.progress': '{{unlocked}} מתוך {{total}} תגים',

@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'ಮುಖಪುಟ',
   'tabs.breathe': 'ಉಸಿರಾಡಿ',
   'tabs.history': 'ಪ್ರಗತಿ',
-  'tabs.badges': 'ಬ್ಯಾಡ್ಜ್‌ಗಳು',
+  'tabs.badges': 'ಪ್ರಶಸ್ತಿಗಳು',
   'tabs.settings': 'ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365-ದಿನ ಸ್ಟ್ರೀಕ್',
 
   // Badges screen
-  'badges.title': 'ಬ್ಯಾಡ್ಜ್‌ಗಳು',
+  'badges.title': 'ಪ್ರಶಸ್ತಿಗಳು',
   'badges.unlocked': 'ಅನ್‌ಲಾಕ್',
   'badges.locked': 'ಲಾಕ್',
   'badges.progress': '{{total}} ರಲ್ಲಿ {{unlocked}} ಬ್ಯಾಡ್ಜ್‌ಗಳು',

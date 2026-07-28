@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Ana Sayfa',
   'tabs.breathe': 'Nefes',
   'tabs.history': 'İlerleme',
-  'tabs.badges': 'Rozetler',
+  'tabs.badges': 'Ödüller',
   'tabs.settings': 'Ayarlar',
 
   // Home screen
@@ -358,7 +358,7 @@ export default {
   'badges.year_legend.description': '365 günlük seri',
 
   // Badges screen
-  'badges.title': 'Rozetler',
+  'badges.title': 'Ödüller',
   'badges.unlocked': 'Açılmış',
   'badges.unlockBadges': 'Pro ile rozetleri aç',
   'badges.unlockBadgesDesc': 'Başarılarını takip et ve tüm rozetleri kazan',
