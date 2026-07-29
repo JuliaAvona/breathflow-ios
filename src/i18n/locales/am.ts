@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'ለዘላለም ክፈት',
   'paywall.startAnnual': 'ዓመታዊ ዕቅድ ጀምር',
   'paywall.startWeekly': 'ሳምንታዊ ጀምር',
-  'paywall.hideOptions': 'አማራጮችን ደብቅ',
   'paywall.then': 'ከዚያ',
   'paywall.weeklyAutoRenew': 'ራስ-አዲስ',
   'paywall.weeklyTrial': '3-ቀን ነፃ ሙከራ',

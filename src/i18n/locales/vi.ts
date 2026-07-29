@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'M\u1EDF kh\u00F3a v\u0129nh vi\u1EC5n',
   'paywall.startAnnual': 'B\u1EAFt \u0111\u1EA7u g\u00F3i n\u0103m',
   'paywall.startWeekly': 'B\u1EAFt \u0111\u1EA7u h\u00E0ng tu\u1EA7n',
-  'paywall.hideOptions': '\u1EA8n t\u00F9y ch\u1ECDn',
   'paywall.then': 'sau \u0111\u00F3',
   'paywall.weeklyAutoRenew': 't\u1EF1 \u0111\u1ED9ng gia h\u1EA1n',
   'paywall.weeklyTrial': 'D\u00F9ng th\u1EED mi\u1EC5n ph\u00ED 3 ng\u00E0y',

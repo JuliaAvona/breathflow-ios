@@ -530,7 +530,6 @@ export default {
   'paywall.unlockForever': '永久解锁',
   'paywall.startAnnual': '开始年度计划',
   'paywall.startWeekly': '开始周计划',
-  'paywall.hideOptions': '隐藏选项',
   'paywall.then': '然后',
   'paywall.weeklyAutoRenew': '自动续订',
   'paywall.weeklyTrial': '3天免费试用',

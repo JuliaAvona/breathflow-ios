@@ -532,7 +532,6 @@ export default {
   'paywall.unlockForever': 'Розблокувати назавжди',
   'paywall.startAnnual': 'Почати річний план',
   'paywall.startWeekly': 'Почати щотижневий',
-  'paywall.hideOptions': 'Сховати варіанти',
   'paywall.then': 'потім',
   'paywall.weeklyAutoRenew': 'автоподовження',
   'paywall.weeklyTrial': '3 дні безкоштовно',

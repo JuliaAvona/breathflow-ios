@@ -166,13 +166,16 @@ export default function PaywallScreen() {
 
   return (
     <ImageBackground
-      source={require('../assets/bg_coherence.webp')}
+      source={require('../assets/bg_sleep.webp')}
       style={styles.container}
       resizeMode="cover"
     >
+      {/* Night sky + Milky Way is naturally dark already, so the overlay
+          stays light up top (lets the stars read) and only goes solid near
+          the bottom, where the plan cards/CTA need a fully opaque surface. */}
       <LinearGradient
-        colors={['rgba(15,20,25,0.85)', 'rgba(15,20,25,0.95)', '#0F1419']}
-        locations={[0, 0.4, 0.7]}
+        colors={['rgba(10,14,20,0.35)', 'rgba(10,14,20,0.55)', 'rgba(12,16,22,0.9)', '#0F1419']}
+        locations={[0, 0.35, 0.6, 0.8]}
         style={StyleSheet.absoluteFill}
       />
       {/* Header stays pinned above the scroll (not part of scrollContent),
@@ -359,10 +362,6 @@ export default function PaywallScreen() {
             <Text style={styles.legalText}>{t('paywall.privacy')}</Text>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity onPress={handleClose} activeOpacity={0.7} style={styles.hideOptions}>
-          <Text style={styles.hideOptionsText}>{t('paywall.hideOptions', { defaultValue: 'Hide Options' })}</Text>
-        </TouchableOpacity>
 
         {/* Dev/test only: preview the success modal without a real purchase */}
         {__DEV__ && (
@@ -680,16 +679,6 @@ const styles = StyleSheet.create({
   legalSep: {
     fontSize: FONT_SIZE.xs,
     color: 'rgba(255,255,255,0.85)',
-  },
-  hideOptions: {
-    alignItems: 'center',
-    paddingVertical: SPACING.sm,
-  },
-  hideOptionsText: {
-    fontSize: FONT_SIZE.sm,
-    fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.85)',
-    textDecorationLine: 'underline',
   },
   devPreviewBtn: {
     alignSelf: 'center',

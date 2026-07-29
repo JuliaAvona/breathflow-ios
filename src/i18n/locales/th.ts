@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'ปลดล็อกตลอดกาล',
   'paywall.startAnnual': 'เริ่มแผนรายปี',
   'paywall.startWeekly': 'เริ่มรายสัปดาห์',
-  'paywall.hideOptions': 'ซ่อนตัวเลือก',
   'paywall.then': 'จากนั้น',
   'paywall.weeklyAutoRenew': 'ต่ออายุอัตโนมัติ',
   'paywall.weeklyTrial': 'ทดลองใช้ฟรี 3 วัน',

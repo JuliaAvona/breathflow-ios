@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'എന്നെന്നേക്കുമായി അൺലോക്ക് ചെയ്യുക',
   'paywall.startAnnual': 'വാർഷിക പ്ലാൻ ആരംഭിക്കുക',
   'paywall.startWeekly': 'പ്രതിവാര ആരംഭിക്കുക',
-  'paywall.hideOptions': 'ഓപ്ഷനുകൾ മറയ്ക്കുക',
   'paywall.then': 'പിന്നെ',
   'paywall.weeklyAutoRenew': 'ഓട്ടോ-പുതുക്കൽ',
   'paywall.weeklyTrial': '3 ദിവസത്തെ സൗജന്യ ട്രയൽ',

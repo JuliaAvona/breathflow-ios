@@ -521,7 +521,6 @@ export default {
   'paywall.unlockForever': 'Atrakinti amzinai',
   'paywall.startAnnual': 'Pradeti metini plana',
   'paywall.startWeekly': 'Pradeti savaitini',
-  'paywall.hideOptions': 'Slepti parinktis',
   'paywall.then': 'tada',
   'paywall.weeklyAutoRenew': 'automatinis atnaujinimas',
   'paywall.weeklyTrial': '3 dienu nemokamas bandomasis laikotarpis',

@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Buka Kunci Selamanya',
   'paywall.startAnnual': 'Mula Pelan Tahunan',
   'paywall.startWeekly': 'Mula Mingguan',
-  'paywall.hideOptions': 'Sembunyikan Pilihan',
   'paywall.then': 'kemudian',
   'paywall.weeklyAutoRenew': 'pembaharuan automatik',
   'paywall.weeklyTrial': 'Percubaan percuma 3 hari',

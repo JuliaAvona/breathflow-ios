@@ -482,7 +482,6 @@ export default {
   'paywall.unlockForever': 'Odblokuj na zawsze',
   'paywall.startAnnual': 'Rozpocznij plan roczny',
   'paywall.startWeekly': 'Rozpocznij tygodniowy',
-  'paywall.hideOptions': 'Ukryj opcje',
   'paywall.then': 'nast\u0119pnie',
   'paywall.weeklyAutoRenew': 'automatyczne odnawianie',
   'paywall.weeklyTrial': '3 dni za darmo',

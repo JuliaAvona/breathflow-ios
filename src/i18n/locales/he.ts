@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'פתח לתמיד',
   'paywall.startAnnual': 'התחל תוכנית שנתית',
   'paywall.startWeekly': 'התחל שבועי',
-  'paywall.hideOptions': 'הסתר אפשרויות',
   'paywall.then': 'אז',
   'paywall.weeklyAutoRenew': 'חידוש אוטומטי',
   'paywall.weeklyTrial': '3 ימי ניסיון חינם',

@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Avaa ikuisesti',
   'paywall.startAnnual': 'Aloita vuosisuunnitelma',
   'paywall.startWeekly': 'Aloita viikottainen',
-  'paywall.hideOptions': 'Piilota vaihtoehdot',
   'paywall.then': 'sitten',
   'paywall.weeklyAutoRenew': 'automaattinen uusinta',
   'paywall.weeklyTrial': '3 p\u00e4iv\u00e4n ilmainen kokeilu',

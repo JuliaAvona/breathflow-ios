@@ -536,7 +536,6 @@ export default {
   'paywall.unlockForever': 'Разблокировать навсегда',
   'paywall.startAnnual': 'Начать годовой план',
   'paywall.startWeekly': 'Начать еженедельный',
-  'paywall.hideOptions': 'Скрыть варианты',
   'paywall.then': 'затем',
   'paywall.weeklyAutoRenew': 'автопродление',
   'paywall.weeklyTrial': '3 дня бесплатно',

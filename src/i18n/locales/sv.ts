@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Lås upp för alltid',
   'paywall.startAnnual': 'Starta årsplan',
   'paywall.startWeekly': 'Starta veckovis',
-  'paywall.hideOptions': 'Dölj alternativ',
   'paywall.then': 'sedan',
   'paywall.weeklyAutoRenew': 'automatisk förnyelse',
   'paywall.weeklyTrial': '3 dagars gratis provperiod',

@@ -532,7 +532,6 @@ export default {
   'paywall.unlockForever': 'Odemknout navždy',
   'paywall.startAnnual': 'Začít roční plán',
   'paywall.startWeekly': 'Začít týdenní',
-  'paywall.hideOptions': 'Skrýt možnosti',
   'paywall.then': 'poté',
   'paywall.weeklyAutoRenew': 'automatické obnovení',
   'paywall.weeklyTrial': '3 dny zdarma na zkoušku',

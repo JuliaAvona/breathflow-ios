@@ -530,7 +530,6 @@ export default {
   'paywall.unlockForever': '영구 잠금 해제',
   'paywall.startAnnual': '연간 플랜 시작',
   'paywall.startWeekly': '주간 플랜 시작',
-  'paywall.hideOptions': '옵션 숨기기',
   'paywall.then': '이후',
   'paywall.weeklyAutoRenew': '자동 갱신',
   'paywall.weeklyTrial': '3일 무료 체험',

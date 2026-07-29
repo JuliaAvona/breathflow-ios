@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Feloldás örökre',
   'paywall.startAnnual': 'Éves terv indítása',
   'paywall.startWeekly': 'Heti indítása',
-  'paywall.hideOptions': 'Lehetőségek elrejtése',
   'paywall.then': 'aztán',
   'paywall.weeklyAutoRenew': 'automatikus megújítás',
   'paywall.weeklyTrial': '3 napos ingyenes próba',

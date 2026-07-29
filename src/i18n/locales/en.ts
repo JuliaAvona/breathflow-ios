@@ -638,7 +638,6 @@ export default {
   'paywall.unlockForever': 'Unlock Forever',
   'paywall.startAnnual': 'Start Annual Plan',
   'paywall.startWeekly': 'Start Weekly',
-  'paywall.hideOptions': 'Hide Options',
   'paywall.then': 'then',
   'paywall.weeklyAutoRenew': 'auto-renewable',
   'paywall.weeklyTrial': '3-day free trial',

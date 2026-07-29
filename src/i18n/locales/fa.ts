@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'باز کردن برای همیشه',
   'paywall.startAnnual': 'شروع طرح سالانه',
   'paywall.startWeekly': 'شروع هفتگی',
-  'paywall.hideOptions': 'پنهان کردن گزینه‌ها',
   'paywall.then': 'سپس',
   'paywall.weeklyAutoRenew': 'تمدید خودکار',
   'paywall.weeklyTrial': '۳ روز آزمایش رایگان',

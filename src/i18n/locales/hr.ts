@@ -521,7 +521,6 @@ export default {
   'paywall.unlockForever': 'Otkljucaj zauvijek',
   'paywall.startAnnual': 'Zapocni godisnji plan',
   'paywall.startWeekly': 'Zapocni tjedni',
-  'paywall.hideOptions': 'Sakrij opcije',
   'paywall.then': 'zatim',
   'paywall.weeklyAutoRenew': 'automatsko obnavljanje',
   'paywall.weeklyTrial': '3 dana besplatnog probnog razdoblja',

@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'I-unlock Magpakailanman',
   'paywall.startAnnual': 'Simulan ang Taunang Plano',
   'paywall.startWeekly': 'Simulan ang Lingguhan',
-  'paywall.hideOptions': 'Itago ang mga Opsyon',
   'paywall.then': 'pagkatapos',
   'paywall.weeklyAutoRenew': 'awtomatikong nire-renew',
   'paywall.weeklyTrial': '3-araw na libreng pagsubok',

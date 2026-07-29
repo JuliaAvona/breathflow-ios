@@ -530,7 +530,6 @@ export default {
   'paywall.unlockForever': 'L\u00e5s op for evigt',
   'paywall.startAnnual': 'Start \u00e5rsplan',
   'paywall.startWeekly': 'Start ugentlig',
-  'paywall.hideOptions': 'Skjul muligheder',
   'paywall.then': 'derefter',
   'paywall.weeklyAutoRenew': 'automatisk fornyelse',
   'paywall.weeklyTrial': '3 dages gratis pr\u00f8veperiode',

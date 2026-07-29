@@ -521,7 +521,6 @@ export default {
   'paywall.unlockForever': 'Atbloket uz visiem laikiem',
   'paywall.startAnnual': 'Sakt gada planu',
   'paywall.startWeekly': 'Sakt nedalas',
-  'paywall.hideOptions': 'Slept opcijas',
   'paywall.then': 'tad',
   'paywall.weeklyAutoRenew': 'automatiska atjaunosana',
   'paywall.weeklyTrial': '3 dienu bezmaksas izmеginajums',

@@ -530,7 +530,6 @@ export default {
   'paywall.unlockForever': '永久にアンロック',
   'paywall.startAnnual': '年間プランを開始',
   'paywall.startWeekly': '週間プランを開始',
-  'paywall.hideOptions': 'オプションを隠す',
   'paywall.then': 'その後',
   'paywall.weeklyAutoRenew': '自動更新',
   'paywall.weeklyTrial': '3日間無料トライアル',

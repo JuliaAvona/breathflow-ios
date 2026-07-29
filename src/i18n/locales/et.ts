@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Ava igaveseks',
   'paywall.startAnnual': 'Alusta aastaplaan',
   'paywall.startWeekly': 'Alusta n\u00e4dalane',
-  'paywall.hideOptions': 'Peida valikud',
   'paywall.then': 'seej\u00e4rel',
   'paywall.weeklyAutoRenew': 'automaatne uuendamine',
   'paywall.weeklyTrial': '3-p\u00e4evane tasuta prooviperiood',

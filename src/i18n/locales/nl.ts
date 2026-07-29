@@ -480,7 +480,6 @@ export default {
   'paywall.unlockForever': 'Voor altijd ontgrendelen',
   'paywall.startAnnual': 'Start jaarplan',
   'paywall.startWeekly': 'Start wekelijks',
-  'paywall.hideOptions': 'Opties verbergen',
   'paywall.then': 'dan',
   'paywall.weeklyAutoRenew': 'automatisch verlengd',
   'paywall.weeklyTrial': '3 dagen gratis proberen',

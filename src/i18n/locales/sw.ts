@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Fungua Milele',
   'paywall.startAnnual': 'Anza Mpango wa Mwaka',
   'paywall.startWeekly': 'Anza wa Wiki',
-  'paywall.hideOptions': 'Ficha Chaguzi',
   'paywall.then': 'kisha',
   'paywall.weeklyAutoRenew': 'upya otomatiki',
   'paywall.weeklyTrial': 'Jaribio la bure la siku 3',

@@ -530,7 +530,6 @@ export default {
   'paywall.unlockForever': 'Sonsuza kadar aç',
   'paywall.startAnnual': 'Yıllık planı başlat',
   'paywall.startWeekly': 'Haftalık başlat',
-  'paywall.hideOptions': 'Seçenekleri gizle',
   'paywall.then': 'sonra',
   'paywall.weeklyAutoRenew': 'otomatik yenileme',
   'paywall.weeklyTrial': '3 günlük ücretsiz deneme',

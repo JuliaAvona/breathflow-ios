@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Desbloquear para siempre',
   'paywall.startAnnual': 'Iniciar plan anual',
   'paywall.startWeekly': 'Iniciar semanal',
-  'paywall.hideOptions': 'Ocultar opciones',
   'paywall.then': 'luego',
   'paywall.weeklyAutoRenew': 'renovacion automatica',
   'paywall.weeklyTrial': '3 dias de prueba gratis',

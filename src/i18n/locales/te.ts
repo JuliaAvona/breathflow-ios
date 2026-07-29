@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'శాశ్వతంగా అన్‌లాక్ చేయండి',
   'paywall.startAnnual': 'వార్షిక ప్లాన్ ప్రారంభించండి',
   'paywall.startWeekly': 'వారపు ప్రారంభించండి',
-  'paywall.hideOptions': 'ఎంపికలను దాచు',
   'paywall.then': 'తర్వాత',
   'paywall.weeklyAutoRenew': 'ఆటో-రెన్యూవల్',
   'paywall.weeklyTrial': '3 రోజుల ఉచిత ట్రయల్',

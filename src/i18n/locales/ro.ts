@@ -521,7 +521,6 @@ export default {
   'paywall.unlockForever': 'Deblocheaza pentru totdeauna',
   'paywall.startAnnual': 'Incepe planul anual',
   'paywall.startWeekly': 'Incepe saptamanal',
-  'paywall.hideOptions': 'Ascunde optiunile',
   'paywall.then': 'apoi',
   'paywall.weeklyAutoRenew': 'reinnoire automata',
   'paywall.weeklyTrial': '3 zile de incercare gratuita',

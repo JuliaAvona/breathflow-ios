@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'எப்போதும் திறக்கவும்',
   'paywall.startAnnual': 'ஆண்டு திட்டத்தைத் தொடங்கு',
   'paywall.startWeekly': 'வாராந்திரம் தொடங்கு',
-  'paywall.hideOptions': 'விருப்பங்களை மறை',
   'paywall.then': 'பின்னர்',
   'paywall.weeklyAutoRenew': 'தானியங்கி புதுப்பிப்பு',
   'paywall.weeklyTrial': '3 நாள் இலவச சோதனை',

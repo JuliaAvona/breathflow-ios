@@ -519,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Buka Selamanya',
   'paywall.startAnnual': 'Mulai Paket Tahunan',
   'paywall.startWeekly': 'Mulai Mingguan',
-  'paywall.hideOptions': 'Sembunyikan Opsi',
   'paywall.then': 'lalu',
   'paywall.weeklyAutoRenew': 'perpanjangan otomatis',
   'paywall.weeklyTrial': 'Uji coba gratis 3 hari',
