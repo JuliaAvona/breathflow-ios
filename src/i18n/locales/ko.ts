@@ -662,11 +662,6 @@ export default {
   'paywall.continueFree': '무료 버전으로 계속하기',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "함께 한 번 호흡해 볼까요",
-  'onboarding.demoSub': "원을 따라가세요 — 코로 들이쉬고, 천천히 내쉬세요.",
-  'onboarding.demoDone': "지금 느낌이 어떤지 살펴보세요.",
-  'onboarding.demoReady': "준비하세요…",
-  'onboarding.demoCounter': "{{total}} 중 {{n}}번째 호흡",
   'summary.habitTitle': "습관으로 만들어보세요",
   'summary.habitReminderTitle': "매일 알림",
   'summary.habitReminderSub': "매일 호흡할 수 있도록 부드럽게 알려드려요",

@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'ನಿರಂತರ ಅಭ್ಯಾಸ ಕ್ರಮೇಣ ಸ್ಥಿತಿಸ್ಥಾಪಕತ್ವ ನಿರ್ಮಿಸುತ್ತದೆ.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "ಒಟ್ಟಿಗೆ ಒಂದು ಉಸಿರು ತೆಗೆದುಕೊಳ್ಳೋಣ",
-  'onboarding.demoSub': "ವೃತ್ತವನ್ನು ಅನುಸರಿಸಿ — ಮೂಗಿನ ಮೂಲಕ ಉಸಿರಾಡಿ, ನಿಧಾನವಾಗಿ ಬಿಡಿ.",
-  'onboarding.demoDone': "ನಿಮಗೆ ಹೇಗೆ ಅನಿಸುತ್ತಿದೆ ಎಂದು ಗಮನಿಸಿ.",
-  'onboarding.demoReady': "ಸಿದ್ಧರಾಗಿ…",
-  'onboarding.demoCounter': "ಉಸಿರು {{n}} ರಲ್ಲಿ {{total}}",
   'summary.habitTitle': "ಇದನ್ನು ಅಭ್ಯಾಸವಾಗಿಸಿ",
   'summary.habitReminderTitle': "ದೈನಂದಿನ ಜ್ಞಾಪನೆ",
   'summary.habitReminderSub': "ಪ್ರತಿದಿನ ಉಸಿರಾಡಲು ಒಂದು ಮೃದುವಾದ ಜ್ಞಾಪನೆ",

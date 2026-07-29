@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'నిరంతర అభ్యాసం కాలక్రమేణా స్థితిస్థాపకత నిర్మిస్తుంది.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "కలిసి ఒక శ్వాస తీసుకుందాం",
-  'onboarding.demoSub': "వృత్తాన్ని అనుసరించండి — ముక్కు ద్వారా పీల్చి, నెమ్మదిగా వదలండి.",
-  'onboarding.demoDone': "మీకు ఎలా అనిపిస్తుందో గమనించండి.",
-  'onboarding.demoReady': "సిద్ధంగా ఉండండి…",
-  'onboarding.demoCounter': "శ్వాస {{n}} / {{total}}",
   'summary.habitTitle': "దీన్ని అలవాటుగా చేసుకోండి",
   'summary.habitReminderTitle': "రోజువారీ రిమైండర్",
   'summary.habitReminderSub': "ప్రతిరోజూ శ్వాస తీసుకోవడానికి ఒక సున్నితమైన రిమైండర్",

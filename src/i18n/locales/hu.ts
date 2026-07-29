@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': 'A meghosszabbított kilégzés jelzi a testednek, hogy biztonságos lazítani.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Vegyünk együtt egy lélegzetet",
-  'onboarding.demoSub': "Kövesd a kört — belégzés orron át, lassú kilégzés.",
-  'onboarding.demoDone': "Figyeld meg, hogyan érzed magad.",
-  'onboarding.demoReady': "Készülj…",
-  'onboarding.demoCounter': "Légzés: {{n}}/{{total}}",
   'summary.habitTitle': "Alakítsd szokássá",
   'summary.habitReminderTitle': "Napi emlékeztető",
   'summary.habitReminderSub': "Egy kedves emlékeztető, hogy minden nap lélegezz",

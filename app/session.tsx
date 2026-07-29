@@ -872,7 +872,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.heavy,
     fontVariant: ['tabular-nums'],
     letterSpacing: -2,
-    marginBottom: 4,
+    marginBottom: 10,
   },
 
   // Phase text
@@ -882,13 +882,14 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     letterSpacing: -0.8,
     textAlign: 'center',
-    marginBottom: 4,
+    marginBottom: 10,
   },
   subInfo: {
     fontSize: 16,
     fontFamily: FONTS.medium,
     color: 'rgba(255,255,255,0.7)',
     letterSpacing: 0.2,
+    marginBottom: 10,
   },
 
   // Retention result
@@ -940,6 +941,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 40,
+    marginTop: 10,
     paddingBottom: 16,
   },
   controlBtnSmall: {

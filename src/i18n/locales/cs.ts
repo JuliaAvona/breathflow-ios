@@ -664,11 +664,6 @@ export default {
   'paywall.continueFree': 'Pokračovat s bezplatnou verzí',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Pojďme se společně nadechnout",
-  'onboarding.demoSub': "Sleduj kruh — nádech nosem, pomalý výdech.",
-  'onboarding.demoDone': "Všimni si, jak se cítíš.",
-  'onboarding.demoReady': "Připrav se…",
-  'onboarding.demoCounter': "Nádech {{n}} z {{total}}",
   'summary.habitTitle': "Udělej si z toho zvyk",
   'summary.habitReminderTitle': "Denní připomenutí",
   'summary.habitReminderSub': "Jemné připomenutí, abys každý den dýchal/a",

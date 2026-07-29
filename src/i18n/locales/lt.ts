@@ -673,11 +673,6 @@ export default {
   'notifications.tip7': 'Nuosekli praktika ilgainiu ugdo atsparuma.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Pakvėpuokime kartu",
-  'onboarding.demoSub': "Sek ratą — įkvėpk pro nosį, lėtai iškvėpk.",
-  'onboarding.demoDone': "Atkreipk dėmesį, kaip jautiesi.",
-  'onboarding.demoReady': "Pasiruošk…",
-  'onboarding.demoCounter': "Kvėpavimas {{n}} iš {{total}}",
   'summary.habitTitle': "Paversk tai įpročiu",
   'summary.habitReminderTitle': "Kasdienis priminimas",
   'summary.habitReminderSub': "Švelnus priminimas kvėpuoti kiekvieną dieną",

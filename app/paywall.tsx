@@ -184,10 +184,14 @@ export default function PaywallScreen() {
       {/* Header stays pinned above the scroll (not part of scrollContent),
           same as japanese-walking-ios's paywall. */}
       {/* This screen is presented as an iOS card modal (see app/_layout.tsx),
-          which already has its own rounded top + status-bar handling — using
-          the full-screen insets.top here (meant for non-modal screens) double
-          counts that space, so a small fixed padding is used instead. */}
-      <View style={{ flex: 1, paddingTop: SPACING.md }}>
+          which already has its own rounded top + status-bar handling — so a
+          small fixed padding is enough there, and adding insets.top on top
+          would double-count that space. But from onboarding it's opened via
+          router.replace (not push), which renders it full-screen instead of
+          as a card — no automatic status-bar clearance there, so it needs
+          the real insets.top or the close/restore row ends up jammed under
+          the dynamic island. */}
+      <View style={{ flex: 1, paddingTop: isFromOnboarding ? insets.top + SPACING.xs : SPACING.md }}>
         <View style={styles.headerRow}>
           <TouchableOpacity
             onPress={handleClose}

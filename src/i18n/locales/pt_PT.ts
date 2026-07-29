@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': 'Expiracoes prolongadas dizem ao seu corpo que e seguro relaxar.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Vamos respirar juntos uma vez",
-  'onboarding.demoSub': "Siga o círculo: inspire pelo nariz, expire devagar.",
-  'onboarding.demoDone': "Repare em como se sente.",
-  'onboarding.demoReady': "Prepare-se…",
-  'onboarding.demoCounter': "Respiração {{n}} de {{total}}",
   'summary.habitTitle': "Transforme isso num hábito",
   'summary.habitReminderTitle': "Lembrete diário",
   'summary.habitReminderSub': "Um lembrete gentil para respirar todos os dias",

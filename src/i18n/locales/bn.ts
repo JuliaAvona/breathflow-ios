@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': '\u09A7\u09BE\u09B0\u09BE\u09AC\u09BE\u09B9\u09BF\u0995 \u0985\u09A8\u09C1\u09B6\u09C0\u09B2\u09A8 \u09B8\u09AE\u09AF\u09BC\u09C7\u09B0 \u09B8\u09BE\u09A5\u09C7 \u09B8\u09CD\u09A5\u09BF\u09A4\u09BF\u09B8\u09CD\u09A5\u09BE\u09AA\u0995\u09A4\u09BE \u09A4\u09C8\u09B0\u09BF \u0995\u09B0\u09C7\u0964',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "চলুন একসাথে একটি শ্বাস নিই",
-  'onboarding.demoSub': "বৃত্তটি অনুসরণ করুন — নাক দিয়ে শ্বাস নিন, ধীরে ধীরে ছাড়ুন।",
-  'onboarding.demoDone': "লক্ষ্য করুন আপনার কেমন লাগছে।",
-  'onboarding.demoReady': "প্রস্তুত হোন…",
-  'onboarding.demoCounter': "শ্বাস {{n}} এর {{total}}",
   'summary.habitTitle': "এটি অভ্যাসে পরিণত করুন",
   'summary.habitReminderTitle': "দৈনিক অনুস্মারক",
   'summary.habitReminderSub': "প্রতিদিন শ্বাস নেওয়ার জন্য একটি মৃদু অনুস্মারক",

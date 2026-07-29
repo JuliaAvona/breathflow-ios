@@ -662,11 +662,6 @@ export default {
   'paywall.continueFree': '\u0627\u0644\u0627\u0633\u062A\u0645\u0631\u0627\u0631 \u0628\u0627\u0644\u0646\u0633\u062E\u0629 \u0627\u0644\u0645\u062C\u0627\u0646\u064A\u0629',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "لنأخذ نفسًا واحدًا معًا",
-  'onboarding.demoSub': "اتبع الدائرة — استنشق من الأنف وازفر ببطء.",
-  'onboarding.demoDone': "لاحظ شعورك الآن.",
-  'onboarding.demoReady': "استعد…",
-  'onboarding.demoCounter': "النفس {{n}} من {{total}}",
   'summary.habitTitle': "اجعلها عادة",
   'summary.habitReminderTitle': "تذكير يومي",
   'summary.habitReminderSub': "تذكير لطيف للتنفس كل يوم",

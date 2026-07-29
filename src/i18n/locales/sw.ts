@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'Mazoezi ya mara kwa mara hujenga ustahimilivu kwa muda.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Hebu tuvute pumzi moja pamoja",
-  'onboarding.demoSub': "Fuata mduara — vuta pumzi kwa pua, toa polepole.",
-  'onboarding.demoDone': "Angalia jinsi unavyohisi.",
-  'onboarding.demoReady': "Jitayarishe…",
-  'onboarding.demoCounter': "Pumzi {{n}} kati ya {{total}}",
   'summary.habitTitle': "Ifanye kuwa tabia",
   'summary.habitReminderTitle': "Kikumbusho cha kila siku",
   'summary.habitReminderSub': "Kikumbusho laini cha kupumua kila siku",

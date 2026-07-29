@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': 'Pidennetty uloshengitys kertoo kehollesi, ett\u00e4 on turvallista rentoutua.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Otetaan yhdessä yksi hengitys",
-  'onboarding.demoSub': "Seuraa ympyrää — hengitä sisään nenän kautta, hengitä hitaasti ulos.",
-  'onboarding.demoDone': "Huomaa, miltä sinusta tuntuu.",
-  'onboarding.demoReady': "Valmistaudu…",
-  'onboarding.demoCounter': "Hengitys {{n}}/{{total}}",
   'summary.habitTitle': "Tee siitä tapa",
   'summary.habitReminderTitle': "Päivittäinen muistutus",
   'summary.habitReminderSub': "Pehmeä muistutus hengittää joka päivä",

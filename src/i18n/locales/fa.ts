@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'تمرین مداوم در طول زمان تاب‌آوری ایجاد می‌کند.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "بیایید با هم یک نفس بکشیم",
-  'onboarding.demoSub': "دایره را دنبال کنید — از بینی نفس بکشید، آرام بازدم کنید.",
-  'onboarding.demoDone': "به احساس خود توجه کنید.",
-  'onboarding.demoReady': "آماده شوید…",
-  'onboarding.demoCounter': "نفس {{n}} از {{total}}",
   'summary.habitTitle': "آن را به یک عادت تبدیل کنید",
   'summary.habitReminderTitle': "یادآوری روزانه",
   'summary.habitReminderSub': "یادآوری ملایم برای تنفس هر روز",

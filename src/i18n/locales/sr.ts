@@ -664,11 +664,6 @@ export default {
   'notifications.tip7': '\u041F\u0440\u043E\u0434\u0443\u0436\u0435\u043D\u0438 \u0438\u0437\u0434\u0438\u0441\u0430\u0458\u0438 \u0433\u043E\u0432\u043E\u0440\u0435 \u0442\u0435\u043B\u0443 \u0434\u0430 \u0458\u0435 \u0431\u0435\u0437\u0431\u0435\u0434\u043D\u043E \u043E\u043F\u0443\u0441\u0442\u0438\u0442\u0438 \u0441\u0435.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Хајде да заједно удахнемо једном",
-  'onboarding.demoSub': "Пратите круг — удахните на нос, полако издахните.",
-  'onboarding.demoDone': "Приметите како се осећате.",
-  'onboarding.demoReady': "Спреми се…",
-  'onboarding.demoCounter': "Удах {{n}} од {{total}}",
   'summary.habitTitle': "Претворите то у навику",
   'summary.habitReminderTitle': "Дневни подсетник",
   'summary.habitReminderSub': "Благи подсетник да дишете сваки дан",

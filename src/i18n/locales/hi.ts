@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': '\u0928\u093F\u0930\u0902\u0924\u0930 \u0905\u092D\u094D\u092F\u093E\u0938 \u0938\u092E\u092F \u0915\u0947 \u0938\u093E\u0925 \u0932\u091A\u0940\u0932\u093E\u092A\u0928 \u092C\u0928\u093E\u0924\u093E \u0939\u0948\u0964',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "आइए साथ मिलकर एक सांस लें",
-  'onboarding.demoSub': "वृत्त का अनुसरण करें — नाक से सांस लें, धीरे-धीरे छोड़ें।",
-  'onboarding.demoDone': "ध्यान दें कि आप कैसा महसूस कर रहे हैं।",
-  'onboarding.demoReady': "तैयार हो जाइए…",
-  'onboarding.demoCounter': "सांस {{n}} में से {{total}}",
   'summary.habitTitle': "इसे एक आदत बनाएं",
   'summary.habitReminderTitle': "दैनिक अनुस्मारक",
   'summary.habitReminderSub': "हर दिन सांस लेने के लिए एक हल्की याद",

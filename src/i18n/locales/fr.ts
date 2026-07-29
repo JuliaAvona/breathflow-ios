@@ -662,11 +662,6 @@ export default {
   'paywall.continueFree': 'Continuer avec la version gratuite',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Respirons ensemble, une fois",
-  'onboarding.demoSub': "Suis le cercle : inspire par le nez, expire lentement.",
-  'onboarding.demoDone': "Remarque comment tu te sens.",
-  'onboarding.demoReady': "Prépare-toi…",
-  'onboarding.demoCounter': "Respiration {{n}} sur {{total}}",
   'summary.habitTitle': "Fais-en une habitude",
   'summary.habitReminderTitle': "Rappel quotidien",
   'summary.habitReminderSub': "Un petit rappel pour respirer chaque jour",

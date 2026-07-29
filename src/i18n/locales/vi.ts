@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': 'Th\u1EDF ra d\u00E0i n\u00F3i v\u1EDBi c\u01A1 th\u1EC3 r\u1EB1ng an to\u00E0n \u0111\u1EC3 th\u01B0 gi\u00E3n.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Hãy cùng nhau hít thở một lần",
-  'onboarding.demoSub': "Theo dõi vòng tròn — hít vào bằng mũi, thở ra thật chậm.",
-  'onboarding.demoDone': "Hãy chú ý cảm giác của bạn.",
-  'onboarding.demoReady': "Chuẩn bị…",
-  'onboarding.demoCounter': "Hơi thở {{n}}/{{total}}",
   'summary.habitTitle': "Biến nó thành thói quen",
   'summary.habitReminderTitle': "Nhắc nhở hàng ngày",
   'summary.habitReminderSub': "Một lời nhắc nhẹ nhàng để thở mỗi ngày",

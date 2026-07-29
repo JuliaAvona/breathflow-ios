@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'La pràctica consistent construeix resiliència al llarg del temps.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Fem una respiració junts",
-  'onboarding.demoSub': "Segueix el cercle: inspira pel nas, expira lentament.",
-  'onboarding.demoDone': "Fixa't com et sents.",
-  'onboarding.demoReady': "Prepara't…",
-  'onboarding.demoCounter': "Respiració {{n}} de {{total}}",
   'summary.habitTitle': "Converteix-ho en un hàbit",
   'summary.habitReminderTitle': "Recordatori diari",
   'summary.habitReminderSub': "Un petit recordatori per respirar cada dia",

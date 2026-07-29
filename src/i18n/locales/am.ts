@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'ቀጣይ ልምምድ ከጊዜ ጋር ጥንካሬ ይፈጥራል.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "አንድ ትንፋሽ አብረን እንውሰድ",
-  'onboarding.demoSub': "ክቡን ተከተሉ — በአፍንጫ ወደ ውስጥ ይተንፍሱ ቀስ ብለው ወደ ውጭ ይተንፍሱ።",
-  'onboarding.demoDone': "እንዴት እንደተሰማዎት ልብ ይበሉ።",
-  'onboarding.demoReady': "ይዘጋጁ…",
-  'onboarding.demoCounter': "ትንፋሽ {{n}} ከ{{total}}",
   'summary.habitTitle': "የዕለት ተግባር ያድርጉት",
   'summary.habitReminderTitle': "ዕለታዊ ማስታወሻ",
   'summary.habitReminderSub': "በየቀኑ ለመተንፈስ ገር ማሳሰቢያ",

@@ -664,11 +664,6 @@ export default {
   'notifications.tip7': 'Podaljsani izdihi sporocajo telesu, da je varno, da se sprosti.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Vzemimo skupaj en vdih",
-  'onboarding.demoSub': "Sledi krogu — vdih skozi nos, počasen izdih.",
-  'onboarding.demoDone': "Opazi, kako se počutiš.",
-  'onboarding.demoReady': "Pripravi se…",
-  'onboarding.demoCounter': "Vdih {{n}} od {{total}}",
   'summary.habitTitle': "Naredi si navado",
   'summary.habitReminderTitle': "Dnevni opomnik",
   'summary.habitReminderSub': "Nežen opomnik, da dihaš vsak dan",

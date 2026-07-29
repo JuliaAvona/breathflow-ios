@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': '\u0397 \u03c0\u03b1\u03c1\u03b1\u03c4\u03b5\u03c4\u03b1\u03bc\u03ad\u03bd\u03b7 \u03b5\u03ba\u03c0\u03bd\u03bf\u03ae \u03bb\u03ad\u03b5\u03b9 \u03c3\u03c4\u03bf \u03c3\u03ce\u03bc\u03b1 \u03c3\u03b1\u03c2 \u03cc\u03c4\u03b9 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b1\u03c3\u03c6\u03b1\u03bb\u03ad\u03c2 \u03bd\u03b1 \u03c7\u03b1\u03bb\u03b1\u03c1\u03ce\u03c3\u03b5\u03b9.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Ας πάρουμε μια ανάσα μαζί",
-  'onboarding.demoSub': "Ακολούθησε τον κύκλο — εισέπνευσε από τη μύτη, εκπνεύσε αργά.",
-  'onboarding.demoDone': "Παρατήρησε πώς νιώθεις.",
-  'onboarding.demoReady': "Ετοιμάσου…",
-  'onboarding.demoCounter': "Αναπνοή {{n}} από {{total}}",
   'summary.habitTitle': "Κάν' το συνήθεια",
   'summary.habitReminderTitle': "Καθημερινή υπενθύμιση",
   'summary.habitReminderSub': "Μια απαλή υπενθύμιση να αναπνέεις κάθε μέρα",

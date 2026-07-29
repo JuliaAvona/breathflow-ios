@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'தொடர்ச்சியான பயிற்சி காலப்போக்கில் மன உறுதியை கட்டமைக்கிறது.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "ஒன்றாக ஒரு மூச்சு எடுப்போம்",
-  'onboarding.demoSub': "வட்டத்தைப் பின்பற்றுங்கள் — மூக்கு வழியாக மூச்சை இழுத்து, மெதுவாக விடுங்கள்.",
-  'onboarding.demoDone': "உங்களுக்கு எப்படி இருக்கிறது என்பதைக் கவனியுங்கள்.",
-  'onboarding.demoReady': "தயாராகுங்கள்…",
-  'onboarding.demoCounter': "மூச்சு {{n}} / {{total}}",
   'summary.habitTitle': "இதை ஒரு பழக்கமாக்குங்கள்",
   'summary.habitReminderTitle': "தினசரி நினைவூட்டல்",
   'summary.habitReminderSub': "ஒவ்வொரு நாளும் மூச்சு விடுவதற்கான மென்மையான நினைவூட்டல்",

@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': 'Forlenget utpust forteller kroppen din at det er trygt å slappe av.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "La oss ta ett pust sammen",
-  'onboarding.demoSub': "Følg sirkelen — pust inn gjennom nesen, pust sakte ut.",
-  'onboarding.demoDone': "Legg merke til hvordan du har det.",
-  'onboarding.demoReady': "Gjør deg klar…",
-  'onboarding.demoCounter': "Pust {{n}} av {{total}}",
   'summary.habitTitle': "Gjør det til en vane",
   'summary.habitReminderTitle': "Daglig påminnelse",
   'summary.habitReminderSub': "Et vennlig dytt til å puste hver dag",

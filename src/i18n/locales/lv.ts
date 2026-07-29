@@ -673,11 +673,6 @@ export default {
   'notifications.tip7': 'Konsekventa prakse laika gaita veido notieribu.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Ieelposimies kopā",
-  'onboarding.demoSub': "Seko aplim — ieelpo caur degunu, lēni izelpo.",
-  'onboarding.demoDone': "Pievērs uzmanību, kā jūties.",
-  'onboarding.demoReady': "Sagatavojies…",
-  'onboarding.demoCounter': "Elpa {{n}} no {{total}}",
   'summary.habitTitle': "Padari to par ieradumu",
   'summary.habitReminderTitle': "Ikdienas atgādinājums",
   'summary.habitReminderSub': "Maigs atgādinājums elpot katru dienu",

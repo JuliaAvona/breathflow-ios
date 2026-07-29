@@ -672,11 +672,6 @@ export default {
   'common.error': 'Error',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Let's take one breath together",
-  'onboarding.demoSub': "Follow the circle — in through the nose, slowly out.",
-  'onboarding.demoDone': "Notice how you feel.",
-  'onboarding.demoReady': "Get ready…",
-  'onboarding.demoCounter': "Breath {{n}} of {{total}}",
   'summary.habitTitle': "Make it a habit",
   'summary.habitReminderTitle': "Daily reminder",
   'summary.habitReminderSub': "A gentle nudge to breathe each day",

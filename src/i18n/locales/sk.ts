@@ -664,11 +664,6 @@ export default {
   'notifications.tip7': 'Predlzene vydychy hovoria vasmu telu, ze je bezpecne relaxovat.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Poďme sa spolu nadýchnuť",
-  'onboarding.demoSub': "Sleduj kruh — nádych nosom, pomalý výdych.",
-  'onboarding.demoDone': "Všimni si, ako sa cítiš.",
-  'onboarding.demoReady': "Priprav sa…",
-  'onboarding.demoCounter': "Nádych {{n}} z {{total}}",
   'summary.habitTitle': "Urob si z toho zvyk",
   'summary.habitReminderTitle': "Denná pripomienka",
   'summary.habitReminderSub': "Jemná pripomienka dýchať každý deň",

@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': 'Hembusan nafas panjang memberitahu badan anda bahawa selamat untuk berehat.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Mari kita tarik nafas bersama",
-  'onboarding.demoSub': "Ikut bulatan — tarik nafas melalui hidung, hembus perlahan.",
-  'onboarding.demoDone': "Perhatikan bagaimana perasaan anda.",
-  'onboarding.demoReady': "Bersedia…",
-  'onboarding.demoCounter': "Nafas {{n}} daripada {{total}}",
   'summary.habitTitle': "Jadikan ia satu tabiat",
   'summary.habitReminderTitle': "Peringatan harian",
   'summary.habitReminderSub': "Peringatan lembut untuk bernafas setiap hari",

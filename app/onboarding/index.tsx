@@ -74,8 +74,6 @@ export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
   const [page, setPage] = useState(0);
   const [selectedGoal, setSelectedGoal]     = useState<TechniqueCategory | undefined>(undefined);
-  const [demoPhase, setDemoPhase] = useState<'IDLE' | 'INHALE' | 'EXHALE' | 'DONE'>('IDLE');
-  const [demoCycle, setDemoCycle] = useState(1);
 
   const fadeAnim  = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
@@ -126,9 +124,9 @@ export default function OnboardingScreen() {
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
-  // Building auto-advance (page 4)
+  // Building auto-advance (page 3)
   useEffect(() => {
-    if (page !== 4) return;
+    if (page !== 3) return;
     step1Opacity.setValue(0); step2Opacity.setValue(0); step3Opacity.setValue(0);
     const seq = Animated.sequence([
       Animated.delay(400),
@@ -139,34 +137,8 @@ export default function OnboardingScreen() {
       Animated.timing(step3Opacity, { toValue: 1, duration: 350, useNativeDriver: true }),
       Animated.delay(800),
     ]);
-    seq.start(() => goToPage(5, 1));
+    seq.start(() => goToPage(4, 1));
     return () => seq.stop();
-  }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Breathing demo — auto-runs a guided cycle, then auto-advances (page 2)
-  useEffect(() => {
-    if (page !== 2) return;
-    const CYCLES = 3, INHALE_MS = 4000, EXHALE_MS = 6000;
-    let cancelled = false;
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    const at = (fn: () => void, ms: number) => {
-      timers.push(setTimeout(() => { if (!cancelled) fn(); }, ms));
-    };
-
-    setDemoCycle(1);
-    setDemoPhase('IDLE');
-    let tAcc = 700; // brief lead-in on IDLE before the first inhale
-    for (let c = 1; c <= CYCLES; c++) {
-      at(() => { setDemoCycle(c); setDemoPhase('INHALE'); }, tAcc);
-      tAcc += INHALE_MS;
-      at(() => setDemoPhase('EXHALE'), tAcc);
-      tAcc += EXHALE_MS;
-    }
-    at(() => setDemoPhase('DONE'), tAcc);
-    tAcc += 1500;
-    at(() => goToPage(3, 1), tAcc);
-
-    return () => { cancelled = true; timers.forEach(clearTimeout); };
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
@@ -174,8 +146,7 @@ export default function OnboardingScreen() {
   const handleGoalSelect = useCallback((category: TechniqueCategory) => {
     setSelectedGoal(category);
     setSetting('selectedGoal', category);
-    setTimeout(() => goNext(), 300);
-  }, [setSetting, goNext]);
+  }, [setSetting]);
 
   const finishOnboarding = useCallback(async () => {
     setSetting('onboardingCompleted', true);
@@ -186,9 +157,9 @@ export default function OnboardingScreen() {
   }, [setSetting, plan]);
 
   // ── Progress ──────────────────────────────────────────────────────────────────
-  // Pages: 0 Hook, 1 Goal, 2 Demo, 3 Social, 4 Building (hidden), 5 Plan
-  const progressVisible = page === 1 || page === 2 || page === 3 || page === 5;
-  const progressPct     = page / 5;
+  // Pages: 0 Hook, 1 Goal, 2 Social, 3 Building (hidden), 4 Plan
+  const progressVisible = page === 1 || page === 2 || page === 4;
+  const progressPct     = page / 4;
 
   // ── Page 0 — Hook ─────────────────────────────────────────────────────────────
 
@@ -224,40 +195,51 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  // ── Page 3 — Goal ─────────────────────────────────────────────────────────────
+  // ── Page 1 — Goal ─────────────────────────────────────────────────────────────
 
   const renderGoal = () => (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, styles.goalScroll]} showsVerticalScrollIndicator={false}>
-      <Text style={styles.pageTitle}>{t('onboarding.chooseGoal')}</Text>
-      <Text style={[styles.pageSub, { marginBottom: SPACING.lg }]}>{t('onboarding.chooseGoalSub')}</Text>
-      <View style={styles.optionList}>
-        {GOAL_OPTIONS.map((g) => {
-          const sel = selectedGoal === g.category;
-          return (
-            <TouchableOpacity
-              key={g.category}
-              style={[styles.optionRow, sel && styles.optionRowSelected, sel && { borderColor: g.color }]}
-              onPress={() => handleGoalSelect(g.category)}
-              activeOpacity={0.8}
-            >
-              <View style={[styles.optionIconCircle, { backgroundColor: g.color + (sel ? '40' : '24') }]}>
-                <Ionicons name={g.icon} size={23} color={g.color} />
-              </View>
-              <View style={styles.optionTexts}>
-                <Text style={styles.optionLabel}>{t(g.labelKey)}</Text>
-                <Text style={styles.optionSub}>{t(g.subKey)}</Text>
-              </View>
-              {sel
-                ? <View style={[styles.checkCircle, { backgroundColor: g.color }]}><Ionicons name="checkmark" size={14} color="#FFF" /></View>
-                : <Ionicons name="chevron-forward" size={18} color="rgba(255,255,255,0.35)" />}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    </ScrollView>
+    <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.goalScroll} showsVerticalScrollIndicator={false}>
+        <Text style={styles.pageTitle}>{t('onboarding.chooseGoal')}</Text>
+        <Text style={[styles.pageSub, { marginBottom: SPACING.lg }]}>{t('onboarding.chooseGoalSub')}</Text>
+        <View style={styles.optionList}>
+          {GOAL_OPTIONS.map((g) => {
+            const sel = selectedGoal === g.category;
+            return (
+              <TouchableOpacity
+                key={g.category}
+                style={[styles.optionRow, sel && styles.optionRowSelected, sel && { borderColor: g.color }]}
+                onPress={() => handleGoalSelect(g.category)}
+                activeOpacity={0.8}
+              >
+                <View style={[styles.optionIconCircle, { backgroundColor: g.color + (sel ? '40' : '24') }]}>
+                  <Ionicons name={g.icon} size={23} color={g.color} />
+                </View>
+                <View style={styles.optionTexts}>
+                  <Text style={styles.optionLabel}>{t(g.labelKey)}</Text>
+                  <Text style={styles.optionSub}>{t(g.subKey)}</Text>
+                </View>
+                {sel
+                  ? <View style={[styles.checkCircle, { backgroundColor: g.color }]}><Ionicons name="checkmark" size={14} color="#FFF" /></View>
+                  : <Ionicons name="chevron-forward" size={18} color="rgba(255,255,255,0.35)" />}
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </ScrollView>
+
+      <TouchableOpacity
+        style={[styles.primaryBtn, !selectedGoal && { opacity: 0.4 }]}
+        onPress={goNext}
+        activeOpacity={0.85}
+        disabled={!selectedGoal}
+      >
+        <Text style={styles.primaryBtnText}>{t('onboarding.continue')}</Text>
+      </TouchableOpacity>
+    </View>
   );
 
-  // ── Page 3 — Building ─────────────────────────────────────────────────────────
+  // ── Page 3 — Building (hidden) ───────────────────────────────────────────────
 
   const renderBuilding = () => (
     <View style={[styles.pageContent, { justifyContent: 'center' }]}>
@@ -315,14 +297,18 @@ export default function OnboardingScreen() {
     </ScrollView>
   );
 
-  // ── Page — Social Proof (testimonials) ────────────────────────────────────────
+  // ── Page 2 — Social Proof (testimonials) ─────────────────────────────────────
 
   const renderSocialProof = () => (
     <View style={[styles.pageContent, { justifyContent: 'space-between' }]}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: SPACING.sm }}>
+      <View style={{ flex: 1 }}>
         <Text style={styles.pageTitle}>{t('onboarding.socialProofTitle')}</Text>
         <Text style={styles.pageSub}>{t('onboarding.socialProofSub')}</Text>
-        <View style={{ gap: SPACING.md }}>
+        {/* flex:1 on the list + flex:1 on every card means the 3 cards always
+            divide whatever height is actually available, on any screen size
+            — that's what guarantees they can never get clipped against the
+            button below, the way a fixed/scrolling layout could. */}
+        <View style={styles.testimonialList}>
           {TESTIMONIALS.map((tm, i) => (
             <View key={i} style={[styles.testimonialCard, { borderColor: tm.color + '40', borderLeftColor: tm.color }]}>
               <Text style={[styles.testimonialQuoteMark, { color: tm.color + '4D' }]}>{'“'}</Text>
@@ -333,19 +319,23 @@ export default function OnboardingScreen() {
                 <View style={{ flex: 1 }}>
                   <View style={styles.testimonialNameRow}>
                     <Text style={styles.testimonialName}>{t(tm.nameKey)}</Text>
-                    <Ionicons name="checkmark-circle" size={14} color={tm.color} />
+                    <Ionicons name="checkmark-circle" size={13} color={tm.color} />
                   </View>
                   <Text style={styles.testimonialTag}>{t(tm.tagKey)}</Text>
                 </View>
                 <View style={styles.testimonialStars}>
-                  {[0,1,2,3,4].map((s) => <Ionicons key={s} name="star" size={12} color="#F5C542" />)}
+                  {[0,1,2,3,4].map((s) => <Ionicons key={s} name="star" size={11} color="#F5C542" />)}
                 </View>
               </View>
-              <Text style={styles.testimonialText}>{t(tm.textKey)}</Text>
+              {/* Capped at 2 lines — the longest quote (Priya's) was the one
+                  spilling past the card and getting clipped by the button. */}
+              <Text style={styles.testimonialText} numberOfLines={2} ellipsizeMode="tail">
+                {t(tm.textKey)}
+              </Text>
             </View>
           ))}
         </View>
-      </ScrollView>
+      </View>
 
       <TouchableOpacity style={styles.primaryBtn} onPress={goNext} activeOpacity={0.85}>
         <Text style={styles.primaryBtnText}>{t('onboarding.continue')}</Text>
@@ -353,44 +343,13 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  // ── Page 2 — Breathing demo (live guided breath) ──────────────────────────────
-
-  const renderDemo = () => {
-    const phaseDur = demoPhase === 'INHALE' ? 4 : demoPhase === 'EXHALE' ? 6 : undefined;
-    const label =
-      demoPhase === 'INHALE' ? t('session.breatheIn')
-      : demoPhase === 'EXHALE' ? t('session.breatheOut')
-      : demoPhase === 'DONE' ? t('onboarding.demoDone', { defaultValue: 'Notice how you feel.' })
-      : t('onboarding.demoReady', { defaultValue: 'Get ready…' });
-    return (
-      <View style={[styles.pageContent, { alignItems: 'center' }]}>
-        <Text style={[styles.pageTitle, { textAlign: 'center', marginTop: SPACING.sm }]}>
-          {t('onboarding.demoTitle', { defaultValue: "Let's take one breath together" })}
-        </Text>
-        <Text style={[styles.pageSub, { textAlign: 'center' }]}>
-          {t('onboarding.demoSub', { defaultValue: 'Follow the circle — in through the nose, slowly out.' })}
-        </Text>
-        <View style={styles.demoStage}>
-          <BreathingMandala phase={demoPhase} color={plan.color} size={scale(220)} bright phaseDuration={phaseDur} />
-          <Text style={styles.demoPhaseLabel}>{label}</Text>
-          <Text style={styles.demoCounter}>
-            {demoPhase === 'INHALE' || demoPhase === 'EXHALE'
-              ? t('onboarding.demoCounter', { defaultValue: 'Breath {{n}} of {{total}}', n: demoCycle, total: 3 })
-              : ' '}
-          </Text>
-        </View>
-      </View>
-    );
-  };
-
   const renderPage = () => {
     switch (page) {
       case 0: return renderHook();
       case 1: return renderGoal();
-      case 2: return renderDemo();
-      case 3: return renderSocialProof();
-      case 4: return renderBuilding();
-      case 5: return renderPlan();
+      case 2: return renderSocialProof();
+      case 3: return renderBuilding();
+      case 4: return renderPlan();
       default: return null;
     }
   };
@@ -531,11 +490,6 @@ const styles = StyleSheet.create({
   pill: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 6, borderRadius: BORDER_RADIUS.full },
   pillText: { fontSize: FONT_SIZE.xs, fontFamily: FONTS.bold },
 
-  // Breathing demo
-  demoStage: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  demoPhaseLabel: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.lg, color: 'rgba(255,255,255,0.85)', letterSpacing: 1.5, textTransform: 'uppercase', marginTop: SPACING.xl },
-  demoCounter: { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, color: TEXT_SECONDARY, marginTop: SPACING.sm },
-
   // Option rows
   goalScroll: { flexGrow: 1, justifyContent: 'center', paddingBottom: SPACING.xl },
   optionList: { gap: 10, marginBottom: SPACING.xl },
@@ -639,25 +593,31 @@ const styles = StyleSheet.create({
   checkboxRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.sm, paddingHorizontal: 2 },
   checkboxLabel: { fontFamily: FONTS.semibold, fontSize: FONT_SIZE.sm, flex: 1, lineHeight: 20, color: TEXT_PRIMARY },
 
-  // Testimonials
+  // Testimonials — flex:1 on the list and on every card, so the 3 cards
+  // always divide whatever vertical space is actually available instead of
+  // using a fixed/natural size that can overflow on shorter screens.
+  testimonialList: { flex: 1, gap: SPACING.sm, marginTop: SPACING.sm },
   testimonialCard: {
+    flex: 1,
     backgroundColor: GLASS_BG,
     borderWidth: 1,
     borderColor: GLASS_BORDER,
     borderLeftWidth: 3,
-    borderRadius: 16,
-    padding: SPACING.md,
+    borderRadius: 14,
+    paddingHorizontal: SPACING.sm + 2,
+    paddingVertical: SPACING.xs,
+    justifyContent: 'center',
     overflow: 'hidden',
   },
-  testimonialQuoteMark:    { position: 'absolute', top: -10, right: 14, fontSize: 72, fontFamily: FONTS.heavy, lineHeight: 84 },
-  testimonialHeader:       { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: 10 },
-  testimonialAvatar:       { width: 46, height: 46, borderRadius: 23, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: 'rgba(255,255,255,0.22)' },
-  testimonialAvatarLetter: { fontFamily: FONTS.heavy, fontSize: 18, color: '#FFF' },
+  testimonialQuoteMark:    { position: 'absolute', top: -6, right: 10, fontSize: 48, fontFamily: FONTS.heavy, lineHeight: 56 },
+  testimonialHeader:       { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: 6 },
+  testimonialAvatar:       { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: 'rgba(255,255,255,0.22)' },
+  testimonialAvatarLetter: { fontFamily: FONTS.heavy, fontSize: 15, color: '#FFF' },
   testimonialNameRow:      { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  testimonialName:         { fontFamily: FONTS.bold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
+  testimonialName:         { fontFamily: FONTS.bold, fontSize: FONT_SIZE.sm, color: TEXT_PRIMARY },
   testimonialTag:          { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 1 },
   testimonialStars:        { flexDirection: 'row', gap: 1, alignSelf: 'flex-start', marginTop: 2 },
-  testimonialText:         { fontFamily: FONTS.medium, fontSize: FONT_SIZE.md, color: 'rgba(255,255,255,0.95)', lineHeight: 23 },
+  testimonialText:         { fontFamily: FONTS.medium, fontSize: FONT_SIZE.sm, color: 'rgba(255,255,255,0.95)', lineHeight: 19 },
 
   // Rating screen
   ratingHalo: {

@@ -586,11 +586,6 @@ export default {
   'paywall.continueFree': 'Doorgaan met gratis versie',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Laten we samen één keer ademhalen",
-  'onboarding.demoSub': "Volg de cirkel — adem in door je neus, adem langzaam uit.",
-  'onboarding.demoDone': "Merk op hoe je je voelt.",
-  'onboarding.demoReady': "Maak je klaar…",
-  'onboarding.demoCounter': "Ademhaling {{n}} van {{total}}",
   'summary.habitTitle': "Maak er een gewoonte van",
   'summary.habitReminderTitle': "Dagelijkse herinnering",
   'summary.habitReminderSub': "Een zachte herinnering om elke dag te ademen",

@@ -662,11 +662,6 @@ export default {
   'paywall.continueFree': '無料バージョンで続ける',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "一緒にひと呼吸してみましょう",
-  'onboarding.demoSub': "円に合わせて — 鼻から吸って、ゆっくり吐きましょう。",
-  'onboarding.demoDone': "今の気持ちに意識を向けてみましょう。",
-  'onboarding.demoReady': "準備をしましょう…",
-  'onboarding.demoCounter': "{{total}}回中{{n}}回目",
   'summary.habitTitle': "習慣にしましょう",
   'summary.habitReminderTitle': "毎日のリマインダー",
   'summary.habitReminderSub': "毎日呼吸をするための優しいお知らせ",

@@ -664,11 +664,6 @@ export default {
   'paywall.continueFree': 'Продовжити з безкоштовною версією',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Зробімо один вдих разом",
-  'onboarding.demoSub': "Слідкуйте за колом — вдих через ніс, повільний видих.",
-  'onboarding.demoDone': "Зверніть увагу на свої відчуття.",
-  'onboarding.demoReady': "Приготуйтеся…",
-  'onboarding.demoCounter': "Вдих {{n}} з {{total}}",
   'summary.habitTitle': "Зробіть це звичкою",
   'summary.habitReminderTitle': "Щоденне нагадування",
   'summary.habitReminderSub': "Легке нагадування дихати щодня",

@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': 'การหายใจออกยาวๆ บอกให้ร่างกายรู้ว่าปลอดภัยที่จะผ่อนคลาย',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "มาหายใจด้วยกันสักครั้ง",
-  'onboarding.demoSub': "ทำตามวงกลม — หายใจเข้าทางจมูก ผ่อนออกช้าๆ",
-  'onboarding.demoDone': "สังเกตความรู้สึกของคุณ",
-  'onboarding.demoReady': "เตรียมตัวให้พร้อม…",
-  'onboarding.demoCounter': "ลมหายใจที่ {{n}} จาก {{total}}",
   'summary.habitTitle': "ทำให้เป็นนิสัย",
   'summary.habitReminderTitle': "การแจ้งเตือนรายวัน",
   'summary.habitReminderSub': "การเตือนเบาๆ ให้หายใจทุกวัน",

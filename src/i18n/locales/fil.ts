@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'Ang konsistenteng pagsasanay ay nagtatayo ng katatagan sa paglipas ng panahon.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Huminga tayo nang sabay",
-  'onboarding.demoSub': "Sundin ang bilog — huminga sa ilong, dahan-dahang buga.",
-  'onboarding.demoDone': "Pansinin mo kung ano ang nararamdaman mo.",
-  'onboarding.demoReady': "Maghanda…",
-  'onboarding.demoCounter': "Hininga {{n}} ng {{total}}",
   'summary.habitTitle': "Gawin itong ugali",
   'summary.habitReminderTitle': "Araw-araw na paalala",
   'summary.habitReminderSub': "Isang magandang paalala na huminga araw-araw",

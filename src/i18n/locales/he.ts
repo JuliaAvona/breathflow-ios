@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'תרגול עקבי בונה חוסן לאורך זמן.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "בואו ניקח נשימה אחת יחד",
-  'onboarding.demoSub': "עקבו אחרי העיגול — שאפו דרך האף, נשפו לאט.",
-  'onboarding.demoDone': "שימו לב איך אתם מרגישים.",
-  'onboarding.demoReady': "התכוננו…",
-  'onboarding.demoCounter': "נשימה {{n}} מתוך {{total}}",
   'summary.habitTitle': "הפכו את זה להרגל",
   'summary.habitReminderTitle': "תזכורת יומית",
   'summary.habitReminderSub': "תזכורת עדינה לנשום כל יום",

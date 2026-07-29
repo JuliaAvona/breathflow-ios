@@ -660,11 +660,6 @@ export default {
   'notifications.tip7': 'J\u00e4rjepidev harjutamine loob aja jooksul vastupidavust.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Võtame koos ühe hingetõmbe",
-  'onboarding.demoSub': "Jälgi ringi — hinga sisse läbi nina, hinga aeglaselt välja.",
-  'onboarding.demoDone': "Pane tähele, kuidas end tunned.",
-  'onboarding.demoReady': "Valmistu…",
-  'onboarding.demoCounter': "Hingetõmme {{n}} / {{total}}",
   'summary.habitTitle': "Muuda see harjumuseks",
   'summary.habitReminderTitle': "Igapäevane meeldetuletus",
   'summary.habitReminderSub': "Õrn meeldetuletus iga päev hingata",

@@ -664,11 +664,6 @@ export default {
   'paywall.continueFree': '\u041F\u0440\u043E\u0434\u044A\u043B\u0436\u0438 \u0441 \u0431\u0435\u0437\u043F\u043B\u0430\u0442\u043D\u0430\u0442\u0430 \u0432\u0435\u0440\u0441\u0438\u044F',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Нека си поемем един дъх заедно",
-  'onboarding.demoSub': "Следвай кръга — вдишай през носа, издишай бавно.",
-  'onboarding.demoDone': "Забележи как се чувстваш.",
-  'onboarding.demoReady': "Приготви се…",
-  'onboarding.demoCounter': "Дъх {{n}} от {{total}}",
   'summary.habitTitle': "Превърни го в навик",
   'summary.habitReminderTitle': "Ежедневно напомняне",
   'summary.habitReminderSub': "Леко напомняне да дишаш всеки ден",

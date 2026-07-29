@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'સતત અભ્યાસ સમય સાથે સ્થિતિ-સ્થાપકતા બનાવે.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "ચાલો સાથે મળીને એક શ્વાસ લઈએ",
-  'onboarding.demoSub': "વર્તુળને અનુસરો — નાક દ્વારા શ્વાસ લો, ધીમે ધીમે છોડો.",
-  'onboarding.demoDone': "તમને કેવું લાગે છે તે નોંધો.",
-  'onboarding.demoReady': "તૈયાર થાઓ…",
-  'onboarding.demoCounter': "શ્વાસ {{n}} માંથી {{total}}",
   'summary.habitTitle': "તેને ટેવ બનાવો",
   'summary.habitReminderTitle': "દૈનિક રિમાઇન્ડર",
   'summary.habitReminderSub': "દરરોજ શ્વાસ લેવા માટે એક હળવો સંકેત",

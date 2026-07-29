@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': 'Embusan napas panjang memberi tahu tubuh bahwa aman untuk rileks.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Mari bernapas bersama sekali",
-  'onboarding.demoSub': "Ikuti lingkaran — tarik napas lewat hidung, embuskan perlahan.",
-  'onboarding.demoDone': "Perhatikan bagaimana perasaanmu.",
-  'onboarding.demoReady': "Bersiaplah…",
-  'onboarding.demoCounter': "Napas {{n}} dari {{total}}",
   'summary.habitTitle': "Jadikan kebiasaan",
   'summary.habitReminderTitle': "Pengingat harian",
   'summary.habitReminderSub': "Pengingat lembut untuk bernapas setiap hari",

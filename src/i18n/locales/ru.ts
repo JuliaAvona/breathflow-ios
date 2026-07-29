@@ -668,11 +668,6 @@ export default {
   'paywall.continueFree': 'Продолжить с бесплатной версией',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Давайте сделаем один вдох вместе",
-  'onboarding.demoSub': "Следите за кругом — вдох через нос, медленный выдох.",
-  'onboarding.demoDone': "Обратите внимание на своё самочувствие.",
-  'onboarding.demoReady': "Приготовьтесь…",
-  'onboarding.demoCounter': "Вдох {{n}} из {{total}}",
   'summary.habitTitle': "Сделайте это привычкой",
   'summary.habitReminderTitle': "Ежедневное напоминание",
   'summary.habitReminderSub': "Мягкое напоминание дышать каждый день",

@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': '\u0938\u0941\u0938\u0902\u0917\u0924 \u0938\u0930\u093e\u0935 \u0915\u093e\u0932\u093e\u0902\u0924\u0930\u093e\u0928\u0947 \u0932\u0935\u091a\u093f\u0915\u0924\u093e \u0928\u093f\u0930\u094d\u092e\u093e\u0923 \u0915\u0930\u0924\u094b.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "चला एकत्र एक श्वास घेऊया",
-  'onboarding.demoSub': "वर्तुळाचे अनुसरण करा — नाकाने श्वास घ्या, हळूहळू सोडा.",
-  'onboarding.demoDone': "तुम्हाला कसे वाटते ते लक्षात घ्या.",
-  'onboarding.demoReady': "तयार व्हा…",
-  'onboarding.demoCounter': "श्वास {{n}} पैकी {{total}}",
   'summary.habitTitle': "याची सवय करा",
   'summary.habitReminderTitle': "दैनिक स्मरणपत्र",
   'summary.habitReminderSub': "दररोज श्वास घेण्यासाठी एक सौम्य आठवण",

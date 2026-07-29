@@ -664,11 +664,6 @@ export default {
   'notifications.tip7': 'Expiratiile prelungite spun corpului tau ca e sigur sa se relaxeze.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Hai să respirăm împreună o dată",
-  'onboarding.demoSub': "Urmărește cercul — inspiră pe nas, expiră lent.",
-  'onboarding.demoDone': "Observă cum te simți.",
-  'onboarding.demoReady': "Pregătește-te…",
-  'onboarding.demoCounter': "Respirația {{n}} din {{total}}",
   'summary.habitTitle': "Transformă asta într-un obicei",
   'summary.habitReminderTitle': "Memento zilnic",
   'summary.habitReminderSub': "Un mic memento să respiri în fiecare zi",

@@ -652,11 +652,6 @@ export default {
   'notifications.tip7': 'സ്ഥിരമായ പരിശീലനം കാലക്രമേണ ദൃഢത നിർമ്മിക്കുന്നു.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "നമുക്ക് ഒരുമിച്ച് ഒരു ശ്വാസം എടുക്കാം",
-  'onboarding.demoSub': "വൃത്തം പിന്തുടരുക — മൂക്കിലൂടെ ശ്വസിക്കുക, പതുക്കെ പുറത്തേക്ക് വിടുക.",
-  'onboarding.demoDone': "നിങ്ങൾക്ക് എങ്ങനെ തോന്നുന്നു എന്ന് ശ്രദ്ധിക്കൂ.",
-  'onboarding.demoReady': "തയ്യാറാകൂ…",
-  'onboarding.demoCounter': "ശ്വാസം {{n}} / {{total}}",
   'summary.habitTitle': "ഇത് ഒരു ശീലമാക്കൂ",
   'summary.habitReminderTitle': "ദിവസേനയുള്ള ഓർമ്മപ്പെടുത്തൽ",
   'summary.habitReminderSub': "ദിവസവും ശ്വസിക്കാനുള്ള ഒരു മൃദുവായ ഓർമ്മപ്പെടുത്തൽ",

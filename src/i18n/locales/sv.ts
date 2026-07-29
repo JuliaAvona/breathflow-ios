@@ -662,11 +662,6 @@ export default {
   'notifications.tip7': 'Förlängda utandningar berättar för din kropp att det är säkert att slappna av.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Låt oss ta ett andetag tillsammans",
-  'onboarding.demoSub': "Följ cirkeln — andas in genom näsan, andas långsamt ut.",
-  'onboarding.demoDone': "Lägg märke till hur du mår.",
-  'onboarding.demoReady': "Gör dig redo…",
-  'onboarding.demoCounter': "Andetag {{n}} av {{total}}",
   'summary.habitTitle': "Gör det till en vana",
   'summary.habitReminderTitle': "Daglig påminnelse",
   'summary.habitReminderSub': "En mjuk påminnelse att andas varje dag",

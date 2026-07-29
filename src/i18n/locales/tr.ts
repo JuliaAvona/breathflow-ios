@@ -662,11 +662,6 @@ export default {
   'paywall.continueFree': 'Ücretsiz sürümle devam et',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Hadi birlikte bir nefes alalım",
-  'onboarding.demoSub': "Çemberi takip edin — burundan nefes alın, yavaşça verin.",
-  'onboarding.demoDone': "Kendini nasıl hissettiğine dikkat et.",
-  'onboarding.demoReady': "Hazırlan…",
-  'onboarding.demoCounter': "Nefes {{n}}/{{total}}",
   'summary.habitTitle': "Bunu bir alışkanlık haline getir",
   'summary.habitReminderTitle': "Günlük hatırlatma",
   'summary.habitReminderSub': "Her gün nefes almak için nazik bir hatırlatma",

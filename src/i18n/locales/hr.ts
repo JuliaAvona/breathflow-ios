@@ -664,11 +664,6 @@ export default {
   'notifications.tip7': 'Produljeni izdisaji govore tijelu da je sigurno opustiti se.',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Zajedno udahnimo jednom",
-  'onboarding.demoSub': "Prati krug — udahni kroz nos, polako izdahni.",
-  'onboarding.demoDone': "Primijeti kako se osjećaš.",
-  'onboarding.demoReady': "Pripremi se…",
-  'onboarding.demoCounter': "Udah {{n}} od {{total}}",
   'summary.habitTitle': "Pretvori to u naviku",
   'summary.habitReminderTitle': "Dnevni podsjetnik",
   'summary.habitReminderSub': "Blagi podsjetnik da dišeš svaki dan",

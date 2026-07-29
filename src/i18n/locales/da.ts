@@ -662,11 +662,6 @@ export default {
   'paywall.continueFree': 'Forts\u00e6t med gratis version',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "Lad os tage et åndedrag sammen",
-  'onboarding.demoSub': "Følg cirklen — indånd gennem næsen, ånd langsomt ud.",
-  'onboarding.demoDone': "Læg mærke til, hvordan du har det.",
-  'onboarding.demoReady': "Gør dig klar…",
-  'onboarding.demoCounter': "Åndedrag {{n}} af {{total}}",
   'summary.habitTitle': "Gør det til en vane",
   'summary.habitReminderTitle': "Daglig påmindelse",
   'summary.habitReminderSub': "Et lille skub til at trække vejret hver dag",

@@ -662,11 +662,6 @@ export default {
   'paywall.continueFree': '繼續使用免費版',
 
   // Onboarding demo / summary habit prompts / dev settings (backfill)
-  'onboarding.demoTitle': "讓我們一起做一次呼吸",
-  'onboarding.demoSub': "跟隨圓圈——用鼻子吸氣，緩緩吐氣。",
-  'onboarding.demoDone': "留意一下你現在的感覺。",
-  'onboarding.demoReady': "準備好…",
-  'onboarding.demoCounter': "第 {{n}} / {{total}} 次呼吸",
   'summary.habitTitle': "讓它成為一種習慣",
   'summary.habitReminderTitle': "每日提醒",
   'summary.habitReminderSub': "每天溫柔地提醒你呼吸",
