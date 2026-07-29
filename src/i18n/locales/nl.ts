@@ -354,7 +354,6 @@ export default {
   'paywall.feature1': 'Alle 10 ademhalingstechnieken',
   'paywall.feature2': 'Alle muzieknummers',
   'paywall.feature3': 'Alle badges ontgrendelen',
-  'paywall.feature4': 'Volledige geschiedenis & statistieken',
   'paywall.featureAppleHealth': 'Apple Health-synchronisatie',
   'paywall.feature5': 'Stemmingstracking',
   'paywall.feature6': 'Alle badges',

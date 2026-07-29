@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': '10 nefes tekniğinin tamamı',
   'paywall.feature2': 'Tüm müzik parçaları',
   'paywall.feature3': 'Tüm rozetleri aç',
-  'paywall.feature4': 'Tam geçmiş ve istatistikler',
   'paywall.featureAppleHealth': 'Apple Health Senkronizasyonu',
   'paywall.feature5': 'Ruh hali takibi',
   'paywall.feature6': 'Tüm rozetler',

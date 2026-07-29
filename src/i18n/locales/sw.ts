@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'Mbinu zote 10 za kupumua',
   'paywall.feature2': 'Nyimbo zote za muziki',
   'paywall.feature3': 'Fungua beji zote',
-  'paywall.feature4': 'Historia kamili na takwimu',
   'paywall.featureAppleHealth': 'Usawazishaji wa Apple Health',
   'paywall.feature5': 'Ufuatiliaji wa hisia',
   'paywall.feature6': 'Beji zote',

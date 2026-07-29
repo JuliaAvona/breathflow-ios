@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': '全10種類の呼吸テクニック',
   'paywall.feature2': 'すべての音楽トラック',
   'paywall.feature3': 'すべてのバッジをアンロック',
-  'paywall.feature4': '完全な履歴と統計',
   'paywall.featureAppleHealth': 'Apple ヘルスケア連携',
   'paywall.feature5': '気分トラッキング',
   'paywall.feature6': 'すべてのバッジ',

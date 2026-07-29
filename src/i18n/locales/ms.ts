@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'Semua 10 Teknik Pernafasan',
   'paywall.feature2': 'Semua Trek Muzik',
   'paywall.feature3': 'Buka Kunci Semua Lencana',
-  'paywall.feature4': 'Sejarah Penuh & Statistik',
   'paywall.featureAppleHealth': 'Penyegerakan Apple Health',
   'paywall.feature5': 'Penjejakan mood',
   'paywall.feature6': 'Semua lencana',

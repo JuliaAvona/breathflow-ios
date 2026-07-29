@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'כל 10 טכניקות הנשימה',
   'paywall.feature2': 'כל רצועות המוזיקה',
   'paywall.feature3': 'פתח את כל התגים',
-  'paywall.feature4': 'היסטוריה מלאה וסטטיסטיקות',
   'paywall.featureAppleHealth': 'סנכרון עם Apple Health',
   'paywall.feature5': 'מעקב מצב רוח',
   'paywall.feature6': 'כל התגים',

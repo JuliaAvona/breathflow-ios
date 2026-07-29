@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': '\u5168\u90e8 10 \u7a2e\u547c\u5438\u6280\u5de7',
   'paywall.feature2': '所有音樂曲目',
   'paywall.feature3': '解鎖所有徽章',
-  'paywall.feature4': '完整歷史記錄和統計',
   'paywall.featureAppleHealth': 'Apple 健康同步',
   'paywall.feature5': '\u60c5\u7dd2\u8ffd\u8e64',
   'paywall.feature6': '\u6240\u6709\u5fbd\u7ae0',

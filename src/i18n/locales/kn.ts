@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'ಎಲ್ಲಾ 10 ಉಸಿರಾಟ ತಂತ್ರಗಳು',
   'paywall.feature2': 'ಎಲ್ಲಾ ಸಂಗೀತ ಟ್ರ್ಯಾಕ್‌ಗಳು',
   'paywall.feature3': 'ಎಲ್ಲಾ ಬ್ಯಾಡ್ಜ್‌ಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ',
-  'paywall.feature4': 'ಸಂಪೂರ್ಣ ಇತಿಹಾಸ ಮತ್ತು ಅಂಕಿಅಂಶಗಳು',
   'paywall.featureAppleHealth': 'Apple Health ಸಿಂಕ್',
   'paywall.feature5': 'ಮೂಡ್ ಟ್ರ್ಯಾಕಿಂಗ್',
   'paywall.feature6': 'ಎಲ್ಲ ಬ್ಯಾಡ್ಜ್‌ಗಳು',

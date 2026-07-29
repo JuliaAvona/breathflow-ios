@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'എല്ലാ 10 ശ്വസന സാങ്കേതിക വിദ്യകളും',
   'paywall.feature2': 'എല്ലാ മ്യൂസിക് ട്രാക്കുകളും',
   'paywall.feature3': 'എല്ലാ ബാഡ്ജുകളും അൺലോക്ക് ചെയ്യുക',
-  'paywall.feature4': 'പൂർണ്ണ ചരിത്രവും സ്ഥിതിവിവരക്കണക്കുകളും',
   'paywall.featureAppleHealth': 'Apple Health സമന്വയം',
   'paywall.feature5': 'മൂഡ് ട്രാക്കിംഗ്',
   'paywall.feature6': 'എല്ലാ ബാഡ്ജുകളും',

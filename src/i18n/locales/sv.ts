@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'Alla 10 andningstekniker',
   'paywall.feature2': 'Alla musikspår',
   'paywall.feature3': 'Lås upp alla märken',
-  'paywall.feature4': 'Fullständig historik och statistik',
   'paywall.featureAppleHealth': 'Apple Health-synkronisering',
   'paywall.feature5': 'Humörspårning',
   'paywall.feature6': 'Alla märken',

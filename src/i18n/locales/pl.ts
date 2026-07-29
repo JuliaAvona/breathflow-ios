@@ -356,7 +356,6 @@ export default {
   'paywall.feature1': 'Wszystkie 10 technik oddechowych',
   'paywall.feature2': 'Wszystkie utwory muzyczne',
   'paywall.feature3': 'Odblokuj wszystkie odznaki',
-  'paywall.feature4': 'Pe\u0142na historia i statystyki',
   'paywall.featureAppleHealth': 'Synchronizacja z Apple Health',
   'paywall.feature5': '\u015aledzenie nastroju',
   'paywall.feature6': 'Wszystkie odznaki',

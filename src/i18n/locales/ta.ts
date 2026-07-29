@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'அனைத்து 10 சுவாச நுட்பங்களும்',
   'paywall.feature2': 'அனைத்து இசை டிராக்குகளும்',
   'paywall.feature3': 'அனைத்து பேட்ஜ்களையும் திற',
-  'paywall.feature4': 'முழு வரலாறு மற்றும் புள்ளிவிவரங்கள்',
   'paywall.featureAppleHealth': 'Apple Health ஒத்திசைவு',
   'paywall.feature5': 'மனநிலை கண்காணிப்பு',
   'paywall.feature6': 'அனைத்து பதக்கங்கள்',

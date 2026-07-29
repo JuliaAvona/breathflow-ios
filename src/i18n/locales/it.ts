@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Tutte le 10 tecniche di respirazione',
   'paywall.feature2': 'Tutte le tracce musicali',
   'paywall.feature3': 'Sblocchi tutti i badge',
-  'paywall.feature4': 'Cronologia completa e statistiche',
   'paywall.featureAppleHealth': 'Sincronizzazione con Apple Health',
   'paywall.feature5': 'Tracciamento dell\'umore',
   'paywall.feature6': 'Tutti i traguardi',

@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'همه ۱۰ تکنیک تنفسی',
   'paywall.feature2': 'همه آهنگ‌ها',
   'paywall.feature3': 'باز کردن همه نشان‌ها',
-  'paywall.feature4': 'تاریخچه و آمار کامل',
   'paywall.featureAppleHealth': 'همگام‌سازی با Apple Health',
   'paywall.feature5': 'ردیابی خلق‌وخو',
   'paywall.feature6': 'همه نشان‌ها',

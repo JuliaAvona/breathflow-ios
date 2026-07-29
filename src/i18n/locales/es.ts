@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Las 10 t\u00e9cnicas de respiraci\u00f3n',
   'paywall.feature2': 'Todas las pistas de música',
   'paywall.feature3': 'Desbloquear todas las insignias',
-  'paywall.feature4': 'Historial completo y estadísticas',
   'paywall.featureAppleHealth': 'Sincronización con Apple Health',
   'paywall.feature5': 'Seguimiento del estado de \u00e1nimo',
   'paywall.feature6': 'Todas las insignias',

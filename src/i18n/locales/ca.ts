@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'Les 10 tècniques de respiració',
   'paywall.feature2': 'Totes les pistes de música',
   'paywall.feature3': 'Desbloqueja totes les insígnies',
-  'paywall.feature4': 'Historial complet i estadístiques',
   'paywall.featureAppleHealth': 'Sincronització amb Apple Health',
   'paywall.feature5': 'Seguiment de l\'estat d\'ànim',
   'paywall.feature6': 'Totes les insígnies',

@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Alle 10 vejrtr\u00e6kningsteknikker',
   'paywall.feature2': 'Alle musiknumre',
   'paywall.feature3': 'L\u00e5s alle badges op',
-  'paywall.feature4': 'Fuld historik og statistik',
   'paywall.featureAppleHealth': 'Apple Health-synkronisering',
   'paywall.feature5': 'Hum\u00f8rsporing',
   'paywall.feature6': 'Alle badges',

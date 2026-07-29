@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'Alle 10 pusteteknikker',
   'paywall.feature2': 'Alle musikkspor',
   'paywall.feature3': 'Lås opp alle merker',
-  'paywall.feature4': 'Full historikk og statistikk',
   'paywall.featureAppleHealth': 'Apple Health-synkronisering',
   'paywall.feature5': 'Hum\u00f8rsporing',
   'paywall.feature6': 'Alle merker',

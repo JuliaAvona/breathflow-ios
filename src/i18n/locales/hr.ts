@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Svih 10 tehnika disanja',
   'paywall.feature2': 'Sve glazbene zapise',
   'paywall.feature3': 'Otkljucaj sve znacke',
-  'paywall.feature4': 'Potpuna povijest i statistika',
   'paywall.featureAppleHealth': 'Sinkronizacija s Apple Health',
   'paywall.feature5': 'Pracenje raspolozenja',
   'paywall.feature6': 'Sve znacke',

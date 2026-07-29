@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Visos 10 kvepavimo techniku',
   'paywall.feature2': 'Visi muzikos irašai',
   'paywall.feature3': 'Atrakinti visus zenklelius',
-  'paywall.feature4': 'Visa istorija ir statistika',
   'paywall.featureAppleHealth': 'Apple Health sinchronizavimas',
   'paywall.feature5': 'Nuotaikos stebejimas',
   'paywall.feature6': 'Visi zenkleliai',

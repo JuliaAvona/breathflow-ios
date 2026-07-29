@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'T\u1EA5t c\u1EA3 10 k\u1EF9 thu\u1EADt th\u1EDF',
   'paywall.feature2': 'T\u1EA5t c\u1EA3 b\u1EA3n nh\u1EA1c',
   'paywall.feature3': 'M\u1EDF kh\u00F3a t\u1EA5t c\u1EA3 huy hi\u1EC7u',
-  'paywall.feature4': 'L\u1ECBch s\u1EED \u0111\u1EA7y \u0111\u1EE7 v\u00E0 th\u1ED1ng k\u00EA',
   'paywall.featureAppleHealth': 'Đồng bộ Apple Health',
   'paywall.feature5': 'Theo d\u00F5i t\u00E2m tr\u1EA1ng',
   'paywall.feature6': 'T\u1EA5t c\u1EA3 huy hi\u1EC7u',

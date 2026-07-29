@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Alle 10 Atemtechniken',
   'paywall.feature2': 'Alle Musiktitel',
   'paywall.feature3': 'Alle Abzeichen freischalten',
-  'paywall.feature4': 'Vollständiger Verlauf & Statistiken',
   'paywall.featureAppleHealth': 'Apple Health Synchronisierung',
   'paywall.feature5': 'Stimmungserfassung',
   'paywall.feature6': 'Alle Abzeichen',

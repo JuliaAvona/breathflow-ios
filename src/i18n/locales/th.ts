@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'เทคนิคการหายใจทั้ง 10 แบบ',
   'paywall.feature2': 'เพลงทั้งหมด',
   'paywall.feature3': 'ปลดล็อกตราทั้งหมด',
-  'paywall.feature4': 'ประวัติและสถิติทั้งหมด',
   'paywall.featureAppleHealth': 'การซิงค์ Apple Health',
   'paywall.feature5': 'ติดตามอารมณ์',
   'paywall.feature6': 'ตราทั้งหมด',

@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'ሁሉም 10 የመተንፈስ ቴክኒኮች',
   'paywall.feature2': 'ሁሉም የሙዚቃ ትራኮች',
   'paywall.feature3': 'ሁሉንም ባጆች ክፈት',
-  'paywall.feature4': 'ሙሉ ታሪክ እና ስታቲስቲክስ',
   'paywall.featureAppleHealth': 'የApple Health ማመሳሰል',
   'paywall.feature5': 'ስሜት ክትትል',
   'paywall.feature6': 'ሁሉም ሜዳሊያዎች',

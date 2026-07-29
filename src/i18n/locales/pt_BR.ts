@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Todas as 10 técnicas de respiração',
   'paywall.feature2': 'Todas as faixas de música',
   'paywall.feature3': 'Desbloquear todos os selos',
-  'paywall.feature4': 'Histórico completo e estatísticas',
   'paywall.featureAppleHealth': 'Sincronização com Apple Health',
   'paywall.feature5': 'Rastreamento de humor',
   'paywall.feature6': 'Todas as conquistas',

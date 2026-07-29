@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'Lahat ng 10 Breathing Techniques',
   'paywall.feature2': 'Lahat ng Music Tracks',
   'paywall.feature3': 'I-unlock Lahat ng Badges',
-  'paywall.feature4': 'Buong History at Stats',
   'paywall.featureAppleHealth': 'Pag-sync sa Apple Health',
   'paywall.feature5': 'Pagsubaybay ng mood',
   'paywall.feature6': 'Lahat ng badges',

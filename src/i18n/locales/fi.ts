@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'Kaikki 10 hengitystekniikkaa',
   'paywall.feature2': 'Kaikki musiikkikappaleet',
   'paywall.feature3': 'Avaa kaikki merkit',
-  'paywall.feature4': 'T\u00e4ysi historia ja tilastot',
   'paywall.featureAppleHealth': 'Apple Health -synkronointi',
   'paywall.feature5': 'Mielialanseuranta',
   'paywall.feature6': 'Kaikki merkit',

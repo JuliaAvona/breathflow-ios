@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'అన్ని 10 శ్వాస సాంకేతికతలు',
   'paywall.feature2': 'అన్ని మ్యూజిక్ ట్రాక్‌లు',
   'paywall.feature3': 'అన్ని బ్యాడ్జ్‌లను అన్‌లాక్ చేయండి',
-  'paywall.feature4': 'పూర్తి చరిత్ర మరియు గణాంకాలు',
   'paywall.featureAppleHealth': 'Apple Health సింక్',
   'paywall.feature5': 'మూడ్ ట్రాకింగ్',
   'paywall.feature6': 'అన్ని బ్యాడ్జ్‌లు',

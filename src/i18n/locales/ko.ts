@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': '10\uAC00\uC9C0 \uD638\uD761 \uAE30\uBC95 \uC804\uCCB4',
   'paywall.feature2': '모든 음악 트랙',
   'paywall.feature3': '모든 배지 잠금 해제',
-  'paywall.feature4': '전체 기록 및 통계',
   'paywall.featureAppleHealth': 'Apple Health 동기화',
   'paywall.feature5': '\uAE30\uBD84 \uCD94\uC801',
   'paywall.feature6': '\uBAA8\uB4E0 \uBC30\uC9C0',

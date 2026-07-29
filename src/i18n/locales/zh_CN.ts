@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': '全部10种呼吸技巧',
   'paywall.feature2': '所有音乐曲目',
   'paywall.feature3': '解锁所有徽章',
-  'paywall.feature4': '完整历史记录和统计',
   'paywall.featureAppleHealth': 'Apple 健康同步',
   'paywall.feature5': '情绪追踪',
   'paywall.feature6': '全部成就',

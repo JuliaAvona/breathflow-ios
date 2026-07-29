@@ -390,7 +390,6 @@ export default {
   'paywall.feature1': 'V\u0161ech 10 dechov\u00fdch technik',
   'paywall.feature2': 'Všechny hudební stopy',
   'paywall.feature3': 'Odemknout všechny odznaky',
-  'paywall.feature4': 'Úplná historie a statistiky',
   'paywall.featureAppleHealth': 'Synchronizace Apple Health',
   'paywall.feature5': 'Sledov\u00e1n\u00ed n\u00e1lady',
   'paywall.feature6': 'V\u0161echny odznaky',

@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'Mind a 10 légzéstechnika',
   'paywall.feature2': 'Minden zeneszám',
   'paywall.feature3': 'Minden jelvény feloldása',
-  'paywall.feature4': 'Teljes előzmények és statisztikák',
   'paywall.featureAppleHealth': 'Apple Health szinkronizálás',
   'paywall.feature5': 'Hangulat nyomon követése',
   'paywall.feature6': 'Minden jelvény',

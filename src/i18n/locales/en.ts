@@ -499,7 +499,6 @@ export default {
   'paywall.feature1': 'All 10 Breathing Techniques',
   'paywall.feature2': 'All Music Tracks',
   'paywall.feature3': 'Unlock All Badges',
-  'paywall.feature4': 'Full History & Stats',
   'paywall.featureAppleHealth': 'Apple Health Sync',
   'paywall.feature5': 'Mood tracking',
   'paywall.feature6': 'All badges',

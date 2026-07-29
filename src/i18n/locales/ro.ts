@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Toate cele 10 tehnici de respiratie',
   'paywall.feature2': 'Toate piesele muzicale',
   'paywall.feature3': 'Deblocheaza toate insignele',
-  'paywall.feature4': 'Istoric complet si statistici',
   'paywall.featureAppleHealth': 'Sincronizare Apple Health',
   'paywall.feature5': 'Monitorizare dispozitie',
   'paywall.feature6': 'Toate insignele',

@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'બધી 10 શ્વાસ તકનીકો',
   'paywall.feature2': 'બધા મ્યુઝિક ટ્રેક્સ',
   'paywall.feature3': 'બધા બેજ અનલૉક કરો',
-  'paywall.feature4': 'સંપૂર્ણ ઇતિહાસ અને આંકડા',
   'paywall.featureAppleHealth': 'Apple Health સિંક',
   'paywall.feature5': 'મૂડ ટ્રેકિંગ',
   'paywall.feature6': 'બધા બેજ',

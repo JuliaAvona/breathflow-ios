@@ -386,7 +386,6 @@ export default {
   'paywall.feature1': 'K\u00f5ik 10 hingamistehnikat',
   'paywall.feature2': 'K\u00f5ik muusikapalad',
   'paywall.feature3': 'Ava k\u00f5ik m\u00e4rgised',
-  'paywall.feature4': 'T\u00e4ielik ajalugu ja statistika',
   'paywall.featureAppleHealth': 'Apple Healthi sünkroonimine',
   'paywall.feature5': 'Meeleolu j\u00e4lgimine',
   'paywall.feature6': 'K\u00f5ik m\u00e4rgised',

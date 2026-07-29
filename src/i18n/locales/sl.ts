@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Vseh 10 dihalnih tehnik',
   'paywall.feature2': 'Vse glasbene posnetke',
   'paywall.feature3': 'Odkleni vse znacke',
-  'paywall.feature4': 'Popolna zgodovina in statistika',
   'paywall.featureAppleHealth': 'Sinhronizacija z Apple Health',
   'paywall.feature5': 'Sledenje razpolozenju',
   'paywall.feature6': 'Vse znacke',

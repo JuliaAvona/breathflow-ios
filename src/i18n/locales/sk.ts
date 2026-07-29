@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Vsetkych 10 dychacich technik',
   'paywall.feature2': 'Vsetky hudobne stopy',
   'paywall.feature3': 'Odomknut vsetky odznaky',
-  'paywall.feature4': 'Uplna historia a statistiky',
   'paywall.featureAppleHealth': 'Synchronizácia s Apple Health',
   'paywall.feature5': 'Sledovanie nalady',
   'paywall.feature6': 'Vsetky odznaky',

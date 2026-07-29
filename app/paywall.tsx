@@ -16,7 +16,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useThemeColors } from '../src/hooks/useColorScheme';
-import { SPACING, FONT_SIZE, FONTS } from '../src/constants';
+import { SPACING, FONT_SIZE, FONTS, BORDER_RADIUS } from '../src/constants';
 import { useSettingsStore } from '../src/store';
 import {
   getOfferings,
@@ -37,7 +37,6 @@ const FEATURES = [
   { icon: 'flash' as const, color: '#FF6B6B', bg: 'rgba(255,107,107,0.15)', labelKey: 'paywall.feature1' },
   { icon: 'musical-notes' as const, color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', labelKey: 'paywall.feature2' },
   { icon: 'trophy' as const, color: '#F5A623', bg: 'rgba(245,166,35,0.15)', labelKey: 'paywall.feature3' },
-  { icon: 'stats-chart' as const, color: '#34D399', bg: 'rgba(52,211,153,0.15)', labelKey: 'paywall.feature4' },
   { icon: 'heart' as const, color: '#FF6B9D', bg: 'rgba(255,107,157,0.15)', labelKey: 'paywall.featureAppleHealth' },
 ];
 
@@ -176,12 +175,14 @@ export default function PaywallScreen() {
         locations={[0, 0.4, 0.7]}
         style={StyleSheet.absoluteFill}
       />
-      <ScrollView
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + 24 }]}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Close button */}
-        <View style={[styles.headerRow, { paddingTop: insets.top + 8 }]}>
+      {/* Header stays pinned above the scroll (not part of scrollContent),
+          same as japanese-walking-ios's paywall. */}
+      {/* This screen is presented as an iOS card modal (see app/_layout.tsx),
+          which already has its own rounded top + status-bar handling — using
+          the full-screen insets.top here (meant for non-modal screens) double
+          counts that space, so a small fixed padding is used instead. */}
+      <View style={{ flex: 1, paddingTop: SPACING.md }}>
+        <View style={styles.headerRow}>
           <TouchableOpacity
             onPress={handleClose}
             activeOpacity={0.7}
@@ -196,6 +197,10 @@ export default function PaywallScreen() {
           </TouchableOpacity>
         </View>
 
+        <ScrollView
+          contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + SPACING.xl }]}
+          showsVerticalScrollIndicator={false}
+        >
         {/* Title */}
         <View style={styles.titleArea}>
           <Text style={styles.title}>BreathFlow</Text>
@@ -215,7 +220,7 @@ export default function PaywallScreen() {
           {FEATURES.map((f, i) => (
             <View key={i} style={styles.featureRow}>
               <View style={[styles.featureIcon, { backgroundColor: f.bg }]}>
-                <Ionicons name={f.icon} size={20} color={f.color} />
+                <Ionicons name={f.icon} size={18} color={f.color} />
               </View>
               <Text style={styles.featureText}>
                 {t(f.labelKey)}
@@ -251,41 +256,43 @@ export default function PaywallScreen() {
           </TouchableOpacity>
 
           {/* Annual — featured: permanently accented border (not just on
-              selection) + a "SAVE X%" ribbon, so it reads as the recommended
-              plan even if the user taps over to Weekly/Lifetime first. */}
-          <View style={styles.annualCardWrap}>
-            <View style={styles.saveBadge}>
-              <Text style={styles.saveBadgeText}>
-                {t('paywall.saveBadge', { percent: annualSavingsPercent })}
+              selection) + an inline "SAVE X%" tag next to its title, so it
+              reads as the recommended plan even if the user taps over to
+              Weekly/Lifetime first. Kept inline (not a floating ribbon) so
+              it never overlaps the card border or the price column. */}
+          <TouchableOpacity
+            style={[
+              styles.planCard,
+              styles.planCardFeatured,
+              selectedPlan === 'annual' && styles.planCardSelected,
+            ]}
+            onPress={() => setSelectedPlan('annual')}
+            activeOpacity={0.8}
+          >
+            <View style={styles.planLeft}>
+              <View style={[styles.planRadio, selectedPlan === 'annual' && styles.planRadioSelected]}>
+                {selectedPlan === 'annual' && <View style={styles.planRadioDot} />}
+              </View>
+              <View>
+                <View style={styles.planTitleRow}>
+                  <Text style={styles.planTitle}>ANNUAL</Text>
+                  <View style={styles.saveBadge}>
+                    <Text style={styles.saveBadgeText}>
+                      {t('paywall.saveBadge', { percent: annualSavingsPercent })}
+                    </Text>
+                  </View>
+                </View>
+                <Text style={styles.planSub}>{t('paywall.annualTrial', { defaultValue: '7-day free trial' })}</Text>
+              </View>
+            </View>
+            <View style={styles.planRight}>
+              <Text style={styles.planPriceLabel}>{t('paywall.then', { defaultValue: 'then' })} {annualPrice}</Text>
+              <Text style={styles.planPeriod}>{t('paywall.perYear', { defaultValue: 'per year' })}</Text>
+              <Text style={styles.planPerWeek}>
+                {t('paywall.perWeekApprox', { price: annualWeeklyEquivalent })}
               </Text>
             </View>
-            <TouchableOpacity
-              style={[
-                styles.planCard,
-                styles.planCardFeatured,
-                selectedPlan === 'annual' && styles.planCardSelected,
-              ]}
-              onPress={() => setSelectedPlan('annual')}
-              activeOpacity={0.8}
-            >
-              <View style={styles.planLeft}>
-                <View style={[styles.planRadio, selectedPlan === 'annual' && styles.planRadioSelected]}>
-                  {selectedPlan === 'annual' && <View style={styles.planRadioDot} />}
-                </View>
-                <View>
-                  <Text style={styles.planTitle}>ANNUAL</Text>
-                  <Text style={styles.planSub}>{t('paywall.annualTrial', { defaultValue: '7-day free trial' })}</Text>
-                </View>
-              </View>
-              <View style={styles.planRight}>
-                <Text style={styles.planPriceLabel}>{t('paywall.then', { defaultValue: 'then' })} {annualPrice}</Text>
-                <Text style={styles.planPeriod}>{t('paywall.perYear', { defaultValue: 'per year' })}</Text>
-                <Text style={styles.planPerWeek}>
-                  {t('paywall.perWeekApprox', { price: annualWeeklyEquivalent })}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
 
           {/* Lifetime */}
           <TouchableOpacity
@@ -367,7 +374,8 @@ export default function PaywallScreen() {
             <Text style={styles.devPreviewBtnText}>DEV: Preview Success Modal</Text>
           </TouchableOpacity>
         )}
-      </ScrollView>
+        </ScrollView>
+      </View>
 
       {/* Purchase success — the moment that actually tells them they're Pro now */}
       <Modal visible={showWelcome} transparent animationType="fade" statusBarTranslucent>
@@ -425,14 +433,13 @@ export default function PaywallScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  scrollContent: { flexGrow: 1 },
-
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
-    marginBottom: SPACING.lg,
+    paddingTop: SPACING.sm,
+    paddingBottom: SPACING.xs,
   },
   headerBtn: {
     width: 36,
@@ -448,15 +455,20 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 
+  scrollContent: {
+    paddingBottom: SPACING.xl,
+  },
+
   titleArea: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: SPACING.xl,
     gap: 8,
+    marginTop: SPACING.lg,
+    marginBottom: SPACING.xl,
   },
   title: {
-    fontSize: 36,
+    fontSize: FONT_SIZE.xxl,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: -0.5,
@@ -480,22 +492,22 @@ const styles = StyleSheet.create({
   featureList: {
     paddingHorizontal: SPACING.xl,
     marginBottom: SPACING.xl,
-    gap: 16,
   },
   featureRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
+    gap: SPACING.sm + 4,
+    marginBottom: SPACING.sm + 2,
   },
   featureIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: 12,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
   featureText: {
-    fontSize: 20,
+    fontSize: FONT_SIZE.lg,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     flex: 1,
@@ -504,7 +516,7 @@ const styles = StyleSheet.create({
   // Plans
   plansArea: {
     paddingHorizontal: SPACING.lg,
-    gap: 10,
+    gap: SPACING.sm,
     marginBottom: SPACING.lg,
   },
   planCard: {
@@ -512,9 +524,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(255,255,255,0.06)',
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    borderRadius: BORDER_RADIUS.md,
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.sm + 4,
     borderWidth: 1.5,
     borderColor: 'rgba(255,255,255,0.1)',
     position: 'relative',
@@ -522,27 +534,23 @@ const styles = StyleSheet.create({
   },
   planCardSelected: {
     borderColor: '#4A90D9',
-    backgroundColor: 'rgba(155,89,182,0.1)',
+    backgroundColor: 'rgba(74,144,217,0.1)',
   },
   // Annual stays visually "featured" (warm accent border) even when the user
   // taps over to another plan — the selected-state blue border above still
   // takes precedence when it IS selected, since style arrays merge in order.
-  annualCardWrap: {
-    position: 'relative',
-    marginTop: 14,
-  },
   planCardFeatured: {
     borderColor: 'rgba(245,166,35,0.6)',
   },
   planLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
   },
   planRadio: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
     borderWidth: 2,
     borderColor: 'rgba(255,255,255,0.3)',
     alignItems: 'center',
@@ -552,19 +560,25 @@ const styles = StyleSheet.create({
     borderColor: '#4A90D9',
   },
   planRadioDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
     backgroundColor: '#4A90D9',
   },
+  planTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: SPACING.xs,
+  },
   planTitle: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: 0.5,
   },
   planSub: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.xs,
     fontFamily: FONTS.semibold,
     color: 'rgba(255,255,255,0.85)',
     marginTop: 2,
@@ -573,60 +587,53 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   planPriceLabel: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.sm,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
   },
   planPeriod: {
-    fontSize: 13,
+    fontSize: FONT_SIZE.xs,
     fontFamily: FONTS.bold,
     color: 'rgba(255,255,255,0.85)',
     marginTop: 1,
   },
   planPriceOnce: {
-    fontSize: 18,
+    fontSize: FONT_SIZE.md,
     fontFamily: FONTS.heavy,
     color: '#4A90D9',
   },
   planPerWeek: {
-    fontSize: 12,
+    fontSize: FONT_SIZE.xs,
     fontFamily: FONTS.semibold,
     color: 'rgba(255,255,255,0.55)',
     marginTop: 2,
   },
+  // Inline tag next to the "ANNUAL" title — sits in normal flow so it can
+  // never overlap the card border or the price column on the right.
   saveBadge: {
-    position: 'absolute',
-    top: -12,
-    alignSelf: 'center',
     backgroundColor: '#F5A623',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
-    zIndex: 2,
-    shadowColor: '#F5A623',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 6,
-    elevation: 3,
+    paddingHorizontal: SPACING.xs + 2,
+    paddingVertical: 2,
+    borderRadius: BORDER_RADIUS.sm,
   },
   saveBadgeText: {
-    fontSize: 12,
+    fontSize: 10,
     fontFamily: FONTS.heavy,
     color: '#1A1200',
-    letterSpacing: 0.5,
+    letterSpacing: 0.3,
   },
 
   // CTA
   ctaButton: {
     marginHorizontal: SPACING.lg,
     backgroundColor: '#4A90D9',
-    borderRadius: 14,
-    paddingVertical: 18,
+    borderRadius: BORDER_RADIUS.xl,
+    paddingVertical: SPACING.md + 2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    marginBottom: SPACING.md,
+    marginBottom: SPACING.sm,
     shadowColor: '#4A90D9',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.35,
@@ -634,13 +641,13 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   ctaText: {
-    fontSize: 22,
+    fontSize: FONT_SIZE.lg,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: 0.5,
   },
   cancelAnytime: {
-    fontSize: FONT_SIZE.xs,
+    fontSize: FONT_SIZE.sm,
     fontFamily: FONTS.medium,
     color: 'rgba(255,255,255,0.55)',
     textAlign: 'center',
@@ -649,13 +656,13 @@ const styles = StyleSheet.create({
 
   // Subscription disclaimer
   subscriptionDisclaimer: {
-    fontSize: 11,
+    fontSize: FONT_SIZE.xs,
     fontFamily: FONTS.medium,
     color: 'rgba(255,255,255,0.5)',
     textAlign: 'center',
     marginHorizontal: SPACING.xl,
     marginBottom: SPACING.md,
-    lineHeight: 15,
+    lineHeight: 16,
   },
 
   // Legal
@@ -663,7 +670,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: SPACING.sm,
+    marginBottom: SPACING.md,
   },
   legalText: {
     fontSize: FONT_SIZE.xs,

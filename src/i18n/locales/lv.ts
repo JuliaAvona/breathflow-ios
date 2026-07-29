@@ -388,7 +388,6 @@ export default {
   'paywall.feature1': 'Visas 10 elposanas tehnikas',
   'paywall.feature2': 'Visi muzikas ieraksti',
   'paywall.feature3': 'Atbloket visas nozimites',
-  'paywall.feature4': 'Pilna vesture un statistika',
   'paywall.featureAppleHealth': 'Apple Health sinhronizācija',
   'paywall.feature5': 'Garastаvokla izsekosana',
   'paywall.feature6': 'Visas nozimites',

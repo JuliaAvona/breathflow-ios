@@ -390,7 +390,6 @@ export default {
   'paywall.feature1': 'Усі 10 технік дихання',
   'paywall.feature2': 'Усі музичні треки',
   'paywall.feature3': 'Розблокувати всі значки',
-  'paywall.feature4': 'Повна історія та статистика',
   'paywall.featureAppleHealth': 'Синхронізація з Apple Health',
   'paywall.feature5': 'Відстеження настрою',
   'paywall.feature6': 'Усі значки',
