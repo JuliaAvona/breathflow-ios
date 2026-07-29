@@ -749,33 +749,6 @@ export default function HomeScreen() {
             <Text style={styles.tapHint}>{t('home.tapToBreathe', { defaultValue: 'Tap to breathe' })}</Text>
           )}
 
-          {/* All-time stats (hidden for newcomers) */}
-          {stats.totalSessions > 0 && (
-            <View style={styles.todayCard}>
-              <View style={styles.todayStat}>
-                <Ionicons name="leaf-outline" size={16} color="#7BC4A8" />
-                <Text style={styles.todayValue}>{stats.totalSessions}</Text>
-                <Text style={styles.todayLabel}>{t('home.totalSessions', { defaultValue: 'sessions' })}</Text>
-              </View>
-              <View style={styles.todayDivider} />
-              <View style={styles.todayStat}>
-                <Ionicons name="time-outline" size={16} color="#4A90D9" />
-                <Text style={styles.todayValue}>{stats.totalMinutes}</Text>
-                <Text style={styles.todayLabel}>{t('home.totalMin', { defaultValue: 'min' })}</Text>
-              </View>
-              {stats.currentStreak > 0 && (
-                <>
-                  <View style={styles.todayDivider} />
-                  <View style={styles.todayStat}>
-                    <Ionicons name="flame-outline" size={16} color="#F5A623" />
-                    <Text style={styles.todayValue}>{stats.currentStreak}</Text>
-                    <Text style={styles.todayLabel}>{t('home.streak', { defaultValue: 'streak' })}</Text>
-                  </View>
-                </>
-              )}
-            </View>
-          )}
-
           {/* No sessions today — tappable */}
           {todaySessions.length === 0 && stats.totalSessions > 0 && (
             <TouchableOpacity onPress={handleQuickStart} activeOpacity={0.7}>
@@ -905,34 +878,6 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.6)',
     textAlign: 'center',
     marginBottom: 8,
-  },
-  todayCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    borderRadius: 14,
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    marginBottom: 12,
-    gap: 16,
-  },
-  todayStat: {
-    alignItems: 'center',
-  },
-  todayValue: {
-    fontSize: 20,
-    fontFamily: FONTS.heavy,
-    color: '#FFFFFF',
-  },
-  todayLabel: {
-    fontSize: 12,
-    fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.7)',
-  },
-  todayDivider: {
-    width: 1,
-    height: 28,
-    backgroundColor: 'rgba(255,255,255,0.2)',
   },
   todayEmpty: {
     fontSize: 14,

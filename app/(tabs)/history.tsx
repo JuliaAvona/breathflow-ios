@@ -277,179 +277,59 @@ export default function HistoryScreen() {
           </View>
         ) : (
           <>
-            {/* 1. Streak / Motivation Banner */}
-            <TouchableOpacity activeOpacity={0.85} onPress={() => router.push('/(tabs)')}>
+            {/* 1. Streak / Motivation Banner — same dark-card + tinted-icon
+                language as Personal Bests/Mood below, instead of a standalone
+                saturated gradient that didn't match the rest of the screen. */}
+            <TouchableOpacity
+              activeOpacity={0.85}
+              onPress={() => router.push('/(tabs)')}
+              style={[styles.streakBanner, { backgroundColor: theme.card }]}
+            >
               {hadSessionToday ? (
-                <LinearGradient
-                  colors={['#56AB91', '#36D1A0', '#7BC4A8']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={styles.streakBanner}
-                >
-                  <View style={styles.streakBannerDecoCircle} />
-                  <View style={styles.streakBannerDecoCircle2} />
-                  <View style={styles.streakBannerLeft}>
-                    <View style={styles.streakIconCircle}>
-                      <Ionicons name="checkmark" size={22} color="#FFF" />
-                    </View>
+                <>
+                  <View style={[styles.streakIconCircle, { backgroundColor: theme.isDark ? 'rgba(123,196,168,0.15)' : 'rgba(123,196,168,0.12)' }]}>
+                    <Ionicons name="checkmark" size={22} color="#7BC4A8" />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.streakBannerTitle}>
+                    <Text style={[styles.streakBannerTitle, { color: theme.text }]}>
                       {stats.currentStreak > 1
                         ? t('progress.streakBanner', { count: stats.currentStreak })
                         : t('progress.doneToday', { defaultValue: 'Done for today!' })}
                     </Text>
-                    <Text style={styles.streakBannerSub}>
+                    <Text style={[styles.streakBannerSub, { color: theme.textSecondary }]}>
                       {stats.longestStreak > stats.currentStreak
                         ? t('progress.bestStreakWas', { count: stats.longestStreak })
                         : t('progress.streakNewRecord', { defaultValue: 'New personal record!' })}
                     </Text>
                   </View>
                   {stats.currentStreak > 0 && (
-                    <View style={styles.streakCountBubble}>
-                      <Ionicons name="flame" size={16} color="#FFF" />
-                      <Text style={styles.streakBannerCount}>{stats.currentStreak}</Text>
+                    <View style={[styles.streakCountBubble, { backgroundColor: theme.isDark ? 'rgba(245,166,35,0.15)' : 'rgba(245,166,35,0.12)' }]}>
+                      <Ionicons name="flame" size={16} color="#F5A623" />
+                      <Text style={[styles.streakBannerCount, { color: '#F5A623' }]}>{stats.currentStreak}</Text>
                     </View>
                   )}
-                </LinearGradient>
+                </>
               ) : (
-                <LinearGradient
-                  colors={['#F7971E', '#F5A623', '#E85D4A']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={styles.streakBanner}
-                >
-                  <View style={styles.streakBannerDecoCircle} />
-                  <View style={styles.streakBannerDecoCircle2} />
-                  <View style={styles.streakBannerLeft}>
-                    <View style={styles.streakIconCircle}>
-                      <Ionicons name="flame" size={22} color="#FFF" />
-                    </View>
+                <>
+                  <View style={[styles.streakIconCircle, { backgroundColor: theme.isDark ? 'rgba(245,166,35,0.15)' : 'rgba(245,166,35,0.12)' }]}>
+                    <Ionicons name="flame" size={22} color="#F5A623" />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.streakBannerTitle}>
+                    <Text style={[styles.streakBannerTitle, { color: theme.text }]}>
                       {stats.currentStreak > 0
                         ? t('progress.streakBanner', { count: stats.currentStreak })
                         : t('progress.startStreak', { defaultValue: 'Start your streak today!' })}
                     </Text>
-                    <Text style={styles.streakBannerSub}>
+                    <Text style={[styles.streakBannerSub, { color: theme.textSecondary }]}>
                       {t('progress.streakKeepGoing', { defaultValue: 'Keep your streak alive!' })}
                     </Text>
                   </View>
-                  <Ionicons name="chevron-forward" size={22} color="rgba(255,255,255,0.7)" />
-                </LinearGradient>
+                  <Ionicons name="chevron-forward" size={22} color={theme.textSecondary} />
+                </>
               )}
             </TouchableOpacity>
 
-            {/* 2. Weekly activity */}
-            {sessions.length > 0 && (
-              <View style={styles.section}>
-                <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.weeklyActivity')}</Text>
-                <View style={[styles.chartCard, { backgroundColor: theme.card }]}>
-                  <View style={styles.weekRow}>
-                    {weeklyData.map((day, idx) => {
-                      const isToday = idx === 6;
-                      const hasActivity = day.count > 0;
-                      return (
-                        <View key={idx} style={styles.weekDayCol}>
-                          <View style={styles.weekDayLetterWrap}>
-                            {isToday ? (
-                              <View style={[styles.weekDayCircle, { borderColor: theme.primary }]}>
-                                <Text style={[styles.weekDayLetter, { color: theme.primary }]}>{day.label}</Text>
-                              </View>
-                            ) : (
-                              <Text style={[styles.weekDayLetter, { color: hasActivity ? theme.text : theme.textSecondary }]}>{day.label}</Text>
-                            )}
-                          </View>
-                          <Ionicons
-                            name={hasActivity ? 'flame' : 'flame-outline'}
-                            size={18}
-                            color={hasActivity ? '#F5A623' : (theme.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)')}
-                          />
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              </View>
-            )}
-
-            {/* 3. Calendar */}
-            <Animated.View style={{ opacity: calendarOpacity }}>
-              <View style={[styles.calendarCard, { backgroundColor: theme.card }]}>
-                <CalendarHeatmap
-                  activeDays={activeDays}
-                  monthSessionCount={monthSessions}
-                  year={year}
-                  month={month}
-                  onPrevMonth={handlePrevMonth}
-                  onNextMonth={handleNextMonth}
-                  onDayPress={handleDayPress}
-                  selectedDate={selectedDate}
-                />
-              </View>
-            </Animated.View>
-
-            {/* 4. Selected day sessions */}
-            {selectedDate && (
-              <View style={styles.section}>
-                <Text style={[styles.sectionTitle, { color: theme.text }]}>
-                  {new Date(selectedDate + 'T00:00:00').toLocaleDateString(i18n.language, {
-                    month: 'short',
-                    day: 'numeric',
-                  })}
-                </Text>
-                {selectedDaySessions.length > 0 ? (
-                  selectedDaySessions.map(renderSessionCard)
-                ) : (
-                  <Text style={[styles.noSessionsOnDay, { color: theme.textSecondary }]}>
-                    {t('history.noSessionsOnDay')}
-                  </Text>
-                )}
-              </View>
-            )}
-
-            {/* 5. Technique Distribution */}
-            {techniqueDistribution.items.length > 0 && (
-              <View style={[styles.newCard, { backgroundColor: theme.card }]}>
-                <Text style={[styles.newCardTitle, { color: theme.text }]}>
-                  {t('progress.techniqueBreakdown', { defaultValue: 'Your Practice' })}
-                </Text>
-                <View style={styles.distBarContainer}>
-                  {techniqueDistribution.items.map((item, idx) => (
-                    <View
-                      key={item.id}
-                      style={[
-                        styles.distBarSegment,
-                        {
-                          backgroundColor: item.color,
-                          flex: item.count / techniqueDistribution.total,
-                          borderTopLeftRadius: idx === 0 ? 8 : 0,
-                          borderBottomLeftRadius: idx === 0 ? 8 : 0,
-                          borderTopRightRadius: idx === techniqueDistribution.items.length - 1 ? 8 : 0,
-                          borderBottomRightRadius: idx === techniqueDistribution.items.length - 1 ? 8 : 0,
-                        },
-                      ]}
-                    />
-                  ))}
-                </View>
-                <View style={styles.distLegend}>
-                  {techniqueDistribution.items.map((item) => (
-                    <View key={item.id} style={styles.distLegendItem}>
-                      <View style={[styles.distLegendDot, { backgroundColor: item.color }]} />
-                      <Text style={[styles.distLegendName, { color: theme.text }]} numberOfLines={1}>
-                        {item.name}
-                      </Text>
-                      <Text style={[styles.distLegendCount, { color: theme.textSecondary }]}>
-                        {item.count}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            )}
-
-            {/* 6. Personal Bests */}
+            {/* 2. Personal Bests */}
             {personalBests && (
               <View style={[styles.newCard, { backgroundColor: theme.card }]}>
                 <Text style={[styles.newCardTitle, { color: theme.text }]}>
@@ -496,7 +376,7 @@ export default function HistoryScreen() {
               </View>
             )}
 
-            {/* Mood distribution — one pill per emotion, filled to its share of logged moods */}
+            {/* 3. Mood distribution — one pill per emotion, filled to its share of logged moods */}
             {moodDistribution.items.length > 0 && (
               <View style={[styles.newCard, { backgroundColor: theme.card }]}>
                 <Text style={[styles.newCardTitle, { color: theme.text }]}>
@@ -531,6 +411,114 @@ export default function HistoryScreen() {
                     );
                   })}
                 </View>
+              </View>
+            )}
+
+            {/* 4. Technique Distribution */}
+            {techniqueDistribution.items.length > 0 && (
+              <View style={[styles.newCard, { backgroundColor: theme.card }]}>
+                <Text style={[styles.newCardTitle, { color: theme.text }]}>
+                  {t('progress.techniqueBreakdown', { defaultValue: 'Your Practice' })}
+                </Text>
+                <View style={styles.distBarContainer}>
+                  {techniqueDistribution.items.map((item, idx) => (
+                    <View
+                      key={item.id}
+                      style={[
+                        styles.distBarSegment,
+                        {
+                          backgroundColor: item.color,
+                          flex: item.count / techniqueDistribution.total,
+                          borderTopLeftRadius: idx === 0 ? 8 : 0,
+                          borderBottomLeftRadius: idx === 0 ? 8 : 0,
+                          borderTopRightRadius: idx === techniqueDistribution.items.length - 1 ? 8 : 0,
+                          borderBottomRightRadius: idx === techniqueDistribution.items.length - 1 ? 8 : 0,
+                        },
+                      ]}
+                    />
+                  ))}
+                </View>
+                <View style={styles.distLegend}>
+                  {techniqueDistribution.items.map((item) => (
+                    <View key={item.id} style={styles.distLegendItem}>
+                      <View style={[styles.distLegendDot, { backgroundColor: item.color }]} />
+                      <Text style={[styles.distLegendName, { color: theme.text }]} numberOfLines={1}>
+                        {item.name}
+                      </Text>
+                      <Text style={[styles.distLegendCount, { color: theme.textSecondary }]}>
+                        {item.count}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
+
+            {/* 5. Weekly activity */}
+            {sessions.length > 0 && (
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>{t('history.weeklyActivity')}</Text>
+                <View style={[styles.chartCard, { backgroundColor: theme.card }]}>
+                  <View style={styles.weekRow}>
+                    {weeklyData.map((day, idx) => {
+                      const isToday = idx === 6;
+                      const hasActivity = day.count > 0;
+                      return (
+                        <View key={idx} style={styles.weekDayCol}>
+                          <View style={styles.weekDayLetterWrap}>
+                            {isToday ? (
+                              <View style={[styles.weekDayCircle, { borderColor: theme.primary }]}>
+                                <Text style={[styles.weekDayLetter, { color: theme.primary }]}>{day.label}</Text>
+                              </View>
+                            ) : (
+                              <Text style={[styles.weekDayLetter, { color: hasActivity ? theme.text : theme.textSecondary }]}>{day.label}</Text>
+                            )}
+                          </View>
+                          <Ionicons
+                            name={hasActivity ? 'flame' : 'flame-outline'}
+                            size={18}
+                            color={hasActivity ? '#F5A623' : (theme.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)')}
+                          />
+                        </View>
+                      );
+                    })}
+                  </View>
+                </View>
+              </View>
+            )}
+
+            {/* 6. Calendar */}
+            <Animated.View style={{ opacity: calendarOpacity }}>
+              <View style={[styles.calendarCard, { backgroundColor: theme.card }]}>
+                <CalendarHeatmap
+                  activeDays={activeDays}
+                  monthSessionCount={monthSessions}
+                  year={year}
+                  month={month}
+                  onPrevMonth={handlePrevMonth}
+                  onNextMonth={handleNextMonth}
+                  onDayPress={handleDayPress}
+                  selectedDate={selectedDate}
+                />
+              </View>
+            </Animated.View>
+
+            {/* 7. Selected day sessions */}
+            {selectedDate && (
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>
+                  {new Date(selectedDate + 'T00:00:00').toLocaleDateString(i18n.language, {
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </Text>
+                {selectedDaySessions.length > 0 ? (
+                  selectedDaySessions.map(renderSessionCard)
+                ) : (
+                  <Text style={[styles.noSessionsOnDay, { color: theme.textSecondary }]}>
+                    {t('history.noSessionsOnDay')}
+                  </Text>
+                )}
               </View>
             )}
           </>
@@ -773,7 +761,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.semibold,
   },
 
-  // ── Streak Motivation Banner ──
+  // ── Streak Motivation Banner — same dark-card look as newCard below ──
   streakBanner: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -782,59 +770,30 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: SPACING.lg,
     gap: 12,
-    overflow: 'hidden',
-    shadowColor: '#E85D4A',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 12,
-    elevation: 4,
-  },
-  streakBannerEmoji: {
-    fontSize: 32,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
   },
   streakBannerTitle: {
-    fontSize: 20,
-    fontFamily: FONTS.heavy,
-    color: '#FFFFFF',
+    fontSize: 18,
+    fontFamily: FONTS.bold,
     letterSpacing: -0.3,
   },
   streakBannerSub: {
     fontSize: 14,
     fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.85)',
     marginTop: 2,
   },
   streakBannerCount: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: FONTS.heavy,
-    color: '#FFFFFF',
-  },
-  streakBannerDecoCircle: {
-    position: 'absolute',
-    top: -30,
-    right: -20,
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: 'rgba(255,255,255,0.1)',
-  },
-  streakBannerDecoCircle2: {
-    position: 'absolute',
-    bottom: -20,
-    left: -15,
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-  },
-  streakBannerLeft: {
-    marginRight: 4,
   },
   streakIconCircle: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: 'rgba(255,255,255,0.25)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -842,7 +801,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: 'rgba(255,255,255,0.2)',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
@@ -974,8 +932,8 @@ const styles = StyleSheet.create({
     minHeight: 28,
     borderRadius: 14,
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingBottom: 8,
+    justifyContent: 'flex-start',
+    paddingTop: 8,
   },
   moodPillPercent: {
     fontSize: 12,

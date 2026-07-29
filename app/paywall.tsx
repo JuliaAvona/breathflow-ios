@@ -33,11 +33,14 @@ import {
 
 type PlanType = 'weekly' | 'annual' | 'lifetime';
 
+// Ordered by how compelling each is to a customer deciding whether to
+// upgrade: core content unlock first, then things that enhance every
+// session, then a useful integration, then gamification last.
 const FEATURES = [
   { icon: 'flash' as const, color: '#FF6B6B', bg: 'rgba(255,107,107,0.15)', labelKey: 'paywall.feature1' },
   { icon: 'musical-notes' as const, color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', labelKey: 'paywall.feature2' },
-  { icon: 'trophy' as const, color: '#F5A623', bg: 'rgba(245,166,35,0.15)', labelKey: 'paywall.feature3' },
   { icon: 'heart' as const, color: '#FF6B9D', bg: 'rgba(255,107,157,0.15)', labelKey: 'paywall.featureAppleHealth' },
+  { icon: 'trophy' as const, color: '#F5A623', bg: 'rgba(245,166,35,0.15)', labelKey: 'paywall.feature3' },
 ];
 
 export default function PaywallScreen() {
