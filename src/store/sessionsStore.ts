@@ -27,6 +27,7 @@ interface SessionsStore {
   // Actions
   addSession: (session: BreathingSession) => void;
   deleteSession: (id: string) => void;
+  clearAllSessions: () => void;
   getSessions: () => BreathingSession[];
   getSessionsByDate: (date: string) => BreathingSession[];
   getSessionsByTechnique: (techniqueId: string) => BreathingSession[];
@@ -247,6 +248,19 @@ export const useSessionsStore = create<SessionsStore>((set, get) => ({
     set({ sessions: newSessions, stats: newStats });
     import('../services/syncService').then((m) =>
       m.pushSessions().catch(() => {})
+    );
+  },
+
+  clearAllSessions: () => {
+    AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([]));
+    AsyncStorage.setItem(STATS_KEY, JSON.stringify(defaultStats));
+
+    set({ sessions: [], stats: { ...defaultStats } });
+    // Sessions pull as an append-only union by id (see pullSessions), so
+    // just clearing locally isn't enough — the rows have to be deleted on
+    // the server too, or the next pull would silently bring them all back.
+    import('../services/syncService').then((m) =>
+      m.deleteAllSessions().catch(() => {})
     );
   },
 

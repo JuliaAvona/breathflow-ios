@@ -392,7 +392,10 @@ export default function HistoryScreen() {
                     const meta = MOOD_META[item.mood];
                     const pct = Math.round(item.percent * 100);
                     return (
-                      <View key={item.mood} style={styles.moodPillCol}>
+                      <View
+                        key={item.mood}
+                        style={[styles.moodPillCol, moodDistribution.items.length > 1 && { flex: 1 }]}
+                      >
                         <Image source={MOOD_EMOJI_IMAGES[item.mood]} style={styles.moodPillEmoji} resizeMode="contain" />
                         <View
                           style={[
@@ -917,7 +920,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   moodPillCol: {
-    flex: 1,
     alignItems: 'center',
   },
   moodPillEmoji: {

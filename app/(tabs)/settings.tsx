@@ -17,7 +17,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { useSettingsStore, useAuthStore, useBadgesStore } from '../../src/store';
+import { useSettingsStore, useAuthStore, useBadgesStore, useSessionsStore } from '../../src/store';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 import { requestHealthPermissions, isHealthKitAvailable } from '../../src/utils/healthKit';
 import { playPhaseTransition } from '../../src/utils/sessionAudio';
@@ -198,6 +198,25 @@ export default function SettingsScreen() {
     } finally {
       setIsSyncing(false);
     }
+  };
+
+  const handleClearStats = () => {
+    Alert.alert(
+      t('settings.clearStats', { defaultValue: 'Clear Statistics' }),
+      t('settings.clearStatsConfirm', {
+        defaultValue: "This will permanently delete all your session history and reset your stats, streaks, and personal bests. This can't be undone.",
+      }),
+      [
+        { text: t('common.cancel', { defaultValue: 'Cancel' }), style: 'cancel' },
+        {
+          text: t('settings.clearStatsConfirmCta', { defaultValue: 'Clear' }),
+          style: 'destructive',
+          onPress: () => {
+            useSessionsStore.getState().clearAllSessions();
+          },
+        },
+      ],
+    );
   };
 
   const handleHealthToggle = async (val: boolean) => {
@@ -578,7 +597,7 @@ export default function SettingsScreen() {
 
           {/* Sync data */}
           <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+            style={[styles.settingRow, { borderBottomColor: theme.border }]}
             onPress={handleSyncData}
             activeOpacity={0.7}
           >
@@ -590,6 +609,19 @@ export default function SettingsScreen() {
             ) : (
               <Ionicons name="sync-outline" size={20} color={theme.textSecondary} />
             )}
+          </TouchableOpacity>
+
+          {/* Clear Statistics — wipes session history/stats locally and on
+              the server; doesn't touch badges or settings. */}
+          <TouchableOpacity
+            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+            onPress={handleClearStats}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.settingLabel, { color: COLORS.error, fontSize: fontSize.md }]}>
+              {t('settings.clearStats', { defaultValue: 'Clear Statistics' })}
+            </Text>
+            <Ionicons name="trash-outline" size={18} color={COLORS.error} />
           </TouchableOpacity>
         </View>
 

@@ -58,6 +58,22 @@ export async function pushSessions(): Promise<void> {
   await pushStats(userId, stats);
 }
 
+/** "Clear Statistics" in Settings — deletes every session row on the server
+ * too, not just locally, since pullSessions merges remote rows in as an
+ * append-only union by id and would otherwise bring them all back. */
+export async function deleteAllSessions(): Promise<void> {
+  const userId = useAuthStore.getState().user?.id;
+  if (!userId) return;
+
+  const { error: sessionsError } = await supabase
+    .from('user_sessions')
+    .delete()
+    .eq('user_id', userId);
+  logSyncError('deleteAllSessions', sessionsError);
+
+  await pushStats(userId, useSessionsStore.getState().stats);
+}
+
 async function pushStats(userId: string, stats: UserStats): Promise<void> {
   const { error } = await supabase.from('user_stats').upsert({
     user_id: userId,
