@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'De confiança per als atletes',
   'onboarding.socialProof2': 'Avalat per Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Estableix el teu objectiu diari',
-  'onboarding.commitSub': 'Els petits hàbits diaris creen un canvi durador.',
   'onboarding.commitMinUnit': 'min / dia',
   'onboarding.commitHint_3': 'Fins i tot una sessió de 3 minuts pot ajudar a calmar el teu sistema nerviós.',
   'onboarding.commitHint_5': 'La investigació de Stanford vincula la respiració lenta amb menys estrès i millor son.',

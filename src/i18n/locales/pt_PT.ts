@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'De confianca para atletas',
   'onboarding.socialProof2': 'Stanford-backed',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Define o teu objetivo diario',
-  'onboarding.commitSub': 'Os pequenos habitos diarios criam uma mudanca duradoura.',
   'onboarding.commitMinUnit': 'min / dia',
   'onboarding.commitHint_3': 'Ate uma sessao de 3 minutos pode ajudar a acalmar o sistema nervoso.',
   'onboarding.commitHint_5': 'A investigacao de Stanford liga a respiracao lenta a menos stress e melhor sono.',

@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Sporcuların tercihi',
   'onboarding.socialProof2': 'Stanford onaylı',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Günlük hedefinizi belirleyin',
-  'onboarding.commitSub': 'Küçük günlük alışkanlıklar kalıcı değişim yaratır.',
   'onboarding.commitMinUnit': 'dak / gün',
   'onboarding.commitHint_3': '3 dakikalık bir seans bile sinir sisteminizi sakinleştirmeye yardımcı olabilir.',
   'onboarding.commitHint_5': 'Stanford araştırması yavaş nefes almayı daha az stres ve daha iyi uyku ile ilişkilendiriyor.',

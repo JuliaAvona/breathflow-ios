@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': '\u0110\u01B0\u1EE3c tin d\u00F9ng b\u1EDFi v\u1EADn \u0111\u1ED9ng vi\u00EAn',
   'onboarding.socialProof2': '\u0110\u01B0\u1EE3c Stanford h\u1ED7 tr\u1EE3',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '\u0110\u1EB7t m\u1EE5c ti\u00EAu h\u00E0ng ng\u00E0y c\u1EE7a b\u1EA1n',
-  'onboarding.commitSub': 'Nh\u1EEFng th\u00F3i quen nh\u1ECF h\u00E0ng ng\u00E0y t\u1EA1o ra s\u1EF1 thay \u0111\u1ED5i b\u1EC1n v\u1EEFng.',
   'onboarding.commitMinUnit': 'ph\u00FAt / ng\u00E0y',
   'onboarding.commitHint_3': 'Ch\u1EC9 c\u1EA7n 3 ph\u00FAt c\u0169ng c\u00F3 th\u1EC3 gi\u00FAp h\u1EC7 th\u1EA7n kinh b\u00ECnh t\u0129nh l\u1EA1i.',
   'onboarding.commitHint_5': 'Nghi\u00EAn c\u1EE9u c\u1EE7a Stanford k\u1EBFt n\u1ED1i h\u01A1i th\u1EDF ch\u1EADm v\u1EDBi \u00EDt c\u0103ng th\u1EB3ng h\u01A1n v\u00E0 ng\u1EE7 ngon h\u01A1n.',

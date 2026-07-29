@@ -311,8 +311,6 @@ export default {
   'onboarding.socialProof1': 'Выбор спортсменов',
   'onboarding.socialProof2': 'Подтверждено Стэнфордом',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Поставьте ежедневную цель',
-  'onboarding.commitSub': 'Маленькие ежедневные привычки создают устойчивые изменения.',
   'onboarding.commitMinUnit': 'мин / день',
   'onboarding.commitHint_3': 'Даже 3-минутная сессия помогает успокоить нервную систему.',
   'onboarding.commitHint_5': 'По данным Стэнфорда, медленное дыхание снижает стресс и улучшает сон.',

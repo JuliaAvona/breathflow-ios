@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Betrodd av idrottare',
   'onboarding.socialProof2': 'Stanford-bevisad',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Sätt ditt dagliga mål',
-  'onboarding.commitSub': 'Små dagliga vanor skapar varaktig förändring.',
   'onboarding.commitMinUnit': 'min / dag',
   'onboarding.commitHint_3': 'Även en 3-minuterssession kan hjälpa till att lugna ditt nervsystem.',
   'onboarding.commitHint_5': 'Stanfordforskning kopplar långsam andning till mindre stress och bättre sömn.',

@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Scelto dagli atleti',
   'onboarding.socialProof2': 'Supportato da Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Imposti il Suo obiettivo quotidiano',
-  'onboarding.commitSub': 'Le piccole abitudini quotidiane creano un cambiamento duraturo.',
   'onboarding.commitMinUnit': 'min / giorno',
   'onboarding.commitHint_3': 'Anche una sessione di 3 minuti può aiutare a calmare il sistema nervoso.',
   'onboarding.commitHint_5': 'La ricerca di Stanford collega la respirazione lenta a meno stress e un sonno migliore.',

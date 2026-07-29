@@ -307,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'De incredere pentru atleti',
   'onboarding.socialProof2': 'Sustinut de Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Seteaza-ti obiectivul zilnic',
-  'onboarding.commitSub': 'Obiceiurile mici zilnice creeaza schimbari durabile.',
   'onboarding.commitMinUnit': 'min / zi',
   'onboarding.commitHint_3': 'Chiar si o sesiune de 3 minute poate ajuta la calmarea sistemului nervos.',
   'onboarding.commitHint_5': 'Cercetarile Stanford leaga respiratia lenta de mai putin stres si somn mai bun.',

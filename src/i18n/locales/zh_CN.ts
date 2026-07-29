@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': '运动员信赖',
   'onboarding.socialProof2': '斯坦福认证',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '设定您的每日目标',
-  'onboarding.commitSub': '小小的日常习惯带来持久的改变。',
   'onboarding.commitMinUnit': '分钟 / 天',
   'onboarding.commitHint_3': '仅仅3分钟的练习就能帮助安抚您的神经系统。',
   'onboarding.commitHint_5': '斯坦福研究表明，缓慢呼吸有助于减轻压力、改善睡眠。',

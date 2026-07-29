@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Confiado por atletas',
   'onboarding.socialProof2': 'Validado por Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Defina sua meta diária',
-  'onboarding.commitSub': 'Pequenos hábitos diários criam mudanças duradouras.',
   'onboarding.commitMinUnit': 'min / dia',
   'onboarding.commitHint_3': 'Até uma sessão de 3 minutos pode ajudar a acalmar seu sistema nervoso.',
   'onboarding.commitHint_5': 'Pesquisas de Stanford conectam a respiração lenta a menos estresse e melhor sono.',

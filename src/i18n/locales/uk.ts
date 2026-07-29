@@ -307,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Довіра спортсменів',
   'onboarding.socialProof2': 'Підтверджено Стенфордом',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Встанови щоденну мету',
-  'onboarding.commitSub': 'Маленькі щоденні звички створюють стійкі зміни.',
   'onboarding.commitMinUnit': 'хв / день',
   'onboarding.commitHint_3': 'Навіть 3-хвилинна сесія допомагає заспокоїти нервову систему.',
   'onboarding.commitHint_5': 'Дослідження Стенфорда пов\'язують повільне дихання зі зниженням стресу та кращим сном.',

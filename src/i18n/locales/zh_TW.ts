@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': '運動員信賴',
   'onboarding.socialProof2': '史丹佛認證',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '設定您的每日目標',
-  'onboarding.commitSub': '小小的日常習慣帶來持久的改變。',
   'onboarding.commitMinUnit': '分鐘 / 天',
   'onboarding.commitHint_3': '僅僅3分鐘的練習就能幫助安撫您的神經系統。',
   'onboarding.commitHint_5': '史丹佛大學研究表明，緩慢呼吸可以減輕壓力並改善睡眠。',

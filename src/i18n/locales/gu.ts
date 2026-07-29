@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'ખેલાડીઓ દ્વારા વિશ્વસ્ત',
   'onboarding.socialProof2': 'Stanford-સમર્થિત',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'તમારો દૈનિક ધ્યેય નક્કી કરો',
-  'onboarding.commitSub': 'નાની દૈનિક આદતો કાયમી બદલાવ લાવે છે.',
   'onboarding.commitMinUnit': 'મિનિટ / દિવસ',
   'onboarding.commitHint_3': 'ફક્ત ૩ મિનિટ સત્ર પણ તમારા ચેતાતંત્રને શાંત કરવામાં મદદ કરી શકે છે.',
   'onboarding.commitHint_5': 'Stanford સંશોધન ધીમી શ્વાસ-ક્રિયાને ઓછા તણાવ અને સારી ઊંઘ સાથે જોડે છે.',

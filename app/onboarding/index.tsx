@@ -36,8 +36,6 @@ const GOAL_OPTIONS: GoalOption[] = [
   { category: 'energy', icon: 'flash-outline', color: '#F5A623', labelKey: 'onboarding.goalEnergyLabel', subKey: 'onboarding.goalEnergySub' },
 ];
 
-const COMMIT_OPTIONS = [3, 5, 10, 15];
-
 type PlanEntry = {
   titleKey: string;
   techniqueId: string;
@@ -76,7 +74,6 @@ export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
   const [page, setPage] = useState(0);
   const [selectedGoal, setSelectedGoal]     = useState<TechniqueCategory | undefined>(undefined);
-  const [selectedMinutes, setSelectedMinutes] = useState<number | undefined>(undefined);
   const [demoPhase, setDemoPhase] = useState<'IDLE' | 'INHALE' | 'EXHALE' | 'DONE'>('IDLE');
   const [demoCycle, setDemoCycle] = useState(1);
 
@@ -86,10 +83,6 @@ export default function OnboardingScreen() {
   // Hook animation
   const hookLabelOpacity = useRef(new Animated.Value(1)).current;
   const [hookBreathDir, setHookBreathDir] = useState<'in' | 'out'>('in');
-
-  // Commit section slide-in
-  const commitAnim = useRef(new Animated.Value(1)).current;
-  const commitOpacity = useRef(new Animated.Value(1)).current;
 
   // Building steps
   const step1Opacity = useRef(new Animated.Value(0)).current;
@@ -181,20 +174,8 @@ export default function OnboardingScreen() {
   const handleGoalSelect = useCallback((category: TechniqueCategory) => {
     setSelectedGoal(category);
     setSetting('selectedGoal', category);
-    // Auto-advance if minutes already selected
-    if (selectedMinutes != null) {
-      setTimeout(() => goNext(), 300);
-    }
-  }, [setSetting, selectedMinutes, goNext]);
-
-  const handleCommitSelect = useCallback((min: number) => {
-    setSelectedMinutes(min);
-    setSetting('dailyGoalMinutes', min);
-    // Auto-advance if goal already selected
-    if (selectedGoal != null) {
-      setTimeout(() => goNext(), 300);
-    }
-  }, [setSetting, selectedGoal, goNext]);
+    setTimeout(() => goNext(), 300);
+  }, [setSetting, goNext]);
 
   const finishOnboarding = useCallback(async () => {
     setSetting('onboardingCompleted', true);
@@ -205,7 +186,7 @@ export default function OnboardingScreen() {
   }, [setSetting, plan]);
 
   // ── Progress ──────────────────────────────────────────────────────────────────
-  // Pages: 0 Hook, 1 Goal+Commit, 2 Demo, 3 Social, 4 Building (hidden), 5 Plan
+  // Pages: 0 Hook, 1 Goal, 2 Demo, 3 Social, 4 Building (hidden), 5 Plan
   const progressVisible = page === 1 || page === 2 || page === 3 || page === 5;
   const progressPct     = page / 5;
 
@@ -243,9 +224,9 @@ export default function OnboardingScreen() {
     </View>
   );
 
-  // ── Page 3 — Goal + Commit (combined) ────────────────────────────────────────
+  // ── Page 3 — Goal ─────────────────────────────────────────────────────────────
 
-  const renderGoalAndCommit = () => (
+  const renderGoal = () => (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pageContent, styles.goalScroll]} showsVerticalScrollIndicator={false}>
       <Text style={styles.pageTitle}>{t('onboarding.chooseGoal')}</Text>
       <Text style={[styles.pageSub, { marginBottom: SPACING.lg }]}>{t('onboarding.chooseGoalSub')}</Text>
@@ -273,28 +254,6 @@ export default function OnboardingScreen() {
           );
         })}
       </View>
-
-      {/* Minutes */}
-      <Animated.View style={{ opacity: commitOpacity, transform: [{ translateY: commitAnim.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}>
-        <Text style={styles.commitTitle}>{t('onboarding.commitTitle')}</Text>
-        <Text style={[styles.pageSub, { marginBottom: SPACING.md }]}>{t('onboarding.commitSub')}</Text>
-        <View style={styles.commitRow}>
-          {COMMIT_OPTIONS.map((min) => {
-            const sel = selectedMinutes != null && selectedMinutes === min;
-            return (
-              <TouchableOpacity
-                key={min}
-                style={[styles.commitChip, sel && styles.commitChipSelected]}
-                onPress={() => handleCommitSelect(min)}
-                activeOpacity={0.8}
-              >
-                <Text style={[styles.commitChipNum, sel && { color: '#FFF' }]}>{min}</Text>
-                <Text style={[styles.commitChipUnit, sel && { color: 'rgba(255,255,255,0.85)' }]}>min</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </Animated.View>
     </ScrollView>
   );
 
@@ -427,7 +386,7 @@ export default function OnboardingScreen() {
   const renderPage = () => {
     switch (page) {
       case 0: return renderHook();
-      case 1: return renderGoalAndCommit();
+      case 1: return renderGoal();
       case 2: return renderDemo();
       case 3: return renderSocialProof();
       case 4: return renderBuilding();
@@ -593,17 +552,6 @@ const styles = StyleSheet.create({
   optionLabel: { fontFamily: FONTS.bold, fontSize: FONT_SIZE.md, color: TEXT_PRIMARY },
   optionSub: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 2 },
   checkCircle: { width: 24, height: 24, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  commitNum: { fontFamily: FONTS.heavy, fontSize: 20 },
-  commitTitle: { fontFamily: FONTS.heavy, fontSize: FONT_SIZE.xl, letterSpacing: -0.3, color: TEXT_PRIMARY, marginBottom: 6 },
-  commitRow: { flexDirection: 'row', gap: SPACING.sm, marginBottom: SPACING.md },
-  commitChip: {
-    flex: 1, alignItems: 'center', justifyContent: 'center',
-    paddingVertical: 18, borderRadius: 16,
-    backgroundColor: GLASS_BG, borderWidth: 1, borderColor: GLASS_BORDER,
-  },
-  commitChipSelected: { backgroundColor: COLORS.primary, borderColor: COLORS.primary },
-  commitChipNum: { fontFamily: FONTS.heavy, fontSize: 24, color: TEXT_PRIMARY },
-  commitChipUnit: { fontFamily: FONTS.regular, fontSize: FONT_SIZE.xs, color: TEXT_SECONDARY, marginTop: 2 },
 
   // Hint
   hintBox: {

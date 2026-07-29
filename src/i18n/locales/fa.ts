@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'مورد اعتماد ورزشکاران',
   'onboarding.socialProof2': 'پشتیبانی Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'هدف روزانه خود را تعیین کنید',
-  'onboarding.commitSub': 'عادات کوچک روزانه تغییر پایدار ایجاد می‌کنند.',
   'onboarding.commitMinUnit': 'دقیقه / روز',
   'onboarding.commitHint_3': 'حتی یک جلسه ۳ دقیقه‌ای می‌تواند به آرامش سیستم عصبی شما کمک کند.',
   'onboarding.commitHint_5': 'تحقیقات استنفورد تنفس آهسته را با کاهش استرس و بهبود خواب مرتبط می‌داند.',

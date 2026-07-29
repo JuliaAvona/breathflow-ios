@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'アスリートも信頼',
   'onboarding.socialProof2': 'スタンフォード大学が実証',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '毎日の目標を設定する',
-  'onboarding.commitSub': '小さな日課が持続的な変化を生み出します。',
   'onboarding.commitMinUnit': '分 / 日',
   'onboarding.commitHint_3': '3分のセッションだけでも神経系を落ち着かせるのに役立ちます。',
   'onboarding.commitHint_5': 'スタンフォードの研究は、ゆっくりした呼吸とストレス軽減・良質な睡眠を結びつけています。',

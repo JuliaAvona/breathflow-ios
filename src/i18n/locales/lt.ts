@@ -307,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Sportininku patikimas',
   'onboarding.socialProof2': 'Stanfordo paremtas',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Nustatykite savo kasdieni tiksla',
-  'onboarding.commitSub': 'Mazos kasdienes iprociu lemia ilgalaikius pokycius.',
   'onboarding.commitMinUnit': 'min / diena',
   'onboarding.commitHint_3': 'Net 3 minuciu sesija gali padeti nuraminti nervu sistema.',
   'onboarding.commitHint_5': 'Stanfordo tyrimai sieja leta kvepavima su mazesniu stresu ir geresniu miegu.',

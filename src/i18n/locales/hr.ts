@@ -307,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Povjerenje sportasa',
   'onboarding.socialProof2': 'Potkrijepljeno Stanfordom',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Postavite svakodnevni cilj',
-  'onboarding.commitSub': 'Male svakodnevne navike stvaraju trajnu promjenu.',
   'onboarding.commitMinUnit': 'min / dan',
   'onboarding.commitHint_3': 'Cak i 3-minutna sesija moze pomoci u smirivanju zivchanog sustava.',
   'onboarding.commitHint_5': 'Istrazivanje Stanforda povezuje sporo disanje s manjim stresom i boljim snom.',

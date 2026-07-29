@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'ಕ್ರೀಡಾಪಟುಗಳ ವಿಶ್ವಾಸ',
   'onboarding.socialProof2': 'Stanford-ಬೆಂಬಲಿತ',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'ನಿಮ್ಮ ದೈನಂದಿನ ಗುರಿ ನಿಗದಿ ಮಾಡಿ',
-  'onboarding.commitSub': 'ಸಣ್ಣ ದೈನಂದಿನ ಅಭ್ಯಾಸಗಳು ಶಾಶ್ವತ ಬದಲಾವಣೆ ತರುತ್ತವೆ.',
   'onboarding.commitMinUnit': 'ನಿಮಿಷ / ದಿನ',
   'onboarding.commitHint_3': '3 ನಿಮಿಷದ ಸೆಷನ್ ಕೂಡ ನಿಮ್ಮ ನರ ವ್ಯವಸ್ಥೆಯನ್ನು ಶಾಂತಗೊಳಿಸಲು ಸಹಾಯ ಮಾಡಬಹುದು.',
   'onboarding.commitHint_5': 'ಸ್ಟ್ಯಾನ್‌ಫೋರ್ಡ್ ಸಂಶೋಧನೆ ನಿಧಾನ ಉಸಿರಾಟವನ್ನು ಕಡಿಮೆ ಒತ್ತಡ ಮತ್ತು ಉತ್ತಮ ನಿದ್ದೆಯೊಂದಿಗೆ ಜೋಡಿಸುತ್ತದೆ.',

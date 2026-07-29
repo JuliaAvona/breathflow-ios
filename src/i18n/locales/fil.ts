@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Pinagkakatiwalaan ng mga atleta',
   'onboarding.socialProof2': 'Sinusuportahan ng Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Itakda ang iyong pang-araw-araw na layunin',
-  'onboarding.commitSub': 'Ang maliliit na pang-araw-araw na gawi ay lumilikha ng pangmatagalang pagbabago.',
   'onboarding.commitMinUnit': 'min / araw',
   'onboarding.commitHint_3': 'Kahit isang 3-minutong sesyon ay makakatulong na pakalmahin ang iyong nervous system.',
   'onboarding.commitHint_5': 'Ikinonekta ng pananaliksik ng Stanford ang mabagal na paghinga sa mas kaunting stress at mas magandang tulog.',

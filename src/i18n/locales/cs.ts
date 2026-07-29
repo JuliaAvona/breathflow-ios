@@ -307,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Oblíbený u sportovců',
   'onboarding.socialProof2': 'Potvrzeno Stanfordem',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Stanovte si denní cíl',
-  'onboarding.commitSub': 'Malé každodenní návyky vytvářejí trvalou změnu.',
   'onboarding.commitMinUnit': 'min / den',
   'onboarding.commitHint_3': 'Dokonce i 3minutové cvičení může pomoci uklidnit nervový systém.',
   'onboarding.commitHint_5': 'Výzkum Stanfordu spojuje pomalé dýchání se snížením stresu a lepším spánkem.',

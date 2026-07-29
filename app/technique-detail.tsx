@@ -9,6 +9,7 @@ import {
   StatusBar,
   PanResponder,
   Alert,
+  AppState,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -19,7 +20,7 @@ import { useSettingsStore } from '../src/store';
 import { getTechniqueById, TECHNIQUES } from '../src/constants/techniques';
 import { BreathingMandala } from '../src/components/BreathingMandala';
 import { FONTS, BORDER_RADIUS, scale } from '../src/constants';
-import { MUSIC_TRACKS, startMusic, stopMusic } from '../src/utils/sessionMusic';
+import { MUSIC_TRACKS, startMusic, stopMusic, pauseMusic, resumeMusic } from '../src/utils/sessionMusic';
 import type { TechniqueCategory } from '../src/types';
 
 const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
@@ -145,6 +146,20 @@ export default function TechniqueDetailScreen() {
     }
     return () => { stopMusic(); };
   }, [_music]);
+
+  // This is just a preview (no active session yet), so it shouldn't keep
+  // playing once the app is backgrounded the way real session audio does —
+  // pause while away and pick back up if the user returns to this screen.
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (nextState) => {
+      if (nextState !== 'active') {
+        pauseMusic();
+      } else if (selectedMusic) {
+        resumeMusic();
+      }
+    });
+    return () => sub.remove();
+  }, [selectedMusic]);
 
   const allTechniques = TECHNIQUES;
 

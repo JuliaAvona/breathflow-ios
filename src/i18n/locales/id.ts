@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Dipercaya oleh atlet',
   'onboarding.socialProof2': 'Didukung Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Tetapkan tujuan harian Anda',
-  'onboarding.commitSub': 'Kebiasaan kecil sehari-hari menciptakan perubahan yang bertahan lama.',
   'onboarding.commitMinUnit': 'menit / hari',
   'onboarding.commitHint_3': 'Bahkan sesi 3 menit pun dapat membantu menenangkan sistem saraf Anda.',
   'onboarding.commitHint_5': 'Penelitian Stanford menghubungkan pernapasan lambat dengan stres yang lebih rendah dan tidur lebih baik.',

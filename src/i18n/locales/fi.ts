@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Urheilijoiden luottama',
   'onboarding.socialProof2': 'Stanfordin tukema',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Aseta p\u00e4ivitt\u00e4inen tavoitteesi',
-  'onboarding.commitSub': 'Pienet p\u00e4ivitt\u00e4iset tavat luovat pysyv\u00e4n muutoksen.',
   'onboarding.commitMinUnit': 'min / p\u00e4iv\u00e4',
   'onboarding.commitHint_3': 'Jo 3 minuutin harjoitus voi auttaa rauhoittamaan hermostoasi.',
   'onboarding.commitHint_5': 'Stanfordin tutkimus yhdist\u00e4\u00e4 hitaan hengityksen v\u00e4h\u00e4isemp\u00e4\u00e4n stressiin ja parempaan uneen.',

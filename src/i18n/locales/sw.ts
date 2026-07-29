@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Inayoaminiwa na wanariadha',
   'onboarding.socialProof2': 'Stanford-backed',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Weka lengo lako la kila siku',
-  'onboarding.commitSub': 'Tabia ndogo za kila siku huunda mabadiliko ya kudumu.',
   'onboarding.commitMinUnit': 'dak / siku',
   'onboarding.commitHint_3': 'Hata kipindi cha dakika 3 kinaweza kusaidia kutuliza mfumo wako wa neva.',
   'onboarding.commitHint_5': 'Utafiti wa Stanford unaunganisha kupumua polepole na msongo mdogo na usingizi bora.',

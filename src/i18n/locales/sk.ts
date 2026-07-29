@@ -307,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Oblubene medzi sportovcami',
   'onboarding.socialProof2': 'Podlozene Stanfordom',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Nastavte si denny ciel',
-  'onboarding.commitSub': 'Male kazdodenne navyky vytvaraju trvalu zmenu.',
   'onboarding.commitMinUnit': 'min / den',
   'onboarding.commitHint_3': 'Dokonca aj 3-minutove cvicenie moze pomoct upokojiit nervovy system.',
   'onboarding.commitHint_5': 'Vyskum Stanfordu spaja pomale dychanie s nizsim stresom a lepsim spankom.',

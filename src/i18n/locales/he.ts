@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'מוכח על ידי ספורטאים',
   'onboarding.socialProof2': 'מגובה ע"י Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'קבע את המטרה היומית שלך',
-  'onboarding.commitSub': 'הרגלים קטנים יומיים יוצרים שינוי מתמיד.',
   'onboarding.commitMinUnit': 'דק׳ / יום',
   'onboarding.commitHint_3': 'אפילו סשן של 3 דקות יכול לעזור להרגיע את מערכת העצבים שלך.',
   'onboarding.commitHint_5': 'מחקר סטנפורד מקשר נשימה איטית עם פחות מתח ושינה טובה יותר.',

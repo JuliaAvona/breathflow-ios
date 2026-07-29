@@ -277,8 +277,6 @@ export default {
   'onboarding.socialProof1': 'Vertrouwd door atleten',
   'onboarding.socialProof2': 'Stanford-bewezen',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Stel je dagelijks doel',
-  'onboarding.commitSub': 'Kleine dagelijkse gewoontes cre\u00ebren blijvende verandering.',
   'onboarding.commitMinUnit': 'min / dag',
   'onboarding.commitHint_3': 'Zelfs een sessie van 3 minuten kan je zenuwstelsel kalmeren.',
   'onboarding.commitHint_5': 'Stanford-onderzoek koppelt langzaam ademen aan minder stress en betere slaap.',

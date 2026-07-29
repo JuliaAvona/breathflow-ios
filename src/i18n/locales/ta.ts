@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'விளையாட்டு வீரர்களால் நம்பப்பட்டது',
   'onboarding.socialProof2': 'Stanford-ஆதரவு',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'உங்கள் தினசரி இலக்கை அமைக்கவும்',
-  'onboarding.commitSub': 'சிறிய தினசரி பழக்கங்கள் நீடித்த மாற்றங்களை உருவாக்குகின்றன.',
   'onboarding.commitMinUnit': 'நிமி / நாள்',
   'onboarding.commitHint_3': '3 நிமிட அமர்வு கூட உங்கள் நரம்பு மண்டலத்தை அமைதிப்படுத்த உதவும்.',
   'onboarding.commitHint_5': 'Stanford ஆராய்ச்சி மெதுவான சுவாசத்தை குறைந்த மன அழுத்தம் மற்றும் சிறந்த தூக்கத்துடன் இணைக்கிறது.',

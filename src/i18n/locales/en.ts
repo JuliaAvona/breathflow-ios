@@ -353,8 +353,6 @@ export default {
   'onboarding.socialProof3': 'Apple Health',
 
   // Commitment screen (daily goal)
-  'onboarding.commitTitle': 'Set your daily goal',
-  'onboarding.commitSub': 'Small daily habits create lasting change.',
   'onboarding.commitMinUnit': 'min / day',
   'onboarding.commitHint_3': 'Even a 3-minute session can help calm your nervous system.',
   'onboarding.commitHint_5': 'Stanford research links slow breathing to lower stress and better sleep.',

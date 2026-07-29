@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'అథ్లెట్లు నమ్మే',
   'onboarding.socialProof2': 'Stanford-మద్దతు',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'మీ రోజువారీ లక్ష్యాన్ని నిర్ణయించుకోండి',
-  'onboarding.commitSub': 'చిన్న రోజువారీ అలవాట్లు శాశ్వత మార్పును సృష్టిస్తాయి.',
   'onboarding.commitMinUnit': 'నిమిషాలు / రోజు',
   'onboarding.commitHint_3': '3 నిమిషాల సెషన్ కూడా మీ నాడీ వ్యవస్థను శాంతపరచడంలో సహాయపడవచ్చు.',
   'onboarding.commitHint_5': 'Stanford పరిశోధన నిదానమైన శ్వాసను తక్కువ ఒత్తిడి మరియు మంచి నిద్రతో అనుసంధానిస్తుంది.',

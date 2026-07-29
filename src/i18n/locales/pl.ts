@@ -279,8 +279,6 @@ export default {
   'onboarding.socialProof1': 'Zaufane przez sportowców',
   'onboarding.socialProof2': 'Potwierdzone przez Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Ustaw codzienny cel',
-  'onboarding.commitSub': 'Ma\u0142e codzienne nawyki tworz\u0105 trwa\u0142e zmiany.',
   'onboarding.commitMinUnit': 'min / dzie\u0144',
   'onboarding.commitHint_3': 'Nawet 3-minutowa sesja pomaga uspokoi\u0107 uk\u0142ad nerwowy.',
   'onboarding.commitHint_5': 'Badania Stanfordu \u0142\u0105cz\u0105 wolne oddychanie z mniejszym stresem i lepszym snem.',

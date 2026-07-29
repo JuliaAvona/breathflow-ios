@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Dipercayai atlet',
   'onboarding.socialProof2': 'Disokong Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Tetapkan matlamat harian anda',
-  'onboarding.commitSub': 'Tabiat kecil harian mencipta perubahan kekal.',
   'onboarding.commitMinUnit': 'min / hari',
   'onboarding.commitHint_3': 'Malah sesi 3 minit boleh membantu menenangkan sistem saraf anda.',
   'onboarding.commitHint_5': 'Penyelidikan Stanford menghubungkan pernafasan perlahan dengan kurang tekanan dan tidur lebih baik.',

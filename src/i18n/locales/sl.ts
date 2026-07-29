@@ -307,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Zaupanje sportnikov',
   'onboarding.socialProof2': 'Podprto s Stanfordom',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Nastavite svoj dnevni cilj',
-  'onboarding.commitSub': 'Majhne vsakodnevne navade ustvarjajo trajne spremembe.',
   'onboarding.commitMinUnit': 'min / dan',
   'onboarding.commitHint_3': 'Ze 3-minutna seja lahko pomaga pomiriti zivcni sistem.',
   'onboarding.commitHint_5': 'Stanfordove raziskave povezujejo pocasno dihanje z manj stresa in boljsim spanjem.',

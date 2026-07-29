@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Betroet af atleter',
   'onboarding.socialProof2': 'Stanford-st\u00f8ttet',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'S\u00e6t dit daglige m\u00e5l',
-  'onboarding.commitSub': 'Sm\u00e5 daglige vaner skaber varig forandring.',
   'onboarding.commitMinUnit': 'min / dag',
   'onboarding.commitHint_3': 'Selv en 3-minutters session kan hj\u00e6lpe med at berolige dit nervesystem.',
   'onboarding.commitHint_5': 'Stanford-forskning forbinder langsom vejrtr\u00e6kning med lavere stress og bedre s\u00f8vn.',

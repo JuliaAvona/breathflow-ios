@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': '운동선수들이 신뢰하는',
   'onboarding.socialProof2': '스탠포드 검증',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '일일 목표를 설정하세요',
-  'onboarding.commitSub': '작은 일상 습관이 지속적인 변화를 만듭니다.',
   'onboarding.commitMinUnit': '분 / 일',
   'onboarding.commitHint_3': '3분 세션만으로도 신경계를 진정시키는 데 도움이 될 수 있습니다.',
   'onboarding.commitHint_5': '스탠포드 연구에 따르면 느린 호흡은 스트레스 감소와 수면 개선에 효과적입니다.',

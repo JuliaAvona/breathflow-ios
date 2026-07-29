@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'അത്‌ലറ്റുകൾ വിശ്വസിക്കുന്നത്',
   'onboarding.socialProof2': 'Stanford-പിന്തുണ',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'നിങ്ങളുടെ ദൈനിക ലക്ഷ്യം നിർണ്ണയിക്കുക',
-  'onboarding.commitSub': 'ചെറിയ ദൈനിക ശീലങ്ങൾ നിലനിൽക്കുന്ന മാറ്റം സൃഷ്ടിക്കുന്നു.',
   'onboarding.commitMinUnit': 'മിനിറ്റ് / ദിവസം',
   'onboarding.commitHint_3': '3 മിനിറ്റ് സെഷൻ പോലും നിങ്ങളുടെ നാഡീവ്യൂഹം ശാന്തമാക്കാൻ സഹാ‍യിക്കും.',
   'onboarding.commitHint_5': 'Stanford ഗവേഷണം ശ്വാസ ഗതിയെ കുറഞ്ഞ സ്ട്രെസ്സുമായി ബന്ധിപ്പിക്കുന്നു.',

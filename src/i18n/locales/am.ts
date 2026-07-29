@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'በስፖርተኞች የተረጋገጠ',
   'onboarding.socialProof2': 'በ Stanford የተደገፈ',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'የዕለት ግብዎን ያዘጋጁ',
-  'onboarding.commitSub': 'ትንሽ የዕለት ተዕለት ልምዶች ዘላቂ ለውጥ ይፈጥራሉ።',
   'onboarding.commitMinUnit': 'ደቂቃ / ቀን',
   'onboarding.commitHint_3': 'የ3 ደቂቃ ክፍለ ጊዜ እንኳ የነርቭ ስርዓትዎን ለማረጋጋት ይረዳል።',
   'onboarding.commitHint_5': 'የስታንፎርድ ምርምር ዝቅተኛ መተንፈስን ከዝቅተኛ ጭንቀት ጋር ያዛምዳል።',

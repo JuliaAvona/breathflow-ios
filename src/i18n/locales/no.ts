@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Utøvernes foretrukne',
   'onboarding.socialProof2': 'Stanford-st\u00f8ttet',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Sett ditt daglige mål',
-  'onboarding.commitSub': 'Små daglige vaner skaper varig endring.',
   'onboarding.commitMinUnit': 'min / dag',
   'onboarding.commitHint_3': 'Selv en økt på 3 minutter kan hjelpe til med å roe nervesystemet ditt.',
   'onboarding.commitHint_5': 'Stanford-forskning kobler langsom pusting med mindre stress og bedre søvn.',

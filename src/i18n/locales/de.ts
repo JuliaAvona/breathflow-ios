@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Von Athleten empfohlen',
   'onboarding.socialProof2': 'Von Stanford best\u00E4tigt',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Setzen Sie Ihr t\u00E4gliches Ziel',
-  'onboarding.commitSub': 'Kleine t\u00E4gliche Gewohnheiten schaffen dauerhaften Wandel.',
   'onboarding.commitMinUnit': 'Min / Tag',
   'onboarding.commitHint_3': 'Schon eine 3-min\u00FCtige Sitzung kann Ihr Nervensystem beruhigen.',
   'onboarding.commitHint_5': 'Stanford-Forschungen verbinden langsames Atmen mit weniger Stress und besserem Schlaf.',

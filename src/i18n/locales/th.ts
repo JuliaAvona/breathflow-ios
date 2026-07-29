@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'นักกีฬาไว้วางใจ',
   'onboarding.socialProof2': 'ได้รับการสนับสนุนจาก Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'ตั้งเป้าหมายรายวันของคุณ',
-  'onboarding.commitSub': 'นิสัยเล็กๆ ในแต่ละวันสร้างการเปลี่ยนแปลงที่ยั่งยืน',
   'onboarding.commitMinUnit': 'นาที / วัน',
   'onboarding.commitHint_3': 'แค่ 3 นาทีก็ช่วยสงบระบบประสาทของคุณได้',
   'onboarding.commitHint_5': 'งานวิจัยจาก Stanford เชื่อมโยงการหายใจช้าๆ กับความเครียดที่ลดลงและการนอนหลับที่ดีขึ้น',

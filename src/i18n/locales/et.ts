@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Sportlaste usaldatud',
   'onboarding.socialProof2': 'Stanfordi toetatud',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Sea oma igap\u00e4evane eesm\u00e4rk',
-  'onboarding.commitSub': 'V\u00e4ikesed igap\u00e4evased harjumused loovad p\u00fcsiva muutuse.',
   'onboarding.commitMinUnit': 'min / p\u00e4ev',
   'onboarding.commitHint_3': 'Isegi 3-minutiline seanss v\u00f5ib aidata teie n\u00e4rvis\u00fcsteemi rahustada.',
   'onboarding.commitHint_5': 'Stanfordi uuringud seovad aeglast hingamist v\u00e4iksema stressi ja parema unega.',

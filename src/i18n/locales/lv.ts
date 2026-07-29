@@ -307,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Sportistu uzticets',
   'onboarding.socialProof2': 'Stanforda atbalstits',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Uzstadiet savu dienas merki',
-  'onboarding.commitSub': 'Mazas ikdienas ieradumi rada paliekosas parmainas.',
   'onboarding.commitMinUnit': 'min / diena',
   'onboarding.commitHint_3': 'Pat 3 minutu sesija var palidzet nomierinat nervu sistemu.',
   'onboarding.commitHint_5': 'Stanforda petijumi saista lenu elposanu ar mazaku stresu un labaku miegu.',

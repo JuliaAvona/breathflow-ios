@@ -305,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Sportolók által megbízható',
   'onboarding.socialProof2': 'Stanford által támogatott',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Állítsd be a napi célodat',
-  'onboarding.commitSub': 'A kis napi szokások tartós változást hoznak.',
   'onboarding.commitMinUnit': 'perc / nap',
   'onboarding.commitHint_3': 'Már egy 3 perces ülés is segíthet megnyugtatni az idegrendszert.',
   'onboarding.commitHint_5': 'A Stanford kutatása a lassú légzést kevesebb stresszel és jobb alvással köti össze.',
