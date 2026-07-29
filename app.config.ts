@@ -85,13 +85,18 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.izbrodin90.breathflow',
-    buildNumber: '22',
+    buildNumber: '23',
     usesAppleSignIn: true,
     appleTeamId: '9B587AMM75',
     infoPlist: {
       UIBackgroundModes: ['audio'],
       CFBundleDisplayName: 'BreathFlow',
       NSSupportsLiveActivities: true,
+      // Only standard HTTPS/TLS (Supabase, RevenueCat, Sentry) and
+      // expo-crypto for a Sign in with Apple auth nonce — both exempt from
+      // export compliance. Declaring this skips the encryption question on
+      // every future App Store Connect submission.
+      ITSAppUsesNonExemptEncryption: false,
       // Meta / Facebook SDK — auto-init disabled; we initialize manually
       // after the user responds to the ATT prompt.
       FacebookAppID: FB_APP_ID,
