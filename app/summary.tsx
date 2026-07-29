@@ -377,9 +377,15 @@ export default function SummaryScreen() {
   return (
     <View style={styles.container}>
       <ImageBackground source={bgImage} resizeMode="cover" style={StyleSheet.absoluteFill}>
+        {/* Resolves to solid theme.background well before the stats/mood/quote
+            content starts. In dark mode the tail color is dark either way, so
+            this doesn't change how it looks — but in light mode, leaving the
+            fade this short is what stops that content (styled with
+            theme.textSecondary, meant for a solid light background) from
+            landing on the still-dark part of the image and reading as faint. */}
         <LinearGradient
           colors={[`${techniqueColor}D9`, 'rgba(0,0,0,0.82)', theme.isDark ? '#0F1419' : '#F0F4F8']}
-          locations={[0, 0.35, 0.75]}
+          locations={[0, 0.18, 0.32]}
           style={StyleSheet.absoluteFill}
         />
       </ImageBackground>
@@ -599,24 +605,22 @@ export default function SummaryScreen() {
           {/* Bottom buttons */}
           <View style={styles.bottomButtons}>
             <View style={styles.bottomRow}>
-              {!completed && (
-                <TouchableOpacity
-                  style={[styles.discardButton, {
-                    backgroundColor: theme.isDark ? `${COLORS.error}1A` : `${COLORS.error}12`,
-                    borderColor: theme.isDark ? `${COLORS.error}55` : `${COLORS.error}40`,
-                  }]}
-                  onPress={handleDiscard}
-                  activeOpacity={0.7}
-                >
-                  <Ionicons name="trash-outline" size={18} color={COLORS.error} />
-                  <Text style={[styles.discardButtonText, { color: COLORS.error, fontSize: fontSize.md }]}>
-                    {t('summary.dontSave', { defaultValue: "Don't Save" })}
-                  </Text>
-                </TouchableOpacity>
-              )}
+              <TouchableOpacity
+                style={[styles.discardButton, {
+                  backgroundColor: theme.isDark ? `${COLORS.error}1A` : `${COLORS.error}12`,
+                  borderColor: theme.isDark ? `${COLORS.error}55` : `${COLORS.error}40`,
+                }]}
+                onPress={handleDiscard}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="trash-outline" size={18} color={COLORS.error} />
+                <Text style={[styles.discardButtonText, { color: COLORS.error, fontSize: fontSize.md }]}>
+                  {t('summary.dontSave', { defaultValue: "Don't Save" })}
+                </Text>
+              </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.repeatButton, !completed && { flex: 1 }, {
+                style={[styles.repeatButton, { flex: 1 }, {
                   backgroundColor: theme.isDark ? `${techniqueColor}14` : `${techniqueColor}14`,
                   borderColor: theme.isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.15)',
                 }]}

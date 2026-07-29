@@ -334,12 +334,18 @@ export default function SettingsScreen() {
           resizeMode="cover"
           style={[styles.heroArea, { paddingTop: insets.top + SPACING.sm, height: insets.top + HERO_CONTENT_HEIGHT }]}
         >
+          {/* 4 stops (vs. the default 3 evenly-spaced ones) so the fade to
+              solid theme.background happens gradually across the hero's
+              full height instead of mostly in its last 50% — that's what
+              was reading as an abrupt cut against the image in light mode.
+              Keep in sync with the same gradient in history.tsx/awards.tsx. */}
           <LinearGradient
             colors={
               theme.isDark
-                ? ['#000000AA', '#00000055', `${theme.background}FF`]
-                : ['#00000077', '#00000044', `${theme.background}FF`]
+                ? ['#000000AA', '#00000055', `${theme.background}CC`, `${theme.background}FF`]
+                : ['#00000077', '#00000033', `${theme.background}99`, `${theme.background}FF`]
             }
+            locations={[0, 0.35, 0.7, 1]}
             start={{ x: 0.5, y: 0 }}
             end={{ x: 0.5, y: 1 }}
             style={StyleSheet.absoluteFill}
