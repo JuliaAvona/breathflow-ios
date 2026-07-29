@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useKeepAwake } from 'expo-keep-awake';
+import * as Crypto from 'expo-crypto';
 import {
   View,
   Text,
@@ -338,7 +339,10 @@ export default function SessionScreen() {
     }
 
     const session: BreathingSession = {
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+      // Must be a real UUID — the Supabase user_sessions.id column is typed
+      // uuid, and a non-UUID string here fails every sync push for this
+      // session with "invalid input syntax for type uuid" (22P02).
+      id: Crypto.randomUUID(),
       userId: useAuthStore.getState().user?.id ?? '',
       date: getToday(),
       startedAt: timerStore.startedAt ?? new Date().toISOString(),
@@ -414,7 +418,10 @@ export default function SessionScreen() {
           const state = useTimerStore.getState();
           if (technique && state.startedAt) {
             const session: BreathingSession = {
-              id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+              // Must be a real UUID — the Supabase user_sessions.id column is typed
+      // uuid, and a non-UUID string here fails every sync push for this
+      // session with "invalid input syntax for type uuid" (22P02).
+      id: Crypto.randomUUID(),
               userId: useAuthStore.getState().user?.id ?? '',
               date: getToday(),
               startedAt: state.startedAt,

@@ -135,15 +135,23 @@ export default function RootLayout() {
 
     setupNotifications().catch(() => {});
 
-    // Set up badge unlock notifications
+    // Set up badge unlock notifications — unlike setupNotifications() above,
+    // this can fire at any time (e.g. right after a user's very first
+    // session, before they've ever been asked for notification permission),
+    // so it needs its own permission check rather than assuming one already
+    // happened. Without it, iOS rejects the schedule call with "Source is
+    // not authorized" whenever status is still undetermined/denied.
     useBadgesStore.getState().setOnBadgeUnlocked((_id, titleKey, _descKey) => {
-      Notifications.scheduleNotificationAsync({
-        identifier: `badge-unlock-${_id}`,
-        content: {
-          title: t('notifications.badgeUnlocked'),
-          body: t(titleKey),
-        },
-        trigger: null,
+      checkNotificationPermissions().then((granted) => {
+        if (!granted) return;
+        Notifications.scheduleNotificationAsync({
+          identifier: `badge-unlock-${_id}`,
+          content: {
+            title: t('notifications.badgeUnlocked'),
+            body: t(titleKey),
+          },
+          trigger: null,
+        });
       });
     });
 

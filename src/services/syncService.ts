@@ -84,7 +84,10 @@ async function pushStats(userId: string, stats: UserStats): Promise<void> {
     longest_streak: stats.longestStreak,
     best_retention: stats.bestRetention,
     avg_retention: stats.avgRetention,
-    last_session_date: stats.lastSessionDate,
+    // '' is the local "no sessions yet" default, but the column is DATE —
+    // Postgres rejects an empty string as invalid date syntax (22007); NULL
+    // is what a nullable DATE column actually expects for "no value".
+    last_session_date: stats.lastSessionDate || null,
     favorite_technique_id: stats.favoriteTechniqueId,
     sessions_per_technique: stats.sessionsPerTechnique,
     updated_at: new Date().toISOString(),
