@@ -172,7 +172,12 @@ export default function HistoryScreen() {
     setRefreshing(false);
   }, [hydrate]);
 
-  const isEmpty = stats.totalSessions === 0;
+  // stats.totalSessions only counts completed sessions (see computeStats in
+  // sessionsStore) — gating the whole screen on it meant a user whose first
+  // session(s) were stopped early (completed: false) saw the "no sessions
+  // yet" empty state forever, even though those sessions were saved and
+  // should still show up in the calendar / day list below.
+  const isEmpty = allSessions.length === 0;
 
   const renderSessionCard = (session: BreathingSession) => {
     const technique = getTechniqueById(session.techniqueId);

@@ -87,6 +87,18 @@ export default function RootLayout() {
       // isProFromRC === null (RC not configured / network error): leave
       // local Pro state as-is rather than treating "couldn't check" as "not Pro".
 
+      // Apple Health sync became a Pro feature after some installs had
+      // already turned it on for free — revokePro() above only fires on a
+      // Pro→non-Pro transition, so it never touches users who were always
+      // non-Pro. Once we've confirmed (not just assumed) they're not Pro,
+      // clear the stale flag so the Settings toggle stops showing a feature
+      // on that can't actually run (summary.tsx already gates the write on
+      // isPro too, so no health data was ever leaking — this just fixes the
+      // toggle's stuck-on display state).
+      if (isProFromRC === false && useSettingsStore.getState().healthSyncEnabled) {
+        useSettingsStore.getState().setSetting('healthSyncEnabled', false);
+      }
+
       // Initialize Meta SDK after first frame so the ATT prompt
       // doesn't appear on a black launch screen.
       initFacebookSdk().catch(() => {});

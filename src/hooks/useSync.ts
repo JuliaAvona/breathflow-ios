@@ -13,6 +13,12 @@ async function resyncEntitlement(): Promise<void> {
   const settings = useSettingsStore.getState();
   if (isPro && !settings.isPro) settings.grantPro();
   else if (!isPro && settings.isPro) settings.revokePro();
+
+  // Same stale-flag correction as app/_layout.tsx's cold-launch check, but
+  // for a subscription that lapses while the app is already running.
+  if (!isPro && settings.healthSyncEnabled) {
+    settings.setSetting('healthSyncEnabled', false);
+  }
 }
 
 export function useSync() {
