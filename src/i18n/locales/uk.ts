@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Головна',
   'tabs.breathe': 'Дихати',
   'tabs.history': 'Прогрес',
-  'tabs.badges': 'Значки',
+  'tabs.badges': 'Нагороди',
   'tabs.settings': 'Налаштування',
 
   // Home screen
@@ -162,6 +162,9 @@ export default {
   'summary.moodSleepy': 'Сонно',
   'summary.done': 'Готово',
   'summary.repeat': 'Повторити',
+  'summary.dontSave': 'Не зберігати',
+  'summary.discardTitle': 'Не зберігати цю сесію?',
+  'summary.discardMessage': 'Цю сесію буде видалено, і вона не враховуватиметься у вашій статистиці чи серії.',
   'summary.share': 'Поділитися',
   'summary.shareText': 'Я щойно завершив(ла) {{duration}} сесію {{technique}} з BreathFlow! \u{1F32C}\uFE0F',
   'summary.shareMessage': 'Я щойно завершив(ла) {{duration}} сесію {{technique}} з BreathFlow! \u{1F32C}\uFE0F',
@@ -226,6 +229,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Налаштування',
+  'settings.preferences': 'Уподобання',
   'settings.feedback': 'Звуки',
   'settings.sound': 'Звук',
   'settings.soundStyle': 'Стиль звуку',
@@ -303,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Довіра спортсменів',
   'onboarding.socialProof2': 'Підтверджено Стенфордом',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Встанови щоденну мету',
-  'onboarding.commitSub': 'Маленькі щоденні звички створюють стійкі зміни.',
   'onboarding.commitMinUnit': 'хв / день',
   'onboarding.commitHint_3': 'Навіть 3-хвилинна сесія допомагає заспокоїти нервову систему.',
   'onboarding.commitHint_5': 'Дослідження Стенфорда пов\'язують повільне дихання зі зниженням стресу та кращим сном.',
@@ -359,7 +361,7 @@ export default {
   'badges.year_legend.description': 'Серія 365 днів',
 
   // Badges screen
-  'badges.title': 'Значки',
+  'badges.title': 'Нагороди',
   'badges.unlocked': 'Відкрито',
   'badges.unlockBadges': 'Відкрийте значки з Pro',
   'badges.unlockBadgesDesc': 'Відстежуйте досягнення та заробляйте всі значки',
@@ -386,7 +388,7 @@ export default {
   'paywall.feature1': 'Усі 10 технік дихання',
   'paywall.feature2': 'Усі музичні треки',
   'paywall.feature3': 'Розблокувати всі значки',
-  'paywall.feature4': 'Повна історія та статистика',
+  'paywall.featureAppleHealth': 'Синхронізація з Apple Health',
   'paywall.feature5': 'Відстеження настрою',
   'paywall.feature6': 'Усі значки',
   'paywall.purchase': 'Купити за {{price}}',
@@ -404,6 +406,7 @@ export default {
   'history.noSessionsOnDay': 'Немає сесій у цей день',
   'history.allTimeStats': 'Загальна статистика',
   'history.unlockFullHistory': 'Відкрийте повну історію з Pro',
+  'history.unlockFullHistoryDesc': 'Перегляньте повний прогрес і статистику за весь час',
   'history.weeklyActivity': 'Активність за тиждень',
   'history.badges': 'Значки',
 
@@ -462,7 +465,7 @@ export default {
   'settings.restoreNone': 'Немає покупок для відновлення.',
   'settings.restoreFailed': 'Відновлення не вдалося. Спробуйте знову.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Синхронізація Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Синхронізація з Apple Health',
   'settings.privacyPolicy': 'Політика конфіденційності',
   'settings.termsOfService': 'Умови використання',
   'settings.restorePurchases': 'Відновити покупки',
@@ -507,6 +510,9 @@ export default {
   'paywall.errorNoProduct': 'Продукт недоступний. Спробуйте пізніше.',
   'paywall.restoreSuccessTitle': 'Відновлено',
   'paywall.restoreSuccessMessage': 'Ваші покупки відновлено.',
+  'paywall.welcomeTitle': 'Ласкаво просимо до Pro',
+  'paywall.welcomeMessage': 'Усі техніки та функції тепер розблоковано.',
+  'paywall.welcomeCta': 'Продовжити',
   'paywall.restoreTitle': 'Відновити',
   'paywall.restoreNoPurchases': 'Покупки для відновлення не знайдено.',
   'paywall.oneTimePayment': 'Одноразовий платіж',
@@ -524,7 +530,6 @@ export default {
   'paywall.unlockForever': 'Розблокувати назавжди',
   'paywall.startAnnual': 'Почати річний план',
   'paywall.startWeekly': 'Почати щотижневий',
-  'paywall.hideOptions': 'Сховати варіанти',
   'paywall.then': 'потім',
   'paywall.weeklyAutoRenew': 'автоподовження',
   'paywall.weeklyTrial': '3 дні безкоштовно',
@@ -617,6 +622,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Відстежуйте прогрес з часом',
   'onboarding.appleHealthBullet3': 'Ваші дані залишаються конфіденційними',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Приєднуйся до 1 000+ людей, які дихають краще',
+  'onboarding.socialProofSub': 'Справжні люди, справжні результати.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Директорка з маркетингу, Нью-Йорк',
+  'onboarding.t1Text': '«Роблю 4-7-8 у ліжку і засинаю за 5 хвилин. Після років безсоння — це неймовірно.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Програмний інженер',
+  'onboarding.t2Text': '«Коробкове дихання перед глибокою роботою — як ментальна розминка.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Психотерапевтка',
+  'onboarding.t3Text': '«Рекомендую BreathFlow клієнтам з панічним розладом.»',
+  'onboarding.rateTitle': 'Допоможи сформувати майбутнє BreathFlow',
+  'onboarding.rateSub': 'Поділись думками й допоможи покращити сервіс — кориснішим, приємнішим і більш адаптованим до твоїх потреб.',
+  'onboarding.rateCta': 'Далі',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Від стресу до спокою \u2014 за хвилини',
   'paywall.heroSleep': 'Засни за хвилини, не години',
@@ -641,4 +662,31 @@ export default {
   'paywall.row5Pro': 'Усі кольорові теми та значки \u2713',
   'paywall.anchor': 'Дешевше чашки кави. Результати на все життя.',
   'paywall.continueFree': 'Продовжити з безкоштовною версією',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Зробіть це звичкою",
+  'summary.habitReminderTitle': "Щоденне нагадування",
+  'summary.habitReminderSub': "Легке нагадування дихати щодня",
+  'summary.habitHealthTitle': "Apple Здоров’я",
+  'summary.habitHealthSub': "Зберігайте сесії як хвилини усвідомленості",
+  'settings.resetOnboarding': "Скинути онбординг",
+  'settings.resetOnboardingConfirm': "Повторити онбординг? Це також знову активує екран безпеки першої сесії.",
+  'settings.resetOnboardingConfirmCta': "Скинути",
+  'settings.developer': "Розробник",
+  'paywall.errorGeneric': "Щось пішло не так. Спробуйте ще раз.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Вимкнути музику",
+  'session.musicOff': "Увімкнути музику",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Збільшити",
+  'common.decrease': "Зменшити",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "ЗАОЩАДЬТЕ {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/тиж.",
+  'paywall.startTrialWeekly': "Спробуйте безкоштовно 3 дні",
+  'paywall.startTrialAnnual': "Спробуйте безкоштовно 7 днів",
+  'paywall.cancelAnytime': "Скасування будь-коли · Без зобов’язань",
 };

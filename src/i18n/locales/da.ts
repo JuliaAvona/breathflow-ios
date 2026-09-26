@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Hjem',
   'tabs.breathe': 'Pust',
   'tabs.history': 'Fremskridt',
-  'tabs.badges': 'Badges',
+  'tabs.badges': 'Præmier',
   'tabs.settings': 'Indstillinger',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'S\u00f8vnig',
   'summary.done': 'F\u00e6rdig',
   'summary.repeat': 'Gentag',
+  'summary.dontSave': 'Gem ikke',
+  'summary.discardTitle': 'Vil du ikke gemme denne session?',
+  'summary.discardMessage': 'Denne session bliver fjernet og tæller ikke med i din statistik eller stribe.',
   'summary.share': 'Del',
   'summary.shareText': 'Jeg har lige gennemf\u00f8rt en {{duration}} {{technique}} session med BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Jeg har lige gennemf\u00f8rt en {{duration}} {{technique}} session med BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Indstillinger',
+  'settings.preferences': 'Præferencer',
   'settings.feedback': 'Lyde',
   'settings.sound': 'Lyd',
   'settings.soundStyle': 'Lydstil',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Betroet af atleter',
   'onboarding.socialProof2': 'Stanford-st\u00f8ttet',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'S\u00e6t dit daglige m\u00e5l',
-  'onboarding.commitSub': 'Sm\u00e5 daglige vaner skaber varig forandring.',
   'onboarding.commitMinUnit': 'min / dag',
   'onboarding.commitHint_3': 'Selv en 3-minutters session kan hj\u00e6lpe med at berolige dit nervesystem.',
   'onboarding.commitHint_5': 'Stanford-forskning forbinder langsom vejrtr\u00e6kning med lavere stress og bedre s\u00f8vn.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-dages serie',
 
   // Badges screen
-  'badges.title': 'Badges',
+  'badges.title': 'Præmier',
   'badges.unlocked': 'L\u00e5st op',
   'badges.unlockBadges': 'L\u00e5s badges op med Pro',
   'badges.unlockBadgesDesc': 'Spor pr\u00e6stationer og optjen alle badges',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': 'Alle 10 vejrtr\u00e6kningsteknikker',
   'paywall.feature2': 'Alle musiknumre',
   'paywall.feature3': 'L\u00e5s alle badges op',
-  'paywall.feature4': 'Fuld historik og statistik',
+  'paywall.featureAppleHealth': 'Apple Health-synkronisering',
   'paywall.feature5': 'Hum\u00f8rsporing',
   'paywall.feature6': 'Alle badges',
   'paywall.purchase': 'K\u00f8b for {{price}}',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Ingen sessioner denne dag',
   'history.allTimeStats': 'Samlet statistik',
   'history.unlockFullHistory': 'L\u00e5s fuld historik op med Pro',
+  'history.unlockFullHistoryDesc': 'Se din fulde fremgang og alle tiders statistik',
   'history.weeklyActivity': 'Ugentlig aktivitet',
   'history.badges': 'Badges',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': 'Ingen k\u00f8b at gendanne.',
   'settings.restoreFailed': 'Gendannelse mislykkedes. Pr\u00f8v igen.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Synk Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Apple Health-synkronisering',
   'settings.privacyPolicy': 'Privatlivspolitik',
   'settings.termsOfService': 'Servicevilk\u00e5r',
   'settings.restorePurchases': 'Gendan k\u00f8b',
@@ -505,6 +508,9 @@ export default {
   'paywall.errorNoProduct': 'Produkt ikke tilg\u00e6ngeligt. Pr\u00f8v igen senere.',
   'paywall.restoreSuccessTitle': 'Gendannet',
   'paywall.restoreSuccessMessage': 'Dine k\u00f8b er gendannet.',
+  'paywall.welcomeTitle': 'Velkommen til Pro',
+  'paywall.welcomeMessage': 'Alle teknikker og funktioner er nu låst op.',
+  'paywall.welcomeCta': 'Fortsæt',
   'paywall.restoreTitle': 'Gendan',
   'paywall.restoreNoPurchases': 'Ingen k\u00f8b fundet at gendanne.',
   'paywall.oneTimePayment': 'Engangsbetaling',
@@ -522,7 +528,6 @@ export default {
   'paywall.unlockForever': 'L\u00e5s op for evigt',
   'paywall.startAnnual': 'Start \u00e5rsplan',
   'paywall.startWeekly': 'Start ugentlig',
-  'paywall.hideOptions': 'Skjul muligheder',
   'paywall.then': 'derefter',
   'paywall.weeklyAutoRenew': 'automatisk fornyelse',
   'paywall.weeklyTrial': '3 dages gratis pr\u00f8veperiode',
@@ -615,6 +620,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Spor fremskridt over tid',
   'onboarding.appleHealthBullet3': 'Dine data forbliver private',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Bliv en del af 1.000+ der trækker vejret bedre',
+  'onboarding.socialProofSub': 'Rigtige mennesker, rigtige resultater.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketingdirektør, NYC',
+  'onboarding.t1Text': '»Jeg laver 4-7-8 i sengen og falder i søvn på 5 minutter. Efter års søvnløshed er det vildt.«',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Softwareingeniør',
+  'onboarding.t2Text': '»Box breathing før dybt arbejde er som en mental opvarmning.«',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeut',
+  'onboarding.t3Text': '»Jeg anbefaler BreathFlow til klienter med panikanfald. Det fysiologiske suk virker på sekunder.«',
+  'onboarding.rateTitle': 'Hjælp med at forme BreathFlows fremtid',
+  'onboarding.rateSub': 'Del dine tanker og hjælp os med at gøre tjenesten bedre — mere nyttig, behagelig og skræddersyet til dine behov.',
+  'onboarding.rateCta': 'Næste',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': 'Fra stress til ro \u2014 p\u00e5 minutter',
   'paywall.heroSleep': 'Fald i s\u00f8vn p\u00e5 minutter, ikke timer',
@@ -639,4 +660,31 @@ export default {
   'paywall.row5Pro': 'Alle farvetemaer & badges \u2713',
   'paywall.anchor': 'Mindre end en kaffe. Resultater der varer.',
   'paywall.continueFree': 'Forts\u00e6t med gratis version',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Gør det til en vane",
+  'summary.habitReminderTitle': "Daglig påmindelse",
+  'summary.habitReminderSub': "Et lille skub til at trække vejret hver dag",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Gem sessioner som Mindfulness-minutter",
+  'settings.resetOnboarding': "Nulstil onboarding",
+  'settings.resetOnboardingConfirm': "Vil du afspille onboarding-forløbet igen? Dette genaktiverer også sikkerhedsskærmen for den første session.",
+  'settings.resetOnboardingConfirmCta': "Nulstil",
+  'settings.developer': "Udvikler",
+  'paywall.errorGeneric': "Der gik noget galt. Prøv venligst igen.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Slå musik fra",
+  'session.musicOff': "Afspil musik",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Forøg",
+  'common.decrease': "Formindsk",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "SPAR {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/uge",
+  'paywall.startTrialWeekly': "Prøv gratis i 3 dage",
+  'paywall.startTrialAnnual': "Prøv gratis i 7 dage",
+  'paywall.cancelAnytime': "Opsig når som helst · Ingen binding",
 };

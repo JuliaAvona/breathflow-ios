@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'ಮುಖಪುಟ',
   'tabs.breathe': 'ಉಸಿರಾಡಿ',
   'tabs.history': 'ಪ್ರಗತಿ',
-  'tabs.badges': 'ಬ್ಯಾಡ್ಜ್‌ಗಳು',
+  'tabs.badges': 'ಪ್ರಶಸ್ತಿಗಳು',
   'tabs.settings': 'ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'ನಿದ್ರಾಳು',
   'summary.done': 'ಮುಗಿಯಿತು',
   'summary.repeat': 'ಪುನರಾವರ್ತಿಸಿ',
+  'summary.dontSave': 'ಉಳಿಸಬೇಡಿ',
+  'summary.discardTitle': 'ಈ ಸೆಷನ್ ಅನ್ನು ಉಳಿಸಬಾರದೇ?',
+  'summary.discardMessage': 'ಈ ಸೆಷನ್ ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ ಮತ್ತು ಇದು ನಿಮ್ಮ ಅಂಕಿಅಂಶಗಳು ಅಥವಾ ಸ್ಟ್ರೀಕ್‌ನಲ್ಲಿ ಎಣಿಕೆಯಾಗುವುದಿಲ್ಲ.',
   'summary.share': 'ಹಂಚಿಕೊಳ್ಳಿ',
   'summary.shareText': 'ನಾನು BreathFlow ನಲ್ಲಿ {{duration}} {{technique}} ಉಸಿರಾಟ ಅಧಿವೇಶನ ಪೂರ್ಣಗೊಳಿಸಿದೆ! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'ನಾನು BreathFlow ನಲ್ಲಿ {{duration}} {{technique}} ಉಸಿರಾಟ ಅಧಿವೇಶನ ಪೂರ್ಣಗೊಳಿಸಿದೆ! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
+  'settings.preferences': 'ಆದ್ಯತೆಗಳು',
   'settings.feedback': 'ಶಬ್ದಗಳು',
   'settings.sound': 'ಶಬ್ದ',
   'settings.soundStyle': 'ಶಬ್ದ ಶೈಲಿ',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'ಕ್ರೀಡಾಪಟುಗಳ ವಿಶ್ವಾಸ',
   'onboarding.socialProof2': 'Stanford-ಬೆಂಬಲಿತ',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'ನಿಮ್ಮ ದೈನಂದಿನ ಗುರಿ ನಿಗದಿ ಮಾಡಿ',
-  'onboarding.commitSub': 'ಸಣ್ಣ ದೈನಂದಿನ ಅಭ್ಯಾಸಗಳು ಶಾಶ್ವತ ಬದಲಾವಣೆ ತರುತ್ತವೆ.',
   'onboarding.commitMinUnit': 'ನಿಮಿಷ / ದಿನ',
   'onboarding.commitHint_3': '3 ನಿಮಿಷದ ಸೆಷನ್ ಕೂಡ ನಿಮ್ಮ ನರ ವ್ಯವಸ್ಥೆಯನ್ನು ಶಾಂತಗೊಳಿಸಲು ಸಹಾಯ ಮಾಡಬಹುದು.',
   'onboarding.commitHint_5': 'ಸ್ಟ್ಯಾನ್‌ಫೋರ್ಡ್ ಸಂಶೋಧನೆ ನಿಧಾನ ಉಸಿರಾಟವನ್ನು ಕಡಿಮೆ ಒತ್ತಡ ಮತ್ತು ಉತ್ತಮ ನಿದ್ದೆಯೊಂದಿಗೆ ಜೋಡಿಸುತ್ತದೆ.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-ದಿನ ಸ್ಟ್ರೀಕ್',
 
   // Badges screen
-  'badges.title': 'ಬ್ಯಾಡ್ಜ್‌ಗಳು',
+  'badges.title': 'ಪ್ರಶಸ್ತಿಗಳು',
   'badges.unlocked': 'ಅನ್‌ಲಾಕ್',
   'badges.locked': 'ಲಾಕ್',
   'badges.progress': '{{total}} ರಲ್ಲಿ {{unlocked}} ಬ್ಯಾಡ್ಜ್‌ಗಳು',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'ಎಲ್ಲಾ 10 ಉಸಿರಾಟ ತಂತ್ರಗಳು',
   'paywall.feature2': 'ಎಲ್ಲಾ ಸಂಗೀತ ಟ್ರ್ಯಾಕ್‌ಗಳು',
   'paywall.feature3': 'ಎಲ್ಲಾ ಬ್ಯಾಡ್ಜ್‌ಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಿ',
-  'paywall.feature4': 'ಸಂಪೂರ್ಣ ಇತಿಹಾಸ ಮತ್ತು ಅಂಕಿಅಂಶಗಳು',
+  'paywall.featureAppleHealth': 'Apple Health ಸಿಂಕ್',
   'paywall.feature5': 'ಮೂಡ್ ಟ್ರ್ಯಾಕಿಂಗ್',
   'paywall.feature6': 'ಎಲ್ಲ ಬ್ಯಾಡ್ಜ್‌ಗಳು',
   'paywall.purchase': '{{price}} ಗೆ ಖರೀದಿಸಿ',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'ಈ ದಿನ ಅಧಿವೇಶನಗಳಿಲ್ಲ',
   'history.allTimeStats': 'ಒಟ್ಟು ಅಂಕಿಅಂಶಗಳು',
   'history.unlockFullHistory': 'Pro ಯೊಂದಿಗೆ ಪೂರ್ಣ ಇತಿಹಾಸ ಅನ್‌ಲಾಕ್ ಮಾಡಿ',
+  'history.unlockFullHistoryDesc': 'ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಪ್ರಗತಿ ಮತ್ತು ಸರ್ವಕಾಲಿಕ ಅಂಕಿಅಂಶಗಳನ್ನು ವೀಕ್ಷಿಸಿ',
   'history.weeklyActivity': 'ಸಾಪ್ತಾಹಿಕ ಚಟುವಟಿಕೆ',
   'history.badges': 'ಬ್ಯಾಡ್ಜ್‌ಗಳು',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'ಪುನಃಸ್ಥಾಪಿಸಲು ಖರೀದಿಗಳಿಲ್ಲ.',
   'settings.restoreFailed': 'ಪುನಃಸ್ಥಾಪನೆ ವಿಫಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Mindful Minutes ಸಿಂಕ್ ಮಾಡಿ',
+  'settings.syncMindfulMinutes': 'Apple Health ಸಿಂಕ್',
   'settings.privacyPolicy': 'ಗೋಪ್ಯತಾ ನೀತಿ',
   'settings.termsOfService': 'ಸೇವಾ ನಿಯಮಗಳು',
   'settings.restorePurchases': 'ಖರೀದಿಗಳನ್ನು ಪುನಃಸ್ಥಾಪಿಸಿ',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'ಉತ್ಪನ್ನ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
   'paywall.restoreSuccessTitle': 'ಪುನಃಸ್ಥಾಪಿಸಲಾಗಿದೆ',
   'paywall.restoreSuccessMessage': 'ನಿಮ್ಮ ಖರೀದಿಗಳು ಪುನಃಸ್ಥಾಪಿಸಲಾಗಿದೆ.',
+  'paywall.welcomeTitle': 'Pro ಗೆ ಸ್ವಾಗತ',
+  'paywall.welcomeMessage': 'ಎಲ್ಲಾ ತಂತ್ರಗಳು ಮತ್ತು ವೈಶಿಷ್ಟ್ಯಗಳು ಈಗ ಅನ್‌ಲಾಕ್ ಆಗಿವೆ.',
+  'paywall.welcomeCta': 'ಮುಂದುವರಿಸಿ',
   'paywall.restoreTitle': 'ಪುನಃಸ್ಥಾಪಿಸಿ',
   'paywall.restoreNoPurchases': 'ಪುನಃಸ್ಥಾಪಿಸಲು ಖರೀದಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ.',
   'paywall.oneTimePayment': 'ಒಂದು ಬಾರಿ ಪಾವತಿ',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'ಶಾಶ್ವತವಾಗಿ ಅನ್‌ಲಾಕ್ ಮಾಡಿ',
   'paywall.startAnnual': 'ವಾರ್ಷಿಕ ಯೋಜನೆ ಪ್ರಾರಂಭಿಸಿ',
   'paywall.startWeekly': 'ಸಾಪ್ತಾಹಿಕ ಪ್ರಾರಂಭಿಸಿ',
-  'paywall.hideOptions': 'ಆಯ್ಕೆಗಳನ್ನು ಮರೆಮಾಡಿ',
   'paywall.then': 'ನಂತರ',
   'paywall.weeklyAutoRenew': 'ಸ್ವಯಂ-ನವೀಕರಣ',
   'paywall.weeklyTrial': '3 ದಿನಗಳ ಉಚಿತ ಪ್ರಯೋಗ',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'ಸ್ವಯಂಚಾಲಿತ Mindful Minutes ಲಾಗಿಂಗ್',
   'onboarding.appleHealthBullet2': 'HRV ಡೇಟಾ ಟ್ರ್ಯಾಕಿಂಗ್',
   'onboarding.appleHealthBullet3': 'ನಿಮ್ಮ ಡೇಟಾ ಖಾಸಗಿಯಾಗಿ ಉಳಿಯುತ್ತದೆ',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'ಉತ್ತಮವಾಗಿ ಉಸಿರಾಡುವ 1,000+ ಜನರೊಂದಿಗೆ ಸೇರಿ',
+  'onboarding.socialProofSub': 'ನಿಜವಾದ ಜನರು, ನಿಜವಾದ ಫಲಿತಾಂಶಗಳು.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'ಮಾರ್ಕೆಟಿಂಗ್ ನಿರ್ದೇಶಕಿ, NYC',
+  'onboarding.t1Text': '“ನಾನು ಹಾಸಿಗೆಯಲ್ಲಿ 4-7-8 ಮಾಡುತ್ತೇನೆ ಮತ್ತು 5 ನಿಮಿಷದಲ್ಲಿ ನಿದ್ರಿಸುತ್ತೇನೆ.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'ಸಾಫ್ಟ್‌ವೇರ್ ಎಂಜಿನಿಯರ್',
+  'onboarding.t2Text': '“ಆಳ ಕೆಲಸದ ಮೊದಲು ಬಾಕ್ಸ್ ಬ್ರೀಥಿಂಗ್ ಮಾನಸಿಕ ವಾರ್ಮ್-ಅಪ್‌ನಂತೆ.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'ಚಿಕಿತ್ಸಕಿ',
+  'onboarding.t3Text': '“ಪ್ಯಾನಿಕ್ ಡಿಸಾರ್ಡರ್ ಹೊಂದಿರುವ ಗ್ರಾಹಕರಿಗೆ ನಾನು BreathFlow ಶಿಫಾರಸು ಮಾಡುತ್ತೇನೆ.”',
+  'onboarding.rateTitle': 'BreathFlow ಭವಿಷ್ಯವನ್ನು ರೂಪಿಸಲು ಸಹಾಯ ಮಾಡಿ',
+  'onboarding.rateSub': 'ನಿಮ್ಮ ಆಲೋಚನೆಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ ಮತ್ತು ನಮ್ಮ ಸೇವೆಯನ್ನು ಸುಧಾರಿಸಲು ಸಹಾಯ ಮಾಡಿ.',
+  'onboarding.rateCta': 'ಮುಂದೆ',
   'onboarding.connectHealth': 'Apple Health ಸಂಪರ್ಕಿಸಿ',
   'onboarding.healthSkip': 'ಬಿಟ್ಟುಬಿಡಿ',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'ಕೇವಲ 5 ನಿಮಿಷ ಪ್ರಜ್ಞಾಪೂರ್ವಕ ಉಸಿರಾಟ ಮನಸ್ಥಿತಿ ಬದಲಿಸುತ್ತದೆ.',
   'notifications.tip6': 'ನಿಧಾನ ಉಸಿರಾಟ parasympathetic nervous system ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ.',
   'notifications.tip7': 'ನಿರಂತರ ಅಭ್ಯಾಸ ಕ್ರಮೇಣ ಸ್ಥಿತಿಸ್ಥಾಪಕತ್ವ ನಿರ್ಮಿಸುತ್ತದೆ.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "ಇದನ್ನು ಅಭ್ಯಾಸವಾಗಿಸಿ",
+  'summary.habitReminderTitle': "ದೈನಂದಿನ ಜ್ಞಾಪನೆ",
+  'summary.habitReminderSub': "ಪ್ರತಿದಿನ ಉಸಿರಾಡಲು ಒಂದು ಮೃದುವಾದ ಜ್ಞಾಪನೆ",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "ಸೆಶನ್‌ಗಳನ್ನು ಮೈಂಡ್‌ಫುಲ್ ನಿಮಿಷಗಳಾಗಿ ಉಳಿಸಿ",
+  'settings.resetOnboarding': "ಆನ್‌ಬೋರ್ಡಿಂಗ್ ಮರುಹೊಂದಿಸಿ",
+  'settings.resetOnboardingConfirm': "ಆನ್‌ಬೋರ್ಡಿಂಗ್ ಹರಿವನ್ನು ಮತ್ತೆ ಪ್ಲೇ ಮಾಡುವುದೇ? ಇದು ಮೊದಲ ಸೆಶನ್‌ನ ಸುರಕ್ಷತಾ ಪರದೆಯನ್ನೂ ಮರುಸಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ.",
+  'settings.resetOnboardingConfirmCta': "ಮರುಹೊಂದಿಸಿ",
+  'settings.developer': "ಡೆವಲಪರ್",
+  'paywall.errorGeneric': "ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "ಸಂಗೀತವನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿ",
+  'session.musicOff': "ಸಂಗೀತವನ್ನು ಪ್ಲೇ ಮಾಡಿ",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "ಹೆಚ್ಚಿಸಿ",
+  'common.decrease': "ಕಡಿಮೆ ಮಾಡಿ",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% ಉಳಿತಾಯ",
+  'paywall.perWeekApprox': "≈ {{price}}/ವಾರ",
+  'paywall.startTrialWeekly': "3 ದಿನ ಉಚಿತವಾಗಿ ಪ್ರಯತ್ನಿಸಿ",
+  'paywall.startTrialAnnual': "7 ದಿನ ಉಚಿತವಾಗಿ ಪ್ರಯತ್ನಿಸಿ",
+  'paywall.cancelAnytime': "ಯಾವಾಗ ಬೇಕಾದರೂ ರದ್ದುಮಾಡಿ · ಯಾವುದೇ ಬದ್ಧತೆ ಇಲ್ಲ",
 };

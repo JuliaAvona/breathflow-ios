@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'ホーム',
   'tabs.breathe': '呼吸',
   'tabs.history': '記録',
-  'tabs.badges': 'バッジ',
+  'tabs.badges': '実績',
   'tabs.settings': '設定',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': '眠い',
   'summary.done': '完了',
   'summary.repeat': 'もう一度',
+  'summary.dontSave': '保存しない',
+  'summary.discardTitle': 'このセッションを保存しませんか?',
+  'summary.discardMessage': 'このセッションは削除され、統計や連続記録にはカウントされません。',
   'summary.share': '共有',
   'summary.shareText': 'BreathFlowで{{duration}}の{{technique}}呼吸セッションを完了しました！ \u{1F32C}\uFE0F',
   'summary.shareMessage': 'BreathFlowで{{duration}}の{{technique}}呼吸セッションを完了しました！ \u{1F32C}\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': '設定',
+  'settings.preferences': '環境設定',
   'settings.feedback': 'サウンド',
   'settings.sound': 'サウンド',
   'settings.soundStyle': 'サウンドスタイル',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'アスリートも信頼',
   'onboarding.socialProof2': 'スタンフォード大学が実証',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '毎日の目標を設定する',
-  'onboarding.commitSub': '小さな日課が持続的な変化を生み出します。',
   'onboarding.commitMinUnit': '分 / 日',
   'onboarding.commitHint_3': '3分のセッションだけでも神経系を落ち着かせるのに役立ちます。',
   'onboarding.commitHint_5': 'スタンフォードの研究は、ゆっくりした呼吸とストレス軽減・良質な睡眠を結びつけています。',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365日間連続達成',
 
   // Badges screen
-  'badges.title': 'バッジ',
+  'badges.title': '実績',
   'badges.unlocked': '獲得済み',
   'badges.unlockBadges': 'Proでバッジを解放',
   'badges.unlockBadgesDesc': '実績を追跡し、すべてのバッジを獲得しよう',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': '全10種類の呼吸テクニック',
   'paywall.feature2': 'すべての音楽トラック',
   'paywall.feature3': 'すべてのバッジをアンロック',
-  'paywall.feature4': '完全な履歴と統計',
+  'paywall.featureAppleHealth': 'Apple ヘルスケア連携',
   'paywall.feature5': '気分トラッキング',
   'paywall.feature6': 'すべてのバッジ',
   'paywall.purchase': '{{price}}で購入',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'この日のセッションはありません',
   'history.allTimeStats': '累計統計',
   'history.unlockFullHistory': 'Proで完全な履歴を解除',
+  'history.unlockFullHistoryDesc': 'すべての進捗と歴代の統計を確認できます',
   'history.weeklyActivity': '週間アクティビティ',
   'history.badges': 'バッジ',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': '復元する購入はありません。',
   'settings.restoreFailed': '復元に失敗しました。もう一度お試しください。',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'マインドフルネス時間を同期',
+  'settings.syncMindfulMinutes': 'Apple ヘルスケア連携',
   'settings.privacyPolicy': 'プライバシーポリシー',
   'settings.termsOfService': '利用規約',
   'settings.restorePurchases': '購入を復元',
@@ -505,6 +508,9 @@ export default {
   'paywall.errorNoProduct': '商品が利用できません。後ほどお試しください。',
   'paywall.restoreSuccessTitle': '復元完了',
   'paywall.restoreSuccessMessage': '購入が復元されました。',
+  'paywall.welcomeTitle': 'Proへようこそ',
+  'paywall.welcomeMessage': 'すべてのテクニックと機能がアンロックされました。',
+  'paywall.welcomeCta': '続ける',
   'paywall.restoreTitle': '復元',
   'paywall.restoreNoPurchases': '復元する購入が見つかりません。',
   'paywall.oneTimePayment': '買い切り',
@@ -522,7 +528,6 @@ export default {
   'paywall.unlockForever': '永久にアンロック',
   'paywall.startAnnual': '年間プランを開始',
   'paywall.startWeekly': '週間プランを開始',
-  'paywall.hideOptions': 'オプションを隠す',
   'paywall.then': 'その後',
   'paywall.weeklyAutoRenew': '自動更新',
   'paywall.weeklyTrial': '3日間無料トライアル',
@@ -615,6 +620,22 @@ export default {
   'onboarding.appleHealthBullet2': '時間の経過とともに進捗を追跡',
   'onboarding.appleHealthBullet3': 'データはプライベートのまま',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'より良く呼吸する1,000人以上に参加しよう',
+  'onboarding.socialProofSub': '実在の人、実在の結果。',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'マーケティングディレクター、NYC',
+  'onboarding.t1Text': '「ベッドで4-7-8をやると5分で眠れる。何年もの不眠症の後、これはすごい。」',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'ソフトウェアエンジニア',
+  'onboarding.t2Text': '「集中作業前のボックス呼吸はメンタルウォームアップのよう。」',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'セラピスト',
+  'onboarding.t3Text': '「パニック障害のクライアントにBreathFlowを勧めています。生理的ため息は数秒で効きます。」',
+  'onboarding.rateTitle': 'BreathFlowの未来を一緒に形作ろう',
+  'onboarding.rateSub': 'あなたの感想を共有して、サービスをより便利・楽しい・あなたに合ったものにする手助けをしてください。',
+  'onboarding.rateCta': '次へ',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'ストレスから穏やかさへ — わずか数分で',
   'paywall.heroSleep': '何時間も寝返りを打たず、数分で眠りに',
@@ -639,4 +660,31 @@ export default {
   'paywall.row5Pro': 'すべてのカラーテーマ & バッジ ✓',
   'paywall.anchor': 'コーヒー1杯以下の価格。効果はずっと続く。',
   'paywall.continueFree': '無料バージョンで続ける',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "習慣にしましょう",
+  'summary.habitReminderTitle': "毎日のリマインダー",
+  'summary.habitReminderSub': "毎日呼吸をするための優しいお知らせ",
+  'summary.habitHealthTitle': "ヘルスケア",
+  'summary.habitHealthSub': "セッションをマインドフル分数として記録",
+  'settings.resetOnboarding': "オンボーディングをリセット",
+  'settings.resetOnboardingConfirm': "オンボーディングをもう一度再生しますか？これにより初回セッションの安全確認画面も再表示されます。",
+  'settings.resetOnboardingConfirmCta': "リセット",
+  'settings.developer': "開発者",
+  'paywall.errorGeneric': "問題が発生しました。もう一度お試しください。",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "音楽をミュート",
+  'session.musicOff': "音楽を再生",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "増やす",
+  'common.decrease': "減らす",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}%お得",
+  'paywall.perWeekApprox': "≈ 週{{price}}",
+  'paywall.startTrialWeekly': "3日間無料でお試し",
+  'paywall.startTrialAnnual': "7日間無料でお試し",
+  'paywall.cancelAnytime': "いつでもキャンセル可能・縛りなし",
 };

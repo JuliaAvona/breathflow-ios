@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'መነሻ',
   'tabs.breathe': 'ተንፈስ',
   'tabs.history': 'እድገት',
-  'tabs.badges': 'ሜዳሊያዎች',
+  'tabs.badges': 'ሽልማቶች',
   'tabs.settings': 'ቅንብሮች',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'እንቅልፈኛ',
   'summary.done': 'ተጠናቀቀ',
   'summary.repeat': 'ድገም',
+  'summary.dontSave': 'አታስቀምጥ',
+  'summary.discardTitle': 'ይህን ክፍለ ጊዜ አታስቀምጥ?',
+  'summary.discardMessage': 'ይህ ክፍለ ጊዜ ይወገዳል እና በስታትስቲክስዎ ወይም ተከታታይነትዎ ውስጥ አይቆጠርም።',
   'summary.share': 'አጋራ',
   'summary.shareText': 'በ BreathFlow {{duration}} {{technique}} የመተንፈሻ ክፍለ ጊዜ አጠናቀቅኩ! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'በ BreathFlow {{duration}} {{technique}} የመተንፈሻ ክፍለ ጊዜ አጠናቀቅኩ! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'ቅንብሮች',
+  'settings.preferences': 'ምርጫዎች',
   'settings.feedback': 'ድምፆች',
   'settings.sound': 'ድምፅ',
   'settings.soundStyle': 'የድምፅ ዘይቤ',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'በስፖርተኞች የተረጋገጠ',
   'onboarding.socialProof2': 'በ Stanford የተደገፈ',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'የዕለት ግብዎን ያዘጋጁ',
-  'onboarding.commitSub': 'ትንሽ የዕለት ተዕለት ልምዶች ዘላቂ ለውጥ ይፈጥራሉ።',
   'onboarding.commitMinUnit': 'ደቂቃ / ቀን',
   'onboarding.commitHint_3': 'የ3 ደቂቃ ክፍለ ጊዜ እንኳ የነርቭ ስርዓትዎን ለማረጋጋት ይረዳል።',
   'onboarding.commitHint_5': 'የስታንፎርድ ምርምር ዝቅተኛ መተንፈስን ከዝቅተኛ ጭንቀት ጋር ያዛምዳል።',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': 'የ365 ቀን ሰንሰለት',
 
   // Badges screen
-  'badges.title': 'ሜዳሊያዎች',
+  'badges.title': 'ሽልማቶች',
   'badges.unlocked': 'ተከፍቷል',
   'badges.locked': 'ተቆልፏል',
   'badges.progress': 'ከ {{total}} ሜዳሊያዎች {{unlocked}}',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'ሁሉም 10 የመተንፈስ ቴክኒኮች',
   'paywall.feature2': 'ሁሉም የሙዚቃ ትራኮች',
   'paywall.feature3': 'ሁሉንም ባጆች ክፈት',
-  'paywall.feature4': 'ሙሉ ታሪክ እና ስታቲስቲክስ',
+  'paywall.featureAppleHealth': 'የApple Health ማመሳሰል',
   'paywall.feature5': 'ስሜት ክትትል',
   'paywall.feature6': 'ሁሉም ሜዳሊያዎች',
   'paywall.purchase': 'በ {{price}} ግዛ',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'በዚህ ቀን ክፍለ ጊዜዎች የሉም',
   'history.allTimeStats': 'ጠቅላላ ስታቲስቲክስ',
   'history.unlockFullHistory': 'በ Pro ሙሉ ታሪክ ይክፈቱ',
+  'history.unlockFullHistoryDesc': 'ሙሉ እድገትዎን እና የሁሉንም ጊዜ ስታትስቲክስ ይመልከቱ',
   'history.weeklyActivity': 'ሳምንታዊ እንቅስቃሴ',
   'history.badges': 'ሜዳሊያዎች',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'የሚመለሱ ግዢዎች የሉም።',
   'settings.restoreFailed': 'መመለስ አልተሳካም። እባክዎ እንደገና ሞክሩ።',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Mindful Minutes ያስሙሉ',
+  'settings.syncMindfulMinutes': 'የApple Health ማመሳሰል',
   'settings.privacyPolicy': 'የግላዊነት ፖሊሲ',
   'settings.termsOfService': 'የአገልግሎት ውል',
   'settings.restorePurchases': 'ግዢዎችን መልስ',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'ምርት አይገኝም። እባክዎ ቆይተው እንደገና ሞክሩ።',
   'paywall.restoreSuccessTitle': 'ተመልሷል',
   'paywall.restoreSuccessMessage': 'ግዢዎችዎ ተመልሰዋል።',
+  'paywall.welcomeTitle': 'ወደ Pro እንኳን በደህና መጡ',
+  'paywall.welcomeMessage': 'ሁሉም ቴክኒኮች እና ባህሪያት አሁን ተከፍተዋል።',
+  'paywall.welcomeCta': 'ቀጥል',
   'paywall.restoreTitle': 'መልስ',
   'paywall.restoreNoPurchases': 'የሚመለሱ ግዢዎች አልተገኙም።',
   'paywall.oneTimePayment': 'አንድ ጊዜ ክፍያ',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'ለዘላለም ክፈት',
   'paywall.startAnnual': 'ዓመታዊ ዕቅድ ጀምር',
   'paywall.startWeekly': 'ሳምንታዊ ጀምር',
-  'paywall.hideOptions': 'አማራጮችን ደብቅ',
   'paywall.then': 'ከዚያ',
   'paywall.weeklyAutoRenew': 'ራስ-አዲስ',
   'paywall.weeklyTrial': '3-ቀን ነፃ ሙከራ',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'ራስ-ሰር Mindful Minutes ምዝገባ',
   'onboarding.appleHealthBullet2': 'HRV ዳታ ክትትል',
   'onboarding.appleHealthBullet3': 'ዳታዎ ሚስጢራዊ ይቆያል',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'ከ1,000+ የተሻለ የሚተነፍሱ ጋር ይቀላቀሉ',
+  'onboarding.socialProofSub': 'እውነተኛ ሰዎች፣ እውነተኛ ውጤቶች።',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'የግብይት ዳይሬክተር፣ NYC',
+  'onboarding.t1Text': '“በአልጋ ላይ 4-7-8 አደርጋለሁ እና በ5 ደቂቃ ውስጥ እተኛለሁ።”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'የሶፍትዌር መሐንዲስ',
+  'onboarding.t2Text': '“ቦክስ መተንፈስ ከጥልቀት ሥራ በፊት የአዕምሮ ዝግጅት ነው።”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'ቴራፒስት',
+  'onboarding.t3Text': '“BreathFlow ለፓኒክ ዲሶርደር ያላቸው ደንበኞች አምርቻለሁ።”',
+  'onboarding.rateTitle': 'የBreathFlow የወደፊት ቅርጽ ያግዙ',
+  'onboarding.rateSub': 'ሀሳቦችዎን ያጋሩ እና አገልግሎታችንን የበለጠ ጠቃሚ፣ አስደሳች እና ለፍላጎቶችዎ የተበጀ እንዲሆን ያግዙን።',
+  'onboarding.rateCta': 'ቀጣይ',
   'onboarding.connectHealth': 'Apple Health ያዛምዱ',
   'onboarding.healthSkip': 'ዝለሉ',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': '5 ደቂቃ ንቃተ-ህሊና ያለው መተንፈሻ ስሜትን ይቀይራል.',
   'notifications.tip6': 'ዝግ ያለ መተንፈሻ parasympathetic nervous system ያነቃቃል.',
   'notifications.tip7': 'ቀጣይ ልምምድ ከጊዜ ጋር ጥንካሬ ይፈጥራል.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "የዕለት ተግባር ያድርጉት",
+  'summary.habitReminderTitle': "ዕለታዊ ማስታወሻ",
+  'summary.habitReminderSub': "በየቀኑ ለመተንፈስ ገር ማሳሰቢያ",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "ክፍለ ጊዜዎችን እንደ ማይንድፉል ደቂቃዎች ያስቀምጡ",
+  'settings.resetOnboarding': "ኦንቦርዲንግን ዳግም አስጀምር",
+  'settings.resetOnboardingConfirm': "የኦንቦርዲንግ ፍሰቱን እንደገና ማጫወት ይፈልጋሉ? ይህ የመጀመሪያ-ክፍለ ጊዜ የደህንነት ማያ ገጽንም እንደገና ያዘጋጃል።",
+  'settings.resetOnboardingConfirmCta': "ዳግም አስጀምር",
+  'settings.developer': "ገንቢ",
+  'paywall.errorGeneric': "የሆነ ችግር ተፈጥሯል። እባክዎ እንደገና ይሞክሩ።",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "ሙዚቃ ድምጸት አጥፋ",
+  'session.musicOff': "ሙዚቃ አጫውት",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "ጨምር",
+  'common.decrease': "ቀንስ",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% ቁጠባ",
+  'paywall.perWeekApprox': "≈ {{price}}/ሳምንት",
+  'paywall.startTrialWeekly': "3 ቀናት በነጻ ይሞክሩ",
+  'paywall.startTrialAnnual': "7 ቀናት በነጻ ይሞክሩ",
+  'paywall.cancelAnytime': "ማንኛውም ጊዜ ይሰርዙ · ያለ ግዴታ",
 };

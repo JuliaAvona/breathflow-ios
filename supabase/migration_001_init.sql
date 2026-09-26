@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS user_sessions (
   breaths_per_round INTEGER,
 
   -- Mood tracking
-  mood_after        TEXT CHECK (mood_after IN ('calm', 'energized', 'focused', 'sleepy')),
+  mood_after        TEXT CHECK (mood_after IN ('calm', 'energized', 'focused', 'sleepy', 'anxious', 'happy')),
 
   -- Sync metadata
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),

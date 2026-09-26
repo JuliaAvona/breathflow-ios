@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Laman Utama',
   'tabs.breathe': 'Bernafas',
   'tabs.history': 'Kemajuan',
-  'tabs.badges': 'Lencana',
+  'tabs.badges': 'Anugerah',
   'tabs.settings': 'Tetapan',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Mengantuk',
   'summary.done': 'Selesai',
   'summary.repeat': 'Ulang',
+  'summary.dontSave': 'Jangan Simpan',
+  'summary.discardTitle': 'Jangan simpan sesi ini?',
+  'summary.discardMessage': 'Sesi ini akan dialih keluar dan tidak akan dikira dalam statistik atau streak anda.',
   'summary.share': 'Kongsi',
   'summary.shareText': 'Saya baru sahaja menyelesaikan sesi pernafasan {{technique}} selama {{duration}} dengan BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Saya baru sahaja menyelesaikan sesi pernafasan {{technique}} selama {{duration}} dengan BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Tetapan',
+  'settings.preferences': 'Keutamaan',
   'settings.feedback': 'Bunyi',
   'settings.sound': 'Bunyi',
   'settings.soundStyle': 'Gaya Bunyi',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Dipercayai atlet',
   'onboarding.socialProof2': 'Disokong Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Tetapkan matlamat harian anda',
-  'onboarding.commitSub': 'Tabiat kecil harian mencipta perubahan kekal.',
   'onboarding.commitMinUnit': 'min / hari',
   'onboarding.commitHint_3': 'Malah sesi 3 minit boleh membantu menenangkan sistem saraf anda.',
   'onboarding.commitHint_5': 'Penyelidikan Stanford menghubungkan pernafasan perlahan dengan kurang tekanan dan tidur lebih baik.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': 'Streak 365 hari',
 
   // Badges screen
-  'badges.title': 'Lencana',
+  'badges.title': 'Anugerah',
   'badges.unlocked': 'Dibuka',
   'badges.locked': 'Dikunci',
   'badges.progress': '{{unlocked}} daripada {{total}} lencana',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'Semua 10 Teknik Pernafasan',
   'paywall.feature2': 'Semua Trek Muzik',
   'paywall.feature3': 'Buka Kunci Semua Lencana',
-  'paywall.feature4': 'Sejarah Penuh & Statistik',
+  'paywall.featureAppleHealth': 'Penyegerakan Apple Health',
   'paywall.feature5': 'Penjejakan mood',
   'paywall.feature6': 'Semua lencana',
   'paywall.purchase': 'Beli dengan harga {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Tiada sesi pada hari ini',
   'history.allTimeStats': 'Statistik Sepanjang Masa',
   'history.unlockFullHistory': 'Buka kunci sejarah penuh dengan Pro',
+  'history.unlockFullHistoryDesc': 'Lihat kemajuan penuh dan statistik sepanjang masa anda',
   'history.weeklyActivity': 'Aktiviti Mingguan',
   'history.badges': 'Lencana',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'Tiada pembelian untuk dipulihkan.',
   'settings.restoreFailed': 'Pemulihan gagal. Sila cuba lagi.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Segerakkan Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Penyegerakan Apple Health',
   'settings.privacyPolicy': 'Dasar Privasi',
   'settings.termsOfService': 'Terma Perkhidmatan',
   'settings.restorePurchases': 'Pulihkan Pembelian',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'Produk tidak tersedia. Sila cuba lagi kemudian.',
   'paywall.restoreSuccessTitle': 'Dipulihkan',
   'paywall.restoreSuccessMessage': 'Pembelian anda telah dipulihkan.',
+  'paywall.welcomeTitle': 'Selamat Datang ke Pro',
+  'paywall.welcomeMessage': 'Semua teknik dan ciri kini dibuka kunci.',
+  'paywall.welcomeCta': 'Teruskan',
   'paywall.restoreTitle': 'Pulihkan',
   'paywall.restoreNoPurchases': 'Tiada pembelian ditemui untuk dipulihkan.',
   'paywall.oneTimePayment': 'Bayaran sekali sahaja',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'Buka Kunci Selamanya',
   'paywall.startAnnual': 'Mula Pelan Tahunan',
   'paywall.startWeekly': 'Mula Mingguan',
-  'paywall.hideOptions': 'Sembunyikan Pilihan',
   'paywall.then': 'kemudian',
   'paywall.weeklyAutoRenew': 'pembaharuan automatik',
   'paywall.weeklyTrial': 'Percubaan percuma 3 hari',
@@ -604,6 +609,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Jejaki kemajuan dari semasa ke semasa',
   'onboarding.appleHealthBullet3': 'Data anda kekal peribadi',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Sertai 1,000+ orang yang bernafas lebih baik',
+  'onboarding.socialProofSub': 'Orang sebenar, hasil sebenar.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Pengarah Pemasaran, NYC',
+  'onboarding.t1Text': '“Saya buat 4-7-8 di katil dan tidur dalam 5 minit.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Jurutera perisian',
+  'onboarding.t2Text': '“Box breathing sebelum kerja mendalam seperti pemanasan mental.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Ahli terapi',
+  'onboarding.t3Text': '“Saya mengesyorkan BreathFlow kepada klien dengan gangguan panik.”',
+  'onboarding.rateTitle': 'Bantu Bentuk Masa Depan BreathFlow',
+  'onboarding.rateSub': 'Kongsikan pendapat anda dan bantu kami menjadikan perkhidmatan ini lebih baik.',
+  'onboarding.rateCta': 'Seterusnya',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Dari tekanan ke ketenangan — dalam beberapa minit',
   'paywall.heroSleep': 'Tidur dalam minit, bukan jam',
@@ -639,4 +660,31 @@ export default {
   'notifications.tip5': 'Bernafas dengan 5.5 nafas/minit mengoptimumkan variasi kadar jantung.',
   'notifications.tip6': 'Walaupun 1 minit pernafasan sedar membuat perbezaan.',
   'notifications.tip7': 'Hembusan nafas panjang memberitahu badan anda bahawa selamat untuk berehat.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Jadikan ia satu tabiat",
+  'summary.habitReminderTitle': "Peringatan harian",
+  'summary.habitReminderSub': "Peringatan lembut untuk bernafas setiap hari",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Simpan sesi sebagai Minit Mindful",
+  'settings.resetOnboarding': "Set Semula Onboarding",
+  'settings.resetOnboardingConfirm': "Main semula aliran onboarding? Ini juga akan mengaktifkan semula skrin keselamatan sesi pertama.",
+  'settings.resetOnboardingConfirmCta': "Tetapkan Semula",
+  'settings.developer': "Pembangun",
+  'paywall.errorGeneric': "Sesuatu tidak kena. Sila cuba lagi.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Redamkan muzik",
+  'session.musicOff': "Mainkan muzik",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Tambah",
+  'common.decrease': "Kurangkan",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "JIMAT {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/minggu",
+  'paywall.startTrialWeekly': "Cuba Percuma selama 3 Hari",
+  'paywall.startTrialAnnual': "Cuba Percuma selama 7 Hari",
+  'paywall.cancelAnytime': "Batalkan bila-bila masa · Tiada komitmen",
 };

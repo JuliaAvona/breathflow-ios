@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Ana Sayfa',
   'tabs.breathe': 'Nefes',
   'tabs.history': 'İlerleme',
-  'tabs.badges': 'Rozetler',
+  'tabs.badges': 'Ödüller',
   'tabs.settings': 'Ayarlar',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Uykulu',
   'summary.done': 'Tamam',
   'summary.repeat': 'Tekrarla',
+  'summary.dontSave': 'Kaydetme',
+  'summary.discardTitle': 'Bu oturum kaydedilmesin mi?',
+  'summary.discardMessage': 'Bu oturum kaldırılacak ve istatistiklerinize veya serinize dahil edilmeyecek.',
   'summary.share': 'Paylaş',
   'summary.shareText': 'BreathFlow ile {{duration}} süren bir {{technique}} nefes oturumu tamamladım! \u{1F32C}\uFE0F',
   'summary.shareMessage': 'BreathFlow ile {{duration}} süren bir {{technique}} nefes oturumu tamamladım! \u{1F32C}\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Ayarlar',
+  'settings.preferences': 'Tercihler',
   'settings.feedback': 'Sesler',
   'settings.sound': 'Ses',
   'settings.soundStyle': 'Ses Stili',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Sporcuların tercihi',
   'onboarding.socialProof2': 'Stanford onaylı',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Günlük hedefinizi belirleyin',
-  'onboarding.commitSub': 'Küçük günlük alışkanlıklar kalıcı değişim yaratır.',
   'onboarding.commitMinUnit': 'dak / gün',
   'onboarding.commitHint_3': '3 dakikalık bir seans bile sinir sisteminizi sakinleştirmeye yardımcı olabilir.',
   'onboarding.commitHint_5': 'Stanford araştırması yavaş nefes almayı daha az stres ve daha iyi uyku ile ilişkilendiriyor.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365 günlük seri',
 
   // Badges screen
-  'badges.title': 'Rozetler',
+  'badges.title': 'Ödüller',
   'badges.unlocked': 'Açılmış',
   'badges.unlockBadges': 'Pro ile rozetleri aç',
   'badges.unlockBadgesDesc': 'Başarılarını takip et ve tüm rozetleri kazan',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': '10 nefes tekniğinin tamamı',
   'paywall.feature2': 'Tüm müzik parçaları',
   'paywall.feature3': 'Tüm rozetleri aç',
-  'paywall.feature4': 'Tam geçmiş ve istatistikler',
+  'paywall.featureAppleHealth': 'Apple Health Senkronizasyonu',
   'paywall.feature5': 'Ruh hali takibi',
   'paywall.feature6': 'Tüm rozetler',
   'paywall.purchase': '{{price}} karşılığında satın al',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Bu günde oturum yok',
   'history.allTimeStats': 'Tüm Zamanlar İstatistikleri',
   'history.unlockFullHistory': 'Pro ile tam geçmişi açın',
+  'history.unlockFullHistoryDesc': 'Tüm ilerlemenizi ve tüm zamanların istatistiklerini görün',
   'history.weeklyActivity': 'Haftalık Aktivite',
   'history.badges': 'Rozetler',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': 'Geri yüklenecek satın alım yok.',
   'settings.restoreFailed': 'Geri yükleme başarısız. Lütfen tekrar deneyin.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Farkındalık Dakikalarını Senkronize Et',
+  'settings.syncMindfulMinutes': 'Apple Health Senkronizasyonu',
   'settings.privacyPolicy': 'Gizlilik Politikası',
   'settings.termsOfService': 'Kullanım Koşulları',
   'settings.restorePurchases': 'Satın Alımları Geri Yükle',
@@ -505,6 +508,9 @@ export default {
   'paywall.errorNoProduct': 'Ürün mevcut değil. Lütfen daha sonra tekrar deneyin.',
   'paywall.restoreSuccessTitle': 'Geri Yüklendi',
   'paywall.restoreSuccessMessage': 'Satın alımlarınız geri yüklendi.',
+  'paywall.welcomeTitle': 'Pro\'ya Hoş Geldiniz',
+  'paywall.welcomeMessage': 'Tüm teknikler ve özellikler artık kilidi açıldı.',
+  'paywall.welcomeCta': 'Devam Et',
   'paywall.restoreTitle': 'Geri Yükle',
   'paywall.restoreNoPurchases': 'Geri yüklenecek satın alım bulunamadı.',
   'paywall.oneTimePayment': 'Tek seferlik ödeme',
@@ -522,7 +528,6 @@ export default {
   'paywall.unlockForever': 'Sonsuza kadar aç',
   'paywall.startAnnual': 'Yıllık planı başlat',
   'paywall.startWeekly': 'Haftalık başlat',
-  'paywall.hideOptions': 'Seçenekleri gizle',
   'paywall.then': 'sonra',
   'paywall.weeklyAutoRenew': 'otomatik yenileme',
   'paywall.weeklyTrial': '3 günlük ücretsiz deneme',
@@ -615,6 +620,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Zaman içindeki ilerlemeyi takip edin',
   'onboarding.appleHealthBullet3': 'Verileriniz gizli kalır',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Daha iyi nefes alan 1.000+ kişiye katıl',
+  'onboarding.socialProofSub': 'Gerçek insanlar, gerçek sonuçlar.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Pazarlama direktörü, NYC',
+  'onboarding.t1Text': '“Yatakta 4-7-8 yapıyorum ve 5 dakikada uyuyorum. Yıllarca uykusuzluktan sonra inanılmaz.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Yazılım mühendisi',
+  'onboarding.t2Text': '“Derin işten önce kutu nefesi mental bir ısınma gibi.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapist',
+  'onboarding.t3Text': "“Panik bozukluğu olan danışanlarıma BreathFlow'u öneriyorum.”",
+  'onboarding.rateTitle': "BreathFlow'un geleceğini şekillendirmeye yardım et",
+  'onboarding.rateSub': 'Düşüncelerini paylaş ve hizmetimizi daha iyi yapmamıza yardım et — daha faydalı, keyifli ve ihtiyaçlarına uygun.',
+  'onboarding.rateCta': 'İleri',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Stresten sakinliğe — dakikalar içinde',
   'paywall.heroSleep': 'Saatler değil, dakikalar içinde uykuya dalın',
@@ -639,4 +660,31 @@ export default {
   'paywall.row5Pro': 'Tüm renk temaları ve rozetler ✓',
   'paywall.anchor': 'Bir kahveden az. Kalıcı sonuçlar.',
   'paywall.continueFree': 'Ücretsiz sürümle devam et',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Bunu bir alışkanlık haline getir",
+  'summary.habitReminderTitle': "Günlük hatırlatma",
+  'summary.habitReminderSub': "Her gün nefes almak için nazik bir hatırlatma",
+  'summary.habitHealthTitle': "Apple Sağlık",
+  'summary.habitHealthSub': "Seansları Farkındalık Dakikaları olarak kaydet",
+  'settings.resetOnboarding': "Tanıtımı Sıfırla",
+  'settings.resetOnboardingConfirm': "Tanıtım akışı yeniden oynatılsın mı? Bu, ilk oturum güvenlik ekranını da yeniden etkinleştirir.",
+  'settings.resetOnboardingConfirmCta': "Sıfırla",
+  'settings.developer': "Geliştirici",
+  'paywall.errorGeneric': "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Müziği sessize al",
+  'session.musicOff': "Müziği çal",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Artır",
+  'common.decrease': "Azalt",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "%{{percent}} TASARRUF",
+  'paywall.perWeekApprox': "≈ {{price}}/hafta",
+  'paywall.startTrialWeekly': "3 Gün Ücretsiz Dene",
+  'paywall.startTrialAnnual': "7 Gün Ücretsiz Dene",
+  'paywall.cancelAnytime': "İstediğin zaman iptal et · Taahhüt yok",
 };

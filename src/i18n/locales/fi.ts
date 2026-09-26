@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Koti',
   'tabs.breathe': 'Hengit\u00e4',
   'tabs.history': 'Edistyminen',
-  'tabs.badges': 'Merkit',
+  'tabs.badges': 'Palkinnot',
   'tabs.settings': 'Asetukset',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Uninen',
   'summary.done': 'Valmis',
   'summary.repeat': 'Toista',
+  'summary.dontSave': 'Älä tallenna',
+  'summary.discardTitle': 'Älä tallenna tätä istuntoa?',
+  'summary.discardMessage': 'Tämä istunto poistetaan eikä se lasketa tilastoihisi tai putkeesi.',
   'summary.share': 'Jaa',
   'summary.shareText': 'Juuri suoritin {{duration}} {{technique}} hengitysharjoituksen BreathFlow:lla! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Juuri suoritin {{duration}} {{technique}} hengitysharjoituksen BreathFlow:lla! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Asetukset',
+  'settings.preferences': 'Mieltymykset',
   'settings.feedback': '\u00c4\u00e4net',
   'settings.sound': '\u00c4\u00e4ni',
   'settings.soundStyle': '\u00c4\u00e4nityyli',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Urheilijoiden luottama',
   'onboarding.socialProof2': 'Stanfordin tukema',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Aseta p\u00e4ivitt\u00e4inen tavoitteesi',
-  'onboarding.commitSub': 'Pienet p\u00e4ivitt\u00e4iset tavat luovat pysyv\u00e4n muutoksen.',
   'onboarding.commitMinUnit': 'min / p\u00e4iv\u00e4',
   'onboarding.commitHint_3': 'Jo 3 minuutin harjoitus voi auttaa rauhoittamaan hermostoasi.',
   'onboarding.commitHint_5': 'Stanfordin tutkimus yhdist\u00e4\u00e4 hitaan hengityksen v\u00e4h\u00e4isemp\u00e4\u00e4n stressiin ja parempaan uneen.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365 p\u00e4iv\u00e4n putki',
 
   // Badges screen
-  'badges.title': 'Merkit',
+  'badges.title': 'Palkinnot',
   'badges.unlocked': 'Avattu',
   'badges.locked': 'Lukittu',
   'badges.progress': '{{unlocked}} / {{total}} merkki\u00e4',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'Kaikki 10 hengitystekniikkaa',
   'paywall.feature2': 'Kaikki musiikkikappaleet',
   'paywall.feature3': 'Avaa kaikki merkit',
-  'paywall.feature4': 'T\u00e4ysi historia ja tilastot',
+  'paywall.featureAppleHealth': 'Apple Health -synkronointi',
   'paywall.feature5': 'Mielialanseuranta',
   'paywall.feature6': 'Kaikki merkit',
   'paywall.purchase': 'Osta hintaan {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Ei harjoituksia t\u00e4n\u00e4 p\u00e4iv\u00e4n\u00e4',
   'history.allTimeStats': 'Kokonaistilastot',
   'history.unlockFullHistory': 'Avaa t\u00e4ysi historia Prolla',
+  'history.unlockFullHistoryDesc': 'Näe koko edistymisesi ja kaikkien aikojen tilastot',
   'history.weeklyActivity': 'Viikottainen Aktiivisuus',
   'history.badges': 'Merkit',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'Ei ostoksia palautettavaksi.',
   'settings.restoreFailed': 'Palautus ep\u00e4onnistui. Yrit\u00e4 uudelleen.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Synkronoi Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Apple Health -synkronointi',
   'settings.privacyPolicy': 'Tietosuojak\u00e4yt\u00e4nt\u00f6',
   'settings.termsOfService': 'K\u00e4ytt\u00f6ehdot',
   'settings.restorePurchases': 'Palauta Ostokset',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'Tuote ei ole saatavilla. Yrit\u00e4 my\u00f6hemmin uudelleen.',
   'paywall.restoreSuccessTitle': 'Palautettu',
   'paywall.restoreSuccessMessage': 'Ostoksesi on palautettu.',
+  'paywall.welcomeTitle': 'Tervetuloa Pro-versioon',
+  'paywall.welcomeMessage': 'Kaikki tekniikat ja ominaisuudet ovat nyt avoinna.',
+  'paywall.welcomeCta': 'Jatka',
   'paywall.restoreTitle': 'Palauta',
   'paywall.restoreNoPurchases': 'Ei l\u00f6ytynyt palautettavia ostoksia.',
   'paywall.oneTimePayment': 'Kertamaksu',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'Avaa ikuisesti',
   'paywall.startAnnual': 'Aloita vuosisuunnitelma',
   'paywall.startWeekly': 'Aloita viikottainen',
-  'paywall.hideOptions': 'Piilota vaihtoehdot',
   'paywall.then': 'sitten',
   'paywall.weeklyAutoRenew': 'automaattinen uusinta',
   'paywall.weeklyTrial': '3 p\u00e4iv\u00e4n ilmainen kokeilu',
@@ -604,6 +609,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Seuraa edistymist\u00e4 ajan my\u00f6t\u00e4',
   'onboarding.appleHealthBullet3': 'Tietosi pysyv\u00e4t yksityisin\u00e4',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Liity yli 1 000 ihmiseen, jotka hengittävät paremmin',
+  'onboarding.socialProofSub': 'Aitoja ihmisiä, aitoja tuloksia.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Markkinointijohtaja, NYC',
+  'onboarding.t1Text': '”Teen 4-7-8 sängyssä ja nukahdan 5 minuutissa. Vuosien unettomuuden jälkeen tämä on uskomatonta.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Ohjelmistoinsinööri',
+  'onboarding.t2Text': '”Box-hengitys ennen syvätyötä on kuin henkinen lämmittely.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeutti',
+  'onboarding.t3Text': '”Suosittelen BreathFlow-sovellusta paniikkihäiriöstä kärsiville asiakkaille.”',
+  'onboarding.rateTitle': 'Auta muotoilemaan BreathFlown tulevaisuutta',
+  'onboarding.rateSub': 'Jaa ajatuksesi ja auta meitä tekemään palvelustamme entistä parempi — hyödyllisempi, miellyttävämpi ja paremmin tarpeitasi vastaava.',
+  'onboarding.rateCta': 'Seuraava',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': 'Stressist\u00e4 rauhaan \u2014 minuuteissa',
   'paywall.heroSleep': 'Nukahtaa minuuteissa, ei tunneissa',
@@ -639,4 +660,31 @@ export default {
   'notifications.tip5': 'Hengitt\u00e4minen 5,5 hengityksell\u00e4/min optimoi sy\u00e4men sykevaihtelun.',
   'notifications.tip6': 'Jopa 1 minuutti tietoista hengityst\u00e4 tekee eron.',
   'notifications.tip7': 'Pidennetty uloshengitys kertoo kehollesi, ett\u00e4 on turvallista rentoutua.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Tee siitä tapa",
+  'summary.habitReminderTitle': "Päivittäinen muistutus",
+  'summary.habitReminderSub': "Pehmeä muistutus hengittää joka päivä",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Tallenna istunnot Mindfulness-minuutteina",
+  'settings.resetOnboarding': "Nollaa käyttöönotto",
+  'settings.resetOnboardingConfirm': "Toistetaanko käyttöönottoprosessi? Tämä aktivoi myös ensimmäisen istunnon turvallisuusnäytön uudelleen.",
+  'settings.resetOnboardingConfirmCta': "Nollaa",
+  'settings.developer': "Kehittäjä",
+  'paywall.errorGeneric': "Jokin meni pieleen. Yritä uudelleen.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Mykistä musiikki",
+  'session.musicOff': "Toista musiikkia",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Lisää",
+  'common.decrease': "Vähennä",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "SÄÄSTÄ {{percent}} %",
+  'paywall.perWeekApprox': "≈ {{price}}/vko",
+  'paywall.startTrialWeekly': "Kokeile ilmaiseksi 3 päivää",
+  'paywall.startTrialAnnual': "Kokeile ilmaiseksi 7 päivää",
+  'paywall.cancelAnytime': "Peruuta milloin tahansa · Ei sitoumuksia",
 };

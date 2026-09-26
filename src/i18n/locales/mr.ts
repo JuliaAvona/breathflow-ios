@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u0918\u0930',
   'tabs.breathe': '\u0936\u094d\u0935\u093e\u0938',
   'tabs.history': '\u092a\u094d\u0930\u0917\u0924\u0940',
-  'tabs.badges': '\u092c\u0945\u091c\u0947\u0938',
+  'tabs.badges': 'पुरस्कार',
   'tabs.settings': '\u0938\u0947\u091f\u093f\u0902\u0917\u094d\u0938',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': '\u091d\u094b\u092a\u093e\u0933\u0942',
   'summary.done': '\u092a\u0942\u0930\u094d\u0923',
   'summary.repeat': '\u092a\u0941\u0928\u094d\u0939\u093e \u0915\u0930\u093e',
+  'summary.dontSave': 'सेव्ह करू नका',
+  'summary.discardTitle': 'हे सेशन सेव्ह करायचे नाही?',
+  'summary.discardMessage': 'हे सेशन काढून टाकले जाईल आणि ते तुमच्या आकडेवारीत किंवा स्ट्रीकमध्ये मोजले जाणार नाही.',
   'summary.share': '\u0936\u0947\u0905\u0930 \u0915\u0930\u093e',
   'summary.shareText': '\u092e\u0940 \u0928\u0941\u0915\u0924\u0947\u091a BreathFlow \u0938\u094b\u092c\u0924 {{duration}} {{technique}} \u0936\u094d\u0935\u093e\u0938\u094b\u091a\u094d\u091b\u094d\u0935\u093e\u0938 \u0938\u0924\u094d\u0930 \u092a\u0942\u0930\u094d\u0923 \u0915\u0947\u0932\u0947! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': '\u092e\u0940 \u0928\u0941\u0915\u0924\u0947\u091a BreathFlow \u0938\u094b\u092c\u0924 {{duration}} {{technique}} \u0936\u094d\u0935\u093e\u0938\u094b\u091a\u094d\u091b\u094d\u0935\u093e\u0938 \u0938\u0924\u094d\u0930 \u092a\u0942\u0930\u094d\u0923 \u0915\u0947\u0932\u0947! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u0938\u0947\u091f\u093f\u0902\u0917\u094d\u0938',
+  'settings.preferences': 'प्राधान्ये',
   'settings.feedback': '\u0927\u094d\u0935\u0928\u0940',
   'settings.sound': '\u0906\u0935\u093e\u091c',
   'settings.soundStyle': '\u0906\u0935\u093e\u091c \u0936\u0948\u0932\u0940',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': '\u0916\u0947\u0933\u093e\u0921\u0942\u0902\u091a\u093e \u0935\u093f\u0936\u094d\u0935\u093e\u0938',
   'onboarding.socialProof2': 'Stanford-\u0938\u092e\u0930\u094d\u0925\u093f\u0924',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '\u0906\u092a\u0932\u0947 \u0926\u0948\u0928\u0902\u0926\u093f\u0928 \u0909\u0926\u094d\u0926\u093f\u0937\u094d\u091f \u0920\u0930\u0935\u093e',
-  'onboarding.commitSub': '\u0932\u0939\u093e\u0928 \u0926\u0948\u0928\u0902\u0926\u093f\u0928 \u0938\u0935\u092f\u0940 \u0915\u093e\u092f\u092e\u0938\u094d\u0935\u0930\u0942\u092a\u0940 \u092c\u0926\u0932 \u0918\u0921\u0935\u0924\u093e\u0924.',
   'onboarding.commitMinUnit': '\u092e\u093f\u0928\u093f\u091f / \u0926\u093f\u0935\u0938',
   'onboarding.commitHint_3': '\u092b\u0915\u094d\u0924 3 \u092e\u093f\u0928\u093f\u091f\u093e\u0902\u091a\u0947 \u0938\u0924\u094d\u0930 \u0926\u0947\u0916\u0940\u0932 \u0906\u092a\u0932\u094d\u092f\u093e \u092e\u091c\u094d\u091c\u093e\u0938\u0902\u0938\u094d\u0925\u0947\u0932\u093e \u0936\u093e\u0902\u0924 \u0915\u0930\u0923\u094d\u092f\u093e\u0938 \u092e\u0926\u0924 \u0915\u0930\u0942 \u0936\u0915\u0924\u0947.',
   'onboarding.commitHint_5': 'Stanford \u0938\u0902\u0936\u094b\u0927\u0928 \u092e\u0902\u0926 \u0936\u094d\u0935\u093e\u0938\u094b\u091a\u094d\u091b\u094d\u0935\u093e\u0938\u093e\u0932\u093e \u0915\u092e\u0940 \u0924\u093e\u0923 \u0906\u0923\u093f \u091a\u093e\u0902\u0917\u0932\u094d\u092f\u093e \u091d\u094b\u092a\u0947\u0936\u0940 \u091c\u094b\u0921\u0924\u0947.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-\u0926\u093f\u0935\u0938\u093e\u0902\u091a\u0940 \u092e\u093e\u0932\u093f\u0915\u093e',
 
   // Badges screen
-  'badges.title': '\u092c\u0945\u091c\u0947\u0938',
+  'badges.title': 'पुरस्कार',
   'badges.unlocked': '\u0905\u0928\u0932\u0949\u0915',
   'badges.locked': '\u0932\u0949\u0915',
   'badges.progress': '{{total}} \u092a\u0948\u0915\u0940 {{unlocked}} \u092c\u0945\u091c\u0947\u0938',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': '\u0938\u0930\u094d\u0935 10 \u0936\u094d\u0935\u093e\u0938\u094b\u091a\u094d\u091b\u094d\u0935\u093e\u0938 \u0924\u0902\u0924\u094d\u0930\u0947',
   'paywall.feature2': '\u0938\u0930\u094d\u0935 \u092e\u094d\u092f\u0942\u091d\u093f\u0915 \u091f\u094d\u0930\u0945\u0915',
   'paywall.feature3': '\u0938\u0930\u094d\u0935 \u092c\u0945\u091c\u0947\u0938 \u0905\u0928\u0932\u0949\u0915 \u0915\u0930\u093e',
-  'paywall.feature4': '\u0938\u0902\u092a\u0942\u0930\u094d\u0923 \u0907\u0924\u093f\u0939\u093e\u0938 \u0906\u0923\u093f \u0906\u0915\u0921\u0947\u0935\u093e\u0930\u0940',
+  'paywall.featureAppleHealth': 'Apple Health सिंक',
   'paywall.feature5': '\u092e\u0942\u0921 \u091f\u094d\u0930\u0945\u0915\u093f\u0902\u0917',
   'paywall.feature6': '\u0938\u0930\u094d\u0935 \u092c\u0945\u091c\u0947\u0938',
   'paywall.purchase': '{{price}} \u0938\u093e\u0920\u0940 \u0916\u0930\u0947\u0926\u0940 \u0915\u0930\u093e',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': '\u092f\u093e \u0926\u093f\u0935\u0936\u0940 \u0915\u094b\u0923\u0924\u0947\u0939\u0940 \u0938\u0924\u094d\u0930 \u0928\u093e\u0939\u0940\u0924',
   'history.allTimeStats': '\u0938\u0930\u094d\u0935\u0915\u093e\u0932\u0940\u0928 \u0906\u0915\u0921\u0947\u0935\u093e\u0930\u0940',
   'history.unlockFullHistory': 'Pro \u0938\u094b\u092c\u0924 \u0938\u0902\u092a\u0942\u0930\u094d\u0923 \u0907\u0924\u093f\u0939\u093e\u0938 \u0905\u0928\u0932\u0949\u0915 \u0915\u0930\u093e',
+  'history.unlockFullHistoryDesc': 'तुमची संपूर्ण प्रगती आणि सर्वकालीन आकडेवारी पहा',
   'history.weeklyActivity': '\u0938\u093e\u092a\u094d\u0924\u093e\u0939\u093f\u0915 \u0915\u094d\u0930\u093f\u092f\u093e',
   'history.badges': '\u092c\u0945\u091c\u0947\u0938',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': '\u092a\u0941\u0928\u0930\u094d\u0938\u094d\u0925\u093e\u092a\u093f\u0924 \u0915\u0930\u0923\u094d\u092f\u093e\u0938\u093e\u0920\u0940 \u0916\u0930\u0947\u0926\u0940 \u0928\u093e\u0939\u0940\u0924.',
   'settings.restoreFailed': '\u092a\u0941\u0928\u0930\u094d\u0938\u094d\u0925\u093e\u092a\u0928\u093e \u0905\u092f\u0936\u0938\u094d\u0935\u0940. \u0915\u0943\u092a\u092f\u093e \u092a\u0941\u0928\u094d\u0939\u093e \u092a\u094d\u0930\u092f\u0924\u094d\u0928 \u0915\u0930\u093e.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Mindful Minutes \u0938\u093f\u0902\u0915 \u0915\u0930\u093e',
+  'settings.syncMindfulMinutes': 'Apple Health सिंक',
   'settings.privacyPolicy': '\u0917\u094b\u092a\u0928\u0940\u092f\u0924\u093e \u0927\u094b\u0930\u0923',
   'settings.termsOfService': '\u0938\u0947\u0935\u093e \u0905\u091f\u0940',
   'settings.restorePurchases': '\u0916\u0930\u0947\u0926\u0940 \u092a\u0941\u0928\u0930\u094d\u0938\u094d\u0925\u093e\u092a\u093f\u0924 \u0915\u0930\u093e',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': '\u0909\u0924\u094d\u092a\u093e\u0926\u0928 \u0909\u092a\u0932\u092c\u094d\u0927 \u0928\u093e\u0939\u0940. \u0915\u0943\u092a\u092f\u093e \u0928\u0902\u0924\u0930 \u092a\u094d\u0930\u092f\u0924\u094d\u0928 \u0915\u0930\u093e.',
   'paywall.restoreSuccessTitle': '\u092a\u0941\u0928\u0930\u094d\u0938\u094d\u0925\u093e\u092a\u093f\u0924',
   'paywall.restoreSuccessMessage': '\u0924\u0941\u092e\u091a\u094d\u092f\u093e \u0916\u0930\u0947\u0926\u0940 \u092a\u0941\u0928\u0930\u094d\u0938\u094d\u0925\u093e\u092a\u093f\u0924 \u0915\u0947\u0932\u094d\u092f\u093e.',
+  'paywall.welcomeTitle': 'Pro मध्ये आपले स्वागत आहे',
+  'paywall.welcomeMessage': 'सर्व तंत्रे आणि वैशिष्ट्ये आता अनलॉक झाली आहेत.',
+  'paywall.welcomeCta': 'सुरू ठेवा',
   'paywall.restoreTitle': '\u092a\u0941\u0928\u0930\u094d\u0938\u094d\u0925\u093e\u092a\u093f\u0924 \u0915\u0930\u093e',
   'paywall.restoreNoPurchases': '\u092a\u0941\u0928\u0930\u094d\u0938\u094d\u0925\u093e\u092a\u093f\u0924 \u0915\u0930\u0923\u094d\u092f\u093e\u0938\u093e\u0920\u0940 \u0916\u0930\u0947\u0926\u0940 \u0938\u093e\u092a\u0921\u0932\u094d\u092f\u093e \u0928\u093e\u0939\u0940\u0924.',
   'paywall.oneTimePayment': '\u090f\u0915\u0935\u0947\u0933 \u092a\u0947\u092e\u0947\u0902\u091f',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': '\u0915\u093e\u092f\u092e\u091a\u0947 \u0905\u0928\u0932\u0949\u0915 \u0915\u0930\u093e',
   'paywall.startAnnual': '\u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092f\u094b\u091c\u0928\u093e \u0938\u0941\u0930\u0942 \u0915\u0930\u093e',
   'paywall.startWeekly': '\u0938\u093e\u092a\u094d\u0924\u093e\u0939\u093f\u0915 \u0938\u0941\u0930\u0942 \u0915\u0930\u093e',
-  'paywall.hideOptions': '\u092a\u0930\u094d\u092f\u093e\u092f \u0932\u092a\u0935\u093e',
   'paywall.then': '\u092e\u0917',
   'paywall.weeklyAutoRenew': '\u0911\u091f\u094b-\u0928\u0942\u0924\u0928\u0940\u0915\u0930\u0923',
   'paywall.weeklyTrial': '3 \u0926\u093f\u0935\u0938\u093e\u0902\u091a\u0940 \u092e\u094b\u092b\u0924 \u091a\u093e\u091a\u0923\u0940',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': '\u0906\u092a\u094b\u0906\u092a Mindful Minutes \u0932\u0949\u0917\u093f\u0902\u0917',
   'onboarding.appleHealthBullet2': 'HRV \u0921\u0947\u091f\u093e \u091f\u094d\u0930\u0945\u0915\u093f\u0902\u0917',
   'onboarding.appleHealthBullet3': '\u0924\u0941\u092e\u091a\u093e \u0921\u0947\u091f\u093e \u0916\u093e\u091c\u0917\u0940 \u0930\u093e\u0939\u0924\u094b',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': '1,000+ लोकांसोबत सामील व्हा जे चांगले श्वास घेतात',
+  'onboarding.socialProofSub': 'खरे लोक, खरे परिणाम.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'मार्केटिंग संचालक, NYC',
+  'onboarding.t1Text': '“मी अंथरुणावर 4-7-8 करते आणि 5 मिनिटांत झोपी जाते.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'सॉफ्टवेअर अभियंता',
+  'onboarding.t2Text': '“खोल कामापूर्वी बॉक्स ब्रीदिंग म्हणजे मानसिक वॉर्म-अप.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'थेरपिस्ट',
+  'onboarding.t3Text': '“पॅनिक डिसऑर्डर असलेल्या क्लायंटला मी BreathFlow शिफारस करते.”',
+  'onboarding.rateTitle': 'BreathFlow चे भविष्य घडवण्यात मदत करा',
+  'onboarding.rateSub': 'आपले विचार सामायिक करा आणि आमची सेवा अधिक चांगली बनवण्यात मदत करा.',
+  'onboarding.rateCta': 'पुढे',
   'onboarding.connectHealth': 'Apple Health \u091c\u094b\u0921\u093e',
   'onboarding.healthSkip': '\u0935\u0917\u0933\u093e',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': '\u092b\u0915\u094d\u0924 5 \u092e\u093f\u0928\u093f\u091f\u0947 \u0938\u091c\u0917 \u0936\u094d\u0935\u093e\u0938 \u0918\u0947\u0923\u0947 \u092e\u0942\u0921 \u092c\u0926\u0932\u0924\u0947.',
   'notifications.tip6': '\u0939\u0933\u0942 \u0936\u094d\u0935\u093e\u0938 parasympathetic nervous system \u0938\u0915\u094d\u0930\u093f\u092f \u0915\u0930\u0924\u094b.',
   'notifications.tip7': '\u0938\u0941\u0938\u0902\u0917\u0924 \u0938\u0930\u093e\u0935 \u0915\u093e\u0932\u093e\u0902\u0924\u0930\u093e\u0928\u0947 \u0932\u0935\u091a\u093f\u0915\u0924\u093e \u0928\u093f\u0930\u094d\u092e\u093e\u0923 \u0915\u0930\u0924\u094b.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "याची सवय करा",
+  'summary.habitReminderTitle': "दैनिक स्मरणपत्र",
+  'summary.habitReminderSub': "दररोज श्वास घेण्यासाठी एक सौम्य आठवण",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "सत्रे माइंडफुल मिनिट्स म्हणून जतन करा",
+  'settings.resetOnboarding': "ऑनबोर्डिंग रीसेट करा",
+  'settings.resetOnboardingConfirm': "ऑनबोर्डिंग प्रवाह पुन्हा प्ले करायचा? यामुळे पहिल्या सत्राची सुरक्षा स्क्रीन देखील पुन्हा सक्रिय होईल.",
+  'settings.resetOnboardingConfirmCta': "रीसेट करा",
+  'settings.developer': "डेव्हलपर",
+  'paywall.errorGeneric': "काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "संगीत म्यूट करा",
+  'session.musicOff': "संगीत प्ले करा",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "वाढवा",
+  'common.decrease': "कमी करा",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% बचत",
+  'paywall.perWeekApprox': "≈ {{price}}/आठवडा",
+  'paywall.startTrialWeekly': "3 दिवस मोफत वापरून पहा",
+  'paywall.startTrialAnnual': "7 दिवस मोफत वापरून पहा",
+  'paywall.cancelAnytime': "कधीही रद्द करा · कोणतीही बांधिलकी नाही",
 };

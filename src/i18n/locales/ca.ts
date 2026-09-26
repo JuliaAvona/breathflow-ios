@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Inici',
   'tabs.breathe': 'Respirar',
   'tabs.history': 'Progrés',
-  'tabs.badges': 'Insígnies',
+  'tabs.badges': 'Premis',
   'tabs.settings': 'Ajustos',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Somnolient',
   'summary.done': 'Fet',
   'summary.repeat': 'Repetir',
+  'summary.dontSave': 'No desis',
+  'summary.discardTitle': 'No vols desar aquesta sessió?',
+  'summary.discardMessage': 'Aquesta sessió s\'eliminarà i no comptarà per a les teves estadístiques ni ratxa.',
   'summary.share': 'Compartir',
   'summary.shareText': 'Acabo de completar una sessió de respiració {{technique}} de {{duration}} amb BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Acabo de completar una sessió de respiració {{technique}} de {{duration}} amb BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Ajustos',
+  'settings.preferences': 'Preferències',
   'settings.feedback': 'Sons',
   'settings.sound': 'So',
   'settings.soundStyle': 'Estil de so',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'De confiança per als atletes',
   'onboarding.socialProof2': 'Avalat per Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Estableix el teu objectiu diari',
-  'onboarding.commitSub': 'Els petits hàbits diaris creen un canvi durador.',
   'onboarding.commitMinUnit': 'min / dia',
   'onboarding.commitHint_3': 'Fins i tot una sessió de 3 minuts pot ajudar a calmar el teu sistema nerviós.',
   'onboarding.commitHint_5': 'La investigació de Stanford vincula la respiració lenta amb menys estrès i millor son.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': 'Ratxa de 365 dies',
 
   // Badges screen
-  'badges.title': 'Insígnies',
+  'badges.title': 'Premis',
   'badges.unlocked': 'Desbloquejades',
   'badges.locked': 'Bloquejades',
   'badges.progress': '{{unlocked}} de {{total}} insígnies',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'Les 10 tècniques de respiració',
   'paywall.feature2': 'Totes les pistes de música',
   'paywall.feature3': 'Desbloqueja totes les insígnies',
-  'paywall.feature4': 'Historial complet i estadístiques',
+  'paywall.featureAppleHealth': 'Sincronització amb Apple Health',
   'paywall.feature5': 'Seguiment de l\'estat d\'ànim',
   'paywall.feature6': 'Totes les insígnies',
   'paywall.purchase': 'Comprar per {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'No hi ha sessions en aquest dia',
   'history.allTimeStats': 'Estadístiques totals',
   'history.unlockFullHistory': 'Desbloqueja l\'historial complet amb Pro',
+  'history.unlockFullHistoryDesc': 'Consulta el teu progrés complet i les estadístiques totals',
   'history.weeklyActivity': 'Activitat setmanal',
   'history.badges': 'Insígnies',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'No hi ha compres per restaurar.',
   'settings.restoreFailed': 'La restauració ha fallat. Si us plau, torna-ho a provar.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Sincronitzar Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Sincronització amb Apple Health',
   'settings.privacyPolicy': 'Política de privacitat',
   'settings.termsOfService': 'Condicions del servei',
   'settings.restorePurchases': 'Restaurar compres',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'Producte no disponible. Si us plau, torna-ho a provar més tard.',
   'paywall.restoreSuccessTitle': 'Restaurat',
   'paywall.restoreSuccessMessage': 'Les teves compres han estat restaurades.',
+  'paywall.welcomeTitle': 'Benvingut a Pro',
+  'paywall.welcomeMessage': 'Totes les tècniques i funcions ja estan desbloquejades.',
+  'paywall.welcomeCta': 'Continua',
   'paywall.restoreTitle': 'Restaurar',
   'paywall.restoreNoPurchases': 'No s\'han trobat compres per restaurar.',
   'paywall.oneTimePayment': 'Pagament únic',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'Desbloqueja per sempre',
   'paywall.startAnnual': 'Inicia el pla anual',
   'paywall.startWeekly': 'Inicia setmanal',
-  'paywall.hideOptions': 'Amaga opcions',
   'paywall.then': 'després',
   'paywall.weeklyAutoRenew': 'renovació automàtica',
   'paywall.weeklyTrial': '3 dies de prova gratuïta',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Registre automàtic de Mindful Minutes',
   'onboarding.appleHealthBullet2': 'Seguiment de dades HRV',
   'onboarding.appleHealthBullet3': 'Les teves dades es mantenen privades',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Uneix-te a més de 1.000 persones que respiren millor',
+  'onboarding.socialProofSub': 'Persones reals, resultats reals.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Directora de màrqueting, NYC',
+  'onboarding.t1Text': "«Faig 4-7-8 al llit i caic adormida en 5 minuts. Després d'anys d'insomni, és increïble.»",
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Enginyer de programari',
+  'onboarding.t2Text': '«Box breathing abans del treball profund és com un escalfament mental.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeuta',
+  'onboarding.t3Text': '«Recomano BreathFlow als clients amb trastorn de pànic. El sospir fisiològic funciona en segons.»',
+  'onboarding.rateTitle': 'Ajuda a donar forma al futur de BreathFlow',
+  'onboarding.rateSub': "Comparteix la teva opinió i ajuda'ns a millorar el nostre servei — més útil, agradable i adaptat a les teves necessitats.",
+  'onboarding.rateCta': 'Següent',
   'onboarding.connectHealth': 'Connecta Apple Health',
   'onboarding.healthSkip': 'Ometre',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'Fins i tot 5 minuts de respiració conscient canvien l\'estat d\'ànim.',
   'notifications.tip6': 'La respiració lenta activa el sistema nerviós parasimpàtic.',
   'notifications.tip7': 'La pràctica consistent construeix resiliència al llarg del temps.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Converteix-ho en un hàbit",
+  'summary.habitReminderTitle': "Recordatori diari",
+  'summary.habitReminderSub': "Un petit recordatori per respirar cada dia",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Desa les sessions com a Minuts d'atenció plena",
+  'settings.resetOnboarding': "Reinicia la introducció",
+  'settings.resetOnboardingConfirm': "Vols tornar a veure la introducció? Això també torna a activar la pantalla de seguretat de la primera sessió.",
+  'settings.resetOnboardingConfirmCta': "Reinicia",
+  'settings.developer': "Desenvolupador",
+  'paywall.errorGeneric': "Alguna cosa ha fallat. Torna-ho a provar.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Silencia la música",
+  'session.musicOff': "Reprodueix música",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Augmenta",
+  'common.decrease': "Disminueix",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "ESTALVIA {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/setmana",
+  'paywall.startTrialWeekly': "Prova-ho gratis 3 dies",
+  'paywall.startTrialAnnual': "Prova-ho gratis 7 dies",
+  'paywall.cancelAnytime': "Cancel·la quan vulguis · Sense compromís",
 };

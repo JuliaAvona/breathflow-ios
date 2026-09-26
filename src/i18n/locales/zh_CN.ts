@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': '想睡',
   'summary.done': '完成',
   'summary.repeat': '重复',
+  'summary.dontSave': '不保存',
+  'summary.discardTitle': '不保存此次练习？',
+  'summary.discardMessage': '此次练习将被删除，不会计入你的统计数据或连续记录。',
   'summary.share': '分享',
   'summary.shareText': '我刚用BreathFlow完成了一次{{duration}}的{{technique}}呼吸练习！\u{1F32C}\uFE0F',
   'summary.shareMessage': '我刚用BreathFlow完成了一次{{duration}}的{{technique}}呼吸练习！\u{1F32C}\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': '设置',
+  'settings.preferences': '偏好设置',
   'settings.feedback': '声音',
   'settings.sound': '声音',
   'settings.soundStyle': '声音风格',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': '运动员信赖',
   'onboarding.socialProof2': '斯坦福认证',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '设定您的每日目标',
-  'onboarding.commitSub': '小小的日常习惯带来持久的改变。',
   'onboarding.commitMinUnit': '分钟 / 天',
   'onboarding.commitHint_3': '仅仅3分钟的练习就能帮助安抚您的神经系统。',
   'onboarding.commitHint_5': '斯坦福研究表明，缓慢呼吸有助于减轻压力、改善睡眠。',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': '全部10种呼吸技巧',
   'paywall.feature2': '所有音乐曲目',
   'paywall.feature3': '解锁所有徽章',
-  'paywall.feature4': '完整历史记录和统计',
+  'paywall.featureAppleHealth': 'Apple 健康同步',
   'paywall.feature5': '情绪追踪',
   'paywall.feature6': '全部成就',
   'paywall.purchase': '以{{price}}购买',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': '这一天没有练习记录',
   'history.allTimeStats': '全部统计',
   'history.unlockFullHistory': '升级Pro解锁完整历史记录',
+  'history.unlockFullHistoryDesc': '查看你的完整进度和历史统计数据',
   'history.weeklyActivity': '每周活动',
   'history.badges': '成就',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': '没有可恢复的购买。',
   'settings.restoreFailed': '恢复失败，请重试。',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': '同步正念分钟数',
+  'settings.syncMindfulMinutes': 'Apple 健康同步',
   'settings.privacyPolicy': '隐私政策',
   'settings.termsOfService': '服务条款',
   'settings.restorePurchases': '恢复购买',
@@ -505,6 +508,9 @@ export default {
   'paywall.errorNoProduct': '产品暂不可用，请稍后重试。',
   'paywall.restoreSuccessTitle': '已恢复',
   'paywall.restoreSuccessMessage': '你的购买已恢复。',
+  'paywall.welcomeTitle': '欢迎使用 Pro',
+  'paywall.welcomeMessage': '所有技巧和功能现已解锁。',
+  'paywall.welcomeCta': '继续',
   'paywall.restoreTitle': '恢复',
   'paywall.restoreNoPurchases': '未找到可恢复的购买记录。',
   'paywall.oneTimePayment': '一次性付款',
@@ -522,7 +528,6 @@ export default {
   'paywall.unlockForever': '永久解锁',
   'paywall.startAnnual': '开始年度计划',
   'paywall.startWeekly': '开始周计划',
-  'paywall.hideOptions': '隐藏选项',
   'paywall.then': '然后',
   'paywall.weeklyAutoRenew': '自动续订',
   'paywall.weeklyTrial': '3天免费试用',
@@ -615,6 +620,22 @@ export default {
   'onboarding.appleHealthBullet2': '追踪长期进展',
   'onboarding.appleHealthBullet3': '你的数据保持私密',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': '加入1,000+人,更好地呼吸',
+  'onboarding.socialProofSub': '真实的人,真实的结果。',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': '营销总监,纽约',
+  'onboarding.t1Text': '“我在床上做4-7-8,5分钟内就能入睡。多年失眠后,这真是不可思议。”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': '软件工程师',
+  'onboarding.t2Text': '“深度工作前的盒式呼吸就像心理热身。”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': '治疗师',
+  'onboarding.t3Text': '“我向恐慌症患者推荐BreathFlow。生理性叹息几秒钟内就能起效。”',
+  'onboarding.rateTitle': '帮助塑造BreathFlow的未来',
+  'onboarding.rateSub': '分享您的想法,帮助我们让服务更好——更有用、更愉悦、更贴合您的需求。',
+  'onboarding.rateCta': '下一步',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': '从压力到平静 — 几分钟内',
   'paywall.heroSleep': '几分钟入睡，而非几小时',
@@ -639,4 +660,31 @@ export default {
   'paywall.row5Pro': '全部颜色主题与徽章 ✓',
   'paywall.anchor': '不到一杯咖啡的价格，持久的效果。',
   'paywall.continueFree': '继续使用免费版',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "让它成为一种习惯",
+  'summary.habitReminderTitle': "每日提醒",
+  'summary.habitReminderSub': "每天温柔地提醒你呼吸",
+  'summary.habitHealthTitle': "Apple 健康",
+  'summary.habitHealthSub': "将练习记录为正念分钟",
+  'settings.resetOnboarding': "重置引导流程",
+  'settings.resetOnboardingConfirm': "重新播放引导流程？这也会重新激活首次会话的安全提示屏幕。",
+  'settings.resetOnboardingConfirmCta': "重置",
+  'settings.developer': "开发者",
+  'paywall.errorGeneric': "出了点问题，请重试。",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "静音音乐",
+  'session.musicOff': "播放音乐",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "增加",
+  'common.decrease': "减少",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "省{{percent}}%",
+  'paywall.perWeekApprox': "≈ 每周{{price}}",
+  'paywall.startTrialWeekly': "免费试用3天",
+  'paywall.startTrialAnnual': "免费试用7天",
+  'paywall.cancelAnytime': "随时可取消·无需承诺",
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { Animated, StyleSheet, Dimensions, View } from 'react-native';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CONFETTI_COUNT = 40;
@@ -18,6 +19,12 @@ interface Piece {
 }
 
 export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
+  const reduceMotion = useReducedMotion();
+  // Read via a ref so a late async resolution of Reduce Motion doesn't re-run
+  // this one-shot effect and fire onComplete a second time while the previous
+  // Animated.timing from the first run is still in flight.
+  const reduceMotionRef = useRef(reduceMotion);
+  useEffect(() => { reduceMotionRef.current = reduceMotion; }, [reduceMotion]);
   const animValue = useRef(new Animated.Value(0)).current;
 
   const pieces: Piece[] = useMemo(
@@ -32,21 +39,26 @@ export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
   );
 
   useEffect(() => {
-    if (visible) {
-      animValue.setValue(0);
-      Animated.timing(animValue, {
-        toValue: 1,
-        duration: 2200,
-        useNativeDriver: true,
-      }).start(() => onComplete?.());
+    if (!visible) return;
+    if (reduceMotionRef.current) {
+      // Skip the falling-confetti animation for Reduce Motion users; still
+      // fire onComplete so callers relying on it (e.g. dismiss flows) proceed.
+      onComplete?.();
+      return;
     }
+    animValue.setValue(0);
+    Animated.timing(animValue, {
+      toValue: 1,
+      duration: 2200,
+      useNativeDriver: true,
+    }).start(() => onComplete?.());
+    // reduceMotion intentionally excluded — see reduceMotionRef comment above.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
-  if (!visible) return null;
-
-  return (
-    <View style={styles.container} pointerEvents="none">
-      {pieces.map((piece, i) => {
+  const interpolations = useMemo(
+    () =>
+      pieces.map((piece) => {
         const drift = (Math.random() - 0.5) * 80;
         const delay = Math.random() * 0.3;
 
@@ -71,6 +83,18 @@ export function ConfettiOverlay({ visible, onComplete }: ConfettiOverlayProps) {
           inputRange: [0, 1],
           outputRange: [`${piece.rotation}deg`, `${piece.rotation + 360}deg`],
         });
+
+        return { translateY, translateX, opacity, rotate };
+      }),
+    [animValue, pieces],
+  );
+
+  if (!visible || reduceMotion) return null;
+
+  return (
+    <View style={styles.container} pointerEvents="none">
+      {pieces.map((piece, i) => {
+        const { translateY, translateX, opacity, rotate } = interpolations[i];
 
         return (
           <Animated.View

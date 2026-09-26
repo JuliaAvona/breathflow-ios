@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'ഹോം',
   'tabs.breathe': 'ശ്വസിക്കൂ',
   'tabs.history': 'പുരോഗതി',
-  'tabs.badges': 'ബാഡ്ജുകൾ',
+  'tabs.badges': 'അവാർഡുകൾ',
   'tabs.settings': 'ക്രമീകരണങ്ങൾ',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'ഉറക്കം വരുന്നു',
   'summary.done': 'പൂർത്തിയായി',
   'summary.repeat': 'ആവർത്തിക്കുക',
+  'summary.dontSave': 'സേവ് ചെയ്യേണ്ട',
+  'summary.discardTitle': 'ഈ സെഷൻ സേവ് ചെയ്യേണ്ടെന്ന് വേണ്ട?',
+  'summary.discardMessage': 'ഈ സെഷൻ നീക്കം ചെയ്യപ്പെടും, ഇത് നിങ്ങളുടെ സ്ഥിതിവിവരക്കണക്കുകളിലോ സ്ട്രീക്കിലോ കണക്കാക്കില്ല.',
   'summary.share': 'പങ്കിടുക',
   'summary.shareText': 'BreathFlow-ൽ {{duration}} {{technique}} ശ്വസന സെഷൻ പൂർത്തിയാക്കി! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'BreathFlow-ൽ {{duration}} {{technique}} ശ്വസന സെഷൻ പൂർത്തിയാക്കി! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'ക്രമീകരണങ്ങൾ',
+  'settings.preferences': 'മുൻഗണനകൾ',
   'settings.feedback': 'ശബ്ദങ്ങൾ',
   'settings.sound': 'ശബ്ദം',
   'settings.soundStyle': 'ശബ്ദ ശൈലി',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'അത്‌ലറ്റുകൾ വിശ്വസിക്കുന്നത്',
   'onboarding.socialProof2': 'Stanford-പിന്തുണ',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'നിങ്ങളുടെ ദൈനിക ലക്ഷ്യം നിർണ്ണയിക്കുക',
-  'onboarding.commitSub': 'ചെറിയ ദൈനിക ശീലങ്ങൾ നിലനിൽക്കുന്ന മാറ്റം സൃഷ്ടിക്കുന്നു.',
   'onboarding.commitMinUnit': 'മിനിറ്റ് / ദിവസം',
   'onboarding.commitHint_3': '3 മിനിറ്റ് സെഷൻ പോലും നിങ്ങളുടെ നാഡീവ്യൂഹം ശാന്തമാക്കാൻ സഹാ‍യിക്കും.',
   'onboarding.commitHint_5': 'Stanford ഗവേഷണം ശ്വാസ ഗതിയെ കുറഞ്ഞ സ്ട്രെസ്സുമായി ബന്ധിപ്പിക്കുന്നു.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-ദിവസ സ്ട്രീക്ക്',
 
   // Badges screen
-  'badges.title': 'ബാഡ്ജുകൾ',
+  'badges.title': 'അവാർഡുകൾ',
   'badges.unlocked': 'അൺലോക്ക് ചെയ്തവ',
   'badges.locked': 'ലോക്ക് ചെയ്തവ',
   'badges.progress': '{{total}} ബാഡ്ജുകളിൽ {{unlocked}}',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'എല്ലാ 10 ശ്വസന സാങ്കേതിക വിദ്യകളും',
   'paywall.feature2': 'എല്ലാ മ്യൂസിക് ട്രാക്കുകളും',
   'paywall.feature3': 'എല്ലാ ബാഡ്ജുകളും അൺലോക്ക് ചെയ്യുക',
-  'paywall.feature4': 'പൂർണ്ണ ചരിത്രവും സ്ഥിതിവിവരക്കണക്കുകളും',
+  'paywall.featureAppleHealth': 'Apple Health സമന്വയം',
   'paywall.feature5': 'മൂഡ് ട്രാക്കിംഗ്',
   'paywall.feature6': 'എല്ലാ ബാഡ്ജുകളും',
   'paywall.purchase': '{{price}} ന് വാങ്ങൂ',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'ഈ ദിവസം സെഷനുകളില്ല',
   'history.allTimeStats': 'മൊത്തം സ്ഥിതിവിവരക്കണക്കുകൾ',
   'history.unlockFullHistory': 'Pro ഉപയോഗിച്ച് പൂർണ്ണ ചരിത്രം അൺലോക്ക് ചെയ്യൂ',
+  'history.unlockFullHistoryDesc': 'നിങ്ങളുടെ പൂർണ്ണമായ പുരോഗതിയും എക്കാലത്തെയും സ്ഥിതിവിവരക്കണക്കുകളും കാണുക',
   'history.weeklyActivity': 'ആഴ്ചതോറുമുള്ള പ്രവർത്തനം',
   'history.badges': 'ബാഡ്ജുകൾ',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'പുനഃസ്ഥാപിക്കാൻ വാങ്ങലുകളില്ല.',
   'settings.restoreFailed': 'പുനഃസ്ഥാപനം പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കൂ.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Mindful Minutes സിങ്ക് ചെയ്യൂ',
+  'settings.syncMindfulMinutes': 'Apple Health സമന്വയം',
   'settings.privacyPolicy': 'സ്വകാര്യതാ നയം',
   'settings.termsOfService': 'സേവന നിബന്ധനകൾ',
   'settings.restorePurchases': 'വാങ്ങലുകൾ പുനഃസ്ഥാപിക്കുക',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'ഉൽപ്പന്നം ലഭ്യമല്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കൂ.',
   'paywall.restoreSuccessTitle': 'പുനഃസ്ഥാപിച്ചു',
   'paywall.restoreSuccessMessage': 'നിങ്ങളുടെ വാങ്ങലുകൾ പുനഃസ്ഥാപിച്ചു.',
+  'paywall.welcomeTitle': 'Pro-യിലേക്ക് സ്വാഗതം',
+  'paywall.welcomeMessage': 'എല്ലാ ടെക്നിക്കുകളും ഫീച്ചറുകളും ഇപ്പോൾ അൺലോക്ക് ചെയ്തിരിക്കുന്നു.',
+  'paywall.welcomeCta': 'തുടരുക',
   'paywall.restoreTitle': 'പുനഃസ്ഥാപിക്കുക',
   'paywall.restoreNoPurchases': 'പുനഃസ്ഥാപിക്കാൻ വാങ്ങലുകൾ കണ്ടെത്തിയില്ല.',
   'paywall.oneTimePayment': 'ഒറ്റത്തവണ പേയ്മെന്റ്',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'എന്നെന്നേക്കുമായി അൺലോക്ക് ചെയ്യുക',
   'paywall.startAnnual': 'വാർഷിക പ്ലാൻ ആരംഭിക്കുക',
   'paywall.startWeekly': 'പ്രതിവാര ആരംഭിക്കുക',
-  'paywall.hideOptions': 'ഓപ്ഷനുകൾ മറയ്ക്കുക',
   'paywall.then': 'പിന്നെ',
   'paywall.weeklyAutoRenew': 'ഓട്ടോ-പുതുക്കൽ',
   'paywall.weeklyTrial': '3 ദിവസത്തെ സൗജന്യ ട്രയൽ',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'സ്വയംക്രിയ Mindful Minutes ലോഗിംഗ്',
   'onboarding.appleHealthBullet2': 'HRV ഡാറ്റ ട്രാക്കിംഗ്',
   'onboarding.appleHealthBullet3': 'നിങ്ങളുടെ ഡാറ്റ സ്വകാര്യമായി തുടരുന്നു',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'മികച്ച ശ്വസനത്തിനായി 1,000+ പേർക്കൊപ്പം ചേരൂ',
+  'onboarding.socialProofSub': 'യഥാർത്ഥ ആളുകൾ, യഥാർത്ഥ ഫലങ്ങൾ.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'മാർക്കറ്റിംഗ് ഡയറക്ടർ, NYC',
+  'onboarding.t1Text': '“ഞാൻ കിടക്കയിൽ 4-7-8 ചെയ്യും, 5 മിനിറ്റിനുള്ളിൽ ഉറങ്ങും.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'സോഫ്റ്റ്‌വെയർ എഞ്ചിനീയർ',
+  'onboarding.t2Text': '“ആഴത്തിലുള്ള ജോലിക്ക് മുമ്പ് ബോക്സ് ബ്രീത്തിംഗ് മാനസിക വാം-അപ്പ് പോലെയാണ്.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'തെറാപ്പിസ്റ്റ്',
+  'onboarding.t3Text': '“പാനിക് ഡിസോർഡർ ക്ലയന്റുകൾക്ക് ഞാൻ BreathFlow ശുപാർശ ചെയ്യുന്നു.”',
+  'onboarding.rateTitle': 'BreathFlow-ന്റെ ഭാവി രൂപപ്പെടുത്താൻ സഹായിക്കൂ',
+  'onboarding.rateSub': 'നിങ്ങളുടെ ചിന്തകൾ പങ്കിടുകയും സേവനം മെച്ചപ്പെടുത്താൻ സഹായിക്കുകയും ചെയ്യൂ.',
+  'onboarding.rateCta': 'അടുത്തത്',
   'onboarding.connectHealth': 'Apple Health ബന്ധിപ്പിക്കൂ',
   'onboarding.healthSkip': 'ഒഴിവാക്കൂ',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'ബോധ ശ്വസനത്തിന്റെ 5 മിനിറ്റ് മാത്രം മൂഡ് മാറ്റും.',
   'notifications.tip6': 'സാവധാനം ശ്വസിക്കൽ parasympathetic nervous system സജീവമാക്കുന്നു.',
   'notifications.tip7': 'സ്ഥിരമായ പരിശീലനം കാലക്രമേണ ദൃഢത നിർമ്മിക്കുന്നു.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "ഇത് ഒരു ശീലമാക്കൂ",
+  'summary.habitReminderTitle': "ദിവസേനയുള്ള ഓർമ്മപ്പെടുത്തൽ",
+  'summary.habitReminderSub': "ദിവസവും ശ്വസിക്കാനുള്ള ഒരു മൃദുവായ ഓർമ്മപ്പെടുത്തൽ",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "സെഷനുകൾ മൈൻഡ്‌ഫുൾ മിനിറ്റുകളായി സേവ് ചെയ്യുക",
+  'settings.resetOnboarding': "ഓൺബോർഡിംഗ് പുനഃസജ്ജമാക്കുക",
+  'settings.resetOnboardingConfirm': "ഓൺബോർഡിംഗ് ഫ്ലോ വീണ്ടും പ്ലേ ചെയ്യണോ? ഇത് ആദ്യ സെഷന്റെ സുരക്ഷാ സ്ക്രീനും വീണ്ടും സജീവമാക്കും.",
+  'settings.resetOnboardingConfirmCta': "പുനഃസജ്ജമാക്കുക",
+  'settings.developer': "ഡെവലപ്പർ",
+  'paywall.errorGeneric': "എന്തോ പിഴവ് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "സംഗീതം മ്യൂട്ട് ചെയ്യുക",
+  'session.musicOff': "സംഗീതം പ്ലേ ചെയ്യുക",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "വർദ്ധിപ്പിക്കുക",
+  'common.decrease': "കുറയ്ക്കുക",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% ലാഭം",
+  'paywall.perWeekApprox': "≈ {{price}}/ആഴ്ച",
+  'paywall.startTrialWeekly': "3 ദിവസം സൗജന്യമായി പരീക്ഷിക്കൂ",
+  'paywall.startTrialAnnual': "7 ദിവസം സൗജന്യമായി പരീക്ഷിക്കൂ",
+  'paywall.cancelAnytime': "എപ്പോൾ വേണമെങ്കിലും റദ്ദാക്കാം · പ്രതിബദ്ധതയില്ല",
 };

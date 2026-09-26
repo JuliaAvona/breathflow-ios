@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'హోమ్',
   'tabs.breathe': 'శ్వాసించు',
   'tabs.history': 'పురోగతి',
-  'tabs.badges': 'బ్యాడ్జ్‌లు',
+  'tabs.badges': 'అవార్డులు',
   'tabs.settings': 'సెట్టింగ్‌లు',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'నిద్రగా',
   'summary.done': 'పూర్తి',
   'summary.repeat': 'మళ్ళీ',
+  'summary.dontSave': 'సేవ్ చేయవద్దు',
+  'summary.discardTitle': 'ఈ సెషన్‌ను సేవ్ చేయవద్దా?',
+  'summary.discardMessage': 'ఈ సెషన్ తీసివేయబడుతుంది మరియు ఇది మీ గణాంకాలు లేదా స్ట్రీక్‌లో లెక్కించబడదు.',
   'summary.share': 'పంచుకో',
   'summary.shareText': 'BreathFlow తో {{duration}} {{technique}} శ్వాస సెషన్ పూర్తి చేశాను! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'BreathFlow తో {{duration}} {{technique}} శ్వాస సెషన్ పూర్తి చేశాను! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'సెట్టింగ్‌లు',
+  'settings.preferences': 'ప్రాధాన్యతలు',
   'settings.feedback': 'శబ్దాలు',
   'settings.sound': 'శబ్దం',
   'settings.soundStyle': 'శబ్ద శైలి',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'అథ్లెట్లు నమ్మే',
   'onboarding.socialProof2': 'Stanford-మద్దతు',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'మీ రోజువారీ లక్ష్యాన్ని నిర్ణయించుకోండి',
-  'onboarding.commitSub': 'చిన్న రోజువారీ అలవాట్లు శాశ్వత మార్పును సృష్టిస్తాయి.',
   'onboarding.commitMinUnit': 'నిమిషాలు / రోజు',
   'onboarding.commitHint_3': '3 నిమిషాల సెషన్ కూడా మీ నాడీ వ్యవస్థను శాంతపరచడంలో సహాయపడవచ్చు.',
   'onboarding.commitHint_5': 'Stanford పరిశోధన నిదానమైన శ్వాసను తక్కువ ఒత్తిడి మరియు మంచి నిద్రతో అనుసంధానిస్తుంది.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-రోజుల స్ట్రీక్',
 
   // Badges screen
-  'badges.title': 'బ్యాడ్జ్‌లు',
+  'badges.title': 'అవార్డులు',
   'badges.unlocked': 'అన్‌లాక్',
   'badges.locked': 'లాక్',
   'badges.progress': '{{total}} బ్యాడ్జ్‌లలో {{unlocked}}',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'అన్ని 10 శ్వాస సాంకేతికతలు',
   'paywall.feature2': 'అన్ని మ్యూజిక్ ట్రాక్‌లు',
   'paywall.feature3': 'అన్ని బ్యాడ్జ్‌లను అన్‌లాక్ చేయండి',
-  'paywall.feature4': 'పూర్తి చరిత్ర మరియు గణాంకాలు',
+  'paywall.featureAppleHealth': 'Apple Health సింక్',
   'paywall.feature5': 'మూడ్ ట్రాకింగ్',
   'paywall.feature6': 'అన్ని బ్యాడ్జ్‌లు',
   'paywall.purchase': '{{price}} కు కొనుగోలు చేయండి',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'ఈ రోజు సెషన్లు లేవు',
   'history.allTimeStats': 'మొత్తం గణాంకాలు',
   'history.unlockFullHistory': 'Pro తో పూర్తి చరిత్ర అన్‌లాక్ చేయండి',
+  'history.unlockFullHistoryDesc': 'మీ పూర్తి పురోగతిని మరియు అన్ని కాలాల గణాంకాలను చూడండి',
   'history.weeklyActivity': 'వారపు కార్యకలాపం',
   'history.badges': 'బ్యాడ్జ్‌లు',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'పునరుద్ధరించడానికి కొనుగోళ్లు లేవు.',
   'settings.restoreFailed': 'పునరుద్ధరణ విఫలమైంది. దయచేసి మళ్ళీ ప్రయత్నించండి.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Mindful Minutes సింక్ చేయి',
+  'settings.syncMindfulMinutes': 'Apple Health సింక్',
   'settings.privacyPolicy': 'గోప్యతా విధానం',
   'settings.termsOfService': 'సేవా నిబంధనలు',
   'settings.restorePurchases': 'కొనుగోళ్లు పునరుద్ధరించు',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'ఉత్పత్తి అందుబాటులో లేదు. దయచేసి తర్వాత మళ్ళీ ప్రయత్నించండి.',
   'paywall.restoreSuccessTitle': 'పునరుద్ధరించబడింది',
   'paywall.restoreSuccessMessage': 'మీ కొనుగోళ్లు పునరుద్ధరించబడ్డాయి.',
+  'paywall.welcomeTitle': 'Pro కి స్వాగతం',
+  'paywall.welcomeMessage': 'అన్ని టెక్నిక్‌లు మరియు ఫీచర్‌లు ఇప్పుడు అన్‌లాక్ చేయబడ్డాయి.',
+  'paywall.welcomeCta': 'కొనసాగించు',
   'paywall.restoreTitle': 'పునరుద్ధరించు',
   'paywall.restoreNoPurchases': 'పునరుద్ధరించడానికి కొనుగోళ్లు కనుగొనబడలేదు.',
   'paywall.oneTimePayment': 'ఒకసారి చెల్లింపు',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'శాశ్వతంగా అన్‌లాక్ చేయండి',
   'paywall.startAnnual': 'వార్షిక ప్లాన్ ప్రారంభించండి',
   'paywall.startWeekly': 'వారపు ప్రారంభించండి',
-  'paywall.hideOptions': 'ఎంపికలను దాచు',
   'paywall.then': 'తర్వాత',
   'paywall.weeklyAutoRenew': 'ఆటో-రెన్యూవల్',
   'paywall.weeklyTrial': '3 రోజుల ఉచిత ట్రయల్',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'స్వయంచాలక Mindful Minutes లాగింగ్',
   'onboarding.appleHealthBullet2': 'HRV డేటా ట్రాకింగ్',
   'onboarding.appleHealthBullet3': 'మీ డేటా ప్రైవేట్‌గా ఉంటుంది',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'మెరుగ్గా శ్వాస తీసుకునే 1,000+ మందితో చేరండి',
+  'onboarding.socialProofSub': 'నిజమైన వ్యక్తులు, నిజమైన ఫలితాలు.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'మార్కెటింగ్ డైరెక్టర్, NYC',
+  'onboarding.t1Text': '“నేను మంచంలో 4-7-8 చేస్తాను మరియు 5 నిమిషాలలో నిద్రపోతాను.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'సాఫ్ట్‌వేర్ ఇంజనీర్',
+  'onboarding.t2Text': '“లోతైన పనికి ముందు బాక్స్ బ్రీతింగ్ మానసిక వార్మ్-అప్ లాంటిది.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'థెరపిస్ట్',
+  'onboarding.t3Text': '“పానిక్ డిజార్డర్ ఉన్న క్లయింట్లకు నేను BreathFlow సిఫారసు చేస్తాను.”',
+  'onboarding.rateTitle': 'BreathFlow భవిష్యత్తును రూపొందించడంలో సహాయపడండి',
+  'onboarding.rateSub': 'మీ ఆలోచనలను పంచుకోండి మరియు మా సేవను మెరుగుపరచడంలో సహాయపడండి.',
+  'onboarding.rateCta': 'తదుపరి',
   'onboarding.connectHealth': 'Apple Health కనెక్ట్ చేయండి',
   'onboarding.healthSkip': 'దాటవేయి',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'కేవలం 5 నిమిషాల సచేతన శ్వాసక్రియ మూడ్ మారుస్తుంది.',
   'notifications.tip6': 'నెమ్మదిగా శ్వాసించడం parasympathetic nervous system ని సక్రియం చేస్తుంది.',
   'notifications.tip7': 'నిరంతర అభ్యాసం కాలక్రమేణా స్థితిస్థాపకత నిర్మిస్తుంది.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "దీన్ని అలవాటుగా చేసుకోండి",
+  'summary.habitReminderTitle': "రోజువారీ రిమైండర్",
+  'summary.habitReminderSub': "ప్రతిరోజూ శ్వాస తీసుకోవడానికి ఒక సున్నితమైన రిమైండర్",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "సెషన్‌లను మైండ్‌ఫుల్ నిమిషాలుగా సేవ్ చేయండి",
+  'settings.resetOnboarding': "ఆన్‌బోర్డింగ్‌ను రీసెట్ చేయండి",
+  'settings.resetOnboardingConfirm': "ఆన్‌బోర్డింగ్ ఫ్లోను మళ్లీ ప్లే చేయాలా? ఇది మొదటి సెషన్ భద్రతా స్క్రీన్‌ను కూడా మళ్లీ యాక్టివేట్ చేస్తుంది.",
+  'settings.resetOnboardingConfirmCta': "రీసెట్",
+  'settings.developer': "డెవలపర్",
+  'paywall.errorGeneric': "ఏదో తప్పు జరిగింది. దయచేసి మళ్లీ ప్రయత్నించండి.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "సంగీతాన్ని మ్యూట్ చేయండి",
+  'session.musicOff': "సంగీతం ప్లే చేయండి",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "పెంచు",
+  'common.decrease': "తగ్గించు",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% పొదుపు",
+  'paywall.perWeekApprox': "≈ {{price}}/వారం",
+  'paywall.startTrialWeekly': "3 రోజులు ఉచితంగా ప్రయత్నించండి",
+  'paywall.startTrialAnnual': "7 రోజులు ఉచితంగా ప్రయత్నించండి",
+  'paywall.cancelAnytime': "ఎప్పుడైనా రద్దు చేసుకోండి · ఎలాంటి బాధ్యత లేదు",
 };

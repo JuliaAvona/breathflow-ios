@@ -9,6 +9,7 @@ import {
   StatusBar,
   PanResponder,
   Alert,
+  AppState,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -19,7 +20,7 @@ import { useSettingsStore } from '../src/store';
 import { getTechniqueById, TECHNIQUES } from '../src/constants/techniques';
 import { BreathingMandala } from '../src/components/BreathingMandala';
 import { FONTS, BORDER_RADIUS, scale } from '../src/constants';
-import { MUSIC_TRACKS, startMusic, stopMusic } from '../src/utils/sessionMusic';
+import { MUSIC_TRACKS, startMusic, stopMusic, pauseMusic, resumeMusic } from '../src/utils/sessionMusic';
 import type { TechniqueCategory } from '../src/types';
 
 const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
@@ -146,14 +147,31 @@ export default function TechniqueDetailScreen() {
     return () => { stopMusic(); };
   }, [_music]);
 
+  // This is just a preview (no active session yet), so it shouldn't keep
+  // playing once the app is backgrounded the way real session audio does —
+  // pause while away and pick back up if the user returns to this screen.
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (nextState) => {
+      if (nextState !== 'active') {
+        pauseMusic();
+      } else if (selectedMusic) {
+        resumeMusic();
+      }
+    });
+    return () => sub.remove();
+  }, [selectedMusic]);
+
   const allTechniques = TECHNIQUES;
 
   const currentIndex = allTechniques.findIndex(t => t.id === techniqueId);
 
+  // Capture-phase handlers so this claims horizontal swipes before children
+  // (the duration/music ScrollViews, buttons) get a chance to steal them —
+  // taps are unaffected since they never cross the dx/dy movement threshold.
   const swipePanResponder = useMemo(() =>
     PanResponder.create({
-      onMoveShouldSetPanResponder: (_, g) =>
-        Math.abs(g.dx) > 30 && Math.abs(g.dy) < 40,
+      onMoveShouldSetPanResponderCapture: (_, g) =>
+        Math.abs(g.dx) > 20 && Math.abs(g.dy) < 40,
       onPanResponderRelease: (_, g) => {
         if (g.dx < -50) navigateTo(currentIndex + 1);
         else if (g.dx > 50) navigateTo(currentIndex - 1);
@@ -204,7 +222,7 @@ export default function TechniqueDetailScreen() {
   const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[category];
 
   return (
-    <ImageBackground source={bgImage} style={styles.container} resizeMode="cover" {...swipePanResponder.panHandlers}>
+    <ImageBackground source={bgImage} style={styles.container} resizeMode="cover">
       {/* Vignette overlay: dark at top/bottom, transparent in mandala zone */}
       <LinearGradient
         colors={['#000000DD', '#00000055', '#00000022', '#000000BB', '#000000EE']}
@@ -213,41 +231,50 @@ export default function TechniqueDetailScreen() {
       />
       <StatusBar barStyle="light-content" />
 
-      {/* ── Top bar: [spacer] [center: title + PRO] [close] ── */}
-      <View style={[styles.topBar, { paddingTop: insets.top + 8 }]}>
-        <View style={styles.topBarSide} />
-        <View style={styles.topTitleRow}>
-          <Text style={styles.topTitle} numberOfLines={1}>
-            {t(technique.nameKey)}
-          </Text>
-          {isPro && (
-            <View style={[styles.proBadge, { marginLeft: 6 }]}>
-              <Ionicons name="diamond" size={12} color="#fff" />
-              <Text style={styles.proText}>PRO</Text>
-            </View>
-          )}
+      {/* Swipe zone: top bar + mandala only — kept off the pickers below so
+          their own horizontal ScrollViews still scroll normally. */}
+      <View style={{ flex: 1 }} {...swipePanResponder.panHandlers}>
+        {/* ── Top bar: [spacer] [center: title + PRO] [close] ── */}
+        <View style={[styles.topBar, { paddingTop: insets.top + 8 }]}>
+          <View style={styles.topBarSide} />
+          <View style={styles.topTitleRow}>
+            <Text style={styles.topTitle} numberOfLines={1}>
+              {t(technique.nameKey)}
+            </Text>
+            {isPro && (
+              <LinearGradient
+                colors={['#FFE066', '#FFC940', '#F5A623']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={[styles.proBadge, { marginLeft: 6 }]}
+              >
+                <Ionicons name="diamond" size={12} color="#1A2332" />
+                <Text style={styles.proText}>PRO</Text>
+              </LinearGradient>
+            )}
+          </View>
+          <TouchableOpacity style={styles.closeBtn} onPress={() => router.back()}>
+            <Ionicons name="close" size={22} color="rgba(255,255,255,0.85)" />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.closeBtn} onPress={() => router.back()}>
-          <Ionicons name="close" size={22} color="rgba(255,255,255,0.85)" />
+
+        {/* ── Side nav arrows (vertically centered) ── */}
+        <TouchableOpacity style={styles.navArrowLeft} onPress={() => navigateTo(currentIndex - 1)}>
+          <Ionicons name="chevron-back" size={28} color="rgba(255,255,255,0.9)" />
         </TouchableOpacity>
-      </View>
+        <TouchableOpacity style={styles.navArrowRight} onPress={() => navigateTo(currentIndex + 1)}>
+          <Ionicons name="chevron-forward" size={28} color="rgba(255,255,255,0.9)" />
+        </TouchableOpacity>
 
-      {/* ── Side nav arrows (vertically centered) ── */}
-      <TouchableOpacity style={styles.navArrowLeft} onPress={() => navigateTo(currentIndex - 1)}>
-        <Ionicons name="chevron-back" size={28} color="rgba(255,255,255,0.9)" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.navArrowRight} onPress={() => navigateTo(currentIndex + 1)}>
-        <Ionicons name="chevron-forward" size={28} color="rgba(255,255,255,0.9)" />
-      </TouchableOpacity>
-
-      {/* ── Mandala ── */}
-      <View style={styles.mandalaArea}>
-        <BreathingMandala
-          phase="IDLE"
-          color={accentColor}
-          size={scale(310)}
-          bright
-        />
+        {/* ── Mandala ── */}
+        <View style={styles.mandalaArea}>
+          <BreathingMandala
+            phase="IDLE"
+            color={accentColor}
+            size={scale(310)}
+            bright
+          />
+        </View>
       </View>
 
       {/* ── Duration / Rounds / Sets picker ── */}
@@ -428,7 +455,7 @@ export default function TechniqueDetailScreen() {
       <View style={[styles.bottomArea, { paddingBottom: insets.bottom + 16 }]}>
         {isPro ? (
           <LinearGradient
-            colors={['#9B59B6', '#7B68AE']}
+            colors={['#FFE066', '#FFC940', '#F5A623']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.startBtnGradient}
@@ -438,8 +465,8 @@ export default function TechniqueDetailScreen() {
               onPress={() => router.push('/paywall')}
               activeOpacity={0.85}
             >
-              <Ionicons name="diamond" size={18} color="#fff" style={{ marginRight: 8 }} />
-              <Text style={styles.startBtnText}>{t('paywall.unlockPro')}</Text>
+              <Ionicons name="diamond" size={18} color="#1A2332" style={{ marginRight: 8 }} />
+              <Text style={[styles.startBtnText, { color: '#1A2332' }]}>{t('paywall.unlockPro')}</Text>
             </TouchableOpacity>
           </LinearGradient>
         ) : (
@@ -520,7 +547,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: 'rgba(155,89,182,0.8)',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: BORDER_RADIUS.full,
@@ -528,7 +554,7 @@ const styles = StyleSheet.create({
   proText: {
     fontSize: 10,
     fontFamily: FONTS.bold,
-    color: '#fff',
+    color: '#1A2332',
   },
   mandalaArea: {
     alignItems: 'center',

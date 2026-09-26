@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Domov',
   'tabs.breathe': 'Dychaj',
   'tabs.history': 'Pokrok',
-  'tabs.badges': 'Odznaky',
+  'tabs.badges': 'Ocenenia',
   'tabs.settings': 'Nastavenia',
 
   // Home screen
@@ -162,6 +162,9 @@ export default {
   'summary.moodSleepy': 'Ospalost',
   'summary.done': 'Hotovo',
   'summary.repeat': 'Opakovat',
+  'summary.dontSave': 'Neuložiť',
+  'summary.discardTitle': 'Neuložiť túto reláciu?',
+  'summary.discardMessage': 'Táto relácia bude odstránená a nebude sa počítať do vašej štatistiky ani série.',
   'summary.share': 'Zdielat',
   'summary.shareText': 'Prave som dokoncil/a {{duration}} {{technique}} dychacie sedenie s BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Prave som dokoncil/a {{duration}} {{technique}} dychacie sedenie s BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -226,6 +229,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Nastavenia',
+  'settings.preferences': 'Predvoľby',
   'settings.feedback': 'Zvuky',
   'settings.sound': 'Zvuk',
   'settings.soundStyle': 'Styl zvuku',
@@ -303,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Oblubene medzi sportovcami',
   'onboarding.socialProof2': 'Podlozene Stanfordom',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Nastavte si denny ciel',
-  'onboarding.commitSub': 'Male kazdodenne navyky vytvaraju trvalu zmenu.',
   'onboarding.commitMinUnit': 'min / den',
   'onboarding.commitHint_3': 'Dokonca aj 3-minutove cvicenie moze pomoct upokojiit nervovy system.',
   'onboarding.commitHint_5': 'Vyskum Stanfordu spaja pomale dychanie s nizsim stresom a lepsim spankom.',
@@ -359,7 +361,7 @@ export default {
   'badges.year_legend.description': 'Seria 365 dni',
 
   // Badges screen
-  'badges.title': 'Odznaky',
+  'badges.title': 'Ocenenia',
   'badges.unlocked': 'Odomknute',
   'badges.locked': 'Zamknute',
   'badges.progress': '{{unlocked}} z {{total}} odznakov',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': 'Vsetkych 10 dychacich technik',
   'paywall.feature2': 'Vsetky hudobne stopy',
   'paywall.feature3': 'Odomknut vsetky odznaky',
-  'paywall.feature4': 'Uplna historia a statistiky',
+  'paywall.featureAppleHealth': 'Synchronizácia s Apple Health',
   'paywall.feature5': 'Sledovanie nalady',
   'paywall.feature6': 'Vsetky odznaky',
   'paywall.purchase': 'Kupit za {{price}}',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Ziadne sedenia v tento den',
   'history.allTimeStats': 'Celkova statistika',
   'history.unlockFullHistory': 'Odomknite uplnu historiu s Pro',
+  'history.unlockFullHistoryDesc': 'Pozrite si svoj úplný pokrok a celkové štatistiky',
   'history.weeklyActivity': 'Tyzdenna aktivita',
   'history.badges': 'Odznaky',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': 'Ziadne nakupy na obnovenie.',
   'settings.restoreFailed': 'Obnovenie zlyhalo. Skuste to znova.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Synchronizovat Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Synchronizácia s Apple Health',
   'settings.privacyPolicy': 'Zasady ochrany sukromia',
   'settings.termsOfService': 'Podmienky pouzitia',
   'settings.restorePurchases': 'Obnovit nakupy',
@@ -496,6 +499,9 @@ export default {
   'paywall.errorNoProduct': 'Produkt nie je dostupny. Skuste to neskor.',
   'paywall.restoreSuccessTitle': 'Obnovene',
   'paywall.restoreSuccessMessage': 'Vase nakupy boli obnovene.',
+  'paywall.welcomeTitle': 'Vitajte v Pro',
+  'paywall.welcomeMessage': 'Všetky techniky a funkcie sú teraz odomknuté.',
+  'paywall.welcomeCta': 'Pokračovať',
   'paywall.restoreTitle': 'Obnovit',
   'paywall.restoreNoPurchases': 'Nenasli sa ziadne nakupy na obnovenie.',
   'paywall.oneTimePayment': 'Jednorazova platba',
@@ -513,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Odomknut navzdy',
   'paywall.startAnnual': 'Zacat rocny plan',
   'paywall.startWeekly': 'Zacat tyzdenny',
-  'paywall.hideOptions': 'Skryt moznosti',
   'paywall.then': 'potom',
   'paywall.weeklyAutoRenew': 'automaticke obnovenie',
   'paywall.weeklyTrial': '3 dni skusobnej doby zadarmo',
@@ -606,6 +611,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Sledovanie pokroku v case',
   'onboarding.appleHealthBullet3': 'Vase udaje zostavaju sukromne',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Pridaj sa k 1 000+ ľuďom, ktorí dýchajú lepšie',
+  'onboarding.socialProofSub': 'Skutoční ľudia, skutočné výsledky.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketingová riaditeľka, NYC',
+  'onboarding.t1Text': '„Robím 4-7-8 v posteli a zaspím za 5 minút. Po rokoch nespavosti je to neuveriteľné.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Softvérový inžinier',
+  'onboarding.t2Text': '„Box dýchanie pred hlbokou prácou je ako mentálna rozcvička.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeutka',
+  'onboarding.t3Text': '„Odporúčam BreathFlow klientom s panickou poruchou.“',
+  'onboarding.rateTitle': 'Pomôž formovať budúcnosť BreathFlow',
+  'onboarding.rateSub': 'Podeľ sa o svoje myšlienky a pomôž nám zlepšiť službu — užitočnejšiu, príjemnejšiu a viac prispôsobenú tvojim potrebám.',
+  'onboarding.rateCta': 'Ďalej',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Od stresu k pokoju \u2014 za niekolko minut',
   'paywall.heroSleep': 'Zaspite za minuty, nie hodiny',
@@ -641,4 +662,31 @@ export default {
   'notifications.tip5': 'Dychanie 5,5 nadychmi/min optimalizuje variabilitu srdcovej frekvencie.',
   'notifications.tip6': 'Dokonca aj 1 minuta vedomeho dychania robi rozdiel.',
   'notifications.tip7': 'Predlzene vydychy hovoria vasmu telu, ze je bezpecne relaxovat.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Urob si z toho zvyk",
+  'summary.habitReminderTitle': "Denná pripomienka",
+  'summary.habitReminderSub': "Jemná pripomienka dýchať každý deň",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Ukladaj relácie ako Minúty všímavosti",
+  'settings.resetOnboarding': "Resetovať úvod",
+  'settings.resetOnboardingConfirm': "Znova prehrať úvodný proces? Týmto sa znova aktivuje aj bezpečnostná obrazovka prvej relácie.",
+  'settings.resetOnboardingConfirmCta': "Resetovať",
+  'settings.developer': "Vývojár",
+  'paywall.errorGeneric': "Niečo sa pokazilo. Skúste to znova.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Stlmiť hudbu",
+  'session.musicOff': "Prehrať hudbu",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Zvýšiť",
+  'common.decrease': "Znížiť",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "UŠETRITE {{percent}} %",
+  'paywall.perWeekApprox': "≈ {{price}}/týždeň",
+  'paywall.startTrialWeekly': "Vyskúšajte zadarmo na 3 dni",
+  'paywall.startTrialAnnual': "Vyskúšajte zadarmo na 7 dní",
+  'paywall.cancelAnytime': "Kedykoľvek zrušiteľné · Bez záväzkov",
 };

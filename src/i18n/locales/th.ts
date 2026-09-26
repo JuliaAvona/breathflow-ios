@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'หน้าแรก',
   'tabs.breathe': 'หายใจ',
   'tabs.history': 'ความก้าวหน้า',
-  'tabs.badges': 'ตรา',
+  'tabs.badges': 'รางวัล',
   'tabs.settings': 'การตั้งค่า',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'ง่วงนอน',
   'summary.done': 'เสร็จ',
   'summary.repeat': 'ทำซ้ำ',
+  'summary.dontSave': 'ไม่บันทึก',
+  'summary.discardTitle': 'ไม่บันทึกเซสชันนี้ใช่ไหม?',
+  'summary.discardMessage': 'เซสชันนี้จะถูกลบและจะไม่นับรวมในสถิติหรือสตรีคของคุณ',
   'summary.share': 'แชร์',
   'summary.shareText': 'ฉันเพิ่งเสร็จสิ้นเซสชันหายใจ {{technique}} {{duration}} กับ BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'ฉันเพิ่งเสร็จสิ้นเซสชันหายใจ {{technique}} {{duration}} กับ BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'การตั้งค่า',
+  'settings.preferences': 'ค่ากำหนด',
   'settings.feedback': 'เสียง',
   'settings.sound': 'เสียง',
   'settings.soundStyle': 'สไตล์เสียง',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'นักกีฬาไว้วางใจ',
   'onboarding.socialProof2': 'ได้รับการสนับสนุนจาก Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'ตั้งเป้าหมายรายวันของคุณ',
-  'onboarding.commitSub': 'นิสัยเล็กๆ ในแต่ละวันสร้างการเปลี่ยนแปลงที่ยั่งยืน',
   'onboarding.commitMinUnit': 'นาที / วัน',
   'onboarding.commitHint_3': 'แค่ 3 นาทีก็ช่วยสงบระบบประสาทของคุณได้',
   'onboarding.commitHint_5': 'งานวิจัยจาก Stanford เชื่อมโยงการหายใจช้าๆ กับความเครียดที่ลดลงและการนอนหลับที่ดีขึ้น',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': 'ต่อเนื่อง 365 วัน',
 
   // Badges screen
-  'badges.title': 'ตรา',
+  'badges.title': 'รางวัล',
   'badges.unlocked': 'ปลดล็อกแล้ว',
   'badges.locked': 'ล็อกอยู่',
   'badges.progress': '{{unlocked}} จาก {{total}} ตรา',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'เทคนิคการหายใจทั้ง 10 แบบ',
   'paywall.feature2': 'เพลงทั้งหมด',
   'paywall.feature3': 'ปลดล็อกตราทั้งหมด',
-  'paywall.feature4': 'ประวัติและสถิติทั้งหมด',
+  'paywall.featureAppleHealth': 'การซิงค์ Apple Health',
   'paywall.feature5': 'ติดตามอารมณ์',
   'paywall.feature6': 'ตราทั้งหมด',
   'paywall.purchase': 'ซื้อในราคา {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'ไม่มีเซสชันในวันนี้',
   'history.allTimeStats': 'สถิติตลอดกาล',
   'history.unlockFullHistory': 'ปลดล็อกประวัติทั้งหมดด้วย Pro',
+  'history.unlockFullHistoryDesc': 'ดูความคืบหน้าทั้งหมดและสถิติตลอดกาลของคุณ',
   'history.weeklyActivity': 'กิจกรรมรายสัปดาห์',
   'history.badges': 'ตรา',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'ไม่มีการซื้อให้กู้คืน',
   'settings.restoreFailed': 'การกู้คืนล้มเหลว กรุณาลองใหม่',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'ซิงค์ Mindful Minutes',
+  'settings.syncMindfulMinutes': 'การซิงค์ Apple Health',
   'settings.privacyPolicy': 'นโยบายความเป็นส่วนตัว',
   'settings.termsOfService': 'ข้อกำหนดการใช้บริการ',
   'settings.restorePurchases': 'กู้คืนการซื้อ',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'สินค้าไม่พร้อมให้บริการ กรุณาลองใหม่ภายหลัง',
   'paywall.restoreSuccessTitle': 'กู้คืนแล้ว',
   'paywall.restoreSuccessMessage': 'การซื้อของคุณได้รับการกู้คืนแล้ว',
+  'paywall.welcomeTitle': 'ยินดีต้อนรับสู่ Pro',
+  'paywall.welcomeMessage': 'ปลดล็อกเทคนิคและฟีเจอร์ทั้งหมดแล้ว',
+  'paywall.welcomeCta': 'ดำเนินการต่อ',
   'paywall.restoreTitle': 'กู้คืน',
   'paywall.restoreNoPurchases': 'ไม่พบการซื้อที่จะกู้คืน',
   'paywall.oneTimePayment': 'ชำระครั้งเดียว',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'ปลดล็อกตลอดกาล',
   'paywall.startAnnual': 'เริ่มแผนรายปี',
   'paywall.startWeekly': 'เริ่มรายสัปดาห์',
-  'paywall.hideOptions': 'ซ่อนตัวเลือก',
   'paywall.then': 'จากนั้น',
   'paywall.weeklyAutoRenew': 'ต่ออายุอัตโนมัติ',
   'paywall.weeklyTrial': 'ทดลองใช้ฟรี 3 วัน',
@@ -604,6 +609,22 @@ export default {
   'onboarding.appleHealthBullet2': 'ติดตามความก้าวหน้าตามเวลา',
   'onboarding.appleHealthBullet3': 'ข้อมูลของคุณยังคงเป็นส่วนตัว',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'เข้าร่วมกับผู้คนกว่า 1,000 คนที่หายใจได้ดีขึ้น',
+  'onboarding.socialProofSub': 'ผู้คนจริง ผลลัพธ์จริง',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'ผู้อำนวยการการตลาด NYC',
+  'onboarding.t1Text': '“ฉันทำ 4-7-8 บนเตียงและหลับใน 5 นาที หลังจากนอนไม่หลับมาหลายปี นี่มันเหลือเชื่อ”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'วิศวกรซอฟต์แวร์',
+  'onboarding.t2Text': '“การหายใจกล่องก่อนงานเชิงลึกเหมือนการอุ่นเครื่องทางจิตใจ”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'นักบำบัด',
+  'onboarding.t3Text': '“ฉันแนะนำ BreathFlow ให้ลูกค้าที่มีโรคแพนิค”',
+  'onboarding.rateTitle': 'ช่วยกำหนดอนาคตของ BreathFlow',
+  'onboarding.rateSub': 'แบ่งปันความคิดของคุณและช่วยเราปรับปรุงบริการ — มีประโยชน์ สนุกสนาน และเหมาะกับคุณมากขึ้น',
+  'onboarding.rateCta': 'ถัดไป',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'จากความเครียดสู่ความสงบ — ในไม่กี่นาที',
   'paywall.heroSleep': 'นอนหลับในนาที ไม่ใช่ชั่วโมง',
@@ -639,4 +660,31 @@ export default {
   'notifications.tip5': 'การหายใจ 5.5 ครั้ง/นาทีจะเพิ่มประสิทธิภาพ HRV',
   'notifications.tip6': 'แม้แต่ 1 นาทีของการหายใจอย่างมีสติก็สร้างความแตกต่างได้',
   'notifications.tip7': 'การหายใจออกยาวๆ บอกให้ร่างกายรู้ว่าปลอดภัยที่จะผ่อนคลาย',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "ทำให้เป็นนิสัย",
+  'summary.habitReminderTitle': "การแจ้งเตือนรายวัน",
+  'summary.habitReminderSub': "การเตือนเบาๆ ให้หายใจทุกวัน",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "บันทึกเซสชันเป็นนาทีแห่งสติ",
+  'settings.resetOnboarding': "รีเซ็ตการแนะนำการใช้งาน",
+  'settings.resetOnboardingConfirm': "เล่นขั้นตอนแนะนำการใช้งานซ้ำหรือไม่? การทำเช่นนี้จะเปิดใช้งานหน้าจอความปลอดภัยของเซสชันแรกอีกครั้งด้วย",
+  'settings.resetOnboardingConfirmCta': "รีเซ็ต",
+  'settings.developer': "นักพัฒนา",
+  'paywall.errorGeneric': "เกิดข้อผิดพลาด โปรดลองอีกครั้ง",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "ปิดเสียงเพลง",
+  'session.musicOff': "เล่นเพลง",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "เพิ่ม",
+  'common.decrease': "ลด",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "ประหยัด {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/สัปดาห์",
+  'paywall.startTrialWeekly': "ทดลองใช้ฟรี 3 วัน",
+  'paywall.startTrialAnnual': "ทดลองใช้ฟรี 7 วัน",
+  'paywall.cancelAnytime': "ยกเลิกได้ทุกเมื่อ · ไม่มีข้อผูกมัด",
 };

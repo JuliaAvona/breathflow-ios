@@ -8,6 +8,7 @@ import {
   Alert,
   ActivityIndicator,
   ImageBackground,
+  Modal,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,7 +16,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useThemeColors } from '../src/hooks/useColorScheme';
-import { SPACING, FONT_SIZE, FONTS } from '../src/constants';
+import { SPACING, FONT_SIZE, FONTS, BORDER_RADIUS } from '../src/constants';
 import { useSettingsStore } from '../src/store';
 import {
   getOfferings,
@@ -24,14 +25,22 @@ import {
   type PurchasesOffering,
   type PurchasesPackage,
 } from '../src/utils/revenueCat';
+import {
+  logInitiatedCheckout,
+  logPurchase,
+  logStartTrial,
+} from '../src/utils/facebookEvents';
 
 type PlanType = 'weekly' | 'annual' | 'lifetime';
 
+// Ordered by how compelling each is to a customer deciding whether to
+// upgrade: core content unlock first, then things that enhance every
+// session, then a useful integration, then gamification last.
 const FEATURES = [
   { icon: 'flash' as const, color: '#FF6B6B', bg: 'rgba(255,107,107,0.15)', labelKey: 'paywall.feature1' },
   { icon: 'musical-notes' as const, color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', labelKey: 'paywall.feature2' },
+  { icon: 'heart' as const, color: '#FF6B9D', bg: 'rgba(255,107,157,0.15)', labelKey: 'paywall.featureAppleHealth' },
   { icon: 'trophy' as const, color: '#F5A623', bg: 'rgba(245,166,35,0.15)', labelKey: 'paywall.feature3' },
-  { icon: 'stats-chart' as const, color: '#34D399', bg: 'rgba(52,211,153,0.15)', labelKey: 'paywall.feature4' },
 ];
 
 export default function PaywallScreen() {
@@ -41,7 +50,8 @@ export default function PaywallScreen() {
   const grantPro = useSettingsStore((s) => s.grantPro);
   const [loading, setLoading] = useState(false);
   const [offering, setOffering] = useState<PurchasesOffering | null>(null);
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>('lifetime');
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>('annual');
+  const [showWelcome, setShowWelcome] = useState(false);
   const { fromOnboarding } = useLocalSearchParams<{ fromOnboarding?: string }>();
   const isFromOnboarding = fromOnboarding === '1';
 
@@ -53,8 +63,17 @@ export default function PaywallScreen() {
     }
   };
 
+  const handleWelcomeContinue = () => {
+    setShowWelcome(false);
+    if (isFromOnboarding) {
+      router.replace('/(tabs)');
+    } else {
+      router.canGoBack() ? router.back() : router.replace('/(tabs)');
+    }
+  };
+
   useEffect(() => {
-    getOfferings().then(setOffering);
+    getOfferings().then(setOffering).catch(() => setOffering(null));
   }, []);
 
   const weeklyPkg: PurchasesPackage | null = offering?.weekly ?? null;
@@ -64,6 +83,25 @@ export default function PaywallScreen() {
   const weeklyPrice = weeklyPkg?.product.priceString ?? '$2.99';
   const annualPrice = annualPkg?.product.priceString ?? '$14.99';
   const lifetimePrice = lifetimePkg?.product.priceString ?? '$19.99';
+
+  // Numeric prices (not the pre-formatted priceString) so we can derive the
+  // weekly-equivalent and savings-vs-weekly figures below, formatted through
+  // the package's own currency so this works correctly outside the US too.
+  const weeklyPriceNum = weeklyPkg?.product.price ?? 2.99;
+  const annualPriceNum = annualPkg?.product.price ?? 14.99;
+  const currencyCode = annualPkg?.product.currencyCode ?? weeklyPkg?.product.currencyCode ?? 'USD';
+  const formatCurrency = (amount: number): string => {
+    try {
+      return new Intl.NumberFormat(undefined, { style: 'currency', currency: currencyCode }).format(amount);
+    } catch {
+      return `$${amount.toFixed(2)}`;
+    }
+  };
+  const annualWeeklyEquivalent = formatCurrency(annualPriceNum / 52);
+  const annualSavingsPercent = Math.max(
+    0,
+    Math.round((1 - annualPriceNum / (weeklyPriceNum * 52)) * 100),
+  );
 
   const getSelectedPkg = (): PurchasesPackage | null => {
     if (selectedPlan === 'weekly') return weeklyPkg;
@@ -78,19 +116,23 @@ export default function PaywallScreen() {
       return;
     }
     setLoading(true);
+    const price = pkg.product.price ?? 0;
+    const currency = pkg.product.currencyCode ?? 'USD';
+    logInitiatedCheckout(selectedPlan, price, currency);
     try {
       const { isPro } = await purchasePackage(pkg);
       if (isPro) {
         grantPro();
-        if (isFromOnboarding) {
-          router.replace('/(tabs)');
-        } else {
-          router.canGoBack() ? router.back() : router.replace('/(tabs)');
+        logPurchase(price, selectedPlan, currency);
+        if (selectedPlan === 'weekly' || selectedPlan === 'annual') {
+          logStartTrial(selectedPlan, price, currency);
         }
+        setShowWelcome(true);
       }
-    } catch (e: any) {
-      if (e.userCancelled) return;
-      Alert.alert(t('paywall.errorTitle'), e.message);
+    } catch (e: unknown) {
+      const err = e as { userCancelled?: boolean; message?: string } | null | undefined;
+      if (err?.userCancelled) return;
+      Alert.alert(t('paywall.errorTitle'), err?.message || t('paywall.errorGeneric', { defaultValue: 'Something went wrong. Please try again.' }));
     } finally {
       setLoading(false);
     }
@@ -111,8 +153,9 @@ export default function PaywallScreen() {
       } else {
         Alert.alert(t('paywall.restoreTitle'), t('paywall.restoreNoPurchases'));
       }
-    } catch (e: any) {
-      Alert.alert(t('paywall.errorTitle'), e.message);
+    } catch (e: unknown) {
+      const err = e as { message?: string } | null | undefined;
+      Alert.alert(t('paywall.errorTitle'), err?.message || t('paywall.errorGeneric', { defaultValue: 'Something went wrong. Please try again.' }));
     } finally {
       setLoading(false);
     }
@@ -121,26 +164,35 @@ export default function PaywallScreen() {
   const ctaLabel = selectedPlan === 'lifetime'
     ? t('paywall.unlockForever', { defaultValue: 'Unlock Forever' })
     : selectedPlan === 'annual'
-      ? t('paywall.startAnnual', { defaultValue: 'Start Annual Plan' })
-      : t('paywall.startWeekly', { defaultValue: 'Start Weekly' });
+      ? t('paywall.startTrialAnnual')
+      : t('paywall.startTrialWeekly');
 
   return (
     <ImageBackground
-      source={require('../assets/bg_coherence.webp')}
+      source={require('../assets/bg_sleep.webp')}
       style={styles.container}
       resizeMode="cover"
     >
+      {/* Night sky + Milky Way is naturally dark already, so the overlay
+          stays light up top (lets the stars read) and only goes solid near
+          the bottom, where the plan cards/CTA need a fully opaque surface. */}
       <LinearGradient
-        colors={['rgba(15,20,25,0.85)', 'rgba(15,20,25,0.95)', '#0F1419']}
-        locations={[0, 0.4, 0.7]}
+        colors={['rgba(10,14,20,0.35)', 'rgba(10,14,20,0.55)', 'rgba(12,16,22,0.9)', '#0F1419']}
+        locations={[0, 0.35, 0.6, 0.8]}
         style={StyleSheet.absoluteFill}
       />
-      <ScrollView
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + 24 }]}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Close button */}
-        <View style={[styles.headerRow, { paddingTop: insets.top + 8 }]}>
+      {/* Header stays pinned above the scroll (not part of scrollContent),
+          same as japanese-walking-ios's paywall. */}
+      {/* This screen is presented as an iOS card modal (see app/_layout.tsx),
+          which already has its own rounded top + status-bar handling — so a
+          small fixed padding is enough there, and adding insets.top on top
+          would double-count that space. But from onboarding it's opened via
+          router.replace (not push), which renders it full-screen instead of
+          as a card — no automatic status-bar clearance there, so it needs
+          the real insets.top or the close/restore row ends up jammed under
+          the dynamic island. */}
+      <View style={{ flex: 1, paddingTop: isFromOnboarding ? insets.top + SPACING.xs : SPACING.md }}>
+        <View style={styles.headerRow}>
           <TouchableOpacity
             onPress={handleClose}
             activeOpacity={0.7}
@@ -155,13 +207,22 @@ export default function PaywallScreen() {
           </TouchableOpacity>
         </View>
 
+        <ScrollView
+          contentContainerStyle={[styles.scrollContent, { paddingBottom: insets.bottom + SPACING.xl }]}
+          showsVerticalScrollIndicator={false}
+        >
         {/* Title */}
         <View style={styles.titleArea}>
           <Text style={styles.title}>BreathFlow</Text>
-          <View style={styles.proBadge}>
-            <Ionicons name="diamond" size={12} color="#FFF" />
+          <LinearGradient
+            colors={['#FFE066', '#FFC940', '#F5A623']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.proBadge}
+          >
+            <Ionicons name="diamond" size={12} color="#1A2332" />
             <Text style={styles.proBadgeText}>PRO</Text>
-          </View>
+          </LinearGradient>
         </View>
 
         {/* Features */}
@@ -169,7 +230,7 @@ export default function PaywallScreen() {
           {FEATURES.map((f, i) => (
             <View key={i} style={styles.featureRow}>
               <View style={[styles.featureIcon, { backgroundColor: f.bg }]}>
-                <Ionicons name={f.icon} size={20} color={f.color} />
+                <Ionicons name={f.icon} size={18} color={f.color} />
               </View>
               <Text style={styles.featureText}>
                 {t(f.labelKey)}
@@ -204,10 +265,15 @@ export default function PaywallScreen() {
             </View>
           </TouchableOpacity>
 
-          {/* Annual */}
+          {/* Annual — featured: permanently accented border (not just on
+              selection) + an inline "SAVE X%" tag next to its title, so it
+              reads as the recommended plan even if the user taps over to
+              Weekly/Lifetime first. Kept inline (not a floating ribbon) so
+              it never overlaps the card border or the price column. */}
           <TouchableOpacity
             style={[
               styles.planCard,
+              styles.planCardFeatured,
               selectedPlan === 'annual' && styles.planCardSelected,
             ]}
             onPress={() => setSelectedPlan('annual')}
@@ -218,13 +284,23 @@ export default function PaywallScreen() {
                 {selectedPlan === 'annual' && <View style={styles.planRadioDot} />}
               </View>
               <View>
-                <Text style={styles.planTitle}>ANNUAL</Text>
+                <View style={styles.planTitleRow}>
+                  <Text style={styles.planTitle}>ANNUAL</Text>
+                  <View style={styles.saveBadge}>
+                    <Text style={styles.saveBadgeText}>
+                      {t('paywall.saveBadge', { percent: annualSavingsPercent })}
+                    </Text>
+                  </View>
+                </View>
                 <Text style={styles.planSub}>{t('paywall.annualTrial', { defaultValue: '7-day free trial' })}</Text>
               </View>
             </View>
             <View style={styles.planRight}>
               <Text style={styles.planPriceLabel}>{t('paywall.then', { defaultValue: 'then' })} {annualPrice}</Text>
               <Text style={styles.planPeriod}>{t('paywall.perYear', { defaultValue: 'per year' })}</Text>
+              <Text style={styles.planPerWeek}>
+                {t('paywall.perWeekApprox', { price: annualWeeklyEquivalent })}
+              </Text>
             </View>
           </TouchableOpacity>
 
@@ -269,6 +345,20 @@ export default function PaywallScreen() {
           )}
         </TouchableOpacity>
 
+        {(selectedPlan === 'weekly' || selectedPlan === 'annual') && (
+          <Text style={styles.cancelAnytime}>{t('paywall.cancelAnytime')}</Text>
+        )}
+
+        {/* Subscription auto-renewal disclaimer (Apple Guideline 3.1.2c) */}
+        {(selectedPlan === 'weekly' || selectedPlan === 'annual') && (
+          <Text style={styles.subscriptionDisclaimer}>
+            {t('paywall.subscriptionDisclaimer', {
+              defaultValue:
+                'Payment will be charged to your Apple ID account at confirmation of purchase. Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage subscriptions in App Store settings.',
+            })}
+          </Text>
+        )}
+
         {/* Legal */}
         <View style={styles.legalLinks}>
           <TouchableOpacity onPress={() => router.push('/terms')} activeOpacity={0.7}>
@@ -280,24 +370,82 @@ export default function PaywallScreen() {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={handleClose} activeOpacity={0.7} style={styles.hideOptions}>
-          <Text style={styles.hideOptionsText}>{t('paywall.hideOptions', { defaultValue: 'Hide Options' })}</Text>
-        </TouchableOpacity>
-      </ScrollView>
+        {/* Dev/test only: preview the success modal without a real purchase */}
+        {__DEV__ && (
+          <TouchableOpacity
+            onPress={() => setShowWelcome(true)}
+            activeOpacity={0.7}
+            style={styles.devPreviewBtn}
+          >
+            <Text style={styles.devPreviewBtnText}>DEV: Preview Success Modal</Text>
+          </TouchableOpacity>
+        )}
+        </ScrollView>
+      </View>
+
+      {/* Purchase success — the moment that actually tells them they're Pro now */}
+      <Modal visible={showWelcome} transparent animationType="fade" statusBarTranslucent>
+        <View style={styles.welcomeOverlay}>
+          <LinearGradient
+            colors={['#232B3D', '#171E2A', '#12171F']}
+            style={styles.welcomeCard}
+          >
+            <View style={styles.welcomeIconWrap}>
+              <View style={styles.welcomeGlowOuter} />
+              <View style={styles.welcomeGlowInner} />
+              <View style={styles.welcomeRing1} />
+              <View style={styles.welcomeRing2} />
+              <View style={styles.welcomeRing3} />
+
+              <LinearGradient
+                colors={['#FFE066', '#FFC940', '#F5A623']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.welcomeIconBadge}
+              >
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.55)', 'rgba(255,255,255,0)']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 0, y: 1 }}
+                  style={styles.welcomeIconShine}
+                />
+                <Ionicons name="diamond" size={30} color="#1A2332" />
+              </LinearGradient>
+            </View>
+
+            <Text style={styles.welcomeTitle}>{t('paywall.welcomeTitle')}</Text>
+            <Text style={styles.welcomeMessage}>{t('paywall.welcomeMessage')}</Text>
+
+            <TouchableOpacity
+              onPress={handleWelcomeContinue}
+              activeOpacity={0.85}
+              style={styles.welcomeCtaWrapper}
+            >
+              <LinearGradient
+                colors={['#FFE066', '#FFC940', '#F5A623']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.welcomeCta}
+              >
+                <Text style={styles.welcomeCtaText}>{t('paywall.welcomeCta')}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
+      </Modal>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  scrollContent: { flexGrow: 1 },
-
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
-    marginBottom: SPACING.lg,
+    paddingTop: SPACING.sm,
+    paddingBottom: SPACING.xs,
   },
   headerBtn: {
     width: 36,
@@ -313,15 +461,20 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 
+  scrollContent: {
+    paddingBottom: SPACING.xl,
+  },
+
   titleArea: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: SPACING.xl,
     gap: 8,
+    marginTop: SPACING.lg,
+    marginBottom: SPACING.xl,
   },
   title: {
-    fontSize: 36,
+    fontSize: FONT_SIZE.xxl,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: -0.5,
@@ -330,7 +483,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: 'rgba(155,89,182,0.85)',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 12,
@@ -338,7 +490,7 @@ const styles = StyleSheet.create({
   proBadgeText: {
     fontSize: 13,
     fontFamily: FONTS.heavy,
-    color: '#FFF',
+    color: '#1A2332',
     letterSpacing: 1,
   },
 
@@ -346,22 +498,22 @@ const styles = StyleSheet.create({
   featureList: {
     paddingHorizontal: SPACING.xl,
     marginBottom: SPACING.xl,
-    gap: 16,
   },
   featureRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
+    gap: SPACING.sm + 4,
+    marginBottom: SPACING.sm + 2,
   },
   featureIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: 12,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
   featureText: {
-    fontSize: 20,
+    fontSize: FONT_SIZE.lg,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     flex: 1,
@@ -370,7 +522,7 @@ const styles = StyleSheet.create({
   // Plans
   plansArea: {
     paddingHorizontal: SPACING.lg,
-    gap: 10,
+    gap: SPACING.sm,
     marginBottom: SPACING.lg,
   },
   planCard: {
@@ -378,9 +530,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(255,255,255,0.06)',
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    borderRadius: BORDER_RADIUS.md,
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.sm + 4,
     borderWidth: 1.5,
     borderColor: 'rgba(255,255,255,0.1)',
     position: 'relative',
@@ -388,17 +540,23 @@ const styles = StyleSheet.create({
   },
   planCardSelected: {
     borderColor: '#4A90D9',
-    backgroundColor: 'rgba(155,89,182,0.1)',
+    backgroundColor: 'rgba(74,144,217,0.1)',
+  },
+  // Annual stays visually "featured" (warm accent border) even when the user
+  // taps over to another plan — the selected-state blue border above still
+  // takes precedence when it IS selected, since style arrays merge in order.
+  planCardFeatured: {
+    borderColor: 'rgba(245,166,35,0.6)',
   },
   planLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
   },
   planRadio: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
     borderWidth: 2,
     borderColor: 'rgba(255,255,255,0.3)',
     alignItems: 'center',
@@ -408,19 +566,25 @@ const styles = StyleSheet.create({
     borderColor: '#4A90D9',
   },
   planRadioDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
     backgroundColor: '#4A90D9',
   },
+  planTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: SPACING.xs,
+  },
   planTitle: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.md,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: 0.5,
   },
   planSub: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.xs,
     fontFamily: FONTS.semibold,
     color: 'rgba(255,255,255,0.85)',
     marginTop: 2,
@@ -429,49 +593,53 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   planPriceLabel: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.sm,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
   },
   planPeriod: {
-    fontSize: 13,
+    fontSize: FONT_SIZE.xs,
     fontFamily: FONTS.bold,
     color: 'rgba(255,255,255,0.85)',
     marginTop: 1,
   },
   planPriceOnce: {
-    fontSize: 18,
+    fontSize: FONT_SIZE.md,
     fontFamily: FONTS.heavy,
     color: '#4A90D9',
   },
+  planPerWeek: {
+    fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.semibold,
+    color: 'rgba(255,255,255,0.55)',
+    marginTop: 2,
+  },
+  // Inline tag next to the "ANNUAL" title — sits in normal flow so it can
+  // never overlap the card border or the price column on the right.
   saveBadge: {
-    position: 'absolute',
-    top: -12,
-    right: 12,
-    backgroundColor: '#34D399',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-    zIndex: 1,
+    backgroundColor: '#F5A623',
+    paddingHorizontal: SPACING.xs + 2,
+    paddingVertical: 2,
+    borderRadius: BORDER_RADIUS.sm,
   },
   saveBadgeText: {
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: FONTS.heavy,
-    color: '#000',
-    letterSpacing: 0.5,
+    color: '#1A1200',
+    letterSpacing: 0.3,
   },
 
   // CTA
   ctaButton: {
     marginHorizontal: SPACING.lg,
     backgroundColor: '#4A90D9',
-    borderRadius: 14,
-    paddingVertical: 18,
+    borderRadius: BORDER_RADIUS.xl,
+    paddingVertical: SPACING.md + 2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    marginBottom: SPACING.md,
+    marginBottom: SPACING.sm,
     shadowColor: '#4A90D9',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.35,
@@ -479,10 +647,28 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   ctaText: {
-    fontSize: 22,
+    fontSize: FONT_SIZE.lg,
     fontFamily: FONTS.heavy,
     color: '#FFFFFF',
     letterSpacing: 0.5,
+  },
+  cancelAnytime: {
+    fontSize: FONT_SIZE.sm,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.55)',
+    textAlign: 'center',
+    marginBottom: SPACING.sm,
+  },
+
+  // Subscription disclaimer
+  subscriptionDisclaimer: {
+    fontSize: FONT_SIZE.xs,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.5)',
+    textAlign: 'center',
+    marginHorizontal: SPACING.xl,
+    marginBottom: SPACING.md,
+    lineHeight: 16,
   },
 
   // Legal
@@ -490,7 +676,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: SPACING.sm,
+    marginBottom: SPACING.md,
   },
   legalText: {
     fontSize: FONT_SIZE.xs,
@@ -501,14 +687,148 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.xs,
     color: 'rgba(255,255,255,0.85)',
   },
-  hideOptions: {
-    alignItems: 'center',
-    paddingVertical: SPACING.sm,
+  devPreviewBtn: {
+    alignSelf: 'center',
+    marginTop: SPACING.md,
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.xs,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: 'rgba(255,201,64,0.5)',
   },
-  hideOptionsText: {
-    fontSize: FONT_SIZE.sm,
+  devPreviewBtnText: {
+    fontSize: FONT_SIZE.xs,
     fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.85)',
-    textDecorationLine: 'underline',
+    color: '#FFC940',
+  },
+
+  // Purchase success modal
+  welcomeOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15,20,25,0.88)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: SPACING.xl,
+  },
+  welcomeCard: {
+    width: '100%',
+    maxWidth: 340,
+    borderRadius: 28,
+    paddingVertical: SPACING.xl,
+    paddingHorizontal: SPACING.lg,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,201,64,0.22)',
+    shadowColor: '#F5A623',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.25,
+    shadowRadius: 30,
+    elevation: 10,
+  },
+  welcomeIconWrap: {
+    width: 128,
+    height: 128,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: SPACING.lg,
+  },
+  welcomeGlowOuter: {
+    position: 'absolute',
+    width: 128,
+    height: 128,
+    borderRadius: 64,
+    backgroundColor: 'rgba(255,255,255,0.05)',
+  },
+  welcomeGlowInner: {
+    position: 'absolute',
+    width: 92,
+    height: 92,
+    borderRadius: 46,
+    backgroundColor: 'rgba(255,201,64,0.12)',
+  },
+  welcomeRing1: {
+    position: 'absolute',
+    width: 128,
+    height: 128,
+    borderRadius: 64,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+  },
+  welcomeRing2: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.16)',
+  },
+  welcomeRing3: {
+    position: 'absolute',
+    width: 74,
+    height: 74,
+    borderRadius: 37,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,201,64,0.45)',
+  },
+  welcomeIconBadge: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.4)',
+    shadowColor: '#F5A623',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  welcomeIconShine: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '55%',
+  },
+  welcomeTitle: {
+    fontSize: FONT_SIZE.xxl,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: -0.3,
+    marginBottom: SPACING.sm,
+    textAlign: 'center',
+  },
+  welcomeMessage: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.7)',
+    textAlign: 'center',
+    lineHeight: 22,
+    marginBottom: SPACING.xl,
+  },
+  welcomeCtaWrapper: {
+    width: '100%',
+    borderRadius: 14,
+    shadowColor: '#F5A623',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
+    elevation: 6,
+  },
+  welcomeCta: {
+    width: '100%',
+    borderRadius: 14,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  welcomeCtaText: {
+    fontSize: FONT_SIZE.lg,
+    fontFamily: FONTS.heavy,
+    color: '#1A2332',
+    letterSpacing: 0.3,
   },
 });

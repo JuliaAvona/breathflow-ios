@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u0627\u0644\u0631\u0626\u064A\u0633\u064A\u0629',
   'tabs.breathe': '\u062A\u0646\u0641\u0633',
   'tabs.history': '\u0627\u0644\u062A\u0642\u062F\u0645',
-  'tabs.badges': '\u0627\u0644\u0634\u0627\u0631\u0627\u062A',
+  'tabs.badges': 'الجوائز',
   'tabs.settings': '\u0627\u0644\u0625\u0639\u062F\u0627\u062F\u0627\u062A',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': '\u0646\u0639\u0633\u0627\u0646',
   'summary.done': '\u062A\u0645',
   'summary.repeat': '\u062A\u0643\u0631\u0627\u0631',
+  'summary.dontSave': 'عدم الحفظ',
+  'summary.discardTitle': 'عدم حفظ هذه الجلسة؟',
+  'summary.discardMessage': 'ستتم إزالة هذه الجلسة ولن تُحتسب ضمن إحصائياتك أو سلسلتك المتتالية.',
   'summary.share': '\u0645\u0634\u0627\u0631\u0643\u0629',
   'summary.shareText': '\u0644\u0642\u062F \u0623\u0643\u0645\u0644\u062A \u062C\u0644\u0633\u0629 {{technique}} \u0644\u0645\u062F\u0629 {{duration}} \u0645\u0639 BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': '\u0644\u0642\u062F \u0623\u0643\u0645\u0644\u062A \u062C\u0644\u0633\u0629 {{technique}} \u0644\u0645\u062F\u0629 {{duration}} \u0645\u0639 BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u0627\u0644\u0625\u0639\u062F\u0627\u062F\u0627\u062A',
+  'settings.preferences': 'التفضيلات',
   'settings.feedback': '\u0627\u0644\u0623\u0635\u0648\u0627\u062A',
   'settings.sound': '\u0627\u0644\u0635\u0648\u062A',
   'settings.soundStyle': '\u0646\u0645\u0637 \u0627\u0644\u0635\u0648\u062A',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': '\u0645\u0648\u062B\u0648\u0642 \u0628\u0647 \u0645\u0646 \u0627\u0644\u0631\u064A\u0627\u0636\u064A\u064A\u0646',
   'onboarding.socialProof2': '\u0628\u062F\u0639\u0645 \u0633\u062A\u0627\u0646\u0641\u0648\u0631\u062F',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '\u062D\u062F\u062F \u0647\u062F\u0641\u0643 \u0627\u0644\u064A\u0648\u0645\u064A',
-  'onboarding.commitSub': '\u0627\u0644\u0639\u0627\u062F\u0627\u062A \u0627\u0644\u0635\u063A\u064A\u0631\u0629 \u0627\u0644\u064A\u0648\u0645\u064A\u0629 \u062A\u062E\u0644\u0642 \u062A\u063A\u064A\u064A\u0631\u0627\u064B \u062F\u0627\u0626\u0645\u0627\u064B.',
   'onboarding.commitMinUnit': '\u062F / \u064A\u0648\u0645',
   'onboarding.commitHint_3': '\u062D\u062A\u0649 \u062C\u0644\u0633\u0629 3 \u062F\u0642\u0627\u0626\u0642 \u064A\u0645\u0643\u0646 \u0623\u0646 \u062A\u0633\u0627\u0639\u062F \u0641\u064A \u062A\u0647\u062F\u0626\u0629 \u062C\u0647\u0627\u0632\u0643 \u0627\u0644\u0639\u0635\u0628\u064A.',
   'onboarding.commitHint_5': '\u062A\u0631\u0628\u0637 \u0623\u0628\u062D\u0627\u062B \u0633\u062A\u0627\u0646\u0641\u0648\u0631\u062F \u0627\u0644\u062A\u0646\u0641\u0633 \u0627\u0644\u0628\u0637\u064A\u0621 \u0628\u062A\u0642\u0644\u064A\u0644 \u0627\u0644\u062A\u0648\u062A\u0631 \u0648\u062A\u062D\u0633\u064A\u0646 \u0627\u0644\u0646\u0648\u0645.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '\u0633\u0644\u0633\u0644\u0629 365 \u064A\u0648\u0645\u0627\u064B',
 
   // Badges screen
-  'badges.title': '\u0627\u0644\u0634\u0627\u0631\u0627\u062A',
+  'badges.title': 'الجوائز',
   'badges.unlocked': '\u0645\u0641\u062A\u0648\u062D\u0629',
   'badges.unlockBadges': '\u0627\u0641\u062A\u062D \u0627\u0644\u0634\u0627\u0631\u0627\u062A \u0645\u0639 Pro',
   'badges.unlockBadgesDesc': '\u062A\u062A\u0628\u0639 \u0627\u0644\u0625\u0646\u062C\u0627\u0632\u0627\u062A \u0648\u0627\u0643\u0633\u0628 \u062C\u0645\u064A\u0639 \u0627\u0644\u0634\u0627\u0631\u0627\u062A',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': '\u062C\u0645\u064A\u0639 \u062A\u0642\u0646\u064A\u0627\u062A \u0627\u0644\u062A\u0646\u0641\u0633 \u0627\u0644\u0639\u0634\u0631',
   'paywall.feature2': '\u062C\u0645\u064A\u0639 \u0627\u0644\u0645\u0642\u0627\u0637\u0639 \u0627\u0644\u0645\u0648\u0633\u064A\u0642\u064A\u0629',
   'paywall.feature3': '\u0641\u062A\u062D \u062C\u0645\u064A\u0639 \u0627\u0644\u0634\u0627\u0631\u0627\u062A',
-  'paywall.feature4': '\u0627\u0644\u0633\u062C\u0644 \u0627\u0644\u0643\u0627\u0645\u0644 \u0648\u0627\u0644\u0625\u062D\u0635\u0627\u0626\u064A\u0627\u062A',
+  'paywall.featureAppleHealth': 'مزامنة Apple Health',
   'paywall.feature5': '\u062A\u062A\u0628\u0639 \u0627\u0644\u0645\u0632\u0627\u062C',
   'paywall.feature6': '\u062C\u0645\u064A\u0639 \u0627\u0644\u0634\u0627\u0631\u0627\u062A',
   'paywall.purchase': '\u0634\u0631\u0627\u0621 \u0628\u0640 {{price}}',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': '\u0644\u0627 \u062A\u0648\u062C\u062F \u062C\u0644\u0633\u0627\u062A \u0641\u064A \u0647\u0630\u0627 \u0627\u0644\u064A\u0648\u0645',
   'history.allTimeStats': '\u0625\u062D\u0635\u0627\u0626\u064A\u0627\u062A \u0643\u0644\u064A\u0629',
   'history.unlockFullHistory': '\u0627\u0641\u062A\u062D \u0627\u0644\u0633\u062C\u0644 \u0627\u0644\u0643\u0627\u0645\u0644 \u0645\u0639 Pro',
+  'history.unlockFullHistoryDesc': 'شاهد تقدمك الكامل وإحصائيات كل الأوقات',
   'history.weeklyActivity': '\u0627\u0644\u0646\u0634\u0627\u0637 \u0627\u0644\u0623\u0633\u0628\u0648\u0639\u064A',
   'history.badges': '\u0627\u0644\u0634\u0627\u0631\u0627\u062A',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': '\u0644\u0627 \u062A\u0648\u062C\u062F \u0645\u0634\u062A\u0631\u064A\u0627\u062A \u0644\u0644\u0627\u0633\u062A\u0639\u0627\u062F\u0629.',
   'settings.restoreFailed': '\u0641\u0634\u0644\u062A \u0627\u0644\u0627\u0633\u062A\u0639\u0627\u062F\u0629. \u064A\u0631\u062C\u0649 \u0627\u0644\u0645\u062D\u0627\u0648\u0644\u0629 \u0645\u0631\u0629 \u0623\u062E\u0631\u0649.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': '\u0645\u0632\u0627\u0645\u0646\u0629 Mindful Minutes',
+  'settings.syncMindfulMinutes': 'مزامنة Apple Health',
   'settings.privacyPolicy': '\u0633\u064A\u0627\u0633\u0629 \u0627\u0644\u062E\u0635\u0648\u0635\u064A\u0629',
   'settings.termsOfService': '\u0634\u0631\u0648\u0637 \u0627\u0644\u0627\u0633\u062A\u062E\u062F\u0627\u0645',
   'settings.restorePurchases': '\u0627\u0633\u062A\u0639\u0627\u062F\u0629 \u0627\u0644\u0645\u0634\u062A\u0631\u064A\u0627\u062A',
@@ -505,6 +508,9 @@ export default {
   'paywall.errorNoProduct': '\u0627\u0644\u0645\u0646\u062A\u062C \u063A\u064A\u0631 \u0645\u062A\u0627\u062D. \u064A\u0631\u062C\u0649 \u0627\u0644\u0645\u062D\u0627\u0648\u0644\u0629 \u0644\u0627\u062D\u0642\u0627\u064B.',
   'paywall.restoreSuccessTitle': '\u062A\u0645\u062A \u0627\u0644\u0627\u0633\u062A\u0639\u0627\u062F\u0629',
   'paywall.restoreSuccessMessage': '\u062A\u0645\u062A \u0627\u0633\u062A\u0639\u0627\u062F\u0629 \u0645\u0634\u062A\u0631\u064A\u0627\u062A\u0643.',
+  'paywall.welcomeTitle': 'مرحبًا بك في Pro',
+  'paywall.welcomeMessage': 'جميع التقنيات والميزات مفتوحة الآن.',
+  'paywall.welcomeCta': 'متابعة',
   'paywall.restoreTitle': '\u0627\u0633\u062A\u0639\u0627\u062F\u0629',
   'paywall.restoreNoPurchases': '\u0644\u0645 \u064A\u062A\u0645 \u0627\u0644\u0639\u062B\u0648\u0631 \u0639\u0644\u0649 \u0645\u0634\u062A\u0631\u064A\u0627\u062A \u0644\u0644\u0627\u0633\u062A\u0639\u0627\u062F\u0629.',
   'paywall.oneTimePayment': '\u062F\u0641\u0639\u0629 \u0648\u0627\u062D\u062F\u0629',
@@ -522,7 +528,6 @@ export default {
   'paywall.unlockForever': '\u0627\u0641\u062A\u062D \u0644\u0644\u0623\u0628\u062F',
   'paywall.startAnnual': '\u0627\u0628\u062F\u0623 \u0627\u0644\u062E\u0637\u0629 \u0627\u0644\u0633\u0646\u0648\u064A\u0629',
   'paywall.startWeekly': '\u0627\u0628\u062F\u0623 \u0627\u0644\u0623\u0633\u0628\u0648\u0639\u064A',
-  'paywall.hideOptions': '\u0625\u062E\u0641\u0627\u0621 \u0627\u0644\u062E\u064A\u0627\u0631\u0627\u062A',
   'paywall.then': '\u062B\u0645',
   'paywall.weeklyAutoRenew': '\u062A\u062C\u062F\u064A\u062F \u062A\u0644\u0642\u0627\u0626\u064A',
   'paywall.weeklyTrial': '\u062A\u062C\u0631\u0628\u0629 \u0645\u062C\u0627\u0646\u064A\u0629 \u0644\u0645\u062F\u0629 3 \u0623\u064A\u0627\u0645',
@@ -615,6 +620,22 @@ export default {
   'onboarding.appleHealthBullet2': '\u062A\u062A\u0628\u0639 \u0627\u0644\u062A\u0642\u062F\u0645 \u0639\u0628\u0631 \u0627\u0644\u0632\u0645\u0646',
   'onboarding.appleHealthBullet3': '\u0628\u064A\u0627\u0646\u0627\u062A\u0643 \u062A\u0628\u0642\u0649 \u062E\u0627\u0635\u0629',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'انضم إلى أكثر من 1,000 شخص يتنفسون بشكل أفضل',
+  'onboarding.socialProofSub': 'أشخاص حقيقيون، نتائج حقيقية.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'مديرة تسويق، نيويورك',
+  'onboarding.t1Text': '«أمارس 4-7-8 في السرير وأنام خلال 5 دقائق. بعد سنوات من الأرق، هذا مذهل.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'مهندس برمجيات',
+  'onboarding.t2Text': '«التنفس المربع قبل العمل العميق مثل إحماء عقلي. كنت أحتاج 3 أكواب قهوة، الآن 1.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'معالجة نفسية',
+  'onboarding.t3Text': '«أوصي BreathFlow لعملائي المصابين بنوبات الهلع. التنهد الفسيولوجي يعمل في ثوانٍ.»',
+  'onboarding.rateTitle': 'ساعد في تشكيل مستقبل BreathFlow',
+  'onboarding.rateSub': 'شارك أفكارك وساعدنا في جعل خدمتنا أفضل — أكثر فائدة ومتعة وملاءمة لاحتياجاتك.',
+  'onboarding.rateCta': 'التالي',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': '\u0645\u0646 \u0627\u0644\u062A\u0648\u062A\u0631 \u0625\u0644\u0649 \u0627\u0644\u0647\u062F\u0648\u0621 \u2014 \u0641\u064A \u062F\u0642\u0627\u0626\u0642',
   'paywall.heroSleep': '\u0646\u0645 \u0641\u064A \u062F\u0642\u0627\u0626\u0642 \u0648\u0644\u064A\u0633 \u0633\u0627\u0639\u0627\u062A',
@@ -639,4 +660,31 @@ export default {
   'paywall.row5Pro': '\u062C\u0645\u064A\u0639 \u0627\u0644\u062B\u064A\u0645\u0627\u062A \u0648\u0627\u0644\u0634\u0627\u0631\u0627\u062A \u2713',
   'paywall.anchor': '\u0623\u0642\u0644 \u0645\u0646 \u0642\u0647\u0648\u0629. \u0646\u062A\u0627\u0626\u062C \u062A\u062F\u0648\u0645.',
   'paywall.continueFree': '\u0627\u0644\u0627\u0633\u062A\u0645\u0631\u0627\u0631 \u0628\u0627\u0644\u0646\u0633\u062E\u0629 \u0627\u0644\u0645\u062C\u0627\u0646\u064A\u0629',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "اجعلها عادة",
+  'summary.habitReminderTitle': "تذكير يومي",
+  'summary.habitReminderSub': "تذكير لطيف للتنفس كل يوم",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "احفظ الجلسات كدقائق تأمل",
+  'settings.resetOnboarding': "إعادة تعيين التعريف بالتطبيق",
+  'settings.resetOnboardingConfirm': "هل تريد إعادة تشغيل عملية التعريف بالتطبيق؟ سيؤدي ذلك أيضًا إلى إعادة تفعيل شاشة السلامة للجلسة الأولى.",
+  'settings.resetOnboardingConfirmCta': "إعادة تعيين",
+  'settings.developer': "المطوّر",
+  'paywall.errorGeneric': "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "كتم الموسيقى",
+  'session.musicOff': "تشغيل الموسيقى",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "زيادة",
+  'common.decrease': "تقليل",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "وفّر {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/أسبوع",
+  'paywall.startTrialWeekly': "جرّب مجانًا لمدة 3 أيام",
+  'paywall.startTrialAnnual': "جرّب مجانًا لمدة 7 أيام",
+  'paywall.cancelAnytime': "ألغِ في أي وقت · بلا التزام",
 };

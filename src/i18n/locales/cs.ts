@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Dom\u016f',
   'tabs.breathe': 'D\u00fdch\u00e1n\u00ed',
   'tabs.history': 'Pokrok',
-  'tabs.badges': 'Odznaky',
+  'tabs.badges': 'Ocenění',
   'tabs.settings': 'Nastaven\u00ed',
 
   // Home screen
@@ -162,6 +162,9 @@ export default {
   'summary.moodSleepy': 'Ospal\u011b',
   'summary.done': 'Hotovo',
   'summary.repeat': 'Opakovat',
+  'summary.dontSave': 'Neukládat',
+  'summary.discardTitle': 'Neuložit tuto relaci?',
+  'summary.discardMessage': 'Tato relace bude odstraněna a nebude se počítat do vaší statistiky ani série.',
   'summary.share': 'Sd\u00edlet',
   'summary.shareText': 'Pr\u00e1v\u011b jsem dokon\u010dil/a {{duration}} cvi\u010den\u00ed {{technique}} s BreathFlow! \u{1F32C}\uFE0F',
   'summary.shareMessage': 'Pr\u00e1v\u011b jsem dokon\u010dil/a {{duration}} cvi\u010den\u00ed {{technique}} s BreathFlow! \u{1F32C}\uFE0F',
@@ -226,6 +229,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Nastaven\u00ed',
+  'settings.preferences': 'Předvolby',
   'settings.feedback': 'Zvuky',
   'settings.sound': 'Zvuk',
   'settings.soundStyle': 'Styl zvuku',
@@ -303,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Oblíbený u sportovců',
   'onboarding.socialProof2': 'Potvrzeno Stanfordem',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Stanovte si denní cíl',
-  'onboarding.commitSub': 'Malé každodenní návyky vytvářejí trvalou změnu.',
   'onboarding.commitMinUnit': 'min / den',
   'onboarding.commitHint_3': 'Dokonce i 3minutové cvičení může pomoci uklidnit nervový systém.',
   'onboarding.commitHint_5': 'Výzkum Stanfordu spojuje pomalé dýchání se snížením stresu a lepším spánkem.',
@@ -359,7 +361,7 @@ export default {
   'badges.year_legend.description': '365denn\u00ed s\u00e9rie',
 
   // Badges screen
-  'badges.title': 'Odznaky',
+  'badges.title': 'Ocenění',
   'badges.unlocked': 'Odemknut\u00e9',
   'badges.unlockBadges': 'Odemkněte odznaky s Pro',
   'badges.unlockBadgesDesc': 'Sledujte své úspěchy a získejte všechny odznaky',
@@ -386,7 +388,7 @@ export default {
   'paywall.feature1': 'V\u0161ech 10 dechov\u00fdch technik',
   'paywall.feature2': 'Všechny hudební stopy',
   'paywall.feature3': 'Odemknout všechny odznaky',
-  'paywall.feature4': 'Úplná historie a statistiky',
+  'paywall.featureAppleHealth': 'Synchronizace Apple Health',
   'paywall.feature5': 'Sledov\u00e1n\u00ed n\u00e1lady',
   'paywall.feature6': 'V\u0161echny odznaky',
   'paywall.purchase': 'Zakoupit za {{price}}',
@@ -404,6 +406,7 @@ export default {
   'history.noSessionsOnDay': '\u017d\u00e1dn\u00e1 cvi\u010den\u00ed v tento den',
   'history.allTimeStats': 'Celkov\u00e9 statistiky',
   'history.unlockFullHistory': 'Odemkn\u011bte celou historii s Pro',
+  'history.unlockFullHistoryDesc': 'Zobrazte si svůj úplný pokrok a celkové statistiky',
   'history.weeklyActivity': 'T\u00fddenn\u00ed aktivita',
   'history.badges': 'Odznaky',
 
@@ -462,7 +465,7 @@ export default {
   'settings.restoreNone': '\u017d\u00e1dn\u00e9 n\u00e1kupy k obnoven\u00ed.',
   'settings.restoreFailed': 'Obnoven\u00ed selhalo. Zkuste to pros\u00edm znovu.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Synchronizovat v\u011bdom\u00e9 minuty',
+  'settings.syncMindfulMinutes': 'Synchronizace Apple Health',
   'settings.privacyPolicy': 'Z\u00e1sady ochrany soukrom\u00ed',
   'settings.termsOfService': 'Podm\u00ednky slu\u017eby',
   'settings.restorePurchases': 'Obnovit n\u00e1kupy',
@@ -507,6 +510,9 @@ export default {
   'paywall.errorNoProduct': 'Produkt nen\u00ed k dispozici. Zkuste to pros\u00edm pozd\u011bji.',
   'paywall.restoreSuccessTitle': 'Obnoveno',
   'paywall.restoreSuccessMessage': 'Va\u0161e n\u00e1kupy byly obnoveny.',
+  'paywall.welcomeTitle': 'Vítejte v Pro',
+  'paywall.welcomeMessage': 'Všechny techniky a funkce jsou nyní odemčené.',
+  'paywall.welcomeCta': 'Pokračovat',
   'paywall.restoreTitle': 'Obnovit',
   'paywall.restoreNoPurchases': 'Nebyly nalezeny \u017e\u00e1dn\u00e9 n\u00e1kupy k obnoven\u00ed.',
   'paywall.oneTimePayment': 'Jednor\u00e1zov\u00e1 platba',
@@ -524,7 +530,6 @@ export default {
   'paywall.unlockForever': 'Odemknout navždy',
   'paywall.startAnnual': 'Začít roční plán',
   'paywall.startWeekly': 'Začít týdenní',
-  'paywall.hideOptions': 'Skrýt možnosti',
   'paywall.then': 'poté',
   'paywall.weeklyAutoRenew': 'automatické obnovení',
   'paywall.weeklyTrial': '3 dny zdarma na zkoušku',
@@ -617,6 +622,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Sledujte pokrok v čase',
   'onboarding.appleHealthBullet3': 'Vaše data zůstávají soukromá',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Přidej se k 1 000+ lidem, kteří dýchají lépe',
+  'onboarding.socialProofSub': 'Skuteční lidé, skutečné výsledky.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketingová ředitelka, NYC',
+  'onboarding.t1Text': '„Dělám 4-7-8 v posteli a usnu za 5 minut. Po letech nespavosti je to neuvěřitelné.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Softwarový inženýr',
+  'onboarding.t2Text': '„Box breathing před hlubokou prací je jako mentální rozcvička.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeutka',
+  'onboarding.t3Text': '„Doporučuji BreathFlow klientům s panickou poruchou. Fyziologický povzdech funguje během sekund.“',
+  'onboarding.rateTitle': 'Pomoz utvářet budoucnost BreathFlow',
+  'onboarding.rateSub': 'Sdílej své myšlenky a pomoz nám naši službu zlepšit — užitečnější, příjemnější a více přizpůsobenou tvým potřebám.',
+  'onboarding.rateCta': 'Další',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Od stresu ke klidu — během minut',
   'paywall.heroSleep': 'Usněte za minuty, ne hodiny',
@@ -641,4 +662,31 @@ export default {
   'paywall.row5Pro': 'Všechna barevná témata & odznaky ✓',
   'paywall.anchor': 'Méně než káva. Výsledky, které vydrží.',
   'paywall.continueFree': 'Pokračovat s bezplatnou verzí',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Udělej si z toho zvyk",
+  'summary.habitReminderTitle': "Denní připomenutí",
+  'summary.habitReminderSub': "Jemné připomenutí, abys každý den dýchal/a",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Ukládej relace jako Minuty všímavosti",
+  'settings.resetOnboarding': "Resetovat úvod",
+  'settings.resetOnboardingConfirm': "Přehrát znovu úvodní proces? Tím se také znovu aktivuje bezpečnostní obrazovka první relace.",
+  'settings.resetOnboardingConfirmCta': "Resetovat",
+  'settings.developer': "Vývojář",
+  'paywall.errorGeneric': "Něco se pokazilo. Zkuste to prosím znovu.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Ztlumit hudbu",
+  'session.musicOff': "Přehrát hudbu",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Zvýšit",
+  'common.decrease': "Snížit",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "UŠETŘETE {{percent}} %",
+  'paywall.perWeekApprox': "≈ {{price}}/týden",
+  'paywall.startTrialWeekly': "Vyzkoušejte zdarma na 3 dny",
+  'paywall.startTrialAnnual': "Vyzkoušejte zdarma na 7 dní",
+  'paywall.cancelAnytime': "Kdykoliv zrušte · Bez závazků",
 };

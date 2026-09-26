@@ -9,21 +9,25 @@ import {
   Alert,
   ActivityIndicator,
   Linking,
+  ImageBackground,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { useSettingsStore, useAuthStore } from '../../src/store';
+import { useSettingsStore, useAuthStore, useBadgesStore, useSessionsStore } from '../../src/store';
 import { useThemeColors, useFontSize } from '../../src/hooks/useColorScheme';
 import { requestHealthPermissions, isHealthKitAvailable } from '../../src/utils/healthKit';
+import { playPhaseTransition } from '../../src/utils/sessionAudio';
 import { performAppleSignIn } from '../../src/utils/appleAuth';
 import { pushAll, pullAndMerge } from '../../src/services/syncService';
 import { useHaptics } from '../../src/hooks/useHaptics';
-import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS } from '../../src/constants';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, FONTS, BADGE_DEFINITIONS } from '../../src/constants';
 import { PickerModal } from '../../src/components/PickerModal';
 import { WheelPickerModal, WheelColumn } from '../../src/components/WheelPickerModal';
+import { ProUpgradeBanner } from '../../src/components/ProUpgradeBanner';
 
 // ─── Shared row components ─────────────────────────────────────────────────
 
@@ -50,9 +54,15 @@ function ToggleRow({ label, value, onToggle, theme, badge, onHaptic, labelSize }
           {label}
         </Text>
         {badge && (
-          <View style={styles.proBadge}>
-            <Ionicons name="diamond" size={10} color={COLORS.white} />
-          </View>
+          <LinearGradient
+            colors={['#FFE066', '#FFC940', '#F5A623']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.proBadge}
+          >
+            <Ionicons name="diamond" size={9} color={COLORS.black} />
+            <Text style={styles.proBadgeText}>PRO</Text>
+          </LinearGradient>
         )}
       </View>
       <Switch
@@ -97,7 +107,9 @@ const TIME_COLUMNS: WheelColumn[] = [
 ];
 
 const SUPPORT_EMAIL = 'app.support.535@gmail.com';
-const APP_VERSION = '1.0.0';
+
+// Must match the same constant in awards.tsx and history.tsx — see the note there.
+const HERO_CONTENT_HEIGHT = 100;
 
 // ─── Main Screen ───────────────────────────────────────────────────────────
 
@@ -105,7 +117,10 @@ export default function SettingsScreen() {
   const { t } = useTranslation();
   const theme = useThemeColors();
   const fontSize = useFontSize();
+  const insets = useSafeAreaInsets();
   const settings = useSettingsStore();
+  const unlockBadge = useBadgesStore((s) => s.unlockBadge);
+  const unlockedBadgeCount = useBadgesStore((s) => s.unlockedBadges.length);
   const haptics = useHaptics();
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -185,6 +200,25 @@ export default function SettingsScreen() {
     }
   };
 
+  const handleClearStats = () => {
+    Alert.alert(
+      t('settings.clearStats', { defaultValue: 'Clear Statistics' }),
+      t('settings.clearStatsConfirm', {
+        defaultValue: "This will permanently delete all your session history and reset your stats, streaks, and personal bests. This can't be undone.",
+      }),
+      [
+        { text: t('common.cancel', { defaultValue: 'Cancel' }), style: 'cancel' },
+        {
+          text: t('settings.clearStatsConfirmCta', { defaultValue: 'Clear' }),
+          style: 'destructive',
+          onPress: () => {
+            useSessionsStore.getState().clearAllSessions();
+          },
+        },
+      ],
+    );
+  };
+
   const handleHealthToggle = async (val: boolean) => {
     if (val) {
       if (!isHealthKitAvailable()) {
@@ -204,6 +238,38 @@ export default function SettingsScreen() {
     }
   };
 
+  // Dev/test only: replay the onboarding flow and re-arm the first-session safety gate.
+  const handleResetOnboarding = () => {
+    Alert.alert(
+      t('settings.resetOnboarding', { defaultValue: 'Reset Onboarding' }),
+      t('settings.resetOnboardingConfirm', {
+        defaultValue: 'Replay the onboarding flow? This also re-arms the first-session safety screen.',
+      }),
+      [
+        { text: t('common.cancel', { defaultValue: 'Cancel' }), style: 'cancel' },
+        {
+          text: t('settings.resetOnboardingConfirmCta', { defaultValue: 'Reset' }),
+          style: 'destructive',
+          onPress: () => {
+            settings.setSetting('onboardingCompleted', false);
+            settings.setSetting('safetyAccepted', false);
+            settings.setSetting('selectedGoal', undefined);
+            settings.setSetting('recommendedTechniqueId', undefined);
+            router.replace('/onboarding');
+          },
+        },
+      ],
+    );
+  };
+
+  // Dev/test only: unlock every badge locally so the earned/unlocked visual
+  // state can be previewed across the whole grid without real usage.
+  const handleUnlockAllBadges = () => {
+    for (const def of BADGE_DEFINITIONS) {
+      unlockBadge(def.id);
+    }
+  };
+
   const handleReminderToggle = async (val: boolean) => {
     const { scheduleBreatheReminder, cancelNotification, requestNotificationPermissions } =
       await import('../../src/utils/notifications');
@@ -212,7 +278,7 @@ export default function SettingsScreen() {
       if (!granted) return;
       settings.setSetting('reminderEnabled', true);
       const [h, m] = settings.reminderTime.split(':').map(Number);
-      await scheduleBreatheReminder(h, m);
+      await scheduleBreatheReminder(h, m, settings.reminderDays);
     } else {
       settings.setSetting('reminderEnabled', false);
       // Fall back to default 10:00 AM reminder
@@ -220,13 +286,18 @@ export default function SettingsScreen() {
     }
   };
 
-  const toggleReminderDay = (day: number) => {
+  const toggleReminderDay = async (day: number) => {
     const current = settings.reminderDays;
     const updated = current.includes(day)
       ? current.filter((d) => d !== day)
       : [...current, day].sort();
     if (updated.length === 0) return; // must have at least 1 day
     settings.setSetting('reminderDays', updated);
+    if (settings.reminderEnabled) {
+      const { scheduleBreatheReminder } = await import('../../src/utils/notifications');
+      const [h, m] = settings.reminderTime.split(':').map(Number);
+      await scheduleBreatheReminder(h, m, updated);
+    }
   };
 
   const handleRestorePurchases = async () => {
@@ -274,46 +345,58 @@ export default function SettingsScreen() {
   // ── Render ─────────────────────────────────────────────────────────────
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header */}
-        <View style={styles.titleRow}>
-          {!isAnonymous && displayName ? (
-            <Text style={[styles.greeting, { color: theme.text }]}>
-              Hi, {displayName}
-            </Text>
-          ) : (
-            <View />
-          )}
-          {settings.isPro && (
-            <View style={[styles.proStatusBadge, { backgroundColor: theme.accent }]}>
-              <Ionicons name="diamond" size={12} color={COLORS.white} />
-              <Text style={styles.proStatusText}>PRO</Text>
-            </View>
-          )}
-        </View>
+        {/* Hero header */}
+        <ImageBackground
+          source={require('../../assets/bg_focus.webp')}
+          resizeMode="cover"
+          style={[styles.heroArea, { paddingTop: insets.top + SPACING.sm, height: insets.top + HERO_CONTENT_HEIGHT }]}
+        >
+          {/* 4 stops (vs. the default 3 evenly-spaced ones) so the fade to
+              solid theme.background happens gradually across the hero's
+              full height instead of mostly in its last 50% — that's what
+              was reading as an abrupt cut against the image in light mode.
+              Keep in sync with the same gradient in history.tsx/awards.tsx. */}
+          <LinearGradient
+            colors={
+              theme.isDark
+                ? ['#000000AA', '#00000055', `${theme.background}CC`, `${theme.background}FF`]
+                : ['#00000077', '#00000033', `${theme.background}99`, `${theme.background}FF`]
+            }
+            locations={[0, 0.35, 0.7, 1]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
 
-        {/* PRO upgrade card */}
-        {!settings.isPro && (
-          <TouchableOpacity
-            style={[styles.proCard, { backgroundColor: theme.accent }]}
-            activeOpacity={0.8}
-            onPress={() => router.push('/paywall')}
-            accessibilityLabel={t('settings.upgradePro')}
-            accessibilityRole="button"
-          >
-            <View style={styles.proTitleRow}>
-              <Ionicons name="diamond" size={16} color={COLORS.white} />
-              <Text style={styles.proTitle}>{t('settings.upgradePro')}</Text>
+          <View style={styles.titleRow}>
+            <View style={styles.titleLeftGroup}>
+              <Text style={styles.screenTitle}>{t('settings.title')}</Text>
+              {settings.isPro && (
+                <View style={[styles.proStatusBadge, { backgroundColor: theme.accent }]}>
+                  <Ionicons name="diamond" size={11} color={COLORS.white} />
+                  <Text style={styles.proStatusText}>PRO</Text>
+                </View>
+              )}
             </View>
-            <Text style={styles.proSubtitle}>{t('settings.proSubtitle')}</Text>
-          </TouchableOpacity>
+            {!isAnonymous && displayName && (
+              <Text style={styles.greeting}>
+                Hi, {displayName}
+              </Text>
+            )}
+          </View>
+        </ImageBackground>
+
+        {/* PRO upgrade banner */}
+        {!settings.isPro && (
+          <ProUpgradeBanner />
         )}
 
-        {/* ── Feedback ─────────────────────────────────────────────────── */}
+        {/* ── Preferences (sound, haptics, theme, health) ─────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.feedback')}
+            {t('settings.preferences')}
           </Text>
 
           {/* Sound toggle */}
@@ -353,14 +436,6 @@ export default function SettingsScreen() {
             labelSize={fontSize.md}
           />
 
-        </View>
-
-        {/* ── Appearance ───────────────────────────────────────────────── */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
-          <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.appearance')}
-          </Text>
-
           {/* Dark mode picker */}
           <TouchableOpacity
             style={[styles.settingRow, { borderBottomColor: theme.border }]}
@@ -378,6 +453,22 @@ export default function SettingsScreen() {
             </View>
           </TouchableOpacity>
 
+          {/* Apple Health sync toggle — Pro-gated */}
+          <ToggleRow
+            label={t('settings.syncMindfulMinutes')}
+            value={settings.healthSyncEnabled}
+            onToggle={(val) => {
+              if (!settings.isPro) {
+                handleProFeatureTap();
+                return;
+              }
+              handleHealthToggle(val);
+            }}
+            theme={theme}
+            onHaptic={haptics.light}
+            labelSize={fontSize.md}
+            badge={!settings.isPro ? 'pro' : undefined}
+          />
         </View>
 
         {/* ── Reminders ────────────────────────────────────────────────── */}
@@ -454,21 +545,6 @@ export default function SettingsScreen() {
           )}
         </View>
 
-        {/* ── Apple Health ─────────────────────────────────────────────── */}
-        <View style={[styles.section, { backgroundColor: theme.card }]}>
-          <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.appleHealth')}
-          </Text>
-          <ToggleRow
-            label={t('settings.syncMindfulMinutes')}
-            value={settings.healthSyncEnabled}
-            onToggle={handleHealthToggle}
-            theme={theme}
-            onHaptic={haptics.light}
-            labelSize={fontSize.md}
-          />
-        </View>
-
         {/* ── Account ──────────────────────────────────────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
@@ -521,7 +597,7 @@ export default function SettingsScreen() {
 
           {/* Sync data */}
           <TouchableOpacity
-            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+            style={[styles.settingRow, { borderBottomColor: theme.border }]}
             onPress={handleSyncData}
             activeOpacity={0.7}
           >
@@ -534,23 +610,26 @@ export default function SettingsScreen() {
               <Ionicons name="sync-outline" size={20} color={theme.textSecondary} />
             )}
           </TouchableOpacity>
+
+          {/* Clear Statistics — wipes session history/stats locally and on
+              the server; doesn't touch badges or settings. */}
+          <TouchableOpacity
+            style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+            onPress={handleClearStats}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.settingLabel, { color: COLORS.error, fontSize: fontSize.md }]}>
+              {t('settings.clearStats', { defaultValue: 'Clear Statistics' })}
+            </Text>
+            <Ionicons name="trash-outline" size={18} color={COLORS.error} />
+          </TouchableOpacity>
         </View>
 
-        {/* ── General ──────────────────────────────────────────────────── */}
+        {/* ── About ────────────────────────────────────────────────────── */}
         <View style={[styles.section, { backgroundColor: theme.card }]}>
           <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
-            {t('settings.general')}
+            {t('settings.about')}
           </Text>
-
-          {/* About */}
-          <View style={[styles.settingRow, { borderBottomColor: theme.border }]}>
-            <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
-              {t('settings.version')}
-            </Text>
-            <Text style={[styles.settingValue, { color: theme.textSecondary }]}>
-              {APP_VERSION}
-            </Text>
-          </View>
 
           {/* Privacy Policy */}
           <TouchableOpacity
@@ -613,6 +692,52 @@ export default function SettingsScreen() {
           </TouchableOpacity>
 
         </View>
+
+        {/* ── Developer (dev/test builds only) ───────────────────────────── */}
+        {__DEV__ && (
+          <View style={[styles.section, { backgroundColor: theme.card }]}>
+            <Text style={[styles.sectionTitle, { color: theme.textSecondary, fontSize: fontSize.xs }]}>
+              {t('settings.developer', { defaultValue: 'Developer' })}
+            </Text>
+
+            {/* Reset onboarding */}
+            <TouchableOpacity
+              style={[styles.settingRow, { borderBottomColor: theme.border }]}
+              onPress={handleResetOnboarding}
+              accessibilityRole="button"
+            >
+              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+                {t('settings.resetOnboarding', { defaultValue: 'Reset Onboarding' })}
+              </Text>
+              <Ionicons name="refresh-outline" size={20} color={theme.textSecondary} />
+            </TouchableOpacity>
+
+            {/* Simulate Pro — local toggle only, does NOT touch RevenueCat.
+                Lets you preview Pro-gated UI without a sandbox purchase. */}
+            <ToggleRow
+              label={t('settings.simulatePro', { defaultValue: 'Simulate Pro' })}
+              value={settings.isPro}
+              onToggle={(val) => (val ? settings.grantPro() : settings.revokePro())}
+              theme={theme}
+              onHaptic={haptics.light}
+              labelSize={fontSize.md}
+            />
+
+            {/* Unlock all badges — writes real unlock records via the badges store */}
+            <TouchableOpacity
+              style={[styles.settingRow, { borderBottomColor: 'transparent' }]}
+              onPress={handleUnlockAllBadges}
+              accessibilityRole="button"
+            >
+              <Text style={[styles.settingLabel, { color: theme.text, fontSize: fontSize.md }]}>
+                {t('settings.unlockAllBadges', { defaultValue: 'Unlock All Badges' })}
+              </Text>
+              <Text style={[styles.settingValue, { color: theme.textSecondary }]}>
+                {unlockedBadgeCount} / {BADGE_DEFINITIONS.length}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
 
       {/* ── Picker Modals ──────────────────────────────────────────────── */}
@@ -623,8 +748,12 @@ export default function SettingsScreen() {
         title={t('settings.soundStyle')}
         options={SOUND_STYLE_OPTIONS.map((o) => ({ label: t(o.labelKey), value: o.value }))}
         selectedValue={settings.soundStyle}
-        onSelect={(val) => settings.setSetting('soundStyle', val)}
+        onSelect={(val) => {
+          settings.setSetting('soundStyle', val);
+          playPhaseTransition(val);
+        }}
         onClose={() => setActivePicker(null)}
+        closeOnSelect={false}
       />
 
       {/* Dark mode */}
@@ -649,12 +778,12 @@ export default function SettingsScreen() {
           settings.setSetting('reminderTime', time);
           if (settings.reminderEnabled) {
             const { scheduleBreatheReminder } = await import('../../src/utils/notifications');
-            await scheduleBreatheReminder(h, m);
+            await scheduleBreatheReminder(h, m, settings.reminderDays);
           }
         }}
         onClose={() => setActivePicker(null)}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -667,56 +796,54 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: SPACING.xxl,
   },
+  heroArea: {
+    paddingHorizontal: SPACING.lg,
+    paddingBottom: SPACING.xxl,
+    marginBottom: SPACING.md,
+    overflow: 'hidden',
+  },
   screenTitle: {
     fontSize: 30,
-    fontFamily: FONTS.bold,
+    lineHeight: 34,
+    fontFamily: FONTS.heavy,
     letterSpacing: -0.5,
+    color: '#FFFFFF',
   },
   titleRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.md,
-    paddingBottom: SPACING.lg,
+  },
+  titleLeftGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.sm,
   },
   greeting: {
-    fontSize: FONT_SIZE.xl,
-    fontFamily: FONTS.bold,
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.medium,
+    color: 'rgba(255,255,255,0.8)',
   },
   proStatusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
     paddingHorizontal: SPACING.sm,
-    paddingVertical: 4,
-    borderRadius: BORDER_RADIUS.md,
+    paddingVertical: 5,
+    borderRadius: BORDER_RADIUS.full,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.35)',
+    shadowColor: COLORS.accentDark,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 6,
+    elevation: 3,
   },
   proStatusText: {
     fontSize: FONT_SIZE.xs,
     fontFamily: FONTS.bold,
     color: COLORS.white,
-  },
-  proCard: {
-    marginHorizontal: SPACING.lg,
-    padding: SPACING.lg,
-    borderRadius: BORDER_RADIUS.lg,
-    marginBottom: SPACING.lg,
-  },
-  proTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-    marginBottom: SPACING.xs,
-  },
-  proTitle: {
-    fontSize: FONT_SIZE.xl,
-    fontFamily: FONTS.bold,
-    color: COLORS.white,
-  },
-  proSubtitle: {
-    fontSize: FONT_SIZE.sm,
-    color: 'rgba(255,255,255,0.9)',
+    letterSpacing: 0.4,
   },
   section: {
     marginHorizontal: SPACING.lg,
@@ -761,12 +888,19 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.md,
   },
   proBadge: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.proBadge,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+    gap: 3,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: BORDER_RADIUS.sm,
+  },
+  proBadgeText: {
+    fontSize: 10,
+    fontFamily: FONTS.bold,
+    color: COLORS.black,
+    letterSpacing: 0.3,
   },
   pickerValueRow: {
     flexDirection: 'row',

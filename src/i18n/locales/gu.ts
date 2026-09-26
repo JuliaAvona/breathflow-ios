@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'હોમ',
   'tabs.breathe': 'શ્વાસ',
   'tabs.history': 'પ્રગતિ',
-  'tabs.badges': 'બેજ',
+  'tabs.badges': 'પુરસ્કારો',
   'tabs.settings': 'સેટિંગ્સ',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'ઊંઘરેટ',
   'summary.done': 'પૂર્ણ',
   'summary.repeat': 'ફરી',
+  'summary.dontSave': 'સાચવશો નહીં',
+  'summary.discardTitle': 'આ સેશન સાચવવું નથી?',
+  'summary.discardMessage': 'આ સેશન દૂર કરવામાં આવશે અને તે તમારા આંકડા અથવા સ્ટ્રીકમાં ગણાશે નહીં.',
   'summary.share': 'શેર',
   'summary.shareText': 'મેં BreathFlow સાથે {{duration}} {{technique}} શ્વાસ સત્ર પૂર્ણ કર્યું! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'મેં BreathFlow સાથે {{duration}} {{technique}} શ્વાસ સત્ર પૂર્ણ કર્યું! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'સેટિંગ્સ',
+  'settings.preferences': 'પસંદગીઓ',
   'settings.feedback': 'અવાજ',
   'settings.sound': 'અવાજ',
   'settings.soundStyle': 'અવાજ શૈલી',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'ખેલાડીઓ દ્વારા વિશ્વસ્ત',
   'onboarding.socialProof2': 'Stanford-સમર્થિત',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'તમારો દૈનિક ધ્યેય નક્કી કરો',
-  'onboarding.commitSub': 'નાની દૈનિક આદતો કાયમી બદલાવ લાવે છે.',
   'onboarding.commitMinUnit': 'મિનિટ / દિવસ',
   'onboarding.commitHint_3': 'ફક્ત ૩ મિનિટ સત્ર પણ તમારા ચેતાતંત્રને શાંત કરવામાં મદદ કરી શકે છે.',
   'onboarding.commitHint_5': 'Stanford સંશોધન ધીમી શ્વાસ-ક્રિયાને ઓછા તણાવ અને સારી ઊંઘ સાથે જોડે છે.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-દિવસ સ્ટ્રીક',
 
   // Badges screen
-  'badges.title': 'બેજ',
+  'badges.title': 'પુરસ્કારો',
   'badges.unlocked': 'અનલૉક',
   'badges.locked': 'લૉક',
   'badges.progress': '{{total}} માંથી {{unlocked}} બેજ',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'બધી 10 શ્વાસ તકનીકો',
   'paywall.feature2': 'બધા મ્યુઝિક ટ્રેક્સ',
   'paywall.feature3': 'બધા બેજ અનલૉક કરો',
-  'paywall.feature4': 'સંપૂર્ણ ઇતિહાસ અને આંકડા',
+  'paywall.featureAppleHealth': 'Apple Health સિંક',
   'paywall.feature5': 'મૂડ ટ્રેકિંગ',
   'paywall.feature6': 'બધા બેજ',
   'paywall.purchase': '{{price}} માં ખરીદો',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'આ દિવસે કોઈ સત્ર નથી',
   'history.allTimeStats': 'કુલ આંકડા',
   'history.unlockFullHistory': 'Pro સાથે સંપૂર્ણ ઇતિહાસ અનલૉક કરો',
+  'history.unlockFullHistoryDesc': 'તમારી સંપૂર્ણ પ્રગતિ અને સર્વકાલીન આંકડા જુઓ',
   'history.weeklyActivity': 'સાપ્તાહિક પ્રવૃત્તિ',
   'history.badges': 'બેજ',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'પુનઃસ્થાપિત કરવા માટે કોઈ ખરીદી નથી.',
   'settings.restoreFailed': 'પુનઃસ્થાપન નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Mindful Minutes સિંક કરો',
+  'settings.syncMindfulMinutes': 'Apple Health સિંક',
   'settings.privacyPolicy': 'ગોપનીયતા નીતિ',
   'settings.termsOfService': 'સેવાની શરતો',
   'settings.restorePurchases': 'ખરીદીઓ પુનઃસ્થાપિત',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'ઉત્પાદન ઉપલબ્ધ નથી. કૃપા કરીને પછી ફરી પ્રયાસ કરો.',
   'paywall.restoreSuccessTitle': 'પુનઃસ્થાપિત',
   'paywall.restoreSuccessMessage': 'તમારી ખરીદીઓ પુનઃસ્થાપિત થઈ છે.',
+  'paywall.welcomeTitle': 'Pro માં આપનું સ્વાગત છે',
+  'paywall.welcomeMessage': 'બધી તકનીકો અને સુવિધાઓ હવે અનલૉક થઈ ગઈ છે.',
+  'paywall.welcomeCta': 'ચાલુ રાખો',
   'paywall.restoreTitle': 'પુનઃસ્થાપિત',
   'paywall.restoreNoPurchases': 'પુનઃસ્થાપિત કરવા માટે કોઈ ખરીદી મળી નથી.',
   'paywall.oneTimePayment': 'એક વખતનું ચૂકવણું',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'કાયમ માટે અનલૉક કરો',
   'paywall.startAnnual': 'વાર્ષિક યોજના શરૂ કરો',
   'paywall.startWeekly': 'સાપ્તાહિક શરૂ કરો',
-  'paywall.hideOptions': 'વિકલ્પો છુપાવો',
   'paywall.then': 'પછી',
   'paywall.weeklyAutoRenew': 'ઓટો-રિન્યુએબલ',
   'paywall.weeklyTrial': '3 દિવસની મફત ટ્રાયલ',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'ઑટોમેટિક Mindful Minutes લૉગિંગ',
   'onboarding.appleHealthBullet2': 'HRV ડેટા ટ્રેકિંગ',
   'onboarding.appleHealthBullet3': 'તમારો ડેટા ખાનગી રહે',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': '1,000+ લોકો સાથે જોડાઓ જે વધુ સારી રીતે શ્વાસ લે છે',
+  'onboarding.socialProofSub': 'વાસ્તવિક લોકો, વાસ્તવિક પરિણામો.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'માર્કેટિંગ ડિરેક્ટર, NYC',
+  'onboarding.t1Text': '“હું પથારીમાં 4-7-8 કરું છું અને 5 મિનિટમાં સૂઈ જાઉં છું.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'સોફ્ટવેર એન્જિનિયર',
+  'onboarding.t2Text': '“ઊંડા કામ પહેલાં બોક્સ બ્રીધિંગ માનસિક વોર્મ-અપ જેવું છે.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'થેરાપિસ્ટ',
+  'onboarding.t3Text': '“હું પેનિક ડિસઓર્ડરવાળા ગ્રાહકોને BreathFlowની ભલામણ કરું છું.”',
+  'onboarding.rateTitle': 'BreathFlowનું ભવિષ્ય ઘડવામાં મદદ કરો',
+  'onboarding.rateSub': 'તમારા વિચારો શેર કરો અને અમારી સેવાને વધુ સારી બનાવવામાં મદદ કરો.',
+  'onboarding.rateCta': 'આગળ',
   'onboarding.connectHealth': 'Apple Health કનેક્ટ કરો',
   'onboarding.healthSkip': 'છોડો',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'ફક્ત 5 મિનિટ સભાન શ્વાસ પણ મૂડ બદલી શકે.',
   'notifications.tip6': 'ધીમો શ્વાસ parasympathetic nervous system સક્રિય કરે.',
   'notifications.tip7': 'સતત અભ્યાસ સમય સાથે સ્થિતિ-સ્થાપકતા બનાવે.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "તેને ટેવ બનાવો",
+  'summary.habitReminderTitle': "દૈનિક રિમાઇન્ડર",
+  'summary.habitReminderSub': "દરરોજ શ્વાસ લેવા માટે એક હળવો સંકેત",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "સેશનને માઇન્ડફુલ મિનિટ્સ તરીકે સાચવો",
+  'settings.resetOnboarding': "ઓનબોર્ડિંગ રીસેટ કરો",
+  'settings.resetOnboardingConfirm': "ઓનબોર્ડિંગ ફ્લો ફરીથી ચલાવવો છે? આ પ્રથમ સેશનની સુરક્ષા સ્ક્રીનને પણ ફરીથી સક્રિય કરે છે.",
+  'settings.resetOnboardingConfirmCta': "રીસેટ કરો",
+  'settings.developer': "ડેવલપર",
+  'paywall.errorGeneric': "કંઈક ખોટું થયું. કૃપા કરી ફરી પ્રયાસ કરો.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "સંગીત મ્યૂટ કરો",
+  'session.musicOff': "સંગીત વગાડો",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "વધારો",
+  'common.decrease': "ઘટાડો",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% બચત",
+  'paywall.perWeekApprox': "≈ {{price}}/અઠવાડિયું",
+  'paywall.startTrialWeekly': "3 દિવસ મફતમાં અજમાવો",
+  'paywall.startTrialAnnual': "7 દિવસ મફતમાં અજમાવો",
+  'paywall.cancelAnytime': "ગમે ત્યારે રદ કરો · કોઈ પ્રતિબદ્ધતા નથી",
 };

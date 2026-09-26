@@ -1,12 +1,22 @@
 import { supabase } from '../utils/supabase';
 import { useAuthStore } from '../store/authStore';
 import { useSessionsStore } from '../store/sessionsStore';
-import { useSettingsStore } from '../store/settingsStore';
+import { useSettingsStore, persist as persistSettings } from '../store/settingsStore';
 import { useBadgesStore } from '../store/badgesStore';
+import { Sentry } from '../utils/sentry';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BreathingSession, UserStats, UserSettings } from '../types';
 
 const LAST_SYNC_KEY = '@breathflow_last_sync';
+
+/** Surface a Supabase error instead of letting it disappear silently. */
+function logSyncError(context: string, error: unknown): void {
+  if (!error) return;
+  // PGRST116 = "no rows" from .single() — expected for a user with no row yet, not a failure.
+  if ((error as { code?: string }).code === 'PGRST116') return;
+  if (__DEV__) console.warn(`[sync] ${context}:`, error);
+  Sentry.captureException(error instanceof Error ? error : new Error(`${context}: ${JSON.stringify(error)}`));
+}
 
 // ==================== PUSH (local → cloud) ====================
 
@@ -38,17 +48,34 @@ export async function pushSessions(): Promise<void> {
 
     for (let i = 0; i < rows.length; i += 100) {
       const chunk = rows.slice(i, i + 100);
-      await supabase.from('user_sessions').upsert(chunk, {
+      const { error } = await supabase.from('user_sessions').upsert(chunk, {
         onConflict: 'user_id,id',
       });
+      logSyncError('pushSessions', error);
     }
   }
 
   await pushStats(userId, stats);
 }
 
+/** "Clear Statistics" in Settings — deletes every session row on the server
+ * too, not just locally, since pullSessions merges remote rows in as an
+ * append-only union by id and would otherwise bring them all back. */
+export async function deleteAllSessions(): Promise<void> {
+  const userId = useAuthStore.getState().user?.id;
+  if (!userId) return;
+
+  const { error: sessionsError } = await supabase
+    .from('user_sessions')
+    .delete()
+    .eq('user_id', userId);
+  logSyncError('deleteAllSessions', sessionsError);
+
+  await pushStats(userId, useSessionsStore.getState().stats);
+}
+
 async function pushStats(userId: string, stats: UserStats): Promise<void> {
-  await supabase.from('user_stats').upsert({
+  const { error } = await supabase.from('user_stats').upsert({
     user_id: userId,
     total_sessions: stats.totalSessions,
     total_minutes: stats.totalMinutes,
@@ -57,11 +84,15 @@ async function pushStats(userId: string, stats: UserStats): Promise<void> {
     longest_streak: stats.longestStreak,
     best_retention: stats.bestRetention,
     avg_retention: stats.avgRetention,
-    last_session_date: stats.lastSessionDate,
+    // '' is the local "no sessions yet" default, but the column is DATE —
+    // Postgres rejects an empty string as invalid date syntax (22007); NULL
+    // is what a nullable DATE column actually expects for "no value".
+    last_session_date: stats.lastSessionDate || null,
     favorite_technique_id: stats.favoriteTechniqueId,
     sessions_per_technique: stats.sessionsPerTechnique,
     updated_at: new Date().toISOString(),
   });
+  logSyncError('pushStats', error);
 }
 
 export async function pushSettings(): Promise<void> {
@@ -69,7 +100,7 @@ export async function pushSettings(): Promise<void> {
   if (!userId) return;
 
   const state = useSettingsStore.getState();
-  await supabase.from('user_settings').upsert({
+  const { error } = await supabase.from('user_settings').upsert({
     user_id: userId,
     technique_overrides: state.techniqueOverrides,
     sound_enabled: state.soundEnabled,
@@ -89,6 +120,7 @@ export async function pushSettings(): Promise<void> {
     recommended_technique_id: state.recommendedTechniqueId ?? null,
     updated_at: new Date().toISOString(),
   });
+  logSyncError('pushSettings', error);
 }
 
 export async function pushBadges(): Promise<void> {
@@ -103,9 +135,10 @@ export async function pushBadges(): Promise<void> {
   }));
 
   if (rows.length > 0) {
-    await supabase.from('user_badges').upsert(rows, {
+    const { error } = await supabase.from('user_badges').upsert(rows, {
       onConflict: 'user_id,badge_id',
     });
+    logSyncError('pushBadges', error);
   }
 }
 
@@ -133,11 +166,12 @@ export async function pullAndMerge(): Promise<void> {
 }
 
 async function pullSessions(userId: string): Promise<void> {
-  const { data: remoteSessions } = await supabase
+  const { data: remoteSessions, error: sessionsError } = await supabase
     .from('user_sessions')
     .select('*')
     .eq('user_id', userId)
     .order('started_at', { ascending: false });
+  logSyncError('pullSessions', sessionsError);
 
   if (!remoteSessions || remoteSessions.length === 0) return;
 
@@ -172,11 +206,12 @@ async function pullSessions(userId: string): Promise<void> {
   );
 
   // Pull stats: take max of each numeric field
-  const { data: remoteStats } = await supabase
+  const { data: remoteStats, error: statsError } = await supabase
     .from('user_stats')
     .select('*')
     .eq('user_id', userId)
     .single();
+  logSyncError('pullStats', statsError);
 
   const localStats = useSessionsStore.getState().stats;
   const mergedStats: UserStats = remoteStats
@@ -230,18 +265,38 @@ async function pullSessions(userId: string): Promise<void> {
 }
 
 async function pullSettings(userId: string): Promise<void> {
-  const { data: remote } = await supabase
+  const { data: remote, error } = await supabase
     .from('user_settings')
     .select('*')
     .eq('user_id', userId)
     .single();
+  logSyncError('pullSettings', error);
 
   if (!remote) return;
 
   const local = useSettingsStore.getState();
+  const remoteUpdatedAt = remote.updated_at ? new Date(remote.updated_at as string).getTime() : 0;
 
-  // Remote wins for most fields; onboardingCompleted uses OR merge
-  const mergedSettings: Partial<UserSettings> = {
+  // onboardingCompleted/safetyAccepted only ever ratchet forward, so OR-merging
+  // them is always safe regardless of which side is more recent.
+  const ratchetFields: Partial<UserSettings> = {
+    onboardingCompleted: local.onboardingCompleted || remote.onboarding_completed,
+    safetyAccepted: local.safetyAccepted || remote.safety_accepted,
+  };
+
+  // Last-write-wins: if this device changed settings more recently than the
+  // synced row, keep local values (they'll overwrite the row on next push)
+  // instead of letting a stale remote row clobber them.
+  if (local.settingsUpdatedAt > remoteUpdatedAt) {
+    useSettingsStore.setState(ratchetFields);
+    persistSettings(useSettingsStore.getState());
+    return;
+  }
+
+  // isPro is intentionally excluded here — RevenueCat is the sole source of truth
+  // for entitlement (see grantPro/revokePro); never set it from a synced row.
+  const mergedSettings: Partial<UserSettings> & { settingsUpdatedAt: number } = {
+    ...ratchetFields,
     techniqueOverrides: remote.technique_overrides ?? local.techniqueOverrides,
     soundEnabled: remote.sound_enabled,
     soundStyle: remote.sound_style as UserSettings['soundStyle'],
@@ -251,23 +306,23 @@ async function pullSettings(userId: string): Promise<void> {
     reminderEnabled: remote.reminder_enabled,
     reminderTime: remote.reminder_time,
     reminderDays: remote.reminder_days ?? [0, 1, 2, 3, 4, 5, 6],
-    onboardingCompleted: local.onboardingCompleted || remote.onboarding_completed,
-    safetyAccepted: local.safetyAccepted || remote.safety_accepted,
     selectedGoal: remote.selected_goal ?? local.selectedGoal,
-    isPro: remote.is_pro,
     textSize: remote.text_size ?? local.textSize,
     dailyGoalMinutes: remote.daily_goal_minutes ?? local.dailyGoalMinutes,
     recommendedTechniqueId: remote.recommended_technique_id ?? local.recommendedTechniqueId,
+    settingsUpdatedAt: remoteUpdatedAt,
   };
 
   useSettingsStore.setState(mergedSettings);
+  persistSettings(useSettingsStore.getState());
 }
 
 async function pullBadges(userId: string): Promise<void> {
-  const { data: remoteBadges } = await supabase
+  const { data: remoteBadges, error } = await supabase
     .from('user_badges')
     .select('*')
     .eq('user_id', userId);
+  logSyncError('pullBadges', error);
 
   if (!remoteBadges || remoteBadges.length === 0) return;
 

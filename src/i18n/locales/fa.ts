@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'خانه',
   'tabs.breathe': 'تنفس',
   'tabs.history': 'پیشرفت',
-  'tabs.badges': 'نشان‌ها',
+  'tabs.badges': 'جوایز',
   'tabs.settings': 'تنظیمات',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'خواب‌آلود',
   'summary.done': 'تمام',
   'summary.repeat': 'تکرار',
+  'summary.dontSave': 'ذخیره نکن',
+  'summary.discardTitle': 'این جلسه ذخیره نشود؟',
+  'summary.discardMessage': 'این جلسه حذف خواهد شد و در آمار یا رکورد شما محاسبه نخواهد شد.',
   'summary.share': 'اشتراک‌گذاری',
   'summary.shareText': 'من همین الان یک جلسه تنفس {{technique}} به مدت {{duration}} با BreathFlow تکمیل کردم! 🌬️',
   'summary.shareMessage': 'من همین الان یک جلسه تنفس {{technique}} به مدت {{duration}} با BreathFlow تکمیل کردم! 🌬️',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'تنظیمات',
+  'settings.preferences': 'ترجیحات',
   'settings.feedback': 'صداها',
   'settings.sound': 'صدا',
   'settings.soundStyle': 'سبک صدا',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'مورد اعتماد ورزشکاران',
   'onboarding.socialProof2': 'پشتیبانی Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'هدف روزانه خود را تعیین کنید',
-  'onboarding.commitSub': 'عادات کوچک روزانه تغییر پایدار ایجاد می‌کنند.',
   'onboarding.commitMinUnit': 'دقیقه / روز',
   'onboarding.commitHint_3': 'حتی یک جلسه ۳ دقیقه‌ای می‌تواند به آرامش سیستم عصبی شما کمک کند.',
   'onboarding.commitHint_5': 'تحقیقات استنفورد تنفس آهسته را با کاهش استرس و بهبود خواب مرتبط می‌داند.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': 'رشته 365 روزه',
 
   // Badges screen
-  'badges.title': 'نشان‌ها',
+  'badges.title': 'جوایز',
   'badges.unlocked': 'باز شده',
   'badges.locked': 'قفل',
   'badges.progress': '{{unlocked}} از {{total}} نشان',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'همه ۱۰ تکنیک تنفسی',
   'paywall.feature2': 'همه آهنگ‌ها',
   'paywall.feature3': 'باز کردن همه نشان‌ها',
-  'paywall.feature4': 'تاریخچه و آمار کامل',
+  'paywall.featureAppleHealth': 'همگام‌سازی با Apple Health',
   'paywall.feature5': 'ردیابی خلق‌وخو',
   'paywall.feature6': 'همه نشان‌ها',
   'paywall.purchase': 'خرید با {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'در این روز جلسه‌ای نیست',
   'history.allTimeStats': 'آمار کلی',
   'history.unlockFullHistory': 'تاریخچه کامل را با Pro باز کنید',
+  'history.unlockFullHistoryDesc': 'پیشرفت کامل و آمار همه‌دوران خود را ببینید',
   'history.weeklyActivity': 'فعالیت هفتگی',
   'history.badges': 'نشان‌ها',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'خریدی برای بازیابی وجود ندارد.',
   'settings.restoreFailed': 'بازیابی ناموفق. لطفاً دوباره تلاش کنید.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'همگام‌سازی دقایق ذهن‌آگاهی',
+  'settings.syncMindfulMinutes': 'همگام‌سازی با Apple Health',
   'settings.privacyPolicy': 'سیاست حریم خصوصی',
   'settings.termsOfService': 'شرایط خدمات',
   'settings.restorePurchases': 'بازیابی خریدها',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'محصول در دسترس نیست. لطفاً بعداً تلاش کنید.',
   'paywall.restoreSuccessTitle': 'بازیابی شد',
   'paywall.restoreSuccessMessage': 'خریدهای شما بازیابی شدند.',
+  'paywall.welcomeTitle': 'به Pro خوش آمدید',
+  'paywall.welcomeMessage': 'همه تکنیک‌ها و ویژگی‌ها اکنون باز شده‌اند.',
+  'paywall.welcomeCta': 'ادامه',
   'paywall.restoreTitle': 'بازیابی',
   'paywall.restoreNoPurchases': 'خریدی برای بازیابی یافت نشد.',
   'paywall.oneTimePayment': 'پرداخت یک‌بار',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'باز کردن برای همیشه',
   'paywall.startAnnual': 'شروع طرح سالانه',
   'paywall.startWeekly': 'شروع هفتگی',
-  'paywall.hideOptions': 'پنهان کردن گزینه‌ها',
   'paywall.then': 'سپس',
   'paywall.weeklyAutoRenew': 'تمدید خودکار',
   'paywall.weeklyTrial': '۳ روز آزمایش رایگان',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'ثبت خودکار Mindful Minutes',
   'onboarding.appleHealthBullet2': 'ردیابی داده‌های HRV',
   'onboarding.appleHealthBullet3': 'داده‌های شما خصوصی می‌ماند',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'به بیش از ۱۰۰۰ نفر که بهتر نفس می‌کشند بپیوندید',
+  'onboarding.socialProofSub': 'افراد واقعی، نتایج واقعی.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'مدیر بازاریابی، نیویورک',
+  'onboarding.t1Text': '«من 4-7-8 را در رختخواب انجام می‌دهم و در ۵ دقیقه می‌خوابم.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'مهندس نرم‌افزار',
+  'onboarding.t2Text': '«تنفس جعبه‌ای قبل از کار عمیق مثل گرم کردن ذهنی است.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'درمانگر',
+  'onboarding.t3Text': '«BreathFlow را به مراجعان مبتلا به اختلال هراس توصیه می‌کنم.»',
+  'onboarding.rateTitle': 'به شکل‌دهی آینده BreathFlow کمک کنید',
+  'onboarding.rateSub': 'نظرات خود را به اشتراک بگذارید و به ما کمک کنید سرویس را بهتر کنیم.',
+  'onboarding.rateCta': 'بعدی',
   'onboarding.connectHealth': 'اتصال به Apple Health',
   'onboarding.healthSkip': 'رد کردن',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'حتی ۵ دقیقه تنفس آگاهانه خلق‌وخو را تغییر می‌دهد.',
   'notifications.tip6': 'تنفس آهسته سیستم عصبی پاراسمپاتیک را فعال می‌کند.',
   'notifications.tip7': 'تمرین مداوم در طول زمان تاب‌آوری ایجاد می‌کند.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "آن را به یک عادت تبدیل کنید",
+  'summary.habitReminderTitle': "یادآوری روزانه",
+  'summary.habitReminderSub': "یادآوری ملایم برای تنفس هر روز",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "جلسات را به‌عنوان دقایق ذهن‌آگاهی ذخیره کنید",
+  'settings.resetOnboarding': "بازنشانی آموزش اولیه",
+  'settings.resetOnboardingConfirm': "آیا فرآیند آموزش اولیه دوباره اجرا شود؟ این کار صفحه ایمنی جلسه اول را نیز دوباره فعال می‌کند.",
+  'settings.resetOnboardingConfirmCta': "بازنشانی",
+  'settings.developer': "توسعه‌دهنده",
+  'paywall.errorGeneric': "مشکلی پیش آمد. لطفاً دوباره امتحان کنید.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "قطع صدای موسیقی",
+  'session.musicOff': "پخش موسیقی",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "افزایش",
+  'common.decrease': "کاهش",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% تخفیف",
+  'paywall.perWeekApprox': "≈ {{price}}/هفته",
+  'paywall.startTrialWeekly': "۳ روز رایگان امتحان کنید",
+  'paywall.startTrialAnnual': "۷ روز رایگان امتحان کنید",
+  'paywall.cancelAnytime': "هر زمان لغو کنید · بدون تعهد",
 };

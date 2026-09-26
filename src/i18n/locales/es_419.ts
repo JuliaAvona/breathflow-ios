@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Inicio',
   'tabs.breathe': 'Respirar',
   'tabs.history': 'Progreso',
-  'tabs.badges': 'Insignias',
+  'tabs.badges': 'Logros',
   'tabs.settings': 'Ajustes',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Somnoliento',
   'summary.done': 'Listo',
   'summary.repeat': 'Repetir',
+  'summary.dontSave': 'No guardar',
+  'summary.discardTitle': '¿No guardar esta sesión?',
+  'summary.discardMessage': 'Esta sesión se eliminará y no contará para tus estadísticas ni racha.',
   'summary.share': 'Compartir',
   'summary.shareText': 'Acabo de completar una sesion de respiracion {{technique}} de {{duration}} con BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Acabo de completar una sesion de respiracion {{technique}} de {{duration}} con BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Ajustes',
+  'settings.preferences': 'Preferencias',
   'settings.feedback': 'Sonidos',
   'settings.sound': 'Sonido',
   'settings.soundStyle': 'Estilo de Sonido',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'De confianza entre atletas',
   'onboarding.socialProof2': 'Stanford-backed',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Establece tu meta diaria',
-  'onboarding.commitSub': 'Los pequenos habitos diarios crean un cambio duradero.',
   'onboarding.commitMinUnit': 'min / dia',
   'onboarding.commitHint_3': 'Incluso una sesion de 3 minutos puede ayudar a calmar tu sistema nervioso.',
   'onboarding.commitHint_5': 'La investigacion de Stanford relaciona la respiracion lenta con menos estres y mejor sueno.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': 'Racha de 365 dias',
 
   // Badges screen
-  'badges.title': 'Insignias',
+  'badges.title': 'Logros',
   'badges.unlocked': 'Desbloqueada',
   'badges.locked': 'Bloqueada',
   'badges.progress': '{{unlocked}} de {{total}} insignias',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'Las 10 tecnicas de respiracion',
   'paywall.feature2': 'Todas las pistas de musica',
   'paywall.feature3': 'Desbloquear todas las insignias',
-  'paywall.feature4': 'Historial completo y estadisticas',
+  'paywall.featureAppleHealth': 'Sincronización con Apple Health',
   'paywall.feature5': 'Seguimiento de animo',
   'paywall.feature6': 'Todas las insignias',
   'paywall.purchase': 'Comprar por {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'No hay sesiones en este dia',
   'history.allTimeStats': 'Estadisticas Totales',
   'history.unlockFullHistory': 'Desbloquea el historial completo con Pro',
+  'history.unlockFullHistoryDesc': 'Consulta tu progreso completo y estadísticas históricas',
   'history.weeklyActivity': 'Actividad Semanal',
   'history.badges': 'Insignias',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'No hay compras para restaurar.',
   'settings.restoreFailed': 'Restauracion fallida. Intenta de nuevo.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Sincronizar Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Sincronización con Apple Health',
   'settings.privacyPolicy': 'Politica de Privacidad',
   'settings.termsOfService': 'Terminos de Servicio',
   'settings.restorePurchases': 'Restaurar Compras',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'Producto no disponible. Intenta de nuevo mas tarde.',
   'paywall.restoreSuccessTitle': 'Restaurado',
   'paywall.restoreSuccessMessage': 'Tus compras han sido restauradas.',
+  'paywall.welcomeTitle': 'Bienvenido a Pro',
+  'paywall.welcomeMessage': 'Todas las técnicas y funciones ya están desbloqueadas.',
+  'paywall.welcomeCta': 'Continuar',
   'paywall.restoreTitle': 'Restaurar',
   'paywall.restoreNoPurchases': 'No se encontraron compras para restaurar.',
   'paywall.oneTimePayment': 'Pago unico',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'Desbloquear para siempre',
   'paywall.startAnnual': 'Iniciar plan anual',
   'paywall.startWeekly': 'Iniciar semanal',
-  'paywall.hideOptions': 'Ocultar opciones',
   'paywall.then': 'luego',
   'paywall.weeklyAutoRenew': 'renovacion automatica',
   'paywall.weeklyTrial': '3 dias de prueba gratis',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Registro automatico de Mindful Minutes',
   'onboarding.appleHealthBullet2': 'Seguimiento de datos de HRV',
   'onboarding.appleHealthBullet3': 'Tus datos permanecen privados',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Únete a más de 1.000 personas que respiran mejor',
+  'onboarding.socialProofSub': 'Gente real, resultados reales.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Directora de marketing, NYC',
+  'onboarding.t1Text': '«Hago 4-7-8 en la cama y caigo dormida en 5 minutos. Tras años de insomnio, es increíble.»',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Ingeniero de software',
+  'onboarding.t2Text': '«La respiración cuadrada antes del trabajo profundo es como un calentamiento mental.»',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeuta',
+  'onboarding.t3Text': '«Recomiendo BreathFlow a clientes con trastorno de pánico. El suspiro fisiológico funciona en segundos.»',
+  'onboarding.rateTitle': 'Ayuda a dar forma al futuro de BreathFlow',
+  'onboarding.rateSub': 'Comparte tus ideas y ayúdanos a mejorar nuestro servicio — más útil, más agradable y más adaptado a tus necesidades.',
+  'onboarding.rateCta': 'Siguiente',
   'onboarding.connectHealth': 'Conectar Apple Health',
   'onboarding.healthSkip': 'Omitir',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'Incluso 5 minutos de respiracion consciente cambian el estado de animo.',
   'notifications.tip6': 'La respiracion lenta activa el sistema nervioso parasimpatico.',
   'notifications.tip7': 'La practica constante desarrolla resiliencia con el tiempo.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Conviértelo en un hábito",
+  'summary.habitReminderTitle': "Recordatorio diario",
+  'summary.habitReminderSub': "Un recordatorio suave para respirar cada día",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Guarda las sesiones como Minutos de Atención Plena",
+  'settings.resetOnboarding': "Reiniciar incorporación",
+  'settings.resetOnboardingConfirm': "¿Repetir el proceso de incorporación? Esto también reactiva la pantalla de seguridad de la primera sesión.",
+  'settings.resetOnboardingConfirmCta': "Reiniciar",
+  'settings.developer': "Desarrollador",
+  'paywall.errorGeneric': "Algo salió mal. Inténtalo de nuevo.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Silenciar música",
+  'session.musicOff': "Reproducir música",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Aumentar",
+  'common.decrease': "Disminuir",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "AHORRA {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/semana",
+  'paywall.startTrialWeekly': "Prueba gratis 3 días",
+  'paywall.startTrialAnnual': "Prueba gratis 7 días",
+  'paywall.cancelAnytime': "Cancela cuando quieras · Sin compromiso",
 };

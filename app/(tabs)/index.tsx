@@ -32,12 +32,7 @@ import { TECHNIQUES } from '../../src/constants/techniques';
 import { SPACING, BORDER_RADIUS, FONTS, scale } from '../../src/constants';
 import { getToday } from '../../src/utils/time';
 import type { BreathingTechnique, TechniqueCategory } from '../../src/types';
-import { BreathingCircle } from '../../src/components/BreathingCircle';
-import { BreathingSquare } from '../../src/components/BreathingSquare';
-import { BreathingTriangle } from '../../src/components/BreathingTriangle';
-import { BreathingWave } from '../../src/components/BreathingWave';
-import { BreathingBurst } from '../../src/components/BreathingBurst';
-import { BreathingOval } from '../../src/components/BreathingOval';
+import { StaticShapePreview } from '../../src/components/StaticShapePreview';
 import { BreathingMandala } from '../../src/components/BreathingMandala';
 
 // Per-technique images (most specific)
@@ -250,10 +245,15 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
 
         {/* PRO badge */}
         {locked && (
-          <View style={styles.proBadge}>
-            <Ionicons name="diamond" size={9} color="#FFF" />
+          <LinearGradient
+            colors={['#FFE066', '#FFC940', '#F5A623']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.proBadge}
+          >
+            <Ionicons name="diamond" size={9} color="#1A2332" />
             <Text style={styles.proBadgeText}>PRO</Text>
-          </View>
+          </LinearGradient>
         )}
       </View>
 
@@ -288,36 +288,28 @@ const TechniqueCard = React.memo(function TechniqueCard({ technique, isPro, isRe
  */
 const PREVIEW_BOX = 100;
 
-function TechniqueShapePreview({ technique }: { technique: BreathingTechnique }) {
-  const shapeProps = {
-    phase: 'INHALE' as const,
-    mode: 'standard',           // always standard so INHALE path runs in every component
-    color: 'rgba(255,255,255,0.75)',
-    phaseDuration: 3,
-  };
-
-  let shape: React.ReactElement;
-  switch (technique.shape) {
-    case 'square':   shape = <BreathingSquare   {...shapeProps} />; break;
-    case 'triangle': shape = <BreathingTriangle  {...shapeProps} />; break;
-    case 'wave':     shape = <BreathingWave      {...shapeProps} />; break;
-    case 'burst':    shape = <BreathingBurst     {...shapeProps} />; break;
-    case 'oval':     shape = <BreathingOval      {...shapeProps} />; break;
-    case 'circle':
-    default:         shape = <BreathingCircle    {...shapeProps} />; break;
-  }
-
+/**
+ * Static (non-animated) shape preview for technique cards.
+ * Uses plain View elements instead of Animated components to avoid
+ * running 10+ concurrent animation loops on the home screen.
+ * Wrapped in React.memo — technique data never changes at runtime.
+ */
+const TechniqueShapePreview = React.memo(function TechniqueShapePreview({
+  technique,
+}: {
+  technique: BreathingTechnique;
+}) {
   return (
-    // Fixed-size clipping box — prevents the shape's layout dimensions from
-    // expanding the header gradient height.
-    <View style={shapePreviewBoxStyle}>
-      {/* Scale down and center the shape absolutely so it doesn't affect layout */}
-      <View style={shapePreviewInnerStyle} pointerEvents="none">
-        {shape}
+    <View style={shapePreviewBoxStyle} pointerEvents="none">
+      <View style={shapePreviewInnerStyle}>
+        <StaticShapePreview
+          shape={technique.shape}
+          color="rgba(255,255,255,0.75)"
+        />
       </View>
     </View>
   );
-}
+});
 
 const shapePreviewBoxStyle: import('react-native').ViewStyle = {
   width: PREVIEW_BOX,
@@ -476,16 +468,23 @@ function TechniqueDetailSheet({ technique, visible, onClose, onStart, isPro, t, 
 
             {/* Start / Unlock button */}
             {locked ? (
-              <TouchableOpacity
-                style={[sheetStyles.startBtn, { backgroundColor: '#4A90D9' }]}
-                onPress={() => { onClose(); router.push('/paywall'); }}
-                activeOpacity={0.85}
+              <LinearGradient
+                colors={['#FFE066', '#FFC940', '#F5A623']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ borderRadius: 16 }}
               >
-                <Ionicons name="lock-open-outline" size={20} color="#FFFFFF" />
-                <Text style={sheetStyles.startBtnText}>
-                  {t('paywall.unlockPro')}
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={sheetStyles.startBtn}
+                  onPress={() => { onClose(); router.push('/paywall'); }}
+                  activeOpacity={0.85}
+                >
+                  <Ionicons name="lock-open-outline" size={20} color="#1A2332" />
+                  <Text style={[sheetStyles.startBtnText, { color: '#1A2332' }]}>
+                    {t('paywall.unlockPro')}
+                  </Text>
+                </TouchableOpacity>
+              </LinearGradient>
             ) : (
               <TouchableOpacity
                 style={[sheetStyles.startBtn, { backgroundColor: technique.color }]}
@@ -732,6 +731,12 @@ export default function HomeScreen() {
           {/* Top bar: greeting */}
           <View style={styles.heroTopBar}>
             <Text style={styles.greetingText}>{greeting}</Text>
+            {isPro && (
+              <View style={styles.proHeroBadge}>
+                <Ionicons name="diamond" size={12} color="#7BC4A8" />
+                <Text style={styles.proHeroBadgeText}>PRO</Text>
+              </View>
+            )}
           </View>
 
           {/* Mandala — tap to start quick session */}
@@ -742,33 +747,6 @@ export default function HomeScreen() {
           {/* Tap hint — hidden after 3 sessions */}
           {stats.totalSessions < 3 && (
             <Text style={styles.tapHint}>{t('home.tapToBreathe', { defaultValue: 'Tap to breathe' })}</Text>
-          )}
-
-          {/* All-time stats (hidden for newcomers) */}
-          {stats.totalSessions > 0 && (
-            <View style={styles.todayCard}>
-              <View style={styles.todayStat}>
-                <Ionicons name="leaf-outline" size={16} color="#7BC4A8" />
-                <Text style={styles.todayValue}>{stats.totalSessions}</Text>
-                <Text style={styles.todayLabel}>{t('home.totalSessions', { defaultValue: 'sessions' })}</Text>
-              </View>
-              <View style={styles.todayDivider} />
-              <View style={styles.todayStat}>
-                <Ionicons name="time-outline" size={16} color="#4A90D9" />
-                <Text style={styles.todayValue}>{stats.totalMinutes}</Text>
-                <Text style={styles.todayLabel}>{t('home.totalMin', { defaultValue: 'min' })}</Text>
-              </View>
-              {stats.currentStreak > 0 && (
-                <>
-                  <View style={styles.todayDivider} />
-                  <View style={styles.todayStat}>
-                    <Ionicons name="flame-outline" size={16} color="#F5A623" />
-                    <Text style={styles.todayValue}>{stats.currentStreak}</Text>
-                    <Text style={styles.todayLabel}>{t('home.streak', { defaultValue: 'streak' })}</Text>
-                  </View>
-                </>
-              )}
-            </View>
           )}
 
           {/* No sessions today — tappable */}
@@ -866,7 +844,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 4,
   },
-  streakBadge: {
+  proHeroBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
@@ -874,13 +852,14 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: BORDER_RADIUS.full,
     backgroundColor: 'rgba(0,0,0,0.3)',
+    borderWidth: 1,
+    borderColor: 'rgba(123,196,168,0.5)',
   },
-  streakText: { fontSize: 14, fontFamily: FONTS.bold, color: '#FFFFFF' },
-
-  heroTopRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  proHeroBadgeText: {
+    fontSize: 13,
+    fontFamily: FONTS.bold,
+    color: '#FFFFFF',
+    letterSpacing: 0.5,
   },
   greetingText: {
     fontSize: 20,
@@ -899,34 +878,6 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.6)',
     textAlign: 'center',
     marginBottom: 8,
-  },
-  todayCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    borderRadius: 14,
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    marginBottom: 12,
-    gap: 16,
-  },
-  todayStat: {
-    alignItems: 'center',
-  },
-  todayValue: {
-    fontSize: 20,
-    fontFamily: FONTS.heavy,
-    color: '#FFFFFF',
-  },
-  todayLabel: {
-    fontSize: 12,
-    fontFamily: FONTS.medium,
-    color: 'rgba(255,255,255,0.7)',
-  },
-  todayDivider: {
-    width: 1,
-    height: 28,
-    backgroundColor: 'rgba(255,255,255,0.2)',
   },
   todayEmpty: {
     fontSize: 14,
@@ -1128,12 +1079,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
     paddingVertical: 3,
     borderRadius: 10,
-    backgroundColor: 'rgba(155,89,182,0.75)',
   },
   proBadgeText: {
     fontSize: 9,
     fontFamily: FONTS.bold,
-    color: '#FFF',
+    color: '#1A2332',
     letterSpacing: 0.5,
   },
 

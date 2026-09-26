@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'முகப்பு',
   'tabs.breathe': 'சுவாசி',
   'tabs.history': 'முன்னேற்றம்',
-  'tabs.badges': 'பதக்கங்கள்',
+  'tabs.badges': 'விருதுகள்',
   'tabs.settings': 'அமைப்புகள்',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'தூக்கமாக',
   'summary.done': 'முடிந்தது',
   'summary.repeat': 'மீண்டும்',
+  'summary.dontSave': 'சேமிக்க வேண்டாம்',
+  'summary.discardTitle': 'இந்த அமர்வைச் சேமிக்க வேண்டாமா?',
+  'summary.discardMessage': 'இந்த அமர்வு அகற்றப்படும், இது உங்கள் புள்ளிவிவரங்கள் அல்லது தொடர்ச்சியில் கணக்கிடப்படாது.',
   'summary.share': 'பகிர்',
   'summary.shareText': 'BreathFlow-ல் {{duration}} {{technique}} சுவாச அமர்வை முடித்தேன்! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'BreathFlow-ல் {{duration}} {{technique}} சுவாச அமர்வை முடித்தேன்! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'அமைப்புகள்',
+  'settings.preferences': 'விருப்பங்கள்',
   'settings.feedback': 'ஒலிகள்',
   'settings.sound': 'ஒலி',
   'settings.soundStyle': 'ஒலி நடை',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'விளையாட்டு வீரர்களால் நம்பப்பட்டது',
   'onboarding.socialProof2': 'Stanford-ஆதரவு',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'உங்கள் தினசரி இலக்கை அமைக்கவும்',
-  'onboarding.commitSub': 'சிறிய தினசரி பழக்கங்கள் நீடித்த மாற்றங்களை உருவாக்குகின்றன.',
   'onboarding.commitMinUnit': 'நிமி / நாள்',
   'onboarding.commitHint_3': '3 நிமிட அமர்வு கூட உங்கள் நரம்பு மண்டலத்தை அமைதிப்படுத்த உதவும்.',
   'onboarding.commitHint_5': 'Stanford ஆராய்ச்சி மெதுவான சுவாசத்தை குறைந்த மன அழுத்தம் மற்றும் சிறந்த தூக்கத்துடன் இணைக்கிறது.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-நாள் தொடர்',
 
   // Badges screen
-  'badges.title': 'பதக்கங்கள்',
+  'badges.title': 'விருதுகள்',
   'badges.unlocked': 'திறக்கப்பட்டது',
   'badges.locked': 'பூட்டப்பட்டது',
   'badges.progress': '{{total}} பதக்கங்களில் {{unlocked}}',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'அனைத்து 10 சுவாச நுட்பங்களும்',
   'paywall.feature2': 'அனைத்து இசை டிராக்குகளும்',
   'paywall.feature3': 'அனைத்து பேட்ஜ்களையும் திற',
-  'paywall.feature4': 'முழு வரலாறு மற்றும் புள்ளிவிவரங்கள்',
+  'paywall.featureAppleHealth': 'Apple Health ஒத்திசைவு',
   'paywall.feature5': 'மனநிலை கண்காணிப்பு',
   'paywall.feature6': 'அனைத்து பதக்கங்கள்',
   'paywall.purchase': '{{price}}-க்கு வாங்கு',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'இந்த நாளில் அமர்வுகள் இல்லை',
   'history.allTimeStats': 'எல்லா நேர புள்ளிவிவரங்கள்',
   'history.unlockFullHistory': 'Pro மூலம் முழு வரலாற்றைத் திறக்கவும்',
+  'history.unlockFullHistoryDesc': 'உங்கள் முழு முன்னேற்றத்தையும் எல்லா காலத்தின் புள்ளிவிவரங்களையும் காணுங்கள்',
   'history.weeklyActivity': 'வாராந்திர செயல்பாடு',
   'history.badges': 'பதக்கங்கள்',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'மீட்டெடுக்க வாங்கல்கள் இல்லை.',
   'settings.restoreFailed': 'மீட்டெடுப்பு தோல்வி. மீண்டும் முயற்சிக்கவும்.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Mindful Minutes ஒத்திசை',
+  'settings.syncMindfulMinutes': 'Apple Health ஒத்திசைவு',
   'settings.privacyPolicy': 'தனியுரிமைக் கொள்கை',
   'settings.termsOfService': 'சேவை விதிமுறைகள்',
   'settings.restorePurchases': 'வாங்கல்களை மீட்டெடு',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'தயாரிப்பு கிடைக்கவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்.',
   'paywall.restoreSuccessTitle': 'மீட்டெடுக்கப்பட்டது',
   'paywall.restoreSuccessMessage': 'உங்கள் வாங்கல்கள் மீட்டெடுக்கப்பட்டன.',
+  'paywall.welcomeTitle': 'Pro-க்கு வரவேற்கிறோம்',
+  'paywall.welcomeMessage': 'அனைத்து நுட்பங்களும் அம்சங்களும் இப்போது திறக்கப்பட்டுள்ளன.',
+  'paywall.welcomeCta': 'தொடரவும்',
   'paywall.restoreTitle': 'மீட்டெடு',
   'paywall.restoreNoPurchases': 'மீட்டெடுக்க வாங்கல்கள் இல்லை.',
   'paywall.oneTimePayment': 'ஒரு முறை கட்டணம்',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'எப்போதும் திறக்கவும்',
   'paywall.startAnnual': 'ஆண்டு திட்டத்தைத் தொடங்கு',
   'paywall.startWeekly': 'வாராந்திரம் தொடங்கு',
-  'paywall.hideOptions': 'விருப்பங்களை மறை',
   'paywall.then': 'பின்னர்',
   'paywall.weeklyAutoRenew': 'தானியங்கி புதுப்பிப்பு',
   'paywall.weeklyTrial': '3 நாள் இலவச சோதனை',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'தானியங்கி Mindful Minutes பதிவு',
   'onboarding.appleHealthBullet2': 'HRV தரவு கண்காணிப்பு',
   'onboarding.appleHealthBullet3': 'உங்கள் தரவு தனிப்பட்டதாக இருக்கும்',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'சிறப்பாக சுவாசிக்கும் 1,000+ பேரோடு சேருங்கள்',
+  'onboarding.socialProofSub': 'உண்மையான மக்கள், உண்மையான முடிவுகள்.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'மார்க்கெட்டிங் இயக்குனர், NYC',
+  'onboarding.t1Text': '“நான் படுக்கையில் 4-7-8 செய்து 5 நிமிடத்தில் தூங்குகிறேன்.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'மென்பொருள் பொறியாளர்',
+  'onboarding.t2Text': '“ஆழமான வேலைக்கு முன் பாக்ஸ் சுவாசம் மனித மானசிக சூடாக்கம் போல.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'சிகிச்சையாளர்',
+  'onboarding.t3Text': '“பேனிக் டிசார்டர் உள்ள வாடிக்கையாளர்களுக்கு BreathFlow பரிந்துரைக்கிறேன்.”',
+  'onboarding.rateTitle': 'BreathFlow-இன் எதிர்காலத்தை வடிவமைக்க உதவுங்கள்',
+  'onboarding.rateSub': 'உங்கள் கருத்துக்களைப் பகிர்ந்து சேவையை சிறப்பாக்க உதவுங்கள்.',
+  'onboarding.rateCta': 'அடுத்து',
   'onboarding.connectHealth': 'Apple Health இணைக்கவும்',
   'onboarding.healthSkip': 'தவிர்',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'வெறும் 5 நிமிட உணர்வுடன் சுவாசிப்பது மனநிலையை மாற்றும்.',
   'notifications.tip6': 'மெதுவான சுவாசம் parasympathetic nervous system ஐ செயல்படுத்துகிறது.',
   'notifications.tip7': 'தொடர்ச்சியான பயிற்சி காலப்போக்கில் மன உறுதியை கட்டமைக்கிறது.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "இதை ஒரு பழக்கமாக்குங்கள்",
+  'summary.habitReminderTitle': "தினசரி நினைவூட்டல்",
+  'summary.habitReminderSub': "ஒவ்வொரு நாளும் மூச்சு விடுவதற்கான மென்மையான நினைவூட்டல்",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "அமர்வுகளை மைண்ட்ஃபுல் நிமிடங்களாகச் சேமிக்கவும்",
+  'settings.resetOnboarding': "ஆன்போர்டிங்கை மீட்டமைக்கவும்",
+  'settings.resetOnboardingConfirm': "ஆன்போர்டிங் ஓட்டத்தை மீண்டும் இயக்கவா? இது முதல் அமர்வின் பாதுகாப்பு திரையையும் மீண்டும் செயல்படுத்தும்.",
+  'settings.resetOnboardingConfirmCta': "மீட்டமை",
+  'settings.developer': "டெவலப்பர்",
+  'paywall.errorGeneric': "ஏதோ தவறு நடந்தது. மீண்டும் முயற்சிக்கவும்.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "இசையை முடக்கு",
+  'session.musicOff': "இசையை இயக்கு",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "அதிகரி",
+  'common.decrease': "குறை",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% சேமிப்பு",
+  'paywall.perWeekApprox': "≈ {{price}}/வாரம்",
+  'paywall.startTrialWeekly': "3 நாட்கள் இலவசமாக முயற்சிக்கவும்",
+  'paywall.startTrialAnnual': "7 நாட்கள் இலவசமாக முயற்சிக்கவும்",
+  'paywall.cancelAnytime': "எப்போது வேண்டுமானாலும் ரத்து செய்யலாம் · கடமை இல்லை",
 };

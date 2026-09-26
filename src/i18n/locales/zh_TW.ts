@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u9996\u9801',
   'tabs.breathe': '\u547c\u5438',
   'tabs.history': '\u9032\u5ea6',
-  'tabs.badges': '\u5fbd\u7ae0',
+  'tabs.badges': '成就',
   'tabs.settings': '\u8a2d\u5b9a',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': '\u60f3\u7761',
   'summary.done': '\u5b8c\u6210',
   'summary.repeat': '\u91cd\u8907',
+  'summary.dontSave': '不儲存',
+  'summary.discardTitle': '不儲存此次練習？',
+  'summary.discardMessage': '此次練習將被刪除，不會計入你的統計數據或連續記錄。',
   'summary.share': '\u5206\u4eab',
   'summary.shareText': '\u6211\u525b\u7528 BreathFlow \u5b8c\u6210\u4e86 {{duration}} \u7684 {{technique}} \u547c\u5438\u7df4\u7fd2\uff01\u{1F32C}\uFE0F',
   'summary.shareMessage': '\u6211\u525b\u7528 BreathFlow \u5b8c\u6210\u4e86 {{duration}} \u7684 {{technique}} \u547c\u5438\u7df4\u7fd2\uff01\u{1F32C}\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u8a2d\u5b9a',
+  'settings.preferences': '偏好設定',
   'settings.feedback': '聲音',
   'settings.sound': '\u8072\u97f3',
   'settings.soundStyle': '\u8072\u97f3\u98a8\u683c',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': '運動員信賴',
   'onboarding.socialProof2': '史丹佛認證',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '設定您的每日目標',
-  'onboarding.commitSub': '小小的日常習慣帶來持久的改變。',
   'onboarding.commitMinUnit': '分鐘 / 天',
   'onboarding.commitHint_3': '僅僅3分鐘的練習就能幫助安撫您的神經系統。',
   'onboarding.commitHint_5': '史丹佛大學研究表明，緩慢呼吸可以減輕壓力並改善睡眠。',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '\u9023\u7e8c 365 \u5929',
 
   // Badges screen
-  'badges.title': '\u5fbd\u7ae0',
+  'badges.title': '成就',
   'badges.unlocked': '\u5df2\u89e3\u9396',
   'badges.unlockBadges': '使用Pro解鎖徽章',
   'badges.unlockBadgesDesc': '追蹤你的成就並獲得所有徽章',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': '\u5168\u90e8 10 \u7a2e\u547c\u5438\u6280\u5de7',
   'paywall.feature2': '所有音樂曲目',
   'paywall.feature3': '解鎖所有徽章',
-  'paywall.feature4': '完整歷史記錄和統計',
+  'paywall.featureAppleHealth': 'Apple 健康同步',
   'paywall.feature5': '\u60c5\u7dd2\u8ffd\u8e64',
   'paywall.feature6': '\u6240\u6709\u5fbd\u7ae0',
   'paywall.purchase': '\u4ee5 {{price}} \u8cfc\u8cb7',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': '\u7576\u5929\u7121\u7df4\u7fd2\u8a18\u9304',
   'history.allTimeStats': '\u6b77\u53f2\u7d71\u8a08',
   'history.unlockFullHistory': '\u5347\u7d1a Pro \u89e3\u9396\u5b8c\u6574\u6b77\u53f2\u8a18\u9304',
+  'history.unlockFullHistoryDesc': '查看你的完整進度和歷史統計數據',
   'history.weeklyActivity': '\u6bcf\u9031\u6d3b\u52d5',
   'history.badges': '\u5fbd\u7ae0',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': '\u6c92\u6709\u53ef\u6062\u5fa9\u7684\u8cfc\u8cb7\u3002',
   'settings.restoreFailed': '\u6062\u5fa9\u5931\u6557\u3002\u8acb\u518d\u8a66\u4e00\u6b21\u3002',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': '\u540c\u6b65\u6b63\u5ff5\u5206\u9418',
+  'settings.syncMindfulMinutes': 'Apple 健康同步',
   'settings.privacyPolicy': '\u96b1\u79c1\u6b0a\u653f\u7b56',
   'settings.termsOfService': '\u670d\u52d9\u689d\u6b3e',
   'settings.restorePurchases': '\u6062\u5fa9\u8cfc\u8cb7',
@@ -505,6 +508,9 @@ export default {
   'paywall.errorNoProduct': '\u7522\u54c1\u66ab\u6642\u7121\u6cd5\u4f7f\u7528\u3002\u8acb\u7a0d\u5f8c\u518d\u8a66\u3002',
   'paywall.restoreSuccessTitle': '\u5df2\u6062\u5fa9',
   'paywall.restoreSuccessMessage': '\u60a8\u7684\u8cfc\u8cb7\u5df2\u6062\u5fa9\u3002',
+  'paywall.welcomeTitle': '歡迎使用 Pro',
+  'paywall.welcomeMessage': '所有技巧和功能現已解鎖。',
+  'paywall.welcomeCta': '繼續',
   'paywall.restoreTitle': '\u6062\u5fa9',
   'paywall.restoreNoPurchases': '\u627e\u4e0d\u5230\u53ef\u6062\u5fa9\u7684\u8cfc\u8cb7\u3002',
   'paywall.oneTimePayment': '\u4e00\u6b21\u6027\u4ed8\u6b3e',
@@ -522,7 +528,6 @@ export default {
   'paywall.unlockForever': '永久解鎖',
   'paywall.startAnnual': '開始年度計劃',
   'paywall.startWeekly': '開始週方案',
-  'paywall.hideOptions': '隱藏選項',
   'paywall.then': '然後',
   'paywall.weeklyAutoRenew': '自動續訂',
   'paywall.weeklyTrial': '3天免費試用',
@@ -615,6 +620,22 @@ export default {
   'onboarding.appleHealthBullet2': '追蹤長期進展',
   'onboarding.appleHealthBullet3': '你的資料保持私密',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': '加入1,000+人，更好地呼吸',
+  'onboarding.socialProofSub': '真實的人，真實的結果。',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': '行銷總監，紐約',
+  'onboarding.t1Text': '「我在床上做4-7-8，5分鐘內就能入睡。多年失眠後，這真是不可思議。」',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': '軟體工程師',
+  'onboarding.t2Text': '「深度工作前的盒式呼吸就像心理熱身。」',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': '治療師',
+  'onboarding.t3Text': '「我向恐慌症患者推薦BreathFlow。生理性嘆息幾秒鐘內就能起效。」',
+  'onboarding.rateTitle': '幫助塑造BreathFlow的未來',
+  'onboarding.rateSub': '分享您的想法，幫助我們讓服務更好——更有用、更愉悅、更貼合您的需求。',
+  'onboarding.rateCta': '下一步',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': '從壓力到平靜 — 幾分鐘內',
   'paywall.heroSleep': '幾分鐘入睡，而非幾小時',
@@ -639,4 +660,31 @@ export default {
   'paywall.row5Pro': '全部顏色主題與徽章 ✓',
   'paywall.anchor': '不到一杯咖啡的價格，持久的效果。',
   'paywall.continueFree': '繼續使用免費版',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "讓它成為一種習慣",
+  'summary.habitReminderTitle': "每日提醒",
+  'summary.habitReminderSub': "每天溫柔地提醒你呼吸",
+  'summary.habitHealthTitle': "Apple 健康",
+  'summary.habitHealthSub': "將練習記錄為正念分鐘",
+  'settings.resetOnboarding': "重置引導流程",
+  'settings.resetOnboardingConfirm': "重新播放引導流程？這也會重新啟用首次練習的安全提示畫面。",
+  'settings.resetOnboardingConfirmCta': "重置",
+  'settings.developer': "開發者",
+  'paywall.errorGeneric': "發生錯誤，請再試一次。",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "靜音音樂",
+  'session.musicOff': "播放音樂",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "增加",
+  'common.decrease': "減少",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "省{{percent}}%",
+  'paywall.perWeekApprox': "≈ 每週{{price}}",
+  'paywall.startTrialWeekly': "免費試用3天",
+  'paywall.startTrialAnnual': "免費試用7天",
+  'paywall.cancelAnytime': "隨時可取消·無需承諾",
 };

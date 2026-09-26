@@ -1,9 +1,25 @@
 import { useEffect, useRef } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 import { useAuthStore } from '../store/authStore';
+import { useSettingsStore } from '../store/settingsStore';
 import { pushAll, pullAndMerge } from '../services/syncService';
+import { checkSubscriptionStatus } from '../utils/revenueCat';
 
 const SYNC_THROTTLE_MS = 5 * 60 * 1000; // 5 minutes
+
+async function resyncEntitlement(): Promise<void> {
+  const isPro = await checkSubscriptionStatus();
+  if (isPro === null) return; // couldn't confirm (offline/RC error) — leave local state alone
+  const settings = useSettingsStore.getState();
+  if (isPro && !settings.isPro) settings.grantPro();
+  else if (!isPro && settings.isPro) settings.revokePro();
+
+  // Same stale-flag correction as app/_layout.tsx's cold-launch check, but
+  // for a subscription that lapses while the app is already running.
+  if (!isPro && settings.healthSyncEnabled) {
+    settings.setSetting('healthSyncEnabled', false);
+  }
+}
 
 export function useSync() {
   const user = useAuthStore((s) => s.user);
@@ -16,6 +32,7 @@ export function useSync() {
 
     const syncNow = async () => {
       try {
+        await resyncEntitlement();
         await pullAndMerge();
         await pushAll();
         lastSyncRef.current = Date.now();
@@ -38,6 +55,7 @@ export function useSync() {
       lastSyncRef.current = now;
 
       try {
+        await resyncEntitlement();
         await pullAndMerge();
         await pushAll();
       } catch {

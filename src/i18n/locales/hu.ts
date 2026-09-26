@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Kezd\u0151lap',
   'tabs.breathe': 'L\u00e9gz\u00e9s',
   'tabs.history': 'Halad\u00e1s',
-  'tabs.badges': 'Jelv\u00e9nyek',
+  'tabs.badges': 'Díjak',
   'tabs.settings': 'Be\u00e1ll\u00edt\u00e1sok',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Álmos',
   'summary.done': 'Kész',
   'summary.repeat': 'Ismétlés',
+  'summary.dontSave': 'Ne mentse',
+  'summary.discardTitle': 'Ne mentse el ezt a munkamenetet?',
+  'summary.discardMessage': 'Ez a munkamenet törlődik, és nem számít bele a statisztikádba vagy a sorozatodba.',
   'summary.share': 'Megosztás',
   'summary.shareText': 'Most fejeztem be egy {{duration}} perces {{technique}} légzőgyakorlatot a BreathFlow-val! 🌬️',
   'summary.shareMessage': 'Most fejeztem be egy {{duration}} perces {{technique}} légzőgyakorlatot a BreathFlow-val! 🌬️',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Beállítások',
+  'settings.preferences': 'Preferenciák',
   'settings.feedback': 'Hangok',
   'settings.sound': 'Hang',
   'settings.soundStyle': 'Hangstílus',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Sportolók által megbízható',
   'onboarding.socialProof2': 'Stanford által támogatott',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Állítsd be a napi célodat',
-  'onboarding.commitSub': 'A kis napi szokások tartós változást hoznak.',
   'onboarding.commitMinUnit': 'perc / nap',
   'onboarding.commitHint_3': 'Már egy 3 perces ülés is segíthet megnyugtatni az idegrendszert.',
   'onboarding.commitHint_5': 'A Stanford kutatása a lassú légzést kevesebb stresszel és jobb alvással köti össze.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365 napos sorozat',
 
   // Badges screen
-  'badges.title': 'Jelvények',
+  'badges.title': 'Díjak',
   'badges.unlocked': 'Feloldva',
   'badges.locked': 'Zárolva',
   'badges.progress': '{{unlocked}} / {{total}} jelvény',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'Mind a 10 légzéstechnika',
   'paywall.feature2': 'Minden zeneszám',
   'paywall.feature3': 'Minden jelvény feloldása',
-  'paywall.feature4': 'Teljes előzmények és statisztikák',
+  'paywall.featureAppleHealth': 'Apple Health szinkronizálás',
   'paywall.feature5': 'Hangulat nyomon követése',
   'paywall.feature6': 'Minden jelvény',
   'paywall.purchase': 'Vásárlás {{price}} áron',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Ezen a napon nincs gyakorlat',
   'history.allTimeStats': 'Összesített statisztikák',
   'history.unlockFullHistory': 'Teljes előzmény feloldása Pro-val',
+  'history.unlockFullHistoryDesc': 'Nézd meg a teljes fejlődésedet és az összesített statisztikákat',
   'history.weeklyActivity': 'Heti aktivitás',
   'history.badges': 'Jelvények',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'Nincs visszaállítható vásárlás.',
   'settings.restoreFailed': 'Visszaállítás sikertelen. Próbáld újra.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Mindful percek szinkronizálása',
+  'settings.syncMindfulMinutes': 'Apple Health szinkronizálás',
   'settings.privacyPolicy': 'Adatvédelmi irányelvek',
   'settings.termsOfService': 'Felhasználási feltételek',
   'settings.restorePurchases': 'Vásárlások visszaállítása',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'A termék nem elérhető. Próbáld újra később.',
   'paywall.restoreSuccessTitle': 'Visszaállítva',
   'paywall.restoreSuccessMessage': 'A vásárlásaid visszaállítva.',
+  'paywall.welcomeTitle': 'Üdvözlünk a Pro verzióban',
+  'paywall.welcomeMessage': 'Minden technika és funkció mostantól elérhető.',
+  'paywall.welcomeCta': 'Tovább',
   'paywall.restoreTitle': 'Visszaállítás',
   'paywall.restoreNoPurchases': 'Nem találhatók visszaállítható vásárlások.',
   'paywall.oneTimePayment': 'Egyszeri fizetés',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'Feloldás örökre',
   'paywall.startAnnual': 'Éves terv indítása',
   'paywall.startWeekly': 'Heti indítása',
-  'paywall.hideOptions': 'Lehetőségek elrejtése',
   'paywall.then': 'aztán',
   'paywall.weeklyAutoRenew': 'automatikus megújítás',
   'paywall.weeklyTrial': '3 napos ingyenes próba',
@@ -604,6 +609,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Haladás nyomon követése idővel',
   'onboarding.appleHealthBullet3': 'Adataid privát maradnak',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Csatlakozz 1000+ emberhez, akik jobban lélegeznek',
+  'onboarding.socialProofSub': 'Valódi emberek, valódi eredmények.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketing igazgató, NYC',
+  'onboarding.t1Text': '„4-7-8-at csinálok az ágyban és 5 perc alatt elalszom. Évek álmatlansága után hihetetlen.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Szoftvermérnök',
+  'onboarding.t2Text': '„A box légzés mély munka előtt olyan, mint egy mentális bemelegítés.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeuta',
+  'onboarding.t3Text': '„Pánikbetegségben szenvedő klienseimnek ajánlom a BreathFlow-t.”',
+  'onboarding.rateTitle': 'Segíts alakítani a BreathFlow jövőjét',
+  'onboarding.rateSub': 'Oszd meg gondolataidat, és segíts, hogy szolgáltatásunk még jobb legyen — hasznosabb, élvezetesebb és személyre szabottabb.',
+  'onboarding.rateCta': 'Tovább',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Stressztől a nyugalomig — percek alatt',
   'paywall.heroSleep': 'Aludj el percek, ne órák alatt',
@@ -639,4 +660,31 @@ export default {
   'notifications.tip5': 'A 5,5 légvétel/perc ritmusú légzés optimalizálja a szívritmus-variabilitást.',
   'notifications.tip6': 'Már 1 perc tudatos légzés is változást hoz.',
   'notifications.tip7': 'A meghosszabbított kilégzés jelzi a testednek, hogy biztonságos lazítani.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Alakítsd szokássá",
+  'summary.habitReminderTitle': "Napi emlékeztető",
+  'summary.habitReminderSub': "Egy kedves emlékeztető, hogy minden nap lélegezz",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Mentsd el a munkameneteket Mindfulness percekként",
+  'settings.resetOnboarding': "Bevezető visszaállítása",
+  'settings.resetOnboardingConfirm': "Újraindítod a bevezető folyamatot? Ez az első munkamenet biztonsági képernyőjét is újra aktiválja.",
+  'settings.resetOnboardingConfirmCta': "Visszaállítás",
+  'settings.developer': "Fejlesztő",
+  'paywall.errorGeneric': "Hiba történt. Kérjük, próbáld újra.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Zene némítása",
+  'session.musicOff': "Zene lejátszása",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Növelés",
+  'common.decrease': "Csökkentés",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "TAKARÍTS MEG {{percent}}%-OT",
+  'paywall.perWeekApprox': "≈ {{price}}/hét",
+  'paywall.startTrialWeekly': "Próbáld ki ingyen 3 napig",
+  'paywall.startTrialAnnual': "Próbáld ki ingyen 7 napig",
+  'paywall.cancelAnytime': "Bármikor lemondható · Kötelezettség nélkül",
 };

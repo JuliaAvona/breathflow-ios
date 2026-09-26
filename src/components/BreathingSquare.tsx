@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import type { TimerPhase, PowerBreathingPhase, KapalabhatiPhase } from '../types';
 
@@ -83,10 +83,10 @@ export function BreathingSquare({ phase, mode, color, phaseDuration }: Props) {
     }
   }, [phase, mode, phaseDuration, scaleAnim, rotateAnim, glowOpacity]);
 
-  const rotate = rotateAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '90deg'],
-  });
+  const rotate = useMemo(
+    () => rotateAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '90deg'] }),
+    [rotateAnim],
+  );
 
   return (
     <View style={styles.container}>

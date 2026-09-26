@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Home',
   'tabs.breathe': 'Breathe',
   'tabs.history': 'Progress',
-  'tabs.badges': 'Badges',
+  'tabs.badges': 'Awards',
   'tabs.settings': 'Settings',
 
   // Home screen
@@ -161,6 +161,9 @@ export default {
   'summary.moodSleepy': 'Sleepy',
   'summary.done': 'Done',
   'summary.repeat': 'Repeat',
+  'summary.dontSave': "Don't Save",
+  'summary.discardTitle': "Don't save this session?",
+  'summary.discardMessage': "This session will be removed and won't count toward your stats or streak.",
   'summary.share': 'Share',
   'summary.shareText': 'I just completed a {{duration}} {{technique}} breathing session with BreathFlow! \u{1F32C}\uFE0F',
   'summary.shareMessage': 'I just completed a {{duration}} {{technique}} breathing session with BreathFlow! \u{1F32C}\uFE0F',
@@ -225,6 +228,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Settings',
+  'settings.preferences': 'Preferences',
   'settings.feedback': 'Sounds',
   'settings.sound': 'Sound',
   'settings.soundStyle': 'Sound Style',
@@ -266,6 +270,9 @@ export default {
   'settings.signOut': 'Sign Out',
   'settings.deleteAccount': 'Delete Account',
   'settings.syncData': 'Sync Data',
+  'settings.clearStats': 'Clear Statistics',
+  'settings.clearStatsConfirm': "This will permanently delete all your session history and reset your stats, streaks, and personal bests. This can't be undone.",
+  'settings.clearStatsConfirmCta': 'Clear',
   'settings.general': 'General',
   'settings.language': 'Language',
   'settings.about': 'About',
@@ -346,8 +353,6 @@ export default {
   'onboarding.socialProof3': 'Apple Health',
 
   // Commitment screen (daily goal)
-  'onboarding.commitTitle': 'Set your daily goal',
-  'onboarding.commitSub': 'Small daily habits create lasting change.',
   'onboarding.commitMinUnit': 'min / day',
   'onboarding.commitHint_3': 'Even a 3-minute session can help calm your nervous system.',
   'onboarding.commitHint_5': 'Stanford research links slow breathing to lower stress and better sleep.',
@@ -383,6 +388,24 @@ export default {
   'onboarding.appleHealthBullet1': 'Auto-sync Mindful Minutes',
   'onboarding.appleHealthBullet2': 'Track progress over time',
   'onboarding.appleHealthBullet3': 'Your data stays private',
+
+  // Social proof (testimonials)
+  'onboarding.socialProofTitle': 'Join 1,000+ who breathe better',
+  'onboarding.socialProofSub': 'Real people, real results.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketing director, NYC',
+  'onboarding.t1Text': '“I do 4-7-8 in bed and I\'m out in 5 minutes. After years of insomnia, this is wild.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Software engineer',
+  'onboarding.t2Text': '“Box breathing before deep work is like a mental warm-up. I used to need 3 coffees, now 1.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Therapist',
+  'onboarding.t3Text': '“I recommend BreathFlow to clients with panic disorder. The Physiological Sigh works in seconds.”',
+
+  // Rating ask
+  'onboarding.rateTitle': 'Help Shape the Future of BreathFlow',
+  'onboarding.rateSub': 'Share your thoughts and help us make our service even better — more useful, more enjoyable, and more tailored to your needs.',
+  'onboarding.rateCta': 'Next',
 
   // Badges
   'badges.first_breath.name': 'First Breath',
@@ -423,7 +446,7 @@ export default {
   'badges.year_legend.description': '365-day streak',
 
   // Badges screen
-  'badges.title': 'Badges',
+  'badges.title': 'Awards',
   'badges.unlocked': 'Unlocked',
   'badges.unlockBadges': 'Unlock Badges with Pro',
   'badges.unlockBadgesDesc': 'Track your achievements and earn all badges',
@@ -477,7 +500,7 @@ export default {
   'paywall.feature1': 'All 10 Breathing Techniques',
   'paywall.feature2': 'All Music Tracks',
   'paywall.feature3': 'Unlock All Badges',
-  'paywall.feature4': 'Full History & Stats',
+  'paywall.featureAppleHealth': 'Apple Health Sync',
   'paywall.feature5': 'Mood tracking',
   'paywall.feature6': 'All badges',
 
@@ -492,6 +515,7 @@ export default {
   'history.noSessionsOnDay': 'No sessions on this day',
   'history.allTimeStats': 'All-Time Stats',
   'history.unlockFullHistory': 'Unlock full history with Pro',
+  'history.unlockFullHistoryDesc': 'See your complete progress and all-time stats',
   'history.weeklyActivity': 'Weekly Activity',
   'history.badges': 'Badges',
 
@@ -550,7 +574,7 @@ export default {
   'settings.restoreNone': 'No purchases to restore.',
   'settings.restoreFailed': 'Restore failed. Please try again.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Sync Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Apple Health Sync',
   'settings.privacyPolicy': 'Privacy Policy',
   'settings.termsOfService': 'Terms of Service',
   'settings.restorePurchases': 'Restore Purchases',
@@ -595,6 +619,9 @@ export default {
   'paywall.errorNoProduct': 'Product not available. Please try again later.',
   'paywall.restoreSuccessTitle': 'Restored',
   'paywall.restoreSuccessMessage': 'Your purchases have been restored.',
+  'paywall.welcomeTitle': 'Welcome to Pro',
+  'paywall.welcomeMessage': 'All techniques and features are now unlocked.',
+  'paywall.welcomeCta': 'Continue',
   'paywall.restoreTitle': 'Restore',
   'paywall.restoreNoPurchases': 'No purchases found to restore.',
   'paywall.oneTimePayment': 'One-time payment',
@@ -612,7 +639,6 @@ export default {
   'paywall.unlockForever': 'Unlock Forever',
   'paywall.startAnnual': 'Start Annual Plan',
   'paywall.startWeekly': 'Start Weekly',
-  'paywall.hideOptions': 'Hide Options',
   'paywall.then': 'then',
   'paywall.weeklyAutoRenew': 'auto-renewable',
   'paywall.weeklyTrial': '3-day free trial',
@@ -644,4 +670,31 @@ export default {
   'common.free': 'FREE',
   'common.loading': 'Loading...',
   'common.error': 'Error',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Make it a habit",
+  'summary.habitReminderTitle': "Daily reminder",
+  'summary.habitReminderSub': "A gentle nudge to breathe each day",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Save sessions as Mindful Minutes",
+  'settings.resetOnboarding': "Reset Onboarding",
+  'settings.resetOnboardingConfirm': "Replay the onboarding flow? This also re-arms the first-session safety screen.",
+  'settings.resetOnboardingConfirmCta': "Reset",
+  'settings.developer': "Developer",
+  'paywall.errorGeneric': "Something went wrong. Please try again.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Mute music",
+  'session.musicOff': "Play music",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Increase",
+  'common.decrease': "Decrease",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "SAVE {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/week",
+  'paywall.startTrialWeekly': "Try Free for 3 Days",
+  'paywall.startTrialAnnual': "Try Free for 7 Days",
+  'paywall.cancelAnytime': "Cancel anytime · No commitment",
 };

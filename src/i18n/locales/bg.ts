@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u0413\u043B\u0430\u0432\u043D\u0430',
   'tabs.breathe': '\u0414\u0438\u0448\u0430\u0439',
   'tabs.history': '\u041F\u0440\u043E\u0433\u0440\u0435\u0441',
-  'tabs.badges': '\u0417\u043D\u0430\u0447\u043A\u0438',
+  'tabs.badges': 'Награди',
   'tabs.settings': '\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438',
 
   // Home screen
@@ -162,6 +162,9 @@ export default {
   'summary.moodSleepy': '\u0421\u044A\u043D\u043B\u0438\u0432\u043E',
   'summary.done': '\u0413\u043E\u0442\u043E\u0432\u043E',
   'summary.repeat': '\u041F\u043E\u0432\u0442\u043E\u0440\u0438',
+  'summary.dontSave': 'Не запазвай',
+  'summary.discardTitle': 'Да не се запази тази сесия?',
+  'summary.discardMessage': 'Тази сесия ще бъде премахната и няма да се брои към статистиката или серията ви.',
   'summary.share': '\u0421\u043F\u043E\u0434\u0435\u043B\u0438',
   'summary.shareText': '\u0422\u043E\u043A\u0443-\u0449\u043E \u0437\u0430\u0432\u044A\u0440\u0448\u0438\u0445 {{duration}} \u0441\u0435\u0441\u0438\u044F {{technique}} \u0441 BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': '\u0422\u043E\u043A\u0443-\u0449\u043E \u0437\u0430\u0432\u044A\u0440\u0448\u0438\u0445 {{duration}} \u0441\u0435\u0441\u0438\u044F {{technique}} \u0441 BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -226,6 +229,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438',
+  'settings.preferences': 'Предпочитания',
   'settings.feedback': '\u0417\u0432\u0443\u0446\u0438',
   'settings.sound': '\u0417\u0432\u0443\u043A',
   'settings.soundStyle': '\u0421\u0442\u0438\u043B \u043D\u0430 \u0437\u0432\u0443\u043A\u0430',
@@ -303,8 +307,6 @@ export default {
   'onboarding.socialProof1': '\u0414\u043E\u0432\u0435\u0440\u0435\u043D \u043E\u0442 \u0441\u043F\u043E\u0440\u0442\u0438\u0441\u0442\u0438',
   'onboarding.socialProof2': '\u041F\u043E\u0434\u043A\u0440\u0435\u043F\u0435\u043D \u043E\u0442 \u0421\u0442\u0430\u043D\u0444\u043E\u0440\u0434',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '\u0417\u0430\u0434\u0430\u0439\u0442\u0435 \u0434\u043D\u0435\u0432\u043D\u0430\u0442\u0430 \u0441\u0438 \u0446\u0435\u043B',
-  'onboarding.commitSub': '\u041C\u0430\u043B\u043A\u0438\u0442\u0435 \u0435\u0436\u0435\u0434\u043D\u0435\u0432\u043D\u0438 \u043D\u0430\u0432\u0438\u0446\u0438 \u0441\u044A\u0437\u0434\u0430\u0432\u0430\u0442 \u0442\u0440\u0430\u0439\u043D\u0430 \u043F\u0440\u043E\u043C\u044F\u043D\u0430.',
   'onboarding.commitMinUnit': '\u043C\u0438\u043D / \u0434\u0435\u043D',
   'onboarding.commitHint_3': '\u0414\u043E\u0440\u0438 3-\u043C\u0438\u043D\u0443\u0442\u043D\u0430 \u0441\u0435\u0441\u0438\u044F \u043C\u043E\u0436\u0435 \u0434\u0430 \u043F\u043E\u043C\u043E\u0433\u043D\u0435 \u0437\u0430 \u0443\u0441\u043F\u043E\u043A\u043E\u044F\u0432\u0430\u043D\u0435 \u043D\u0430 \u043D\u0435\u0440\u0432\u043D\u0430\u0442\u0430 \u0432\u0438 \u0441\u0438\u0441\u0442\u0435\u043C\u0430.',
   'onboarding.commitHint_5': '\u0418\u0437\u0441\u043B\u0435\u0434\u0432\u0430\u043D\u0438\u044F \u043D\u0430 \u0421\u0442\u0430\u043D\u0444\u043E\u0440\u0434 \u0441\u0432\u044A\u0440\u0437\u0432\u0430\u0442 \u0431\u0430\u0432\u043D\u043E\u0442\u043E \u0434\u0438\u0448\u0430\u043D\u0435 \u0441 \u043F\u043E-\u043C\u0430\u043B\u043A\u043E \u0441\u0442\u0440\u0435\u0441 \u0438 \u043F\u043E-\u0434\u043E\u0431\u044A\u0440 \u0441\u044A\u043D.',
@@ -359,7 +361,7 @@ export default {
   'badges.year_legend.description': '\u0421\u0435\u0440\u0438\u044F \u043E\u0442 365 \u0434\u043D\u0438',
 
   // Badges screen
-  'badges.title': '\u0417\u043D\u0430\u0447\u043A\u0438',
+  'badges.title': 'Награди',
   'badges.unlocked': '\u041E\u0442\u043A\u043B\u044E\u0447\u0435\u043D\u0438',
   'badges.unlockBadges': '\u041E\u0442\u043A\u043B\u044E\u0447\u0435\u0442\u0435 \u0437\u043D\u0430\u0447\u043A\u0438 \u0441 Pro',
   'badges.unlockBadgesDesc': '\u041F\u0440\u043E\u0441\u043B\u0435\u0434\u044F\u0432\u0430\u0439\u0442\u0435 \u043F\u043E\u0441\u0442\u0438\u0436\u0435\u043D\u0438\u044F \u0438 \u0441\u043F\u0435\u0447\u0435\u043B\u0435\u0442\u0435 \u0432\u0441\u0438\u0447\u043A\u0438 \u0437\u043D\u0430\u0447\u043A\u0438',
@@ -386,7 +388,7 @@ export default {
   'paywall.feature1': '\u0412\u0441\u0438\u0447\u043A\u0438 10 \u0434\u0438\u0445\u0430\u0442\u0435\u043B\u043D\u0438 \u0442\u0435\u0445\u043D\u0438\u043A\u0438',
   'paywall.feature2': '\u0412\u0441\u0438\u0447\u043A\u0438 \u043C\u0443\u0437\u0438\u043A\u0430\u043B\u043D\u0438 \u0437\u0430\u043F\u0438\u0441\u0438',
   'paywall.feature3': '\u041E\u0442\u043A\u043B\u044E\u0447\u0438 \u0432\u0441\u0438\u0447\u043A\u0438 \u0437\u043D\u0430\u0447\u043A\u0438',
-  'paywall.feature4': '\u041F\u044A\u043B\u043D\u0430 \u0438\u0441\u0442\u043E\u0440\u0438\u044F \u0438 \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430',
+  'paywall.featureAppleHealth': 'Синхронизация с Apple Health',
   'paywall.feature5': '\u041F\u0440\u043E\u0441\u043B\u0435\u0434\u044F\u0432\u0430\u043D\u0435 \u043D\u0430 \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043D\u0438\u0435\u0442\u043E',
   'paywall.feature6': '\u0412\u0441\u0438\u0447\u043A\u0438 \u0437\u043D\u0430\u0447\u043A\u0438',
   'paywall.purchase': '\u041A\u0443\u043F\u0438 \u0437\u0430 {{price}}',
@@ -404,6 +406,7 @@ export default {
   'history.noSessionsOnDay': '\u041D\u044F\u043C\u0430 \u0441\u0435\u0441\u0438\u0438 \u0432 \u0442\u043E\u0437\u0438 \u0434\u0435\u043D',
   'history.allTimeStats': '\u041E\u0431\u0449\u0430 \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430',
   'history.unlockFullHistory': '\u041E\u0442\u043A\u043B\u044E\u0447\u0435\u0442\u0435 \u043F\u044A\u043B\u043D\u0430 \u0438\u0441\u0442\u043E\u0440\u0438\u044F \u0441 Pro',
+  'history.unlockFullHistoryDesc': 'Вижте пълния си напредък и статистика за цялото време',
   'history.weeklyActivity': '\u0421\u0435\u0434\u043C\u0438\u0447\u043D\u0430 \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442',
   'history.badges': '\u0417\u043D\u0430\u0447\u043A\u0438',
 
@@ -462,7 +465,7 @@ export default {
   'settings.restoreNone': '\u041D\u044F\u043C\u0430 \u043F\u043E\u043A\u0443\u043F\u043A\u0438 \u0437\u0430 \u0432\u044A\u0437\u0441\u0442\u0430\u043D\u043E\u0432\u044F\u0432\u0430\u043D\u0435.',
   'settings.restoreFailed': '\u0412\u044A\u0437\u0441\u0442\u0430\u043D\u043E\u0432\u044F\u0432\u0430\u043D\u0435\u0442\u043E \u043D\u0435 \u0443\u0441\u043F\u044F. \u041E\u043F\u0438\u0442\u0430\u0439\u0442\u0435 \u043E\u0442\u043D\u043E\u0432\u043E.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': '\u0421\u0438\u043D\u0445\u0440\u043E\u043D\u0438\u0437\u0430\u0446\u0438\u044F \u043D\u0430 Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Синхронизация с Apple Health',
   'settings.privacyPolicy': '\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u0437\u0430 \u043F\u043E\u0432\u0435\u0440\u0438\u0442\u0435\u043B\u043D\u043E\u0441\u0442',
   'settings.termsOfService': '\u0423\u0441\u043B\u043E\u0432\u0438\u044F \u0437\u0430 \u043F\u043E\u043B\u0437\u0432\u0430\u043D\u0435',
   'settings.restorePurchases': '\u0412\u044A\u0437\u0441\u0442\u0430\u043D\u043E\u0432\u0438 \u043F\u043E\u043A\u0443\u043F\u043A\u0438',
@@ -507,6 +510,9 @@ export default {
   'paywall.errorNoProduct': '\u041F\u0440\u043E\u0434\u0443\u043A\u0442\u044A\u0442 \u043D\u0435 \u0435 \u043D\u0430\u043B\u0438\u0447\u0435\u043D. \u041E\u043F\u0438\u0442\u0430\u0439\u0442\u0435 \u043F\u043E-\u043A\u044A\u0441\u043D\u043E.',
   'paywall.restoreSuccessTitle': '\u0412\u044A\u0437\u0441\u0442\u0430\u043D\u043E\u0432\u0435\u043D\u043E',
   'paywall.restoreSuccessMessage': '\u041F\u043E\u043A\u0443\u043F\u043A\u0438\u0442\u0435 \u0432\u0438 \u0441\u0430 \u0432\u044A\u0437\u0441\u0442\u0430\u043D\u043E\u0432\u0435\u043D\u0438.',
+  'paywall.welcomeTitle': 'Добре дошли в Pro',
+  'paywall.welcomeMessage': 'Всички техники и функции вече са отключени.',
+  'paywall.welcomeCta': 'Продължи',
   'paywall.restoreTitle': '\u0412\u044A\u0437\u0441\u0442\u0430\u043D\u043E\u0432\u044F\u0432\u0430\u043D\u0435',
   'paywall.restoreNoPurchases': '\u041D\u044F\u043C\u0430 \u043D\u0430\u043C\u0435\u0440\u0435\u043D\u0438 \u043F\u043E\u043A\u0443\u043F\u043A\u0438 \u0437\u0430 \u0432\u044A\u0437\u0441\u0442\u0430\u043D\u043E\u0432\u044F\u0432\u0430\u043D\u0435.',
   'paywall.oneTimePayment': '\u0415\u0434\u043D\u043E\u043A\u0440\u0430\u0442\u043D\u043E \u043F\u043B\u0430\u0449\u0430\u043D\u0435',
@@ -524,7 +530,6 @@ export default {
   'paywall.unlockForever': '\u041E\u0442\u043A\u043B\u044E\u0447\u0438 \u0437\u0430\u0432\u0438\u043D\u0430\u0433\u0438',
   'paywall.startAnnual': '\u0417\u0430\u043F\u043E\u0447\u043D\u0438 \u0433\u043E\u0434\u0438\u0448\u0435\u043D \u043F\u043B\u0430\u043D',
   'paywall.startWeekly': '\u0417\u0430\u043F\u043E\u0447\u043D\u0438 \u0441\u0435\u0434\u043C\u0438\u0447\u0435\u043D',
-  'paywall.hideOptions': '\u0421\u043A\u0440\u0438\u0439 \u043E\u043F\u0446\u0438\u0438\u0442\u0435',
   'paywall.then': '\u0441\u043B\u0435\u0434 \u0442\u043E\u0432\u0430',
   'paywall.weeklyAutoRenew': '\u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E \u043F\u043E\u0434\u043D\u043E\u0432\u044F\u0432\u0430\u043D\u0435',
   'paywall.weeklyTrial': '3 \u0434\u043D\u0438 \u0431\u0435\u0437\u043F\u043B\u0430\u0442\u0435\u043D \u043F\u0440\u043E\u0431\u0435\u043D \u043F\u0435\u0440\u0438\u043E\u0434',
@@ -617,6 +622,22 @@ export default {
   'onboarding.appleHealthBullet2': '\u041F\u0440\u043E\u0441\u043B\u0435\u0434\u044F\u0432\u0430\u0439 \u043F\u0440\u043E\u0433\u0440\u0435\u0441\u0430 \u0441 \u0442\u0435\u0447\u0435\u043D\u0438\u0435 \u043D\u0430 \u0432\u0440\u0435\u043C\u0435\u0442\u043E',
   'onboarding.appleHealthBullet3': '\u0414\u0430\u043D\u043D\u0438\u0442\u0435 \u0442\u0438 \u043E\u0441\u0442\u0430\u0432\u0430\u0442 \u043F\u043E\u0432\u0435\u0440\u0438\u0442\u0435\u043B\u043D\u0438',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Присъедини се към 1,000+ души, които дишат по-добре',
+  'onboarding.socialProofSub': 'Истински хора, истински резултати.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Маркетинг директор, Ню Йорк',
+  'onboarding.t1Text': '„Правя 4-7-8 в леглото и заспивам за 5 минути. След години безсъние, това е невероятно.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Софтуерен инженер',
+  'onboarding.t2Text': '„Кутиено дишане преди дълбока работа е като ментална загрявка. Преди ми трябваха 3 кафета, сега 1.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Терапевт',
+  'onboarding.t3Text': '„Препоръчвам BreathFlow на клиенти с паническо разстройство. Физиологичната въздишка работи за секунди.“',
+  'onboarding.rateTitle': 'Помогни да оформим бъдещето на BreathFlow',
+  'onboarding.rateSub': 'Сподели мнението си и ни помогни да направим услугата ни още по-добра — по-полезна, по-приятна и съобразена с нуждите ти.',
+  'onboarding.rateCta': 'Напред',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': '\u041E\u0442 \u0441\u0442\u0440\u0435\u0441 \u0434\u043E \u0441\u043F\u043E\u043A\u043E\u0439\u0441\u0442\u0432\u0438\u0435 \u2014 \u0437\u0430 \u043C\u0438\u043D\u0443\u0442\u0438',
   'paywall.heroSleep': '\u0417\u0430\u0441\u043F\u0438 \u0437\u0430 \u043C\u0438\u043D\u0443\u0442\u0438, \u043D\u0435 \u0447\u0430\u0441\u043E\u0432\u0435',
@@ -641,4 +662,31 @@ export default {
   'paywall.row5Pro': '\u0412\u0441\u0438\u0447\u043A\u0438 \u0446\u0432\u0435\u0442\u043E\u0432\u0438 \u0442\u0435\u043C\u0438 \u0438 \u0437\u043D\u0430\u0447\u043A\u0438 \u2713',
   'paywall.anchor': '\u041F\u043E-\u043C\u0430\u043B\u043A\u043E \u043E\u0442 \u0435\u0434\u043D\u043E \u043A\u0430\u0444\u0435. \u0422\u0440\u0430\u0439\u043D\u0438 \u0440\u0435\u0437\u0443\u043B\u0442\u0430\u0442\u0438.',
   'paywall.continueFree': '\u041F\u0440\u043E\u0434\u044A\u043B\u0436\u0438 \u0441 \u0431\u0435\u0437\u043F\u043B\u0430\u0442\u043D\u0430\u0442\u0430 \u0432\u0435\u0440\u0441\u0438\u044F',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Превърни го в навик",
+  'summary.habitReminderTitle': "Ежедневно напомняне",
+  'summary.habitReminderSub': "Леко напомняне да дишаш всеки ден",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Запази сесиите като Минути на осъзнатост",
+  'settings.resetOnboarding': "Нулиране на въведението",
+  'settings.resetOnboardingConfirm': "Да пуснем ли отново въведението? Това също връща екрана за безопасност на първата сесия.",
+  'settings.resetOnboardingConfirmCta': "Нулиране",
+  'settings.developer': "Разработчик",
+  'paywall.errorGeneric': "Нещо се обърка. Моля, опитайте отново.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Заглуши музиката",
+  'session.musicOff': "Пусни музика",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Увеличи",
+  'common.decrease': "Намали",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "СПЕСТИ {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/седмица",
+  'paywall.startTrialWeekly': "Опитайте безплатно за 3 дни",
+  'paywall.startTrialAnnual': "Опитайте безплатно за 7 дни",
+  'paywall.cancelAnytime': "Отменете по всяко време · Без ангажимент",
 };

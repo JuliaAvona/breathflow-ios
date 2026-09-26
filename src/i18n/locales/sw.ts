@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Nyumbani',
   'tabs.breathe': 'Pumua',
   'tabs.history': 'Maendeleo',
-  'tabs.badges': 'Beji',
+  'tabs.badges': 'Tuzo',
   'tabs.settings': 'Mipangilio',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Usingizi',
   'summary.done': 'Imekamilika',
   'summary.repeat': 'Rudia',
+  'summary.dontSave': 'Usihifadhi',
+  'summary.discardTitle': 'Usihifadhi kipindi hiki?',
+  'summary.discardMessage': 'Kipindi hiki kitaondolewa na hakitahesabiwa kwenye takwimu au mfululizo wako.',
   'summary.share': 'Shiriki',
   'summary.shareText': 'Nimekamilisha kipindi cha kupumua cha {{duration}} {{technique}} na BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Nimekamilisha kipindi cha kupumua cha {{duration}} {{technique}} na BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Mipangilio',
+  'settings.preferences': 'Mapendeleo',
   'settings.feedback': 'Sauti',
   'settings.sound': 'Sauti',
   'settings.soundStyle': 'Mtindo wa Sauti',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Inayoaminiwa na wanariadha',
   'onboarding.socialProof2': 'Stanford-backed',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Weka lengo lako la kila siku',
-  'onboarding.commitSub': 'Tabia ndogo za kila siku huunda mabadiliko ya kudumu.',
   'onboarding.commitMinUnit': 'dak / siku',
   'onboarding.commitHint_3': 'Hata kipindi cha dakika 3 kinaweza kusaidia kutuliza mfumo wako wa neva.',
   'onboarding.commitHint_5': 'Utafiti wa Stanford unaunganisha kupumua polepole na msongo mdogo na usingizi bora.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': 'Mfululizo wa siku 365',
 
   // Badges screen
-  'badges.title': 'Beji',
+  'badges.title': 'Tuzo',
   'badges.unlocked': 'Imefunguliwa',
   'badges.locked': 'Imefungwa',
   'badges.progress': '{{unlocked}} kati ya {{total}} beji',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'Mbinu zote 10 za kupumua',
   'paywall.feature2': 'Nyimbo zote za muziki',
   'paywall.feature3': 'Fungua beji zote',
-  'paywall.feature4': 'Historia kamili na takwimu',
+  'paywall.featureAppleHealth': 'Usawazishaji wa Apple Health',
   'paywall.feature5': 'Ufuatiliaji wa hisia',
   'paywall.feature6': 'Beji zote',
   'paywall.purchase': 'Nunua kwa {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Hakuna vipindi siku hii',
   'history.allTimeStats': 'Takwimu za Wakati Wote',
   'history.unlockFullHistory': 'Fungua historia kamili na Pro',
+  'history.unlockFullHistoryDesc': 'Tazama maendeleo yako kamili na takwimu za nyakati zote',
   'history.weeklyActivity': 'Shughuli za Wiki',
   'history.badges': 'Beji',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'Hakuna manunuzi ya kurejesha.',
   'settings.restoreFailed': 'Kurejesha kumeshindwa. Tafadhali jaribu tena.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Sawazisha Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Usawazishaji wa Apple Health',
   'settings.privacyPolicy': 'Sera ya Faragha',
   'settings.termsOfService': 'Masharti ya Huduma',
   'settings.restorePurchases': 'Rejesha Manunuzi',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'Bidhaa haipatikani. Tafadhali jaribu tena baadaye.',
   'paywall.restoreSuccessTitle': 'Imerejeshwa',
   'paywall.restoreSuccessMessage': 'Manunuzi yako yamerejeshwa.',
+  'paywall.welcomeTitle': 'Karibu kwenye Pro',
+  'paywall.welcomeMessage': 'Mbinu na vipengele vyote sasa vimefunguliwa.',
+  'paywall.welcomeCta': 'Endelea',
   'paywall.restoreTitle': 'Rejesha',
   'paywall.restoreNoPurchases': 'Hakuna manunuzi yaliyopatikana kurejesha.',
   'paywall.oneTimePayment': 'Malipo ya mara moja',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'Fungua Milele',
   'paywall.startAnnual': 'Anza Mpango wa Mwaka',
   'paywall.startWeekly': 'Anza wa Wiki',
-  'paywall.hideOptions': 'Ficha Chaguzi',
   'paywall.then': 'kisha',
   'paywall.weeklyAutoRenew': 'upya otomatiki',
   'paywall.weeklyTrial': 'Jaribio la bure la siku 3',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Kurekodi Mindful Minutes kiotomatiki',
   'onboarding.appleHealthBullet2': 'Ufuatiliaji wa data ya HRV',
   'onboarding.appleHealthBullet3': 'Data yako inabaki ya siri',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Jiunge na zaidi ya 1,000 wanaopumua vizuri',
+  'onboarding.socialProofSub': 'Watu halisi, matokeo halisi.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Mkurugenzi wa masoko, NYC',
+  'onboarding.t1Text': '“Ninafanya 4-7-8 kitandani na ninalala kwa dakika 5.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Mhandisi wa programu',
+  'onboarding.t2Text': '“Kupumua kwa sanduku kabla ya kazi ya kina ni kama mazoezi ya akili.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Mtaalamu wa tiba',
+  'onboarding.t3Text': '“Napendekeza BreathFlow kwa wateja wenye matatizo ya hofu.”',
+  'onboarding.rateTitle': 'Saidia kuunda mustakabali wa BreathFlow',
+  'onboarding.rateSub': 'Shiriki mawazo yako na utusaidie kuboresha huduma yetu.',
+  'onboarding.rateCta': 'Endelea',
   'onboarding.connectHealth': 'Unganisha Apple Health',
   'onboarding.healthSkip': 'Ruka',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'Hata dakika 5 za kupumua kwa makini hubadilisha hisia.',
   'notifications.tip6': 'Kupumua polepole huamsha mfumo wa neva wa parasympathetic.',
   'notifications.tip7': 'Mazoezi ya mara kwa mara hujenga ustahimilivu kwa muda.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Ifanye kuwa tabia",
+  'summary.habitReminderTitle': "Kikumbusho cha kila siku",
+  'summary.habitReminderSub': "Kikumbusho laini cha kupumua kila siku",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Hifadhi vipindi kama Dakika za Mindful",
+  'settings.resetOnboarding': "Weka Upya Onboarding",
+  'settings.resetOnboardingConfirm': "Cheza tena mtiririko wa onboarding? Hii pia itawasha upya skrini ya usalama ya kipindi cha kwanza.",
+  'settings.resetOnboardingConfirmCta': "Weka Upya",
+  'settings.developer': "Mtengenezaji",
+  'paywall.errorGeneric': "Hitilafu imetokea. Tafadhali jaribu tena.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Zima muziki",
+  'session.musicOff': "Cheza muziki",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Ongeza",
+  'common.decrease': "Punguza",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "OKOA {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/wiki",
+  'paywall.startTrialWeekly': "Jaribu Bure kwa Siku 3",
+  'paywall.startTrialAnnual': "Jaribu Bure kwa Siku 7",
+  'paywall.cancelAnytime': "Ghairi wakati wowote · Hakuna commitment",
 };

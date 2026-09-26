@@ -12,6 +12,7 @@ import { useSettingsStore, useSessionsStore, useAuthStore, useBadgesStore } from
 import { useSync } from '../src/hooks/useSync';
 import { initSentry } from '../src/utils/sentry';
 import { initRevenueCat, checkSubscriptionStatus, identifyUser } from '../src/utils/revenueCat';
+import { initFacebookSdk } from '../src/utils/facebookEvents';
 import * as Notifications from 'expo-notifications';
 import {
   scheduleStreakProtection,
@@ -39,7 +40,7 @@ import '../src/i18n';
 
 // Initialize Sentry and RevenueCat as early as possible
 initSentry();
-initRevenueCat();
+initRevenueCat().catch(() => {});
 
 export default function RootLayout() {
   const [ready, setReady] = useState(false);
@@ -54,30 +55,53 @@ export default function RootLayout() {
       shouldPlayInBackground: true,
     });
 
-    // Hydrate stores from AsyncStorage
+    // Hydrate stores from AsyncStorage. All four are independent local reads —
+    // running them together (instead of badges after the others) shaves one
+    // sequential AsyncStorage round-trip off time-to-interactive.
     const hydrateStores = async () => {
       await Promise.all([
         useSettingsStore.getState().hydrate(),
         useSessionsStore.getState().hydrate(),
         useAuthStore.getState().hydrate(),
+        useBadgesStore.getState().hydrate(),
       ]);
 
-      // Hydrate badges store
-      await useBadgesStore.getState().hydrate();
+      // The Pro badge already reflects the last-known state from the settings
+      // hydration above, so the RevenueCat network round-trip below only needs
+      // to *correct* it — it doesn't need to block the loading spinner from
+      // dismissing. Fire it after setReady() so users see the app immediately;
+      // useSync's resyncEntitlement() re-confirms this again on every foreground too.
+      setReady(true);
 
       // Identify RevenueCat user if logged in & sync entitlements
       const authState = useAuthStore.getState();
       if (authState.user?.id) {
         await identifyUser(authState.user.id).catch(() => {});
       }
-      const isProFromRC = await checkSubscriptionStatus().catch(() => false);
-      if (isProFromRC) {
+      const isProFromRC = await checkSubscriptionStatus().catch(() => null);
+      if (isProFromRC === true) {
         useSettingsStore.getState().grantPro();
-      } else {
+      } else if (isProFromRC === false) {
         useSettingsStore.getState().revokePro();
       }
+      // isProFromRC === null (RC not configured / network error): leave
+      // local Pro state as-is rather than treating "couldn't check" as "not Pro".
 
-      setReady(true);
+      // Apple Health sync became a Pro feature after some installs had
+      // already turned it on for free — revokePro() above only fires on a
+      // Pro→non-Pro transition, so it never touches users who were always
+      // non-Pro. Once we've confirmed (not just assumed) they're not Pro,
+      // clear the stale flag so the Settings toggle stops showing a feature
+      // on that can't actually run (summary.tsx already gates the write on
+      // isPro too, so no health data was ever leaking — this just fixes the
+      // toggle's stuck-on display state).
+      if (isProFromRC === false && useSettingsStore.getState().healthSyncEnabled) {
+        useSettingsStore.getState().setSetting('healthSyncEnabled', false);
+      }
+
+      // Initialize Meta SDK after first frame so the ATT prompt
+      // doesn't appear on a black launch screen.
+      initFacebookSdk().catch(() => {});
     };
 
     hydrateStores();
@@ -100,10 +124,10 @@ export default function RootLayout() {
       scheduleWeeklySummary(stats.totalSessions, stats.totalMinutes);
 
       // Default daily reminder at 10:00 if user hasn't set a custom one
-      const { reminderEnabled, reminderTime } = useSettingsStore.getState();
+      const { reminderEnabled, reminderTime, reminderDays } = useSettingsStore.getState();
       if (reminderEnabled) {
         const [h, m] = reminderTime.split(':').map(Number);
-        scheduleBreatheReminder(h, m);
+        scheduleBreatheReminder(h, m, reminderDays);
       } else {
         scheduleBreatheReminder(10, 0);
       }
@@ -111,22 +135,32 @@ export default function RootLayout() {
 
     setupNotifications().catch(() => {});
 
-    // Set up badge unlock notifications
+    // Set up badge unlock notifications — unlike setupNotifications() above,
+    // this can fire at any time (e.g. right after a user's very first
+    // session, before they've ever been asked for notification permission),
+    // so it needs its own permission check rather than assuming one already
+    // happened. Without it, iOS rejects the schedule call with "Source is
+    // not authorized" whenever status is still undetermined/denied.
     useBadgesStore.getState().setOnBadgeUnlocked((_id, titleKey, _descKey) => {
-      Notifications.scheduleNotificationAsync({
-        identifier: `badge-unlock-${_id}`,
-        content: {
-          title: t('notifications.badgeUnlocked'),
-          body: t(titleKey),
-        },
-        trigger: null,
+      checkNotificationPermissions().then((granted) => {
+        if (!granted) return;
+        Notifications.scheduleNotificationAsync({
+          identifier: `badge-unlock-${_id}`,
+          content: {
+            title: t('notifications.badgeUnlocked'),
+            body: t(titleKey),
+          },
+          trigger: null,
+        });
       });
     });
 
     // Navigate to home when user taps breathe reminder notification
     const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
       const id = response.notification.request.identifier;
-      if (id === 'breathe-reminder') {
+      // 'breathe-reminder' is the legacy single-identifier scheme; per-day
+      // reminders now use 'breathe-reminder-0'..'breathe-reminder-6'.
+      if (id === 'breathe-reminder' || id.startsWith('breathe-reminder-')) {
         router.replace('/(tabs)');
       }
     });

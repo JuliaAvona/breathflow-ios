@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Hem',
   'tabs.breathe': 'Andas',
   'tabs.history': 'Framsteg',
-  'tabs.badges': 'Märken',
+  'tabs.badges': 'Utmärkelser',
   'tabs.settings': 'Inställningar',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Sömnig',
   'summary.done': 'Klar',
   'summary.repeat': 'Upprepa',
+  'summary.dontSave': 'Spara inte',
+  'summary.discardTitle': 'Spara inte den här sessionen?',
+  'summary.discardMessage': 'Den här sessionen kommer att tas bort och räknas inte in i din statistik eller streak.',
   'summary.share': 'Dela',
   'summary.shareText': 'Jag har precis genomfört en {{duration}} {{technique}}-session med BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Jag har precis genomfört en {{duration}} {{technique}}-session med BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Inställningar',
+  'settings.preferences': 'Preferenser',
   'settings.feedback': 'Ljud',
   'settings.sound': 'Ljud',
   'settings.soundStyle': 'Ljudstil',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Betrodd av idrottare',
   'onboarding.socialProof2': 'Stanford-bevisad',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Sätt ditt dagliga mål',
-  'onboarding.commitSub': 'Små dagliga vanor skapar varaktig förändring.',
   'onboarding.commitMinUnit': 'min / dag',
   'onboarding.commitHint_3': 'Även en 3-minuterssession kan hjälpa till att lugna ditt nervsystem.',
   'onboarding.commitHint_5': 'Stanfordforskning kopplar långsam andning till mindre stress och bättre sömn.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-dagars serie',
 
   // Badges screen
-  'badges.title': 'Märken',
+  'badges.title': 'Utmärkelser',
   'badges.unlocked': 'Upplåsta',
   'badges.locked': 'Låsta',
   'badges.progress': '{{unlocked}} av {{total}} märken',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'Alla 10 andningstekniker',
   'paywall.feature2': 'Alla musikspår',
   'paywall.feature3': 'Lås upp alla märken',
-  'paywall.feature4': 'Fullständig historik och statistik',
+  'paywall.featureAppleHealth': 'Apple Health-synkronisering',
   'paywall.feature5': 'Humörspårning',
   'paywall.feature6': 'Alla märken',
   'paywall.purchase': 'Köp för {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Inga sessioner denna dag',
   'history.allTimeStats': 'Total statistik',
   'history.unlockFullHistory': 'Lås upp fullständig historik med Pro',
+  'history.unlockFullHistoryDesc': 'Se dina fullständiga framsteg och all-time-statistik',
   'history.weeklyActivity': 'Veckoaktivitet',
   'history.badges': 'Märken',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'Inga köp att återställa.',
   'settings.restoreFailed': 'Återställning misslyckades. Försök igen.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Synka Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Apple Health-synkronisering',
   'settings.privacyPolicy': 'Integritetspolicy',
   'settings.termsOfService': 'Användarvillkor',
   'settings.restorePurchases': 'Återställ köp',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'Produkten är inte tillgänglig. Försök igen senare.',
   'paywall.restoreSuccessTitle': 'Återställd',
   'paywall.restoreSuccessMessage': 'Dina köp har återställts.',
+  'paywall.welcomeTitle': 'Välkommen till Pro',
+  'paywall.welcomeMessage': 'Alla tekniker och funktioner är nu upplåsta.',
+  'paywall.welcomeCta': 'Fortsätt',
   'paywall.restoreTitle': 'Återställ',
   'paywall.restoreNoPurchases': 'Inga köp hittades att återställa.',
   'paywall.oneTimePayment': 'Engångsbetalning',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'Lås upp för alltid',
   'paywall.startAnnual': 'Starta årsplan',
   'paywall.startWeekly': 'Starta veckovis',
-  'paywall.hideOptions': 'Dölj alternativ',
   'paywall.then': 'sedan',
   'paywall.weeklyAutoRenew': 'automatisk förnyelse',
   'paywall.weeklyTrial': '3 dagars gratis provperiod',
@@ -604,6 +609,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Spåra framsteg över tid',
   'onboarding.appleHealthBullet3': 'Dina data förblir privata',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Gå med 1 000+ som andas bättre',
+  'onboarding.socialProofSub': 'Riktiga människor, riktiga resultat.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marknadschef, NYC',
+  'onboarding.t1Text': '”Jag gör 4-7-8 i sängen och somnar på 5 minuter. Efter år av sömnlöshet är det otroligt.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Programvaruingenjör',
+  'onboarding.t2Text': '”Box breathing före djupt arbete är som en mental uppvärmning.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeut',
+  'onboarding.t3Text': '”Jag rekommenderar BreathFlow till klienter med panikångest.”',
+  'onboarding.rateTitle': 'Hjälp till att forma BreathFlows framtid',
+  'onboarding.rateSub': 'Dela dina tankar och hjälp oss göra tjänsten ännu bättre — mer användbar, trevligare och mer anpassad till dina behov.',
+  'onboarding.rateCta': 'Nästa',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Från stress till lugn — på minuter',
   'paywall.heroSleep': 'Somna på minuter, inte timmar',
@@ -639,4 +660,31 @@ export default {
   'notifications.tip5': 'Andning på 5,5 andetag/min optimerar hjärtfrekvensvariabilitet.',
   'notifications.tip6': 'Även 1 minut av medveten andning gör skillnad.',
   'notifications.tip7': 'Förlängda utandningar berättar för din kropp att det är säkert att slappna av.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Gör det till en vana",
+  'summary.habitReminderTitle': "Daglig påminnelse",
+  'summary.habitReminderSub': "En mjuk påminnelse att andas varje dag",
+  'summary.habitHealthTitle': "Apple Hälsa",
+  'summary.habitHealthSub': "Spara sessioner som Mindfulness-minuter",
+  'settings.resetOnboarding': "Återställ introduktion",
+  'settings.resetOnboardingConfirm': "Spela upp introduktionen igen? Detta återaktiverar också säkerhetsskärmen för den första sessionen.",
+  'settings.resetOnboardingConfirmCta': "Återställ",
+  'settings.developer': "Utvecklare",
+  'paywall.errorGeneric': "Något gick fel. Försök igen.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Stäng av musik",
+  'session.musicOff': "Spela musik",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Öka",
+  'common.decrease': "Minska",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "SPARA {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/vecka",
+  'paywall.startTrialWeekly': "Prova gratis i 3 dagar",
+  'paywall.startTrialAnnual': "Prova gratis i 7 dagar",
+  'paywall.cancelAnytime': "Avsluta när som helst · Inga bindningstider",
 };

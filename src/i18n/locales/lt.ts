@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Pradzia',
   'tabs.breathe': 'Kvepuok',
   'tabs.history': 'Pazanga',
-  'tabs.badges': 'Zenkleliai',
+  'tabs.badges': 'Apdovanojimai',
   'tabs.settings': 'Nustatymai',
 
   // Home screen
@@ -162,6 +162,9 @@ export default {
   'summary.moodSleepy': 'Mieguistas',
   'summary.done': 'Baigta',
   'summary.repeat': 'Kartoti',
+  'summary.dontSave': 'Neišsaugoti',
+  'summary.discardTitle': 'Neišsaugoti šios sesijos?',
+  'summary.discardMessage': 'Ši sesija bus pašalinta ir nebus įskaičiuota į jūsų statistiką ar seriją.',
   'summary.share': 'Dalintis',
   'summary.shareText': 'Ka tik baigiau {{duration}} {{technique}} kvepavimo sesija su BreathFlow! 🌬️',
   'summary.shareMessage': 'Ka tik baigiau {{duration}} {{technique}} kvepavimo sesija su BreathFlow! 🌬️',
@@ -226,6 +229,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Nustatymai',
+  'settings.preferences': 'Nuostatos',
   'settings.feedback': 'Garsai',
   'settings.sound': 'Garsas',
   'settings.soundStyle': 'Garso stilius',
@@ -303,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Sportininku patikimas',
   'onboarding.socialProof2': 'Stanfordo paremtas',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Nustatykite savo kasdieni tiksla',
-  'onboarding.commitSub': 'Mazos kasdienes iprociu lemia ilgalaikius pokycius.',
   'onboarding.commitMinUnit': 'min / diena',
   'onboarding.commitHint_3': 'Net 3 minuciu sesija gali padeti nuraminti nervu sistema.',
   'onboarding.commitHint_5': 'Stanfordo tyrimai sieja leta kvepavima su mazesniu stresu ir geresniu miegu.',
@@ -359,7 +361,7 @@ export default {
   'badges.year_legend.description': '365 dienu serija',
 
   // Badges screen
-  'badges.title': 'Zenkleliai',
+  'badges.title': 'Apdovanojimai',
   'badges.unlocked': 'Atrakinta',
   'badges.locked': 'Uzrakinta',
   'badges.progress': '{{unlocked}} is {{total}} zenkleliu',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': 'Visos 10 kvepavimo techniku',
   'paywall.feature2': 'Visi muzikos irašai',
   'paywall.feature3': 'Atrakinti visus zenklelius',
-  'paywall.feature4': 'Visa istorija ir statistika',
+  'paywall.featureAppleHealth': 'Apple Health sinchronizavimas',
   'paywall.feature5': 'Nuotaikos stebejimas',
   'paywall.feature6': 'Visi zenkleliai',
   'paywall.purchase': 'Pirkti uz {{price}}',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Sia diena sesiju nera',
   'history.allTimeStats': 'Visu Laiku Statistika',
   'history.unlockFullHistory': 'Atrakinti visa istorija su Pro',
+  'history.unlockFullHistoryDesc': 'Peržiūrėkite visą savo pažangą ir visų laikų statistiką',
   'history.weeklyActivity': 'Savaitine Veikla',
   'history.badges': 'Zenkleliai',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': 'Nera pirkiniu atkurimui.',
   'settings.restoreFailed': 'Atkurimas nepavyko. Bandykite dar karta.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Sinchronizuoti Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Apple Health sinchronizavimas',
   'settings.privacyPolicy': 'Privatumo Politika',
   'settings.termsOfService': 'Paslaugos Salygos',
   'settings.restorePurchases': 'Atkurti Pirkinius',
@@ -496,6 +499,9 @@ export default {
   'paywall.errorNoProduct': 'Produktas neprieinamas. Bandykite veliau.',
   'paywall.restoreSuccessTitle': 'Atkurta',
   'paywall.restoreSuccessMessage': 'Jusu pirkiniai atkurti.',
+  'paywall.welcomeTitle': 'Sveiki atvykę į Pro',
+  'paywall.welcomeMessage': 'Visos technikos ir funkcijos dabar atrakintos.',
+  'paywall.welcomeCta': 'Tęsti',
   'paywall.restoreTitle': 'Atkurti',
   'paywall.restoreNoPurchases': 'Nerasta pirkiniu atkurimui.',
   'paywall.oneTimePayment': 'Vienkartinis mokejimas',
@@ -513,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Atrakinti amzinai',
   'paywall.startAnnual': 'Pradeti metini plana',
   'paywall.startWeekly': 'Pradeti savaitini',
-  'paywall.hideOptions': 'Slepti parinktis',
   'paywall.then': 'tada',
   'paywall.weeklyAutoRenew': 'automatinis atnaujinimas',
   'paywall.weeklyTrial': '3 dienu nemokamas bandomasis laikotarpis',
@@ -613,6 +618,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Automatinis Mindful Minutes registravimas',
   'onboarding.appleHealthBullet2': 'HRV duomenu stebejimas',
   'onboarding.appleHealthBullet3': 'Tavo duomenys lieka privatus',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Prisijunk prie 1 000+ žmonių, kurie kvėpuoja geriau',
+  'onboarding.socialProofSub': 'Tikri žmonės, tikri rezultatai.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketingo direktorė, NYC',
+  'onboarding.t1Text': '„Darau 4-7-8 lovoje ir užmiegu per 5 minutes. Po metų nemigos – tai stebuklas.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Programinės įrangos inžinierius',
+  'onboarding.t2Text': '„Box kvėpavimas prieš gilų darbą – tarsi mentalinė apšilimo procedūra.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeutė',
+  'onboarding.t3Text': '„Rekomenduoju BreathFlow klientams su panikos sutrikimu.“',
+  'onboarding.rateTitle': 'Padėk formuoti BreathFlow ateitį',
+  'onboarding.rateSub': 'Pasidalink savo mintimis ir padėk mums tobulinti paslaugą — naudingesnę, malonesnę ir labiau pritaikytą tavo poreikiams.',
+  'onboarding.rateCta': 'Toliau',
   'onboarding.connectHealth': 'Prijungti Apple Health',
   'onboarding.healthSkip': 'Praleisti',
   'onboarding.appleHealthConnect': 'Prijungti Apple Health',
@@ -650,4 +671,31 @@ export default {
   'notifications.tip5': 'Net 5 minutes samoningo kvepavimo keicia nuotaika.',
   'notifications.tip6': 'Letas kvepavimas aktyvina parasimpatine nervu sistema.',
   'notifications.tip7': 'Nuosekli praktika ilgainiu ugdo atsparuma.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Paversk tai įpročiu",
+  'summary.habitReminderTitle': "Kasdienis priminimas",
+  'summary.habitReminderSub': "Švelnus priminimas kvėpuoti kiekvieną dieną",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Išsaugok seansus kaip Sąmoningumo minutes",
+  'settings.resetOnboarding': "Iš naujo pradėti supažindinimą",
+  'settings.resetOnboardingConfirm': "Ar dar kartą paleisti supažindinimo procesą? Tai taip pat iš naujo aktyvuoja pirmojo seanso saugos ekraną.",
+  'settings.resetOnboardingConfirmCta': "Iš naujo",
+  'settings.developer': "Kūrėjas",
+  'paywall.errorGeneric': "Kažkas nutiko ne taip. Bandykite dar kartą.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Nutildyti muziką",
+  'session.musicOff': "Groti muziką",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Padidinti",
+  'common.decrease': "Sumažinti",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "SUTAUPYKITE {{percent}} %",
+  'paywall.perWeekApprox': "≈ {{price}}/sav.",
+  'paywall.startTrialWeekly': "Išbandykite nemokamai 3 dienas",
+  'paywall.startTrialAnnual': "Išbandykite nemokamai 7 dienas",
+  'paywall.cancelAnytime': "Atšaukite bet kada · Jokių įsipareigojimų",
 };

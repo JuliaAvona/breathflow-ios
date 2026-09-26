@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useKeepAwake } from 'expo-keep-awake';
+import * as Crypto from 'expo-crypto';
 import {
   View,
   Text,
@@ -9,6 +10,7 @@ import {
   Alert,
   PanResponder,
   ImageBackground,
+  AccessibilityInfo,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,7 +18,8 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { useTimerStore, useSettingsStore, useSessionsStore } from '../src/store';
+import { useShallow } from 'zustand/react/shallow';
+import { useTimerStore, useSettingsStore, useSessionsStore, useAuthStore } from '../src/store';
 import { useThemeColors } from '../src/hooks/useColorScheme';
 import { getTechniqueById } from '../src/constants/techniques';
 import { COLORS, SPACING, BORDER_RADIUS, FONTS, scale } from '../src/constants';
@@ -24,6 +27,7 @@ import { getToday } from '../src/utils/time';
 import { playPhaseTransition, playSessionComplete, playCountdownTick, releaseAllSessionAudio } from '../src/utils/sessionAudio';
 import { startBackgroundAudio, stopBackgroundAudio } from '../src/utils/backgroundAudio';
 import { startMusic, stopMusic, pauseMusic, resumeMusic, isMusicPlaying } from '../src/utils/sessionMusic';
+import { logSessionCompleted } from '../src/utils/facebookEvents';
 import { BreathingMandala } from '../src/components/BreathingMandala';
 import { PulseRings } from '../src/components/PulseRings';
 import type { BreathingSession, TimerPhase, PowerBreathingPhase, KapalabhatiPhase, BreathingShape as ShapeType } from '../src/types';
@@ -113,7 +117,18 @@ export default function SessionScreen() {
   const requestedDuration = durationParam ? parseInt(durationParam, 10) : undefined;
 
   const timerStore = useTimerStore();
-  const settingsStore = useSettingsStore();
+  // Selective subscription: this screen only reads these 4 fields, but a
+  // whole-store useSettingsStore() would re-render the entire session screen
+  // whenever ANY setting changes anywhere in the app (dark mode, reminders,
+  // isPro, etc.), not just these.
+  const settingsStore = useSettingsStore(
+    useShallow((s) => ({
+      techniqueOverrides: s.techniqueOverrides,
+      safetyAccepted: s.safetyAccepted,
+      hapticsEnabled: s.hapticsEnabled,
+      soundStyle: s.soundStyle,
+    })),
+  );
   const addSession = useSessionsStore((s) => s.addSession);
 
   const technique = useMemo(() => {
@@ -156,6 +171,12 @@ export default function SessionScreen() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hapticIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [countdown, setCountdown] = useState<number | null>(3);
+  // Safety acknowledgement is deferred from onboarding to the first session.
+  const [showSafetyGate, setShowSafetyGate] = useState(!settingsStore.safetyAccepted);
+  const acceptSafety = useCallback(() => {
+    useSettingsStore.getState().setSetting('safetyAccepted', true);
+    setShowSafetyGate(false);
+  }, []);
   const countdownScale = useRef(new Animated.Value(1)).current;
   const countdownOpacity = useRef(new Animated.Value(1)).current;
   const hapticsEnabled = settingsStore.hapticsEnabled;
@@ -165,6 +186,7 @@ export default function SessionScreen() {
   // 3-2-1 countdown
   useEffect(() => {
     if (!technique || countdown === null) return;
+    if (showSafetyGate) return; // hold the 3-2-1 countdown until safety is acknowledged
     if (countdown <= 0) {
       setCountdown(null);
       timerStore.startSession(
@@ -211,7 +233,7 @@ export default function SessionScreen() {
     const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [technique, countdown]);
+  }, [technique, countdown, showSafetyGate]);
 
   // Haptic on inhale/exhale
   const prevPhaseRef = useRef<string | null>(null);
@@ -239,12 +261,14 @@ export default function SessionScreen() {
     if (currentPhaseVal === 'INHALE' || currentPhaseVal === 'EXHALE') {
       // Standard: rhythmic vibration during breathe in/out
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      if (hapticIntervalRef.current) { clearInterval(hapticIntervalRef.current); hapticIntervalRef.current = null; }
       hapticIntervalRef.current = setInterval(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       }, 300);
     } else if (currentPhaseVal === 'BREATHING' || currentPhaseVal === 'RAPID_SET') {
       // Power/Kapalabhati: light pulse during rapid breathing
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      if (hapticIntervalRef.current) { clearInterval(hapticIntervalRef.current); hapticIntervalRef.current = null; }
       hapticIntervalRef.current = setInterval(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       }, 500);
@@ -254,25 +278,38 @@ export default function SessionScreen() {
     } else if (currentPhaseVal === 'RECOVERY' || currentPhaseVal === 'REST') {
       // Recovery/Rest: gentle slow pulse
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      if (hapticIntervalRef.current) { clearInterval(hapticIntervalRef.current); hapticIntervalRef.current = null; }
       hapticIntervalRef.current = setInterval(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       }, 1000);
     }
   }, [timerStore.phase, timerStore.powerPhase, timerStore.kapalabhatiPhase, timerStore.mode, hapticsEnabled, soundOn, settingsStore.soundStyle]);
 
-  // Stop background audio + music on unmount
+  // Stop background audio + music on unmount — covers every exit path (Stop
+  // button, back-swipe, backgrounding, natural DONE-triggered navigation),
+  // since this screen always unmounts when the user leaves it one way or another.
   useEffect(() => {
     return () => {
+      releaseAllSessionAudio();
       stopBackgroundAudio();
       stopMusic();
       if (hapticIntervalRef.current) {
         clearInterval(hapticIntervalRef.current);
+        hapticIntervalRef.current = null;
+      }
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, []);
 
   // Tick — stable interval, checks isRunning inside
   useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
     intervalRef.current = setInterval(() => {
       const state = useTimerStore.getState();
       if (state.isRunning) {
@@ -302,8 +339,11 @@ export default function SessionScreen() {
     }
 
     const session: BreathingSession = {
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
-      userId: '',
+      // Must be a real UUID — the Supabase user_sessions.id column is typed
+      // uuid, and a non-UUID string here fails every sync push for this
+      // session with "invalid input syntax for type uuid" (22P02).
+      id: Crypto.randomUUID(),
+      userId: useAuthStore.getState().user?.id ?? '',
       date: getToday(),
       startedAt: timerStore.startedAt ?? new Date().toISOString(),
       completedAt: new Date().toISOString(),
@@ -329,6 +369,7 @@ export default function SessionScreen() {
     stopBackgroundAudio();
     stopMusic();
     addSession(session);
+    logSessionCompleted(session.techniqueId, session.totalDuration);
     timerStore.reset();
     router.replace({ pathname: '/summary', params: { sessionId: session.id, fromOnboarding: fromOnboarding ?? '', _dur: durationParam ?? '', _music: musicId ?? '' } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -369,6 +410,46 @@ export default function SessionScreen() {
           releaseAllSessionAudio();
           stopBackgroundAudio();
           stopMusic();
+
+          // Save what was actually done as an incomplete session — honoring
+          // "Your progress will be saved" instead of silently discarding it.
+          // computeStats()/checkAndUnlock() both filter to completed-only
+          // sessions, so this never inflates stats/streaks/badges.
+          const state = useTimerStore.getState();
+          if (technique && state.startedAt) {
+            const session: BreathingSession = {
+              // Must be a real UUID — the Supabase user_sessions.id column is typed
+      // uuid, and a non-UUID string here fails every sync push for this
+      // session with "invalid input syntax for type uuid" (22P02).
+      id: Crypto.randomUUID(),
+              userId: useAuthStore.getState().user?.id ?? '',
+              date: getToday(),
+              startedAt: state.startedAt,
+              completedAt: new Date().toISOString(),
+              completed: false,
+              techniqueId: technique.id,
+              cyclesCompleted: state.mode === 'standard' ? state.currentCycle
+                : state.mode === 'kapalabhati' ? state.currentSet : 0,
+              totalDuration: state.totalElapsed,
+              roundsCompleted: state.mode === 'power' ? state.currentRound
+                : state.mode === 'kapalabhati' ? state.currentSet : undefined,
+              retentionTimes: state.mode === 'power' ? state.retentionTimes : undefined,
+              bestRetention:
+                state.mode === 'power' && state.retentionTimes.length > 0
+                  ? Math.max(...state.retentionTimes)
+                  : undefined,
+              avgRetention:
+                state.mode === 'power' && state.retentionTimes.length > 0
+                  ? Math.round(state.retentionTimes.reduce((a, b) => a + b, 0) / state.retentionTimes.length)
+                  : undefined,
+              breathsPerRound: state.mode === 'power' ? state.targetBreaths : undefined,
+            };
+            addSession(session);
+            useTimerStore.getState().stop();
+            router.replace({ pathname: '/summary', params: { sessionId: session.id, fromOnboarding: fromOnboarding ?? '', _dur: durationParam ?? '', _music: musicId ?? '' } });
+            return;
+          }
+
           useTimerStore.getState().stop();
           if (router.canGoBack()) {
             router.back();
@@ -378,7 +459,7 @@ export default function SessionScreen() {
         },
       },
     ]);
-  }, [t]);
+  }, [t, technique, addSession, fromOnboarding, durationParam, musicId]);
 
   // Derived
   const currentPhase = useMemo(() => {
@@ -389,6 +470,33 @@ export default function SessionScreen() {
 
   const isRetention = timerStore.mode === 'power' &&
     (timerStore.powerPhase === 'RETENTION' || (timerStore.powerPhase === 'PAUSED' && timerStore.retentionTime > 0 && timerStore.breathCount >= timerStore.targetBreaths));
+
+  const phaseLabel = t(getPhaseLabel(currentPhase));
+  const phaseColor = '#FFFFFF';
+
+  // Fade animation for phase label transitions. Hoisted above the `!technique`
+  // guard below — phaseLabel only depends on currentPhase/timerStore, not on
+  // technique, and hooks can't be called conditionally: if techniqueId ever
+  // resolved to undefined after this screen already rendered with a valid
+  // technique (e.g. router.setParams to a bad id without a remount), these
+  // hooks previously sat after the early return and would throw "Rendered
+  // fewer hooks than expected."
+  const phaseLabelOpacity = useRef(new Animated.Value(1)).current;
+  const prevPhaseLabelRef = useRef(phaseLabel);
+  useEffect(() => {
+    if (prevPhaseLabelRef.current !== phaseLabel) {
+      prevPhaseLabelRef.current = phaseLabel;
+      phaseLabelOpacity.setValue(0);
+      Animated.timing(phaseLabelOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+      // The phase change is otherwise purely visual (shape animation + fading
+      // text) — announce it so VoiceOver users get the same cue with eyes closed.
+      AccessibilityInfo.announceForAccessibility(phaseLabel);
+    }
+  }, [phaseLabel, phaseLabelOpacity]);
 
   // Guard
   if (!technique) {
@@ -405,24 +513,6 @@ export default function SessionScreen() {
       </View>
     );
   }
-
-  const phaseLabel = t(getPhaseLabel(currentPhase));
-  const phaseColor = '#FFFFFF';
-
-  // Fade animation for phase label transitions
-  const phaseLabelOpacity = useRef(new Animated.Value(1)).current;
-  const prevPhaseLabelRef = useRef(phaseLabel);
-  useEffect(() => {
-    if (prevPhaseLabelRef.current !== phaseLabel) {
-      prevPhaseLabelRef.current = phaseLabel;
-      phaseLabelOpacity.setValue(0);
-      Animated.timing(phaseLabelOpacity, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [phaseLabel, phaseLabelOpacity]);
 
   // Sub-info
   const getSubInfo = (): string | null => {
@@ -518,6 +608,40 @@ export default function SessionScreen() {
   const bgImage = TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[technique.category];
   const overlayColor = isRetention ? COLORS.retention : techniqueColor;
 
+  // First-session safety acknowledgement (deferred from onboarding).
+  if (showSafetyGate) {
+    return (
+      <ImageBackground source={bgImage} style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 16 }]} resizeMode="cover">
+        <LinearGradient
+          colors={[overlayColor + 'E6', '#000000CC', '#000000F2']}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
+        <View style={styles.safetyGate}>
+          <Ionicons name="shield-checkmark-outline" size={scale(44)} color="#FFFFFF" />
+          <Text style={styles.safetyGateTitle}>{t('onboarding.safety')}</Text>
+          <View style={styles.safetyGateList}>
+            {['onboarding.safety1', 'onboarding.safety2', 'onboarding.safety3', 'onboarding.safety4'].map((k, i) => (
+              <View key={i} style={styles.safetyGateRow}>
+                <View style={styles.safetyGateDot}>
+                  <Text style={styles.safetyGateDotNum}>{i + 1}</Text>
+                </View>
+                <Text style={styles.safetyGateText}>{t(k)}</Text>
+              </View>
+            ))}
+          </View>
+          <TouchableOpacity style={[styles.safetyGateBtn, { backgroundColor: techniqueColor }]} onPress={acceptSafety} activeOpacity={0.85} accessibilityRole="button">
+            <Text style={styles.safetyGateBtnText}>{t('onboarding.understand')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.safetyGateBack} onPress={() => router.back()} activeOpacity={0.7} accessibilityRole="button">
+            <Text style={styles.safetyGateBackText}>{t('onboarding.back')}</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    );
+  }
+
   // Show countdown overlay
   if (countdown !== null && countdown > 0) {
     return (
@@ -567,6 +691,8 @@ export default function SessionScreen() {
           style={styles.stopBtn}
           onPress={handleStop}
           activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={t('common.close')}
         >
           <Ionicons name="close" size={22} color="#FFFFFF" />
         </TouchableOpacity>
@@ -626,6 +752,7 @@ export default function SessionScreen() {
             style={styles.exhaleButton}
             onPress={() => useTimerStore.getState().endRetention()}
             activeOpacity={0.8}
+            accessibilityRole="button"
           >
             <Text style={styles.exhaleButtonText}>{t('session.exhale')}</Text>
           </TouchableOpacity>
@@ -640,6 +767,8 @@ export default function SessionScreen() {
             style={styles.controlBtnSmall}
             onPress={toggleMusic}
             activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={musicOn ? t('session.musicOn') : t('session.musicOff')}
           >
             <Ionicons name={musicOn ? 'musical-notes' : 'musical-notes-outline'} size={22} color={musicOn ? '#FFFFFF' : 'rgba(255,255,255,0.5)'} />
           </TouchableOpacity>
@@ -651,6 +780,8 @@ export default function SessionScreen() {
             style={styles.controlBtn}
             onPress={() => { useTimerStore.getState().pause(); if (musicOn) pauseMusic(); }}
             activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={t('session.pause')}
           >
             <Ionicons name="pause" size={28} color="#FFFFFF" />
           </TouchableOpacity>
@@ -659,6 +790,8 @@ export default function SessionScreen() {
             style={[styles.controlBtn, styles.controlBtnActive]}
             onPress={() => { useTimerStore.getState().resume(); if (musicOn) resumeMusic(); }}
             activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={t('session.resume')}
           >
             <Ionicons name="play" size={28} color="#FFFFFF" />
           </TouchableOpacity>
@@ -746,7 +879,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.heavy,
     fontVariant: ['tabular-nums'],
     letterSpacing: -2,
-    marginBottom: 4,
+    marginBottom: 10,
   },
 
   // Phase text
@@ -756,13 +889,14 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     letterSpacing: -0.8,
     textAlign: 'center',
-    marginBottom: 4,
+    marginBottom: 10,
   },
   subInfo: {
     fontSize: 16,
     fontFamily: FONTS.medium,
     color: 'rgba(255,255,255,0.7)',
     letterSpacing: 0.2,
+    marginBottom: 10,
   },
 
   // Retention result
@@ -814,6 +948,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 40,
+    marginTop: 10,
     paddingBottom: 16,
   },
   controlBtnSmall: {
@@ -874,5 +1009,72 @@ const styles = StyleSheet.create({
   ghostBtnText: {
     fontSize: 14,
     fontFamily: FONTS.medium,
+  },
+
+  // First-session safety gate
+  safetyGate: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: SPACING.lg,
+  },
+  safetyGateTitle: {
+    fontSize: 28,
+    fontFamily: FONTS.heavy,
+    color: '#FFFFFF',
+    letterSpacing: -0.4,
+    marginTop: SPACING.md,
+    marginBottom: SPACING.xl,
+  },
+  safetyGateList: {
+    gap: SPACING.lg,
+    marginBottom: SPACING.xl,
+  },
+  safetyGateRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  safetyGateDot: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  safetyGateDotNum: {
+    fontFamily: FONTS.bold,
+    fontSize: 12,
+    color: '#FFFFFF',
+  },
+  safetyGateText: {
+    flex: 1,
+    fontFamily: FONTS.medium,
+    fontSize: 16,
+    lineHeight: 23,
+    color: '#FFFFFF',
+  },
+  safetyGateBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    borderRadius: 14,
+  },
+  safetyGateBtnText: {
+    color: '#FFFFFF',
+    fontFamily: FONTS.bold,
+    fontSize: 17,
+  },
+  safetyGateBack: {
+    alignItems: 'center',
+    paddingVertical: SPACING.md,
+  },
+  safetyGateBackText: {
+    fontFamily: FONTS.medium,
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.65)',
+    textDecorationLine: 'underline',
   },
 });

@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Avaleht',
   'tabs.breathe': 'Hinga',
   'tabs.history': 'Edenemine',
-  'tabs.badges': 'M\u00e4rgised',
+  'tabs.badges': 'Autasud',
   'tabs.settings': 'Seaded',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Unine',
   'summary.done': 'Valmis',
   'summary.repeat': 'Korda',
+  'summary.dontSave': 'Ära salvesta',
+  'summary.discardTitle': 'Kas mitte salvestada seda seanssi?',
+  'summary.discardMessage': 'See seanss eemaldatakse ega arvestata sinu statistikas ega seerias.',
   'summary.share': 'Jaga',
   'summary.shareText': 'L\u00f5petasin just {{duration}} {{technique}} hingamisseansi BreathFlow\'iga! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'L\u00f5petasin just {{duration}} {{technique}} hingamisseansi BreathFlow\'iga! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Seaded',
+  'settings.preferences': 'Eelistused',
   'settings.feedback': 'Helid',
   'settings.sound': 'Heli',
   'settings.soundStyle': 'Helisliil',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Sportlaste usaldatud',
   'onboarding.socialProof2': 'Stanfordi toetatud',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Sea oma igap\u00e4evane eesm\u00e4rk',
-  'onboarding.commitSub': 'V\u00e4ikesed igap\u00e4evased harjumused loovad p\u00fcsiva muutuse.',
   'onboarding.commitMinUnit': 'min / p\u00e4ev',
   'onboarding.commitHint_3': 'Isegi 3-minutiline seanss v\u00f5ib aidata teie n\u00e4rvis\u00fcsteemi rahustada.',
   'onboarding.commitHint_5': 'Stanfordi uuringud seovad aeglast hingamist v\u00e4iksema stressi ja parema unega.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-p\u00e4evane seeria',
 
   // Badges screen
-  'badges.title': 'M\u00e4rgised',
+  'badges.title': 'Autasud',
   'badges.unlocked': 'Avatud',
   'badges.locked': 'Lukustatud',
   'badges.progress': '{{unlocked}} / {{total}} m\u00e4rgist',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'K\u00f5ik 10 hingamistehnikat',
   'paywall.feature2': 'K\u00f5ik muusikapalad',
   'paywall.feature3': 'Ava k\u00f5ik m\u00e4rgised',
-  'paywall.feature4': 'T\u00e4ielik ajalugu ja statistika',
+  'paywall.featureAppleHealth': 'Apple Healthi sünkroonimine',
   'paywall.feature5': 'Meeleolu j\u00e4lgimine',
   'paywall.feature6': 'K\u00f5ik m\u00e4rgised',
   'paywall.purchase': 'Osta hinnaga {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Sel p\u00e4eval seansse pole',
   'history.allTimeStats': 'K\u00f5ikide Aegade Statistika',
   'history.unlockFullHistory': 'Ava t\u00e4isajalugu Proga',
+  'history.unlockFullHistoryDesc': 'Vaata oma täielikku edenemist ja kõikaegset statistikat',
   'history.weeklyActivity': 'N\u00e4dalik Aktiivsus',
   'history.badges': 'M\u00e4rgised',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'Taastatavaid oste pole.',
   'settings.restoreFailed': 'Taastamine eba\u00f5nnestus. Proovi uuesti.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'S\u00fcnkrooni Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Apple Healthi sünkroonimine',
   'settings.privacyPolicy': 'Privaatsuspoliitika',
   'settings.termsOfService': 'Kasutustingimused',
   'settings.restorePurchases': 'Taasta Ostud',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'Toode pole saadaval. Proovi hiljem uuesti.',
   'paywall.restoreSuccessTitle': 'Taastatud',
   'paywall.restoreSuccessMessage': 'Sinu ostud on taastatud.',
+  'paywall.welcomeTitle': 'Tere tulemast Pro\'sse',
+  'paywall.welcomeMessage': 'Kõik tehnikad ja funktsioonid on nüüd avatud.',
+  'paywall.welcomeCta': 'Jätka',
   'paywall.restoreTitle': 'Taasta',
   'paywall.restoreNoPurchases': 'Taastatavaid oste ei leitud.',
   'paywall.oneTimePayment': '\u00dchekordne makse',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'Ava igaveseks',
   'paywall.startAnnual': 'Alusta aastaplaan',
   'paywall.startWeekly': 'Alusta n\u00e4dalane',
-  'paywall.hideOptions': 'Peida valikud',
   'paywall.then': 'seej\u00e4rel',
   'paywall.weeklyAutoRenew': 'automaatne uuendamine',
   'paywall.weeklyTrial': '3-p\u00e4evane tasuta prooviperiood',
@@ -604,6 +609,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Edenemise j\u00e4lgimine aja jooksul',
   'onboarding.appleHealthBullet3': 'Sinu andmed j\u00e4\u00e4vad privaatseks',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Liitu 1000+ inimesega, kes hingavad paremini',
+  'onboarding.socialProofSub': 'Päris inimesed, päris tulemused.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Turundusdirektor, NYC',
+  'onboarding.t1Text': '„Teen voodis 4-7-8 ja jään 5 minutiga magama. Pärast aastaid unetust on see ulme.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Tarkvarainsener',
+  'onboarding.t2Text': '„Kasti hingamine enne sügavat tööd on nagu vaimne soojendus.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeut',
+  'onboarding.t3Text': '„Soovitan BreathFlow paanikahäiretega klientidele. Füsioloogiline ohe töötab sekunditega.“',
+  'onboarding.rateTitle': 'Aita kujundada BreathFlow tulevikku',
+  'onboarding.rateSub': 'Jaga oma mõtteid ja aita meil teenust paremaks muuta — kasulikumaks, nauditavamaks ja sinu vajadustele kohandatumaks.',
+  'onboarding.rateCta': 'Edasi',
+
   // Paywall \u2014 personalized headlines
   'paywall.heroCalm': 'Hinga s\u00fcgava rahu jaoks',
   'paywall.heroSleep': 'Uinu minutitega',
@@ -637,4 +658,31 @@ export default {
   'notifications.tip5': 'Juba 5 minutit teadlikku hingamist muudab meeleolu.',
   'notifications.tip6': 'Aeglane hingamine aktiveerib paras\u00fcmpaatilise n\u00e4rvis\u00fcsteemi.',
   'notifications.tip7': 'J\u00e4rjepidev harjutamine loob aja jooksul vastupidavust.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Muuda see harjumuseks",
+  'summary.habitReminderTitle': "Igapäevane meeldetuletus",
+  'summary.habitReminderSub': "Õrn meeldetuletus iga päev hingata",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Salvesta seansid teadveloleku minutitena",
+  'settings.resetOnboarding': "Lähtesta sissejuhatus",
+  'settings.resetOnboardingConfirm': "Kas käivitada sissejuhatus uuesti? See aktiveerib uuesti ka esimese seansi turvakuva.",
+  'settings.resetOnboardingConfirmCta': "Lähtesta",
+  'settings.developer': "Arendaja",
+  'paywall.errorGeneric': "Midagi läks valesti. Palun proovi uuesti.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Vaigista muusika",
+  'session.musicOff': "Esita muusikat",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Suurenda",
+  'common.decrease': "Vähenda",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "SÄÄSTA {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/nädal",
+  'paywall.startTrialWeekly': "Proovi 3 päeva tasuta",
+  'paywall.startTrialAnnual': "Proovi 7 päeva tasuta",
+  'paywall.cancelAnytime': "Tühista igal ajal · Kohustusteta",
 };

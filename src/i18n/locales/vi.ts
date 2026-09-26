@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Trang ch\u1EE7',
   'tabs.breathe': 'Th\u1EDF',
   'tabs.history': 'Ti\u1EBFn tr\u00ECnh',
-  'tabs.badges': 'Huy hi\u1EC7u',
+  'tabs.badges': 'Giải thưởng',
   'tabs.settings': 'C\u00E0i \u0111\u1EB7t',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Bu\u1ED3n ng\u1EE7',
   'summary.done': 'Xong',
   'summary.repeat': 'L\u1EB7p l\u1EA1i',
+  'summary.dontSave': 'Không lưu',
+  'summary.discardTitle': 'Không lưu phiên này?',
+  'summary.discardMessage': 'Phiên này sẽ bị xóa và sẽ không được tính vào số liệu thống kê hoặc chuỗi ngày của bạn.',
   'summary.share': 'Chia s\u1EBB',
   'summary.shareText': 'T\u00F4i v\u1EEBa ho\u00E0n th\u00E0nh phi\u00EAn th\u1EDF {{technique}} {{duration}} v\u1EDBi BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'T\u00F4i v\u1EEBa ho\u00E0n th\u00E0nh phi\u00EAn th\u1EDF {{technique}} {{duration}} v\u1EDBi BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'C\u00E0i \u0111\u1EB7t',
+  'settings.preferences': 'Tùy chọn',
   'settings.feedback': '\u00C2m thanh',
   'settings.sound': '\u00C2m thanh',
   'settings.soundStyle': 'Ki\u1EC3u \u00E2m thanh',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': '\u0110\u01B0\u1EE3c tin d\u00F9ng b\u1EDFi v\u1EADn \u0111\u1ED9ng vi\u00EAn',
   'onboarding.socialProof2': '\u0110\u01B0\u1EE3c Stanford h\u1ED7 tr\u1EE3',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '\u0110\u1EB7t m\u1EE5c ti\u00EAu h\u00E0ng ng\u00E0y c\u1EE7a b\u1EA1n',
-  'onboarding.commitSub': 'Nh\u1EEFng th\u00F3i quen nh\u1ECF h\u00E0ng ng\u00E0y t\u1EA1o ra s\u1EF1 thay \u0111\u1ED5i b\u1EC1n v\u1EEFng.',
   'onboarding.commitMinUnit': 'ph\u00FAt / ng\u00E0y',
   'onboarding.commitHint_3': 'Ch\u1EC9 c\u1EA7n 3 ph\u00FAt c\u0169ng c\u00F3 th\u1EC3 gi\u00FAp h\u1EC7 th\u1EA7n kinh b\u00ECnh t\u0129nh l\u1EA1i.',
   'onboarding.commitHint_5': 'Nghi\u00EAn c\u1EE9u c\u1EE7a Stanford k\u1EBFt n\u1ED1i h\u01A1i th\u1EDF ch\u1EADm v\u1EDBi \u00EDt c\u0103ng th\u1EB3ng h\u01A1n v\u00E0 ng\u1EE7 ngon h\u01A1n.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': 'Chu\u1ED7i 365 ng\u00E0y',
 
   // Badges screen
-  'badges.title': 'Huy hi\u1EC7u',
+  'badges.title': 'Giải thưởng',
   'badges.unlocked': '\u0110\u00E3 m\u1EDF kh\u00F3a',
   'badges.locked': '\u0110ang kh\u00F3a',
   'badges.progress': '{{unlocked}} tr\u00EAn {{total}} huy hi\u1EC7u',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'T\u1EA5t c\u1EA3 10 k\u1EF9 thu\u1EADt th\u1EDF',
   'paywall.feature2': 'T\u1EA5t c\u1EA3 b\u1EA3n nh\u1EA1c',
   'paywall.feature3': 'M\u1EDF kh\u00F3a t\u1EA5t c\u1EA3 huy hi\u1EC7u',
-  'paywall.feature4': 'L\u1ECBch s\u1EED \u0111\u1EA7y \u0111\u1EE7 v\u00E0 th\u1ED1ng k\u00EA',
+  'paywall.featureAppleHealth': 'Đồng bộ Apple Health',
   'paywall.feature5': 'Theo d\u00F5i t\u00E2m tr\u1EA1ng',
   'paywall.feature6': 'T\u1EA5t c\u1EA3 huy hi\u1EC7u',
   'paywall.purchase': 'Mua v\u1EDBi gi\u00E1 {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Kh\u00F4ng c\u00F3 phi\u00EAn n\u00E0o v\u00E0o ng\u00E0y n\u00E0y',
   'history.allTimeStats': 'Th\u1ED1ng k\u00EA m\u1ECDi th\u1EDDi \u0111\u1EA1i',
   'history.unlockFullHistory': 'M\u1EDF kh\u00F3a l\u1ECBch s\u1EED \u0111\u1EA7y \u0111\u1EE7 v\u1EDBi Pro',
+  'history.unlockFullHistoryDesc': 'Xem toàn bộ tiến trình và số liệu thống kê mọi thời điểm của bạn',
   'history.weeklyActivity': 'Ho\u1EA1t \u0111\u1ED9ng h\u00E0ng tu\u1EA7n',
   'history.badges': 'Huy hi\u1EC7u',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'Kh\u00F4ng c\u00F3 mua h\u00E0ng \u0111\u1EC3 kh\u00F4i ph\u1EE5c.',
   'settings.restoreFailed': 'Kh\u00F4i ph\u1EE5c th\u1EA5t b\u1EA1i. Vui l\u00F2ng th\u1EED l\u1EA1i.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': '\u0110\u1ED3ng b\u1ED9 Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Đồng bộ Apple Health',
   'settings.privacyPolicy': 'Ch\u00EDnh s\u00E1ch b\u1EA3o m\u1EADt',
   'settings.termsOfService': '\u0110i\u1EC1u kho\u1EA3n d\u1ECBch v\u1EE5',
   'settings.restorePurchases': 'Kh\u00F4i ph\u1EE5c mua h\u00E0ng',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'S\u1EA3n ph\u1EA9m kh\u00F4ng kh\u1EA3 d\u1EE5ng. Vui l\u00F2ng th\u1EED l\u1EA1i sau.',
   'paywall.restoreSuccessTitle': '\u0110\u00E3 kh\u00F4i ph\u1EE5c',
   'paywall.restoreSuccessMessage': 'Mua h\u00E0ng c\u1EE7a b\u1EA1n \u0111\u00E3 \u0111\u01B0\u1EE3c kh\u00F4i ph\u1EE5c.',
+  'paywall.welcomeTitle': 'Chào mừng đến với Pro',
+  'paywall.welcomeMessage': 'Tất cả kỹ thuật và tính năng hiện đã được mở khóa.',
+  'paywall.welcomeCta': 'Tiếp tục',
   'paywall.restoreTitle': 'Kh\u00F4i ph\u1EE5c',
   'paywall.restoreNoPurchases': 'Kh\u00F4ng t\u00ECm th\u1EA5y mua h\u00E0ng \u0111\u1EC3 kh\u00F4i ph\u1EE5c.',
   'paywall.oneTimePayment': 'Thanh to\u00E1n m\u1ED9t l\u1EA7n',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'M\u1EDF kh\u00F3a v\u0129nh vi\u1EC5n',
   'paywall.startAnnual': 'B\u1EAFt \u0111\u1EA7u g\u00F3i n\u0103m',
   'paywall.startWeekly': 'B\u1EAFt \u0111\u1EA7u h\u00E0ng tu\u1EA7n',
-  'paywall.hideOptions': '\u1EA8n t\u00F9y ch\u1ECDn',
   'paywall.then': 'sau \u0111\u00F3',
   'paywall.weeklyAutoRenew': 't\u1EF1 \u0111\u1ED9ng gia h\u1EA1n',
   'paywall.weeklyTrial': 'D\u00F9ng th\u1EED mi\u1EC5n ph\u00ED 3 ng\u00E0y',
@@ -604,6 +609,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Theo d\u00F5i ti\u1EBFn tr\u00ECnh theo th\u1EDDi gian',
   'onboarding.appleHealthBullet3': 'D\u1EEF li\u1EC7u c\u1EE7a b\u1EA1n v\u1EABn ri\u00EAng t\u01B0',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Tham gia cùng 1.000+ người hít thở tốt hơn',
+  'onboarding.socialProofSub': 'Người thật, kết quả thật.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Giám đốc tiếp thị, NYC',
+  'onboarding.t1Text': '“Tôi làm 4-7-8 trên giường và ngủ trong 5 phút. Sau nhiều năm mất ngủ, điều này thật tuyệt.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Kỹ sư phần mềm',
+  'onboarding.t2Text': '“Thở hộp trước khi làm việc sâu giống như khởi động tinh thần.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Nhà trị liệu',
+  'onboarding.t3Text': '“Tôi khuyên BreathFlow cho khách hàng bị rối loạn hoảng sợ.”',
+  'onboarding.rateTitle': 'Giúp định hình tương lai của BreathFlow',
+  'onboarding.rateSub': 'Chia sẻ suy nghĩ và giúp chúng tôi cải thiện dịch vụ — hữu ích hơn, thú vị hơn và phù hợp hơn với nhu cầu của bạn.',
+  'onboarding.rateCta': 'Tiếp theo',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'T\u1EEB c\u0103ng th\u1EB3ng \u0111\u1EBFn b\u00ECnh t\u0129nh \u2014 trong v\u00E0i ph\u00FAt',
   'paywall.heroSleep': 'Ng\u1EE7 trong v\u00E0i ph\u00FAt, kh\u00F4ng ph\u1EA3i v\u00E0i gi\u1EDD',
@@ -639,4 +660,31 @@ export default {
   'notifications.tip5': 'Th\u1EDF v\u1EDBi 5,5 h\u01A1i/ph\u00FAt t\u1ED1i \u01B0u h\u00F3a bi\u1EBFn thi\u00EAn nh\u1ECBp tim.',
   'notifications.tip6': 'Ngay c\u1EA3 1 ph\u00FAt th\u1EDF c\u00F3 \u00FD th\u1EE9c c\u0169ng t\u1EA1o ra s\u1EF1 kh\u00E1c bi\u1EC7t.',
   'notifications.tip7': 'Th\u1EDF ra d\u00E0i n\u00F3i v\u1EDBi c\u01A1 th\u1EC3 r\u1EB1ng an to\u00E0n \u0111\u1EC3 th\u01B0 gi\u00E3n.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Biến nó thành thói quen",
+  'summary.habitReminderTitle': "Nhắc nhở hàng ngày",
+  'summary.habitReminderSub': "Một lời nhắc nhẹ nhàng để thở mỗi ngày",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Lưu các buổi tập dưới dạng Phút Chánh niệm",
+  'settings.resetOnboarding': "Đặt lại hướng dẫn ban đầu",
+  'settings.resetOnboardingConfirm': "Phát lại quy trình giới thiệu? Thao tác này cũng sẽ kích hoạt lại màn hình an toàn của buổi tập đầu tiên.",
+  'settings.resetOnboardingConfirmCta': "Đặt lại",
+  'settings.developer': "Nhà phát triển",
+  'paywall.errorGeneric': "Đã xảy ra sự cố. Vui lòng thử lại.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Tắt tiếng nhạc",
+  'session.musicOff': "Phát nhạc",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Tăng",
+  'common.decrease': "Giảm",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "TIẾT KIỆM {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/tuần",
+  'paywall.startTrialWeekly': "Dùng thử miễn phí 3 ngày",
+  'paywall.startTrialAnnual': "Dùng thử miễn phí 7 ngày",
+  'paywall.cancelAnytime': "Hủy bất cứ lúc nào · Không ràng buộc",
 };

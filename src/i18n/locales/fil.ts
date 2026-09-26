@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Home',
   'tabs.breathe': 'Huminga',
   'tabs.history': 'Progreso',
-  'tabs.badges': 'Mga Badge',
+  'tabs.badges': 'Mga Parangal',
   'tabs.settings': 'Mga Setting',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'Inaantok',
   'summary.done': 'Tapos',
   'summary.repeat': 'Ulitin',
+  'summary.dontSave': 'Huwag I-save',
+  'summary.discardTitle': 'Huwag i-save ang session na ito?',
+  'summary.discardMessage': 'Aalisin ang session na ito at hindi ito mabibilang sa iyong stats o streak.',
   'summary.share': 'Ibahagi',
   'summary.shareText': 'Natapos ko ang isang {{duration}} {{technique}} breathing session sa BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Natapos ko ang isang {{duration}} {{technique}} breathing session sa BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Mga Setting',
+  'settings.preferences': 'Kagustuhan',
   'settings.feedback': 'Mga Tunog',
   'settings.sound': 'Tunog',
   'settings.soundStyle': 'Estilo ng Tunog',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'Pinagkakatiwalaan ng mga atleta',
   'onboarding.socialProof2': 'Sinusuportahan ng Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Itakda ang iyong pang-araw-araw na layunin',
-  'onboarding.commitSub': 'Ang maliliit na pang-araw-araw na gawi ay lumilikha ng pangmatagalang pagbabago.',
   'onboarding.commitMinUnit': 'min / araw',
   'onboarding.commitHint_3': 'Kahit isang 3-minutong sesyon ay makakatulong na pakalmahin ang iyong nervous system.',
   'onboarding.commitHint_5': 'Ikinonekta ng pananaliksik ng Stanford ang mabagal na paghinga sa mas kaunting stress at mas magandang tulog.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365-araw na streak',
 
   // Badges screen
-  'badges.title': 'Mga Badge',
+  'badges.title': 'Mga Parangal',
   'badges.unlocked': 'Na-unlock',
   'badges.locked': 'Naka-lock',
   'badges.progress': '{{unlocked}} sa {{total}} badge',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'Lahat ng 10 Breathing Techniques',
   'paywall.feature2': 'Lahat ng Music Tracks',
   'paywall.feature3': 'I-unlock Lahat ng Badges',
-  'paywall.feature4': 'Buong History at Stats',
+  'paywall.featureAppleHealth': 'Pag-sync sa Apple Health',
   'paywall.feature5': 'Pagsubaybay ng mood',
   'paywall.feature6': 'Lahat ng badges',
   'paywall.purchase': 'Bilhin sa halagang {{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'Walang sesyon sa araw na ito',
   'history.allTimeStats': 'Lahat ng Oras na Stats',
   'history.unlockFullHistory': 'I-unlock ang buong history gamit ang Pro',
+  'history.unlockFullHistoryDesc': 'Tingnan ang buong pag-unlad at all-time stats mo',
   'history.weeklyActivity': 'Lingguhang Aktibidad',
   'history.badges': 'Mga Badge',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'Walang maisasauli na binili.',
   'settings.restoreFailed': 'Nabigo ang pag-restore. Pakisubukang muli.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'I-sync ang Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Pag-sync sa Apple Health',
   'settings.privacyPolicy': 'Patakaran sa Privacy',
   'settings.termsOfService': 'Mga Tuntunin ng Serbisyo',
   'settings.restorePurchases': 'I-restore ang mga Binili',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'Hindi available ang produkto. Pakisubukang muli mamaya.',
   'paywall.restoreSuccessTitle': 'Na-restore',
   'paywall.restoreSuccessMessage': 'Na-restore na ang iyong mga binili.',
+  'paywall.welcomeTitle': 'Maligayang pagdating sa Pro',
+  'paywall.welcomeMessage': 'Bukas na ngayon ang lahat ng teknik at feature.',
+  'paywall.welcomeCta': 'Magpatuloy',
   'paywall.restoreTitle': 'I-restore',
   'paywall.restoreNoPurchases': 'Walang nahanap na mga binili na ire-restore.',
   'paywall.oneTimePayment': 'Isang-beses na bayad',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'I-unlock Magpakailanman',
   'paywall.startAnnual': 'Simulan ang Taunang Plano',
   'paywall.startWeekly': 'Simulan ang Lingguhan',
-  'paywall.hideOptions': 'Itago ang mga Opsyon',
   'paywall.then': 'pagkatapos',
   'paywall.weeklyAutoRenew': 'awtomatikong nire-renew',
   'paywall.weeklyTrial': '3-araw na libreng pagsubok',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Awtomatikong pag-log ng Mindful Minutes',
   'onboarding.appleHealthBullet2': 'Pagsubaybay ng data ng HRV',
   'onboarding.appleHealthBullet3': 'Ang iyong data ay nananatiling pribado',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Sumali sa 1,000+ na mas mahusay na humihinga',
+  'onboarding.socialProofSub': 'Tunay na tao, tunay na resulta.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Marketing director, NYC',
+  'onboarding.t1Text': '“Ginagawa ko ang 4-7-8 sa kama at natutulog ako sa loob ng 5 minuto.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Software engineer',
+  'onboarding.t2Text': '“Ang box breathing bago ang mahalagang trabaho ay parang mental warm-up.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Therapist',
+  'onboarding.t3Text': '“Inirerekomenda ko ang BreathFlow sa mga kliyenteng may panic disorder.”',
+  'onboarding.rateTitle': 'Tumulong na hubugin ang kinabukasan ng BreathFlow',
+  'onboarding.rateSub': 'Ibahagi ang iyong mga saloobin at tulungan kaming gawing mas mahusay ang aming serbisyo.',
+  'onboarding.rateCta': 'Susunod',
   'onboarding.connectHealth': 'Ikonekta ang Apple Health',
   'onboarding.healthSkip': 'Laktawan',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'Kahit 5 minuto lamang ng maingat na paghinga ay nagbabago ng mood.',
   'notifications.tip6': 'Ang mabagal na paghinga ay nag-a-activate ng parasympathetic nervous system.',
   'notifications.tip7': 'Ang konsistenteng pagsasanay ay nagtatayo ng katatagan sa paglipas ng panahon.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Gawin itong ugali",
+  'summary.habitReminderTitle': "Araw-araw na paalala",
+  'summary.habitReminderSub': "Isang magandang paalala na huminga araw-araw",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "I-save ang mga sesyon bilang Mindful Minutes",
+  'settings.resetOnboarding': "I-reset ang Onboarding",
+  'settings.resetOnboardingConfirm': "Ulitin ang onboarding flow? Ire-reactivate din nito ang safety screen ng unang sesyon.",
+  'settings.resetOnboardingConfirmCta': "I-reset",
+  'settings.developer': "Developer",
+  'paywall.errorGeneric': "May naganap na problema. Pakisubukang muli.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "I-mute ang musika",
+  'session.musicOff': "I-play ang musika",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Dagdagan",
+  'common.decrease': "Bawasan",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "MAKATIPID NG {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/linggo",
+  'paywall.startTrialWeekly': "Subukan nang Libre sa loob ng 3 Araw",
+  'paywall.startTrialAnnual': "Subukan nang Libre sa loob ng 7 Araw",
+  'paywall.cancelAnytime': "Kanselahin anumang oras · Walang commitment",
 };

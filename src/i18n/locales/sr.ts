@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\u0413\u043B\u0430\u0432\u043D\u0430',
   'tabs.breathe': '\u0414\u0438\u0448\u0438',
   'tabs.history': '\u041D\u0430\u043F\u0440\u0435\u0434\u0430\u043A',
-  'tabs.badges': '\u0417\u043D\u0430\u0447\u043A\u0435',
+  'tabs.badges': 'Награде',
   'tabs.settings': '\u041F\u043E\u0434\u0435\u0448\u0430\u0432\u0430\u045A\u0430',
 
   // Home screen
@@ -162,6 +162,9 @@ export default {
   'summary.moodSleepy': '\u041F\u043E\u0441\u043F\u0430\u043D\u043E',
   'summary.done': '\u0413\u043E\u0442\u043E\u0432\u043E',
   'summary.repeat': '\u041F\u043E\u043D\u043E\u0432\u0438',
+  'summary.dontSave': 'Не чувај',
+  'summary.discardTitle': 'Не чувати ову сесију?',
+  'summary.discardMessage': 'Ова сесија ће бити уклоњена и неће се рачунати у вашу статистику или низ.',
   'summary.share': '\u041F\u043E\u0434\u0435\u043B\u0438',
   'summary.shareText': '\u0423\u043F\u0440\u0430\u0432\u043E \u0441\u0430\u043C \u0437\u0430\u0432\u0440\u0448\u0438\u043E/\u043B\u0430 {{duration}} {{technique}} \u0441\u0435\u0441\u0438\u0458\u0443 \u0434\u0438\u0441\u0430\u045A\u0430 \u0441\u0430 BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': '\u0423\u043F\u0440\u0430\u0432\u043E \u0441\u0430\u043C \u0437\u0430\u0432\u0440\u0448\u0438\u043E/\u043B\u0430 {{duration}} {{technique}} \u0441\u0435\u0441\u0438\u0458\u0443 \u0434\u0438\u0441\u0430\u045A\u0430 \u0441\u0430 BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -226,6 +229,7 @@ export default {
 
   // Settings screen
   'settings.title': '\u041F\u043E\u0434\u0435\u0448\u0430\u0432\u0430\u045A\u0430',
+  'settings.preferences': 'Преференције',
   'settings.feedback': '\u0417\u0432\u0443\u0446\u0438',
   'settings.sound': '\u0417\u0432\u0443\u043A',
   'settings.soundStyle': '\u0421\u0442\u0438\u043B \u0437\u0432\u0443\u043A\u0430',
@@ -303,8 +307,6 @@ export default {
   'onboarding.socialProof1': '\u041F\u043E\u0432\u0435\u0440\u0435\u045A\u0435 \u0441\u043F\u043E\u0440\u0442\u0438\u0441\u0442\u0430',
   'onboarding.socialProof2': '\u041F\u043E\u0442\u043A\u0440\u0435\u043F\u0459\u0435\u043D\u043E \u0421\u0442\u0435\u043D\u0444\u043E\u0440\u0434\u043E\u043C',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '\u041F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u0435 \u0441\u0432\u0430\u043A\u043E\u0434\u043D\u0435\u0432\u043D\u0438 \u0446\u0438\u0459',
-  'onboarding.commitSub': '\u041C\u0430\u043B\u0435 \u0441\u0432\u0430\u043A\u043E\u0434\u043D\u0435\u0432\u043D\u0435 \u043D\u0430\u0432\u0438\u043A\u0435 \u0441\u0442\u0432\u0430\u0440\u0430\u0458\u0443 \u0442\u0440\u0430\u0458\u043D\u0435 \u043F\u0440\u043E\u043C\u0435\u043D\u0435.',
   'onboarding.commitMinUnit': '\u043C\u0438\u043D / \u0434\u0430\u043D',
   'onboarding.commitHint_3': '\u0427\u0430\u043A \u0438 \u0441\u0435\u0441\u0438\u0458\u0430 \u043E\u0434 3 \u043C\u0438\u043D\u0443\u0442\u0430 \u043C\u043E\u0436\u0435 \u043F\u043E\u043C\u043E\u045B\u0438 \u0434\u0430 \u0441\u043C\u0438\u0440\u0438\u0442\u0435 \u043D\u0435\u0440\u0432\u043D\u0438 \u0441\u0438\u0441\u0442\u0435\u043C.',
   'onboarding.commitHint_5': '\u0418\u0441\u0442\u0440\u0430\u0436\u0438\u0432\u0430\u045A\u0435 \u0421\u0442\u0435\u043D\u0444\u043E\u0440\u0434\u0430 \u043F\u043E\u0432\u0435\u0437\u0443\u0458\u0435 \u0441\u043F\u043E\u0440\u043E \u0434\u0438\u0441\u0430\u045A\u0435 \u0441\u0430 \u043C\u0430\u045A\u0438\u043C \u0441\u0442\u0440\u0435\u0441\u043E\u043C \u0438 \u0431\u043E\u0459\u0438\u043C \u0441\u043D\u043E\u043C.',
@@ -359,7 +361,7 @@ export default {
   'badges.year_legend.description': '\u041D\u0438\u0437 \u043E\u0434 365 \u0434\u0430\u043D\u0430',
 
   // Badges screen
-  'badges.title': '\u0417\u043D\u0430\u0447\u043A\u0435',
+  'badges.title': 'Награде',
   'badges.unlocked': '\u041E\u0442\u043A\u0459\u0443\u0447\u0430\u043D\u0435',
   'badges.locked': '\u0417\u0430\u043A\u0459\u0443\u0447\u0430\u043D\u0435',
   'badges.progress': '{{unlocked}} \u043E\u0434 {{total}} \u0437\u043D\u0430\u0447\u043A\u0438',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': '\u0421\u0432\u0438\u0445 10 \u0442\u0435\u0445\u043D\u0438\u043A\u0430 \u0434\u0438\u0441\u0430\u045A\u0430',
   'paywall.feature2': '\u0421\u0432\u0438 \u043C\u0443\u0437\u0438\u0447\u043A\u0438 \u0437\u0430\u043F\u0438\u0441\u0438',
   'paywall.feature3': '\u041E\u0442\u043A\u0459\u0443\u0447\u0430\u0458 \u0441\u0432\u0435 \u0437\u043D\u0430\u0447\u043A\u0435',
-  'paywall.feature4': '\u041F\u043E\u0442\u043F\u0443\u043D\u0430 \u0438\u0441\u0442\u043E\u0440\u0438\u0458\u0430 \u0438 \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430',
+  'paywall.featureAppleHealth': 'Синхронизација са Apple Health',
   'paywall.feature5': '\u041F\u0440\u0430\u045B\u0435\u045A\u0435 \u0440\u0430\u0441\u043F\u043E\u043B\u043E\u0436\u0435\u045A\u0430',
   'paywall.feature6': '\u0421\u0432\u0435 \u0437\u043D\u0430\u0447\u043A\u0435',
   'paywall.purchase': '\u041A\u0443\u043F\u0438 \u0437\u0430 {{price}}',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': '\u041D\u0435\u043C\u0430 \u0441\u0435\u0441\u0438\u0458\u0430 \u043E\u0432\u043E\u0433 \u0434\u0430\u043D\u0430',
   'history.allTimeStats': '\u0423\u043A\u0443\u043F\u043D\u0430 \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430',
   'history.unlockFullHistory': '\u041E\u0442\u043A\u0459\u0443\u0447\u0430\u0458\u0442\u0435 \u043F\u043E\u0442\u043F\u0443\u043D\u0443 \u0438\u0441\u0442\u043E\u0440\u0438\u0458\u0443 \u0441\u0430 Pro',
+  'history.unlockFullHistoryDesc': 'Погледајте свој потпуни напредак и укупну статистику',
   'history.weeklyActivity': '\u041D\u0435\u0434\u0435\u0459\u043D\u0430 \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442',
   'history.badges': '\u0417\u043D\u0430\u0447\u043A\u0435',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': '\u041D\u0435\u043C\u0430 \u043A\u0443\u043F\u043E\u0432\u0438\u043D\u0430 \u0437\u0430 \u043E\u0431\u043D\u043E\u0432\u0443.',
   'settings.restoreFailed': '\u041E\u0431\u043D\u043E\u0432\u0430 \u043D\u0438\u0458\u0435 \u0443\u0441\u043F\u0435\u043B\u0430. \u041F\u043E\u043A\u0443\u0448\u0430\u0458\u0442\u0435 \u043F\u043E\u043D\u043E\u0432\u043E.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': '\u0421\u0438\u043D\u0445\u0440\u043E\u043D\u0438\u0437\u0443\u0458 Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Синхронизација са Apple Health',
   'settings.privacyPolicy': '\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u043F\u0440\u0438\u0432\u0430\u0442\u043D\u043E\u0441\u0442\u0438',
   'settings.termsOfService': '\u0423\u0441\u043B\u043E\u0432\u0438 \u043A\u043E\u0440\u0438\u0448\u045B\u0435\u045A\u0430',
   'settings.restorePurchases': '\u041E\u0431\u043D\u043E\u0432\u0438 \u043A\u0443\u043F\u043E\u0432\u0438\u043D\u0435',
@@ -496,6 +499,9 @@ export default {
   'paywall.errorNoProduct': '\u041F\u0440\u043E\u0438\u0437\u0432\u043E\u0434 \u043D\u0438\u0458\u0435 \u0434\u043E\u0441\u0442\u0443\u043F\u0430\u043D. \u041F\u043E\u043A\u0443\u0448\u0430\u0458\u0442\u0435 \u043A\u0430\u0441\u043D\u0438\u0458\u0435.',
   'paywall.restoreSuccessTitle': '\u041E\u0431\u043D\u043E\u0432\u0459\u0435\u043D\u043E',
   'paywall.restoreSuccessMessage': '\u0412\u0430\u0448\u0435 \u043A\u0443\u043F\u043E\u0432\u0438\u043D\u0435 \u0441\u0443 \u043E\u0431\u043D\u043E\u0432\u0459\u0435\u043D\u0435.',
+  'paywall.welcomeTitle': 'Добродошли у Pro',
+  'paywall.welcomeMessage': 'Све технике и функције су сада откључане.',
+  'paywall.welcomeCta': 'Настави',
   'paywall.restoreTitle': '\u041E\u0431\u043D\u043E\u0432\u0438',
   'paywall.restoreNoPurchases': '\u041D\u0438\u0441\u0443 \u043F\u0440\u043E\u043D\u0430\u0452\u0435\u043D\u0435 \u043A\u0443\u043F\u043E\u0432\u0438\u043D\u0435 \u0437\u0430 \u043E\u0431\u043D\u043E\u0432\u0443.',
   'paywall.oneTimePayment': '\u0408\u0435\u0434\u043D\u043E\u043A\u0440\u0430\u0442\u043D\u0430 \u0443\u043F\u043B\u0430\u0442\u0430',
@@ -513,7 +519,6 @@ export default {
   'paywall.unlockForever': '\u041E\u0442\u043A\u0459\u0443\u0447\u0430\u0458 \u0437\u0430\u0443\u0432\u0435\u043A',
   'paywall.startAnnual': '\u041F\u043E\u0447\u043D\u0438 \u0433\u043E\u0434\u0438\u0448\u045A\u0438 \u043F\u043B\u0430\u043D',
   'paywall.startWeekly': '\u041F\u043E\u0447\u043D\u0438 \u043D\u0435\u0434\u0435\u0459\u043D\u0438',
-  'paywall.hideOptions': '\u0421\u0430\u043A\u0440\u0438\u0458 \u043E\u043F\u0446\u0438\u0458\u0435',
   'paywall.then': '\u0437\u0430\u0442\u0438\u043C',
   'paywall.weeklyAutoRenew': '\u0430\u0443\u0442\u043E\u043C\u0430\u0442\u0441\u043A\u043E \u043E\u0431\u043D\u0430\u0432\u0459\u0430\u045A\u0435',
   'paywall.weeklyTrial': '3 \u0434\u0430\u043D\u0430 \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E\u0433 \u043F\u0440\u043E\u0431\u043D\u043E\u0433 \u043F\u0435\u0440\u0438\u043E\u0434\u0430',
@@ -606,6 +611,22 @@ export default {
   'onboarding.appleHealthBullet2': '\u041F\u0440\u0430\u045B\u0435\u045A\u0435 \u043D\u0430\u043F\u0440\u0435\u0442\u043A\u0430 \u043A\u0440\u043E\u0437 \u0432\u0440\u0435\u043C\u0435',
   'onboarding.appleHealthBullet3': '\u0412\u0430\u0448\u0438 \u043F\u043E\u0434\u0430\u0446\u0438 \u043E\u0441\u0442\u0430\u0458\u0443 \u043F\u0440\u0438\u0432\u0430\u0442\u043D\u0438',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Придружи се са 1.000+ људи који боље дишу',
+  'onboarding.socialProofSub': 'Прави људи, прави резултати.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Директорка маркетинга, NYC',
+  'onboarding.t1Text': '„Радим 4-7-8 у кревету и заспим за 5 минута. После година несанице, ово је невероватно.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Софтверски инжењер',
+  'onboarding.t2Text': '„Бокс дисање пре дубоког рада је као ментално загревање.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Терапеуткиња',
+  'onboarding.t3Text': '„Препоручујем BreathFlow клијентима са паничним поремећајем.“',
+  'onboarding.rateTitle': 'Помози да обликујемо будућност BreathFlow-a',
+  'onboarding.rateSub': 'Подели своје мисли и помози нам да услугу учинимо бољом — кориснијом, пријатнијом и прилагођенијом твојим потребама.',
+  'onboarding.rateCta': 'Даље',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': '\u041E\u0434 \u0441\u0442\u0440\u0435\u0441\u0430 \u0434\u043E \u043C\u0438\u0440\u0430 \u2014 \u0437\u0430 \u043D\u0435\u043A\u043E\u043B\u0438\u043A\u043E \u043C\u0438\u043D\u0443\u0442\u0430',
   'paywall.heroSleep': '\u0417\u0430\u0441\u043F\u0438\u0442\u0435 \u0437\u0430 \u043C\u0438\u043D\u0443\u0442\u0435, \u043D\u0435 \u0441\u0430\u0442\u0435',
@@ -641,4 +662,31 @@ export default {
   'notifications.tip5': '\u0414\u0438\u0441\u0430\u045A\u0435 \u0441\u0430 5,5 \u0443\u0434\u0438\u0441\u0430\u0458\u0430/\u043C\u0438\u043D \u043E\u043F\u0442\u0438\u043C\u0438\u0437\u0443\u0458\u0435 \u0432\u0430\u0440\u0438\u0458\u0430\u0431\u0438\u043B\u043D\u043E\u0441\u0442 \u0441\u0440\u0447\u0430\u043D\u043E\u0433 \u0440\u0438\u0442\u043C\u0430.',
   'notifications.tip6': '\u0427\u0430\u043A \u0438 1 \u043C\u0438\u043D\u0443\u0442\u0430 \u0441\u0432\u0435\u0441\u043D\u043E\u0433 \u0434\u0438\u0441\u0430\u045A\u0430 \u043F\u0440\u0430\u0432\u0438 \u0440\u0430\u0437\u043B\u0438\u043A\u0443.',
   'notifications.tip7': '\u041F\u0440\u043E\u0434\u0443\u0436\u0435\u043D\u0438 \u0438\u0437\u0434\u0438\u0441\u0430\u0458\u0438 \u0433\u043E\u0432\u043E\u0440\u0435 \u0442\u0435\u043B\u0443 \u0434\u0430 \u0458\u0435 \u0431\u0435\u0437\u0431\u0435\u0434\u043D\u043E \u043E\u043F\u0443\u0441\u0442\u0438\u0442\u0438 \u0441\u0435.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Претворите то у навику",
+  'summary.habitReminderTitle': "Дневни подсетник",
+  'summary.habitReminderSub': "Благи подсетник да дишете сваки дан",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Сачувајте сесије као минуте свесности",
+  'settings.resetOnboarding': "Ресетуј уводни водич",
+  'settings.resetOnboardingConfirm': "Поново пустити уводни ток? Ово такође поново активира безбедносни екран прве сесије.",
+  'settings.resetOnboardingConfirmCta': "Ресетуј",
+  'settings.developer': "Развојни програмер",
+  'paywall.errorGeneric': "Нешто није у реду. Покушајте поново.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Утишај музику",
+  'session.musicOff': "Пусти музику",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Повећај",
+  'common.decrease': "Смањи",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "УШТЕДИТЕ {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/недељно",
+  'paywall.startTrialWeekly': "Испробајте бесплатно 3 дана",
+  'paywall.startTrialAnnual': "Испробајте бесплатно 7 дана",
+  'paywall.cancelAnytime': "Откажите било када · Без обавезивања",
 };

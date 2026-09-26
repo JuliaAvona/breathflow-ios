@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'בית',
   'tabs.breathe': 'נשימה',
   'tabs.history': 'התקדמות',
-  'tabs.badges': 'תגים',
+  'tabs.badges': 'פרסים',
   'tabs.settings': 'הגדרות',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': 'ישנוני',
   'summary.done': 'סיום',
   'summary.repeat': 'חזרה',
+  'summary.dontSave': 'אל תשמור',
+  'summary.discardTitle': 'לא לשמור את הסשן הזה?',
+  'summary.discardMessage': 'הסשן הזה יוסר ולא ייספר בסטטיסטיקות או ברצף שלך.',
   'summary.share': 'שיתוף',
   'summary.shareText': 'סיימתי עכשיו אימון נשימה {{technique}} למשך {{duration}} עם BreathFlow! 🌬️',
   'summary.shareMessage': 'סיימתי עכשיו אימון נשימה {{technique}} למשך {{duration}} עם BreathFlow! 🌬️',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': 'הגדרות',
+  'settings.preferences': 'העדפות',
   'settings.feedback': 'צלילים',
   'settings.sound': 'צליל',
   'settings.soundStyle': 'סגנון צליל',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': 'מוכח על ידי ספורטאים',
   'onboarding.socialProof2': 'מגובה ע"י Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'קבע את המטרה היומית שלך',
-  'onboarding.commitSub': 'הרגלים קטנים יומיים יוצרים שינוי מתמיד.',
   'onboarding.commitMinUnit': 'דק׳ / יום',
   'onboarding.commitHint_3': 'אפילו סשן של 3 דקות יכול לעזור להרגיע את מערכת העצבים שלך.',
   'onboarding.commitHint_5': 'מחקר סטנפורד מקשר נשימה איטית עם פחות מתח ושינה טובה יותר.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': 'רצף של 365 ימים',
 
   // Badges screen
-  'badges.title': 'תגים',
+  'badges.title': 'פרסים',
   'badges.unlocked': 'פתוח',
   'badges.locked': 'נעול',
   'badges.progress': '{{unlocked}} מתוך {{total}} תגים',
@@ -382,7 +384,7 @@ export default {
   'paywall.feature1': 'כל 10 טכניקות הנשימה',
   'paywall.feature2': 'כל רצועות המוזיקה',
   'paywall.feature3': 'פתח את כל התגים',
-  'paywall.feature4': 'היסטוריה מלאה וסטטיסטיקות',
+  'paywall.featureAppleHealth': 'סנכרון עם Apple Health',
   'paywall.feature5': 'מעקב מצב רוח',
   'paywall.feature6': 'כל התגים',
   'paywall.purchase': 'רכוש ב-{{price}}',
@@ -400,6 +402,7 @@ export default {
   'history.noSessionsOnDay': 'אין אימונים ביום זה',
   'history.allTimeStats': 'סטטיסטיקות כל הזמנים',
   'history.unlockFullHistory': 'פתח היסטוריה מלאה עם Pro',
+  'history.unlockFullHistoryDesc': 'צפה בהתקדמות המלאה שלך ובסטטיסטיקות כל הזמנים',
   'history.weeklyActivity': 'פעילות שבועית',
   'history.badges': 'תגים',
 
@@ -458,7 +461,7 @@ export default {
   'settings.restoreNone': 'אין רכישות לשחזור.',
   'settings.restoreFailed': 'השחזור נכשל. נסה שוב.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'סנכרן דקות מיינדפולנס',
+  'settings.syncMindfulMinutes': 'סנכרון עם Apple Health',
   'settings.privacyPolicy': 'מדיניות פרטיות',
   'settings.termsOfService': 'תנאי שימוש',
   'settings.restorePurchases': 'שחזר רכישות',
@@ -494,6 +497,9 @@ export default {
   'paywall.errorNoProduct': 'המוצר לא זמין. נסה שוב מאוחר יותר.',
   'paywall.restoreSuccessTitle': 'שוחזר',
   'paywall.restoreSuccessMessage': 'הרכישות שלך שוחזרו.',
+  'paywall.welcomeTitle': 'ברוך הבא ל-Pro',
+  'paywall.welcomeMessage': 'כל הטכניקות והתכונות פתוחות עכשיו.',
+  'paywall.welcomeCta': 'המשך',
   'paywall.restoreTitle': 'שחזור',
   'paywall.restoreNoPurchases': 'לא נמצאו רכישות לשחזור.',
   'paywall.oneTimePayment': 'תשלום חד-פעמי',
@@ -511,7 +517,6 @@ export default {
   'paywall.unlockForever': 'פתח לתמיד',
   'paywall.startAnnual': 'התחל תוכנית שנתית',
   'paywall.startWeekly': 'התחל שבועי',
-  'paywall.hideOptions': 'הסתר אפשרויות',
   'paywall.then': 'אז',
   'paywall.weeklyAutoRenew': 'חידוש אוטומטי',
   'paywall.weeklyTrial': '3 ימי ניסיון חינם',
@@ -593,6 +598,22 @@ export default {
   'onboarding.appleHealthBullet1': 'רישום אוטומטי של Mindful Minutes',
   'onboarding.appleHealthBullet2': 'מעקב נתוני HRV',
   'onboarding.appleHealthBullet3': 'הנתונים שלך נשארים פרטיים',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'הצטרפו ל-1,000+ אנשים שנושמים טוב יותר',
+  'onboarding.socialProofSub': 'אנשים אמיתיים, תוצאות אמיתיות.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'מנהלת שיווק, ניו יורק',
+  'onboarding.t1Text': '״אני עושה 4-7-8 במיטה ונרדמת תוך 5 דקות. אחרי שנים של נדודי שינה, זה מטורף.״',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'מהנדס תוכנה',
+  'onboarding.t2Text': '״נשימת קופסה לפני עבודה עמוקה זה כמו חימום מנטלי.״',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'מטפלת',
+  'onboarding.t3Text': '״אני ממליצה על BreathFlow ללקוחות עם הפרעת פאניקה.״',
+  'onboarding.rateTitle': 'עזרו לעצב את העתיד של BreathFlow',
+  'onboarding.rateSub': 'שתפו את המחשבות שלכם ועזרו לנו לשפר את השירות שלנו.',
+  'onboarding.rateCta': 'הבא',
   'onboarding.connectHealth': 'חבר Apple Health',
   'onboarding.healthSkip': 'דלג',
 
@@ -629,4 +650,31 @@ export default {
   'notifications.tip5': 'אפילו 5 דקות של נשימה מודעת משנות את מצב הרוח.',
   'notifications.tip6': 'נשימה איטית מפעילה את מערכת העצבים הפאראסימפתטית.',
   'notifications.tip7': 'תרגול עקבי בונה חוסן לאורך זמן.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "הפכו את זה להרגל",
+  'summary.habitReminderTitle': "תזכורת יומית",
+  'summary.habitReminderSub': "תזכורת עדינה לנשום כל יום",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "שמרו את התרגולים כדקות מיינדפולנס",
+  'settings.resetOnboarding': "איפוס תהליך ההיכרות",
+  'settings.resetOnboardingConfirm': "להפעיל שוב את תהליך ההיכרות? פעולה זו גם תפעיל מחדש את מסך הבטיחות של הטיפול הראשון.",
+  'settings.resetOnboardingConfirmCta': "איפוס",
+  'settings.developer': "מפתח",
+  'paywall.errorGeneric': "משהו השתבש. נסו שוב.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "השתקת מוזיקה",
+  'session.musicOff': "הפעלת מוזיקה",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "הגדלה",
+  'common.decrease': "הקטנה",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "חיסכון של {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/שבוע",
+  'paywall.startTrialWeekly': "נסו בחינם ל-3 ימים",
+  'paywall.startTrialAnnual': "נסו בחינם ל-7 ימים",
+  'paywall.cancelAnytime': "ביטול בכל עת · ללא התחייבות",
 };

@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Acasa',
   'tabs.breathe': 'Respira',
   'tabs.history': 'Progres',
-  'tabs.badges': 'Insigne',
+  'tabs.badges': 'Premii',
   'tabs.settings': 'Setari',
 
   // Home screen
@@ -162,6 +162,9 @@ export default {
   'summary.moodSleepy': 'Somnoros',
   'summary.done': 'Gata',
   'summary.repeat': 'Repeta',
+  'summary.dontSave': 'Nu salva',
+  'summary.discardTitle': 'Nu salvezi această sesiune?',
+  'summary.discardMessage': 'Această sesiune va fi eliminată și nu va conta pentru statisticile sau seria ta.',
   'summary.share': 'Distribuie',
   'summary.shareText': 'Tocmai am finalizat o sesiune de respiratie {{technique}} de {{duration}} cu BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Tocmai am finalizat o sesiune de respiratie {{technique}} de {{duration}} cu BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -226,6 +229,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Setari',
+  'settings.preferences': 'Preferințe',
   'settings.feedback': 'Sunete',
   'settings.sound': 'Sunet',
   'settings.soundStyle': 'Stil Sunet',
@@ -303,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'De incredere pentru atleti',
   'onboarding.socialProof2': 'Sustinut de Stanford',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Seteaza-ti obiectivul zilnic',
-  'onboarding.commitSub': 'Obiceiurile mici zilnice creeaza schimbari durabile.',
   'onboarding.commitMinUnit': 'min / zi',
   'onboarding.commitHint_3': 'Chiar si o sesiune de 3 minute poate ajuta la calmarea sistemului nervos.',
   'onboarding.commitHint_5': 'Cercetarile Stanford leaga respiratia lenta de mai putin stres si somn mai bun.',
@@ -359,7 +361,7 @@ export default {
   'badges.year_legend.description': 'Serie de 365 de zile',
 
   // Badges screen
-  'badges.title': 'Insigne',
+  'badges.title': 'Premii',
   'badges.unlocked': 'Deblocate',
   'badges.locked': 'Blocate',
   'badges.progress': '{{unlocked}} din {{total}} insigne',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': 'Toate cele 10 tehnici de respiratie',
   'paywall.feature2': 'Toate piesele muzicale',
   'paywall.feature3': 'Deblocheaza toate insignele',
-  'paywall.feature4': 'Istoric complet si statistici',
+  'paywall.featureAppleHealth': 'Sincronizare Apple Health',
   'paywall.feature5': 'Monitorizare dispozitie',
   'paywall.feature6': 'Toate insignele',
   'paywall.purchase': 'Cumpara pentru {{price}}',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Nicio sesiune in aceasta zi',
   'history.allTimeStats': 'Statistici Totale',
   'history.unlockFullHistory': 'Deblocheaza istoricul complet cu Pro',
+  'history.unlockFullHistoryDesc': 'Vezi progresul tău complet și statisticile de tot timpul',
   'history.weeklyActivity': 'Activitate Saptamanala',
   'history.badges': 'Insigne',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': 'Nicio achizitie de restaurat.',
   'settings.restoreFailed': 'Restaurarea a esuat. Te rog incearca din nou.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Sincronizeaza Minutele de Mindfulness',
+  'settings.syncMindfulMinutes': 'Sincronizare Apple Health',
   'settings.privacyPolicy': 'Politica de Confidentialitate',
   'settings.termsOfService': 'Termeni si Conditii',
   'settings.restorePurchases': 'Restaureaza Achizitiile',
@@ -496,6 +499,9 @@ export default {
   'paywall.errorNoProduct': 'Produsul nu este disponibil. Te rog incearca mai tarziu.',
   'paywall.restoreSuccessTitle': 'Restaurat',
   'paywall.restoreSuccessMessage': 'Achizitiile tale au fost restaurate.',
+  'paywall.welcomeTitle': 'Bine ai venit în Pro',
+  'paywall.welcomeMessage': 'Toate tehnicile și funcțiile sunt acum deblocate.',
+  'paywall.welcomeCta': 'Continuă',
   'paywall.restoreTitle': 'Restaureaza',
   'paywall.restoreNoPurchases': 'Nicio achizitie gasita pentru restaurare.',
   'paywall.oneTimePayment': 'Plata unica',
@@ -513,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Deblocheaza pentru totdeauna',
   'paywall.startAnnual': 'Incepe planul anual',
   'paywall.startWeekly': 'Incepe saptamanal',
-  'paywall.hideOptions': 'Ascunde optiunile',
   'paywall.then': 'apoi',
   'paywall.weeklyAutoRenew': 'reinnoire automata',
   'paywall.weeklyTrial': '3 zile de incercare gratuita',
@@ -606,6 +611,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Urmareste progresul in timp',
   'onboarding.appleHealthBullet3': 'Datele tale raman private',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Alătură-te celor 1.000+ care respiră mai bine',
+  'onboarding.socialProofSub': 'Oameni reali, rezultate reale.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Director de marketing, NYC',
+  'onboarding.t1Text': '„Fac 4-7-8 în pat și adorm în 5 minute. După ani de insomnie, e incredibil.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Inginer software',
+  'onboarding.t2Text': '„Respirația pătrată înainte de muncă profundă e ca o încălzire mentală.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeută',
+  'onboarding.t3Text': '„Recomand BreathFlow clienților cu tulburare de panică.”',
+  'onboarding.rateTitle': 'Ajută la modelarea viitorului BreathFlow',
+  'onboarding.rateSub': 'Împărtășește-ți gândurile și ajută-ne să îmbunătățim serviciul — mai util, mai plăcut și mai adaptat nevoilor tale.',
+  'onboarding.rateCta': 'Următor',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'De la stres la calm \u2014 in cateva minute',
   'paywall.heroSleep': 'Adormi in minute, nu ore',
@@ -641,4 +662,31 @@ export default {
   'notifications.tip5': 'Respiratia la 5,5 respiratii/min optimizeaza variabilitatea frecventei cardiace.',
   'notifications.tip6': 'Chiar si 1 minut de respiratie constienta face diferenta.',
   'notifications.tip7': 'Expiratiile prelungite spun corpului tau ca e sigur sa se relaxeze.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Transformă asta într-un obicei",
+  'summary.habitReminderTitle': "Memento zilnic",
+  'summary.habitReminderSub': "Un mic memento să respiri în fiecare zi",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Salvează sesiunile ca Minute de mindfulness",
+  'settings.resetOnboarding': "Resetează integrarea",
+  'settings.resetOnboardingConfirm': "Redai din nou fluxul de integrare? Aceasta reactivează și ecranul de siguranță al primei sesiuni.",
+  'settings.resetOnboardingConfirmCta': "Resetează",
+  'settings.developer': "Dezvoltator",
+  'paywall.errorGeneric': "Ceva nu a mers bine. Încearcă din nou.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Dezactivează muzica",
+  'session.musicOff': "Redă muzica",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Crește",
+  'common.decrease': "Scade",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "ECONOMISEȘTI {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/săptămână",
+  'paywall.startTrialWeekly': "Încearcă gratuit 3 zile",
+  'paywall.startTrialAnnual': "Încearcă gratuit 7 zile",
+  'paywall.cancelAnytime': "Anulează oricând · Fără angajament",
 };

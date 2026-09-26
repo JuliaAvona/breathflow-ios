@@ -3,7 +3,7 @@ export default {
   'tabs.home': '\uD648',
   'tabs.breathe': '\uD638\uD761',
   'tabs.history': '\uC9C4\uD589 \uC0C1\uD669',
-  'tabs.badges': '\uBC30\uC9C0',
+  'tabs.badges': '업적',
   'tabs.settings': '\uC124\uC815',
 
   // Home screen
@@ -160,6 +160,9 @@ export default {
   'summary.moodSleepy': '\uC878\uB9BC',
   'summary.done': '\uC644\uB8CC',
   'summary.repeat': '\uBC18\uBCF5',
+  'summary.dontSave': '저장 안 함',
+  'summary.discardTitle': '이 세션을 저장하지 않으시겠어요?',
+  'summary.discardMessage': '이 세션은 삭제되며 통계나 스트릭에 포함되지 않습니다.',
   'summary.share': '\uACF5\uC720',
   'summary.shareText': 'BreathFlow\uB85C {{duration}} {{technique}} \uD638\uD761 \uC138\uC158\uC744 \uC644\uB8CC\uD588\uC5B4\uC694! \u{1F32C}\uFE0F',
   'summary.shareMessage': 'BreathFlow\uB85C {{duration}} {{technique}} \uD638\uD761 \uC138\uC158\uC744 \uC644\uB8CC\uD588\uC5B4\uC694! \u{1F32C}\uFE0F',
@@ -224,6 +227,7 @@ export default {
 
   // Settings screen
   'settings.title': '\uC124\uC815',
+  'settings.preferences': '환경설정',
   'settings.feedback': '사운드',
   'settings.sound': '\uC0AC\uC6B4\uB4DC',
   'settings.soundStyle': '\uC0AC\uC6B4\uB4DC \uC2A4\uD0C0\uC77C',
@@ -301,8 +305,6 @@ export default {
   'onboarding.socialProof1': '운동선수들이 신뢰하는',
   'onboarding.socialProof2': '스탠포드 검증',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': '일일 목표를 설정하세요',
-  'onboarding.commitSub': '작은 일상 습관이 지속적인 변화를 만듭니다.',
   'onboarding.commitMinUnit': '분 / 일',
   'onboarding.commitHint_3': '3분 세션만으로도 신경계를 진정시키는 데 도움이 될 수 있습니다.',
   'onboarding.commitHint_5': '스탠포드 연구에 따르면 느린 호흡은 스트레스 감소와 수면 개선에 효과적입니다.',
@@ -357,7 +359,7 @@ export default {
   'badges.year_legend.description': '365\uC77C \uC5F0\uC18D',
 
   // Badges screen
-  'badges.title': '\uBC30\uC9C0',
+  'badges.title': '업적',
   'badges.unlocked': '\uD68D\uB4DD',
   'badges.unlockBadges': 'Pro로 배지 잠금 해제',
   'badges.unlockBadgesDesc': '성취를 추적하고 모든 배지를 획득하세요',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': '10\uAC00\uC9C0 \uD638\uD761 \uAE30\uBC95 \uC804\uCCB4',
   'paywall.feature2': '모든 음악 트랙',
   'paywall.feature3': '모든 배지 잠금 해제',
-  'paywall.feature4': '전체 기록 및 통계',
+  'paywall.featureAppleHealth': 'Apple Health 동기화',
   'paywall.feature5': '\uAE30\uBD84 \uCD94\uC801',
   'paywall.feature6': '\uBAA8\uB4E0 \uBC30\uC9C0',
   'paywall.purchase': '{{price}}\uC5D0 \uAD6C\uB9E4',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': '\uC774 \uB0A0\uC5D0\uB294 \uC138\uC158\uC774 \uC5C6\uC2B5\uB2C8\uB2E4',
   'history.allTimeStats': '\uC804\uCCB4 \uD1B5\uACC4',
   'history.unlockFullHistory': 'Pro\uB85C \uC804\uCCB4 \uAE30\uB85D\uC744 \uC7A0\uAE08 \uD574\uC81C\uD558\uC138\uC694',
+  'history.unlockFullHistoryDesc': '전체 진행 상황과 역대 통계를 확인하세요',
   'history.weeklyActivity': '\uC8FC\uAC04 \uD65C\uB3D9',
   'history.badges': '\uBC30\uC9C0',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': '\uBCF5\uC6D0\uD560 \uAD6C\uB9E4\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.',
   'settings.restoreFailed': '\uBCF5\uC6D0\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4. \uB2E4\uC2DC \uC2DC\uB3C4\uD574 \uC8FC\uC138\uC694.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': '\uB9C8\uC74C \uCC59\uAE40 \uC2DC\uAC04 \uB3D9\uAE30\uD654',
+  'settings.syncMindfulMinutes': 'Apple Health 동기화',
   'settings.privacyPolicy': '\uAC1C\uC778\uC815\uBCF4 \uCC98\uB9AC\uBC29\uCE68',
   'settings.termsOfService': '\uC774\uC6A9\uC57D\uAD00',
   'settings.restorePurchases': '\uAD6C\uB9E4 \uBCF5\uC6D0',
@@ -505,6 +508,9 @@ export default {
   'paywall.errorNoProduct': '\uC0C1\uD488\uC744 \uC0AC\uC6A9\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uB098\uC911\uC5D0 \uB2E4\uC2DC \uC2DC\uB3C4\uD574 \uC8FC\uC138\uC694.',
   'paywall.restoreSuccessTitle': '\uBCF5\uC6D0 \uC644\uB8CC',
   'paywall.restoreSuccessMessage': '\uAD6C\uB9E4\uAC00 \uBCF5\uC6D0\uB418\uC5C8\uC2B5\uB2C8\uB2E4.',
+  'paywall.welcomeTitle': 'Pro에 오신 것을 환영합니다',
+  'paywall.welcomeMessage': '모든 기법과 기능이 이제 잠금 해제되었습니다.',
+  'paywall.welcomeCta': '계속',
   'paywall.restoreTitle': '\uBCF5\uC6D0',
   'paywall.restoreNoPurchases': '\uBCF5\uC6D0\uD560 \uAD6C\uB9E4\uB97C \uCC3E\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.',
   'paywall.oneTimePayment': '\uC77C\uD68C\uC131 \uACB0\uC81C',
@@ -522,7 +528,6 @@ export default {
   'paywall.unlockForever': '영구 잠금 해제',
   'paywall.startAnnual': '연간 플랜 시작',
   'paywall.startWeekly': '주간 플랜 시작',
-  'paywall.hideOptions': '옵션 숨기기',
   'paywall.then': '이후',
   'paywall.weeklyAutoRenew': '자동 갱신',
   'paywall.weeklyTrial': '3일 무료 체험',
@@ -615,6 +620,22 @@ export default {
   'onboarding.appleHealthBullet2': '시간에 따른 진행 상황 추적',
   'onboarding.appleHealthBullet3': '내 데이터는 비공개로 유지됩니다',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': '더 잘 호흡하는 1,000명 이상에 합류하세요',
+  'onboarding.socialProofSub': '실제 사람, 실제 결과.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': '마케팅 디렉터, NYC',
+  'onboarding.t1Text': '“침대에서 4-7-8을 하면 5분 안에 잠들어요. 수년간의 불면증 후, 정말 놀랍습니다.”',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': '소프트웨어 엔지니어',
+  'onboarding.t2Text': '“깊은 작업 전 박스 호흡은 정신적 워밍업 같아요.”',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': '치료사',
+  'onboarding.t3Text': '“공황장애 고객에게 BreathFlow를 추천합니다. 생리학적 한숨은 몇 초 만에 효과가 있어요.”',
+  'onboarding.rateTitle': 'BreathFlow의 미래를 함께 만들어 주세요',
+  'onboarding.rateSub': '여러분의 의견을 공유하고 서비스를 더 유용하고 즐겁고 맞춤화되도록 도와주세요.',
+  'onboarding.rateCta': '다음',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': '스트레스에서 평온으로 — 몇 분 안에',
   'paywall.heroSleep': '몇 시간이 아닌 몇 분 만에 잠들기',
@@ -639,4 +660,31 @@ export default {
   'paywall.row5Pro': '모든 색상 테마 & 배지 ✓',
   'paywall.anchor': '커피 한 잔보다 저렴. 지속적인 효과.',
   'paywall.continueFree': '무료 버전으로 계속하기',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "습관으로 만들어보세요",
+  'summary.habitReminderTitle': "매일 알림",
+  'summary.habitReminderSub': "매일 호흡할 수 있도록 부드럽게 알려드려요",
+  'summary.habitHealthTitle': "Apple 건강",
+  'summary.habitHealthSub': "세션을 마음챙김 분으로 저장하세요",
+  'settings.resetOnboarding': "온보딩 재설정",
+  'settings.resetOnboardingConfirm': "온보딩 과정을 다시 재생할까요? 첫 세션 안전 화면도 다시 활성화됩니다.",
+  'settings.resetOnboardingConfirmCta': "재설정",
+  'settings.developer': "개발자",
+  'paywall.errorGeneric': "문제가 발생했습니다. 다시 시도해 주세요.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "음악 음소거",
+  'session.musicOff': "음악 재생",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "증가",
+  'common.decrease': "감소",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "{{percent}}% 절약",
+  'paywall.perWeekApprox': "≈ 주 {{price}}",
+  'paywall.startTrialWeekly': "3일 무료 체험하기",
+  'paywall.startTrialAnnual': "7일 무료 체험하기",
+  'paywall.cancelAnytime': "언제든지 취소 가능 · 약정 없음",
 };

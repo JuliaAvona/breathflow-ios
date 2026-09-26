@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Pocetna',
   'tabs.breathe': 'Disanje',
   'tabs.history': 'Napredak',
-  'tabs.badges': 'Znacke',
+  'tabs.badges': 'Nagrade',
   'tabs.settings': 'Postavke',
 
   // Home screen
@@ -162,6 +162,9 @@ export default {
   'summary.moodSleepy': 'Pospano',
   'summary.done': 'Gotovo',
   'summary.repeat': 'Ponovi',
+  'summary.dontSave': 'Nemoj spremiti',
+  'summary.discardTitle': 'Ne spremi ovu sesiju?',
+  'summary.discardMessage': 'Ova sesija bit će uklonjena i neće se računati u vašu statistiku ili niz.',
   'summary.share': 'Podijeli',
   'summary.shareText': 'Upravo sam zavrsio/la {{duration}} {{technique}} sesiju disanja s BreathFlow! \uD83C\uDF2C\uFE0F',
   'summary.shareMessage': 'Upravo sam zavrsio/la {{duration}} {{technique}} sesiju disanja s BreathFlow! \uD83C\uDF2C\uFE0F',
@@ -226,6 +229,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Postavke',
+  'settings.preferences': 'Osobne postavke',
   'settings.feedback': 'Zvukovi',
   'settings.sound': 'Zvuk',
   'settings.soundStyle': 'Stil zvuka',
@@ -303,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Povjerenje sportasa',
   'onboarding.socialProof2': 'Potkrijepljeno Stanfordom',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Postavite svakodnevni cilj',
-  'onboarding.commitSub': 'Male svakodnevne navike stvaraju trajnu promjenu.',
   'onboarding.commitMinUnit': 'min / dan',
   'onboarding.commitHint_3': 'Cak i 3-minutna sesija moze pomoci u smirivanju zivchanog sustava.',
   'onboarding.commitHint_5': 'Istrazivanje Stanforda povezuje sporo disanje s manjim stresom i boljim snom.',
@@ -359,7 +361,7 @@ export default {
   'badges.year_legend.description': 'Niz od 365 dana',
 
   // Badges screen
-  'badges.title': 'Znacke',
+  'badges.title': 'Nagrade',
   'badges.unlocked': 'Otkljucane',
   'badges.locked': 'Zakljucane',
   'badges.progress': '{{unlocked}} od {{total}} znacki',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': 'Svih 10 tehnika disanja',
   'paywall.feature2': 'Sve glazbene zapise',
   'paywall.feature3': 'Otkljucaj sve znacke',
-  'paywall.feature4': 'Potpuna povijest i statistika',
+  'paywall.featureAppleHealth': 'Sinkronizacija s Apple Health',
   'paywall.feature5': 'Pracenje raspolozenja',
   'paywall.feature6': 'Sve znacke',
   'paywall.purchase': 'Kupi za {{price}}',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Nema sesija na ovaj dan',
   'history.allTimeStats': 'Ukupna statistika',
   'history.unlockFullHistory': 'Otkljucajte potpunu povijest s Pro',
+  'history.unlockFullHistoryDesc': 'Pogledajte svoj potpuni napredak i sveukupnu statistiku',
   'history.weeklyActivity': 'Tjedna aktivnost',
   'history.badges': 'Znacke',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': 'Nema kupnji za vracanje.',
   'settings.restoreFailed': 'Vracanje neuspjesno. Pokusajte ponovo.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Sinkroniziraj Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Sinkronizacija s Apple Health',
   'settings.privacyPolicy': 'Pravila privatnosti',
   'settings.termsOfService': 'Uvjeti koristenja',
   'settings.restorePurchases': 'Vrati kupnje',
@@ -496,6 +499,9 @@ export default {
   'paywall.errorNoProduct': 'Proizvod nije dostupan. Pokusajte kasnije.',
   'paywall.restoreSuccessTitle': 'Vraceno',
   'paywall.restoreSuccessMessage': 'Vase kupnje su vracene.',
+  'paywall.welcomeTitle': 'Dobrodošli u Pro',
+  'paywall.welcomeMessage': 'Sve tehnike i značajke sada su otključane.',
+  'paywall.welcomeCta': 'Nastavi',
   'paywall.restoreTitle': 'Vrati',
   'paywall.restoreNoPurchases': 'Nema kupnji za vracanje.',
   'paywall.oneTimePayment': 'Jednokratna uplata',
@@ -513,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Otkljucaj zauvijek',
   'paywall.startAnnual': 'Zapocni godisnji plan',
   'paywall.startWeekly': 'Zapocni tjedni',
-  'paywall.hideOptions': 'Sakrij opcije',
   'paywall.then': 'zatim',
   'paywall.weeklyAutoRenew': 'automatsko obnavljanje',
   'paywall.weeklyTrial': '3 dana besplatnog probnog razdoblja',
@@ -606,6 +611,22 @@ export default {
   'onboarding.appleHealthBullet2': 'Pracenje napretka kroz vrijeme',
   'onboarding.appleHealthBullet3': 'Vasi podaci ostaju privatni',
 
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Pridruži se 1.000+ ljudi koji bolje dišu',
+  'onboarding.socialProofSub': 'Pravi ljudi, pravi rezultati.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Direktorica marketinga, NYC',
+  'onboarding.t1Text': '„Radim 4-7-8 u krevetu i zaspim za 5 minuta. Nakon godina nesanice, ovo je nevjerojatno.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Softverski inženjer',
+  'onboarding.t2Text': '„Box disanje prije dubokog rada je poput mentalnog zagrijavanja.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeutkinja',
+  'onboarding.t3Text': '„Preporučujem BreathFlow klijentima s paničnim poremećajem.“',
+  'onboarding.rateTitle': 'Pomozi oblikovati budućnost BreathFlow-a',
+  'onboarding.rateSub': 'Podijeli svoje misli i pomozi nam da uslugu učinimo još boljom — korisnijom, ugodnijom i prilagođenijom tvojim potrebama.',
+  'onboarding.rateCta': 'Dalje',
+
   // Paywall — personalized headlines
   'paywall.heroCalm': 'Od stresa do mira \u2014 za nekoliko minuta',
   'paywall.heroSleep': 'Zaspite za minute, ne sate',
@@ -641,4 +662,31 @@ export default {
   'notifications.tip5': 'Disanje od 5,5 udaha/min optimizira varijabilnost srcanog ritma.',
   'notifications.tip6': 'Cak i 1 minuta svjesnog disanja cini razliku.',
   'notifications.tip7': 'Produljeni izdisaji govore tijelu da je sigurno opustiti se.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Pretvori to u naviku",
+  'summary.habitReminderTitle': "Dnevni podsjetnik",
+  'summary.habitReminderSub': "Blagi podsjetnik da dišeš svaki dan",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Spremi sesije kao minute svjesnosti",
+  'settings.resetOnboarding': "Poništi uvodni postupak",
+  'settings.resetOnboardingConfirm': "Ponovno pokrenuti uvodni postupak? Time se ponovno aktivira i sigurnosni zaslon prve sesije.",
+  'settings.resetOnboardingConfirmCta': "Poništi",
+  'settings.developer': "Razvojni programer",
+  'paywall.errorGeneric': "Nešto je pošlo po zlu. Pokušajte ponovno.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Isključi glazbu",
+  'session.musicOff': "Pokreni glazbu",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Povećaj",
+  'common.decrease': "Smanji",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "UŠTEDITE {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/tjedan",
+  'paywall.startTrialWeekly': "Isprobajte besplatno 3 dana",
+  'paywall.startTrialAnnual': "Isprobajte besplatno 7 dana",
+  'paywall.cancelAnytime': "Otkažite bilo kada · Bez obveza",
 };

@@ -11,6 +11,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { useThemeColors } from '../hooks/useColorScheme';
 import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '../constants';
 
@@ -27,6 +28,8 @@ interface PickerModalProps<T> {
   onSelect: (value: T) => void;
   onClose: () => void;
   accentColor?: string;
+  /** When false, selecting an option doesn't dismiss the sheet — only the close button/backdrop does. Defaults to true. */
+  closeOnSelect?: boolean;
 }
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -40,7 +43,9 @@ export function PickerModal<T>({
   onSelect,
   onClose,
   accentColor,
+  closeOnSelect = true,
 }: PickerModalProps<T>) {
+  const { t } = useTranslation();
   const theme = useThemeColors();
   const slideAnim = useRef(new Animated.Value(MAX_SHEET_HEIGHT)).current;
   const overlayFade = useRef(new Animated.Value(0)).current;
@@ -83,17 +88,18 @@ export function PickerModal<T>({
 
   const handleSelect = (value: T) => {
     onSelect(value);
-    handleClose();
+    if (closeOnSelect) handleClose();
   };
 
   return (
     <Modal visible={visible} transparent animationType="none" onRequestClose={handleClose}>
       <View style={styles.root}>
         <Animated.View style={[styles.overlay, { opacity: overlayFade }]}>
-          <Pressable style={StyleSheet.absoluteFill} onPress={handleClose} />
+          <Pressable style={StyleSheet.absoluteFill} onPress={handleClose} accessible={false} />
         </Animated.View>
 
         <Animated.View
+          accessibilityViewIsModal
           style={[
             styles.sheet,
             {
@@ -109,6 +115,16 @@ export function PickerModal<T>({
 
           {/* Title */}
           <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
+
+          <TouchableOpacity
+            style={styles.closeBtn}
+            onPress={handleClose}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.close')}
+          >
+            <Ionicons name="close" size={20} color={theme.textSecondary} />
+          </TouchableOpacity>
 
           {/* Options */}
           <ScrollView
@@ -181,6 +197,12 @@ const styles = StyleSheet.create({
     width: 36,
     height: 4,
     borderRadius: 2,
+  },
+  closeBtn: {
+    position: 'absolute',
+    top: SPACING.sm,
+    right: SPACING.md,
+    padding: 4,
   },
   title: {
     fontSize: FONT_SIZE.lg,

@@ -32,6 +32,10 @@ const DEFAULT_SETTINGS: UserSettings = {
 interface SettingsStore extends UserSettings {
   _hydrated: boolean;
 
+  // Epoch ms of the last local settings change — used by syncService to decide
+  // whether a synced row is stale (last-write-wins), local-only, not pushed.
+  settingsUpdatedAt: number;
+
   // Generic setter for any setting
   setSetting: <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => void;
 
@@ -69,61 +73,72 @@ function extractSettings(state: SettingsStore): UserSettings {
   };
 }
 
-/** Persist current settings to AsyncStorage. */
-function persist(state: SettingsStore): void {
-  const data = extractSettings(state);
+/**
+ * Persist current settings (+ local change timestamp) to AsyncStorage.
+ * Exported so syncService can persist a remote-merged snapshot too — without
+ * this, a merge applied via setState() only lives in memory and reverts to
+ * the last locally-persisted copy (including a stale settingsUpdatedAt) on
+ * the next app restart, before it's ever pushed back out.
+ */
+export function persist(state: SettingsStore): void {
+  const data = { ...extractSettings(state), settingsUpdatedAt: state.settingsUpdatedAt };
   AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-export const useSettingsStore = create<SettingsStore>()((set, get) => ({
-  ...DEFAULT_SETTINGS,
-  _hydrated: false,
-
-  hydrate: async () => {
+export const useSettingsStore = create<SettingsStore>()((set, get) => {
+  /** Apply a partial settings change, stamp it, persist, and push to the cloud. */
+  const applyAndSync = (partial: Partial<UserSettings>) => {
+    set({ ...partial, settingsUpdatedAt: Date.now() } as Partial<SettingsStore>);
+    persist(get());
     try {
-      const json = await AsyncStorage.getItem(STORAGE_KEY);
-      if (json) {
-        const stored = JSON.parse(json) as Partial<UserSettings>;
-        set({ ...DEFAULT_SETTINGS, ...stored, _hydrated: true });
-      } else {
+      require('../services/syncService').pushSettings().catch(() => {});
+    } catch {}
+  };
+
+  return {
+    ...DEFAULT_SETTINGS,
+    settingsUpdatedAt: 0,
+    _hydrated: false,
+
+    hydrate: async () => {
+      try {
+        const json = await AsyncStorage.getItem(STORAGE_KEY);
+        if (json) {
+          const stored = JSON.parse(json) as Partial<UserSettings> & { settingsUpdatedAt?: number };
+          set({ ...DEFAULT_SETTINGS, ...stored, _hydrated: true });
+        } else {
+          set({ _hydrated: true });
+        }
+      } catch {
         set({ _hydrated: true });
       }
-    } catch {
-      set({ _hydrated: true });
-    }
-  },
+    },
 
-  setSetting: (key, value) => {
-    set({ [key]: value } as Partial<SettingsStore>);
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
+    setSetting: (key, value) => applyAndSync({ [key]: value } as Partial<UserSettings>),
 
-  grantPro: () => {
-    set({ isPro: true });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
+    // No-op when already in the target state: callers like app/_layout.tsx's
+    // cold-launch entitlement check call one of these unconditionally on every
+    // launch, and bumping settingsUpdatedAt every time would make local settings
+    // look "newer" than the synced row on almost every sync, starving the
+    // last-write-wins merge in syncService.pullSettings() of ever applying.
+    grantPro: () => {
+      if (get().isPro) return;
+      applyAndSync({ isPro: true });
+    },
 
-  revokePro: () => {
-    set({ isPro: false });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
+    revokePro: () => {
+      if (!get().isPro) return;
+      applyAndSync({ isPro: false });
+    },
 
-  setTechniqueOverride: (techniqueId, overrides) => {
-    const current = get().techniqueOverrides;
-    set({
-      techniqueOverrides: { ...current, [techniqueId]: overrides },
-    });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
+    setTechniqueOverride: (techniqueId, overrides) => {
+      const current = get().techniqueOverrides;
+      applyAndSync({ techniqueOverrides: { ...current, [techniqueId]: overrides } });
+    },
 
-  clearTechniqueOverride: (techniqueId) => {
-    const { [techniqueId]: _, ...rest } = get().techniqueOverrides;
-    set({ techniqueOverrides: rest });
-    persist(get());
-    import('../services/syncService').then(m => m.pushSettings().catch(() => {}));
-  },
-}));
+    clearTechniqueOverride: (techniqueId) => {
+      const { [techniqueId]: _, ...rest } = get().techniqueOverrides;
+      applyAndSync({ techniqueOverrides: rest });
+    },
+  };
+});

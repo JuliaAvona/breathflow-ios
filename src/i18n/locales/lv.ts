@@ -3,7 +3,7 @@ export default {
   'tabs.home': 'Sakums',
   'tabs.breathe': 'Elpo',
   'tabs.history': 'Progress',
-  'tabs.badges': 'Nozimites',
+  'tabs.badges': 'Apbalvojumi',
   'tabs.settings': 'Iestatijumi',
 
   // Home screen
@@ -162,6 +162,9 @@ export default {
   'summary.moodSleepy': 'Miegains',
   'summary.done': 'Gatavs',
   'summary.repeat': 'Atkartot',
+  'summary.dontSave': 'Nesaglabāt',
+  'summary.discardTitle': 'Nesaglabāt šo sesiju?',
+  'summary.discardMessage': 'Šī sesija tiks noņemta un netiks ieskaitīta jūsu statistikā vai sērijā.',
   'summary.share': 'Dalities',
   'summary.shareText': 'Tikko pabeidzu {{duration}} {{technique}} elposanas sesiju ar BreathFlow! 🌬️',
   'summary.shareMessage': 'Tikko pabeidzu {{duration}} {{technique}} elposanas sesiju ar BreathFlow! 🌬️',
@@ -226,6 +229,7 @@ export default {
 
   // Settings screen
   'settings.title': 'Iestatijumi',
+  'settings.preferences': 'Preferences',
   'settings.feedback': 'Skanas',
   'settings.sound': 'Skana',
   'settings.soundStyle': 'Skanas Stils',
@@ -303,8 +307,6 @@ export default {
   'onboarding.socialProof1': 'Sportistu uzticets',
   'onboarding.socialProof2': 'Stanforda atbalstits',
   'onboarding.socialProof3': 'Apple Health',
-  'onboarding.commitTitle': 'Uzstadiet savu dienas merki',
-  'onboarding.commitSub': 'Mazas ikdienas ieradumi rada paliekosas parmainas.',
   'onboarding.commitMinUnit': 'min / diena',
   'onboarding.commitHint_3': 'Pat 3 minutu sesija var palidzet nomierinat nervu sistemu.',
   'onboarding.commitHint_5': 'Stanforda petijumi saista lenu elposanu ar mazaku stresu un labaku miegu.',
@@ -359,7 +361,7 @@ export default {
   'badges.year_legend.description': '365 dienu serija',
 
   // Badges screen
-  'badges.title': 'Nozimites',
+  'badges.title': 'Apbalvojumi',
   'badges.unlocked': 'Atblokets',
   'badges.locked': 'Aizslеgts',
   'badges.progress': '{{unlocked}} no {{total}} nozimitеm',
@@ -384,7 +386,7 @@ export default {
   'paywall.feature1': 'Visas 10 elposanas tehnikas',
   'paywall.feature2': 'Visi muzikas ieraksti',
   'paywall.feature3': 'Atbloket visas nozimites',
-  'paywall.feature4': 'Pilna vesture un statistika',
+  'paywall.featureAppleHealth': 'Apple Health sinhronizācija',
   'paywall.feature5': 'Garastаvokla izsekosana',
   'paywall.feature6': 'Visas nozimites',
   'paywall.purchase': 'Pirkt par {{price}}',
@@ -402,6 +404,7 @@ export default {
   'history.noSessionsOnDay': 'Saja diena sesiju nav',
   'history.allTimeStats': 'Visu Laiku Statistika',
   'history.unlockFullHistory': 'Atbloket pilnu vesturi ar Pro',
+  'history.unlockFullHistoryDesc': 'Skatiet savu pilnīgo progresu un visu laiku statistiku',
   'history.weeklyActivity': 'Nedelas Aktivitate',
   'history.badges': 'Nozimites',
 
@@ -460,7 +463,7 @@ export default {
   'settings.restoreNone': 'Nav pirkumu atjaunosanai.',
   'settings.restoreFailed': 'Atjaunosana neizdevas. Ludzu meginiеt velreiz.',
   'settings.appleHealth': 'Apple Health',
-  'settings.syncMindfulMinutes': 'Sinhronizet Mindful Minutes',
+  'settings.syncMindfulMinutes': 'Apple Health sinhronizācija',
   'settings.privacyPolicy': 'Privatuma Politika',
   'settings.termsOfService': 'Lietosanas Noteikumi',
   'settings.restorePurchases': 'Atjaunot Pirkumus',
@@ -496,6 +499,9 @@ export default {
   'paywall.errorNoProduct': 'Produkts nav pieejams. Ludzu meginiеt velak.',
   'paywall.restoreSuccessTitle': 'Atjaunots',
   'paywall.restoreSuccessMessage': 'Jusu pirkumi ir atjaunoti.',
+  'paywall.welcomeTitle': 'Laipni lūdzam Pro',
+  'paywall.welcomeMessage': 'Visas tehnikas un funkcijas tagad ir atbloķētas.',
+  'paywall.welcomeCta': 'Turpināt',
   'paywall.restoreTitle': 'Atjaunot',
   'paywall.restoreNoPurchases': 'Nav atrasti pirkumi atjaunosanai.',
   'paywall.oneTimePayment': 'Vienreizejs maksajums',
@@ -513,7 +519,6 @@ export default {
   'paywall.unlockForever': 'Atbloket uz visiem laikiem',
   'paywall.startAnnual': 'Sakt gada planu',
   'paywall.startWeekly': 'Sakt nedalas',
-  'paywall.hideOptions': 'Slept opcijas',
   'paywall.then': 'tad',
   'paywall.weeklyAutoRenew': 'automatiska atjaunosana',
   'paywall.weeklyTrial': '3 dienu bezmaksas izmеginajums',
@@ -613,6 +618,22 @@ export default {
   'onboarding.appleHealthBullet1': 'Automatiska Mindful Minutes registresana',
   'onboarding.appleHealthBullet2': 'HRV datu izsekosana',
   'onboarding.appleHealthBullet3': 'Tavi dati paliek privati',
+
+  // Onboarding social proof + rating
+  'onboarding.socialProofTitle': 'Pievienojies 1000+ cilvēkiem, kuri elpo labāk',
+  'onboarding.socialProofSub': 'Īsti cilvēki, īsti rezultāti.',
+  'onboarding.t1Name': 'Sarah K.',
+  'onboarding.t1Tag': 'Mārketinga direktore, NYC',
+  'onboarding.t1Text': '„Es daru 4-7-8 gultā un aizmiegu 5 minūtēs. Pēc gadiem ilgas bezmiega – tas ir neticami.“',
+  'onboarding.t2Name': 'Marcus T.',
+  'onboarding.t2Tag': 'Programmatūras inženieris',
+  'onboarding.t2Text': '„Box elpošana pirms dziļa darba ir kā mentālā iesildīšanās.“',
+  'onboarding.t3Name': 'Priya R.',
+  'onboarding.t3Tag': 'Terapeite',
+  'onboarding.t3Text': '„Es iesaku BreathFlow klientiem ar panikas traucējumiem.“',
+  'onboarding.rateTitle': 'Palīdzi veidot BreathFlow nākotni',
+  'onboarding.rateSub': 'Dalies ar savām domām un palīdzi mums uzlabot pakalpojumu — noderīgāku, patīkamāku un piemērotāku tavām vajadzībām.',
+  'onboarding.rateCta': 'Tālāk',
   'onboarding.connectHealth': 'Savienot Apple Health',
   'onboarding.healthSkip': 'Izlaist',
   'onboarding.appleHealthConnect': 'Savienot Apple Health',
@@ -650,4 +671,31 @@ export default {
   'notifications.tip5': 'Pat 5 minutes apzinatas elposanas maina garastavokli.',
   'notifications.tip6': 'Lena elposana aktivize parasimpatisko nervu sistemu.',
   'notifications.tip7': 'Konsekventa prakse laika gaita veido notieribu.',
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'summary.habitTitle': "Padari to par ieradumu",
+  'summary.habitReminderTitle': "Ikdienas atgādinājums",
+  'summary.habitReminderSub': "Maigs atgādinājums elpot katru dienu",
+  'summary.habitHealthTitle': "Apple Health",
+  'summary.habitHealthSub': "Saglabā sesijas kā Apzinātības minūtes",
+  'settings.resetOnboarding': "Atiestatīt ievadu",
+  'settings.resetOnboardingConfirm': "Vai atskaņot ievada procesu vēlreiz? Tas arī atkārtoti aktivizē pirmās sesijas drošības ekrānu.",
+  'settings.resetOnboardingConfirmCta': "Atiestatīt",
+  'settings.developer': "Izstrādātājs",
+  'paywall.errorGeneric': "Kaut kas nogāja greizi. Lūdzu, mēģiniet vēlreiz.",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'session.musicOn': "Izslēgt mūzikas skaņu",
+  'session.musicOff': "Atskaņot mūziku",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'common.increase': "Palielināt",
+  'common.decrease': "Samazināt",
+
+  // Onboarding demo / summary habit prompts / dev settings (backfill)
+  'paywall.saveBadge': "IETAUPI {{percent}}%",
+  'paywall.perWeekApprox': "≈ {{price}}/nedēļā",
+  'paywall.startTrialWeekly': "Izmēģini bez maksas 3 dienas",
+  'paywall.startTrialAnnual': "Izmēģini bez maksas 7 dienas",
+  'paywall.cancelAnytime': "Atceļams jebkurā laikā · Bez saistībām",
 };

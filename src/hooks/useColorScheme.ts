@@ -1,6 +1,16 @@
-import { useColorScheme as useRNColorScheme } from 'react-native';
+import { useEffect, useState } from 'react';
+import { useColorScheme as useRNColorScheme, Dimensions, PixelRatio } from 'react-native';
 import { FONT_SIZE } from '../constants';
 import { useSettingsStore } from '../store';
+
+// Clamp so the OS "Larger Text" accessibility setting scales our type without
+// blowing up fixed-size layouts (countdown circle, chip rows, etc.) at extreme values.
+const MIN_FONT_SCALE = 0.85;
+const MAX_FONT_SCALE = 1.3;
+
+function getClampedFontScale(): number {
+  return Math.min(MAX_FONT_SCALE, Math.max(MIN_FONT_SCALE, PixelRatio.getFontScale()));
+}
 
 // ─── Design tokens (shared across both themes) ─────────────────────────────
 const PRIMARY   = '#4A90D9';   // calm blue
@@ -29,7 +39,26 @@ const LIGHT = {
 };
 
 export function useFontSize() {
-  return FONT_SIZE;
+  const [scale, setScale] = useState(getClampedFontScale);
+
+  useEffect(() => {
+    // PixelRatio has no dedicated change event; a Dynamic Type change is
+    // typically accompanied by a Dimensions change, so re-read the font
+    // scale then as a best-effort way to react without an app restart.
+    const sub = Dimensions.addEventListener('change', () => setScale(getClampedFontScale()));
+    return () => sub.remove();
+  }, []);
+
+  return {
+    xs: Math.round(FONT_SIZE.xs * scale),
+    sm: Math.round(FONT_SIZE.sm * scale),
+    md: Math.round(FONT_SIZE.md * scale),
+    lg: Math.round(FONT_SIZE.lg * scale),
+    xl: Math.round(FONT_SIZE.xl * scale),
+    xxl: Math.round(FONT_SIZE.xxl * scale),
+    xxxl: Math.round(FONT_SIZE.xxxl * scale),
+    timer: Math.round(FONT_SIZE.timer * scale),
+  };
 }
 
 export function useThemeColors() {

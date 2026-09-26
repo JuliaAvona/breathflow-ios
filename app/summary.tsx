@@ -2,13 +2,15 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import {
   View,
   Text,
+  Image,
+  ImageBackground,
   TouchableOpacity,
   StyleSheet,
   Animated,
   ScrollView,
   Dimensions,
   AppState,
-  Share,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,7 +21,8 @@ import { useSessionsStore, useSettingsStore, useBadgesStore } from '../src/store
 import { useThemeColors, useFontSize } from '../src/hooks/useColorScheme';
 import { formatTotalTime } from '../src/utils/time';
 import { writeMindfulSession, isHealthKitAvailable } from '../src/utils/healthKit';
-import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, FONTS, scale } from '../src/constants';
+import { SPACING, FONT_SIZE, BORDER_RADIUS, BADGE_DEFINITIONS, BADGE_CATEGORY_COLORS, FONTS, scale, COLORS } from '../src/constants';
+import { MOOD_EMOJI_IMAGES } from '../src/constants/moodEmoji';
 import { getTechniqueById } from '../src/constants/techniques';
 import { BadgeUnlockModal } from '../src/components/BadgeUnlockModal';
 import { getRandomQuoteKey } from '../src/constants/motivationalQuotes';
@@ -31,13 +34,33 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 const CONFETTI_COLORS = ['#4A90D9', '#7BC4A8', '#F5C542', '#7B68AE', '#E85D4A', '#5BA4C8'];
 const CONFETTI_COUNT = 40;
 
-const MOOD_OPTIONS: { key: Mood; emoji: string; color: string; bg: string; labelKey: string }[] = [
-  { key: 'sleepy', emoji: '\u{1F634}', color: '#7B68AE', bg: '#7B68AE', labelKey: 'summary.moodSleepy' },
-  { key: 'anxious', emoji: '\u{1F62D}', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
-  { key: 'focused', emoji: '\u{1F61E}', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
-  { key: 'calm', emoji: '\u{1F610}', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
-  { key: 'happy', emoji: '\u{1F642}', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
-  { key: 'energized', emoji: '\u{1F929}', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
+const TECHNIQUE_BG_IMAGES: Record<string, ReturnType<typeof require>> = {
+  box:            require('../assets/bg_box.webp'),
+  fourSevenEight: require('../assets/bg_478.webp'),
+  physioSigh:     require('../assets/bg_physio_sigh.webp'),
+  coherence:      require('../assets/bg_coherence.webp'),
+  triangle:       require('../assets/bg_triangle.webp'),
+  power:          require('../assets/bg_power.webp'),
+  fourFourSixTwo: require('../assets/bg_four_four_six_two.webp'),
+  kapalabhati:    require('../assets/bg_kapalabhati.webp'),
+  twoToOne:       require('../assets/bg_two_to_one.webp'),
+  cyclicSigh:     require('../assets/bg_cyclic_sigh.webp'),
+};
+
+const BG_IMAGES: Record<string, ReturnType<typeof require>> = {
+  calm:   require('../assets/bg_calm.webp'),
+  sleep:  require('../assets/bg_sleep.webp'),
+  focus:  require('../assets/bg_focus.webp'),
+  energy: require('../assets/bg_energy.webp'),
+};
+
+const MOOD_OPTIONS: { key: Mood; color: string; bg: string; labelKey: string }[] = [
+  { key: 'sleepy', color: '#7B68AE', bg: '#7B68AE', labelKey: 'summary.moodSleepy' },
+  { key: 'anxious', color: '#E85D4A', bg: '#E85D4A', labelKey: 'summary.moodAnxious' },
+  { key: 'focused', color: '#F5C542', bg: '#F5C542', labelKey: 'summary.moodFocused' },
+  { key: 'calm', color: '#4A90D9', bg: '#4A90D9', labelKey: 'summary.moodCalm' },
+  { key: 'happy', color: '#7BC4A8', bg: '#7BC4A8', labelKey: 'summary.moodHappy' },
+  { key: 'energized', color: '#F5A623', bg: '#F5A623', labelKey: 'summary.moodEnergized' },
 ];
 
 function ConfettiAnimation() {
@@ -128,6 +151,7 @@ export default function SummaryScreen() {
   const sessions = useSessionsStore((s) => s.sessions);
   const stats = useSessionsStore((s) => s.stats);
   const healthSyncEnabled = useSettingsStore((s) => s.healthSyncEnabled);
+  const isPro = useSettingsStore((s) => s.isPro);
   const settings = useSettingsStore.getState();
   const checkAndUnlock = useBadgesStore((s) => s.checkAndUnlock);
 
@@ -158,16 +182,16 @@ export default function SummaryScreen() {
   const isPowerBreathing = technique?.mode === 'power';
   const isPersonalBest = isPowerBreathing && bestRetention > 0 && bestRetention > stats.bestRetention;
 
-  // Save to Apple Health (Mindful Minutes)
+  // Save to Apple Health (Mindful Minutes) — Pro-gated
   useEffect(() => {
-    if (healthSaved.current || !healthSyncEnabled || !isHealthKitAvailable() || !session) return;
+    if (healthSaved.current || !healthSyncEnabled || !isPro || !isHealthKitAvailable() || !session) return;
     healthSaved.current = true;
 
     const startDate = new Date(session.startedAt);
     const endDate = new Date(session.completedAt);
     const durationMinutes = Math.ceil(session.totalDuration / 60);
     writeMindfulSession(startDate, endDate, durationMinutes);
-  }, [healthSyncEnabled, session]);
+  }, [healthSyncEnabled, isPro, session]);
 
   // Check badges after session is added
   useEffect(() => {
@@ -202,15 +226,15 @@ export default function SummaryScreen() {
     }
   }, [sessions.length, stats.totalSessions]);
 
-  // Request App Store review after 2nd, 5th, 10th session
+  // Request App Store review after 3rd, 7th, 15th completed session.
+  // 3rd: user has clearly returned (commitment signal); 7th and 15th
+  // cover power users. Apple allows up to 3 prompts per year per app.
   const reviewRequested = useRef(false);
   useEffect(() => {
     if (reviewRequested.current) return;
     const total = stats.totalSessions;
-    if (total === 2 || total === 5 || total === 10) {
+    if (total === 3 || total === 7 || total === 15) {
       reviewRequested.current = true;
-      // Will work in production builds with expo-store-review native module
-      // In Expo Go / simulator this is a no-op
       const timer = setTimeout(() => {
         requestStoreReview();
       }, 2000);
@@ -276,21 +300,23 @@ export default function SummaryScreen() {
     });
   }, [techniqueId, params._dur, params._music]);
 
-  const handleShare = useCallback(async () => {
-    const techniqueName = technique ? t(technique.nameKey) : techniqueId;
-    const minutes = Math.ceil(totalDuration / 60);
-    const message = t('summary.shareMessage', {
-      minutes,
-      technique: techniqueName,
-      defaultValue: `I just completed a ${minutes}-minute ${techniqueName} breathing session with BreathFlow`,
-    });
-
-    try {
-      await Share.share({ message });
-    } catch {
-      // silent fail
-    }
-  }, [technique, techniqueId, totalDuration, t]);
+  const handleDiscard = useCallback(() => {
+    Alert.alert(
+      t('summary.discardTitle', { defaultValue: "Don't save this session?" }),
+      t('summary.discardMessage', { defaultValue: 'This session will be removed and won’t count toward your stats or streak.' }),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('summary.dontSave', { defaultValue: "Don't Save" }),
+          style: 'destructive',
+          onPress: () => {
+            useSessionsStore.getState().deleteSession(sessionId);
+            router.replace('/(tabs)');
+          },
+        },
+      ],
+    );
+  }, [sessionId]);
 
   const handleMoodSelect = useCallback((mood: Mood) => {
     setSelectedMood(mood);
@@ -326,6 +352,9 @@ export default function SummaryScreen() {
   };
 
   const techniqueColor = technique?.color ?? '#4A90D9';
+  const bgImage = technique
+    ? (TECHNIQUE_BG_IMAGES[technique.id] ?? BG_IMAGES[technique.category] ?? BG_IMAGES.calm)
+    : BG_IMAGES.calm;
 
   if (!session) {
     return (
@@ -347,11 +376,19 @@ export default function SummaryScreen() {
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[techniqueColor, theme.isDark ? '#0F1419' : '#F0F4F8']}
-        locations={[0, 0.5]}
-        style={StyleSheet.absoluteFill}
-      />
+      <ImageBackground source={bgImage} resizeMode="cover" style={StyleSheet.absoluteFill}>
+        {/* Resolves to solid theme.background well before the stats/mood/quote
+            content starts. In dark mode the tail color is dark either way, so
+            this doesn't change how it looks — but in light mode, leaving the
+            fade this short is what stops that content (styled with
+            theme.textSecondary, meant for a solid light background) from
+            landing on the still-dark part of the image and reading as faint. */}
+        <LinearGradient
+          colors={[`${techniqueColor}D9`, 'rgba(0,0,0,0.82)', theme.isDark ? '#0F1419' : '#F0F4F8']}
+          locations={[0, 0.18, 0.32]}
+          style={StyleSheet.absoluteFill}
+        />
+      </ImageBackground>
 
       {(isPersonalBest || completed) && <ConfettiAnimation key={confettiKey} />}
 
@@ -487,7 +524,7 @@ export default function SummaryScreen() {
                   onPress={() => handleMoodSelect(mood.key)}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.moodEmoji}>{mood.emoji}</Text>
+                  <Image source={MOOD_EMOJI_IMAGES[mood.key]} style={styles.moodEmoji} resizeMode="contain" />
                 </TouchableOpacity>
               ))}
             </View>
@@ -569,19 +606,21 @@ export default function SummaryScreen() {
           <View style={styles.bottomButtons}>
             <View style={styles.bottomRow}>
               <TouchableOpacity
-                style={[styles.shareButton, {
-                  backgroundColor: theme.isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
-                  borderWidth: 1,
-                  borderColor: theme.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)',
+                style={[styles.discardButton, {
+                  backgroundColor: theme.isDark ? `${COLORS.error}1A` : `${COLORS.error}12`,
+                  borderColor: theme.isDark ? `${COLORS.error}55` : `${COLORS.error}40`,
                 }]}
-                onPress={handleShare}
+                onPress={handleDiscard}
                 activeOpacity={0.7}
               >
-                <Ionicons name="share-outline" size={20} color={theme.text} />
+                <Ionicons name="trash-outline" size={18} color={COLORS.error} />
+                <Text style={[styles.discardButtonText, { color: COLORS.error, fontSize: fontSize.md }]}>
+                  {t('summary.dontSave', { defaultValue: "Don't Save" })}
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.repeatButton, {
+                style={[styles.repeatButton, { flex: 1 }, {
                   backgroundColor: theme.isDark ? `${techniqueColor}14` : `${techniqueColor}14`,
                   borderColor: theme.isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.15)',
                 }]}
@@ -628,6 +667,7 @@ const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.sm,
     paddingBottom: SPACING.lg,
@@ -786,7 +826,8 @@ const styles = StyleSheet.create({
     height: 42,
   },
   moodEmoji: {
-    fontSize: 22,
+    width: 28,
+    height: 28,
   },
 
   // Badges (layout inside glass card)
@@ -868,12 +909,20 @@ const styles = StyleSheet.create({
     gap: SPACING.md,
     marginBottom: SPACING.lg,
   },
-  shareButton: {
-    width: scale(48),
-    height: scale(48),
-    borderRadius: scale(24),
+  discardButton: {
+    flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.md,
+    borderRadius: BORDER_RADIUS.xl,
+    borderWidth: 1.5,
+    gap: SPACING.xs,
+  },
+  discardButtonText: {
+    fontSize: FONT_SIZE.md,
+    fontFamily: FONTS.semibold,
   },
   repeatButton: {
     flexDirection: 'row',
