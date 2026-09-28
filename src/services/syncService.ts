@@ -9,6 +9,8 @@ import { BreathingSession, UserStats, UserSettings } from '../types';
 
 const LAST_SYNC_KEY = '@breathflow_last_sync';
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 /** Surface a Supabase error instead of letting it disappear silently. */
 function logSyncError(context: string, error: unknown): void {
   if (!error) return;
@@ -26,8 +28,15 @@ export async function pushSessions(): Promise<void> {
 
   const { sessions, stats } = useSessionsStore.getState();
 
-  if (sessions.length > 0) {
-    const rows = sessions.map((s) => ({
+  // Sessions created before the switch to Crypto.randomUUID() have
+  // non-UUID ids. The `id` column is UUID, so one bad row fails the whole
+  // upsert batch (400 22P02) and blocks every other session in that chunk
+  // from syncing. Legacy rows just stay local-only — offline-first, so
+  // nothing is lost — instead of poisoning the batch.
+  const syncable = sessions.filter((s) => UUID_RE.test(s.id));
+
+  if (syncable.length > 0) {
+    const rows = syncable.map((s) => ({
       id: s.id,
       user_id: userId,
       date: s.date,
