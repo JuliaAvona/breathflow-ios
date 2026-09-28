@@ -74,7 +74,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'BreathFlow — Breathing Exercises',
   slug: 'breathflow',
-  version: '1.4',
+  version: '1.5',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
@@ -85,7 +85,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.izbrodin90.breathflow',
-    buildNumber: '24',
+    buildNumber: '25',
     usesAppleSignIn: true,
     appleTeamId: '9B587AMM75',
     infoPlist: {
