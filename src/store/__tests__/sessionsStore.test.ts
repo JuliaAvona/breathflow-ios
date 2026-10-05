@@ -295,3 +295,152 @@ describe('hydrate legacy id migration', () => {
   });
 });
 
+
+describe('hydrate corrupt storage', () => {
+  const SESSIONS_KEY = '@breathflow_sessions';
+  const CORRUPT_KEY = '@breathflow_sessions_corrupt';
+  const VALID_ID = '3f2b8c1e-5d4a-4e7b-9a10-6c2d8e9f0a1b';
+
+  beforeEach(async () => {
+    jest.clearAllMocks();
+    await AsyncStorage.clear();
+    useSessionsStore.setState({ sessions: [], stats: { ...defaultStats }, _hydrated: false });
+  });
+
+  it('backs up unparseable JSON to the corrupt key and reports it, instead of silently losing history', async () => {
+    await AsyncStorage.setItem(SESSIONS_KEY, '{not json');
+
+    await useSessionsStore.getState().hydrate();
+
+    expect(await AsyncStorage.getItem(CORRUPT_KEY)).toBe('{not json');
+    expect(Sentry.captureException).toHaveBeenCalled();
+    const { sessions, _hydrated } = useSessionsStore.getState();
+    expect(sessions).toEqual([]);
+    expect(_hydrated).toBe(true);
+  });
+
+  it('backs up a non-array value to the corrupt key', async () => {
+    await AsyncStorage.setItem(SESSIONS_KEY, '{"a":1}');
+
+    await useSessionsStore.getState().hydrate();
+
+    expect(await AsyncStorage.getItem(CORRUPT_KEY)).toBe('{"a":1}');
+    expect(useSessionsStore.getState().sessions).toEqual([]);
+  });
+
+  it('drops null and id-less rows, keeps valid ones, and warns once', async () => {
+    const valid = createMockSession({ id: VALID_ID });
+    await AsyncStorage.setItem(
+      SESSIONS_KEY,
+      JSON.stringify([null, valid, { id: 42 }, 'junk'])
+    );
+
+    await useSessionsStore.getState().hydrate();
+
+    expect(useSessionsStore.getState().sessions).toEqual([valid]);
+    expect(Sentry.captureMessage).toHaveBeenCalledTimes(1);
+    expect(Sentry.captureMessage).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({ level: 'warning', extra: { dropped: 3 } })
+    );
+  });
+
+  it('reports unexpected hydrate failures to Sentry', async () => {
+    (AsyncStorage.getItem as jest.Mock).mockRejectedValueOnce(new Error('read failed'));
+
+    await useSessionsStore.getState().hydrate();
+
+    expect(Sentry.captureException).toHaveBeenCalled();
+    expect(useSessionsStore.getState()._hydrated).toBe(true);
+  });
+});
+
+describe('deleted-session tombstones', () => {
+  const SESSIONS_KEY = '@breathflow_sessions';
+  const DELETED_KEY = '@breathflow_deleted_sessions';
+  const ID = '3f2b8c1e-5d4a-4e7b-9a10-6c2d8e9f0a1b';
+
+  beforeEach(async () => {
+    jest.clearAllMocks();
+    await AsyncStorage.clear();
+    useSessionsStore.setState({
+      sessions: [createMockSession({ id: ID })],
+      stats: { ...defaultStats },
+      deletedIds: [],
+      _hydrated: true,
+    });
+  });
+
+  it('deleteSession records and persists a tombstone', async () => {
+    useSessionsStore.getState().deleteSession(ID);
+
+    expect(useSessionsStore.getState().deletedIds).toEqual([ID]);
+    expect(JSON.parse((await AsyncStorage.getItem(DELETED_KEY)) as string)).toEqual([ID]);
+  });
+
+  it('clearDeletedIds removes only the given ids and persists', async () => {
+    useSessionsStore.setState({ deletedIds: ['a', 'b', 'c'] });
+
+    useSessionsStore.getState().clearDeletedIds(['a', 'c']);
+
+    expect(useSessionsStore.getState().deletedIds).toEqual(['b']);
+    expect(JSON.parse((await AsyncStorage.getItem(DELETED_KEY)) as string)).toEqual(['b']);
+  });
+
+  it('clearAllSessions clears tombstones', async () => {
+    useSessionsStore.setState({ deletedIds: ['a'] });
+
+    useSessionsStore.getState().clearAllSessions();
+
+    expect(useSessionsStore.getState().deletedIds).toEqual([]);
+    expect(JSON.parse((await AsyncStorage.getItem(DELETED_KEY)) as string)).toEqual([]);
+  });
+
+  it('hydrate loads tombstones', async () => {
+    await AsyncStorage.setItem(DELETED_KEY, JSON.stringify([ID]));
+    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([]));
+
+    await useSessionsStore.getState().hydrate();
+
+    expect(useSessionsStore.getState().deletedIds).toEqual([ID]);
+  });
+
+  it('hydrate tolerates corrupt tombstones', async () => {
+    await AsyncStorage.setItem(DELETED_KEY, '{oops');
+
+    await useSessionsStore.getState().hydrate();
+
+    expect(useSessionsStore.getState().deletedIds).toEqual([]);
+    expect(useSessionsStore.getState()._hydrated).toBe(true);
+  });
+});
+
+describe('updateSessionMood', () => {
+  const SESSIONS_KEY = '@breathflow_sessions';
+  const ID = '3f2b8c1e-5d4a-4e7b-9a10-6c2d8e9f0a1b';
+
+  beforeEach(async () => {
+    jest.clearAllMocks();
+    await AsyncStorage.clear();
+    useSessionsStore.setState({
+      sessions: [createMockSession({ id: ID })],
+      stats: { ...defaultStats },
+      _hydrated: true,
+    });
+  });
+
+  it('updates the session in state and persists moodAfter', async () => {
+    useSessionsStore.getState().updateSessionMood(ID, 'calm');
+
+    expect(useSessionsStore.getState().sessions[0].moodAfter).toBe('calm');
+    const stored = JSON.parse((await AsyncStorage.getItem(SESSIONS_KEY)) as string);
+    expect(stored[0].moodAfter).toBe('calm');
+  });
+
+  it('is a no-op for an unknown id', async () => {
+    useSessionsStore.getState().updateSessionMood('missing', 'calm');
+
+    expect(useSessionsStore.getState().sessions[0].moodAfter).toBeUndefined();
+    expect(await AsyncStorage.getItem(SESSIONS_KEY)).toBeNull();
+  });
+});

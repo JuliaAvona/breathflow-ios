@@ -323,14 +323,7 @@ export default function SummaryScreen() {
 
     // Defer store update so UI responds instantly
     setTimeout(() => {
-      const { sessions: currentSessions } = useSessionsStore.getState();
-      const idx = currentSessions.findIndex((s) => s.id === sessionId);
-      if (idx !== -1) {
-        const updated = { ...currentSessions[idx], moodAfter: mood };
-        const newSessions = [...currentSessions];
-        newSessions[idx] = updated;
-        useSessionsStore.setState({ sessions: newSessions });
-      }
+      useSessionsStore.getState().updateSessionMood(sessionId, mood);
     }, 0);
   }, [sessionId]);
 

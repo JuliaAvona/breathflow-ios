@@ -21,11 +21,24 @@ function logSyncError(context: string, error: unknown): void {
 
 // ==================== PUSH (local → cloud) ====================
 
-export async function pushSessions(): Promise<void> {
+let pushQueue: Promise<void> = Promise.resolve();
+
+/** Pushes run one at a time: each works from a store snapshot, so a push
+ * still upserting a just-saved session could otherwise land after another
+ * push already deleted it ("Don't Save") and resurrect the row. */
+export function pushSessions(): Promise<void> {
+  pushQueue = pushQueue.catch(() => {}).then(pushSessionsNow);
+  return pushQueue;
+}
+
+async function pushSessionsNow(): Promise<void> {
   const userId = useAuthStore.getState().user?.id;
   if (!userId) return;
 
-  const { sessions, stats } = useSessionsStore.getState();
+  const { sessions: allSessions, stats, deletedIds } = useSessionsStore.getState();
+  // A tombstoned row must never be (re-)upserted, e.g. by a push that raced
+  // the delete — the delete below runs after the upsert and wins.
+  const sessions = allSessions.filter((s) => !deletedIds.includes(s.id));
 
   // Sessions created before the switch to Crypto.randomUUID() have
   // non-UUID ids. The `id` column is UUID, so one bad row fails the whole
@@ -69,6 +82,25 @@ export async function pushSessions(): Promise<void> {
       });
       logSyncError('pushSessions', error);
     }
+  }
+
+  if (deletedIds.length > 0) {
+    // Legacy non-UUID ids were never on the server, so nothing to delete.
+    const serverIds = deletedIds.filter((id) => UUID_RE.test(id));
+    const localOnly = deletedIds.filter((id) => !UUID_RE.test(id));
+    let clearable = [...localOnly];
+    // Chunked so a long offline backlog can't exceed the PostgREST URL limit.
+    for (let i = 0; i < serverIds.length; i += 100) {
+      const chunk = serverIds.slice(i, i + 100);
+      const { error } = await supabase
+        .from('user_sessions')
+        .delete()
+        .eq('user_id', userId)
+        .in('id', chunk);
+      logSyncError('pushSessions delete', error);
+      if (!error) clearable = clearable.concat(chunk);
+    }
+    if (clearable.length > 0) useSessionsStore.getState().clearDeletedIds(clearable);
   }
 
   await pushStats(userId, stats);
@@ -191,36 +223,6 @@ async function pullSessions(userId: string): Promise<void> {
 
   if (!remoteSessions || remoteSessions.length === 0) return;
 
-  const localSessions = useSessionsStore.getState().sessions;
-  const localMap = new Map(localSessions.map((s) => [s.id, s]));
-
-  // Sessions are append-only: merge is union by id
-  for (const remote of remoteSessions) {
-    if (!localMap.has(remote.id)) {
-      localMap.set(remote.id, {
-        id: remote.id,
-        userId: remote.user_id,
-        date: remote.date,
-        startedAt: remote.started_at,
-        completedAt: remote.completed_at,
-        completed: remote.completed,
-        techniqueId: remote.technique_id,
-        cyclesCompleted: remote.cycles_completed,
-        totalDuration: remote.total_duration,
-        roundsCompleted: remote.rounds_completed ?? undefined,
-        retentionTimes: remote.retention_times ?? undefined,
-        bestRetention: remote.best_retention ?? undefined,
-        avgRetention: remote.avg_retention ?? undefined,
-        breathsPerRound: remote.breaths_per_round ?? undefined,
-        moodAfter: remote.mood_after ?? undefined,
-      });
-    }
-  }
-
-  const merged = Array.from(localMap.values()).sort(
-    (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
-  );
-
   // Pull stats: take max of each numeric field
   const { data: remoteStats, error: statsError } = await supabase
     .from('user_stats')
@@ -274,6 +276,38 @@ async function pullSessions(userId: string): Promise<void> {
         },
       }
     : localStats;
+
+  // Merge against the store as it is *now*, not before the stats round-trip,
+  // so a session added or deleted meanwhile isn't overwritten.
+  const { sessions: localSessions, deletedIds } = useSessionsStore.getState();
+  const localMap = new Map(localSessions.map((s) => [s.id, s]));
+
+  // Sessions are append-only: merge is union by id
+  for (const remote of remoteSessions) {
+    if (!localMap.has(remote.id) && !deletedIds.includes(remote.id)) {
+      localMap.set(remote.id, {
+        id: remote.id,
+        userId: remote.user_id,
+        date: remote.date,
+        startedAt: remote.started_at,
+        completedAt: remote.completed_at,
+        completed: remote.completed,
+        techniqueId: remote.technique_id,
+        cyclesCompleted: remote.cycles_completed,
+        totalDuration: remote.total_duration,
+        roundsCompleted: remote.rounds_completed ?? undefined,
+        retentionTimes: remote.retention_times ?? undefined,
+        bestRetention: remote.best_retention ?? undefined,
+        avgRetention: remote.avg_retention ?? undefined,
+        breathsPerRound: remote.breaths_per_round ?? undefined,
+        moodAfter: remote.mood_after ?? undefined,
+      });
+    }
+  }
+
+  const merged = Array.from(localMap.values()).sort(
+    (a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
+  );
 
   useSessionsStore.setState({ sessions: merged, stats: mergedStats });
   await AsyncStorage.setItem('@breathflow_sessions', JSON.stringify(merged));

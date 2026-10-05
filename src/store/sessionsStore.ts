@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Crypto from 'expo-crypto';
-import { BreathingSession, UserStats } from '../types';
+import { BreathingSession, Mood, UserStats } from '../types';
 import { getToday, isConsecutiveDay } from '../utils/time';
 import { isUuid } from '../utils/uuid';
 import { Sentry } from '../utils/sentry';
 
 const SESSIONS_KEY = '@breathflow_sessions';
 const STATS_KEY = '@breathflow_stats';
+const DELETED_KEY = '@breathflow_deleted_sessions';
+const CORRUPT_KEY = '@breathflow_sessions_corrupt';
 
 const defaultStats: UserStats = {
   totalSessions: 0,
@@ -25,11 +27,15 @@ const defaultStats: UserStats = {
 interface SessionsStore {
   sessions: BreathingSession[];
   stats: UserStats;
+  /** Tombstones: ids deleted locally whose server rows still need deleting. */
+  deletedIds: string[];
   _hydrated: boolean;
 
   // Actions
   addSession: (session: BreathingSession) => void;
   deleteSession: (id: string) => void;
+  updateSessionMood: (id: string, mood: Mood) => void;
+  clearDeletedIds: (ids: string[]) => void;
   clearAllSessions: () => void;
   getSessions: () => BreathingSession[];
   getSessionsByDate: (date: string) => BreathingSession[];
@@ -175,18 +181,62 @@ function migrateLegacyIds(sessions: BreathingSession[]): BreathingSession[] | nu
 export const useSessionsStore = create<SessionsStore>((set, get) => ({
   sessions: [],
   stats: defaultStats,
+  deletedIds: [],
   _hydrated: false,
 
   hydrate: async () => {
     try {
-      const [sessionsJson, statsJson] = await Promise.all([
+      const [sessionsJson, statsJson, deletedJson] = await Promise.all([
         AsyncStorage.getItem(SESSIONS_KEY),
         AsyncStorage.getItem(STATS_KEY),
+        AsyncStorage.getItem(DELETED_KEY),
       ]);
 
-      const parsed: BreathingSession[] = sessionsJson
-        ? JSON.parse(sessionsJson)
-        : [];
+      let deletedIds: string[] = [];
+      try {
+        const parsedDeleted: unknown = deletedJson ? JSON.parse(deletedJson) : [];
+        if (Array.isArray(parsedDeleted)) {
+          deletedIds = parsedDeleted.filter((id): id is string => typeof id === 'string');
+        }
+      } catch {
+        // Corrupt tombstones: worst case a deleted session reappears after a pull.
+      }
+
+      let raw: unknown = [];
+      if (sessionsJson) {
+        try {
+          raw = JSON.parse(sessionsJson);
+        } catch {
+          // Report without the parser message, which can quote payload bytes.
+          Sentry.captureException(new Error('sessions storage JSON parse failed'), {
+            extra: { length: sessionsJson.length },
+          });
+          raw = null;
+        }
+        if (!Array.isArray(raw)) {
+          // Keep the unreadable payload: the next addSession would otherwise
+          // overwrite it with a fresh list and lose the history for good.
+          if (raw !== null) Sentry.captureException(new Error('sessions storage is not an array'));
+          try {
+            await AsyncStorage.setItem(CORRUPT_KEY, sessionsJson);
+          } catch (error) {
+            Sentry.captureException(error);
+          }
+          raw = [];
+        }
+      }
+
+      const parsed = (raw as unknown[]).filter(
+        (r): r is BreathingSession =>
+          typeof r === 'object' && r !== null && typeof (r as { id?: unknown }).id === 'string'
+      );
+      const dropped = (raw as unknown[]).length - parsed.length;
+      if (dropped > 0) {
+        Sentry.captureMessage('sessions hydrate dropped malformed rows', {
+          level: 'warning',
+          extra: { dropped },
+        });
+      }
 
       // Deduplicate by ID
       const seenIds = new Set<string>();
@@ -227,8 +277,9 @@ export const useSessionsStore = create<SessionsStore>((set, get) => ({
       // Always recompute stats on hydrate so streak is accurate for today
       const freshStats = computeStats(sessions);
       AsyncStorage.setItem(STATS_KEY, JSON.stringify(freshStats));
-      set({ sessions, stats: freshStats, _hydrated: true });
-    } catch {
+      set({ sessions, stats: freshStats, deletedIds, _hydrated: true });
+    } catch (error) {
+      Sentry.captureException(error);
       set({ _hydrated: true });
     }
   },
@@ -278,17 +329,45 @@ export const useSessionsStore = create<SessionsStore>((set, get) => ({
     AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify(newSessions));
     AsyncStorage.setItem(STATS_KEY, JSON.stringify(newStats));
 
-    set({ sessions: newSessions, stats: newStats });
+    // Tombstone so pushSessions deletes the server row and pullSessions
+    // doesn't resurrect it (sessions otherwise merge as an append-only union).
+    const deletedIds = get().deletedIds.includes(id)
+      ? get().deletedIds
+      : [...get().deletedIds, id];
+    AsyncStorage.setItem(DELETED_KEY, JSON.stringify(deletedIds));
+
+    set({ sessions: newSessions, stats: newStats, deletedIds });
     import('../services/syncService').then((m) =>
       m.pushSessions().catch(() => {})
     );
   },
 
+  updateSessionMood: (id, mood) => {
+    const { sessions } = get();
+    if (!sessions.some((s) => s.id === id)) return;
+
+    const newSessions = sessions.map((s) => (s.id === id ? { ...s, moodAfter: mood } : s));
+    AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify(newSessions));
+
+    set({ sessions: newSessions });
+    import('../services/syncService').then((m) =>
+      m.pushSessions().catch(() => {})
+    );
+  },
+
+  clearDeletedIds: (ids) => {
+    const deletedIds = get().deletedIds.filter((id) => !ids.includes(id));
+    AsyncStorage.setItem(DELETED_KEY, JSON.stringify(deletedIds));
+    set({ deletedIds });
+  },
+
   clearAllSessions: () => {
     AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([]));
     AsyncStorage.setItem(STATS_KEY, JSON.stringify(defaultStats));
+    // deleteAllSessions wipes the server, so pending tombstones are moot.
+    AsyncStorage.setItem(DELETED_KEY, JSON.stringify([]));
 
-    set({ sessions: [], stats: { ...defaultStats } });
+    set({ sessions: [], stats: { ...defaultStats }, deletedIds: [] });
     // Sessions pull as an append-only union by id (see pullSessions), so
     // just clearing locally isn't enough — the rows have to be deleted on
     // the server too, or the next pull would silently bring them all back.
