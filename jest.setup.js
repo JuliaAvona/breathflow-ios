@@ -126,3 +126,13 @@ jest.mock('react-i18next', () => ({
     init: jest.fn(),
   },
 }));
+
+// Mock expo-crypto (native module unavailable in jest); randomUUID backed by node crypto
+jest.mock('expo-crypto', () => ({
+  randomUUID: () => require('crypto').randomUUID(),
+}));
+
+// Mock Sentry wrapper (@sentry/react-native is ESM and not transformed by jest)
+jest.mock('./src/utils/sentry', () => ({
+  Sentry: { captureException: jest.fn(), captureMessage: jest.fn() },
+}));

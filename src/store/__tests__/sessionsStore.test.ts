@@ -1,4 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Crypto from 'expo-crypto';
 import { useSessionsStore } from '../sessionsStore';
+import { Sentry } from '../../utils/sentry';
 import { BreathingSession, UserStats } from '../../types';
 
 const createMockSession = (overrides: Partial<BreathingSession> = {}): BreathingSession => ({
@@ -170,3 +173,125 @@ describe('sessionsStore', () => {
     });
   });
 });
+
+describe('hydrate legacy id migration', () => {
+  const SESSIONS_KEY = '@breathflow_sessions';
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const LEGACY_ID = '1785502739202-rpohxb6';
+  const VALID_ID = '3f2b8c1e-5d4a-4e7b-9a10-6c2d8e9f0a1b';
+
+  const legacy = createMockSession({
+    id: LEGACY_ID,
+    techniqueId: 'box_breathing',
+    startedAt: new Date('2026-02-18T10:00:00').toISOString(),
+    date: '2026-02-18',
+    cyclesCompleted: 7,
+    moodAfter: 'calm',
+  });
+  const valid = createMockSession({
+    id: VALID_ID,
+    techniqueId: 'coherence',
+    startedAt: new Date('2026-02-19T10:00:00').toISOString(),
+    date: '2026-02-19',
+    cyclesCompleted: 3,
+  });
+
+  beforeEach(async () => {
+    jest.clearAllMocks();
+    await AsyncStorage.clear();
+    useSessionsStore.setState({ sessions: [], stats: { ...defaultStats }, _hydrated: false });
+  });
+
+  it('replaces legacy ids with UUIDs and keeps valid UUIDs unchanged', async () => {
+    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([valid, legacy]));
+
+    await useSessionsStore.getState().hydrate();
+
+    const { sessions } = useSessionsStore.getState();
+    expect(sessions).toHaveLength(2);
+    sessions.forEach((s) => expect(s.id).toMatch(UUID_RE));
+    expect(sessions.find((s) => s.id === VALID_ID)).toEqual(valid);
+    expect(sessions.some((s) => s.id === LEGACY_ID)).toBe(false);
+  });
+
+  it('preserves the other fields of a migrated session', async () => {
+    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([valid, legacy]));
+
+    await useSessionsStore.getState().hydrate();
+
+    const migrated = useSessionsStore
+      .getState()
+      .sessions.find((s) => s.techniqueId === 'box_breathing')!;
+    expect(migrated.id).toMatch(UUID_RE);
+    expect(migrated).toEqual({ ...legacy, id: migrated.id });
+    expect(migrated.startedAt).toBe(legacy.startedAt);
+    expect(migrated.cyclesCompleted).toBe(7);
+    expect(migrated.moodAfter).toBe('calm');
+  });
+
+  it('persists migrated ids to storage with no legacy id left', async () => {
+    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([valid, legacy]));
+
+    await useSessionsStore.getState().hydrate();
+
+    const raw = (await AsyncStorage.getItem(SESSIONS_KEY))!;
+    expect(raw).not.toContain(LEGACY_ID);
+    const stored = JSON.parse(raw) as BreathingSession[];
+    expect(stored.map((s) => s.id).sort()).toEqual(
+      useSessionsStore.getState().sessions.map((s) => s.id).sort()
+    );
+    stored.forEach((s) => expect(s.id).toMatch(UUID_RE));
+  });
+
+  it('is idempotent across repeated hydrates', async () => {
+    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([valid, legacy]));
+
+    await useSessionsStore.getState().hydrate();
+    const firstIds = useSessionsStore.getState().sessions.map((s) => s.id);
+    await useSessionsStore.getState().hydrate();
+    const secondIds = useSessionsStore.getState().sessions.map((s) => s.id);
+
+    expect(secondIds).toEqual(firstIds);
+  });
+
+  it('leaves all-UUID storage unchanged', async () => {
+    const other = createMockSession({
+      id: '0a1b2c3d-1111-4222-8333-444455556666',
+      startedAt: new Date('2026-02-17T10:00:00').toISOString(),
+      date: '2026-02-17',
+    });
+    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([valid, other]));
+
+    await useSessionsStore.getState().hydrate();
+
+    expect(useSessionsStore.getState().sessions.map((s) => s.id)).toEqual([VALID_ID, other.id]);
+  });
+  it('keeps legacy ids when persisting the migration fails, so a retry cannot mint different UUIDs', async () => {
+    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([valid, legacy]));
+    // AsyncStorage's jest mock is already a jest.fn; a spy's mockRestore would
+    // wipe its implementation, so only queue a one-shot rejection.
+    (AsyncStorage.setItem as jest.Mock).mockRejectedValueOnce(new Error('disk full'));
+
+    await useSessionsStore.getState().hydrate();
+
+    const { sessions, _hydrated } = useSessionsStore.getState();
+    expect(_hydrated).toBe(true);
+    expect(sessions.map((s) => s.id).sort()).toEqual([LEGACY_ID, VALID_ID].sort());
+    expect(Sentry.captureException).toHaveBeenCalled();
+  });
+
+  it('still loads history with legacy ids when UUID generation throws', async () => {
+    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify([valid, legacy]));
+    const randomUUID = jest.spyOn(Crypto, 'randomUUID').mockImplementation(() => {
+      throw new Error('native module missing');
+    });
+
+    await useSessionsStore.getState().hydrate();
+    randomUUID.mockRestore();
+
+    const { sessions } = useSessionsStore.getState();
+    expect(sessions.map((s) => s.id).sort()).toEqual([LEGACY_ID, VALID_ID].sort());
+    expect(Sentry.captureException).toHaveBeenCalled();
+  });
+});
+

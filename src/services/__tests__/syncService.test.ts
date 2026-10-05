@@ -4,9 +4,12 @@ jest.unmock('../syncService');
 
 // syncService pulls in @sentry/react-native transitively, which is ESM and
 // not covered by the jest transformIgnorePatterns allowlist.
-jest.mock('../../utils/sentry', () => ({ Sentry: { captureException: jest.fn() } }));
+jest.mock('../../utils/sentry', () => ({
+  Sentry: { captureException: jest.fn(), captureMessage: jest.fn() },
+}));
 
 import { pushSessions } from '../syncService';
+import { Sentry } from '../../utils/sentry';
 import { supabase } from '../../utils/supabase';
 import { useAuthStore } from '../../store/authStore';
 import { useSessionsStore } from '../../store/sessionsStore';
@@ -42,6 +45,7 @@ describe('pushSessions', () => {
   let upsertCalls: { table: string; rows: unknown }[];
 
   beforeEach(() => {
+    jest.clearAllMocks();
     useAuthStore.setState({ user: { id: 'user-1' } as never });
     upsertCalls = [];
     (supabase.from as jest.Mock).mockImplementation((table: string) => ({
@@ -90,4 +94,26 @@ describe('pushSessions', () => {
     const rows = sessionsCall?.rows as { id: string }[];
     expect(rows).toHaveLength(2);
   });
+  it('reports skipped non-UUID ids to Sentry, since hydrate() should have migrated them', async () => {
+    useSessionsStore.setState({
+      sessions: [createMockSession(), createMockSession({ id: '1785468573109-tvm1d3p' })],
+      stats: defaultStats,
+    });
+
+    await pushSessions();
+
+    expect(Sentry.captureMessage).toHaveBeenCalledWith(
+      'pushSessions skipped non-UUID session ids',
+      expect.objectContaining({ level: 'warning', extra: { skipped: 1 } })
+    );
+  });
+
+  it('does not warn when every id is a valid UUID', async () => {
+    useSessionsStore.setState({ sessions: [createMockSession()], stats: defaultStats });
+
+    await pushSessions();
+
+    expect(Sentry.captureMessage).not.toHaveBeenCalled();
+  });
 });
+

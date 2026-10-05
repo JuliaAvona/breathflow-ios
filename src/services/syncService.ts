@@ -6,10 +6,9 @@ import { useBadgesStore } from '../store/badgesStore';
 import { Sentry } from '../utils/sentry';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BreathingSession, UserStats, UserSettings } from '../types';
+import { UUID_RE } from '../utils/uuid';
 
 const LAST_SYNC_KEY = '@breathflow_last_sync';
-
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /** Surface a Supabase error instead of letting it disappear silently. */
 function logSyncError(context: string, error: unknown): void {
@@ -34,6 +33,14 @@ export async function pushSessions(): Promise<void> {
   // from syncing. Legacy rows just stay local-only — offline-first, so
   // nothing is lost — instead of poisoning the batch.
   const syncable = sessions.filter((s) => UUID_RE.test(s.id));
+  // hydrate() migrates legacy ids, so anything skipped here means that failed.
+  const skipped = sessions.length - syncable.length;
+  if (skipped > 0) {
+    Sentry.captureMessage('pushSessions skipped non-UUID session ids', {
+      level: 'warning',
+      extra: { skipped },
+    });
+  }
 
   if (syncable.length > 0) {
     const rows = syncable.map((s) => ({

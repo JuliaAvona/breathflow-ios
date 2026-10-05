@@ -1,7 +1,10 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Crypto from 'expo-crypto';
 import { BreathingSession, UserStats } from '../types';
 import { getToday, isConsecutiveDay } from '../utils/time';
+import { isUuid } from '../utils/uuid';
+import { Sentry } from '../utils/sentry';
 
 const SESSIONS_KEY = '@breathflow_sessions';
 const STATS_KEY = '@breathflow_stats';
@@ -153,6 +156,22 @@ function computeStats(allSessions: BreathingSession[]): UserStats {
   };
 }
 
+/**
+ * Sessions created before build 1.3 (23) have ids like "1785502739202-rpohxb6",
+ * which Supabase rejects (user_sessions.id is uuid, error 22P02). They were
+ * never synced, so re-keying them can't create remote duplicates.
+ * Returns null when there is nothing to migrate or no UUID can be generated.
+ */
+function migrateLegacyIds(sessions: BreathingSession[]): BreathingSession[] | null {
+  if (sessions.every((s) => isUuid(s.id))) return null;
+  try {
+    return sessions.map((s) => (isUuid(s.id) ? s : { ...s, id: Crypto.randomUUID() }));
+  } catch (error) {
+    Sentry.captureException(error);
+    return null;
+  }
+}
+
 export const useSessionsStore = create<SessionsStore>((set, get) => ({
   sessions: [],
   stats: defaultStats,
@@ -183,18 +202,32 @@ export const useSessionsStore = create<SessionsStore>((set, get) => ({
           new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime()
       );
 
-      // If dedup removed entries, recalculate and persist clean data
-      if (deduped.length < parsed.length) {
-        const recalculated = computeStats(deduped);
-        AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify(deduped));
-        AsyncStorage.setItem(STATS_KEY, JSON.stringify(recalculated));
-        set({ sessions: deduped, stats: recalculated, _hydrated: true });
-      } else {
-        // Always recompute stats on hydrate so streak is accurate for today
-        const freshStats = computeStats(deduped);
-        AsyncStorage.setItem(STATS_KEY, JSON.stringify(freshStats));
-        set({ sessions: deduped, stats: freshStats, _hydrated: true });
+      let sessions = deduped;
+      let needsPersist = deduped.length < parsed.length;
+
+      const migrated = migrateLegacyIds(deduped);
+      if (migrated) {
+        try {
+          // Persist before exposing the new ids: if this write were lost, the
+          // next launch would mint different UUIDs for rows that may already
+          // have been pushed, creating remote duplicates. On failure keep the
+          // legacy ids — pushSessions skips them, so they stay local-only.
+          await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify(migrated));
+          sessions = migrated;
+          needsPersist = false;
+        } catch (error) {
+          Sentry.captureException(error);
+        }
       }
+
+      // If dedup removed entries, persist clean data
+      if (needsPersist) {
+        AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify(sessions));
+      }
+      // Always recompute stats on hydrate so streak is accurate for today
+      const freshStats = computeStats(sessions);
+      AsyncStorage.setItem(STATS_KEY, JSON.stringify(freshStats));
+      set({ sessions, stats: freshStats, _hydrated: true });
     } catch {
       set({ _hydrated: true });
     }
