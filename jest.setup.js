@@ -90,6 +90,7 @@ jest.mock('./src/services/syncService', () => ({
   pushSettings: jest.fn(() => Promise.resolve()),
   pushProfile: jest.fn(() => Promise.resolve()),
   pushBadges: jest.fn(() => Promise.resolve()),
+  deleteAllSessions: jest.fn(() => Promise.resolve()),
 }));
 
 // Mock react-native-purchases (RevenueCat).
