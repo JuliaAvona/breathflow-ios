@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 import { useAuthStore } from '../store/authStore';
 import { useSettingsStore } from '../store/settingsStore';
+import { useSessionsStore } from '../store/sessionsStore';
 import { pushAll, pullAndMerge } from '../services/syncService';
 import { checkSubscriptionStatus } from '../utils/revenueCat';
 
@@ -23,7 +24,11 @@ async function resyncEntitlement(): Promise<void> {
 
 export function useSync() {
   const user = useAuthStore((s) => s.user);
-  const hydrated = useAuthStore((s) => s._hydrated);
+  const authHydrated = useAuthStore((s) => s._hydrated);
+  const sessionsHydrated = useSessionsStore((s) => s._hydrated);
+  // pullSessions merges into the in-memory list, so it must not run before
+  // sessions hydrate or it would persist remote-only rows over local ones.
+  const hydrated = authHydrated && sessionsHydrated;
   const lastSyncRef = useRef<number>(0);
 
   // Sync when user first appears (after auth hydrate)
@@ -45,7 +50,7 @@ export function useSync() {
 
   // Sync when app returns to foreground (throttled)
   useEffect(() => {
-    if (!user) return;
+    if (!user || !sessionsHydrated) return;
 
     const handleAppState = async (state: AppStateStatus) => {
       if (state !== 'active') return;
@@ -65,5 +70,5 @@ export function useSync() {
 
     const sub = AppState.addEventListener('change', handleAppState);
     return () => sub.remove();
-  }, [user?.id]);
+  }, [user?.id, sessionsHydrated]);
 }
